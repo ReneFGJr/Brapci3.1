@@ -12,7 +12,7 @@ def search_elastic_with_expansion(
         id_list=None,
         index_name="brapci3.3",
         es_host="http://143.54.112.91:9200",
-        size=50):
+        size=500):
 
     # ✅ Cliente correto
     es = Elasticsearch(es_host)
