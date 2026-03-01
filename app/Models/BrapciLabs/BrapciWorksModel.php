@@ -138,6 +138,8 @@ class BrapciWorksModel extends Model
         // Executa
         $output = shell_exec($command);
 
+        pre($output,false);
+
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
         $net = '';
