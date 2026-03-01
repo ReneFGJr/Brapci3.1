@@ -216,8 +216,6 @@ class BrapciWorksModel extends Model
             }
         }
 
-        pre($T);
-
         $st = '';
         foreach ($T as $IDc => $terms) {
             foreach ($terms as $termO => $KeyT) {
@@ -225,6 +223,7 @@ class BrapciWorksModel extends Model
                     $st .= ' OR ';
                 }
                 $st .= '("' . $termO . '")';
+                echo '<hr>'.$st;
             }
         }
         echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>' . $st . '</tt></div>';
