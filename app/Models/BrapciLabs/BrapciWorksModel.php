@@ -218,13 +218,14 @@ class BrapciWorksModel extends Model
 
         $st = '';
         foreach ($T as $IDc => $terms) {
+            $st .= '(';
             foreach ($terms as $termO => $KeyT) {
                 if ($st != '') {
                     $st .= ' OR ';
                 }
-                $st .= '("' . $termO . '")';
-                echo '<hr>'.$st;
-            }
+                $st .= '"' . $termO . '"';
+           }
+           $st .= ')';
         }
         echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>' . $st . '</tt></div>';
         echo '<hr>';
