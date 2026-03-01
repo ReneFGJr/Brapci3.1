@@ -323,8 +323,6 @@ class BrapciWorksModel extends Model
            $st .= ')';
            $inc++;
         }
-        echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>' . $st . '</tt></div>';
-        echo '<hr>';
         echo '<div class="container">';
         echo '<div class="row">';
         echo '<div class="col-2 mb-2">';
