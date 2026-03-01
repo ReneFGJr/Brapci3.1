@@ -237,7 +237,7 @@ class BrapciWorksModel extends Model
         $net = '';
 
         echo "------<pre>";
-        PRE($data);
+        PRE($output);
         echo '</pre>';
 
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
