@@ -165,7 +165,7 @@ class BrapciWorksModel extends Model
         $data = (array)json_decode($output, true);
 
         echo "------<pre>";
-        pre($output);
+        pre($data);
         echo '</pre>';
 
         $net = '';
