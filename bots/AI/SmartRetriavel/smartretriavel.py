@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 import mod_thesa_v2
 
 def main():
@@ -13,9 +14,15 @@ def main():
     # Tudo depois do nome do script vira a pergunta
     pergunta = " ".join(sys.argv[1:])
 
-    resultado = mod_thesa_v2.rag_query(pergunta, 'data/thesa_6.json')
+    MM = 25
+    memory = 'data/thesa_{}.json'.format(MM)
+
+    if not os.path.exists(memory):
+        mod_thesa_v2.getThesa(MM)
+
+    resultado = mod_thesa_v2.rag_query(pergunta, memory)
 
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     main()

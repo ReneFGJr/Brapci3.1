@@ -8,6 +8,7 @@ import os
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "llama3.2"
+VERSION_THESA = "v2.2026.03.01"
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -148,8 +149,6 @@ def download(url: str, output_file: str) -> None:
         with output_path.open("w", encoding="utf-8") as f:
             f.write(response.text)
 
-        print(f"Arquivo salvo com sucesso em: {output_path}")
-
     except requests.exceptions.RequestException as e:
         print(f"Erro ao acessar a URL: {e}")
         print("URL: "+url)
@@ -179,8 +178,6 @@ def download_json(url: str, output_file: str) -> None:
         with output_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
-        print(f"Arquivo salvo com sucesso em: {output_path}")
-
     except requests.exceptions.RequestException as e:
         print(f"Erro ao acessar a URL: {e}")
 
@@ -194,13 +191,12 @@ def getThesa(id):
 
     dir = os.getcwd()
     dir = dir.replace(r"public",r"bots/AI/SmartRetriavel")
-    print(dir)
+
     if dir.endswith(("/", "\\")):
-        dir = caminho.rstrip("/\\")  # remove ambos
+        dir = dir.rstrip("/\\")  # remove ambos
     caminho = Path(dir)
 
     if not caminho.exists() and caminho.is_dir():
-        print("Directory not found!")
         return ""
 
 
