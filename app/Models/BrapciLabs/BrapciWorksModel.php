@@ -330,6 +330,10 @@ class BrapciWorksModel extends Model
         echo '<br>Conceitos interpretados: ';
         echo '</div>';
         echo '<div class="col-10">';
+        if (!empty($data['conceitos_interpretados_pelo_llm'])) {
+            echo '<h1>ERRO DE CONSULTA</h1>';
+            pre($data);
+        }
         foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
             echo '<tt class="btn btn-danger ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
         }
