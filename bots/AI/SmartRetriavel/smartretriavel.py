@@ -14,8 +14,9 @@ def main():
     # Tudo depois do nome do script vira a pergunta
     pergunta = " ".join(sys.argv[1:])
 
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
-    memory = 'data/thesa_{}.json'.format(MM)
+    memory = os.path.join(base_dir, 'data', 'thesa_{}.json'.format(MM))
 
     if not os.path.exists(memory):
         mod_thesa_v2.getThesa(MM)

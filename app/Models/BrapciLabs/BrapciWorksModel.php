@@ -36,7 +36,7 @@ class BrapciWorksModel extends Model
         $PATH = $_SERVER['DOCUMENT_ROOT'];
 
         echo '<div class="content">';
-        if (strpos($PATH, 'www/Brapci3.1')) {
+        if (strpos($PATH, 'www/Brapci3.1') !== false) {
             $root = dirname($_SERVER['DOCUMENT_ROOT']); // sobe um nível
 
             $PRG = $root . DIRECTORY_SEPARATOR . 'bots'
@@ -50,11 +50,11 @@ class BrapciWorksModel extends Model
                 . DIRECTORY_SEPARATOR . 'venv'
                 . DIRECTORY_SEPARATOR . 'Scripts'
                 . DIRECTORY_SEPARATOR . 'python.exe';
-            $CMD = $PYTHON . ' ' . $PRG;
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/updateVC.py');
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
-            $CMD = $PYTHON . ' ' . $PRG;
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
         echo '<h5>SmartRetriavel</h5>';
 
@@ -65,16 +65,16 @@ class BrapciWorksModel extends Model
             ]);
             exit;
         }
-        if (!file_exists($PATH)) {
+        if (!file_exists($PYTHON)) {
             echo json_encode([
                 'status' => 'error',
-                'message' => "Python não encontrado: $PATH"
+                'message' => "Python não encontrado: $PYTHON"
             ]);
             exit;
         }
 
         // Comando
-        $command = "$CMD";
+        $command = "$CMD 2>&1";
 
         // Executa
         $output = shell_exec($command);
@@ -97,16 +97,16 @@ class BrapciWorksModel extends Model
         $PATH = $_SERVER['DOCUMENT_ROOT'];
 
         echo '<div class="content">';
-        if (strpos($PATH, 'www/Brapci3.1')) {
+        if (strpos($PATH, 'www/Brapci3.1') !== false) {
             $PRG =      troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
             $PYTHON =   troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/Scripts/python.exe');
             $VC =       troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
-            $CMD = $PYTHON . ' ' . $PRG;
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
             $VC = troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
-            $CMD = $PYTHON . ' ' . $PRG;
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
         echo '<h4>SmartRetriavel</h4>';
 
@@ -117,10 +117,10 @@ class BrapciWorksModel extends Model
             ]);
             exit;
         }
-        if (!file_exists($PATH)) {
+        if (!file_exists($PYTHON)) {
             echo json_encode([
                 'status' => 'error',
-                'message' => "Python não encontrado: $PATH"
+                'message' => "Python não encontrado: $PYTHON"
             ]);
             exit;
         }
@@ -133,7 +133,7 @@ class BrapciWorksModel extends Model
         $escapedQuery = escapeshellarg($query);
 
         // Comando
-        $command = "$CMD $escapedQuery";
+        $command = "$CMD $escapedQuery 2>&1";
 
         // Executa
         $output = shell_exec($command);
