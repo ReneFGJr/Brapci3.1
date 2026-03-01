@@ -1,20 +1,13 @@
 from elasticsearch import Elasticsearch
 import json
-import sys
 
 
 def search_elastic_with_expansion(
         consulta_expandida_array,
-        id_list=None,  # agora opcional
+        id_list=None,
         index_name="brapci3.3",
         es_host="http://localhost:9200",
         size=50):
-
-    """
-    Consulta ElasticSearch usando:
-    - consulta_expandida_array (conceitos + variações)
-    - filtro opcional por lista de IDs
-    """
 
     es = Elasticsearch(es_host)
 
@@ -47,12 +40,12 @@ def search_elastic_with_expansion(
             }
         })
 
-    # 🔹 Estrutura base
+    # 🔹 Estrutura OR
     bool_query = {
-        "should": must_clauses
+        "should": must_clauses,
+        "minimum_should_match": 1
     }
 
-    # 🔹 Só adiciona filtro se id_list existir
     if id_list:
         bool_query["filter"] = [
             {
@@ -64,13 +57,15 @@ def search_elastic_with_expansion(
 
     query_body = {
         "size": size,
+        "_source": ["id"],   # 🔥 Só retorna o campo id
         "query": {
             "bool": bool_query
         }
     }
 
-    print(json.dumps(query_body, indent=2, ensure_ascii=False))
-
     response = es.search(index=index_name, body=query_body)
 
-    return response
+    # 🔹 Extrai apenas os IDs
+    ids = [hit["_source"]["id"] for hit in response["hits"]["hits"]]
+
+    return ids
