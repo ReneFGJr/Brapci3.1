@@ -126,7 +126,7 @@ class BrapciWorksModel extends Model
         }
 
         /******************* Load VC */
-        $VC .= 'thesa_6_terms.json';
+        $VC .= 'thesa_25_terms.json';
         $vocabulary = $this->loadThesaurusTerms($VC);
 
         // Escapa o parâmetro para segurança
@@ -134,6 +134,8 @@ class BrapciWorksModel extends Model
 
         // Comando
         $command = "$CMD $escapedQuery";
+        echo '<h1>'.$command.'</h1>';
+        exit;
 
         // Executa
         $output = shell_exec($command);
