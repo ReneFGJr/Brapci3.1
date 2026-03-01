@@ -330,7 +330,7 @@ class BrapciWorksModel extends Model
         echo '<br>Conceitos interpretados: ';
         echo '</div>';
         echo '<div class="col-10">';
-        if (!empty($data['conceitos_interpretados_pelo_llm'])) {
+        if (!isset($data['conceitos_interpretados_pelo_llm'])) {
             echo '<h1>ERRO DE CONSULTA</h1>';
             pre($data);
         }
