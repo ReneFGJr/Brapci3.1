@@ -23,13 +23,13 @@ def main():
 
     resultado = mod_thesa_v2.rag_query_v2(pergunta, memory)
 
-    resultado = mod_elasticsearch.search_elastic_with_expansion(
+    resultado_el = mod_elasticsearch.search_elastic_with_expansion(
         consulta_expandida_array=resultado["consulta_expandida_array"],
         id_list=[351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
     )
-
-    for hit in resultado["hits"]["hits"]:
-        print(hit["_source"]["title"])
+    print("=======================================")
+    for hit in resultado_el["hits"]["hits"]:
+        print("===>",hit["_source"]["title"])
 
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
