@@ -71,5 +71,5 @@ def search_elastic_with_expansion(
     ids = [hit["_source"]["id"] for hit in response["hits"]["hits"]]
 
     return {
-        "result": [ids]
+        "result": ids
     }
