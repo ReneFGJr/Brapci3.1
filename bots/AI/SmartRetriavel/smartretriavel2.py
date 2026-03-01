@@ -31,7 +31,7 @@ def main():
 
     resultado["ids"] = resultado_el
 
-    print(resultado)
+    print(json.dumps(resultado, ensure_ascii=False))
 
 
 if __name__ == "__main__":
