@@ -19,8 +19,6 @@ def main():
     MM = 25
     if (projeto):
         IDS = mod_projetos.get_ids_by_project(projeto)
-        print(IDS)
-        sys.exit()
         #IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
     else:
         IDS = None
