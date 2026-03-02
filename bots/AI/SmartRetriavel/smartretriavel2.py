@@ -15,7 +15,8 @@ def main():
     pergunta = " ".join(sys.argv[1:])
     projeto = " ".join(sys.argv[2:])
 
-    print("==",projeto)
+    print("=="*20,projeto)
+    sys.exit()
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
