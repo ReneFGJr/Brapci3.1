@@ -13,6 +13,9 @@ def main():
 
     # Tudo depois do nome do script vira a pergunta
     pergunta = " ".join(sys.argv[1:])
+    projeto = " ".join(sys.argv[2:])
+
+    print("==",projeto)
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
