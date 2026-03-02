@@ -102,6 +102,7 @@ class BrapciWorksModel extends Model
     public function search_smart_v2()
     {
         $query = get('q');
+        $project = get('project');
         $thesaVC = 25;
 
         if (!$query) {
@@ -127,7 +128,7 @@ class BrapciWorksModel extends Model
             $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
         echo '<h4>SmartRetriavel</h4>';
-        echo '<p><b>Query:</b> ' . $query . '</p>';
+        echo '<p><b>Query:</b> ' . $query . ' - Project: ' . $project . '</p>';
         echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a></p>';
 
         if (!file_exists($PRG)) {
@@ -153,7 +154,7 @@ class BrapciWorksModel extends Model
         $escapedQuery = escapeshellarg($query);
 
         // Comando
-        $command = "$CMD $escapedQuery 2>&1";
+        $command = "$CMD $escapedQuery $project 2>&1";
         echo '<p>' . $command . '</p>';
 
         // Executa
