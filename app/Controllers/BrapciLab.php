@@ -66,7 +66,7 @@ class BrapciLab extends BaseController
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
         $data['worksCount'] = $this->risModel->countByProject($projectId); // implementar contagem de obras
         $data['collaboratorsCount'] = $this->collaborators->countByProject($projectId); // implementar contagem de colaboradores
-        $data['project'] = $projectId;
+        $data['projectID'] = $projectId;
         return view('BrapciLabs/home', $data);
     }
 
