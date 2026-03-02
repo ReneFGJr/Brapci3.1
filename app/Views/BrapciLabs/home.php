@@ -54,7 +54,8 @@
 
         <div class="col-md-4">
             <div class="card card-dashboard p-3">
-                <?= view('BrapciLabs/ris/search_elastic',$data) ?>
+                <?= view('BrapciLabs/ris/search_elastic',
+                    ['projectID'=> $projectID]) ?>
             </div>
         </div>
 
