@@ -345,14 +345,25 @@ class BrapciWorksModel extends Model
         echo '</div>';
 
         echo '<div class="col-2 mb-2">';
-        echo '<br>Conceitos seleciondas: ';
-        echo '</div>';
-        echo '<div class="col-10">';
+        echo '  Conceitos seleciondas: ';
+        echo '  </div>';
+        echo '  <div class="col-10">';
         foreach ($data['termos_autorizados_alinhados'] as $term) {
             echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
         }
+        echo '  </div>';
         echo '</div>';
+
+        echo '<div class="col-2 mb-2">';
+        echo '  IDs: ';
+        echo '  </div>';
+        echo '  <div class="col-10">';
+        foreach ($data['ids'] as $term) {
+            echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
+        }
+        echo '  </div>';
         echo '</div>';
+
         echo '</div>';
         return $st;
     }
