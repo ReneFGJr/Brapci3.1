@@ -1,7 +1,7 @@
 import sys
 import json
 import os
-import mod_thesa_v2, mod_elasticsearch
+import mod_thesa_v2, mod_elasticsearch, mod_projetos
 
 def main():
     if len(sys.argv) < 2:
@@ -15,13 +15,17 @@ def main():
     pergunta = " ".join(sys.argv[1:])
     projeto = " ".join(sys.argv[2:])
 
-    print("=="*20,projeto)
-    sys.exit()
-
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
-    #IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
-    IDS = None
+    if (projeto):
+        IDS = mod_projetos.get_ids_by_project(projeto)
+        print(IDS)
+        sys.exit()
+        #IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
+    else:
+        IDS = None
+
+
     memory = os.path.join(base_dir, 'data', 'thesa_{}.json'.format(MM))
 
     if not os.path.exists(memory):
