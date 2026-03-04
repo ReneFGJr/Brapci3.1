@@ -170,7 +170,7 @@ Pergunta:
     response = requests.post(
         OLLAMA_URL,
         json=payload,
-        timeout=300
+        timeout=1200
     )
     response.raise_for_status()
 
