@@ -9,8 +9,8 @@ from difflib import get_close_matches
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 #MODEL = "llama3.2"
-#MODEL = "qwen3.5:9b"
-MODEL = "qwen3.5:2b"
+MODEL = "qwen3.5:9b"
+#MODEL = "qwen3.5:2b"
 
 VERSION_THESA = "v2.2026.03.04"
 
@@ -154,6 +154,7 @@ Pergunta:
     payload = {
         "model": MODEL,
         "prompt": prompt,
+        "keep_alive": "24h",
         "stream": False,
         "options": {
             #            "temperature": 0,
