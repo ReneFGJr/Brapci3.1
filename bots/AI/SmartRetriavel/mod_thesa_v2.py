@@ -155,8 +155,11 @@ Pergunta:
         "prompt": prompt,
         "stream": False,
         "options": {
-            "temperature": 0,
-            "top_p": 0.1,
+            #            "temperature": 0,
+            #            "top_p": 0.1,
+            #            "seed": 42
+            "temperature": 0.1,
+            "top_p": 0.9,
             "seed": 42
         }
     }
@@ -164,7 +167,7 @@ Pergunta:
     response = requests.post(
         OLLAMA_URL,
         json=payload,
-        timeout=60
+        timeout=300
     )
     response.raise_for_status()
 
