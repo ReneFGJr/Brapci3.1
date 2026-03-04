@@ -8,8 +8,10 @@ import unicodedata
 from difflib import get_close_matches
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "llama3.2"
-VERSION_THESA = "v2.2026.03.01"
+#MODEL = "llama3.2"
+MODEL = "qwen3.5:9b"
+
+VERSION_THESA = "v2.2026.03.04"
 
 BASE_DIR = Path(__file__).resolve().parent
 
