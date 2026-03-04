@@ -161,7 +161,8 @@ Pergunta:
             #            "seed": 42
             "temperature": 0.1,
             "top_p": 0.9,
-            "seed": 42
+            "seed": 42,
+            "think": False
         }
     }
 
