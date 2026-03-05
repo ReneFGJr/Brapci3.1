@@ -135,6 +135,8 @@ def load_authorized_terms(json_path: str):
 
 # ========= Chamada ao Ollama =========
 def ollama_interpret(question: str, terms: str):
+
+    print(terms)
     prompt = f"""
 Você é um bibliotecário especializado.
 
