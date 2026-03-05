@@ -16,7 +16,7 @@ def main():
     projeto = " ".join(sys.argv[2:])
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    MM = 25
+    MM = 6
     if (projeto):
         IDS = mod_projetos.get_ids_by_project(projeto)
         #IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
