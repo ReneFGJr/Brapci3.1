@@ -271,7 +271,11 @@ def rag_query_v2(question: str, json_path: str):
     authorized_terms = load_authorized_terms(json_path)
 
     llm_concepts = ollama_interpret(question, authorized_terms)
-    aligned_terms = align_with_vocabulary(llm_concepts, authorized_terms)
+
+    # flatten vocabulary
+    flat_terms = [term for group in authorized_terms for term in group]
+
+    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
 
     base_result = {
         "pergunta_original": question,
