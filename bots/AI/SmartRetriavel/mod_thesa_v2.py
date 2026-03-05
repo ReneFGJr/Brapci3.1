@@ -149,7 +149,6 @@ Regras:
 - NÃO repita os termos extraídos.
 - NÃO use frases completas.
 - NÃO invente termos.
-- TERMOS em plural transforme para singular.
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
 - NÃO use o termo "indexação" ou "indexação" (ou variações) como resposta, mesmo que seja relevante.
