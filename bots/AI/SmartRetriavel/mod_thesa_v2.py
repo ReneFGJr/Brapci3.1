@@ -171,8 +171,6 @@ Extraia os termos relevantes da pergunta: "{question}"
         }
     }
 
-    print(prompt)
-
     response = requests.post(
         OLLAMA_URL,
         json=payload,
