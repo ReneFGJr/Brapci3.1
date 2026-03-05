@@ -139,7 +139,7 @@ def ollama_interpret(question: str, terms: str):
 Você é um bibliotecário especializado.
 
 Regras:
-- Classifique a pergunta usando APENAS os [TERMOS] mais relevantes.
+- Classifique a pergunta usando APENAS os [TERMOS AUTORIZADOS] mais relevantes.
 - Identifique APENAS conceitos centrais.
 - NÃO explique suas escolhas.
 - NÃO repita os termos extraídos.
@@ -148,7 +148,7 @@ Regras:
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
 
-[TERMOS]
+[TERMOS AUTORIZADOS]
 {terms}
 
 [PERGUNTA]
