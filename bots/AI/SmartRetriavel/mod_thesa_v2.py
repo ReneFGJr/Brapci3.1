@@ -134,18 +134,21 @@ def load_authorized_terms(json_path: str):
 
 
 # ========= Chamada ao Ollama =========
-def ollama_interpret(question: str):
+def ollama_interpret(question: str, terms: str):
     prompt = f"""
 Você é um sistema de apoio à indexação controlada.
 
 Regras:
-- Classifique a pergunta usando APENAS os termos mais relevantes para indexação.
-- Identifique APENAS conceitos centrais
-- NÃO explique
-- NÃO use frases completas
-- NÃO invente termos
-- Selecione apenas termos específicos
-- Retorne APENAS termos conceituais curtos, separados por vírgula
+- Classifique a pergunta usando APENAS os [TERMOS] mais relevantes.
+- Identifique APENAS conceitos centrais.
+- NÃO explique suas escolhas.
+- NÃO use frases completas.
+- NÃO invente termos.
+- Selecione apenas termos específicos.
+- Retorne APENAS termos conceituais curtos, separados por vírgula.
+
+[TERMOS]
+{terms}
 
 Pergunta:
 {question}
@@ -256,7 +259,7 @@ def rag_query_v2(question: str, json_path: str):
     thesaurus = load_thesaurus(json_path)
     authorized_terms = load_authorized_terms(json_path)
 
-    llm_concepts = ollama_interpret(question)
+    llm_concepts = ollama_interpret(question, authorized_terms)
     aligned_terms = align_with_vocabulary(llm_concepts, authorized_terms)
 
     base_result = {
