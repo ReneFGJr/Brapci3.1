@@ -276,6 +276,7 @@ def rag_query_v2(question: str, json_path: str):
     flat_terms = [term for group in authorized_terms for term in group]
 
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+    aligned_terms = flat_terms
 
     base_result = {
         "pergunta_original": question,
