@@ -136,8 +136,11 @@ def load_authorized_terms(json_path: str):
 # ========= Chamada ao Ollama =========
 def ollama_interpret(question: str, terms: str):
 
+    terms = "\n".join(terms)
+
     print(terms)
     prompt = f"""
+SYSTEM:
 Você é um bibliotecário especializado.
 
 Regras:
@@ -150,10 +153,11 @@ Regras:
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
 
+CONTEXT:
 [TERMOS AUTORIZADOS]
 {terms}
 
-[PERGUNTA]
+USER:
 Extraia os termos relevantes da pergunta: "{question}"
 """
 
