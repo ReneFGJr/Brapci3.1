@@ -150,8 +150,8 @@ Regras:
 [TERMOS]
 {terms}
 
-Pergunta:
-{question}
+[PERGUNTA]
+Extraia os termos relevantes da pergunta: "{question}"
 """
 
     payload = {
