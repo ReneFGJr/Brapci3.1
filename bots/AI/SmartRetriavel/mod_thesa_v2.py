@@ -138,7 +138,6 @@ def ollama_interpret(question: str, terms: str):
 
     terms = "\n".join(terms)
 
-    print(terms)
     prompt = f"""
 SYSTEM:
 Você é um bibliotecário especializado.
