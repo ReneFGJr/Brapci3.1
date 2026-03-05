@@ -205,7 +205,7 @@ def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
         matches = get_close_matches(
             norm_concept,
             normalized_vocab.keys(),
-            n=0,
+            n=1,
             cutoff=cutoff
         )
         for m in matches:
