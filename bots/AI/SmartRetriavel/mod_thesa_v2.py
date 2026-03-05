@@ -142,6 +142,7 @@ Regras:
 - Classifique a pergunta usando APENAS os [TERMOS] mais relevantes.
 - Identifique APENAS conceitos centrais.
 - NÃO explique suas escolhas.
+- NÃO repita os termos extraídos.
 - NÃO use frases completas.
 - NÃO invente termos.
 - Selecione apenas termos específicos.
