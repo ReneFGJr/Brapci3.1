@@ -151,6 +151,7 @@ Regras:
 - NÃO invente termos.
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
+- NÃO use o termo "indexação" ou "indexação" (ou variações) como resposta, mesmo que seja relevante.
 
 CONTEXT:
 [TERMOS AUTORIZADOS]
