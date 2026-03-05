@@ -1,5 +1,5 @@
 import re
-import os
+import os, sys
 import json
 from pathlib import Path
 import pandas as pd
@@ -121,9 +121,11 @@ def load_authorized_terms(json_path: str):
 
         terms = []
         for entry in data:
+            variant_terms = []
             for term, lang in entry.items():
                 # if lang == "por":
-                terms.append(term)
+                variant_terms.append(term)
+            terms.append(variant_terms)
 
         return terms
 
@@ -136,7 +138,11 @@ def load_authorized_terms(json_path: str):
 # ========= Chamada ao Ollama =========
 def ollama_interpret(question: str, terms: str):
 
-    terms = "\n".join(terms)
+    tt = ""
+    for t in terms:
+        linha = " | ".join(t)
+        tt += linha + "\n"
+    terms = tt.strip()
 
     prompt = f"""
 SYSTEM:

@@ -31,13 +31,17 @@ def get_ids_by_project(project_id):
     e retorna lista de IDs extraídos da URL.
     """
 
-    conn = mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME"),
-        port=int(os.getenv("DB_PORT", 3306))
-    )
+    try:
+        conn = mysql.connector.connect(host=os.getenv("DB_HOST"),
+                                    user=os.getenv("DB_USER"),
+                                    password=os.getenv("DB_PASSWORD"),
+                                    database=os.getenv("DB_NAME"),
+                                    port=int(os.getenv("DB_PORT", 3306)))
+
+
+    except mysql.connector.Error as err:
+        print("❌ Erro ao conectar no MySQL:")
+        print(err)
 
     cursor = conn.cursor()
 

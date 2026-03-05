@@ -23,7 +23,6 @@ def main():
     else:
         IDS = None
 
-
     memory = os.path.join(base_dir, 'data', 'thesa_{}.json'.format(MM))
 
     if not os.path.exists(memory):

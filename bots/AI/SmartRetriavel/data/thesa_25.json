@@ -1,0 +1,575 @@
+[
+  {
+    "Automatic Indexing": "eng"
+  },
+  {
+    "ChatGPT": "eng"
+  },
+  {
+    "DeepSeek": "eng"
+  },
+  {
+    "Gemini": "eng"
+  },
+  {
+    "Audiobooks": "eng",
+    "Audiolivros": "por",
+    "Audiolibros": "spa"
+  },
+  {
+    "Information organization": "eng",
+    "Organização da Informação": "por",
+    "Organización de la información": "spa"
+  },
+  {
+    "Information professionals": "eng",
+    "Profissionais da informação": "por",
+    "Profesionales de la información": "spa"
+  },
+  {
+    "Metadata": "eng",
+    "Metadados": "por",
+    "Metadatos": "spa"
+  },
+  {
+    "Authenticity": "eng",
+    "Autenticidade": "por"
+  },
+  {
+    "Authentic knowledge": "eng",
+    "Conhecimento autêntico": "por"
+  },
+  {
+    "Augmented Intelligence": "eng",
+    "Inteligência Aumentada": "por",
+    "Inteligencia Aumentada": "spa"
+  },
+  {
+    "Marc": "eng"
+  },
+  {
+    "Libraries": "eng",
+    "Bibliotecas": "por",
+    "Livraria": "por"
+  },
+  {
+    "Librarians role": "eng",
+    "Atuação bibliotecária": "por"
+  },
+  {
+    "Librarians": "eng",
+    "Bibliotecários": "por"
+  },
+  {
+    "Legislative data": "eng",
+    "Dados legislativos": "por",
+    "Datos legislativos": "spa"
+  },
+  {
+    "Data librarian": "eng",
+    "Bibliotecário de dados": "por"
+  },
+  {
+    "Large language models": "eng",
+    "Modelos de linguagem de grande escala": "por",
+    "Modelos de lenguaje de gran escala": "spa"
+  },
+  {
+    "Knowledge production": "eng",
+    "Produção do conhecimento": "por"
+  },
+  {
+    "Knowledge organization systems": "eng",
+    "Sistemas de organización del conocimiento": "spa"
+  },
+  {
+    "Knowledge organization journal": "eng"
+  },
+  {
+    "Knowledge organization": "eng",
+    "Organização do conhecimento": "por",
+    "Organización del conocimiento": "spa"
+  },
+  {
+    "Keywords in indexing": "eng",
+    "Palavras-chave na indexação": "por",
+    "Palabras clave en indexación": "spa"
+  },
+  {
+    "Intersectionality": "eng",
+    "Interseccionalidade": "por",
+    "Interseccionalidad": "spa"
+  },
+  {
+    "Interpares trust AI": "eng"
+  },
+  {
+    "Information science": "eng",
+    "Ciência da informação": "por",
+    "Ciencia de la información": "spa"
+  },
+  {
+    "Information retrieval": "eng",
+    "Recuperação da Informação": "por",
+    "Recuperación de la información": "spa"
+  },
+  {
+    "Information representation": "eng",
+    "Representação da informação": "por",
+    "Representación de la información": "spa"
+  },
+  {
+    "Information recovery": "eng",
+    "Buscar datos": "spa"
+  },
+  {
+    "Indexing": "eng",
+    "Indexação": "por",
+    "Indexación": "spa"
+  },
+  {
+    "Inclusion": "eng",
+    "Inclusão": "por",
+    "Inclusión": "spa"
+  },
+  {
+    "Iconographic method": "eng",
+    "Método iconográfico": "por"
+  },
+  {
+    "Hegemonic aesthetics": "eng",
+    "Estética hegemônica": "por"
+  },
+  {
+    "Functional classification": "eng",
+    "Classificação funcional": "por"
+  },
+  {
+    "Hegel": "eng"
+  },
+  {
+    "Functional thesaurus": "eng",
+    "Tesauro funcional": "por"
+  },
+  {
+    "Francis Bacon": "eng"
+  },
+  {
+    "Formal semantic": "eng",
+    "Semântica formal": "por"
+  },
+  {
+    "Feminism": "eng",
+    "Feminismo": "por"
+  },
+  {
+    "Evidential value": "eng",
+    "Valor probatório": "por"
+  },
+  {
+    "Ethics": "eng",
+    "Ética": "por"
+  },
+  {
+    "Erwin Panofsky": "eng"
+  },
+  {
+    "Epistemology": "eng",
+    "Epistemologia": "por"
+  },
+  {
+    "Dominant discourses": "eng",
+    "Discursos dominantes": "por"
+  },
+  {
+    "Domain analysis": "eng",
+    "Análise de domínio": "por"
+  },
+  {
+    "Documentary typology": "eng",
+    "Tipo documental": "por"
+  },
+  {
+    "Documentary analysis": "eng",
+    "Análise documental": "por"
+  },
+  {
+    "Disabled people": "eng",
+    "Pessoas com deficiência": "por"
+  },
+  {
+    "Digital Preservation": "eng",
+    "Preservação Digital": "por",
+    "Conservación digital": "spa"
+  },
+  {
+    "Dialogical communication": "eng",
+    "Comunicação dialógica": "por"
+  },
+  {
+    "Document authenticity": "eng",
+    "Autenticidade documental": "por",
+    "Autenticidad de documentos": "spa"
+  },
+  {
+    "Dewey decimal classification": "eng",
+    "DCC": "eng",
+    "Classificação Decimal de Dewey": "por",
+    "CDD": "por"
+  },
+  {
+    "Data repository": "eng",
+    "Repositório de dados": "por",
+    "Repositorio de datos": "spa"
+  },
+  {
+    "Data librarianship": "eng",
+    "Biblioteconomia de dados": "por"
+  },
+  {
+    "Deaf people": "eng",
+    "Pessoas surdas": "por"
+  },
+  {
+    "Informational environment": "eng",
+    "Ambiente informacional": "por"
+  },
+  {
+    "Creating a thesaurus with ai": "eng",
+    "Criação de tesauro com IA": "por"
+  },
+  {
+    "Controlled vocabulary": "eng",
+    "Vocabulário controlado": "por"
+  },
+  {
+    "Controlled vocabularies for archival science": "eng",
+    "Vocabulários controlados para arquivos": "por"
+  },
+  {
+    "Content analysis": "eng",
+    "Análise de conteúdo": "por",
+    "Analisis de contenido": "spa"
+  },
+  {
+    "Connectionism": "eng",
+    "Conexionismo": "por"
+  },
+  {
+    "Comics": "eng",
+    "Historias em quadrinhos": "por"
+  },
+  {
+    "Coauthorship": "eng",
+    "Coautoria": "por"
+  },
+  {
+    "Cognitive semantic": "eng",
+    "Semântica cognitiva": "por"
+  },
+  {
+    "Documentary language": "eng",
+    "Linguagem documentaria": "por"
+  },
+  {
+    "Image indexing": "eng",
+    "Indexação de imagens": "por",
+    "Indexación de imágenes": "spa"
+  },
+  {
+    "Classification theory": "eng",
+    "Teoria da classificação": "por"
+  },
+  {
+    "Umbanda": "por"
+  },
+  {
+    "Classification of statistical information": "eng",
+    "Classificação de informações estatísticas": "por"
+  },
+  {
+    "Classification of archival documents": "eng",
+    "Instrumentos de classificação em arquivos": "por"
+  },
+  {
+    "Classification by subject": "eng",
+    "Classificação por assunto": "por"
+  },
+  {
+    "Chamber of deputies": "eng",
+    "Câmara dos deputados": "por",
+    "Camara de diputados": "spa"
+  },
+  {
+    "Cataloguing": "eng",
+    "Catalogação": "por",
+    "Catalogación": "spa"
+  },
+  {
+    "Brazilian repositories": "eng",
+    "Repositórios brasileiros": "por"
+  },
+  {
+    "Brazil": "eng",
+    "Brasil": "por"
+  },
+  {
+    "Bibliometrics": "eng",
+    "Bibliometria": "por"
+  },
+  {
+    "Automatic summarization": "eng",
+    "Sumarização automática": "por",
+    "Resumen automatico": "spa"
+  },
+  {
+    "Legislative information": "eng",
+    "Informações legislativas": "por",
+    "Información legislativa": "spa"
+  },
+  {
+    "Document management": "eng",
+    "Gestão de documentos": "por",
+    "Gestión de documentos": "spa"
+  },
+  {
+    "Arts classification": "eng",
+    "Classificação das artes": "por"
+  },
+  {
+    "Artificial Intelligence": "eng",
+    "Inteligência Artificial": "por",
+    "Inteligencia Artificial": "spa"
+  },
+  {
+    "Archival science": "eng",
+    "Ciência arquivística": "por",
+    "Ciencia archivística": "spa"
+  },
+  {
+    "Archival management": "eng",
+    "Gestão arquivística": "por",
+    "Gestión de archivos": "spa"
+  },
+  {
+    "Archival knowledge organization": "eng",
+    "Organização do conhecimento arquivístico": "por"
+  },
+  {
+    "Archival document": "eng",
+    "Documento de arquivo": "por"
+  },
+  {
+    "AI Tools": "eng",
+    "Ferramentas de IA": "por",
+    "Herramientas De IA": "spa"
+  },
+  {
+    "Methodologies of records classification": "eng",
+    "Metodologias para classificação de documentos de arquivo": "por"
+  },
+  {
+    "Museology": "eng",
+    "Museologia": "por",
+    "Museología": "spa"
+  },
+  {
+    "National department of mineral production": "eng",
+    "Departamento nacional de produção mineral": "por"
+  },
+  {
+    "National mining agency": "eng",
+    "Agência nacional de mineração": "por"
+  },
+  {
+    "Natural Language Processing": "eng",
+    "Processamento de linguagem natural": "por",
+    "Procesamiento Del Lenguaje Natural": "spa"
+  },
+  {
+    "Notebooklm": "eng"
+  },
+  {
+    "Official statistics agendas": "eng",
+    "Agendas estatísticas oficiais": "por"
+  },
+  {
+    "Organic-functional language": "eng",
+    "Linguagem orgânico-funcional": "por"
+  },
+  {
+    "Organization and representation of information and knowledge": "eng",
+    "Organização e representação da informação e do conhecimento": "por"
+  },
+  {
+    "Organization and representation of knowledge": "eng",
+    "Organização e representação do conhecimento": "por",
+    "Organización y representación del conocimiento": "spa"
+  },
+  {
+    "Organization of information": "eng"
+  },
+  {
+    "Personal archives": "eng",
+    "Arquivos pessoais": "por"
+  },
+  {
+    "Photography": "eng",
+    "Fotografia": "por"
+  },
+  {
+    "Qualitative methods": "eng",
+    "Metodos cualitativos": "spa"
+  },
+  {
+    "Records": "eng"
+  },
+  {
+    "Records classification": "eng",
+    "Classificação de documentos": "por"
+  },
+  {
+    "Representation of images": "eng",
+    "Representação de imagens": "por"
+  },
+  {
+    "Research Data": "eng",
+    "Dados de Pesquisa": "por"
+  },
+  {
+    "Research elite": "eng",
+    "Elite de pesquisa": "por"
+  },
+  {
+    "Retrieval-augmented generation": "eng",
+    "RAG": "eng",
+    "Geração aumentada de recuperação": "por",
+    "Recuperación-generación aumentada": "spa"
+  },
+  {
+    "Scientific production": "eng",
+    "Produção científica": "por",
+    "Producción cientifica": "spa"
+  },
+  {
+    "Scire": "eng"
+  },
+  {
+    "Smart justice": "eng",
+    "Justiça inteligente": "por",
+    "Justicia inteligente": "spa"
+  },
+  {
+    "Social movements": "eng",
+    "Movimentos sociais": "por"
+  },
+  {
+    "Subject headings": "eng",
+    "Cabeçalhos de assunto": "por"
+  },
+  {
+    "Subject information organization": "eng",
+    "Representação temática da informação": "por",
+    "Organización de información tematica": "spa"
+  },
+  {
+    "Systematic review": "eng",
+    "Revisão sistemática": "por",
+    "Revision sistematica": "spa"
+  },
+  {
+    "Table of equivalence": "eng",
+    "Tabela de equivalência": "por"
+  },
+  {
+    "Tainacan": "por"
+  },
+  {
+    "Taxonomy": "eng",
+    "Taxonomia": "por"
+  },
+  {
+    "Thematic authority": "eng",
+    "Autoridad tematica": "spa"
+  },
+  {
+    "Thesaurus": "eng",
+    "Tesauro": "por"
+  },
+  {
+    "Thesaurus and artificial intelligence": "eng",
+    "Tesauro e inteligência artificial": "por"
+  },
+  {
+    "Transformer": "eng"
+  },
+  {
+    "Treatment of information": "eng",
+    "Tratamento da informação": "por"
+  },
+  {
+    "Visual arts": "eng",
+    "Artes visuais": "por",
+    "Artes visuales": "spa"
+  },
+  {
+    "Visual information": "eng",
+    "Informação visual": "por",
+    "Información visual": "spa"
+  },
+  {
+    "Visual representation": "eng",
+    "Representação visual": "por",
+    "Representación visual": "spa"
+  },
+  {
+    "Vocabulary control": "eng",
+    "Controle de vocabulario": "por"
+  },
+  {
+    "Warrants": "eng",
+    "Garantias": "por"
+  },
+  {
+    "William Torrey Harris": "eng"
+  },
+  {
+    "Indización": "spa"
+  },
+  {
+    "Modelos Linguisticos de Larga Escala": "por"
+  },
+  {
+    "Arquivologia": "por"
+  },
+  {
+    "Cidades inteligentes": "por",
+    "Ciudades inteligentes": "spa"
+  },
+  {
+    "Implicações éticas e legais": "por"
+  },
+  {
+    "Inteligência Artificial Generativa": "por",
+    "Inteligencia artificial generativa": "spa"
+  },
+  {
+    "Indexação Automática": "por",
+    "Indización automatica": "spa"
+  },
+  {
+    "Direitos autorais": "por"
+  },
+  {
+    "Instituto nacional de infectologia evandro chagas": "por"
+  },
+  {
+    "Mineração brasileira": "por"
+  },
+  {
+    "Integridade acadêmica": "por"
+  },
+  {
+    "Classificação Bibliográfica": "por"
+  }
+]

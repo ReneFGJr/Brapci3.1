@@ -1,0 +1,1483 @@
+{
+  "0": {
+    "concept": "322",
+    "term": "ChatGPT",
+    "lang": "eng"
+  },
+  "1": {
+    "concept": "323",
+    "term": "DeepSeek",
+    "lang": "eng"
+  },
+  "2": {
+    "concept": "324",
+    "term": "Gemini",
+    "lang": "eng"
+  },
+  "3": {
+    "concept": "337",
+    "term": "Inteligência Artificial Generativa",
+    "lang": "por"
+  },
+  "4": {
+    "concept": "1420",
+    "term": "Audiobooks",
+    "lang": "eng"
+  },
+  "5": {
+    "concept": "1420",
+    "term": "Audiolivros",
+    "lang": "por"
+  },
+  "6": {
+    "concept": "1420",
+    "term": "Audiolibros",
+    "lang": "spa"
+  },
+  "7": {
+    "concept": "1472",
+    "term": "Information organization",
+    "lang": "eng"
+  },
+  "8": {
+    "concept": "1472",
+    "term": "Organização da Informação",
+    "lang": "por"
+  },
+  "9": {
+    "concept": "1472",
+    "term": "Organización de la información",
+    "lang": "spa"
+  },
+  "10": {
+    "concept": "1473",
+    "term": "Information professionals",
+    "lang": "eng"
+  },
+  "11": {
+    "concept": "1473",
+    "term": "Profissionais da informação",
+    "lang": "por"
+  },
+  "12": {
+    "concept": "1473",
+    "term": "Profesionales de la información",
+    "lang": "spa"
+  },
+  "13": {
+    "concept": "1493",
+    "term": "Metadata",
+    "lang": "eng"
+  },
+  "14": {
+    "concept": "1493",
+    "term": "Metadados",
+    "lang": "por"
+  },
+  "15": {
+    "concept": "1493",
+    "term": "Metadatos",
+    "lang": "spa"
+  },
+  "16": {
+    "concept": "1423",
+    "term": "Authenticity",
+    "lang": "eng"
+  },
+  "17": {
+    "concept": "1423",
+    "term": "Autenticidade",
+    "lang": "por"
+  },
+  "18": {
+    "concept": "1422",
+    "term": "Authentic knowledge",
+    "lang": "eng"
+  },
+  "19": {
+    "concept": "1422",
+    "term": "Conhecimento autêntico",
+    "lang": "por"
+  },
+  "20": {
+    "concept": "1421",
+    "term": "Augmented Intelligence",
+    "lang": "eng"
+  },
+  "21": {
+    "concept": "1421",
+    "term": "Inteligência Aumentada",
+    "lang": "por"
+  },
+  "22": {
+    "concept": "1421",
+    "term": "Inteligencia Aumentada",
+    "lang": "spa"
+  },
+  "23": {
+    "concept": "1492",
+    "term": "Marc",
+    "lang": "eng"
+  },
+  "24": {
+    "concept": "1491",
+    "term": "Libraries",
+    "lang": "eng"
+  },
+  "25": {
+    "concept": "1491",
+    "term": "Bibliotecas",
+    "lang": "por"
+  },
+  "26": {
+    "concept": "1491",
+    "term": "Livraria",
+    "lang": "por"
+  },
+  "27": {
+    "concept": "1490",
+    "term": "Librarians role",
+    "lang": "eng"
+  },
+  "28": {
+    "concept": "1490",
+    "term": "Atuação bibliotecária",
+    "lang": "por"
+  },
+  "29": {
+    "concept": "745",
+    "term": "Automatic Indexing",
+    "lang": "eng"
+  },
+  "30": {
+    "concept": "1489",
+    "term": "Librarians",
+    "lang": "eng"
+  },
+  "31": {
+    "concept": "1489",
+    "term": "Bibliotecários",
+    "lang": "por"
+  },
+  "32": {
+    "concept": "1487",
+    "term": "Legislative data",
+    "lang": "eng"
+  },
+  "33": {
+    "concept": "1487",
+    "term": "Dados legislativos",
+    "lang": "por"
+  },
+  "34": {
+    "concept": "1487",
+    "term": "Datos legislativos",
+    "lang": "spa"
+  },
+  "35": {
+    "concept": "1442",
+    "term": "Data librarian",
+    "lang": "eng"
+  },
+  "36": {
+    "concept": "1442",
+    "term": "Bibliotecário de dados",
+    "lang": "por"
+  },
+  "37": {
+    "concept": "1486",
+    "term": "Large language models",
+    "lang": "eng"
+  },
+  "38": {
+    "concept": "1486",
+    "term": "Modelos de linguagem de grande escala",
+    "lang": "por"
+  },
+  "39": {
+    "concept": "1486",
+    "term": "Modelos de lenguaje de gran escala",
+    "lang": "spa"
+  },
+  "40": {
+    "concept": "1485",
+    "term": "Knowledge production",
+    "lang": "eng"
+  },
+  "41": {
+    "concept": "1485",
+    "term": "Produção do conhecimento",
+    "lang": "por"
+  },
+  "42": {
+    "concept": "1484",
+    "term": "Knowledge organization systems",
+    "lang": "eng"
+  },
+  "43": {
+    "concept": "1484",
+    "term": "Sistemas de organización del conocimiento",
+    "lang": "spa"
+  },
+  "44": {
+    "concept": "1483",
+    "term": "Knowledge organization journal",
+    "lang": "eng"
+  },
+  "45": {
+    "concept": "1482",
+    "term": "Knowledge organization",
+    "lang": "eng"
+  },
+  "46": {
+    "concept": "1482",
+    "term": "Organização do conhecimento",
+    "lang": "por"
+  },
+  "47": {
+    "concept": "1482",
+    "term": "Organización del conocimiento",
+    "lang": "spa"
+  },
+  "48": {
+    "concept": "1481",
+    "term": "Keywords in indexing",
+    "lang": "eng"
+  },
+  "49": {
+    "concept": "1481",
+    "term": "Palavras-chave na indexação",
+    "lang": "por"
+  },
+  "50": {
+    "concept": "1481",
+    "term": "Palabras clave en indexación",
+    "lang": "spa"
+  },
+  "51": {
+    "concept": "1480",
+    "term": "Intersectionality",
+    "lang": "eng"
+  },
+  "52": {
+    "concept": "1480",
+    "term": "Interseccionalidade",
+    "lang": "por"
+  },
+  "53": {
+    "concept": "1480",
+    "term": "Interseccionalidad",
+    "lang": "spa"
+  },
+  "54": {
+    "concept": "1479",
+    "term": "Interpares trust AI",
+    "lang": "eng"
+  },
+  "55": {
+    "concept": "1477",
+    "term": "Information science",
+    "lang": "eng"
+  },
+  "56": {
+    "concept": "1477",
+    "term": "Ciência da informação",
+    "lang": "por"
+  },
+  "57": {
+    "concept": "1477",
+    "term": "Ciencia de la información",
+    "lang": "spa"
+  },
+  "58": {
+    "concept": "1476",
+    "term": "Information retrieval",
+    "lang": "eng"
+  },
+  "59": {
+    "concept": "1476",
+    "term": "Recuperação da Informação",
+    "lang": "por"
+  },
+  "60": {
+    "concept": "1476",
+    "term": "Recuperación de la información",
+    "lang": "spa"
+  },
+  "61": {
+    "concept": "1475",
+    "term": "Information representation",
+    "lang": "eng"
+  },
+  "62": {
+    "concept": "1475",
+    "term": "Representação da informação",
+    "lang": "por"
+  },
+  "63": {
+    "concept": "1475",
+    "term": "Representación de la información",
+    "lang": "spa"
+  },
+  "64": {
+    "concept": "1537",
+    "term": "Information recovery",
+    "lang": "eng"
+  },
+  "65": {
+    "concept": "1537",
+    "term": "Buscar datos",
+    "lang": "spa"
+  },
+  "66": {
+    "concept": "1471",
+    "term": "Indexing",
+    "lang": "eng"
+  },
+  "67": {
+    "concept": "1471",
+    "term": "Indexação",
+    "lang": "por"
+  },
+  "68": {
+    "concept": "1471",
+    "term": "Indexación",
+    "lang": "spa"
+  },
+  "69": {
+    "concept": "1470",
+    "term": "Inclusion",
+    "lang": "eng"
+  },
+  "70": {
+    "concept": "1470",
+    "term": "Inclusão",
+    "lang": "por"
+  },
+  "71": {
+    "concept": "1470",
+    "term": "Inclusión",
+    "lang": "spa"
+  },
+  "72": {
+    "concept": "1468",
+    "term": "Iconographic method",
+    "lang": "eng"
+  },
+  "73": {
+    "concept": "1468",
+    "term": "Método iconográfico",
+    "lang": "por"
+  },
+  "74": {
+    "concept": "1467",
+    "term": "Hegemonic aesthetics",
+    "lang": "eng"
+  },
+  "75": {
+    "concept": "1467",
+    "term": "Estética hegemônica",
+    "lang": "por"
+  },
+  "76": {
+    "concept": "1464",
+    "term": "Functional classification",
+    "lang": "eng"
+  },
+  "77": {
+    "concept": "1464",
+    "term": "Classificação funcional",
+    "lang": "por"
+  },
+  "78": {
+    "concept": "1466",
+    "term": "Hegel",
+    "lang": "eng"
+  },
+  "79": {
+    "concept": "1465",
+    "term": "Functional thesaurus",
+    "lang": "eng"
+  },
+  "80": {
+    "concept": "1465",
+    "term": "Tesauro funcional",
+    "lang": "por"
+  },
+  "81": {
+    "concept": "1463",
+    "term": "Francis Bacon",
+    "lang": "eng"
+  },
+  "82": {
+    "concept": "1462",
+    "term": "Formal semantic",
+    "lang": "eng"
+  },
+  "83": {
+    "concept": "1462",
+    "term": "Semântica formal",
+    "lang": "por"
+  },
+  "84": {
+    "concept": "1461",
+    "term": "Feminism",
+    "lang": "eng"
+  },
+  "85": {
+    "concept": "1461",
+    "term": "Feminismo",
+    "lang": "por"
+  },
+  "86": {
+    "concept": "1460",
+    "term": "Evidential value",
+    "lang": "eng"
+  },
+  "87": {
+    "concept": "1460",
+    "term": "Valor probatório",
+    "lang": "por"
+  },
+  "88": {
+    "concept": "1459",
+    "term": "Ethics",
+    "lang": "eng"
+  },
+  "89": {
+    "concept": "1459",
+    "term": "Ética",
+    "lang": "por"
+  },
+  "90": {
+    "concept": "1458",
+    "term": "Erwin Panofsky",
+    "lang": "eng"
+  },
+  "91": {
+    "concept": "1457",
+    "term": "Epistemology",
+    "lang": "eng"
+  },
+  "92": {
+    "concept": "1457",
+    "term": "Epistemologia",
+    "lang": "por"
+  },
+  "93": {
+    "concept": "1456",
+    "term": "Dominant discourses",
+    "lang": "eng"
+  },
+  "94": {
+    "concept": "1456",
+    "term": "Discursos dominantes",
+    "lang": "por"
+  },
+  "95": {
+    "concept": "1455",
+    "term": "Domain analysis",
+    "lang": "eng"
+  },
+  "96": {
+    "concept": "1455",
+    "term": "Análise de domínio",
+    "lang": "por"
+  },
+  "97": {
+    "concept": "1454",
+    "term": "Documentary typology",
+    "lang": "eng"
+  },
+  "98": {
+    "concept": "1454",
+    "term": "Tipo documental",
+    "lang": "por"
+  },
+  "99": {
+    "concept": "1452",
+    "term": "Documentary analysis",
+    "lang": "eng"
+  },
+  "100": {
+    "concept": "1452",
+    "term": "Análise documental",
+    "lang": "por"
+  },
+  "101": {
+    "concept": "1449",
+    "term": "Disabled people",
+    "lang": "eng"
+  },
+  "102": {
+    "concept": "1449",
+    "term": "Pessoas com deficiência",
+    "lang": "por"
+  },
+  "103": {
+    "concept": "1448",
+    "term": "Digital Preservation",
+    "lang": "eng"
+  },
+  "104": {
+    "concept": "1448",
+    "term": "Preservação Digital",
+    "lang": "por"
+  },
+  "105": {
+    "concept": "1448",
+    "term": "Conservación digital",
+    "lang": "spa"
+  },
+  "106": {
+    "concept": "1447",
+    "term": "Dialogical communication",
+    "lang": "eng"
+  },
+  "107": {
+    "concept": "1447",
+    "term": "Comunicação dialógica",
+    "lang": "por"
+  },
+  "108": {
+    "concept": "1450",
+    "term": "Document authenticity",
+    "lang": "eng"
+  },
+  "109": {
+    "concept": "1450",
+    "term": "Autenticidade documental",
+    "lang": "por"
+  },
+  "110": {
+    "concept": "1450",
+    "term": "Autenticidad de documentos",
+    "lang": "spa"
+  },
+  "111": {
+    "concept": "1446",
+    "term": "Dewey decimal classification",
+    "lang": "eng"
+  },
+  "112": {
+    "concept": "1446",
+    "term": "DCC",
+    "lang": "eng"
+  },
+  "113": {
+    "concept": "1446",
+    "term": "Classificação Decimal de Dewey",
+    "lang": "por"
+  },
+  "114": {
+    "concept": "1446",
+    "term": "CDD",
+    "lang": "por"
+  },
+  "115": {
+    "concept": "1444",
+    "term": "Data repository",
+    "lang": "eng"
+  },
+  "116": {
+    "concept": "1444",
+    "term": "Repositório de dados",
+    "lang": "por"
+  },
+  "117": {
+    "concept": "1444",
+    "term": "Repositorio de datos",
+    "lang": "spa"
+  },
+  "118": {
+    "concept": "1443",
+    "term": "Data librarianship",
+    "lang": "eng"
+  },
+  "119": {
+    "concept": "1443",
+    "term": "Biblioteconomia de dados",
+    "lang": "por"
+  },
+  "120": {
+    "concept": "1445",
+    "term": "Deaf people",
+    "lang": "eng"
+  },
+  "121": {
+    "concept": "1445",
+    "term": "Pessoas surdas",
+    "lang": "por"
+  },
+  "122": {
+    "concept": "1478",
+    "term": "Informational environment",
+    "lang": "eng"
+  },
+  "123": {
+    "concept": "1478",
+    "term": "Ambiente informacional",
+    "lang": "por"
+  },
+  "124": {
+    "concept": "1441",
+    "term": "Creating a thesaurus with ai",
+    "lang": "eng"
+  },
+  "125": {
+    "concept": "1441",
+    "term": "Criação de tesauro com IA",
+    "lang": "por"
+  },
+  "126": {
+    "concept": "1440",
+    "term": "Controlled vocabulary",
+    "lang": "eng"
+  },
+  "127": {
+    "concept": "1440",
+    "term": "Vocabulário controlado",
+    "lang": "por"
+  },
+  "128": {
+    "concept": "1439",
+    "term": "Controlled vocabularies for archival science",
+    "lang": "eng"
+  },
+  "129": {
+    "concept": "1439",
+    "term": "Vocabulários controlados para arquivos",
+    "lang": "por"
+  },
+  "130": {
+    "concept": "1438",
+    "term": "Content analysis",
+    "lang": "eng"
+  },
+  "131": {
+    "concept": "1438",
+    "term": "Análise de conteúdo",
+    "lang": "por"
+  },
+  "132": {
+    "concept": "1438",
+    "term": "Analisis de contenido",
+    "lang": "spa"
+  },
+  "133": {
+    "concept": "1437",
+    "term": "Connectionism",
+    "lang": "eng"
+  },
+  "134": {
+    "concept": "1437",
+    "term": "Conexionismo",
+    "lang": "por"
+  },
+  "135": {
+    "concept": "1436",
+    "term": "Comics",
+    "lang": "eng"
+  },
+  "136": {
+    "concept": "1436",
+    "term": "Historias em quadrinhos",
+    "lang": "por"
+  },
+  "137": {
+    "concept": "1434",
+    "term": "Coauthorship",
+    "lang": "eng"
+  },
+  "138": {
+    "concept": "1434",
+    "term": "Coautoria",
+    "lang": "por"
+  },
+  "139": {
+    "concept": "1435",
+    "term": "Cognitive semantic",
+    "lang": "eng"
+  },
+  "140": {
+    "concept": "1435",
+    "term": "Semântica cognitiva",
+    "lang": "por"
+  },
+  "141": {
+    "concept": "1453",
+    "term": "Documentary language",
+    "lang": "eng"
+  },
+  "142": {
+    "concept": "1453",
+    "term": "Linguagem documentaria",
+    "lang": "por"
+  },
+  "143": {
+    "concept": "1469",
+    "term": "Image indexing",
+    "lang": "eng"
+  },
+  "144": {
+    "concept": "1469",
+    "term": "Indexação de imagens",
+    "lang": "por"
+  },
+  "145": {
+    "concept": "1469",
+    "term": "Indexación de imágenes",
+    "lang": "spa"
+  },
+  "146": {
+    "concept": "1433",
+    "term": "Classification theory",
+    "lang": "eng"
+  },
+  "147": {
+    "concept": "1433",
+    "term": "Teoria da classificação",
+    "lang": "por"
+  },
+  "148": {
+    "concept": "1535",
+    "term": "Umbanda",
+    "lang": "por"
+  },
+  "149": {
+    "concept": "1432",
+    "term": "Classification of statistical information",
+    "lang": "eng"
+  },
+  "150": {
+    "concept": "1432",
+    "term": "Classificação de informações estatísticas",
+    "lang": "por"
+  },
+  "151": {
+    "concept": "1431",
+    "term": "Classification of archival documents",
+    "lang": "eng"
+  },
+  "152": {
+    "concept": "1431",
+    "term": "Instrumentos de classificação em arquivos",
+    "lang": "por"
+  },
+  "153": {
+    "concept": "1430",
+    "term": "Classification by subject",
+    "lang": "eng"
+  },
+  "154": {
+    "concept": "1430",
+    "term": "Classificação por assunto",
+    "lang": "por"
+  },
+  "155": {
+    "concept": "1429",
+    "term": "Chamber of deputies",
+    "lang": "eng"
+  },
+  "156": {
+    "concept": "1429",
+    "term": "Câmara dos deputados",
+    "lang": "por"
+  },
+  "157": {
+    "concept": "1429",
+    "term": "Camara de diputados",
+    "lang": "spa"
+  },
+  "158": {
+    "concept": "1428",
+    "term": "Cataloguing",
+    "lang": "eng"
+  },
+  "159": {
+    "concept": "1428",
+    "term": "Catalogação",
+    "lang": "por"
+  },
+  "160": {
+    "concept": "1428",
+    "term": "Catalogación",
+    "lang": "spa"
+  },
+  "161": {
+    "concept": "1427",
+    "term": "Brazilian repositories",
+    "lang": "eng"
+  },
+  "162": {
+    "concept": "1427",
+    "term": "Repositórios brasileiros",
+    "lang": "por"
+  },
+  "163": {
+    "concept": "1426",
+    "term": "Brazil",
+    "lang": "eng"
+  },
+  "164": {
+    "concept": "1426",
+    "term": "Brasil",
+    "lang": "por"
+  },
+  "165": {
+    "concept": "1425",
+    "term": "Bibliometrics",
+    "lang": "eng"
+  },
+  "166": {
+    "concept": "1425",
+    "term": "Bibliometria",
+    "lang": "por"
+  },
+  "167": {
+    "concept": "1424",
+    "term": "Automatic summarization",
+    "lang": "eng"
+  },
+  "168": {
+    "concept": "1424",
+    "term": "Sumarização automática",
+    "lang": "por"
+  },
+  "169": {
+    "concept": "1424",
+    "term": "Resumen automatico",
+    "lang": "spa"
+  },
+  "170": {
+    "concept": "1488",
+    "term": "Legislative information",
+    "lang": "eng"
+  },
+  "171": {
+    "concept": "1488",
+    "term": "Informações legislativas",
+    "lang": "por"
+  },
+  "172": {
+    "concept": "1488",
+    "term": "Información legislativa",
+    "lang": "spa"
+  },
+  "173": {
+    "concept": "1451",
+    "term": "Document management",
+    "lang": "eng"
+  },
+  "174": {
+    "concept": "1451",
+    "term": "Gestão de documentos",
+    "lang": "por"
+  },
+  "175": {
+    "concept": "1451",
+    "term": "Gestión de documentos",
+    "lang": "spa"
+  },
+  "176": {
+    "concept": "1419",
+    "term": "Arts classification",
+    "lang": "eng"
+  },
+  "177": {
+    "concept": "1419",
+    "term": "Classificação das artes",
+    "lang": "por"
+  },
+  "178": {
+    "concept": "1418",
+    "term": "Artificial Intelligence",
+    "lang": "eng"
+  },
+  "179": {
+    "concept": "1418",
+    "term": "Inteligência Artificial",
+    "lang": "por"
+  },
+  "180": {
+    "concept": "1418",
+    "term": "Inteligencia Artificial",
+    "lang": "spa"
+  },
+  "181": {
+    "concept": "1417",
+    "term": "Archival science",
+    "lang": "eng"
+  },
+  "182": {
+    "concept": "1417",
+    "term": "Ciência arquivística",
+    "lang": "por"
+  },
+  "183": {
+    "concept": "1417",
+    "term": "Ciencia archivística",
+    "lang": "spa"
+  },
+  "184": {
+    "concept": "1416",
+    "term": "Archival management",
+    "lang": "eng"
+  },
+  "185": {
+    "concept": "1416",
+    "term": "Gestão arquivística",
+    "lang": "por"
+  },
+  "186": {
+    "concept": "1416",
+    "term": "Gestión de archivos",
+    "lang": "spa"
+  },
+  "187": {
+    "concept": "1415",
+    "term": "Archival knowledge organization",
+    "lang": "eng"
+  },
+  "188": {
+    "concept": "1415",
+    "term": "Organização do conhecimento arquivístico",
+    "lang": "por"
+  },
+  "189": {
+    "concept": "1414",
+    "term": "Archival document",
+    "lang": "eng"
+  },
+  "190": {
+    "concept": "1414",
+    "term": "Documento de arquivo",
+    "lang": "por"
+  },
+  "191": {
+    "concept": "1413",
+    "term": "AI Tools",
+    "lang": "eng"
+  },
+  "192": {
+    "concept": "1413",
+    "term": "Ferramentas de IA",
+    "lang": "por"
+  },
+  "193": {
+    "concept": "1413",
+    "term": "Herramientas De IA",
+    "lang": "spa"
+  },
+  "194": {
+    "concept": "1494",
+    "term": "Methodologies of records classification",
+    "lang": "eng"
+  },
+  "195": {
+    "concept": "1494",
+    "term": "Metodologias para classificação de documentos de arquivo",
+    "lang": "por"
+  },
+  "196": {
+    "concept": "1495",
+    "term": "Museology",
+    "lang": "eng"
+  },
+  "197": {
+    "concept": "1495",
+    "term": "Museologia",
+    "lang": "por"
+  },
+  "198": {
+    "concept": "1495",
+    "term": "Museología",
+    "lang": "spa"
+  },
+  "199": {
+    "concept": "1496",
+    "term": "National department of mineral production",
+    "lang": "eng"
+  },
+  "200": {
+    "concept": "1496",
+    "term": "Departamento nacional de produção mineral",
+    "lang": "por"
+  },
+  "201": {
+    "concept": "1497",
+    "term": "National mining agency",
+    "lang": "eng"
+  },
+  "202": {
+    "concept": "1497",
+    "term": "Agência nacional de mineração",
+    "lang": "por"
+  },
+  "203": {
+    "concept": "1498",
+    "term": "Natural Language Processing",
+    "lang": "eng"
+  },
+  "204": {
+    "concept": "1498",
+    "term": "Processamento de linguagem natural",
+    "lang": "por"
+  },
+  "205": {
+    "concept": "1498",
+    "term": "Procesamiento Del Lenguaje Natural",
+    "lang": "spa"
+  },
+  "206": {
+    "concept": "1499",
+    "term": "Notebooklm",
+    "lang": "eng"
+  },
+  "207": {
+    "concept": "1500",
+    "term": "Official statistics agendas",
+    "lang": "eng"
+  },
+  "208": {
+    "concept": "1500",
+    "term": "Agendas estatísticas oficiais",
+    "lang": "por"
+  },
+  "209": {
+    "concept": "1501",
+    "term": "Organic-functional language",
+    "lang": "eng"
+  },
+  "210": {
+    "concept": "1501",
+    "term": "Linguagem orgânico-funcional",
+    "lang": "por"
+  },
+  "211": {
+    "concept": "1502",
+    "term": "Organization and representation of information and knowledge",
+    "lang": "eng"
+  },
+  "212": {
+    "concept": "1502",
+    "term": "Organização e representação da informação e do conhecimento",
+    "lang": "por"
+  },
+  "213": {
+    "concept": "1503",
+    "term": "Organization and representation of knowledge",
+    "lang": "eng"
+  },
+  "214": {
+    "concept": "1503",
+    "term": "Organização e representação do conhecimento",
+    "lang": "por"
+  },
+  "215": {
+    "concept": "1503",
+    "term": "Organización y representación del conocimiento",
+    "lang": "spa"
+  },
+  "216": {
+    "concept": "1504",
+    "term": "Organization of information",
+    "lang": "eng"
+  },
+  "217": {
+    "concept": "1505",
+    "term": "Personal archives",
+    "lang": "eng"
+  },
+  "218": {
+    "concept": "1505",
+    "term": "Arquivos pessoais",
+    "lang": "por"
+  },
+  "219": {
+    "concept": "1506",
+    "term": "Photography",
+    "lang": "eng"
+  },
+  "220": {
+    "concept": "1506",
+    "term": "Fotografia",
+    "lang": "por"
+  },
+  "221": {
+    "concept": "1507",
+    "term": "Qualitative methods",
+    "lang": "eng"
+  },
+  "222": {
+    "concept": "1507",
+    "term": "Metodos cualitativos",
+    "lang": "spa"
+  },
+  "223": {
+    "concept": "1508",
+    "term": "Records",
+    "lang": "eng"
+  },
+  "224": {
+    "concept": "1509",
+    "term": "Records classification",
+    "lang": "eng"
+  },
+  "225": {
+    "concept": "1509",
+    "term": "Classificação de documentos",
+    "lang": "por"
+  },
+  "226": {
+    "concept": "1510",
+    "term": "Representation of images",
+    "lang": "eng"
+  },
+  "227": {
+    "concept": "1510",
+    "term": "Representação de imagens",
+    "lang": "por"
+  },
+  "228": {
+    "concept": "1511",
+    "term": "Research Data",
+    "lang": "eng"
+  },
+  "229": {
+    "concept": "1511",
+    "term": "Dados de Pesquisa",
+    "lang": "por"
+  },
+  "230": {
+    "concept": "1512",
+    "term": "Research elite",
+    "lang": "eng"
+  },
+  "231": {
+    "concept": "1512",
+    "term": "Elite de pesquisa",
+    "lang": "por"
+  },
+  "232": {
+    "concept": "1513",
+    "term": "Retrieval-augmented generation",
+    "lang": "eng"
+  },
+  "233": {
+    "concept": "1513",
+    "term": "RAG",
+    "lang": "eng"
+  },
+  "234": {
+    "concept": "1513",
+    "term": "Geração aumentada de recuperação",
+    "lang": "por"
+  },
+  "235": {
+    "concept": "1513",
+    "term": "Recuperación-generación aumentada",
+    "lang": "spa"
+  },
+  "236": {
+    "concept": "1514",
+    "term": "Scientific production",
+    "lang": "eng"
+  },
+  "237": {
+    "concept": "1514",
+    "term": "Produção científica",
+    "lang": "por"
+  },
+  "238": {
+    "concept": "1514",
+    "term": "Producción cientifica",
+    "lang": "spa"
+  },
+  "239": {
+    "concept": "1515",
+    "term": "Scire",
+    "lang": "eng"
+  },
+  "240": {
+    "concept": "1516",
+    "term": "Smart justice",
+    "lang": "eng"
+  },
+  "241": {
+    "concept": "1516",
+    "term": "Justiça inteligente",
+    "lang": "por"
+  },
+  "242": {
+    "concept": "1516",
+    "term": "Justicia inteligente",
+    "lang": "spa"
+  },
+  "243": {
+    "concept": "1517",
+    "term": "Social movements",
+    "lang": "eng"
+  },
+  "244": {
+    "concept": "1517",
+    "term": "Movimentos sociais",
+    "lang": "por"
+  },
+  "245": {
+    "concept": "1518",
+    "term": "Subject headings",
+    "lang": "eng"
+  },
+  "246": {
+    "concept": "1518",
+    "term": "Cabeçalhos de assunto",
+    "lang": "por"
+  },
+  "247": {
+    "concept": "1519",
+    "term": "Subject information organization",
+    "lang": "eng"
+  },
+  "248": {
+    "concept": "1519",
+    "term": "Representação temática da informação",
+    "lang": "por"
+  },
+  "249": {
+    "concept": "1519",
+    "term": "Organización de información tematica",
+    "lang": "spa"
+  },
+  "250": {
+    "concept": "1520",
+    "term": "Systematic review",
+    "lang": "eng"
+  },
+  "251": {
+    "concept": "1520",
+    "term": "Revisão sistemática",
+    "lang": "por"
+  },
+  "252": {
+    "concept": "1520",
+    "term": "Revision sistematica",
+    "lang": "spa"
+  },
+  "253": {
+    "concept": "1521",
+    "term": "Table of equivalence",
+    "lang": "eng"
+  },
+  "254": {
+    "concept": "1521",
+    "term": "Tabela de equivalência",
+    "lang": "por"
+  },
+  "255": {
+    "concept": "1536",
+    "term": "Tainacan",
+    "lang": "por"
+  },
+  "256": {
+    "concept": "1523",
+    "term": "Taxonomy",
+    "lang": "eng"
+  },
+  "257": {
+    "concept": "1523",
+    "term": "Taxonomia",
+    "lang": "por"
+  },
+  "258": {
+    "concept": "1524",
+    "term": "Thematic authority",
+    "lang": "eng"
+  },
+  "259": {
+    "concept": "1524",
+    "term": "Autoridad tematica",
+    "lang": "spa"
+  },
+  "260": {
+    "concept": "1525",
+    "term": "Thesaurus",
+    "lang": "eng"
+  },
+  "261": {
+    "concept": "1525",
+    "term": "Tesauro",
+    "lang": "por"
+  },
+  "262": {
+    "concept": "1526",
+    "term": "Thesaurus and artificial intelligence",
+    "lang": "eng"
+  },
+  "263": {
+    "concept": "1526",
+    "term": "Tesauro e inteligência artificial",
+    "lang": "por"
+  },
+  "264": {
+    "concept": "1527",
+    "term": "Transformer",
+    "lang": "eng"
+  },
+  "265": {
+    "concept": "1528",
+    "term": "Treatment of information",
+    "lang": "eng"
+  },
+  "266": {
+    "concept": "1528",
+    "term": "Tratamento da informação",
+    "lang": "por"
+  },
+  "267": {
+    "concept": "1529",
+    "term": "Visual arts",
+    "lang": "eng"
+  },
+  "268": {
+    "concept": "1529",
+    "term": "Artes visuais",
+    "lang": "por"
+  },
+  "269": {
+    "concept": "1529",
+    "term": "Artes visuales",
+    "lang": "spa"
+  },
+  "270": {
+    "concept": "1530",
+    "term": "Visual information",
+    "lang": "eng"
+  },
+  "271": {
+    "concept": "1530",
+    "term": "Informação visual",
+    "lang": "por"
+  },
+  "272": {
+    "concept": "1530",
+    "term": "Información visual",
+    "lang": "spa"
+  },
+  "273": {
+    "concept": "1531",
+    "term": "Visual representation",
+    "lang": "eng"
+  },
+  "274": {
+    "concept": "1531",
+    "term": "Representação visual",
+    "lang": "por"
+  },
+  "275": {
+    "concept": "1531",
+    "term": "Representación visual",
+    "lang": "spa"
+  },
+  "276": {
+    "concept": "1532",
+    "term": "Vocabulary control",
+    "lang": "eng"
+  },
+  "277": {
+    "concept": "1532",
+    "term": "Controle de vocabulario",
+    "lang": "por"
+  },
+  "278": {
+    "concept": "1533",
+    "term": "Warrants",
+    "lang": "eng"
+  },
+  "279": {
+    "concept": "1533",
+    "term": "Garantias",
+    "lang": "por"
+  },
+  "280": {
+    "concept": "1534",
+    "term": "William Torrey Harris",
+    "lang": "eng"
+  },
+  "281": {
+    "concept": "1538",
+    "term": "Indización",
+    "lang": "spa"
+  },
+  "282": {
+    "concept": "1539",
+    "term": "Modelos Linguisticos de Larga Escala",
+    "lang": "por"
+  },
+  "283": {
+    "concept": "1540",
+    "term": "Arquivologia",
+    "lang": "por"
+  },
+  "284": {
+    "concept": "1541",
+    "term": "Cidades inteligentes",
+    "lang": "por"
+  },
+  "285": {
+    "concept": "1541",
+    "term": "Ciudades inteligentes",
+    "lang": "spa"
+  },
+  "286": {
+    "concept": "1542",
+    "term": "Implicações éticas e legais",
+    "lang": "por"
+  },
+  "287": {
+    "concept": "1543",
+    "term": "Inteligência Artificial Generativa",
+    "lang": "por"
+  },
+  "288": {
+    "concept": "1543",
+    "term": "Inteligencia artificial generativa",
+    "lang": "spa"
+  },
+  "289": {
+    "concept": "1544",
+    "term": "Indexação Automática",
+    "lang": "por"
+  },
+  "290": {
+    "concept": "1544",
+    "term": "Indización automatica",
+    "lang": "spa"
+  },
+  "291": {
+    "concept": "1545",
+    "term": "Direitos autorais",
+    "lang": "por"
+  },
+  "292": {
+    "concept": "1546",
+    "term": "Instituto nacional de infectologia evandro chagas",
+    "lang": "por"
+  },
+  "293": {
+    "concept": "1547",
+    "term": "Mineração brasileira",
+    "lang": "por"
+  },
+  "294": {
+    "concept": "1548",
+    "term": "Integridade acadêmica",
+    "lang": "por"
+  },
+  "295": {
+    "concept": "1550",
+    "term": "Classificação Bibliográfica",
+    "lang": "por"
+  },
+  "time": "2026-03-05CST12:49:27"
+}
