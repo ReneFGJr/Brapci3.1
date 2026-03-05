@@ -136,7 +136,7 @@ def load_authorized_terms(json_path: str):
 # ========= Chamada ao Ollama =========
 def ollama_interpret(question: str, terms: str):
     prompt = f"""
-Você é um sistema de apoio à indexação controlada.
+Você é um bibliotecário especializado.
 
 Regras:
 - Classifique a pergunta usando APENAS os [TERMOS] mais relevantes.
