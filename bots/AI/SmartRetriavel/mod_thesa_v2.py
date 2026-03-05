@@ -205,7 +205,7 @@ def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
         matches = get_close_matches(
             norm_concept,
             normalized_vocab.keys(),
-            n=3,
+            n=0,
             cutoff=cutoff
         )
         for m in matches:
@@ -275,8 +275,8 @@ def rag_query_v2(question: str, json_path: str):
     # flatten vocabulary
     flat_terms = [term for group in authorized_terms for term in group]
 
-    #aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
-    aligned_terms = llm_concepts
+    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+    #aligned_terms = llm_concepts
 
 
     base_result = {
