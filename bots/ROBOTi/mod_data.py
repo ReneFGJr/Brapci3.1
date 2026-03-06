@@ -32,6 +32,9 @@ def removeDouble():
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
 
             if (ID != 0):
+                print("ID",ID)
+                print(row)
+                sys.exit()
                 # Remover citações
                 qd = f"delete from brapci_cited.cited_article where ca_rdf = {ID} "
                 database.update(qd)
