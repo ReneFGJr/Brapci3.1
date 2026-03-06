@@ -50,7 +50,7 @@ def removeDouble():
                         IDX = nitem[0]
                         if (nr > 0):
                             qd = f"update brapci_oaipmh.oai_listidentify set oai_status = 1, oai_rdf = 0 where oai_rdf = {ID} "
-                            print(nr,qd)
+                            database.update(qd)
                         else:
                             print(nr,"Mantendo",IDX)
                         nr = nr + 1
