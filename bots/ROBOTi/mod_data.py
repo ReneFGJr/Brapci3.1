@@ -44,11 +44,17 @@ def removeDouble():
                 # Lima IDX
                 qa = f"select * from brapci_oaipmh.oai_listidentify where oai_rdf = {ID} "
                 nrow = database.query(qa)
+                nr = 0
                 if nrow != []:
                     for nitem in nrow:
                         IDX = nitem[0]
-                        qd = f"update brapci_oaipmh.oai_listidentify set oai_status = 1, oai_rdf = 0 where oai_rdf {ID} "
-                        print(qd)
+                        if (nr > 0):
+                            qd = f"update brapci_oaipmh.oai_listidentify set oai_status = 1, oai_rdf = 0 where oai_rdf = {ID} "
+                            print(nr,qd)
+                        else:
+                            print(nr,"Mantendo",IDX)
+                        nr = nr + 1
+
                 sys.exit()
                 #database.update(qd)
 
