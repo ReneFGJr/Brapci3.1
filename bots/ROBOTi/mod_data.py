@@ -16,7 +16,7 @@ def removeDouble():
 
     sql = """
         Select * From (
-        SELECT oai_rdf, count(*) as total, oai_id_jnl, max(oai_rdf) as idx
+        SELECT oai_rdf, count(*) as total, oai_id_jnl, max(id_oai) as idx
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
@@ -27,6 +27,9 @@ def removeDouble():
     row = database.query(sql)
     if row != []:
         for item in row:
+            qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
+            row2 = database.query(qq)
+            print(row2)
             print(item)
             sys.exit()
 
