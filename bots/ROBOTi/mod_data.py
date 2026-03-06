@@ -12,61 +12,41 @@ import time
 import mod_logs
 import mod_ai_nlp
 
-
 def removeDouble():
 
     sql = """
-        SELECT oai_rdf, oai_id_jnl
+        Select * From (
+        SELECT oai_rdf, count(*) as total, oai_id_jnl, min(id_oai) as idx
         FROM brapci_oaipmh.oai_listidentify
-        WHERE oai_rdf > 0
-        AND oai_deleted = 0
+        where oai_rdf > 0
+        and oai_deleted = 0
         GROUP BY oai_rdf, oai_id_jnl
-        HAVING COUNT(*) > 1
-        ORDER BY oai_rdf DESC
+        ) as tabela where total > 1
+        ORDER BY total, oai_rdf desc
     """
-
-    rows = database.query(sql)
-
-    for item in rows:
-
-        oai_rdf = item[0]
-        oai_id_jnl = item[1]
-
-        sql2 = """
-            SELECT id_oai, oai_id
-            FROM brapci_oaipmh.oai_listidentify
-            WHERE oai_rdf = %s
-            AND oai_id_jnl = %s
-            ORDER BY id_oai
-        """
-
-        rows2 = database.query(sql2, (oai_rdf, oai_id_jnl))
-
-        ultimo_id = None
-
-        for r in rows2:
-
-            id_oai = r[0]
-            oai_id = r[1]
-
-            # extrai id final
-            id_final = oai_id.rsplit("/", 1)[-1]
-
-            print("Anterior:", ultimo_id)
-            print("Atual:", id_final)
-
-            if ultimo_id == id_final:
-                print("Deletando duplicado:", id_oai, oai_id)
-
-                delete_sql = """
-                    DELETE FROM brapci_oaipmh.oai_listidentify
-                    WHERE id_oai = %s
-                """
-
-                database.update(delete_sql, (id_oai, ))
-
-            ultimo_id = id_final
-
+    row = database.query(sql)
+    if row != []:
+        for item in row:
+            qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
+            row2 = database.query(qq)
+            IDidO = None
+            for item2 in row2:
+                ID = item2[0]
+                oai_id_jnl = item2[4]
+                oai_id = item2[5]
+                oai_rdf = item2[2]
+                oai_deleted = item2[3]
+                ######################
+                #Tratar
+                IDoAT = oai_id.split("/")[-1]
+                print("==1>",IDidO)
+                print("==2>",oai_id)
+                if (IDidO == IDoAT):
+                    print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    print("Excluindo ID",ID)
+                    qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
+                    database.update(qd)
+                IDidO = IDoAT
     sys.exit()
     sql = """
         Select * From (
