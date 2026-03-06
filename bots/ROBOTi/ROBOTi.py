@@ -102,6 +102,7 @@ def run(parm):
         ListIdentiers()
     #********************** ListIdentiers - LOOP
     if (act == '2'):
+        print("... Processando GetRecord")
         GetRecord()
 
     #********************** ListIdentiers - LOOP
