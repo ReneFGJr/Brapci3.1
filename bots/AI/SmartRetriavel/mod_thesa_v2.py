@@ -195,7 +195,7 @@ Extraia os termos relevantes da pergunta: "{question}"
     return concepts
 
 
-# ========= Alinhamento com vocabulário =========
+# ========= Semantica com vocabulário controlado =========
 def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
     normalized_vocab = {normalize(t): t for t in authorized_terms}
     matched_terms = set()
