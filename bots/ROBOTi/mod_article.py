@@ -97,7 +97,8 @@ def check_method01(id,jnl):
 
     row = database.query(qr)
 
-    pre(row)
+    print(row)
+    sys.exit()
 
     if row == []:
         return 0
