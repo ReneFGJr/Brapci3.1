@@ -234,6 +234,9 @@ def run(parm):
         mod_pdf.harvestingPDF()
         mod_simori.simori_main()
 
+        # Modulos de Correção
+        mod_data.removeDouble()
+
 
     if (act == 'keyword'):
         print("=================KEYWORDS")
