@@ -406,8 +406,6 @@ def GetRecord():
     # Phase II - Coleta arquivos
     if (reg != []):
         for it in reg:
-            print(it)
-            sys.exit()
             oaipmh_getRecord.get(it)
 
     # Phase III - Fim do processo
@@ -445,6 +443,9 @@ def ListIdentiers():
     token = reg[0][4]
 
     oai_journal.getSetSpec(URL,JNL)
+
+    print("==========",2);
+    sys.exit()
 
     # Phase III - GetList
     jnl = reg[0][0]
