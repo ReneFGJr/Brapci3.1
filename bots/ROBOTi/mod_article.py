@@ -59,7 +59,7 @@ def process(rg):
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
             else:
                 print("IDX==",IDX)
-        sys.exit()
+
 
         ########################################## Inserir Trabalho
         if (IDX == 0):
@@ -74,6 +74,8 @@ def process(rg):
             print(f"  UPDATE WORK ({IDX})")
             article_data(IDX,rg,data,JNL)
             mod_listidentify.updateStatus(ID,12)
+
+        sys.exit()
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
@@ -121,7 +123,6 @@ def check_method02(data,OAIID,IDjnl):
     print("...Mtd02-ISSUE")
     SOURCE = issue['source']
     YEAR = SOURCE['year']
-
 
     print(f"...Mtd02-Dataset\n...Title:{TITLE}\nYear:{YEAR}")
     print(f"...{OAIID}")
