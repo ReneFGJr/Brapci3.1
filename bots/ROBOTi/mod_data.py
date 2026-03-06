@@ -25,8 +25,6 @@ def removeDouble():
         ORDER BY total desc
     """
     row = database.query(sql)
-    print(row)
-    sys.exit()
     if row != []:
         for item in row:
             print(item)
