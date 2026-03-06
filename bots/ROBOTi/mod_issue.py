@@ -379,16 +379,16 @@ def create_issue(JNL,year,vol,nr):
 
 def process(rg):
     ID = rg[0]
+    JNL = rg[6]
 
-    print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
-
-    sys.exit()
+    print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+'.'+str(JNL)+Fore.WHITE)
 
     ######################### Identify ##
     try:
         row = identify(rg)
         print(row)
         ISSUE = row[0][3]
+        sys.exit()
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
     except Exception as e:
