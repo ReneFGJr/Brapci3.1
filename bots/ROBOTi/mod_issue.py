@@ -382,6 +382,8 @@ def process(rg):
 
     print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
+    sys.exit()
+
     ######################### Identify ##
     try:
         row = identify(rg)
