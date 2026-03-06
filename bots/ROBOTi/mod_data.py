@@ -30,7 +30,6 @@ def removeDouble():
             print(item)
             sys.exit()
 
-
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total
@@ -47,7 +46,6 @@ def removeDouble():
         for item in row:
             ID = item[0]
             total = item[1]
-            journal_id = item[2]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
 
             if (ID != 0):
