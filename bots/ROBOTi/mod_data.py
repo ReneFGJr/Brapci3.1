@@ -16,7 +16,7 @@ def removeDouble():
 
     sql = """
         Select * From (
-        SELECT oai_rdf, count(*) as total, oai_id_jnl, max(oai_id) as idx
+        SELECT oai_rdf, count(*) as total, oai_id_jnl, max(oai_rdf) as idx
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
