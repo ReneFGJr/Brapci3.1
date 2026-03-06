@@ -15,11 +15,11 @@ import mod_ai_nlp
 def removeDouble():
     sql = """
         Select * From (
-        SELECT oai_rdf, count(*) as total
+        SELECT oai_rdf, count(*) as total, oai_id_jnl
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
-        GROUP BY oai_rdf
+        GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
         ORDER BY total desc
     """
@@ -29,6 +29,7 @@ def removeDouble():
         for item in row:
             ID = item[0]
             total = item[1]
+            journal_id = item[2]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
 
             if (ID != 0):
