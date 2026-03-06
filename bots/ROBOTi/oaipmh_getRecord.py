@@ -290,8 +290,10 @@ def get(rg):
     substring = "http"
 
     print("==substring==", substring)
-    print("==urlIssue==", url,jnl)
+    print("==urlIssue==", url,"[",jnl,']')
     print("==Collection==", file_type)
+
+    print(rg)
 
     sys.exit()
 
