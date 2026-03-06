@@ -15,7 +15,7 @@ import mod_ai_nlp
 def removeDouble():
     sql = """
         Select * From (
-        SELECT oai_rdf, count(*) as total
+        SELECT brapci_oaipmh.oai_rdf, count(*) as total
         FROM `oai_listidentify`
         where oai_rdf > 0
         and oai_deleted = 0
