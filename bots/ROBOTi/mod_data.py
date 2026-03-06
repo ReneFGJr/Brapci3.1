@@ -13,13 +13,31 @@ import mod_logs
 import mod_ai_nlp
 
 def removeDouble():
+
     sql = """
         Select * From (
-        SELECT oai_rdf, count(*) as total, oai_id_jnl
+        SELECT oai_rdf, count(*) as total, oai_id_jnl, max(oai_id) as idx
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
         GROUP BY oai_rdf, oai_id_jnl
+        ) as tabela where total > 1
+        ORDER BY total desc
+    """
+    row = database.query(sql)
+    if row != []:
+        for item in row:
+            print(item)
+            sys.exit()
+
+
+    sql = """
+        Select * From (
+        SELECT oai_rdf, count(*) as total
+        FROM brapci_oaipmh.oai_listidentify
+        where oai_rdf > 0
+        and oai_deleted = 0
+        GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY total desc
     """
