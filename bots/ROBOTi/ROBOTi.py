@@ -103,6 +103,10 @@ def run(parm):
         ListIdentiers()
     #********************** ListIdentiers - LOOP
     if (act == '2'):
+
+        print("==========",2);
+        sys.exit()
+
         GetRecord()
 
     #********************** ListIdentiers - LOOP
@@ -443,9 +447,6 @@ def ListIdentiers():
     token = reg[0][4]
 
     oai_journal.getSetSpec(URL,JNL)
-
-    print("==========",2);
-    sys.exit()
 
     # Phase III - GetList
     jnl = reg[0][0]
