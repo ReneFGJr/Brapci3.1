@@ -38,8 +38,10 @@ def removeDouble():
                 oai_deleted = item2[3]
                 if (IDidO == oai_id):
                     print(ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    print("Excluindo ID",ID)
                     qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
-                    database.update(qd)
+                    print(qd)
+                    #database.update(qd)
                 IDdiO = oai_id
             print(row2)
             print(item)
