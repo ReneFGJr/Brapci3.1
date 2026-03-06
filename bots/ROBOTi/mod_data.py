@@ -29,13 +29,16 @@ def removeDouble():
         for item in row:
             qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
             row2 = database.query(qq)
+            IDidO = 'X'
             for item2 in row2:
                 ID = item2[0]
                 oai_id_jnl = item2[4]
                 oai_id = item2[5]
                 oai_rdf = item2[2]
                 oai_deleted = item2[3]
-                print(ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                if (IDidO == oai_id):
+                    print(ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                IDdiO = oai_id
             print(row2)
             print(item)
             sys.exit()
