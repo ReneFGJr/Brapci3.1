@@ -102,7 +102,6 @@ def run(parm):
         ListIdentiers()
     #********************** ListIdentiers - LOOP
     if (act == '2'):
-        print("... Processando GetRecord")
         GetRecord()
 
     #********************** ListIdentiers - LOOP
@@ -404,6 +403,8 @@ def GetRecord():
         roboti_task.task_start('PROC_RECORD')
 
     # Phase II - Coleta arquivos
+    print(reg)
+    sys.exit()
     if (reg != []):
         for it in reg:
             oaipmh_getRecord.get(it)
