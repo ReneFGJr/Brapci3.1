@@ -95,10 +95,9 @@ def check_method01(id,jnl):
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
 
-    print(qr)
-    sys.exit()
-
     row = database.query(qr)
+
+    pre(row)
 
     if row == []:
         return 0
