@@ -130,7 +130,6 @@ def run(parm):
 
     #********************* Dados Duplicados
     if (act == '600'):
-        roboti_task.task_start('GETRECORD')
         mod_data.removeDouble()
 
     if (act == '100'):
