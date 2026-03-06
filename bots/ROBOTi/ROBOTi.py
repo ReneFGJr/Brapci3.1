@@ -128,6 +128,10 @@ def run(parm):
     if (act == '12'):
         mod_proceeding.issue()
 
+    #********************* Dados Duplicados
+    if (act == '600'):
+        mod_data.removeDouble()
+
     if (act == '100'):
         lp = mod_data.DataDouble()
     if (act == '101'):

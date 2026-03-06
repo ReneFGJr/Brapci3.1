@@ -12,6 +12,29 @@ import time
 import mod_logs
 import mod_ai_nlp
 
+def removeDouble():
+    sql = """
+        Select * From (
+        SELECT oai_rdf, count(*) as total
+        FROM `oai_listidentify`
+        where oai_rdf > 0
+        and oai_deleted = 0
+        GROUP BY oai_rdf
+        ) as tabela where total > 1
+        ORDER BY total desc
+        limto 1;
+    """
+
+    row = database.query(sql)
+    if row != []:
+        for item in row:
+            ID = item[0]
+            total = item[1]
+            print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
+            #qd = f"delete from oai_listidentify where oai_rdf = {ID} and oai_deleted = 0 limit {total-1}"
+            #database.update(qd)
+            #time.sleep(0.01)
+
 def literal_double(prop = 0):
     print("113/114 - Titulo ou Resumo duplicado")
     qr = "select * from ( "
