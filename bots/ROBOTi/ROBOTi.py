@@ -403,10 +403,11 @@ def GetRecord():
         roboti_task.task_start('PROC_RECORD')
 
     # Phase II - Coleta arquivos
-    print(reg)
-    sys.exit()
     if (reg != []):
         for it in reg:
+            print(it)
+            sys.exit()
+
             oaipmh_getRecord.get(it)
 
     # Phase III - Fim do processo
