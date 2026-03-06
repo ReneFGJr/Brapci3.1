@@ -15,14 +15,14 @@ import mod_ai_nlp
 def removeDouble():
     sql = """
         Select * From (
-        SELECT brapci_oaipmh.oai_rdf, count(*) as total
-        FROM `oai_listidentify`
+        SELECT oai_rdf, count(*) as total
+        FROM `brapci_oaipmh.oai_listidentify`
         where oai_rdf > 0
         and oai_deleted = 0
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY total desc
-        limto 1;
+        limit 1;
     """
 
     row = database.query(sql)
