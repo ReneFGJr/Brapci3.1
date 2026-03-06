@@ -56,14 +56,6 @@ def removeDouble():
                             print(nr,"Mantendo",IDX)
                         nr = nr + 1
 
-                sys.exit()
-                #database.update(qd)
-
-
-
-            #qd = f"delete from oai_listidentify where oai_rdf = {ID} and oai_deleted = 0 limit {total-1}"
-            #database.update(qd)
-            #time.sleep(0.01)
 
 def literal_double(prop = 0):
     print("113/114 - Titulo ou Resumo duplicado")
