@@ -40,7 +40,7 @@ def removeDouble():
                 ######################
                 #Tratar
                 IDoAT = oai_id.split("/")[-1]
-                print("==1>",IDidO)
+                #print("==1>",IDidO)
                 print("==2>",oai_id)
                 if (IDidO == IDoAT):
                     print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
