@@ -1,4 +1,4 @@
-import re
+import re, sys
 import json
 import string
 import array
@@ -40,6 +40,18 @@ def removeDouble():
                 # Remove dados RDF
                 qd = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} or d_r2 = {ID} "
                 database.update(qd)
+
+                # Lima IDX
+                qa = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = {ID} "
+                nrow = database.query(qa)
+                if nrow != []:
+                    for nitem in nrow:
+                        IDX = nitem[0]
+                        qd = f"update brapci_oaipmh.oai_listidentify set oai_status = 1, oai_rdf = 0 where oai_rdf {ID} "
+                        print(qd)
+                sys.exit()
+                #database.update(qd)
+
 
 
             #qd = f"delete from oai_listidentify where oai_rdf = {ID} and oai_deleted = 0 limit {total-1}"
