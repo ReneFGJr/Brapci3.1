@@ -22,7 +22,7 @@ def removeDouble():
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY total desc
-        limit 1;
+        limit 1000;
     """
 
     row = database.query(sql)
