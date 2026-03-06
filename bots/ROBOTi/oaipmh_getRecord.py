@@ -280,6 +280,7 @@ def get(rg):
     identify = rg[1]
     url = rg[2]
     url2 = rg[9]
+    jnl = rg[3]
     if url == '':
         url = url2
     ID = rg[0]
@@ -289,8 +290,10 @@ def get(rg):
     substring = "http"
 
     print("==substring==", substring)
-    print("==urlIssue==", url)
+    print("==urlIssue==", url,jnl)
     print("==Collection==", file_type)
+
+    sys.exit()
 
     #if file_type == 'EV':
     #    url = urlIssue
