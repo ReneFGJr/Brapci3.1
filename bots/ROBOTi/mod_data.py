@@ -22,7 +22,7 @@ def removeDouble():
         and oai_deleted = 0
         GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
-        ORDER BY total desc
+        ORDER BY total, oai_rdf desc
     """
     row = database.query(sql)
     if row != []:
