@@ -33,7 +33,7 @@ def removeDouble():
 
             if (ID != 0):
                 print("ID",ID)
-                print(row)
+                print(item)
                 sys.exit()
                 # Remover citações
                 qd = f"delete from brapci_cited.cited_article where ca_rdf = {ID} "
