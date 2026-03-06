@@ -386,9 +386,7 @@ def process(rg):
     ######################### Identify ##
     try:
         row = identify(rg)
-        print(row)
         ISSUE = row[0][3]
-        sys.exit()
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
     except Exception as e:
