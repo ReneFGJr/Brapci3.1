@@ -137,6 +137,7 @@ def check_method02(data,OAIID,IDjnl):
         return 0
     else:
         print("Title",TITLE)
+        print("ISSUE",issue)
         if (len(row) == 1):
             ID = row[0]
             ID = ID[0]
