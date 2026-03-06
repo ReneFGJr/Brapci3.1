@@ -43,7 +43,7 @@ def removeDouble():
                     qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
                     print(qd)
                     #database.update(qd)
-                IDdiO = oai_id
+                IDidO = oai_id
             print(row2)
             print(item)
             sys.exit()
