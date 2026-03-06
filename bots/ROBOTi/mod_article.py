@@ -76,8 +76,6 @@ def process(rg):
             article_data(IDX,rg,data,JNL)
             mod_listidentify.updateStatus(ID,12)
 
-        sys.exit()
-
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
         print("ERRO ARTICLE",e)
