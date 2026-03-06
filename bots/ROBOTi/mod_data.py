@@ -36,7 +36,8 @@ def removeDouble():
                 oai_id = item2[5]
                 oai_rdf = item2[2]
                 oai_deleted = item2[3]
-                print("==>",IDidO,oai_id)
+                print("==1>",IDidO)
+                print("==2>",oai_id)
                 if (IDidO == oai_id):
                     print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
                     print("Excluindo ID",ID)
