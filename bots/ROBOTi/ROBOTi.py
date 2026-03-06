@@ -87,8 +87,7 @@ def auto():
 def run(parm):
     print(logo())
     act = parm[1]
-    print(Fore.BLUE+"Function: ",act)
-    print(Fore.WHITE)
+    print(Fore.BLUE+"Function: ",act,'================================='+Fore.WHITE)
 
     if (act == '0'):
         mod_concept.UpdateUse()
@@ -103,10 +102,6 @@ def run(parm):
         ListIdentiers()
     #********************** ListIdentiers - LOOP
     if (act == '2'):
-
-        print("==========",2);
-        sys.exit()
-
         GetRecord()
 
     #********************** ListIdentiers - LOOP
