@@ -32,9 +32,16 @@ def removeDouble():
             total = item[1]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
 
-            # Remover citações
-            qd = f"delete from brapci_cited.cited_article where ca_rdf = {ID} "
-            print(qd)
+            if (ID != 0):
+                # Remover citações
+                qd = f"delete from brapci_cited.cited_article where ca_rdf = {ID} "
+                database.update(qd)
+
+                # Remove dados RDF
+                qd = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} or d_r2 = {ID} "
+                database.update(qd)
+
+
             #qd = f"delete from oai_listidentify where oai_rdf = {ID} and oai_deleted = 0 limit {total-1}"
             #database.update(qd)
             #time.sleep(0.01)
