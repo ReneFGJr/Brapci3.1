@@ -43,10 +43,7 @@ def removeDouble():
                     qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
                     database.update(qd)
                 IDidO = oai_id
-            print(row2)
-            print(item)
-            sys.exit()
-
+    sys.exit()
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total
