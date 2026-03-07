@@ -12,65 +12,73 @@ if not os.path.isfile(fileEnv):
     sys.exit(1)
 load_dotenv("../../.env")
 
-database = 'brapci_rdf'
-version = '2026-02-15'
+def restore_database(database, version):
+    DB_HOST = os.getenv("database.default.hostname")
+    DB_USER = os.getenv("database.default.username")
+    DB_PASS = os.getenv("database.default.password")
 
-DB_HOST = os.getenv("database.default.hostname")
-DB_USER = os.getenv("database.default.username")
-DB_PASS = os.getenv("database.default.password")
+    BACKUP_FILE = f"/data/pluto/backup/{database}_{version}.sql"
 
-BACKUP_FILE = f"/data/pluto/backup/{database}_{version}.sql"
+    print("Conectando ao MySQL...")
 
-print("Conectando ao MySQL...")
+    # =========================
+    # CONEXÃO
+    # =========================
+    conn = mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASS,
+        database=database
+    )
 
-# =========================
-# CONEXÃO
-# =========================
-conn = mysql.connector.connect(
-    host=DB_HOST,
-    user=DB_USER,
-    password=DB_PASS,
-    database=database
-)
+    cursor = conn.cursor()
 
-cursor = conn.cursor()
+    # =========================
+    # DESATIVA FK
+    # =========================
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-# =========================
-# DESATIVA FK
-# =========================
-cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+    # =========================
+    # LISTA TABELAS
+    # =========================
+    cursor.execute("SHOW TABLES")
+    tables = cursor.fetchall()
 
-# =========================
-# LISTA TABELAS
-# =========================
-cursor.execute("SHOW TABLES")
-tables = cursor.fetchall()
+    print(f"{len(tables)} tabelas encontradas")
 
-print(f"{len(tables)} tabelas encontradas")
+    # =========================
+    # REMOVE TABELAS
+    # =========================
+    for table in tables:
+        print("Removendo:", table[0])
+        cursor.execute(f"DROP TABLE IF EXISTS `{table[0]}`")
 
-# =========================
-# REMOVE TABELAS
-# =========================
-for table in tables:
-    print("Removendo:", table[0])
-    cursor.execute(f"DROP TABLE IF EXISTS `{table[0]}`")
+    conn.commit()
 
-conn.commit()
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
 
-cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+    cursor.close()
+    conn.close()
 
-cursor.close()
-conn.close()
+    print("Banco limpo.")
 
-print("Banco limpo.")
+    # =========================
+    # RESTORE
+    # =========================
+    print("Restaurando backup...")
 
-# =========================
-# RESTORE
-# =========================
-print("Restaurando backup...")
+    cmd = f"mysql -h {DB_HOST} -u {DB_USER} -p{DB_PASS} {database} < {BACKUP_FILE}"
 
-cmd = f"mysql -h {DB_HOST} -u {DB_USER} -p{DB_PASS} {database} < {BACKUP_FILE}"
+    subprocess.run(cmd, shell=True)
 
-subprocess.run(cmd, shell=True)
+    print("Restore concluído.")
 
-print("Restore concluído.")
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Uso: python restore.py <database> <version>")
+        sys.exit(1)
+
+    database = sys.argv[1]
+    version = sys.argv[2]
+
+    restore_database(database, version)
