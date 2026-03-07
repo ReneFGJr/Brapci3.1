@@ -18,9 +18,6 @@ version = '2026-02-15'
 DB_HOST = os.getenv("database.default.hostname")
 DB_USER = os.getenv("database.default.username")
 DB_PASS = os.getenv("database.default.password")
-print(f"Host: {DB_HOST}")
-print(f"User: {DB_USER}")
-print(f"Database: {database}")
 
 BACKUP_FILE = f"{database}_{version}.sql"
 
@@ -56,7 +53,6 @@ print(f"{len(tables)} tabelas encontradas")
 # =========================
 for table in tables:
     print("Removendo:", table[0])
-    sys.exit()
     cursor.execute(f"DROP TABLE IF EXISTS `{table[0]}`")
 
 conn.commit()
@@ -73,7 +69,7 @@ print("Banco limpo.")
 # =========================
 print("Restaurando backup...")
 
-cmd = f"mysql -h {DB_HOST} -u {DB_USER} -p{DB_PASS} {DB_NAME} < {BACKUP_FILE}"
+cmd = f"mysql -h {DB_HOST} -u {DB_USER} -p{DB_PASS} {database} < {BACKUP_FILE}"
 
 subprocess.run(cmd, shell=True)
 
