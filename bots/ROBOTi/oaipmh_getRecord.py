@@ -285,7 +285,7 @@ def getDeleteFiles(rg):
     # Verifica se o arquivo já existe
     if os.path.exists(file):
         os.unlink(file)
-        print(Fore.CYAN + f"... Arquivo já existe: {file}, excluindo." + Fore.WHITE)
+        print(Fore.RED + f"... Arquivo já existe: {file}, excluindo." + Fore.WHITE)
 
 
 def get(rg):
