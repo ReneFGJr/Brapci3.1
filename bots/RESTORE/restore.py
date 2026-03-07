@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 # =========================
 # CARREGA .ENV
 # =========================
+fileEnv = "../../.env"
+if not os.path.isfile(fileEnv):
+    print(f"Arquivo .env não encontrado: {fileEnv}")
+    sys.exit(1)
 load_dotenv("../../.env")
 
 database = 'brapci_rdf'
