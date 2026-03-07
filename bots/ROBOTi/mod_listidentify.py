@@ -116,7 +116,8 @@ def updateStatus(ID,status):
 
     qr = f"update {table} set "
     qr += f"oai_status = {status}, "
-    qr += f"oai_update = {now} "
+    qr += f"oai_update = {now}, "
+    qr += f"oai_collect_again = 0 "
     qr += f"where id_oai = {ID} "
     database.update(qr)
 

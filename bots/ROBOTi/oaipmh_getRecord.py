@@ -290,8 +290,6 @@ def getDeleteFiles(rg):
 
 def get(rg):
     reHarvesing = str(rg[13])
-    print(rg)
-    print("reHarvesing:", reHarvesing)
     if (reHarvesing == '1'):
         getDeleteFiles(rg)
     sys.exit()
