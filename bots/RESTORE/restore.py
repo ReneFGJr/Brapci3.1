@@ -18,6 +18,9 @@ version = '2026-02-15'
 DB_HOST = os.getenv("database.default.hostname")
 DB_USER = os.getenv("database.default.username")
 DB_PASS = os.getenv("database.default.password")
+print(f"Host: {DB_HOST}")
+print(f"User: {DB_USER}")
+print(f"Database: {database}")
 
 BACKUP_FILE = f"{database}_{version}.sql"
 
