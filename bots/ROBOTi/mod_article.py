@@ -91,7 +91,7 @@ def check_method01(id,jnl):
     qr = "select id_cc from brapci_rdf.rdf_literal "
     qr += f"inner join brapci_rdf.rdf_data ON d_literal = id_n "
     qr += f"inner join brapci_rdf.rdf_concept ON d_r1 = id_cc "
-    qr += f"where n_name = '{ID}' or n_name = '{id}'"
+    qr += f"where n_name = '{ID}'"
     qr += "group by id_cc"
 
     print(qr)
