@@ -13,6 +13,7 @@ import mod_logs
 import mod_ai_nlp
 
 def removeDouble():
+    return ""
 
     sql = """
         Select * From (
@@ -48,6 +49,7 @@ def removeDouble():
                     qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
                     database.update(qd)
                 IDidO = IDoAT
+    return ""
 
     sql = """
         Select * From (
