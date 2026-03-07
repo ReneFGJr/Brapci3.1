@@ -59,7 +59,6 @@ def process(rg):
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
             else:
                 print("IDX==",IDX)
-        sys.exit()
 
 
         ########################################## Inserir Trabalho
@@ -93,8 +92,6 @@ def check_method01(id,jnl):
     qr += f"inner join brapci_rdf.rdf_concept ON d_r1 = id_cc "
     qr += f"where n_name = '{ID}'"
     qr += "group by id_cc"
-
-    print(qr)
 
     row = database.query(qr)
 
