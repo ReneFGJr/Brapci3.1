@@ -19,7 +19,7 @@ DB_HOST = os.getenv("database.default.hostname")
 DB_USER = os.getenv("database.default.username")
 DB_PASS = os.getenv("database.default.password")
 
-BACKUP_FILE = f"{database}_{version}.sql"
+BACKUP_FILE = f"/data/pluto/backup/{database}_{version}.sql"
 
 print("Conectando ao MySQL...")
 
