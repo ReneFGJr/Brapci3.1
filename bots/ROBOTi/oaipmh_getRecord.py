@@ -290,6 +290,8 @@ def getDeleteFiles(rg):
 
 def get(rg):
     reHarvesing = rg[12]
+    print(rg)
+    print("reHarvesing:", reHarvesing)
     if (reHarvesing == 1):
         getDeleteFiles(rg)
     identify = rg[1]
