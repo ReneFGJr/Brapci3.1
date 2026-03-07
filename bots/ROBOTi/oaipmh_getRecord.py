@@ -276,7 +276,22 @@ def process(rg):
 
         mod_listidentify.updateStatus(ID,6)
 
+def getDeleteFiles(rg):
+    ID = rg[0]
+
+    # Define o caminho do arquivo a ser salvo
+    file = mod_listidentify.directory(ID) + '.getRecord.xml'
+
+    # Verifica se o arquivo já existe
+    if os.path.exists(file):
+        os.unlink(file)
+        print(Fore.CYAN + f"... Arquivo já existe: {file}, excluindo." + Fore.WHITE)
+
+
 def get(rg):
+    reHarvesing = rg[12]
+    if (reHarvesing == 1):
+        getDeleteFiles(rg)
     identify = rg[1]
     url = rg[2]
     url2 = rg[9]
