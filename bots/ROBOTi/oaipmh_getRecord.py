@@ -292,8 +292,9 @@ def get(rg):
     reHarvesing = rg[13]
     print(rg)
     print("reHarvesing:", reHarvesing)
-    if (reHarvesing == 1):
+    if (reHarvesing == '1'):
         getDeleteFiles(rg)
+    sys.exit()
     identify = rg[1]
     url = rg[2]
     url2 = rg[9]
