@@ -289,7 +289,7 @@ def getDeleteFiles(rg):
 
 
 def get(rg):
-    reHarvesing = rg[14]
+    reHarvesing = rg[13]
     print(rg)
     print("reHarvesing:", reHarvesing)
     if (reHarvesing == 1):
