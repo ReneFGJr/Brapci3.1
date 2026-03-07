@@ -14,7 +14,7 @@ def nextGetRecords(status):
         limit = 25
     cp = "id_oai, oai_identifier, jnl_url_oai, jnl_name_abrev, oai_setSpec, oai_rdf, "
     cp += "id_jnl, s_id, oai_issue, is_url_oai, is_source_issue, jnl_collection, "
-    cp += "is_url_oai "
+    cp += "is_url_oai, oai_collect_again "
     qr = f"select {cp} from brapci_oaipmh.oai_listidentify "
     qr += " inner join brapci.source_source on oai_id_jnl = id_jnl "
     qr += " left join brapci.source_issue on oai_issue = is_source_issue "
