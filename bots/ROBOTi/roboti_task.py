@@ -41,12 +41,9 @@ def nextHarvesting():
     q += " and (jnl_active = 1)"
     q += " and (jnl_url_oai <> '')"
     ##q += f" and (jnl_collection <> 'EV')"
-
     q += " order by jnl_oai_last_harvesting"
     q += " limit 1"
     row = database.query(q)
-    print(row)
-    sys.exit()
     return row
 
 def valid(row):
