@@ -368,11 +368,11 @@ def create_issue(JNL,year,vol,nr):
         qri = "insert into brapci.source_issue "
         qri += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
         qri += "is_source_issue, is_place, is_edition, is_cover, is_card,"
-        qri += "is_url_oai)"
+        qri += "is_url_oai, is_nr_original)"
         qri += ' values '
         qri += f"({JNL},{year},'{vol}','','{nr}','', "
         qri += f"{Issue}, '', "
-        qri += "'','','','')"
+        qri += "'','','','','')"
         database.insert(qri)
         row = database.query(qr)
     return row
