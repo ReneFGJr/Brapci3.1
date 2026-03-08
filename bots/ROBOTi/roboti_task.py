@@ -46,6 +46,7 @@ def nextHarvesting():
     q += " )"
     q += " order by jnl_oai_last_harvesting"
     q += " limit 1"
+    print(q)
     row = database.query(q)
     return row
 
