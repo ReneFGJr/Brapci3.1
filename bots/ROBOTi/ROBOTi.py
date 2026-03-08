@@ -431,7 +431,7 @@ def ListIdentiers():
         return ""
 
     # Phase I
-    reg = roboti_task.nextHarvesting()
+    reg = roboti_task.nextHarvesting(1)
 
     if (reg == []):
         print("Removendo TASK HARVESTING")
