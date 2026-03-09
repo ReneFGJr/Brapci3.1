@@ -72,6 +72,8 @@ def process(rg):
             mod_listidentify.updateStatus(ID,10)
         else:
             print(f"  UPDATE WORK ({IDX})")
+            print(data)
+            sys.exit()
             article_data(IDX,rg,data,JNL)
             mod_listidentify.updateStatus(ID,12)
 
