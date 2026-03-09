@@ -405,9 +405,8 @@ def check_title():
         title = mod_nbr.nbr_title(title,rows)
         lang = item[2]
         if (lang == 'nn'):
-            lang2 = mod_language.detect_language(title)
-            print(title,lang2,lang)
-            sys.exit()
+            lang = mod_language.detect_language(title)
+            item[1] = item[1] + " [" + lang + "]"
         if title != item[1]:
             qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = '{lang}' where id_n = {id_n}"
             print('==>',title)
