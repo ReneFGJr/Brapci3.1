@@ -34,7 +34,10 @@ def process(rg):
         ##print(path)
         f = open(path)
         data = json.load(f)
-        print(data)
+
+        ############## Title
+        title = data[2]
+        print("...Title",title)
         sys.exit()
         f.close()
 
