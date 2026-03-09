@@ -48,6 +48,17 @@ class MainPages extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'pdfHarvesting':
+                $IDs = trim((string)get("IDs"));
+                if ($subact == 'form') {
+                    $sx .= view('PDF/HarvestingForm');
+                    break;
+                }
+                if ($IDs == '') {
+                    return redirect()->to(PATH . '/pdfHarvesting/form');
+                }
+                $sx .= view('PDF/HarvestingPDF');
+                break;
             case 'indexes':
                 $Indexes = new \App\Models\Base\Indexes();
                 $sx .= $Indexes->show_index($subact,$id);
