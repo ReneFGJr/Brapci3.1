@@ -219,7 +219,7 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
-                print(data[i])
+                print(T)
                 sys.exit()
                 for it in range(len(T)):
                     lgs = mod_language.detect(T[it])
