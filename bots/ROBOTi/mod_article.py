@@ -35,12 +35,6 @@ def process(rg):
         f = open(path)
         data = json.load(f)
 
-        ############## Title
-        title = data[2]
-        print("...Title",title)
-        sys.exit()
-        f.close()
-
         #Verifica se existe o ID = METHODO 01
         BYPASS = 0
 
@@ -77,8 +71,6 @@ def process(rg):
             mod_listidentify.updateStatus(ID,10)
         else:
             print(f"  UPDATE WORK ({IDX})")
-            print(data)
-            sys.exit()
             article_data(IDX,rg,data,JNL)
             mod_listidentify.updateStatus(ID,12)
 
@@ -227,6 +219,8 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
+                print(data[i])
+                sys.exit()
                 for it in range(len(T)):
                     lgs = mod_language.detect(T[it])
                     mod_data.register_literal(IDC,'hasTitle',lgs[0],lgs[1])
