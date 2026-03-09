@@ -34,6 +34,8 @@ def process(rg):
         ##print(path)
         f = open(path)
         data = json.load(f)
+        print(data)
+        sys.exit()
         f.close()
 
         #Verifica se existe o ID = METHODO 01
