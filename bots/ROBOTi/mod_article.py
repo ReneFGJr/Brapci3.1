@@ -219,11 +219,17 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
-                if isinstance(T, list):
-                    T = T[0]
+                print(T)
                 for it in range(len(T)):
-                    lgs = mod_language.detect(T[it])
-                    mod_data.register_literal(IDC,'hasTitle',lgs[0],lgs[1])
+                    if len(T[it]) > 6:
+                        lgs = mod_language.detect(T[it])
+                        mod_data.register_literal(IDC,'hasTitle',lgs[0],lgs[1])
+                    else:
+                        print("Title muito curto",T[it])
+                        print("ID",IDC)
+                        print("Title",T[it])
+                        print("Idioma registrado",lgs[0],lgs[1])
+                        sys.exit()
 
                 print("===>T",T)
                 sys.exit()
