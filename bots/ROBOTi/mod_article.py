@@ -221,11 +221,12 @@ def article_data(IDC,rg,data,jnl):
                 T = data[i][k]
                 if isinstance(T, list):
                     T = T[0]
-                print("===>T",T)
-                sys.exit()
                 for it in range(len(T)):
                     lgs = mod_language.detect(T[it])
                     mod_data.register_literal(IDC,'hasTitle',lgs[0],lgs[1])
+
+                print("===>T",T)
+                sys.exit()
 
             #################################### Abstract
             if (k == 'abstract'):
