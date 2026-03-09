@@ -219,6 +219,8 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
+                if isinstance(T, list):
+                    T = T[0]
                 print("===>T",T)
                 sys.exit()
                 for it in range(len(T)):
