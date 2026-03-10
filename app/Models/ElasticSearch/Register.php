@@ -72,7 +72,8 @@ class Register extends Model
         // Em CI4, countAllResults($reset=false) evita resetar o builder
         $dtt = $base->where('use',0)->countAllResults(false);
         $dtp = $base->where('use', 0)->where('new',0)->countAllResults(false);
-
+        pre($dtt,false);
+        pre($dtp);
         // Busca paginada e ordenada
         $dta = $base->orderBy('ID', 'DESC')->findAll($limit);
 
