@@ -68,13 +68,14 @@ class Register extends Model
 
         // Total com os mesmos filtros
         // Em CI4, countAllResults($reset=false) evita resetar o builder
-        $dtt = $base->countAllResults(false);
+        $dtt = $base->where('use',0)->countAllResults(false);
+        $dtp = $base->where('use', 0)->where('new',0)->countAllResults(false);
 
         // Busca paginada e ordenada
         $dta = $base->orderBy('ID', 'DESC')->findAll($limit);
 
         // Cabeçalho de status
-        $percent = ($dtt > 0) ? ($offset / max($dtt, 1) * 100) : 100;
+        $percent = ($dtt > 0) ? (max($dtp) / max($dtt, 1) * 100) : 100;
         $sx  = 'Export ElasticSearch v2.2 - ' . $offset . ' of ' . $dtt;
         $sx .= ' (' . number_format($percent, 1) . '%)';
         $sx .= '<hr>';
