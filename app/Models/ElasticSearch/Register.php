@@ -51,6 +51,10 @@ class Register extends Model
 
     public function update_index()
     {
+        if (get('resset') == '1') {
+            $this->set(['new' => 1])->update();
+            return metarefresh(PATH . '/elasticsearch/update_index');
+        }
         $Source = new \App\Models\Base\Sources();
         $API    = new \App\Models\ElasticSearch\API();
 
@@ -68,8 +72,6 @@ class Register extends Model
 
         // Busca paginada e ordenada
         $dta = $base->orderBy('ID', 'DESC')->findAll($limit);
-
-        echo $base->getlastquery(); // DEBUG SQL
 
         // Cabeçalho de status
         $percent = ($dtt > 0) ? ($offset / max($dtt, 1) * 100) : 100;
