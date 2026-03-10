@@ -57,6 +57,7 @@ class Register extends Model
         $type   = 'prod';
         $limit  = 100;
         $offset = (int) (get('offset') ?? 0);
+        $offset = 0;
 
         // Builder base com os MESMOS filtros usados na busca
         $base = $this->where('new', 1)->where('use', 0);
