@@ -67,7 +67,9 @@ class Register extends Model
         $dtt = $base->countAllResults(false);
 
         // Busca paginada e ordenada
-        $dta = $base->orderBy('ID', 'DESC')->findAll($limit, $offset);
+        $dta = $base->orderBy('ID', 'DESC')->findAll($limit);
+
+        echo $base->getlastquery(); // DEBUG SQL
 
         // Cabeçalho de status
         $percent = ($dtt > 0) ? ($offset / max($dtt, 1) * 100) : 100;
