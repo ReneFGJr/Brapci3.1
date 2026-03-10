@@ -102,7 +102,7 @@ class Register extends Model
             ? ($dtp / ($dtt + $dtp)) * 100
             : 100;
 
-        $sx  = 'Export ElasticSearch v2.2 - ' . $offset . ' of ' . ($dtt + $dtp);
+        $sx  = 'Export ElasticSearch v2.2 - ' . $dtp . ' of ' . ($dtt + $dtp);
         $sx .= ' (' . number_format($percent, 1) . '%)';
         $sx .= '<hr>';
 
