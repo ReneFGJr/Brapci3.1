@@ -54,36 +54,61 @@ class Register extends Model
         if (get('resset') == '1') {
             $dd = [];
             $dd['new'] = 1;
-            $this->set($dd)->where('new',0)->where('use',0)->update();
+
+            $this->set($dd)
+                ->where('new', 0)
+                ->where('use', 0)
+                ->update();
+
             return metarefresh(PATH . '/elasticsearch/update_index');
         }
+
         $Source = new \App\Models\Base\Sources();
         $API    = new \App\Models\ElasticSearch\API();
 
         $type   = 'prod';
         $limit  = 100;
-        $offset = (int) (get('offset') ?? 0);
         $offset = 0;
 
-        // Builder base com os MESMOS filtros usados na busca
-        $base = $this->where('new', 1)->where('use', 0);
+        /*
+    TOTAL A INDEXAR
+    */
+        $dtt = $this
+            ->where('new', 1)
+            ->where('use', 0)
+            ->countAllResults();
 
-        // Total com os mesmos filtros
-        // Em CI4, countAllResults($reset=false) evita resetar o builder
-        $dtt = $base->where('use',0)->countAllResults(false);
-        $dtp = $base->where('use', 0)->where('new',0)->countAllResults(false);
-        pre($dtt,false);
-        pre($dtp);
-        // Busca paginada e ordenada
-        $dta = $base->orderBy('ID', 'DESC')->findAll($limit);
+        /*
+    TOTAL PROCESSADO
+    */
+        $dtp = $this
+            ->where('new', 0)
+            ->where('use', 0)
+            ->countAllResults();
 
-        // Cabeçalho de status
-        $percent = ($dtt > 0) ? (max($dtp) / max($dtt, 1) * 100) : 100;
-        $sx  = 'Export ElasticSearch v2.2 - ' . $offset . ' of ' . $dtt;
+        /*
+    REGISTROS PARA PROCESSAR
+    */
+        $dta = $this
+            ->where('new', 1)
+            ->where('use', 0)
+            ->orderBy('ID', 'DESC')
+            ->findAll($limit);
+
+        /*
+    PROGRESSO
+    */
+        $percent = ($dtt > 0)
+            ? ($dtp / ($dtt + $dtp)) * 100
+            : 100;
+
+        $sx  = 'Export ElasticSearch v2.2 - ' . $offset . ' of ' . ($dtt + $dtp);
         $sx .= ' (' . number_format($percent, 1) . '%)';
         $sx .= '<hr>';
 
-        // Helpers internos
+        /*
+    NORMALIZADOR
+    */
         $norm = static function ($s) {
             $s = is_string($s) ? trim($s) : '';
             if ($s === '') return '';
