@@ -225,6 +225,7 @@ class Register extends Model
             $sx .= metarefresh(PATH . '/elasticsearch/update_index?offset=' . ($offset + $limit), 1);
         } else {
             $sx = bsmessage('Elastic Search Exported', 1);
+            $sx .= '<a href="' . PATH . '/elasticsearch/update_index?resset=1">' . bsicone('reload') . ' Resetar tudo</a>';
         }
 
         return bs(bsc($sx, 12));
@@ -444,6 +445,7 @@ class Register extends Model
             $sx .= metarefresh(PATH . '/elasticsearch/update_index?offset=' . ($offset + $limit), 1);
         } else {
             $sx = bsmessage('Elastic Search Exported', 1);
+            $sx .= '<a href="' . PATH . '/elasticsearch/update_index?resset=1">' . bsicone('reload') . ' Resetar tudo</a>';
         }
         $sx = bs(bsc($sx, 12));
         return $sx;
