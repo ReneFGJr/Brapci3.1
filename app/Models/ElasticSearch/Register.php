@@ -52,7 +52,7 @@ class Register extends Model
     public function update_index()
     {
         if (get('resset') == '1') {
-            $this->set(['new' => 1])->update();
+            $this->set(['new' => 1])->where('new',0)->update();
             return metarefresh(PATH . '/elasticsearch/update_index');
         }
         $Source = new \App\Models\Base\Sources();
