@@ -17,3 +17,4 @@ bots/ROBOTi/env.py
 *.weights
 *.bin
 *.sqlite3
+/bots/AI/SmartRetriavel/venv/Lib
