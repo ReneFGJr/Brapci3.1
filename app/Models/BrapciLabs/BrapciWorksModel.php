@@ -129,7 +129,10 @@ class BrapciWorksModel extends Model
         }
         echo '<h4>SmartRetriavel</h4>';
         echo '<p><b>Query:</b> ' . $query . ' - Project: ' . $project . '</p>';
-        echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a></p>';
+        echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a>
+                | <a href="' . base_url('BrapciLabs/BrapciWorks/updateVC/' . $thesaVC) . '" class="btn btn-sm btn-secondary" title="Atualizar vocabulário"><li class="bi bi-arrow-repeat"></a>
+                | <a href="' . base_url('BrapciLabs/BrapciWorks/viewVC/' . $thesaVC) . '?query=' . urlencode($query) . '&project=' . urlencode($project) . '" class="btn btn-sm btn-primary" title="Reexecutar busca">Reexecutar</a>
+        </p>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
