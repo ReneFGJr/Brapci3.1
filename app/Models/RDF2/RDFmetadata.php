@@ -626,10 +626,11 @@ class RDFmetadata extends Model
         foreach ($YEARS as $year) {
             array_push($sYEARS, $year);
         }
-
+        /* remover futuramente */
         $dr['issue'] = $ISSUE;
         $dr['issue_years'] = $sYEARS;
 
+        /* Novo Issues */
         $Issues = new \App\Models\Base\Issues();
         $dt['issues'] = $Issues->issuesRow($dt['id_jnl']);
 
