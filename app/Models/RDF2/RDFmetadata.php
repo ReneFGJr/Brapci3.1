@@ -627,6 +627,8 @@ class RDFmetadata extends Model
             array_push($sYEARS, $year);
         }
 
+        pre($ISSUE);
+
         $dr['issue'] = $ISSUE;
         $dr['issue_years'] = $sYEARS;
 
