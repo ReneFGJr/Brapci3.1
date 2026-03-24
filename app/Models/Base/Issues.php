@@ -541,6 +541,11 @@ class Issues extends Model
             $I = [];
             $I['year'] = $line['is_year'];
             $I['vol'] = $line['is_vol_roman'];
+            if ($I['vol'] == '')
+                {
+                    $I['vol'] = $line['is_vol'];
+                }
+            $I['nr'] = $line['is_nr'];
             $I['thema'] = $line['is_thema'];
             $I['acron'] = $line['jnl_name_abrev'];
             $I['place'] = $line['is_place'];
