@@ -20,6 +20,11 @@ class BrapciLabAbs extends BaseController
 
     private function viewVC(string $id)
     {
+        $dataVC = $this->dataVC($id);
+        return view($dataVC);
+    }
+    private function dataVC(string $id)
+    {
         if ($id === '' || !ctype_digit($id)) {
             return $this->response->setStatusCode(400)->setBody('ID do vocabulário inválido.');
         }
@@ -59,10 +64,7 @@ class BrapciLabAbs extends BaseController
             'hierarchy' => $hierarchy,
             'termsByConcept' => $termsByConcept,
         ];
-
-        pre($data);
-
-        return view('Abs/view_vc', $data);
+        return $data;
     }
 
     private function parseNet(string $path): array
