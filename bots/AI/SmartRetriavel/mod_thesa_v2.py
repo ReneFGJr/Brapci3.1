@@ -277,7 +277,7 @@ def rag_query_v2(question: str, json_path: str):
 
     print("LLM concepts:", llm_concepts)
     print("Authorized terms (flattened):", flat_terms)
-    print("Thesaurus concepts:", list(thesaurus.keys()))
+    print("Thesaurus concepts:", json_path)
     print("*" * 50)
 
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
