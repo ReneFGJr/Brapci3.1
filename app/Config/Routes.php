@@ -359,6 +359,12 @@ $routes->post('/tools/(:any)', 'Tools::index/$1');
 $routes->get('/thesa/(:any)', 'Thesa::index/$1');
 $routes->get('/thesa', 'Thesa::index');
 
+/********* ABS */
+$routes->get('/abs', 'Abs::index');
+$routes->get('/abs/(:any)', 'Abs::index/$1');
+$routes->get('/abs/(:any)/(:any)', 'Abs::index/$1/$2');
+$routes->get('/abs/(:any)/(:any)/(:any)', 'Abs::index/$1/$2/$3');
+
 /********** Others */
 //$routes->get('(:any)', 'MainPages::index/$1');
 $routes->get('(:any)', 'MainPages::index/$1');
