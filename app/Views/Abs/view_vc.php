@@ -1,11 +1,7 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Visualizador VC <?= esc($vocabularyId) ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+<?= view('BrapciLabs/layout/header'); ?>
+<?= view('BrapciLabs/layout/sidebar'); ?>
+
+<style>
         :root {
             --bg: #f5f7fb;
             --card: #ffffff;
@@ -72,18 +68,18 @@
             color: var(--muted);
             font-size: .86rem;
         }
-    </style>
-</head>
-<body>
-<div class="container py-4 py-md-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-xl-11">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4 p-md-5">
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
-                        <h1 class="h3 mb-0">Visualizador de Hierarquia VC <?= esc($vocabularyId) ?></h1>
-                        <a href="<?= esc(base_url('abs/viewVC/' . $vocabularyId)) ?>" class="btn btn-outline-secondary btn-sm">Recarregar</a>
-                    </div>
+</style>
+
+<div class="content">
+    <div class="container py-4 py-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-11">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+                            <h1 class="h3 mb-0">Visualizador de Hierarquia VC <?= esc($vocabularyId) ?></h1>
+                            <a href="<?= esc(base_url('labs/viewVC/' . $vocabularyId)) ?>" class="btn btn-outline-secondary btn-sm">Recarregar</a>
+                        </div>
 
                     <p class="text-secondary mb-3">
                         Estrutura lida do arquivo <strong><?= esc(basename($netPath)) ?></strong> com rótulos do
@@ -163,17 +159,20 @@
                     };
                     ?>
 
-                    <div class="tree">
-                        <ul>
-                            <?php foreach ($hierarchy as $rootNode): ?>
-                                <?php $renderNode($rootNode); ?>
-                            <?php endforeach; ?>
-                        </ul>
+                        <div class="tree">
+                            <ul>
+                                <?php foreach ($hierarchy as $rootNode): ?>
+                                    <?php $renderNode($rootNode); ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<?= view('BrapciLabs/layout/footer'); ?>
 </body>
 </html>
