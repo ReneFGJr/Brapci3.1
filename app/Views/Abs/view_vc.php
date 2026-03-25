@@ -129,7 +129,7 @@
 
                         echo '<li>';
                         echo '<div class="node-card">';
-                        echo '<span class="node-id">' . esc($rawLabel) . '</span>';
+                        echo '<span class="node-id">[' . esc($rawLabel) . ']</span>';
 
                         if ($preferred !== '') {
                             echo '<span class="node-label">' . esc($preferred) . '</span>';
