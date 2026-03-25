@@ -72,7 +72,7 @@
 </style>
 
 <div class="content">
-    <div class="container py-4 py-md-5">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12 col-xl-11">
                 <div class="card border-0 shadow-sm">
