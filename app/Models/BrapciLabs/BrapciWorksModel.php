@@ -164,7 +164,7 @@ class BrapciWorksModel extends Model
         $output = shell_exec($command);
 
         echo "<h2>Respota</h2>";
-        pre($output);
+        pre($output, false);
 
 
 
