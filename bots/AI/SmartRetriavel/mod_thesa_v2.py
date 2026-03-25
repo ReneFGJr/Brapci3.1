@@ -197,7 +197,6 @@ def load_all_variants(terms_json_path: str) -> dict:
             })
 
         total_terms = sum(len(v) for v in variantes.values())
-        print(f"✓ {total_terms} variantes carregadas de {terms_json_path}")
         return variantes
 
     except json.JSONDecodeError as e:
@@ -455,26 +454,48 @@ def recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes):
                 if desc_concept_id is not None and desc_concept_id != str(concept_id):
                     specific_concepts.add(desc_concept_id)
 
-        # Traduz IDs para termos (usa a primeira variante disponível)
+        # Traduz IDs para termos (retorna todas as variantes de cada ID)
+        sorted_specific_ids = sorted(
+            specific_concepts,
+            key=lambda x: int(x) if str(x).isdigit() else str(x)
+        )
+
+        specific_terms_by_concept = {}
         specific_terms = []
-        for sid in sorted(specific_concepts, key=lambda x: int(x) if str(x).isdigit() else str(x)):
+
+        for sid in sorted_specific_ids:
             terms_for_id = variantes.get(str(sid), [])
+
             if terms_for_id:
-                specific_terms.append(terms_for_id[0].get("term", str(sid)))
+                all_terms = []
+                for item in terms_for_id:
+                    term = item.get("term", "")
+                    if term and term not in all_terms:
+                        all_terms.append(term)
+
+                specific_terms_by_concept[str(sid)] = all_terms
+                specific_terms.extend(all_terms)
             else:
+                specific_terms_by_concept[str(sid)] = [str(sid)]
                 specific_terms.append(str(sid))
 
         result[str(concept_id)] = {
             "node_matches": sorted(node_matches),
-            "specific_concept_ids": sorted(specific_concepts, key=lambda x: int(x) if str(x).isdigit() else str(x)),
-            "specific_terms": specific_terms
+            "specific_concept_ids": sorted_specific_ids,
+            "specific_terms_by_concept": specific_terms_by_concept,
+            "specific_terms": specific_terms,
+            "principal_variants": [
+                item.get("term", "")
+                for item in variantes.get(str(concept_id), [])
+                if item.get("term", "")
+            ]
         }
 
     return result
 
 
 def recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes):
-        """
+    """
         Recupera termos específicos preservando o contexto por termo do LLM.
 
         Entrada esperada:
@@ -500,16 +521,29 @@ def recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, varian
             }
         }
         """
-        result = {}
-        for llm_term, ids in llm_conceptsID.items():
-                ids = [str(i) for i in ids]
-                specific_by_id = recover_specific_terms_by_llm_ids(ids, net_terms, variantes)
-                result[llm_term] = {
-                        "ids": ids,
-                        "specific_by_id": specific_by_id
-                }
+    result = {}
+    for llm_term, ids in llm_conceptsID.items():
+        ids = [str(i) for i in ids]
+        specific_by_id = recover_specific_terms_by_llm_ids(ids, net_terms, variantes)
 
-        return result
+        # Variantes apenas do ID principal (primeiro ID associado ao termo LLM)
+        principal_id = ids[0] if ids else ""
+        principal_variants = []
+        if principal_id:
+            terms_for_id = variantes.get(principal_id, [])
+            for item in terms_for_id:
+                term = item.get("term", "")
+                if term and term not in principal_variants:
+                    principal_variants.append(term)
+
+        result[llm_term] = {
+                "ids": ids,
+                "principal_id": principal_id,
+                "principal_variants": principal_variants,
+                "specific_by_id": specific_by_id
+        }
+
+    return result
 
 # =========
 def process_smartretriavel_py(data, thesaurus):
@@ -577,55 +611,22 @@ def rag_query_v2(question: str, json_path: str):
 
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
+
+    # Termos alinhados no vocabulário autorizado
+    flat_terms = [term for group in authorized_terms for term in group]
+    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
-
-    print("-"*50)
-    print("Conceitos interpretados pelo LLM:", llm_concepts)
-    print("-"*50)
-    print("IDs de conceito identificados pelo LLM:", llm_conceptsID)
-    print("-" * 50)
-    print("IDs únicos de conceito identificados pelo LLM:", llm_ids_unicos)
-
-    print("-"*50)
-    for concept_id, details in llm_specific_terms_by_id.items():
-        print(f"\n\nID Conceito LLM: {concept_id}")
-        print(f"  Nós do .net correspondentes: {details['node_matches']}")
-        print(f"  IDs de conceitos específicos recuperados: {details['specific_concept_ids']}")
-        print(f"  Termos específicos recuperados: {details['specific_terms']}")
-    sys.exit();
-
-
-    # flatten vocabulary
-    flat_terms = [term for group in authorized_terms for term in group]
-
-    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
-    #aligned_terms = llm_concepts
-    print("Conceitos Alinhados:", aligned_terms)
-    if (not os.path.exists(json_path)):
-        print("Erro: arquivo do tesauro não encontrado.")
-        sys.exit(1)
-
-    if (not os.path.exists(json_terms)):
-        print("Erro: arquivo de termos autorizados não encontrado.")
-        sys.exit(1)
-
-    if (not os.path.exists(net_terms)):
-        print("Erro: arquivo .net não encontrado.")
-        sys.exit(1)
 
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
-        "llm_conceptsID": llm_conceptsID,
-        "llm_ids_unicos": llm_ids_unicos,
-        "llm_specific_terms_by_id": llm_specific_terms_by_id,
-        "llm_specific_terms": llm_specific_terms,
-        "termos_autorizados_alinhados": aligned_terms,
-        "variantes_carregadas": variantes,
-        "total_ids_conceito": len(variantes),
-        "total_variantes": sum(len(v) for v in variantes.values())
-    }
+        "llm_conceptsID": llm_specific_terms_by_id
+        }
+
+    print(base_result)
+    sys.exit(0)
 
     expanded = process_smartretriavel_py(base_result, thesaurus)
 

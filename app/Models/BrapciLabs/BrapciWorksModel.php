@@ -258,6 +258,8 @@ class BrapciWorksModel extends Model
     {
         $T = [];
 
+        pre($data);
+
         // 🔹 Junta os termos vindos do LLM e os autorizados
         $t = [];
 
