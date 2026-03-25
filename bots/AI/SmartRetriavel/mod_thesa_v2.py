@@ -333,6 +333,184 @@ def map_llm_concepts_to_ids(llm_concepts, variantes, cutoff=0.85):
     ids_unicos = sorted(ids_unicos, key=lambda x: int(x) if x.isdigit() else x)
     return llm_concepts_id, ids_unicos
 
+
+def load_net_graph(net_path: str):
+    """
+    Carrega grafo do arquivo .net (Pajek).
+
+    Retorna:
+    - nodes: {node_id: label}
+    - children: {node_id: [child_id, ...]}
+    """
+    full_path = Path(net_path)
+    if not full_path.is_absolute():
+        full_path = BASE_DIR / net_path
+
+    nodes = {}
+    children = {}
+
+    if not full_path.exists() or not full_path.is_file():
+        return nodes, children
+
+    in_vertices = False
+    in_arcs = False
+
+    with open(full_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+
+            if line.lower().startswith("*vertices"):
+                in_vertices = True
+                in_arcs = False
+                continue
+
+            if line.lower().startswith("*arcs") or line.lower().startswith("*edges"):
+                in_vertices = False
+                in_arcs = True
+                continue
+
+            if in_vertices:
+                m = re.match(r'^(\d+)\s+"([^"]+)"$', line)
+                if m:
+                    node_id = int(m.group(1))
+                    label = m.group(2)
+                    nodes[node_id] = label
+                    if node_id not in children:
+                        children[node_id] = []
+                continue
+
+            if in_arcs:
+                m = re.match(r'^(\d+)\s+(\d+)', line)
+                if m:
+                    parent = int(m.group(1))
+                    child = int(m.group(2))
+                    if parent not in children:
+                        children[parent] = []
+                    children[parent].append(child)
+                    if child not in children:
+                        children[child] = []
+
+    return nodes, children
+
+
+def extract_concept_id_from_label(label: str):
+    """
+    Extrai o ID conceitual de labels no formato "Termo 123".
+    """
+    m = re.search(r'\b[Tt]ermo\s+(\d+)\b', label or "")
+    if m:
+        return m.group(1)
+    return None
+
+
+def recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes):
+    """
+    A partir dos IDs únicos identificados pelo LLM, recupera termos específicos
+    no grafo .net (descendentes do nó correspondente a "Termo ID").
+
+    Retorna estrutura por ID:
+    {
+      "1420": {
+         "node_matches": [4],
+         "specific_concept_ids": ["1421", "1493"],
+         "specific_terms": ["Inteligência Aumentada", "Metadados"]
+      }
+    }
+    """
+    nodes, children = load_net_graph(net_terms)
+
+    # Mapa: conceito -> nós do .net cujo label contém "Termo <conceito>"
+    concept_to_node_ids = {}
+    for node_id, label in nodes.items():
+        concept_id = extract_concept_id_from_label(label)
+        if concept_id is None:
+            continue
+        if concept_id not in concept_to_node_ids:
+            concept_to_node_ids[concept_id] = []
+        concept_to_node_ids[concept_id].append(node_id)
+
+    def dfs_descendants(start_node):
+        visited = set()
+        stack = list(children.get(start_node, []))
+        while stack:
+            cur = stack.pop()
+            if cur in visited:
+                continue
+            visited.add(cur)
+            stack.extend(children.get(cur, []))
+        return visited
+
+    result = {}
+    for concept_id in llm_ids_unicos:
+        node_matches = concept_to_node_ids.get(str(concept_id), [])
+        specific_concepts = set()
+
+        for node_id in node_matches:
+            descendants = dfs_descendants(node_id)
+            for desc_node in descendants:
+                desc_label = nodes.get(desc_node, "")
+                desc_concept_id = extract_concept_id_from_label(desc_label)
+                if desc_concept_id is not None and desc_concept_id != str(concept_id):
+                    specific_concepts.add(desc_concept_id)
+
+        # Traduz IDs para termos (usa a primeira variante disponível)
+        specific_terms = []
+        for sid in sorted(specific_concepts, key=lambda x: int(x) if str(x).isdigit() else str(x)):
+            terms_for_id = variantes.get(str(sid), [])
+            if terms_for_id:
+                specific_terms.append(terms_for_id[0].get("term", str(sid)))
+            else:
+                specific_terms.append(str(sid))
+
+        result[str(concept_id)] = {
+            "node_matches": sorted(node_matches),
+            "specific_concept_ids": sorted(specific_concepts, key=lambda x: int(x) if str(x).isdigit() else str(x)),
+            "specific_terms": specific_terms
+        }
+
+    return result
+
+
+def recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes):
+        """
+        Recupera termos específicos preservando o contexto por termo do LLM.
+
+        Entrada esperada:
+        {
+            "termo llm A": ["1420", "1493"],
+            "termo llm B": ["1472"]
+        }
+
+        Saída:
+        {
+            "termo llm A": {
+                "ids": ["1420", "1493"],
+                "specific_by_id": {
+                    "1420": {...},
+                    "1493": {...}
+                }
+            },
+            "termo llm B": {
+                "ids": ["1472"],
+                "specific_by_id": {
+                    "1472": {...}
+                }
+            }
+        }
+        """
+        result = {}
+        for llm_term, ids in llm_conceptsID.items():
+                ids = [str(i) for i in ids]
+                specific_by_id = recover_specific_terms_by_llm_ids(ids, net_terms, variantes)
+                result[llm_term] = {
+                        "ids": ids,
+                        "specific_by_id": specific_by_id
+                }
+
+        return result
+
 # =========
 def process_smartretriavel_py(data, thesaurus):
     """
@@ -399,11 +577,23 @@ def rag_query_v2(question: str, json_path: str):
 
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
+    llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
+    llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
 
-    print(llm_conceptsID)
-    print(llm_ids_unicos)
-    sys.exit()
+    print("-"*50)
+    print("Conceitos interpretados pelo LLM:", llm_concepts)
+    print("-"*50)
+    print("IDs de conceito identificados pelo LLM:", llm_conceptsID)
+    print("-" * 50)
+    print("IDs únicos de conceito identificados pelo LLM:", llm_ids_unicos)
 
+    print("-"*50)
+    for concept_id, details in llm_specific_terms_by_id.items():
+        print(f"\n\nID Conceito LLM: {concept_id}")
+        print(f"  Nós do .net correspondentes: {details['node_matches']}")
+        print(f"  IDs de conceitos específicos recuperados: {details['specific_concept_ids']}")
+        print(f"  Termos específicos recuperados: {details['specific_terms']}")
+    sys.exit();
 
 
     # flatten vocabulary
@@ -429,6 +619,8 @@ def rag_query_v2(question: str, json_path: str):
         "conceitos_interpretados_pelo_llm": llm_concepts,
         "llm_conceptsID": llm_conceptsID,
         "llm_ids_unicos": llm_ids_unicos,
+        "llm_specific_terms_by_id": llm_specific_terms_by_id,
+        "llm_specific_terms": llm_specific_terms,
         "termos_autorizados_alinhados": aligned_terms,
         "variantes_carregadas": variantes,
         "total_ids_conceito": len(variantes),
