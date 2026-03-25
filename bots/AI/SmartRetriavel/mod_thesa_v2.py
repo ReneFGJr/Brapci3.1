@@ -277,8 +277,12 @@ def rag_query_v2(question: str, json_path: str):
 
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
     #aligned_terms = llm_concepts
-    print("Conceitos interpretados pelo LLM:", aligned_terms)
-    sys.exit()
+    print("Conceitos Alinhados:", aligned_terms)
+    print("FILE", json_path)
+    sys.exit
+
+
+
 
     base_result = {
         "pergunta_original": question,
