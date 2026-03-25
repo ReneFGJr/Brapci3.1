@@ -597,7 +597,7 @@ def build_estrategia_expansao(llm_specific_terms):
 
         specific_by_id = payload.get("specific_by_id", {})
         for specific_data in specific_by_id.values():
-            terms_map = specific_data.get("specific_terms_by_concept", {})
+            terms_map = specific_data.get("principal_variants", {})
             for terms in terms_map.values():
                 for term in terms:
                     if term and term not in estrategia:
@@ -684,12 +684,12 @@ def rag_query_v2(question: str, json_path: str):
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
-#        "llm_ids_unicos": llm_ids_unicos,
-#        "llm_specific_terms_by_id": llm_specific_terms_by_id,
+    #        "llm_ids_unicos": llm_ids_unicos,
+    #        "llm_specific_terms_by_id": llm_specific_terms_by_id,
         "llm_specific_terms": llm_specific_terms,
         "estrategia_expansao": estrategia_expansao,
         "termos_autorizados_alinhados": aligned_terms,
-#        "variantes_carregadas": variantes,
+    #        "variantes_carregadas": variantes,
         "total_ids_conceito": len(variantes),
         "total_variantes": sum(len(v) for v in variantes.values())
     }
