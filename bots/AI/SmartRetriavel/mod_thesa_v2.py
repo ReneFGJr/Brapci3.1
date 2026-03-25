@@ -688,7 +688,7 @@ def rag_query_v2(question: str, json_path: str):
         "conceitos_interpretados_pelo_llm": llm_concepts,
     #        "llm_ids_unicos": llm_ids_unicos,
     #        "llm_specific_terms_by_id": llm_specific_terms_by_id,
-        "llm_specific_terms": llm_specific_terms,
+    #        "llm_specific_terms": llm_specific_terms,
         "estrategia_expansao": estrategia_expansao,
         "termos_autorizados_alinhados": aligned_terms,
     #        "variantes_carregadas": variantes,
