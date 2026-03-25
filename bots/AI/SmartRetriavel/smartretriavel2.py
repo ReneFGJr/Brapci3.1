@@ -30,8 +30,13 @@ def main():
 
     resultado = mod_thesa_v2.rag_query_v2(pergunta, memory)
 
+    #resultado_el = mod_elasticsearch.search_elastic_with_expansion(
+    #    consulta_expandida_array=resultado["consulta_expandida_array"],
+    #    id_list=IDS
+    #)
+
     resultado_el = mod_elasticsearch.search_elastic_with_expansion(
-        consulta_expandida_array=resultado["consulta_expandida_array"],
+        consulta_expandida_array=resultado["estrategia_expansao"],
         id_list=IDS
     )
 
