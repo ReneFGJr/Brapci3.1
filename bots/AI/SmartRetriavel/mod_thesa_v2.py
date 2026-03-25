@@ -288,6 +288,43 @@ def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
     return sorted(matched_terms)
 
 
+def align_with_vocabulary_grouped(concepts, authorized_groups, cutoff=0.70):
+    """
+    Alinha conceitos do LLM aos termos autorizados preservando grupos.
+    Retorna lista de grupos (apenas grupos com match), por exemplo:
+    [["Catalogação", "Representação Descritiva"], ["IA Generativa"]]
+    """
+    normalized_vocab = {}
+    term_to_groups = {}
+
+    for group_idx, group in enumerate(authorized_groups):
+        for term in group:
+            norm = normalize(term)
+            normalized_vocab[norm] = term
+            if norm not in term_to_groups:
+                term_to_groups[norm] = []
+            if group_idx not in term_to_groups[norm]:
+                term_to_groups[norm].append(group_idx)
+
+    grouped_matches = [[] for _ in authorized_groups]
+
+    for concept in concepts:
+        norm_concept = normalize(concept)
+        matches = get_close_matches(
+            norm_concept,
+            normalized_vocab.keys(),
+            n=1,
+            cutoff=cutoff
+        )
+        for m in matches:
+            original_term = normalized_vocab[m]
+            for group_idx in term_to_groups.get(m, []):
+                if original_term not in grouped_matches[group_idx]:
+                    grouped_matches[group_idx].append(original_term)
+
+    return [group for group in grouped_matches if group]
+
+
 def map_llm_concepts_to_ids(llm_concepts, variantes, cutoff=0.85):
     """
     Compara conceitos vindos do LLM com variantes e recupera IDs de conceito.
@@ -587,7 +624,12 @@ def process_smartretriavel_py(data, thesaurus):
         terms += data["conceitos_interpretados_pelo_llm"]
 
     if "termos_autorizados_alinhados" in data:
-        terms += data["termos_autorizados_alinhados"]
+        aligned = data["termos_autorizados_alinhados"]
+        if aligned and isinstance(aligned[0], list):
+            for group in aligned:
+                terms += group
+        else:
+            terms += aligned
 
     # 🔹 Normaliza e remove duplicados
     terms = list(set([normalize(t) for t in terms]))
@@ -636,8 +678,7 @@ def rag_query_v2(question: str, json_path: str):
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     # Termos alinhados no vocabulário autorizado
-    flat_terms = [term for group in authorized_terms for term in group]
-    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+    aligned_terms = align_with_vocabulary_grouped(llm_concepts, authorized_terms)
 
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
