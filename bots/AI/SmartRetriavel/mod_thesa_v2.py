@@ -275,6 +275,9 @@ def rag_query_v2(question: str, json_path: str):
     # flatten vocabulary
     flat_terms = [term for group in authorized_terms for term in group]
 
+    print("LLM concepts:", llm_concepts)
+    print("Authorized terms (flattened):", flat_terms)
+
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
     #aligned_terms = llm_concepts
 
