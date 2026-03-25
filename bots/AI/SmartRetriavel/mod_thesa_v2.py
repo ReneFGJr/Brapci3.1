@@ -133,6 +133,81 @@ def load_authorized_terms(json_path: str):
         print(f"❌ Erro ao carregar JSON: {e}")
         return []
 
+# ========= Carregar Todas as Variantes (Agrupadas por ID) =========
+def load_all_variants(terms_json_path: str) -> dict:
+    """
+    Lê arquivo de termos JSON e cria um dicionário agrupado por ID de conceito.
+
+    Retorna estrutura:
+    {
+        "322": [
+            {
+                "id": "0",
+                "term": "ChatGPT",
+                "normalized": "chatgpt"
+            }
+        ],
+        "1420": [
+            {
+                "id": "4",
+                "term": "Audiobooks",
+                "normalized": "audiobooks"
+            },
+            {
+                "id": "5",
+                "term": "Audiolivros",
+                "normalized": "audiolivros"
+            }
+        ]
+    }
+    """
+    json_file = BASE_DIR / terms_json_path
+    variantes = {}
+
+    try:
+        if not json_file.exists():
+            print(f"❌ Arquivo não encontrado: {json_file}")
+            return variantes
+
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        entries = []
+        if isinstance(data, dict):
+            entries = list(data.items())
+        elif isinstance(data, list):
+            entries = [(str(idx), entry_data) for idx, entry_data in enumerate(data)]
+
+        for entry_id, entry_data in entries:
+            if not isinstance(entry_data, dict):
+                continue
+
+            concept_id = str(entry_data.get("concept", "")).strip()
+            term = str(entry_data.get("term", "")).strip()
+            if concept_id == "" or term == "":
+                continue
+
+            if concept_id not in variantes:
+                variantes[concept_id] = []
+
+            variantes[concept_id].append({
+                "id": str(entry_id),
+                "term": term,
+                "normalized": normalize(term)
+            })
+
+        total_terms = sum(len(v) for v in variantes.values())
+        print(f"✓ {total_terms} variantes carregadas de {terms_json_path}")
+        return variantes
+
+    except json.JSONDecodeError as e:
+        print(f"❌ Erro ao decodificar JSON: {e}")
+        return variantes
+
+    except Exception as e:
+        print(f"❌ Erro ao carregar variantes: {e}")
+        return variantes
+
 
 
 # ========= Chamada ao Ollama =========
@@ -213,6 +288,51 @@ def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
 
     return sorted(matched_terms)
 
+
+def map_llm_concepts_to_ids(llm_concepts, variantes, cutoff=0.85):
+    """
+    Compara conceitos vindos do LLM com variantes e recupera IDs de conceito.
+
+    Retorna:
+    - llm_concepts_id: dict {"termo_llm": ["id_conceito", ...]}
+    - ids_unicos: lista ordenada de IDs encontrados
+    """
+    term_to_ids = {}
+
+    for concept_id, terms in variantes.items():
+        for item in terms:
+            term_norm = item.get("normalized", "")
+            if not term_norm:
+                continue
+
+            if term_norm not in term_to_ids:
+                term_to_ids[term_norm] = set()
+            term_to_ids[term_norm].add(str(concept_id))
+
+    llm_concepts_id = {}
+    ids_unicos = set()
+
+    vocab_norm = list(term_to_ids.keys())
+    for llm_term in llm_concepts:
+        llm_norm = normalize(llm_term)
+        ids_found = set()
+
+        # Match exato normalizado
+        if llm_norm in term_to_ids:
+            ids_found.update(term_to_ids[llm_norm])
+        else:
+            # Match aproximado para reduzir perdas por pequenas variações
+            matches = get_close_matches(llm_norm, vocab_norm, n=3, cutoff=cutoff)
+            for m in matches:
+                ids_found.update(term_to_ids[m])
+
+        ids_list = sorted(ids_found, key=lambda x: int(x) if x.isdigit() else x)
+        llm_concepts_id[llm_term] = ids_list
+        ids_unicos.update(ids_found)
+
+    ids_unicos = sorted(ids_unicos, key=lambda x: int(x) if x.isdigit() else x)
+    return llm_concepts_id, ids_unicos
+
 # =========
 def process_smartretriavel_py(data, thesaurus):
     """
@@ -267,10 +387,24 @@ def process_smartretriavel_py(data, thesaurus):
 # ========= Função principal RAG =========
 def rag_query_v2(question: str, json_path: str):
 
+    json_terms = json_path.replace('.json', '_terms.json')
+    net_terms = json_path.replace('.json', '.net')
+
+    # 🔹 NOVO: Carrega TODAS as variantes do JSON em um array
+    variantes = load_all_variants(json_terms)
+
+    # Carrega o tesauro e os termos autorizados
     thesaurus = load_thesaurus(json_path)
     authorized_terms = load_authorized_terms(json_path)
 
     llm_concepts = ollama_interpret(question, authorized_terms)
+    llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
+
+    print(llm_conceptsID)
+    print(llm_ids_unicos)
+    sys.exit()
+
+
 
     # flatten vocabulary
     flat_terms = [term for group in authorized_terms for term in group]
@@ -278,16 +412,27 @@ def rag_query_v2(question: str, json_path: str):
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
     #aligned_terms = llm_concepts
     print("Conceitos Alinhados:", aligned_terms)
-    print("FILE", json_path)
-    sys.exit
+    if (not os.path.exists(json_path)):
+        print("Erro: arquivo do tesauro não encontrado.")
+        sys.exit(1)
 
+    if (not os.path.exists(json_terms)):
+        print("Erro: arquivo de termos autorizados não encontrado.")
+        sys.exit(1)
 
-
+    if (not os.path.exists(net_terms)):
+        print("Erro: arquivo .net não encontrado.")
+        sys.exit(1)
 
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
-        "termos_autorizados_alinhados": aligned_terms
+        "llm_conceptsID": llm_conceptsID,
+        "llm_ids_unicos": llm_ids_unicos,
+        "termos_autorizados_alinhados": aligned_terms,
+        "variantes_carregadas": variantes,
+        "total_ids_conceito": len(variantes),
+        "total_variantes": sum(len(v) for v in variantes.values())
     }
 
     expanded = process_smartretriavel_py(base_result, thesaurus)
