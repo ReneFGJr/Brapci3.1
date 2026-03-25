@@ -548,30 +548,23 @@ def recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, varian
 
 def build_estrategia_expansao(llm_specific_terms):
     """
-    Gera uma estratégia de expansão por termo do LLM,
+    Gera uma estratégia de expansão em lista única,
     unindo variantes principais + termos específicos por conceito.
     """
     estrategia = []
 
-    for llm_term, payload in llm_specific_terms.items():
-        termos_expansao = []
-
+    for _, payload in llm_specific_terms.items():
         for term in payload.get("principal_variants", []):
-            if term and term not in termos_expansao:
-                termos_expansao.append(term)
+            if term and term not in estrategia:
+                estrategia.append(term)
 
         specific_by_id = payload.get("specific_by_id", {})
         for specific_data in specific_by_id.values():
             terms_map = specific_data.get("specific_terms_by_concept", {})
             for terms in terms_map.values():
                 for term in terms:
-                    if term and term not in termos_expansao:
-                        termos_expansao.append(term)
-
-        estrategia.append({
-            "llm_term": llm_term,
-            "termos_expansao": termos_expansao
-        })
+                    if term and term not in estrategia:
+                        estrategia.append(term)
 
     return estrategia
 
