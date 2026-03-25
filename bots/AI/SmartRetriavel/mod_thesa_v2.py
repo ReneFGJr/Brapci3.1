@@ -622,12 +622,11 @@ def rag_query_v2(question: str, json_path: str):
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
-        "llm_conceptsID": llm_conceptsID,
-        "llm_ids_unicos": llm_ids_unicos,
-        "llm_specific_terms_by_id": llm_specific_terms_by_id,
+#        "llm_ids_unicos": llm_ids_unicos,
+#        "llm_specific_terms_by_id": llm_specific_terms_by_id,
         "llm_specific_terms": llm_specific_terms,
         "termos_autorizados_alinhados": aligned_terms,
-        "variantes_carregadas": variantes,
+#        "variantes_carregadas": variantes,
         "total_ids_conceito": len(variantes),
         "total_variantes": sum(len(v) for v in variantes.values())
     }
