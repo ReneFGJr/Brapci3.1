@@ -149,12 +149,14 @@ class BrapciLabAbs extends BaseController
         }
         sort($roots);
 
-        return [
+        $rsp = [
             'nodes' => $nodes,
             'children' => $children,
             'parentsCount' => $parentsCount,
             'roots' => $roots,
         ];
+        pre($rsp);
+        return $rsp;
     }
 
     private function loadTermsByConcept(string $path): array
