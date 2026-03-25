@@ -44,7 +44,7 @@ class Abs extends BaseController
         $graph = $this->parseNet($netPath);
         $termsByConcept = $this->loadTermsByConcept($termsPath);
 
-        $hierarchy = $this->buildHierarchy($graph['children']);
+        $hierarchy = $this->buildHierarchy($graph['nodes'], $graph['children'], $graph['roots']);
 
         $data = [
             'vocabularyId' => $id,
@@ -223,47 +223,30 @@ class Abs extends BaseController
         return $termsByConcept;
     }
 
-    private function buildHierarchy(array $children): array
+    private function buildHierarchy(array $nodes, array $children, array $roots): array
     {
         $hierarchy = [];
-        $visited = [];
-
-        $roots = [];
-        $allNodes = [];
-        $allChildren = [];
-
-        foreach ($children as $parent => $list) {
-            $allNodes[$parent] = true;
-            foreach ($list as $child) {
-                $allNodes[$child] = true;
-                $allChildren[$child] = true;
-            }
-        }
-
-        foreach ($allNodes as $nodeId => $_) {
-            if (!isset($allChildren[$nodeId])) {
-                $roots[] = $nodeId;
-            }
-        }
-
-        sort($roots);
+        $renderedAsRoot = [];
 
         foreach ($roots as $root) {
-            $hierarchy[] = $this->buildNodeTree((int)$root, $children, $visited);
+            $root = (int)$root;
+            $renderedAsRoot[$root] = true;
+            $hierarchy[] = $this->buildNodeTree($root, $children, []);
         }
 
-        foreach ($allNodes as $nodeId => $_) {
-            if (!isset($visited[$nodeId])) {
-                $hierarchy[] = $this->buildNodeTree((int)$nodeId, $children, $visited);
+        foreach ($nodes as $nodeId => $_label) {
+            $nodeId = (int)$nodeId;
+            if (!isset($renderedAsRoot[$nodeId])) {
+                $hierarchy[] = $this->buildNodeTree($nodeId, $children, []);
             }
         }
 
         return $hierarchy;
     }
 
-    private function buildNodeTree(int $nodeId, array $children, array &$visited): array
+    private function buildNodeTree(int $nodeId, array $children, array $path): array
     {
-        if (isset($visited[$nodeId])) {
+        if (in_array($nodeId, $path, true)) {
             return [
                 'id' => $nodeId,
                 'cycle' => true,
@@ -271,7 +254,7 @@ class Abs extends BaseController
             ];
         }
 
-        $visited[$nodeId] = true;
+        $path[] = $nodeId;
         $branch = [
             'id' => $nodeId,
             'cycle' => false,
@@ -279,7 +262,7 @@ class Abs extends BaseController
         ];
 
         foreach ($children[$nodeId] ?? [] as $childId) {
-            $branch['children'][] = $this->buildNodeTree((int)$childId, $children, $visited);
+            $branch['children'][] = $this->buildNodeTree((int)$childId, $children, $path);
         }
 
         return $branch;
