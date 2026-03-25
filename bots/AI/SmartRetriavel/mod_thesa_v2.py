@@ -624,12 +624,7 @@ def process_smartretriavel_py(data, thesaurus):
         terms += data["conceitos_interpretados_pelo_llm"]
 
     if "termos_autorizados_alinhados" in data:
-        aligned = data["termos_autorizados_alinhados"]
-        if aligned and isinstance(aligned[0], list):
-            for group in aligned:
-                terms += group
-        else:
-            terms += aligned
+        terms += data["termos_autorizados_alinhados"]
 
     # 🔹 Normaliza e remove duplicados
     terms = list(set([normalize(t) for t in terms]))
@@ -678,7 +673,8 @@ def rag_query_v2(question: str, json_path: str):
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     # Termos alinhados no vocabulário autorizado
-    aligned_terms = align_with_vocabulary_grouped(llm_concepts, authorized_terms)
+    flat_terms = [term for group in authorized_terms for term in group]
+    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
 
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
