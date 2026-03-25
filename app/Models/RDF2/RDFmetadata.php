@@ -630,6 +630,9 @@ class RDFmetadata extends Model
         $dr['issue'] = $ISSUE;
         $dr['issue_years'] = $sYEARS;
 
+        $Issues = new \App\Models\Base\Issues();
+        $dt['issues'] = $Issues->issuesRow($dt['id_jnl']);
+
         $dr = array_merge($dr, $dt);
 
         $Cover = new \App\Models\Base\Cover();
