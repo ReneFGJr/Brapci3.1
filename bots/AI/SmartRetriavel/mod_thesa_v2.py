@@ -654,7 +654,7 @@ def process_smartretriavel_py(data, thesaurus):
 
     return {
         "conceitos_identificados": list(T.keys()),
-        # "consulta_expandida_array": expanded_array
+        "consulta_expandida_array": expanded_array
     }
 
 
