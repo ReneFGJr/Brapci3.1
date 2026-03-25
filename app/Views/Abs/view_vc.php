@@ -62,6 +62,7 @@
 
         .node-label {
             font-weight: 500;
+            font-size: 1.3rem;
         }
 
         .muted {
@@ -129,13 +130,13 @@
 
                         echo '<li>';
                         echo '<div class="node-card">';
-                        echo '<span class="node-id">[' . esc($rawLabel) . ']</span>';
 
                         if ($preferred !== '') {
                             echo '<span class="node-label">' . esc($preferred) . '</span>';
                         } else {
                             echo '<span class="node-label text-muted">sem termo associado</span>';
                         }
+                        echo '<sup>' . esc(str_replace("Termo ","",$rawLabel)) . '</sup>';
 
                         if (!empty($node['cycle'])) {
                             echo ' <span class="badge text-bg-warning">ciclo</span>';
