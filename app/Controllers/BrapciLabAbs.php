@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
-class Abs extends BaseController
+class BrapciLabAbs extends BaseController
 {
     public function index($act = '', $id = '', $id2 = '')
     {
