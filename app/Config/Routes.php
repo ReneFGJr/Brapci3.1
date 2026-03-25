@@ -322,6 +322,9 @@ $routes->post('event/event/update/(:any)', 'G3vent::events_update/$1');
 $routes->post('event/import', 'G3vent::importRun');
 $routes->get('event', 'G3vent::index');
 
+/********* Compat Labs VC (public) */
+$routes->get('/labs/viewVC/(:any)', 'Abs::index/viewVC/$1');
+
 
 
 
