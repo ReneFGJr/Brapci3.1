@@ -30,10 +30,19 @@ def main():
 
     resultado = mod_thesa_v2.rag_query_v2(pergunta, memory)
 
+    print("="*50)
+    print("Resultado da consulta:")
+    print(json.dumps(resultado, ensure_ascii=False))
+
     resultado_el = mod_elasticsearch.search_elastic_with_expansion(
         consulta_expandida_array=resultado["consulta_expandida_array"],
         id_list=IDS
     )
+
+    print("=" * 50)
+    print("Resultado da consulta Elasticsearch:")
+    print(json.dumps(resultado, ensure_ascii=False))
+
 
     resultado["ids"] = resultado_el
 
