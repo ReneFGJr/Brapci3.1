@@ -545,6 +545,36 @@ def recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, varian
 
     return result
 
+
+def build_estrategia_expansao(llm_specific_terms):
+    """
+    Gera uma estratégia de expansão por termo do LLM,
+    unindo variantes principais + termos específicos por conceito.
+    """
+    estrategia = []
+
+    for llm_term, payload in llm_specific_terms.items():
+        termos_expansao = []
+
+        for term in payload.get("principal_variants", []):
+            if term and term not in termos_expansao:
+                termos_expansao.append(term)
+
+        specific_by_id = payload.get("specific_by_id", {})
+        for specific_data in specific_by_id.values():
+            terms_map = specific_data.get("specific_terms_by_concept", {})
+            for terms in terms_map.values():
+                for term in terms:
+                    if term and term not in termos_expansao:
+                        termos_expansao.append(term)
+
+        estrategia.append({
+            "llm_term": llm_term,
+            "termos_expansao": termos_expansao
+        })
+
+    return estrategia
+
 # =========
 def process_smartretriavel_py(data, thesaurus):
     """
@@ -619,12 +649,15 @@ def rag_query_v2(question: str, json_path: str):
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
 
+    estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
+
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
 #        "llm_ids_unicos": llm_ids_unicos,
 #        "llm_specific_terms_by_id": llm_specific_terms_by_id,
         "llm_specific_terms": llm_specific_terms,
+        "estrategia_expansao": estrategia_expansao,
         "termos_autorizados_alinhados": aligned_terms,
 #        "variantes_carregadas": variantes,
         "total_ids_conceito": len(variantes),
@@ -724,5 +757,5 @@ def getThesa(id):
 if __name__ == "__main__":
     pergunta = "Como a IAG é utilizada na catalogação de livros?"
     source = 'thesa_25.json'
-    resultado = rag_query(pergunta, source)
+    resultado = rag_query_v2(pergunta, source)
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
