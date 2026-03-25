@@ -48,8 +48,6 @@ class BrapciLabAbs extends BaseController
 
         $hierarchy = $this->buildHierarchy($graph['nodes'], $graph['children'], $graph['roots']);
 
-        pre($hierarchy);
-
         $data = [
             'vocabularyId' => $id,
             'netPath' => $netPath,
@@ -61,6 +59,8 @@ class BrapciLabAbs extends BaseController
             'hierarchy' => $hierarchy,
             'termsByConcept' => $termsByConcept,
         ];
+
+        pre($data);
 
         return view('Abs/view_vc', $data);
     }
