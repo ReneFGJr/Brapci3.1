@@ -588,22 +588,24 @@ def build_estrategia_expansao(llm_specific_terms):
     Gera uma estratégia de expansão em lista única,
     unindo variantes principais + termos específicos por conceito.
     """
-    estrategia = []
+    estrategiaF = []
 
     for _, payload in llm_specific_terms.items():
+        estrategia = []
         for term in payload.get("principal_variants", []):
             if term and term not in estrategia:
                 estrategia.append(term)
 
         specific_by_id = payload.get("specific_by_id", {})
         for specific_data in specific_by_id.values():
-            terms_map = specific_data.get("principal_variants", {})
+            terms_map = specific_data.get("specific_terms_by_concept", {})
             for terms in terms_map.values():
                 for term in terms:
                     if term and term not in estrategia:
                         estrategia.append(term)
+        estrategiaF.append(estrategia)
 
-    return estrategia
+    return estrategiaF
 
 # =========
 def process_smartretriavel_py(data, thesaurus):
