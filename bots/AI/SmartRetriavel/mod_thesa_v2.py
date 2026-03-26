@@ -713,6 +713,8 @@ def rag_query_v2(question: str, json_path: str):
     if not aligned_terms:
         aligned_terms = align_with_vocabulary(split_terms_preserving_quotes(question), flat_terms)
         useIA = 0
+        print(align_with_vocabulary)
+        sys.exit(0)
 
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
