@@ -261,6 +261,7 @@ Regras:
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
 - NÃO use o termo "indexação" ou "indexação" (ou variações) como resposta, mesmo que seja relevante.
+- SEPARE os resmos escolhidos por vírgula, SEM usar "e" ou "ou" ou ENTER
 
 TERMOS AUTORIZADOS:
 {terms}
