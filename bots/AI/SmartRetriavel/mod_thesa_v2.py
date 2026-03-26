@@ -275,15 +275,12 @@ Extraia os termos relevantes da pergunta: "{question}"
     payload = {
         "model": MODEL,
         "prompt": prompt,
-        "keep_alive": "24h",
+        #"keep_alive": "0h",
         "stream": False,
         "options": {
-            #            "temperature": 0,
-            #            "top_p": 0.1,
-            #            "seed": 42
             "temperature": 0.0,
             "top_p": 0.1,
-            "seed": 10,
+            "seed": 42,
             "think": False
         }
     }
