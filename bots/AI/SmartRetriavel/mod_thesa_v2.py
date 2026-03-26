@@ -293,6 +293,7 @@ Extraia os termos relevantes da pergunta: "{question}"
     response.raise_for_status()
 
     text = response.json()["response"]
+    concepts = concepts.replace("\n", ",").replace(";", ",")
     concepts = [c.strip() for c in text.split(",") if c.strip()]
     return concepts
 
