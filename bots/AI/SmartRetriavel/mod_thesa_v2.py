@@ -262,6 +262,7 @@ Regras:
 - NÃO repita os termos extraídos.
 - NÃO use frases completas.
 - NÃO invente termos.
+- Não comente sua resposta, apenas liste os termos.
 - Idioma padrão é o portugues
 - TERMOS em plural transforme para singular.
 - Prefira termos no singular, a menos que o plural seja a forma mais comum.
