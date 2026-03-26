@@ -282,8 +282,8 @@ Extraia os termos relevantes da pergunta: "{question}"
             #            "top_p": 0.1,
             #            "seed": 42
             "temperature": 0.0,
-            "top_p": 0.0,
-            "seed": 42,
+            "top_p": 0.1,
+            "seed": 10,
             "think": False
         }
     }
