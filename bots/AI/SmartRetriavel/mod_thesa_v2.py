@@ -704,10 +704,11 @@ def rag_query_v2(question: str, json_path: str):
     thesaurus = load_thesaurus(json_path)
     authorized_terms = load_authorized_terms(json_path)
 
+    ##################################### Fase I
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
-    print(llm_conceptsID, llm_ids_unicos)
+    print(llm_ids_unicos)
     sys.exit(0)
 
     # Termos alinhados no vocabulário autorizado
