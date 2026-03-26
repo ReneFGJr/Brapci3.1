@@ -542,6 +542,71 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
     return hierarquia
 
 
+def recover_term_variantes(llm_hierarquia, variantes):
+    """
+        Recupera variantes de termos a partir da hierarquia de IDs.
+
+        Entrada esperada:
+        - llm_hierarquia: {"1420": ["1421", "1493"], ...}
+        - variantes: {
+                "1420": [{"term": "X", "normalized": "x", ...}],
+                "1421": [{"term": "Y", "normalized": "y", ...}],
+                ...
+            }
+
+        Saida:
+        [
+            {
+                "concept_id": "1420",
+                "ids": ["1420", "1421", "1493"],
+                "variations": ["X", "Y"],
+                "variations_info": [
+                    {"concept_id": "1420", "term": "X", "normalized": "x"},
+                    {"concept_id": "1421", "term": "Y", "normalized": "y"}
+                ]
+            }
+        ]
+        """
+    resultado = []
+
+    for concept_id, specific_ids in llm_hierarquia.items():
+        concept_id = str(concept_id)
+        all_ids = [concept_id] + [str(sid) for sid in specific_ids]
+
+        variations = []
+        variations_info = []
+        seen_norm = set()
+
+        for cid in all_ids:
+            for item in variantes.get(cid, []):
+                term = str(item.get("term", "")).strip()
+                normalized = str(item.get("normalized", "")).strip()
+
+                if not term:
+                    continue
+
+                key = normalized or normalize(term)
+                if key in seen_norm:
+                    continue
+
+                seen_norm.add(key)
+                variations.append(term)
+                variations_info.append({
+                        "concept_id": cid,
+                        "term": term,
+                        "normalized": key
+                })
+
+        resultado.append({
+                "concept_id": concept_id,
+                "ids": all_ids,
+                "variations": variations,
+                "variations_info": variations_info
+        })
+
+    return resultado
+
+
 def recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes):
     """
     A partir dos IDs únicos identificados pelo LLM, recupera termos específicos
@@ -780,9 +845,9 @@ def rag_query_v2(question: str, json_path: str):
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
 
     #################################### Fase III - Recupera termos específicos por conceito identificado
-    print(variantes)
-    sys.exit()
     estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
+    print(estrategia_expansao)
+    sys.exit()
 
     base_result = {
         "pergunta_original": question,
