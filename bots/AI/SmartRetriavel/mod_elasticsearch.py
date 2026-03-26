@@ -1,5 +1,6 @@
 import json, sys
 import warnings
+import unicodedata
 from elasticsearch import Elasticsearch
 from elasticsearch import ElasticsearchWarning
 
@@ -8,6 +9,13 @@ warnings.filterwarnings("ignore", category=ElasticsearchWarning)
 
 from elasticsearch import Elasticsearch
 import json
+
+
+def normalize_text(text):
+    text = str(text).lower()
+    text = unicodedata.normalize("NFD", text)
+    text = "".join(c for c in text if unicodedata.category(c) != "Mn")
+    return text
 
 
 def search_elastic_with_expansion(consulta_expandida_array,
@@ -26,10 +34,11 @@ def search_elastic_with_expansion(consulta_expandida_array,
         should_terms = []
 
         for term in variations:
+            term = normalize_text(term)
             should_terms.append({
                 "multi_match": {
                     "query": term,
-                    "fields": ["title^3", "keywords^2", "abstract"],
+                    "fields": ["title^6", "keywords^3", "abstract"],
                     "type": "phrase"
                 }
             })
