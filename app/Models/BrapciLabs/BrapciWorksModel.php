@@ -363,7 +363,7 @@ class BrapciWorksModel extends Model
         echo '  </div>';
         echo '  <div class="col-10">';
         $termsRP = [];
-        pre($data['estrategia_expansao'],false);
+        //pre($data['estrategia_expansao'],false);
         foreach($data['estrategia_expansao'] as $group) {
 
             foreach ($group['variations'] as $terms) {
