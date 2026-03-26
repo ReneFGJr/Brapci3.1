@@ -3,6 +3,19 @@
  * View: Lista de Trabalhos
  * Espera: array $Works
  */
+
+// Função para destacar termos no texto
+function highlightTerms($text, $terms) {
+    if (empty($terms)) return $text;
+
+    foreach ($terms as $term) {
+        if (empty($term)) continue;
+        // Usar preg_replace para busca case-insensitive
+        $pattern = '/(' . preg_quote($term, '/') . ')/iu';
+        $text = preg_replace($pattern, '<mark style="background-color: #FFFF00; font-weight: bold;">$1</mark>', $text);
+    }
+    return $text;
+}
 ?>
 
 <div class="container my-4">
@@ -38,7 +51,10 @@
                                 aria-controls="collapse<?= $i ?>">
 
                             <div>
-                                <strong class="<?= $class; ?>"><?= esc($work['title']) ?></strong>
+                                <strong class="<?= $class; ?>"><?php
+                                    $termosRP = $termosRP ?? [];
+                                    echo highlightTerms(esc($work['title']), $termosRP);
+                                ?></strong>
                                 <div class="small text-muted <?= $class; ?>">
                                     <?= esc($work['authors']) ?> ·
                                     <?= esc($work['journal']) ?> (<?= esc($work['year']) ?>)
@@ -83,7 +99,10 @@
                                         <i class="bi bi-card-text"></i> Resumo
                                     </h6>
                                     <p class="text-justify">
-                                        <?= esc($work['abstract']) ?>
+                                        <?php
+                                            $termosRP = $termosRP ?? [];
+                                            echo highlightTerms(esc($work['abstract']), $termosRP);
+                                        ?>
                                     </p>
                                 </div>
                             <?php endif; ?>
