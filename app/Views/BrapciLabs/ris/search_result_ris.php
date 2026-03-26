@@ -6,13 +6,43 @@
 
 // Função para destacar termos no texto
 if (!function_exists('highlightTerms')) {
+    function buildAccentInsensitivePattern($term) {
+        $accentMap = [
+            'a' => 'aáàâãä',
+            'e' => 'eéèêë',
+            'i' => 'iíìîï',
+            'o' => 'oóòôõö',
+            'u' => 'uúùûü',
+            'c' => 'cç',
+            'n' => 'nñ',
+            'y' => 'yýÿ'
+        ];
+
+        $chars = preg_split('//u', $term, -1, PREG_SPLIT_NO_EMPTY);
+        $pattern = '';
+
+        foreach ($chars as $ch) {
+            $lower = mb_strtolower($ch, 'UTF-8');
+            if (isset($accentMap[$lower])) {
+                $variants = preg_quote($accentMap[$lower], '/');
+                $pattern .= '[' . $variants . ']';
+            } else {
+                $pattern .= preg_quote($ch, '/');
+            }
+        }
+
+        return '/(' . $pattern . ')/iu';
+    }
+
     function highlightTerms($text, $terms) {
         if (empty($terms)) return $text;
 
+        // Prioriza termos maiores para reduzir sobreposição de destaques.
+        $terms = array_values(array_filter($terms, fn($t) => !empty($t)));
+        usort($terms, fn($a, $b) => mb_strlen($b, 'UTF-8') <=> mb_strlen($a, 'UTF-8'));
+
         foreach ($terms as $term) {
-            if (empty($term)) continue;
-            // Usar preg_replace para busca case-insensitive
-            $pattern = '/(' . preg_quote($term, '/') . ')/iu';
+            $pattern = buildAccentInsensitivePattern($term);
             $text = preg_replace($pattern, '<mark style="background-color: #FFFF00; font-weight: bold;">$1</mark>', $text);
         }
         return $text;
