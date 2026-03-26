@@ -367,8 +367,8 @@ class BrapciWorksModel extends Model
         foreach($data['estrategia_expansao'] as $group) {
 
             foreach ($group['variations'] as $terms) {
-                echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
-                $termsRP[] = $term;
+                echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $terms . '</nobr></tt>.';
+                $termsRP[] = $terms;
             }
             echo '<hr>';
         }
