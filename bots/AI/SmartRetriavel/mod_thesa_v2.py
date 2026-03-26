@@ -707,20 +707,19 @@ def rag_query_v2(question: str, json_path: str):
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
     useIA = 1
 
-
+    # Fallback: se não houver alinhamento com vocabulário,
+    # usa termos da pergunta, separando palavra a palavra,
+    # mas preservando expressões entre aspas.
+    if not aligned_terms:
+        aligned_terms = align_with_vocabulary(split_terms_preserving_quotes(question), flat_terms)
+        useIA = 0
 
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
 
     estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
 
-    # Fallback: se não houver alinhamento com vocabulário,
-    # usa termos da pergunta, separando palavra a palavra,
-    # mas preservando expressões entre aspas.
-    if not aligned_terms:
-        estrategia_expansao = []
-        estrategia_expansao.append({"variations": split_terms_preserving_quotes(question)})
-        useIA = 0
+
 
     base_result = {
         "pergunta_original": question,
