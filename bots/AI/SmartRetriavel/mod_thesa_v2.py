@@ -709,6 +709,9 @@ def rag_query_v2(question: str, json_path: str):
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
+    print(llm_conceptsID, llm_ids_unicos)
+    sys.exit(0)
+
     # Termos alinhados no vocabulário autorizado
     flat_terms = [term for group in authorized_terms for term in group]
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
