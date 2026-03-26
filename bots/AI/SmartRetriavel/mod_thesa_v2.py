@@ -721,7 +721,13 @@ def rag_query_v2(question: str, json_path: str):
 
 
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
-    estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
+
+    if useIA == 1:
+        estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
+    else:
+        estrategia_expansao = [{"variations": aligned_terms}]
+    print(estrategia_expansao)
+    sys.exit(0)
 
     base_result = {
         "pergunta_original": question,

@@ -35,6 +35,8 @@ def main():
     #    id_list=IDS
     #)
 
+
+
     resultado_el = mod_elasticsearch.search_elastic_with_expansion(
         consulta_expandida_array=resultado["estrategia_expansao"],
         id_list=IDS
