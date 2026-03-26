@@ -656,33 +656,6 @@ def process_smartretriavel_py(data, thesaurus):
     if "termos_autorizados_alinhados" in data:
         terms += data["termos_autorizados_alinhados"]
 
-    # 🔹 Sem IA: usa os termos diretamente, sem passar pelo tesauro
-    if data.get("use_ia", 1) == 0:
-        direct_terms = []
-        seen = set()
-        for term in terms:
-            if not term:
-                continue
-            term = str(term).strip()
-            if not term or term in seen:
-                continue
-            seen.add(term)
-            direct_terms.append(term)
-
-        expanded_array = [
-            {
-                "concept": normalize(term),
-                "variations": [term]
-            }
-            for term in direct_terms
-        ]
-
-        return {
-            "conceitos_identificados": [normalize(t) for t in direct_terms],
-            "consulta_expandida_array": expanded_array
-        }
-
-
     # 🔹 Normaliza e remove duplicados
     terms = list(set([normalize(t) for t in terms]))
 
