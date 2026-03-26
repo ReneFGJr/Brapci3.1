@@ -297,6 +297,9 @@ Extraia os termos relevantes da pergunta: "{question}"
 
     text = response.json()["response"]
     concepts = [c.strip() for c in text.split(",") if c.strip()]
+
+    print(f"🔹 Conceitos extraídos pelo LLM: {concepts}")
+    sys.exit(0)
     return concepts
 
 
