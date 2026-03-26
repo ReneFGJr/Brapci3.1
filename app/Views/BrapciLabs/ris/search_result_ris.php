@@ -97,10 +97,16 @@
 
                                     <?php
                                     $keywords = array_map('trim', explode(';', $work['keywords']));
+                                    $termosRP = $termosRP ?? [];
                                     ?>
 
                                     <?php foreach ($keywords as $kw) : ?>
-                                        <span class="badge bg-light text-dark border me-1 mb-1">
+                                        <?php
+                                        $isHighlighted = in_array($kw, $termosRP);
+                                        $bgClass = $isHighlighted ? 'bg-warning' : 'bg-light';
+                                        $textClass = $isHighlighted ? 'text-dark' : 'text-dark';
+                                        ?>
+                                        <span class="badge <?= $bgClass ?> <?= $textClass ?> border me-1 mb-1">
                                             <?= esc($kw) ?>
                                         </span>
                                     <?php endforeach; ?>

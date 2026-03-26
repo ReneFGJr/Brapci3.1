@@ -441,8 +441,8 @@ class BrapciWorksModel extends Model
         }
         /**************************************************** Corpus */
         $sx = '';
-        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary']);
-        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary', 'termosRP' => $this->termosRP]);
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning', 'termosRP' => $this->termosRP]);
         return $sx;
     }
 
