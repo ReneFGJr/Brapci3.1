@@ -481,14 +481,11 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
     Para cada ID em llm_ids_unicos, procura nós no .net com label "Termo <ID>",
     percorre todos os descendentes e retorna os IDs conceituais encontrados.
 
-    Retorna:
-    {
-      "1420": {
-        "node_matches": [4],
-        "specific_concept_ids": ["1421", "1493", ...]
-      },
-      ...
-    }
+        Retorna apenas os IDs específicos por conceito base:
+        {
+            "1420": ["1421", "1493", ...],
+            ...
+        }
     """
     nodes, children = load_net_graph(net_terms)
 
@@ -533,10 +530,7 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
             key=lambda x: int(x) if str(x).isdigit() else str(x)
         )
 
-        hierarquia[concept_id] = {
-            "node_matches": sorted(node_matches),
-            "specific_concept_ids": sorted_specific_ids
-        }
+        hierarquia[concept_id] = sorted_specific_ids
 
     return hierarquia
 
