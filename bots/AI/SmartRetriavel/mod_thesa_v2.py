@@ -719,7 +719,7 @@ def rag_query_v2(question: str, json_path: str):
     # mas preservando expressões entre aspas.
     if not aligned_terms:
         estrategia_expansao = []
-        estrategia_expansao.append(split_terms_preserving_quotes(question))
+        estrategia_expansao.append({"variations": split_terms_preserving_quotes(question)})
         useIA = 0
 
     base_result = {
