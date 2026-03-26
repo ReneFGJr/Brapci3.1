@@ -248,9 +248,6 @@ def ollama_interpret(question: str, terms: str):
         tt += linha + "\n"
     terms = tt.strip()
 
-    print(terms)
-    sys.exit()
-
     prompt = f"""
 SYSTEM:
 Você é um bibliotecário especializado.
