@@ -56,9 +56,6 @@ def search_elastic_with_expansion(consulta_expandida_array,
         }
     }
 
-    print("Consulta expandida para Elastic:",
-          json.dumps(query_body, ensure_ascii=False, indent=2))
-
     response = es.search(index=index_name, body=query_body)
 
     ids = [hit["_source"]["id"] for hit in response["hits"]["hits"]]
