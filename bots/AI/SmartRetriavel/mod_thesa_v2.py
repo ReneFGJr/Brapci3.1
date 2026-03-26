@@ -252,18 +252,24 @@ def ollama_interpret(question: str, terms: str):
 SYSTEM:
 Você é um bibliotecário especializado.
 
+Tarefa:
+Selecionar os termos MAIS relevantes da pergunta, usando APENAS a lista de termos autorizados.
+
 Regras:
-- Classifique a pergunta usando APENAS os [TERMOS AUTORIZADOS] mais relevantes.
-- Identifique APENAS conceitos centrais.
-- NÃO explique suas escolhas.
-- NÃO repita os termos extraídos.
-- NÃO use frases completas.
-- NÃO invente termos.
-- TERMOS em plural transforme para singular.
-- Selecione apenas termos específicos.
-- Retorne APENAS termos conceituais curtos, separados por vírgula.
-- NÃO use o termo "indexação" ou "indexação" (ou variações) como resposta, mesmo que seja relevante.
-- SEPARE os resmos escolhidos por vírgula, SEM usar "e" ou "ou" ou ENTER
+- Use SOMENTE termos da lista
+- Retorne no máximo 3 termos
+- Priorize conceitos centrais do domínio
+- NÃO explique
+- NÃO invente termos
+- NÃO repita termos
+- NÃO use frases
+- Use forma singular
+- Retorne termos em INGLÊS (forma preferida)
+- Separe por vírgula
+
+Importante:
+- Ignore variações linguísticas (PT/ES), normalize para inglês
+- Se não houver termo adequado, retorne vazio
 
 TERMOS AUTORIZADOS:
 {terms}
