@@ -718,7 +718,9 @@ def rag_query_v2(question: str, json_path: str):
         aligned_terms = []
         aligned_terms.append(question)
 
-    llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
+    print(llm_conceptsID)
+    sys.exit(0);
+
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
 
     estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
