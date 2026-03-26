@@ -542,6 +542,39 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
     return hierarquia
 
 
+def recover_terms_by_id(ids, variantes):
+    """
+    Recupera apenas o nome principal (preferencial) de cada ID.
+
+    Regra adotada para "preferencial":
+    - primeiro item existente em variantes[ID]
+    - campo "term"
+
+    Retorna lista de termos sem duplicidade, mantendo a ordem dos IDs.
+    """
+    terms = []
+    seen = set()
+
+    for concept_id in ids:
+        concept_id = str(concept_id)
+        variants = variantes.get(concept_id, [])
+        if not variants:
+            continue
+
+        preferred = str(variants[0].get("term", "")).strip()
+        if not preferred:
+            continue
+
+        norm = normalize(preferred)
+        if norm in seen:
+            continue
+
+        seen.add(norm)
+        terms.append(preferred)
+
+    return terms
+
+
 def recover_term_variantes(llm_hierarquia, variantes):
     """
         Recupera variantes de termos a partir da hierarquia de IDs.
@@ -828,20 +861,18 @@ def rag_query_v2(question: str, json_path: str):
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
+    #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
+    aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
+
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
 
     #################################### Fase III - Recupera termos específicos por conceito identificado
     estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
-    print(estrategia_expansao)
-    sys.exit()
 
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
-    #        "llm_ids_unicos": llm_ids_unicos,
-    #        "llm_specific_terms_by_id": llm_specific_terms_by_id,
-    #        "llm_specific_terms": llm_specific_terms,
         "estrategia_expansao": estrategia_expansao,
         "termos_autorizados_alinhados": aligned_terms,
     #        "variantes_carregadas": variantes,
