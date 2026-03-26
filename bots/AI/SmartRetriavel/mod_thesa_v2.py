@@ -846,7 +846,7 @@ def process_smartretriavel_py(data, thesaurus):
 
 # ========= Função principal RAG =========
 def rag_query_v2(question: str, json_path: str):
-
+    useIA = 1
     json_terms = json_path.replace('.json', '_terms.json')
     net_terms = json_path.replace('.json', '.net')
 
