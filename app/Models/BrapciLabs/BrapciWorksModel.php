@@ -74,7 +74,7 @@ class BrapciWorksModel extends Model
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
             $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
-        echo '<h5>SmartRetriavel</h5>';
+        echo '<h5>SmartRetrieval</h5>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
@@ -159,7 +159,7 @@ class BrapciWorksModel extends Model
         $escapedQuery = escapeshellarg($query);
 
         // Comando
-        $command = "$CMD $escapedQuery $project 2>&1";
+        $command = "$CMD --q $escapedQuery --p $project 2>&1";
         echo '<p>' . $command . '</p>';
 
         // Executa
