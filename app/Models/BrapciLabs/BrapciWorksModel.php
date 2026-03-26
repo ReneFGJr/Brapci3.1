@@ -182,6 +182,7 @@ class BrapciWorksModel extends Model
         $ID = $data['ids'] ?? [];
 
         echo '</div>';
+        echo $data["pergunta_original"] ?? 'Pergunta original não fornecida';
         echo $this->show_base_row($ID);
         return "";
     }
