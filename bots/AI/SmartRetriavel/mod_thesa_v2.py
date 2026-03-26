@@ -285,6 +285,8 @@ Extraia os termos relevantes da pergunta: "{question}"
         }
     }
 
+    print(payload)
+
     response = requests.post(
         OLLAMA_URL,
         json=payload,
