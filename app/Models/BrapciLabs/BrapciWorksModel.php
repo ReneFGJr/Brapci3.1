@@ -363,6 +363,7 @@ class BrapciWorksModel extends Model
         echo '  </div>';
         echo '  <div class="col-10">';
         $termsRP = [];
+        pre($data);
         foreach($data['estrategia_expansao'] as $group) {
 
             foreach ($group as $terms) {

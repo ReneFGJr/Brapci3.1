@@ -870,6 +870,7 @@ def rag_query_v2(question: str, json_path: str):
     #################################### Fase III - Recupera termos específicos por conceito identificado
     estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
 
+
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
