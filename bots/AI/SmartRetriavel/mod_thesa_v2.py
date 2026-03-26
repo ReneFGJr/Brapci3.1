@@ -101,6 +101,34 @@ def normalize(text: str) -> str:
     text = "".join(c for c in text if unicodedata.category(c) != "Mn")
     return text
 
+
+def split_terms_preserving_quotes(question: str):
+    """
+    Separa termos por palavra, preservando blocos entre aspas simples ou duplas.
+    Exemplo: catalogacao "inteligencia artificial" livros
+    -> ["catalogacao", "inteligencia artificial", "livros"]
+    """
+    if not question:
+        return []
+
+    matches = re.findall(r'"([^"]+)"|\'([^\']+)\'|(\S+)', question)
+    terms = []
+    seen = set()
+
+    for quoted_double, quoted_single, plain in matches:
+        token = quoted_double or quoted_single or plain
+        token = token.strip()
+
+        # Para tokens fora de aspas, remove pontuação nas bordas.
+        if plain:
+            token = re.sub(r'^\W+|\W+$', '', token, flags=re.UNICODE)
+
+        if token and token not in seen:
+            terms.append(token)
+            seen.add(token)
+
+    return terms
+
 # ========= Carregar vocabulário =========
 def load_authorized_terms(json_path: str):
     json_file = BASE_DIR / json_path
@@ -677,6 +705,14 @@ def rag_query_v2(question: str, json_path: str):
     # Termos alinhados no vocabulário autorizado
     flat_terms = [term for group in authorized_terms for term in group]
     aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+    useIA = 1
+
+    # Fallback: se não houver alinhamento com vocabulário,
+    # usa termos da pergunta, separando palavra a palavra,
+    # mas preservando expressões entre aspas.
+    if not aligned_terms:
+        aligned_terms = split_terms_preserving_quotes(question)
+        useIA = 0
 
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
@@ -693,7 +729,8 @@ def rag_query_v2(question: str, json_path: str):
         "termos_autorizados_alinhados": aligned_terms,
     #        "variantes_carregadas": variantes,
         "total_ids_conceito": len(variantes),
-        "total_variantes": sum(len(v) for v in variantes.values())
+        "total_variantes": sum(len(v) for v in variantes.values()),
+        "use_ia": useIA
     }
 
     expanded = process_smartretriavel_py(base_result, thesaurus)

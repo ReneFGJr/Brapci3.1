@@ -132,7 +132,7 @@ class BrapciWorksModel extends Model
         echo '<h4>SmartRetriavel</h4>';
         echo '<p><b>Query:</b> ' . $query . ' - Project: ' . $project . '</p>';
         echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a>
-                | <a href="' . base_url('labs/updateVC/' . $thesaVC) . '" class="" title="Atualizar vocabulário"><i class="bi bi-arrow-repeat"></i></a>
+                | <a href="' . base_url('labs/worksupdateVC/' . $thesaVC) . '" class="" title="Atualizar vocabulário"><i class="bi bi-arrow-repeat"></i></a>
                 | <a href="' . base_url('labs/viewVC/' . $thesaVC) . '" class="" title="Reexecutar busca"><i class="bi bi-eye"></i></a>
         </p>';
 
