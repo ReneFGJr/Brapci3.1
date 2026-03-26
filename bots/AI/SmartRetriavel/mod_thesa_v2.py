@@ -726,8 +726,6 @@ def rag_query_v2(question: str, json_path: str):
         estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
     else:
         estrategia_expansao = [{"variations": aligned_terms}]
-    print(estrategia_expansao)
-    sys.exit(0)
 
     base_result = {
         "pergunta_original": question,
