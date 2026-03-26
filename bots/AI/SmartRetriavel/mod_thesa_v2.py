@@ -717,6 +717,10 @@ def rag_query_v2(question: str, json_path: str):
             print(t)
         sys.exit(0)
 
+    if not aligned_terms:
+        aligned_terms = []
+        aligned_terms.append(question)
+
     llm_specific_terms_by_id = recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes)
     llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
 
