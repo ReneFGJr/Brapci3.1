@@ -260,7 +260,6 @@ Regras:
 - NÃO use frases completas.
 - NÃO invente termos.
 - Ecolha apenas um termo de cada conceito (mesmo que haja variações).
-- Seja o mais específico possível, evitando termos genéricos.
 - TERMOS em plural transforme para singular.
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
@@ -284,7 +283,7 @@ Extraia os termos relevantes da pergunta: "{question}"
             #            "top_p": 0.1,
             #            "seed": 42
             "temperature": 0.0,
-            "top_p": 0.1,
+            "top_p": 0.6,
             "seed": 42,
             "think": False
         }
