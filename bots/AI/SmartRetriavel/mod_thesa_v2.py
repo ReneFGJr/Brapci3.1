@@ -702,7 +702,7 @@ def rag_query_v2(question: str, json_path: str):
 
     llm_concepts = ollama_interpret(question, authorized_terms)
     print(f"Conceitos interpretados pelo LLM: {llm_concepts}")
-
+    sys.exit()
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     # Termos alinhados no vocabulário autorizado
