@@ -14,6 +14,8 @@ class BrapciWorksModel extends Model
 
     protected $useTimestamps = false;
 
+    public $termosRP = [];
+
     function search_v2()
     {
         $type = get("type");
@@ -359,17 +361,22 @@ class BrapciWorksModel extends Model
         echo '  Conceitos selecionados: ';
         echo '  </div>';
         echo '  <div class="col-10">';
+        $termsRP = [];
         foreach($data['estrategia_expansao'] as $group) {
 
             foreach ($group as $terms) {
                 foreach ($terms as $nrt=>$term) {
                 echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
+                $termsRP[] = $term;
                 }
             }
             echo '<hr>';
         }
         echo '  </div>';
         echo '</div>';
+
+        /******************************* Termos autorizados alinhados */
+        $this->termosRP = $termsRP;
 
         echo '<div class="col-2 mb-2">';
         echo '  IDs: ';
