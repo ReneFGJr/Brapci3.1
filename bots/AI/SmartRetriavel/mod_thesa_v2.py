@@ -474,6 +474,73 @@ def extract_concept_id_from_label(label: str):
     return None
 
 
+def recover_hierarquia(llm_ids_unicos, net_terms):
+    """
+    Recupera a hierarquia de IDs específicos a partir dos IDs base do LLM.
+
+    Para cada ID em llm_ids_unicos, procura nós no .net com label "Termo <ID>",
+    percorre todos os descendentes e retorna os IDs conceituais encontrados.
+
+    Retorna:
+    {
+      "1420": {
+        "node_matches": [4],
+        "specific_concept_ids": ["1421", "1493", ...]
+      },
+      ...
+    }
+    """
+    nodes, children = load_net_graph(net_terms)
+
+    # Mapa conceito -> nós do grafo cujo label contém "Termo <conceito>"
+    concept_to_node_ids = {}
+    for node_id, label in nodes.items():
+        concept_id = extract_concept_id_from_label(label)
+        if concept_id is None:
+            continue
+        if concept_id not in concept_to_node_ids:
+            concept_to_node_ids[concept_id] = []
+        concept_to_node_ids[concept_id].append(node_id)
+
+    def dfs_descendants(start_node):
+        visited = set()
+        stack = list(children.get(start_node, []))
+        while stack:
+            cur = stack.pop()
+            if cur in visited:
+                continue
+            visited.add(cur)
+            stack.extend(children.get(cur, []))
+        return visited
+
+    hierarquia = {}
+
+    for concept_id in llm_ids_unicos:
+        concept_id = str(concept_id)
+        node_matches = concept_to_node_ids.get(concept_id, [])
+        specific_concepts = set()
+
+        for node_id in node_matches:
+            descendants = dfs_descendants(node_id)
+            for desc_node in descendants:
+                desc_label = nodes.get(desc_node, "")
+                desc_concept_id = extract_concept_id_from_label(desc_label)
+                if desc_concept_id is not None and desc_concept_id != concept_id:
+                    specific_concepts.add(desc_concept_id)
+
+        sorted_specific_ids = sorted(
+            specific_concepts,
+            key=lambda x: int(x) if str(x).isdigit() else str(x)
+        )
+
+        hierarquia[concept_id] = {
+            "node_matches": sorted(node_matches),
+            "specific_concept_ids": sorted_specific_ids
+        }
+
+    return hierarquia
+
+
 def recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes):
     """
     A partir dos IDs únicos identificados pelo LLM, recupera termos específicos
@@ -709,7 +776,7 @@ def rag_query_v2(question: str, json_path: str):
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     ##################################### Fase II - Alinhamento com vocabulário autorizado
-    llm_hierarquia = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
+    llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
     print(llm_hierarquia)
     sys.exit(0)
 
