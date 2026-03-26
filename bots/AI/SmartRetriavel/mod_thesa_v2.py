@@ -713,9 +713,6 @@ def rag_query_v2(question: str, json_path: str):
     if not aligned_terms:
         aligned_terms = align_with_vocabulary(split_terms_preserving_quotes(question), flat_terms)
         useIA = 0
-        for t in aligned_terms:
-            print(t)
-        sys.exit(0)
 
     if not aligned_terms:
         aligned_terms = []
