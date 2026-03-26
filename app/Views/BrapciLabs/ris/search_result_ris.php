@@ -6,6 +6,11 @@
 
 // Função para destacar termos no texto
 if (!function_exists('highlightTerms')) {
+    function removeAccents($text) {
+        $normalized = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
+        return $normalized !== false ? $normalized : $text;
+    }
+
     function buildAccentInsensitivePattern($term) {
         $accentMap = [
             'a' => 'aáàâãä',
@@ -18,13 +23,16 @@ if (!function_exists('highlightTerms')) {
             'y' => 'yýÿ'
         ];
 
-        $chars = preg_split('//u', $term, -1, PREG_SPLIT_NO_EMPTY);
+        // Duas decomposicoes: termo original e termo sem acentos.
+        $charsOriginal = preg_split('//u', $term, -1, PREG_SPLIT_NO_EMPTY);
+        $charsNoAccent = preg_split('//u', mb_strtolower(removeAccents($term), 'UTF-8'), -1, PREG_SPLIT_NO_EMPTY);
         $pattern = '';
 
-        foreach ($chars as $ch) {
-            $lower = mb_strtolower($ch, 'UTF-8');
-            if (isset($accentMap[$lower])) {
-                $variants = preg_quote($accentMap[$lower], '/');
+        foreach ($charsOriginal as $i => $ch) {
+            $base = $charsNoAccent[$i] ?? mb_strtolower($ch, 'UTF-8');
+
+            if (isset($accentMap[$base])) {
+                $variants = preg_quote($accentMap[$base], '/');
                 $pattern .= '[' . $variants . ']';
             } else {
                 $pattern .= preg_quote($ch, '/');
