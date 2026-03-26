@@ -260,6 +260,7 @@ Regras:
 - NÃO use frases completas.
 - NÃO invente termos.
 - Ecolha apenas um termo de cada conceito (mesmo que haja variações).
+- Seja o mais específico possível, evitando termos genéricos.
 - TERMOS em plural transforme para singular.
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
