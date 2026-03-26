@@ -603,7 +603,7 @@ def build_estrategia_expansao(llm_specific_terms):
                 for term in terms:
                     if term and term not in estrategia:
                         estrategia.append(term)
-        estrategiaF.append(estrategia)
+        estrategiaF.append({"variations": estrategia})
 
     return estrategiaF
 
