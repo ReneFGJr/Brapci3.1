@@ -250,7 +250,10 @@ def ollama_interpret(question: str, terms: str):
 
     prompt = f"""
 SYSTEM:
-Você é um bibliotecário especializado.
+Você é especialista em Organização do Conhecimento.
+
+Tarefa:
+Selecionar até 3 termos MAIS relevantes da lista.
 
 Regras:
 - Classifique a pergunta usando APENAS os [TERMOS AUTORIZADOS] mais relevantes.
