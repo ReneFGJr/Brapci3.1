@@ -1,4 +1,4 @@
-import json
+import json, sys
 import warnings
 from elasticsearch import Elasticsearch
 from elasticsearch import ElasticsearchWarning
@@ -48,6 +48,9 @@ def search_elastic_with_expansion(
         "should": must_clauses,
         "minimum_should_match": 1
     }
+
+    print("Consulta expandida para Elastic:", json.dumps(bool_query, ensure_ascii=False))
+    sys.exit()
 
     if id_list:
         bool_query["filter"] = [
