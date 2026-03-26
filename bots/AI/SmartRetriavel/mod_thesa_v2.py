@@ -511,9 +511,15 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
         return visited
 
     hierarquia = {}
+    covered_by_previous = set()
 
     for concept_id in llm_ids_unicos:
         concept_id = str(concept_id)
+
+        # Se o ID atual ja apareceu como especifico em grupo anterior, ignora.
+        if concept_id in covered_by_previous:
+            continue
+
         node_matches = concept_to_node_ids.get(concept_id, [])
         specific_concepts = set()
 
@@ -531,6 +537,7 @@ def recover_hierarquia(llm_ids_unicos, net_terms):
         )
 
         hierarquia[concept_id] = sorted_specific_ids
+        covered_by_previous.update(sorted_specific_ids)
 
     return hierarquia
 
