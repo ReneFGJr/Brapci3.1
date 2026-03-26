@@ -362,6 +362,7 @@ class BrapciWorksModel extends Model
             foreach ($group as $terms) {
                 foreach ($terms as $nrt=>$term) {
                 echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
+                }
             }
             echo '<hr>';
         }
