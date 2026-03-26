@@ -778,33 +778,11 @@ def rag_query_v2(question: str, json_path: str):
 
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
-    print(llm_hierarquia)
-    sys.exit(0)
 
-    # Termos alinhados no vocabulário autorizado
-    flat_terms = [term for group in authorized_terms for term in group]
-    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
-    useIA = 1
-
-    # Fallback: se não houver alinhamento com vocabulário,
-    # usa termos da pergunta, separando palavra a palavra,
-    # mas preservando expressões entre aspas.
-    if not aligned_terms:
-        aligned_terms = align_with_vocabulary(split_terms_preserving_quotes(question), flat_terms)
-        useIA = 0
-
-    if not aligned_terms:
-        aligned_terms = []
-        aligned_terms.append(question)
-        useIA = 0
-
-
-    llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
-
-    if useIA == 1:
-        estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
-    else:
-        estrategia_expansao = [{"variations": aligned_terms}]
+    #################################### Fase III - Recupera termos específicos por conceito identificado
+    print(variantes)
+    sys.exit()
+    estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
 
     base_result = {
         "pergunta_original": question,
