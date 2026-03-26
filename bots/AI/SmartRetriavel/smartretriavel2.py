@@ -1,19 +1,29 @@
 import sys
 import json
 import os
+import argparse
 import mod_thesa_v2, mod_elasticsearch, mod_projetos
 
+
+def parse_args(argv):
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument("--q", required=True, help="Pergunta da busca")
+    parser.add_argument("--p", required=False, default=None, help="ID do projeto")
+    return parser.parse_args(argv)
+
+
 def main():
-    if len(sys.argv) < 2:
+    try:
+        args = parse_args(sys.argv[1:])
+    except SystemExit:
         print(json.dumps({
             "status": "error",
-            "message": "Pergunta não informada"
+            "message": "Parâmetros inválidos. Use --q 'pergunta' [--p projeto]"
         }, ensure_ascii=False))
         sys.exit(1)
 
-    # Tudo depois do nome do script vira a pergunta
-    pergunta = " ".join(sys.argv[1:])
-    projeto = " ".join(sys.argv[2:])
+    pergunta = args.q
+    projeto = args.p
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
