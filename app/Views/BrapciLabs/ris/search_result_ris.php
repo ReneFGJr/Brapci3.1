@@ -5,16 +5,18 @@
  */
 
 // Função para destacar termos no texto
-function highlightTerms($text, $terms) {
-    if (empty($terms)) return $text;
+if (!function_exists('highlightTerms')) {
+    function highlightTerms($text, $terms) {
+        if (empty($terms)) return $text;
 
-    foreach ($terms as $term) {
-        if (empty($term)) continue;
-        // Usar preg_replace para busca case-insensitive
-        $pattern = '/(' . preg_quote($term, '/') . ')/iu';
-        $text = preg_replace($pattern, '<mark style="background-color: #FFFF00; font-weight: bold;">$1</mark>', $text);
+        foreach ($terms as $term) {
+            if (empty($term)) continue;
+            // Usar preg_replace para busca case-insensitive
+            $pattern = '/(' . preg_quote($term, '/') . ')/iu';
+            $text = preg_replace($pattern, '<mark style="background-color: #FFFF00; font-weight: bold;">$1</mark>', $text);
+        }
+        return $text;
     }
-    return $text;
 }
 ?>
 
