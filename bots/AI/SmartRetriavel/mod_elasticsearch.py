@@ -38,7 +38,7 @@ def search_elastic_with_expansion(consulta_expandida_array,
             should_terms.append({
                 "multi_match": {
                     "query": term,
-                    "fields": ["title^20", "keywords^10", "abstract^1"],
+                    "fields": ["title^20", "keyword^10", "abstract^1"],
                     "type": "phrase"
                 }
             })
