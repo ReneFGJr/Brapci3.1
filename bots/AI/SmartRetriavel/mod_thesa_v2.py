@@ -558,12 +558,7 @@ def recover_term_variantes(llm_hierarquia, variantes):
         [
             {
                 "concept_id": "1420",
-                "ids": ["1420", "1421", "1493"],
-                "variations": ["X", "Y"],
-                "variations_info": [
-                    {"concept_id": "1420", "term": "X", "normalized": "x"},
-                    {"concept_id": "1421", "term": "Y", "normalized": "y"}
-                ]
+                "variations": ["X", "Y"]
             }
         ]
         """
@@ -574,7 +569,6 @@ def recover_term_variantes(llm_hierarquia, variantes):
         all_ids = [concept_id] + [str(sid) for sid in specific_ids]
 
         variations = []
-        variations_info = []
         seen_norm = set()
 
         for cid in all_ids:
@@ -591,17 +585,10 @@ def recover_term_variantes(llm_hierarquia, variantes):
 
                 seen_norm.add(key)
                 variations.append(term)
-                variations_info.append({
-                        "concept_id": cid,
-                        "term": term,
-                        "normalized": key
-                })
 
         resultado.append({
                 "concept_id": concept_id,
-                "ids": all_ids,
-                "variations": variations,
-                "variations_info": variations_info
+            "variations": variations
         })
 
     return resultado
