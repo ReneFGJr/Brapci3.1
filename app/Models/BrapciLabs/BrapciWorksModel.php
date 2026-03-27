@@ -14,6 +14,8 @@ class BrapciWorksModel extends Model
 
     protected $useTimestamps = false;
 
+    public $termosRP = [];
+
     function search_v2()
     {
         $type = get("type");
@@ -72,7 +74,7 @@ class BrapciWorksModel extends Model
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
             $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
-        echo '<h5>SmartRetriavel</h5>';
+        echo '<h5>SmartRetrieval</h5>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
@@ -130,7 +132,7 @@ class BrapciWorksModel extends Model
         echo '<h4>SmartRetriavel</h4>';
         echo '<p><b>Query:</b> ' . $query . ' - Project: ' . $project . '</p>';
         echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a>
-                | <a href="' . base_url('labs/updateVC/' . $thesaVC) . '" class="" title="Atualizar vocabulário"><i class="bi bi-arrow-repeat"></i></a>
+                | <a href="' . base_url('labs/works/updateVC/' . $thesaVC) . '" class="" title="Atualizar vocabulário"><i class="bi bi-arrow-repeat"></i></a>
                 | <a href="' . base_url('labs/viewVC/' . $thesaVC) . '" class="" title="Reexecutar busca"><i class="bi bi-eye"></i></a>
         </p>';
 
@@ -157,22 +159,30 @@ class BrapciWorksModel extends Model
         $escapedQuery = escapeshellarg($query);
 
         // Comando
-        $command = "$CMD $escapedQuery $project 2>&1";
+        $command = "$CMD --q $escapedQuery --p $project 2>&1";
         echo '<p>' . $command . '</p>';
 
         // Executa
         $output = shell_exec($command);
 
-
+        echo "<h2>Resposta</h2>";
 
         // Decodifica JSON retornado pelo Python
         $data = (array)json_decode($output, true);
+        /*
+        echo '=0===========';
+        pre($output, false);
+        echo '=1===========';
+        pre($data,false);
+        echo '=2===========';
+        */
 
         $net = '';
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $ID = $data['ids'] ?? [];
 
         echo '</div>';
+        echo $data["pergunta_original"] ?? 'Pergunta original não fornecida';
         echo $this->show_base_row($ID);
         return "";
     }
@@ -349,14 +359,24 @@ class BrapciWorksModel extends Model
         echo '</div>';
 
         echo '<div class="col-2 mb-2">';
-        echo '  Conceitos seleciondas: ';
+        echo '  Conceitos selecionados: ';
         echo '  </div>';
         echo '  <div class="col-10">';
-        foreach ($data['termos_autorizados_alinhados'] as $term) {
-            echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $term . '</nobr></tt>.';
+        $termsRP = [];
+        //pre($data['estrategia_expansao'],false);
+        foreach($data['estrategia_expansao'] as $group) {
+
+            foreach ($group['variations'] as $terms) {
+                echo '<tt class="btn btn-primary ms-1 mb-1"><nobr>' . $terms . '</nobr></tt>.';
+                $termsRP[] = $terms;
+            }
+            echo '<hr>';
         }
         echo '  </div>';
         echo '</div>';
+
+        /******************************* Termos autorizados alinhados */
+        $this->termosRP = $termsRP;
 
         echo '<div class="col-2 mb-2">';
         echo '  IDs: ';
@@ -421,8 +441,8 @@ class BrapciWorksModel extends Model
         }
         /**************************************************** Corpus */
         $sx = '';
-        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary']);
-        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary', 'termosRP' => $this->termosRP]);
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning', 'termosRP' => $this->termosRP]);
         return $sx;
     }
 

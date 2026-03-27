@@ -250,10 +250,7 @@ def ollama_interpret(question: str, terms: str):
 
     prompt = f"""
 SYSTEM:
-Você é especialista em Organização do Conhecimento.
-
-Tarefa:
-Selecionar até 3 termos MAIS relevantes da lista.
+Você é um bibliotecário especializado.
 
 Regras:
 - Classifique a pergunta usando APENAS os [TERMOS AUTORIZADOS] mais relevantes.
@@ -262,12 +259,10 @@ Regras:
 - NÃO repita os termos extraídos.
 - NÃO use frases completas.
 - NÃO invente termos.
-- Não comente sua resposta, apenas liste os termos.
-- Idioma padrão é o portugues
 - TERMOS em plural transforme para singular.
-- Prefira termos no singular, a menos que o plural seja a forma mais comum.
 - Selecione apenas termos específicos.
 - Retorne APENAS termos conceituais curtos, separados por vírgula.
+- NÃO use o termo "indexação" ou "indexação" (ou variações) como resposta, mesmo que seja relevante.
 - SEPARE os resmos escolhidos por vírgula, SEM usar "e" ou "ou" ou ENTER
 
 TERMOS AUTORIZADOS:
@@ -280,9 +275,12 @@ Extraia os termos relevantes da pergunta: "{question}"
     payload = {
         "model": MODEL,
         "prompt": prompt,
-        #"keep_alive": "0h",
+        "keep_alive": "24h",
         "stream": False,
         "options": {
+            #            "temperature": 0,
+            #            "top_p": 0.1,
+            #            "seed": 42
             "temperature": 0.0,
             "top_p": 0.1,
             "seed": 42,
@@ -299,7 +297,6 @@ Extraia os termos relevantes da pergunta: "{question}"
 
     text = response.json()["response"]
     concepts = [c.strip() for c in text.split(",") if c.strip()]
-
     return concepts
 
 
@@ -473,159 +470,6 @@ def extract_concept_id_from_label(label: str):
     if m:
         return m.group(1)
     return None
-
-
-def recover_hierarquia(llm_ids_unicos, net_terms):
-    """
-    Recupera a hierarquia de IDs específicos a partir dos IDs base do LLM.
-
-    Para cada ID em llm_ids_unicos, procura nós no .net com label "Termo <ID>",
-    percorre todos os descendentes e retorna os IDs conceituais encontrados.
-
-        Retorna apenas os IDs específicos por conceito base:
-        {
-            "1420": ["1421", "1493", ...],
-            ...
-        }
-    """
-    nodes, children = load_net_graph(net_terms)
-
-    # Mapa conceito -> nós do grafo cujo label contém "Termo <conceito>"
-    concept_to_node_ids = {}
-    for node_id, label in nodes.items():
-        concept_id = extract_concept_id_from_label(label)
-        if concept_id is None:
-            continue
-        if concept_id not in concept_to_node_ids:
-            concept_to_node_ids[concept_id] = []
-        concept_to_node_ids[concept_id].append(node_id)
-
-    def dfs_descendants(start_node):
-        visited = set()
-        stack = list(children.get(start_node, []))
-        while stack:
-            cur = stack.pop()
-            if cur in visited:
-                continue
-            visited.add(cur)
-            stack.extend(children.get(cur, []))
-        return visited
-
-    hierarquia = {}
-    covered_by_previous = set()
-
-    for concept_id in llm_ids_unicos:
-        concept_id = str(concept_id)
-
-        # Se o ID atual ja apareceu como especifico em grupo anterior, ignora.
-        if concept_id in covered_by_previous:
-            continue
-
-        node_matches = concept_to_node_ids.get(concept_id, [])
-        specific_concepts = set()
-
-        for node_id in node_matches:
-            descendants = dfs_descendants(node_id)
-            for desc_node in descendants:
-                desc_label = nodes.get(desc_node, "")
-                desc_concept_id = extract_concept_id_from_label(desc_label)
-                if desc_concept_id is not None and desc_concept_id != concept_id:
-                    specific_concepts.add(desc_concept_id)
-
-        sorted_specific_ids = sorted(
-            specific_concepts,
-            key=lambda x: int(x) if str(x).isdigit() else str(x)
-        )
-
-        hierarquia[concept_id] = sorted_specific_ids
-        covered_by_previous.update(sorted_specific_ids)
-
-    return hierarquia
-
-
-def recover_terms_by_id(ids, variantes):
-    """
-    Recupera apenas o nome principal (preferencial) de cada ID.
-
-    Regra adotada para "preferencial":
-    - primeiro item existente em variantes[ID]
-    - campo "term"
-
-    Retorna lista de termos sem duplicidade, mantendo a ordem dos IDs.
-    """
-    terms = []
-    seen = set()
-
-    for concept_id in ids:
-        concept_id = str(concept_id)
-        variants = variantes.get(concept_id, [])
-        if not variants:
-            continue
-
-        preferred = str(variants[0].get("term", "")).strip()
-        if not preferred:
-            continue
-
-        norm = normalize(preferred)
-        if norm in seen:
-            continue
-
-        seen.add(norm)
-        terms.append(preferred)
-
-    return terms
-
-
-def recover_term_variantes(llm_hierarquia, variantes):
-    """
-        Recupera variantes de termos a partir da hierarquia de IDs.
-
-        Entrada esperada:
-        - llm_hierarquia: {"1420": ["1421", "1493"], ...}
-        - variantes: {
-                "1420": [{"term": "X", "normalized": "x", ...}],
-                "1421": [{"term": "Y", "normalized": "y", ...}],
-                ...
-            }
-
-        Saida:
-        [
-            {
-                "concept_id": "1420",
-                "variations": ["X", "Y"]
-            }
-        ]
-        """
-    resultado = []
-
-    for concept_id, specific_ids in llm_hierarquia.items():
-        concept_id = str(concept_id)
-        all_ids = [concept_id] + [str(sid) for sid in specific_ids]
-
-        variations = []
-        seen_norm = set()
-
-        for cid in all_ids:
-            for item in variantes.get(cid, []):
-                term = str(item.get("term", "")).strip()
-                normalized = str(item.get("normalized", "")).strip()
-
-                if not term:
-                    continue
-
-                key = normalized or normalize(term)
-                if key in seen_norm:
-                    continue
-
-                seen_norm.add(key)
-                variations.append(term)
-
-        resultado.append({
-                "concept_id": concept_id,
-            "variations": variations
-        })
-
-    return resultado
 
 
 def recover_specific_terms_by_llm_ids(llm_ids_unicos, net_terms, variantes):
@@ -847,7 +691,7 @@ def process_smartretriavel_py(data, thesaurus):
 
 # ========= Função principal RAG =========
 def rag_query_v2(question: str, json_path: str):
-    useIA = 1
+
     json_terms = json_path.replace('.json', '_terms.json')
     net_terms = json_path.replace('.json', '.net')
 
@@ -858,23 +702,40 @@ def rag_query_v2(question: str, json_path: str):
     thesaurus = load_thesaurus(json_path)
     authorized_terms = load_authorized_terms(json_path)
 
-    ##################################### Fase I
     llm_concepts = ollama_interpret(question, authorized_terms)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
-    #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
-    aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
+    # Termos alinhados no vocabulário autorizado
+    flat_terms = [term for group in authorized_terms for term in group]
+    aligned_terms = align_with_vocabulary(llm_concepts, flat_terms)
+    useIA = 1
 
-    ##################################### Fase II - Alinhamento com vocabulário autorizado
-    llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
+    # Fallback: se não houver alinhamento com vocabulário,
+    # usa termos da pergunta, separando palavra a palavra,
+    # mas preservando expressões entre aspas.
+    if not aligned_terms:
+        aligned_terms = align_with_vocabulary(split_terms_preserving_quotes(question), flat_terms)
+        useIA = 0
 
-    #################################### Fase III - Recupera termos específicos por conceito identificado
-    estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
+    if not aligned_terms:
+        aligned_terms = []
+        aligned_terms.append(question)
+        useIA = 0
 
+
+    llm_specific_terms = recover_specific_terms_by_llm_concepts_map(llm_conceptsID, net_terms, variantes)
+
+    if useIA == 1:
+        estrategia_expansao = build_estrategia_expansao(llm_specific_terms)
+    else:
+        estrategia_expansao = [{"variations": aligned_terms}]
 
     base_result = {
         "pergunta_original": question,
         "conceitos_interpretados_pelo_llm": llm_concepts,
+    #        "llm_ids_unicos": llm_ids_unicos,
+    #        "llm_specific_terms_by_id": llm_specific_terms_by_id,
+    #        "llm_specific_terms": llm_specific_terms,
         "estrategia_expansao": estrategia_expansao,
         "termos_autorizados_alinhados": aligned_terms,
     #        "variantes_carregadas": variantes,

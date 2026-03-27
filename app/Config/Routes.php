@@ -207,6 +207,9 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
 
+    /********* Compat Labs VC (public) */
+    $routes->get('viewVC/(:any)', 'BrapciLabAbs::index/viewVC/$1');
+
     $routes->group('authority', function ($routes) {
         $routes->get('(:any)', 'BrapciLab::index_authority/$1');
         $routes->get('(:any)/(:any)', 'BrapciLab::index_authority/$1/$2');
@@ -322,9 +325,6 @@ $routes->post('event/event/update/(:any)', 'G3vent::events_update/$1');
 $routes->post('event/import', 'G3vent::importRun');
 $routes->get('event', 'G3vent::index');
 
-
-
-
 /********* PQ */
 $routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');
@@ -358,6 +358,12 @@ $routes->post('/tools/(:any)', 'Tools::index/$1');
 /********* Thesa */
 $routes->get('/thesa/(:any)', 'Thesa::index/$1');
 $routes->get('/thesa', 'Thesa::index');
+
+/********* ABS */
+$routes->get('/abs', 'Abs::index');
+$routes->get('/abs/(:any)', 'Abs::index/$1');
+$routes->get('/abs/(:any)/(:any)', 'Abs::index/$1/$2');
+$routes->get('/abs/(:any)/(:any)/(:any)', 'Abs::index/$1/$2/$3');
 
 /********** Others */
 //$routes->get('(:any)', 'MainPages::index/$1');

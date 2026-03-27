@@ -3,6 +3,59 @@
  * View: Lista de Trabalhos
  * Espera: array $Works
  */
+
+// Função para destacar termos no texto
+if (!function_exists('highlightTerms')) {
+    function removeAccents($text) {
+        $normalized = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
+        return $normalized !== false ? $normalized : $text;
+    }
+
+    function buildAccentInsensitivePattern($term) {
+        $accentMap = [
+            'a' => 'aáàâãä',
+            'e' => 'eéèêë',
+            'i' => 'iíìîï',
+            'o' => 'oóòôõö',
+            'u' => 'uúùûü',
+            'c' => 'cç',
+            'n' => 'nñ',
+            'y' => 'yýÿ'
+        ];
+
+        // Duas decomposicoes: termo original e termo sem acentos.
+        $charsOriginal = preg_split('//u', $term, -1, PREG_SPLIT_NO_EMPTY);
+        $charsNoAccent = preg_split('//u', mb_strtolower(removeAccents($term), 'UTF-8'), -1, PREG_SPLIT_NO_EMPTY);
+        $pattern = '';
+
+        foreach ($charsOriginal as $i => $ch) {
+            $base = $charsNoAccent[$i] ?? mb_strtolower($ch, 'UTF-8');
+
+            if (isset($accentMap[$base])) {
+                $variants = preg_quote($accentMap[$base], '/');
+                $pattern .= '[' . $variants . ']';
+            } else {
+                $pattern .= preg_quote($ch, '/');
+            }
+        }
+
+        return '/(' . $pattern . ')/iu';
+    }
+
+    function highlightTerms($text, $terms) {
+        if (empty($terms)) return $text;
+
+        // Prioriza termos maiores para reduzir sobreposição de destaques.
+        $terms = array_values(array_filter($terms, fn($t) => !empty($t)));
+        usort($terms, fn($a, $b) => mb_strlen($b, 'UTF-8') <=> mb_strlen($a, 'UTF-8'));
+
+        foreach ($terms as $term) {
+            $pattern = buildAccentInsensitivePattern($term);
+            $text = preg_replace($pattern, '<mark style="background-color: #FFFF00; font-weight: bold;">$1</mark>', $text);
+        }
+        return $text;
+    }
+}
 ?>
 
 <div class="container my-4">
@@ -38,7 +91,10 @@
                                 aria-controls="collapse<?= $i ?>">
 
                             <div>
-                                <strong class="<?= $class; ?>"><?= esc($work['title']) ?></strong>
+                                <strong class="<?= $class; ?>"><?php
+                                    $termosRP = $termosRP ?? [];
+                                    echo highlightTerms(esc($work['title']), $termosRP);
+                                ?></strong>
                                 <div class="small text-muted <?= $class; ?>">
                                     <?= esc($work['authors']) ?> ·
                                     <?= esc($work['journal']) ?> (<?= esc($work['year']) ?>)
@@ -83,7 +139,10 @@
                                         <i class="bi bi-card-text"></i> Resumo
                                     </h6>
                                     <p class="text-justify">
-                                        <?= esc($work['abstract']) ?>
+                                        <?php
+                                            $termosRP = $termosRP ?? [];
+                                            echo highlightTerms(esc($work['abstract']), $termosRP);
+                                        ?>
                                     </p>
                                 </div>
                             <?php endif; ?>
@@ -97,10 +156,16 @@
 
                                     <?php
                                     $keywords = array_map('trim', explode(';', $work['keywords']));
+                                    $termosRP = $termosRP ?? [];
                                     ?>
 
                                     <?php foreach ($keywords as $kw) : ?>
-                                        <span class="badge bg-light text-dark border me-1 mb-1">
+                                        <?php
+                                        $isHighlighted = in_array($kw, $termosRP);
+                                        $bgClass = $isHighlighted ? 'bg-warning' : 'bg-light';
+                                        $textClass = $isHighlighted ? 'text-dark' : 'text-dark';
+                                        ?>
+                                        <span class="badge <?= $bgClass ?> <?= $textClass ?> border me-1 mb-1">
                                             <?= esc($kw) ?>
                                         </span>
                                     <?php endforeach; ?>
