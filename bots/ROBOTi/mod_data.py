@@ -22,7 +22,7 @@ def removeDouble():
         GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
         ORDER BY total, oai_rdf desc
-        limit 2
+        limit 1
     """
     row = database.query(sql)
     if row != []:
@@ -47,7 +47,6 @@ def removeDouble():
                     qd = "delete from brapci_oaipmh.oai_listidentify where id_oai = "+str(ID)
                     database.update(qd)
                 IDidO = IDoAT
-    return ""
 
     sql = """
         Select * From (
@@ -58,6 +57,7 @@ def removeDouble():
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY total desc
+        limit 1
     """
 
     print("600 - Verificando dados duplicados")
@@ -68,7 +68,7 @@ def removeDouble():
             ID = item[0]
             total = item[1]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
-
+            sys.exit()
             if (ID != 0):
 
                 # Remover citações
