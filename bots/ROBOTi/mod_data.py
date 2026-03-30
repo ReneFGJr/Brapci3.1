@@ -13,6 +13,8 @@ import mod_logs
 import mod_ai_nlp
 
 def removeDouble():
+
+    return ""
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, min(id_oai) as idx
