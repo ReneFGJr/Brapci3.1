@@ -368,8 +368,7 @@ def ProcessArticle(): ############################# 5
     # Phase II - Processa arquivos
     if (reg != []):
         for it in reg:
-            print(it)
-            #mod_article.process(it)
+            mod_article.process(it)
 
 def ProcessRecordIssue():
     # Phase I - get Next Records
