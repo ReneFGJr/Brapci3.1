@@ -127,8 +127,6 @@ def check_method02(data,OAIID,IDjnl):
     qr = f"select ID, json from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     qr += f" and YEAR = '{YEAR}' "
-    print(qr)
-    sys.exit()
     row = database.query(qr)
 
     if row == []:
