@@ -29,6 +29,7 @@ def process(rg):
 
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}.{JNL}) [{IDX}]: "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
+    return ""
     sys.exit()
     try:
         ##print(path)
