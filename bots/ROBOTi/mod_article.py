@@ -57,8 +57,6 @@ def process(rg):
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
             else:
                 print("IDX==",IDX)
-            sys.exit()
-
 
         ########################################## Inserir Trabalho
         if (IDX == 0):
