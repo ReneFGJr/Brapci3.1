@@ -29,8 +29,6 @@ def process(rg):
 
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}.{JNL}) [{IDX}]: "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
-    return ""
-    sys.exit()
     try:
         ##print(path)
         f = open(path)
@@ -38,6 +36,9 @@ def process(rg):
 
         #Verifica se existe o ID = METHODO 01
         BYPASS = 0
+
+        print("IDX",IDX)
+        return ""
 
         if IDX == 0:
             print("Method 01")
