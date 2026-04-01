@@ -14,7 +14,6 @@ import mod_ai_nlp
 
 def removeDouble():
 
-    return ""
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, min(id_oai) as idx
@@ -27,6 +26,7 @@ def removeDouble():
         limit 1
     """
     row = database.query(sql)
+    print("="*50)
     print(row)
     sys.exit()
     if row != []:
