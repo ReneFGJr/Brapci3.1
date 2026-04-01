@@ -14,6 +14,7 @@ import mod_ai_nlp
 
 def removeDouble():
 
+    return ""
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, min(id_oai) as idx
@@ -23,7 +24,7 @@ def removeDouble():
         GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
         ORDER BY total, oai_rdf desc
-        limit 10
+        limit 1
     """
     row = database.query(sql)
     print(row)
@@ -53,7 +54,6 @@ def removeDouble():
                 else:
                     print("Mantendo ID",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
                 IDidO = IDoAT
-    return ""
 
     sql = """
         Select * From (
@@ -64,6 +64,7 @@ def removeDouble():
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY total desc
+        limit 1
     """
 
     print("600 - Verificando dados duplicados")
@@ -95,10 +96,11 @@ def removeDouble():
                         if (nr > 0):
                             qd = f"update brapci_oaipmh.oai_listidentify set oai_issue = 0, oai_status = 1, oai_rdf = 0 where oai_rdf = {ID} "
                             database.update(qd)
-                            print(nr,"Excluindo",IDX)
+                            print(nr,"Zerados dados",IDX)
                         else:
                             print(nr,"Mantendo",IDX)
                         nr = nr + 1
+            sys.exit()
 
 
 def literal_double(prop = 0):
