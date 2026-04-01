@@ -37,15 +37,13 @@ def process(rg):
         #Verifica se existe o ID = METHODO 01
         BYPASS = 0
 
-        print("IDX",IDX)
-        return ""
-
         if IDX == 0:
             print("Method 01")
             IDX = check_method01(IDA,JNL)
 
             print("+============================")
             print(IDX,IDA,JNL)
+            sys.exit()
 
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
