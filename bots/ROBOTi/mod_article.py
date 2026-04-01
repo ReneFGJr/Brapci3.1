@@ -43,7 +43,6 @@ def process(rg):
 
             print("+============================")
             print(IDX,IDA,JNL)
-            sys.exit()
 
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
@@ -58,6 +57,7 @@ def process(rg):
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
             else:
                 print("IDX==",IDX)
+            sys.exit()
 
 
         ########################################## Inserir Trabalho
