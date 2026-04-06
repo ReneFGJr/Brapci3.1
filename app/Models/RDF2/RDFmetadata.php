@@ -783,7 +783,7 @@ class RDFmetadata extends Model
         }
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
-        $dr['subject']['pt'] = $this->arrayExtract($dd, 'hasSubject');
+        $dr['subject']['pt'] = $this->arrayExtractLangage($dd, 'hasSubject','pt');
         $dr['bookID'] = $this->simpleExtractID($dd, 'hasBookChapter');
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
@@ -1010,6 +1010,27 @@ class RDFmetadata extends Model
         $RSP = [];
         if (isset($dt[$class])) {
             $data = $dt[$class];
+            foreach ($data as $lg) {
+                foreach ($lg as $ida => $line) {
+                    $name = [];
+                    $name['name'] = trim(key($line));
+                    $name['ID'] = $line[key($line)];
+                    if ($suf != '') {
+                        $name['complement'] = $suf;
+                    }
+                    array_push($RSP, $name);
+                }
+            }
+        }
+        return $RSP;
+    }
+
+    function arrayExtractLangage($dt, $class, $lang = '')
+    {
+        $RSP = [];
+        if (isset($dt[$class])) {
+            $data = $dt[$class];
+            pre($data);
             foreach ($data as $lg) {
                 foreach ($lg as $ida => $line) {
                     $name = [];
