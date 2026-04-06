@@ -305,6 +305,8 @@ class Search extends Model
         $ATX = [];
         $ATH = [];
 
+        pre($line);
+
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
             $dts[$ida] = $line;
