@@ -783,7 +783,12 @@ class RDFmetadata extends Model
         }
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
-        $dr['subject']['pt'] = $this->arrayExtractLangage($dd, 'hasSubject','pt');
+        $langs = ['pt','en','es','fr'];
+        foreach($langs as $lang)
+            {
+                $dr['subject'][$lang] = $this->arrayExtractLangage($dd, 'hasSubject', $lang);
+            }
+
         $dr['bookID'] = $this->simpleExtractID($dd, 'hasBookChapter');
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
