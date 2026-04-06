@@ -1031,8 +1031,9 @@ class RDFmetadata extends Model
         if (isset($dt[$class])) {
             $data = $dt[$class];
             foreach ($data as $lg) {
+                pre($lg);
                 foreach ($lg as $lang => $line) {
-                    pre($lang);
+
                     $name = [];
                     $name['name'] = trim(key($line));
                     $name['ID'] = $line[key($line)];
