@@ -1030,9 +1030,9 @@ class RDFmetadata extends Model
         $RSP = [];
         if (isset($dt[$class])) {
             $data = $dt[$class];
-            foreach ($data as $lg) {
+            foreach ($data as $lg=>$dataLg) {
                 pre($lg);
-                foreach ($lg as $lang => $line) {
+                foreach ($dataLg as $lang => $line) {
 
                     $name = [];
                     $name['name'] = trim(key($line));
