@@ -1031,16 +1031,16 @@ class RDFmetadata extends Model
         if (isset($dt[$class])) {
             $data = $dt[$class];
             foreach ($data as $lg=>$dataLg) {
-                pre($lg);
-                foreach ($dataLg as $lang => $line) {
-
+                if ($lg == $lang) {
+                foreach ($dataLg as $id => $line) {
                     $name = [];
                     $name['name'] = trim(key($line));
                     $name['ID'] = $line[key($line)];
-                    if ($suf != '') {
-                        $name['complement'] = $suf;
+                    if ($lang != '') {
+                        $name['complement'] = $lang;
                     }
                     array_push($RSP, $name);
+                }
                 }
             }
         }
