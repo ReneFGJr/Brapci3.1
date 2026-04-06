@@ -133,12 +133,12 @@ class Search extends Model
         $data = [];
         $strategy = [];
 
-        $this->saveSearchToElastic(get("term"));    
+        $this->saveSearchToElastic(get("term"));
 
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
         $query = $Logic->method_v1();
-        $this->curlQuery($query);        
+        $this->curlQuery($query);
     }
 
     function curlQuery($query, $echoResult = true)
@@ -231,7 +231,7 @@ class Search extends Model
         $type = '1';
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
         $SearchDB->register(json_encode($query), count($dt['works']), $type);
-        
+
         if ($echoResult) {
             echo (json_encode($dt));
             exit;
@@ -332,7 +332,7 @@ class Search extends Model
                     foreach ($k as $idk => $kyw) {
                         $kyw = trim($kyw);
                         $kyw = strtolower($kyw);
-                        $kyw = preg_replace('/[^A-Za-z0-9 ]/', '', $kyw);
+                        //$kyw = preg_replace('/[^A-Za-z0-9 ]/', '', $kyw);
                         $kyw = nbr_title($kyw);
                         if (strlen($kyw) > 2) {
                             if (!isset($KYZ[$kyw])) {
