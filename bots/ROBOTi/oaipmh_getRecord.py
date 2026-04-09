@@ -256,6 +256,7 @@ def process(rg):
                 print("Erro a processar o Linguage",e)
         except Exception as e:
             print(Fore.RED,"Erro no XML - [2026]",Fore.WHITE)
+            print(doc)
             print(e)
         try:
             DC = [{'journal':dc_journal},{'section':dc_section},{'title':dc_titulo},{'abstract':dc_abstract},{'author':dc_author},{'subject':dc_subject},{'source':dc_source},{'datePub':dc_datePub},{'DOI':dc_doi},{'http':dc_link},{'language':dc_language},{'license':dc_license}]
