@@ -58,9 +58,6 @@ def removeDouble():
                 IDidO = IDoAT
 
     print("=" * 50)
-    print(row)
-    sys.exit()
-
 
     sql = """
         Select * From (
