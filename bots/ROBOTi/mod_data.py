@@ -49,7 +49,8 @@ def removeDouble():
                     database.update(qd)
                     print(qd)
 
-                    qd = "delete from dataset WHERE ID = "+str(ID)
+                    qd = "delete from brapci_elastic.dataset WHERE ID = " + str(
+                        ID)
                     database.update(qd)
                     print(qd)
                     sys.exit()
