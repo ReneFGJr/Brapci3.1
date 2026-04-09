@@ -65,6 +65,7 @@ def removeDouble():
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
+        adn oai_rdf = 354806
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY oai_rdf, total desc
