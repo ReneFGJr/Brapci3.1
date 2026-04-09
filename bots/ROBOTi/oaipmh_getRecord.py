@@ -268,6 +268,7 @@ def process(rg):
                 if (status == 'deleted'):
                     mod_listidentify.updateStatus(ID, 9)
                     print("Registro excluído")
+                    return ""
 
             except Exception as e:
                 print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
