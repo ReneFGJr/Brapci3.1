@@ -264,6 +264,9 @@ def process(rg):
                 attributes = header.get('@attributes', {})
                 print("Attributs",header)
 
+                status = doc['OAI-PMH']['GetRecord']['record']['header'].get('@status')
+                print("=============", status)
+
                 status = attributes.get('@status')
 
                 print("=============", status)
