@@ -258,9 +258,14 @@ def process(rg):
             print(e)
             print(Fore.RED,"Erro no XML - [2026]",Fore.WHITE)
             try:
-                OAIPMH = doc['OAI-PMH']
-                status = OAIPMH['GetRecord']['record']['header']['@attributes']['status']
-                print("=============",status)
+                OAIPMH = doc.get('OAI-PMH', {})
+                record = OAIPMH.get('GetRecord', {}).get('record', {})
+                header = record.get('header', {})
+                attributes = header.get('@attributes', {})
+
+                status = attributes.get('status')
+
+                print("=============", status)
             except Exception as e:
                 print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
         try:
