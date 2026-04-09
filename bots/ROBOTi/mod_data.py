@@ -26,9 +26,6 @@ def removeDouble():
         limit 1
     """
     row = database.query(sql)
-    print("="*50)
-    print(row)
-    sys.exit()
     if row != []:
         for item in row:
             qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
@@ -59,6 +56,11 @@ def removeDouble():
                 else:
                     print("Mantendo ID",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
                 IDidO = IDoAT
+
+    print("=" * 50)
+    print(row)
+    sys.exit()
+
 
     sql = """
         Select * From (
