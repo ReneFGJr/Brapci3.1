@@ -76,8 +76,6 @@ def removeDouble():
     row = database.query(sql)
     if row != []:
         for item in row:
-            print(item)
-            sys.exit()
             ID = item[0]
             total = item[1]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
