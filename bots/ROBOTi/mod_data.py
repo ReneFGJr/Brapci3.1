@@ -88,7 +88,7 @@ def removeDouble():
                 # Remove dados RDF
                 qd = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} or d_r2 = {ID} "
                 database.update(qd)
-
+                print("====== Dados RDF Excluidos ======")
                 sys.exit()
 
                 # Lima IDX
