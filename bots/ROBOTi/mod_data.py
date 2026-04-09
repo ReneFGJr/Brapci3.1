@@ -53,8 +53,6 @@ def removeDouble():
                         ID)
                     database.update(qd)
                     print(qd)
-                    sys.exit()
-
                 else:
                     print("Mantendo ID",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
                 IDidO = IDoAT
