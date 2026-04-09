@@ -13,7 +13,7 @@ import mod_logs
 import mod_ai_nlp
 
 def removeDouble():
-
+    return ""
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, max(id_oai) as idx
@@ -28,12 +28,36 @@ def removeDouble():
     row = database.query(sql)
     if row != []:
         for item in row:
-            qu = "update brapci_oaipmh.oai_listidentify set oai_status = 20, oai_deleted = 1 where id_oai  = "+str(item[3])
-            print(item)
-            print(qu)
-            sys.exit()
+            qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
+            row2 = database.query(qq)
+            IDidO = None
+            for item2 in row2:
+                ID = item2[0]
+                oai_id_jnl = item2[4]
+                oai_id = item2[5]
+                oai_rdf = item2[2]
+                oai_deleted = item2[3]
+                ######################
+                #Tratar
+                IDoAT = oai_id.split("/")[-1]
+                #print("==1>",IDidO)
+                print("==2>",oai_id)
+                if (IDidO == IDoAT):
+                    print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    print("Excluindo ID",ID)
+                    qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 1 where id_oai = " + str(ID)
+                    database.update(qd)
+                    print(qd)
+
+                    qd = "delete from brapci_elastic.dataset WHERE ID = " + str(ID)
+                    database.update(qd)
+                    print(qd)
+                else:
+                    print("Mantendo ID",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                IDidO = IDoAT
 
     print("=" * 50)
+    sys.exit()
 
     sql = """
         Select * From (
