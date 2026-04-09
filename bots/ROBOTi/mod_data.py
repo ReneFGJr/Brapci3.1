@@ -68,7 +68,7 @@ def removeDouble():
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY oai_rdf, total desc
-        limit 1
+        limit 100
     """
 
     print("600 - Verificando dados duplicados")
