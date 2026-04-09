@@ -79,8 +79,6 @@ def removeDouble():
             ID = item[0]
             total = item[1]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
-            print(item)
-            sys.exit()
             if (ID != 0):
 
                 # Remover citações
@@ -90,6 +88,8 @@ def removeDouble():
                 # Remove dados RDF
                 qd = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} or d_r2 = {ID} "
                 database.update(qd)
+
+                sys.exit()
 
                 # Lima IDX
                 qa = f"select * from brapci_oaipmh.oai_listidentify where oai_rdf = {ID} "
