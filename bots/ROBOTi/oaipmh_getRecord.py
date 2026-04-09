@@ -233,7 +233,7 @@ def process(rg):
                     try:
                         lg = mod_language.check(TIT['@xml:lang'])
                     except Exception as e:
-                         print("String Source: "+TIT)
+                        print("String Source: "+TIT)
                     else:
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
                         dc_source = sourceName
@@ -265,11 +265,10 @@ def process(rg):
                 print("Attributs",header)
 
                 status = doc['OAI-PMH']['GetRecord']['record']['header'].get('@status')
-                print("=============", status)
+                if (status == 'deleted'):
+                    mod_listidentify.updateStatus(ID, 9)
+                    print("Registro excluído")
 
-                status = attributes.get('@status')
-
-                print("=============", status)
             except Exception as e:
                 print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
         try:
