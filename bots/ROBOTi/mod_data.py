@@ -79,7 +79,8 @@ def removeDouble():
             ID = item[0]
             total = item[1]
             print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
-
+            print(item)
+            sys.exit()
             if (ID != 0):
 
                 # Remover citações
