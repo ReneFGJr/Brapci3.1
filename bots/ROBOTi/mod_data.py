@@ -99,7 +99,7 @@ def removeDouble():
                     for nitem in nrow:
                         IDX = nitem[0]
                         if (nr > 0):
-                            qd = f"update brapci_oaipmh.oai_listidentify set oai_issue = 0, oai_status = 1, oai_rdf = 0 where oai_rdf = {ID} "
+                            qd = f"update brapci_oaipmh.oai_listidentify set oai_issue = 0, oai_status = 1, oai_rdf = 0 where id_oai  = {IDX} "
                             database.update(qd)
                             print(nr,"Zerados dados",IDX)
                         else:
