@@ -254,7 +254,7 @@ def process(rg):
                     dc_language.append(mod_language.check(reg))
             except Exception as e:
                 print("Erro a processar o Linguage",e)
-                    OAIPMH = doc['OAI-PMH']
+                OAIPMH = doc['OAI-PMH']
             RCN = OAIPMH['GetRecord']['record']['metadata']['oai_dc:dc'] Exception as e:
             print(Fore.RED,"Erro no XML - [2026]",Fore.WHITE)
             try:
