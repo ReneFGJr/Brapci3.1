@@ -262,9 +262,8 @@ def process(rg):
                 record = OAIPMH.get('GetRecord', {}).get('record', {})
                 header = record.get('header', {})
                 attributes = header.get('@attributes', {})
-                print("Attributs",header)
 
-                status = attributes.get('status')
+                status = attributes.get('@status')
 
                 print("=============", status)
             except Exception as e:
