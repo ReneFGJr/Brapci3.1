@@ -106,7 +106,6 @@ def removeDouble():
                         nr = nr + 1
 
                     print("====== Dados RDF Excluidos ======")
-                    sys.exit()
             sys.exit()
 
 
