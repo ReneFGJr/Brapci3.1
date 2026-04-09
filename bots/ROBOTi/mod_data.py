@@ -25,7 +25,6 @@ def removeDouble():
         ORDER BY total, oai_rdf desc
         limit 10
     """
-    print(sql)
     row = database.query(sql)
     if row != []:
         for item in row:
@@ -51,6 +50,7 @@ def removeDouble():
                     print(qd)
 
                     qd = "delete from dataset WHERE ID =  = "+str(ID)
+                    database.update(qd)
                     print(qd)
                     sys.exit()
 
