@@ -254,17 +254,15 @@ def process(rg):
                     dc_language.append(mod_language.check(reg))
             except Exception as e:
                 print("Erro a processar o Linguage",e)
-                OAIPMH = doc['OAI-PMH']
-                RCN = OAIPMH['GetRecord']['record']['metadata']['oai_dc:dc'] Exception as e:
-                print(Fore.RED,"Erro no XML - [2026]",Fore.WHITE)
-                try:
-                    OAIPMH = doc['OAI-PMH']
-                    status = OAIPMH['GetRecord']['record']['header']['@attributes']['status']
-                    print("=============",status)
-                except Exception as e:
-                    print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
-            print(doc)
+        except Exception as e:
             print(e)
+            print(Fore.RED,"Erro no XML - [2026]",Fore.WHITE)
+            try:
+                OAIPMH = doc['OAI-PMH']
+                status = OAIPMH['GetRecord']['record']['header']['@attributes']['status']
+                print("=============",status)
+            except Exception as e:
+                print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
         try:
             DC = [{'journal':dc_journal},{'section':dc_section},{'title':dc_titulo},{'abstract':dc_abstract},{'author':dc_author},{'subject':dc_subject},{'source':dc_source},{'datePub':dc_datePub},{'DOI':dc_doi},{'http':dc_link},{'language':dc_language},{'license':dc_license}]
         except Exception as e:
