@@ -1,0 +1,37 @@
+{
+  "itemsMax": 7,
+  "items": [
+    {
+      "_href": "https://editora.inma.gov.br/index.php/mbml/api/v1/submissions/50",
+      "contextId": 1,
+      "sectionId": 1,
+      "id": 50,
+      "status": 1,
+      "submissionProgress": 0,
+      "workType": "ARTICLE",
+      "dateSubmitted": "2024-03-01 10:00:00",
+      "lastModified": "2024-03-02 12:00:00",
+      "stageId": 3,
+      "locale": "pt_BR",
+      "title": {"pt_BR": "Título do Artigo 1"},
+      "authorString": "Autor 1",
+      "urlPublished": null
+    },
+    {
+      "_href": "https://editora.inma.gov.br/index.php/mbml/api/v1/submissions/51",
+      "contextId": 1,
+      "sectionId": 1,
+      "id": 51,
+      "status": 1,
+      "submissionProgress": 0,
+      "workType": "ARTICLE",
+      "dateSubmitted": "2024-03-05 14:30:00",
+      "lastModified": "2024-03-06 09:15:00",
+      "stageId": 3,
+      "locale": "pt_BR",
+      "title": {"pt_BR": "Título do Artigo 2"},
+      "authorString": "Autor 2",
+      "urlPublished": null
+    }
+  ]
+}

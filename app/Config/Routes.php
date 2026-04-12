@@ -43,6 +43,8 @@ $routes->get('/chat/', 'Chatbot::index/');
 $routes->get('/chatbot/', 'Chatbot::index/');
 
 
+
+
 /********** CDU */
 $routes->get('/cdu', 'Cdu::index');
 $routes->get('/cdu/(:any)', 'Cdu::index/$1');
@@ -186,10 +188,23 @@ $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin', 'Admin::index');
 
+
 /********* OJS */
-$routes->get('ojs', 'OJS::index');
-$routes->post('ojs/send', 'OJS::send');
-$routes->get('ojs/journal', 'OJS::journal');
+$routes->group('ojs', function($routes) {
+    $routes->get('/', 'Ojs::index');
+    $routes->get('submissoes', 'Ojs::submissoes');
+    $routes->get('nova', 'Ojs::nova');
+    $routes->match(['get', 'post'], 'send', 'Ojs::send');
+    $routes->match(['get', 'post'], 'send/0', 'Ojs::send0');
+    $routes->match(['get', 'post'], 'send/1', 'Ojs::send1');
+    $routes->match(['get', 'post'], 'send/2', 'Ojs::send2');
+    $routes->match(['get', 'post'], 'send/3', 'Ojs::send3');
+    $routes->match(['get', 'post'], 'send/4', 'Ojs::send4');
+    $routes->get('journal', 'Ojs::journal');
+    $routes->get('csv', 'Ojs::csv');
+    // Outras rotas relacionadas ao OJS podem ser adicionadas aqui
+});
+
 
 $routes->group('events', function ($routes) {
     $routes->get('/', 'Event::index');

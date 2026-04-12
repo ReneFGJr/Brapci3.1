@@ -95,6 +95,9 @@ class Database extends Config
     public array $manuais = [];
     public array $brapci_labs = [];
 
+    public array $simori = [];
+    public array $ojs_import = [];
+
 
 
     /**
@@ -185,6 +188,7 @@ class Database extends Config
             'bookmarks' => 'bookmark',
             'brapci_labs' => 'brapci_labs',
             'simori' => 'simori',
+            'ojs_import' => 'ojs_import'
         ];
     /*
 

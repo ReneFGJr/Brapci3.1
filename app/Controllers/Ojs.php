@@ -13,160 +13,266 @@ class Ojs extends Controller
 
     public function index()
     {
-        return view('OJS/form_upload');
+        // Página inicial com menu
+        return view('OJS/home');
     }
 
-
-
-    public function journal()
+    /**
+     * Importa arquivo CSV de submissões
+     */
+    public function csv()
     {
-        $client = \Config\Services::curlrequest();
-
-        try {
-            $response = $client->get($this->apiUrl, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->apiToken,
-                    'Accept'        => 'application/json',
-                ],
-                'timeout' => 10,
-                'verify'  => false, // 🚨 desativa a verificação SSL temporariamente
-            ]);
-
-            $status = $response->getStatusCode();
-
-            if ($status !== 200) {
-                return "Erro ao acessar API (HTTP {$status})";
-            }
-
-            $data = json_decode($response->getBody(), true);
-
-            if (empty($data['items'][0])) {
-                return "Nenhum dado retornado pela API.";
-            }
-        } catch (\Exception $e) {
-            return "❌ Erro: " . $e->getMessage();
+        $articleModel = new \App\Models\OJS\ArticleModel();
+        $status = $this->request->getGet('status');
+        if ($status !== null && $status !== '') {
+            $result = $articleModel->where('status', $status)->findAll();
+        } else {
+            $result = $articleModel->findAll();
         }
-        // Pega o primeiro contexto
-        $revista = $data['items'][0];
 
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
-        exit;
-        // Passa os dados para a View
-        return view('OJS/revista_view', ['revista' => $revista]);
+        // Totalização por status
+        $statusTotals = $articleModel->select('status, COUNT(*) as total')->groupBy('status')->findAll();
+        $totais = [];
+        foreach ($statusTotals as $row) {
+            $totais[$row['status']] = $row['total'];
+        }
+
+        return view('OJS/csv_result', [
+            'result' => $result,
+            'totais' => $totais
+        ]);
     }
 
+    public function submissoes()
+    {
+        // Carrega o model
+        $articleModel = new \App\Models\OJS\ArticleModel();
+        $submissoes = $articleModel->getActiveSubmissions();
 
+        return view('OJS/submissoes', [
+            'submissoes' => $submissoes
+        ]);
+    }
 
+    /**
+     * Exibe dados importados do CSV e botão de confirmação
+     */
     public function send()
     {
-        $ArticleModel = new \App\Models\OJS\ArticleModel();
-        helper(['form', 'filesystem', 'sidoc_forms']);
-        helper('sisdoc_forms');
+        $csv = $this->request->getPost('csv');
+        $confirm = $this->request->getPost('confirm');
 
-        //$ArticleModel->createSubmission();
-        $ArticleModel->updateSubmission();
-        exit;
-
-        $titulo = $this->request->getPost('titulo');
-        $resumo = $this->request->getPost('resumo');
-        $autor  = $this->request->getPost('autor');
-        $email  = $this->request->getPost('email');
-        $pdf    = $this->request->getFile('arquivo');
-
-        if (!$pdf->isValid()) {
-            return "❌ Erro: arquivo inválido.";
+        if (!$csv) {
+            return '<div class="alert alert-warning m-5">Nenhum dado recebido para submissão.</div>';
         }
 
-        // === 1️⃣ Envia metadados da submissão ===
-        $client = \Config\Services::curlrequest();
+        // Se confirmou, envia para o OJS
+        if ($confirm) {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            // Monta o payload para o OJS
+            $data = [
+                'sectionId' => 1, // ou outro valor conforme necessário
+                'title' => ['pt_BR' => $csv['title'] ?? ''],
+                'locale' => 'pt_BR',
+                'language' => 'pt_BR',
+                'authors' => $csv['authors'] ?? '',
+                'year' => $csv['Year'] ?? $csv['year'] ?? ''
+            ];
+            $rsp = $articleModel->createSubmissionFromCsv($data);
 
-        // === 1️⃣ Metadados da submissão ===
-        $data = [
-            "contextId" => 1,   // pegue do /api/v1/contexts
-            "sectionId" => 3,   // pegue do /api/v1/sections?contextId=1
-            "locale"    => "pt_BR",
-            "title"     => ["pt_BR" => $titulo . '2'],
-            "abstract"  => ["pt_BR" => $resumo],
-            "authors"   => [[
-                "givenName"        => ["pt_BR" => "René Faustino"],
-                "familyName"       => ["pt_BR" => "Gabriel Junior"],
-                "email"            => $email,
-                "country"          => "BR",
-                "isPrimaryContact" => true
-            ]]
-        ];
+            // Atualiza registro na tabela se houver ID
+            $id = $csv['ID'] ?? $csv['id'] ?? null;
+            if ($id && isset($rsp['response']->id)) {
+                $articleModel->update($id, [
+                    'submit_id' => $rsp['response']->id,
+                    'submit_data' => date('Y-m-d H:i:s'),
+                    'status' => 1
+                ]);
+            }
 
-        pre($data);
-
-        try {
-            $response = $client->post($this->apiUrl . '/submissions', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->apiToken,
-                    'Content-Type'  => 'application/json',
-                    'Accept'        => 'application/json'
-                ],
-                'json'    => $data,
-                'timeout' => 20,
-                'verify'  => false
+            return view('OJS/send_result', [
+                'csv' => $csv,
+                'result' => $rsp
             ]);
-            $status = $response->getStatusCode();
-            $body   = $response->getBody();
-
-            echo "<h3>HTTP $status</h3>";
-            echo "<h4>Request JSON</h4><pre>" . json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "</pre>";
-            echo "<h4>Response</h4><pre>" . htmlspecialchars($body) . "</pre>";
-        } catch (\Exception $e) {
-            return "❌ Erro: " . $e->getMessage();
         }
 
-        pre($response);
-
-        $status = $response->getStatusCode();
-        $json   = json_decode($response->getBody(), true);
-
-        pre($status);
-        pre($json);
-
-
-        if ($status != 201 || empty($json['id'])) {
-            return "❌ Falha ao criar submissão (HTTP $status):<br><pre>" .
-                htmlspecialchars($response->getBody()) . "</pre>";
-        }
-
-        $submissionId = $json['id'];
-
-        // === 2️⃣ Faz upload do PDF ===
-        $uploadUrl = "https://editora.inma.gov.br/index.php/mbml/api/v1/submissions/{$submissionId}/files";
-
-        $tempPath = WRITEPATH . 'uploads/' . $pdf->getRandomName();
-        $pdf->move(WRITEPATH . 'uploads', basename($tempPath));
-
-        $uploadResponse = $client->post($uploadUrl, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiToken,
-                'Accept'        => 'application/json'
-            ],
-            'multipart' => [[
-                'name'     => 'file',
-                'contents' => fopen($tempPath, 'r'),
-                'filename' => $pdf->getName()
-            ]]
+        // Senão, só mostra para confirmação
+        return view('OJS/send_confirm', [
+            'csv' => $csv
         ]);
+    }
 
-        unlink($tempPath);
+    /**
+     * 0 - Submissão inicial (rota /ojs/send/0)
+     */
+    public function send0()
+    {
+        $articleModel = new \App\Models\OJS\ArticleModel();
+        $csv = $this->request->getPost('csv');
+        if ($csv) {
+            // Envia submissão inicial para o OJS
+            $rsp = $articleModel->submitToOJS($csv);
+            $id = $csv['ID'] ?? $csv['id'] ?? null;
+            if ($id && isset($rsp['httpCode']) && $rsp['httpCode'] == 200) {
+                $dd = [];
+                $idR = $csv['idR'] ?? null;
+                $dd['status'] = 1;
+                $dd['submit_data'] = date('Y-m-d H:i:s');
+                $dd['submit_id'] = $rsp['response']->id ?? null;
+                $articleModel->set($dd)->where('idR', $idR)->update();
 
-        $uploadStatus = $uploadResponse->getStatusCode();
-        $uploadBody   = $uploadResponse->getBody();
+                $submitId = $rsp['response']->id ?? null;
 
-        if ($uploadStatus != 201) {
-            return "⚠️ Submissão criada (ID {$submissionId}), mas erro no upload do arquivo:<br><pre>" .
-                htmlspecialchars($uploadBody) . "</pre>";
+                $title = $csv['Title'] ?? '';
+                $rsp = $articleModel->updateTitleOJS($submitId, $title);
+                $dd['status'] = 2;
+                $articleModel->set($dd)->where('idR', $idR)->update();
+
+
+                $RSP = $articleModel->addAuthors($submitId, $csv['Authors'] ?? '');
+                $dd['status'] = 3;
+                $articleModel->set($dd)->where('idR', $idR)->update();
+
+                /************* `Phase 4` */
+                $filePath = "../_Documments/OJS/modelo.pdf";
+                if (!file_exists($filePath)) {
+                    return '<div class="alert alert-danger m-5">Arquivo para upload não encontrado: ' . esc($filePath) . '</div>';
+                }
+                $rsp = $articleModel->uploadFileOJS($submitId, $filePath);
+                $dd['status'] = 4;
+                $articleModel->set($dd)->where('idR', $idR)->update();
+
+
+                return view('OJS/send_result', [
+                'response' => $rsp,
+                'csv' => $csv
+                ]);
+            }
         }
+        // Se não houver dados, retorna confirmação
+        return view('OJS/send_confirm', [
+            'csv' => $csv
+        ]);
+    }
 
-        return "✅ Submissão enviada com sucesso!<br>
-                🆔 ID: {$submissionId}<br><br>
-                📎 Resposta do upload:<pre>" . htmlspecialchars($uploadBody) . "</pre>";
+    public function nova()
+    {
+        // Redireciona para o formulário de nova submissão
+        return view('OJS/form_upload');
+    }
+    /**
+     * Atualizar título
+     */
+    public function send1()
+    {
+        $csv = $this->request->getPost('csv');
+        $confirm = $this->request->getPost('confirm');
+        if (!$csv) {
+            return '<div class="alert alert-warning m-5">Nenhum dado recebido para atualização de título.</div>';
+        }
+        if ($confirm) {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $submitId = $csv['submit_id'] ?? null;
+            $title = $csv['Title'] ?? '';
+            $rsp = $articleModel->updateTitleOJS($submitId, $title);
+
+            // Se sucesso, atualiza status para 2 e recarrega visualizador
+            $id = $csv['ID'] ?? $csv['id'] ?? null;
+            if ($id && isset($rsp['httpCode']) && $rsp['httpCode'] == 200) {
+                $dd = [];
+                $idR = $csv['idR'] ?? null;
+                $dd['status'] = 2;
+                $articleModel->set($dd)->where('idR', $idR)->update();
+                // Redireciona para o visualizador para próxima fase
+                return redirect()->to(base_url('ojs/csv?status=2'));
+            }
+
+            return view('OJS/send_result', [
+                'csv' => $csv,
+                'result' => $rsp
+            ]);
+        }
+        return view('OJS/send_confirm', [
+            'csv' => $csv
+        ]);
+    }
+
+    /**
+     * Atualizar autores
+     */
+    public function send2()
+    {
+        $csv = $this->request->getPost('csv');
+        $confirm = $this->request->getPost('confirm');
+        if (!$csv) {
+            return '<div class="alert alert-warning m-5">Nenhum dado recebido para atualização de autores.</div>';
+        }
+        if ($confirm) {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $submitId = $csv['submit_id'] ?? null;
+            $RSP = $articleModel->addAuthors($submitId, $csv['Authors'] ?? '');
+
+            $dd = [];
+            $idR = $csv['idR'] ?? null;
+            $dd['status'] = 3;
+            $articleModel->set($dd)->where('idR', $idR)->update();
+            return redirect()->to(base_url('ojs/csv?status=3'));
+        }
+        return view('OJS/send_confirm', [
+            'csv' => $csv
+        ]);
+    }
+
+    /**
+     * Enviar Arquivo
+     */
+    public function send3()
+    {
+        $csv = $this->request->getPost('csv');
+        $confirm = $this->request->getPost('confirm');
+        if (!$csv) {
+            return '<div class="alert alert-warning m-5">Nenhum dado recebido para atualização de resumo.</div>';
+        }
+        if ($confirm) {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $submitId = $csv['submit_id'] ?? null;
+            $filePath = "../_Documments/OJS/modelo.pdf";
+            if (!file_exists($filePath)) {
+                return '<div class="alert alert-danger m-5">Arquivo para upload não encontrado: ' . esc($filePath) . '</div>';
+            }
+            $rsp = $articleModel->uploadFileOJS($submitId, $filePath);
+            return view('OJS/send_result', [
+                'csv' => $csv,
+                'result' => $rsp
+            ]);
+        }
+        return view('OJS/send_confirm', [
+            'csv' => $csv
+        ]);
+    }
+
+    /**
+     * Upload de arquivo
+     */
+    public function send4()
+    {
+        $csv = $this->request->getPost('csv');
+        $confirm = $this->request->getPost('confirm');
+        if (!$csv) {
+            return '<div class="alert alert-warning m-5">Nenhum dado recebido para upload de arquivo.</div>';
+        }
+        if ($confirm) {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $submitId = $csv['submit_id'] ?? null;
+            $filePath = $csv['file_path'] ?? '';
+            $rsp = $articleModel->uploadFileOJS($submitId, $filePath);
+            return view('OJS/send_result', [
+                'csv' => $csv,
+                'result' => $rsp
+            ]);
+        }
+        return view('OJS/send_confirm', [
+            'csv' => $csv
+        ]);
     }
 }
