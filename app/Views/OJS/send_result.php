@@ -23,8 +23,8 @@
                         <td><?= esc($csv['Authors'] ?? '-') ?></td>
                     </tr>
                     <tr>
-                        <th>ID de Submissão</th>
-                        <td><?= esc($csv['submit_id'] ?? '-') ?>/<?= esc($csv['Year'] ?? $csv['year'] ?? '-') ?></td>
+                        <th>ZZID de Submissão</th>
+                        <td><?= esc($csv['submit_id'] ?? '-') ?>/<?= esc($csv['Year'] ?? $csv['year'] ?? '-') ?>/ID: ><?= esc($csv['ID'] ?? '-') ?></td>
                     </tr>
                 </tbody>
             </table>

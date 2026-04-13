@@ -200,6 +200,7 @@ $routes->group('ojs', function($routes) {
     $routes->match(['get', 'post'], 'send/2', 'Ojs::send2');
     $routes->match(['get', 'post'], 'send/3', 'Ojs::send3');
     $routes->match(['get', 'post'], 'send/4', 'Ojs::send4');
+    $routes->match(['get', 'post'], 'send/5', 'Ojs::send5');
     $routes->get('journal', 'Ojs::journal');
     $routes->get('csv', 'Ojs::csv');
     // Outras rotas relacionadas ao OJS podem ser adicionadas aqui

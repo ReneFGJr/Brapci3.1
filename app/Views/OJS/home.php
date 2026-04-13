@@ -8,21 +8,26 @@
 </head>
 
 <body class="bg-light">
-    <div class="container py-5">
-        <div class="card shadow-lg p-4 mb-4">
-            <h2 class="mb-4">OJS - Gerenciamento de Submissões</h2>
-            <nav class="nav nav-pills flex-column flex-sm-row mb-4">
-                <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="<?= base_url('ojs') ?>">Página Inicial</a>
-                <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/submissoes') ?>">Ver Submissões Ativas</a>
-                <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/csv') ?>">Importar Submissões</a>
-                <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/nova') ?>">Enviar Nova Submissão</a>
-            </nav>
-            <div class="mt-4">
-                <h5>Bem-vindo ao sistema de submissões OJS!</h5>
-                <p>Utilize o menu acima para navegar entre as opções disponíveis.</p>
+    <a href="<?= base_url('ojs/') ?>">Home</a>
+    <a href="<?= base_url('ojs/submissoes') ?>">Submissões Ativas
+
+        <div class="container py-5">
+            <div class="card shadow-lg p-4 mb-4">
+                <h2 class="mb-4">OJS - Gerenciamento de Submissões</h2>
+                <nav class="nav nav-pills flex-column flex-sm-row mb-4">
+                    <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="<?= base_url('ojs') ?>">Página Inicial</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/submissoes') ?>">Ver Submissões Ativas</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/csv') ?>">Importar Submissões</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/nova') ?>">Enviar Nova Submissão</a>
+                </nav>
+                <div class="mt-4">
+                    <h5>Bem-vindo ao sistema de submissões OJS!</h5>
+                    <p>Utilize o menu acima para navegar entre as opções disponíveis.</p>
+                </div>
             </div>
         </div>
-    </div>
 </body>
+
+
 
 </html>

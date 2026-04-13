@@ -109,6 +109,10 @@
                                         $btn = 'Enviar Arquivo';
                                         $btnClass = 'btn-secondary';
                                         $action = base_url('ojs/send/3');
+                                    } elseif ($status == 5) {
+                                        $btn = 'Finalizar submissão';
+                                        $btnClass = 'btn-secondary';
+                                        $action = base_url('ojs/send/5');
                                     } elseif ($status == 4) {
                                         $btn = 'Upload de arquivo';
                                         $btnClass = 'btn-dark';

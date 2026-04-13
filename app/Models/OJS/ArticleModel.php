@@ -63,35 +63,66 @@ class ArticleModel extends Model
     function curl($url, $method = 'GET', $data = null)
     {
         $ch = curl_init();
+
+        $jsonPayload = $data ? json_encode($data, JSON_UNESCAPED_UNICODE) : null;
+
+        // 🔥 buffer para debug
+        $verbose = fopen('php://temp', 'w+');
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $this->apiToken,
             'Accept: application/json',
             'Content-Type: application/json',
         ]);
 
+        // 🔧 método
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, true);
-            if ($data) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            if ($jsonPayload) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPayload);
             }
         } elseif ($method === 'PUT') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-            if ($data) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            if ($jsonPayload) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPayload);
             }
+        } elseif ($method === 'DELETE') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         }
 
-        // ---------- DESABILITAR VERIFICAÇÃO SSL (inseguro) ----------
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // não verifica o certificado do peer
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);     // não verifica o nome do host no certificado
+        // 🔴 SSL (dev only)
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        // 🔥 debug detalhado
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_STDERR, $verbose);
 
         $response = curl_exec($ch);
+
+        // 🔥 CAPTURA ANTES DE FECHAR
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+
+        rewind($verbose);
+        $debug = stream_get_contents($verbose);
+
         curl_close($ch);
 
-        return ['httpCode' => $httpCode, 'response' => json_decode($response)];
+        return [
+            "httpCode" => $httpCode,
+            "response" => json_decode($response, true), // 🔥 resposta original
+            "row" => $response, // 🔥 resposta original (sem json_decode)
+            "decoded" => json_decode($response),
+            "json_error" => json_last_error_msg(),
+            "curl_error" => $curlError,
+            "debug" => $debug,
+            "payload" => $data,
+            "url" => $url
+        ];
     }
 
     /**
@@ -111,6 +142,48 @@ class ArticleModel extends Model
         $url = $this->apiUrl . '/submissions?apiToken=' . urlencode($this->apiToken);
         $rsp = $this->curl($url, 'POST', $payload);
         return $rsp;
+    }
+
+    function submitEditoracao($submissionId)
+    {
+        $url = $this->apiUrl . "/submissions/{$submissionId}/submit";
+
+        $payload = [
+            "stageId" => 3,
+            "toStageId" => 4,
+            "skipEmail" => true
+        ];
+        $RST = $this->curl($url, 'PUT', $payload);
+
+        $payload = [
+            "stageId" => 4,
+            "toStageId" => 5,
+            "skipEmail" => true
+        ];
+        $RST = $this->curl($url, 'PUT', $payload);
+
+        $payload = [
+            "stageId" => 5,
+            "toStageId" => 6,
+            "skipEmail" => true
+        ];
+        $RST = $this->curl($url, 'PUT', $payload);
+
+        return $RST;
+    }
+
+    function submitWithoutEmail($submissionId)
+    {
+        $url = $this->apiUrl . "/submissions/{$submissionId}/submit";
+
+        $payload = [
+            "stageId" => 1,
+            "toStageId" => 3,
+            "skipEmail" => true
+        ];
+
+        $RST = $this->curl($url, 'PUT', $payload);
+        return $RST;
     }
 
     /**
