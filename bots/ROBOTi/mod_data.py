@@ -14,12 +14,14 @@ import mod_ai_nlp
 
 def clearData(rdf,rdfID):
     qd = f"delete from brapci_rdf.rdf_data where d_r1 = {rdf} or d_r2 = {rdf}"
-    database.update(qd)
+    print(qd)
+    #database.update(qd)
     if (rdfID != 0):
         qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where oai_rdf = {rdf}"
     else:
         qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1 where id_oai = {rdfID}"
-    database.update(qd)
+    print(qd)
+    #database.update(qd)
 
 def removeDouble():
     sql = """
@@ -69,9 +71,9 @@ def removeDouble():
                     print(qd)
                 else:
                     print(f"Reativando coleta ID {ID}")
-                    #clearData(ID,NR)
+                    clearData(ID,NR)
                     if (NR > 0):
-                        print(f"   Zerando RDF {ID}")
+                        print(f"   Zerando ID/OAI {ID}")
                     NR = NR + 1
                 IDidO = IDoAT
 
