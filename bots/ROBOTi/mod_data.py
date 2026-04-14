@@ -58,11 +58,11 @@ def removeDouble():
                 oai_deleted = item2[3]
                 oai_id = item2[4]
 
-                print("  ID",ID)
-                print("  oai_id",oai_id)
-                print("  oai_id_jnl",oai_id_jnl)
-                print("  oai_rdf",oai_rdf)
-                print("  oai_deleted",oai_deleted)
+                #print("  ID",ID)
+                #print("  oai_id",oai_id)
+                #print("  oai_id_jnl",oai_id_jnl)
+                #print("  oai_rdf",oai_rdf)
+                #print("  oai_deleted",oai_deleted)
 
                 ######################
                 #Tratar
