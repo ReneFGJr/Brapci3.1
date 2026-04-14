@@ -61,14 +61,14 @@ def process(rg):
         ########################################## Inserir Trabalho
         if (IDX == 0):
             if (TYPE == 'EV'):
-                print("  CREATE WORK - PROCEEDING")
+                print(Fore.BLUE"  CREATE WORK - PROCEEDING",Fore.WHITE)
                 IDX = create_proceeding(rg,data,JNL)
             else:
                 print("  CREATE WORK - ARTICLE")
                 IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
         else:
-            print(f"  UPDATE WORK ({IDX})")
+            print(Fore.GREEN,f"  UPDATE WORK ({IDX})",Fore.WHITE)
             article_data(IDX,rg,data,JNL)
             mod_listidentify.updateStatus(ID,12)
 
