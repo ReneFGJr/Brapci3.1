@@ -41,6 +41,7 @@ def removeDouble():
             IDidO = None
             for item2 in row2:
                 ID = item2[0]
+                print("  ID",ID)
                 oai_id_jnl = item2[4]
                 oai_id = item2[5]
                 oai_rdf = item2[2]
