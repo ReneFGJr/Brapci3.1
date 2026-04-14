@@ -38,7 +38,7 @@ def removeDouble():
         GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
         ORDER BY total, oai_rdf desc
-        limit 100
+        limit 1000
     """
     row = database.query(sql)
     if row != []:
