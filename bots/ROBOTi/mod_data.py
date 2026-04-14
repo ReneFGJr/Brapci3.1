@@ -40,6 +40,7 @@ def removeDouble():
             row2 = database.query(qq)
             IDidO = None
             for item2 in row2:
+                print("==>",row2)
                 ID = item2[0]
                 print("  ID",ID)
                 oai_id_jnl = item2[4]
