@@ -23,6 +23,9 @@ def clearData(rdf,rdfID,ID):
     print(qd)
     database.update(qd)
 
+    qd = "delete brapci_elastic.dataset where ID = " + str(rdf)
+    database.update(qd)
+
 def removeDouble():
     sql = """
         Select * From (
