@@ -271,7 +271,7 @@ def process(rg):
                     return ""
 
             except Exception as e:
-                print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
+                print(Fore.RED,f"ERRO NO XML/SCTRUCTURE {ID}",Fore.WHITE,e)
                 print("==>",path)
                 mod_listidentify.updateStatus(ID,99)
         try:
