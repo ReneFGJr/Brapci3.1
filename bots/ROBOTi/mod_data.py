@@ -111,8 +111,8 @@ def removeDouble():
                 ID = item2[0]
                 oai_rdf = item2[2]
 
-                print(f"Reativando coleta ID {ID} - OAI_RDF {oai_rdf}")
-                #clearData(oai_rdf, NR, ID)
+                print(f"Reativando coleta ID {ID} - OAI_RDF {oai_rdf} #{NR}")
+                clearData(oai_rdf, NR, ID)
                 if (NR > 0):
                     print(f"   Zerando ID/OAI {ID}")
                 NR = NR + 1
