@@ -17,7 +17,7 @@ def clearData(rdf,rdfID,ID):
     print(qd)
     database.update(qd)
     if (rdfID != 0):
-        qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where oai_rdf = {ID}"
+        qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where id_oai = {ID}"
     else:
         qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1 where id_oai = {ID}"
     print(qd)
