@@ -64,7 +64,7 @@ def process(rg):
                 print(Fore.BLUE,"  CREATE WORK - PROCEEDING",Fore.WHITE)
                 IDX = create_proceeding(rg,data,JNL)
             else:
-                print("  CREATE WORK - ARTICLE")
+                print(Fore.BLUE, "  CREATE WORK - ARTICLE",Fore.WHITE)
                 IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
         else:
