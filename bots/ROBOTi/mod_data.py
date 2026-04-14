@@ -29,6 +29,8 @@ def clearData(rdf,rdfID,ID):
     database.update(qd)
 
 def removeDouble():
+
+    print("600 - Verificando dados duplicados - Mesmo Journal")
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, max(id_oai) as idx
@@ -81,9 +83,8 @@ def removeDouble():
                         print(f"   Zerando ID/OAI {ID}")
                     NR = NR + 1
                 IDidO = IDoAT
-
+                return ""
     print("=" * 50)
-    sys.exit()
 
     sql = """
         Select * From (
@@ -91,49 +92,33 @@ def removeDouble():
         FROM brapci_oaipmh.oai_listidentify
         where oai_rdf > 0
         and oai_deleted = 0
-        and oai_rdf = 354806
         GROUP BY oai_rdf
         ) as tabela where total > 1
         ORDER BY oai_rdf, total desc
-        limit 50
+        limit 1
     """
-
-    print("600 - Verificando dados duplicados")
+    print("600 - Verificando dados duplicados - Multi Journal")
 
     row = database.query(sql)
     if row != []:
         for item in row:
-            ID = item[0]
-            total = item[1]
-            print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ID)+','+str(total)+Fore.WHITE)
-            if (ID != 0):
+            qq = "select id_oai,  oai_id_jnl, oai_rdf, oai_deleted, oai_identifier from brapci_oaipmh.oai_listidentify "
+            qq += " where oai_rdf = " + str(
+                item[0]) + " and oai_deleted = 0 order by id_oai "
+            row2 = database.query(qq)
+            IDidO = None
+            NR = 0
+            for item2 in row2:
+                print("==>", row2)
+                ID = item2[0]
+                oai_rdf = item2[2]
 
-                # Remover citações
-                qd = f"delete from brapci_cited.cited_article where ca_rdf = {ID} "
-                database.update(qd)
+                print(f"Reativando coleta ID {ID}")
+                clearData(oai_rdf, NR, ID)
+                if (NR > 0):
+                    print(f"   Zerando ID/OAI {ID}")
+                NR = NR + 1
 
-                # Remove dados RDF
-                qd = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} or d_r2 = {ID} "
-                database.update(qd)
-
-
-                # Lima IDX
-                qa = f"select * from brapci_oaipmh.oai_listidentify where oai_rdf = {ID} "
-                nrow = database.query(qa)
-                nr = 0
-                if nrow != []:
-                    for nitem in nrow:
-                        IDX = nitem[0]
-                        if (nr > 0):
-                            qd = f"update brapci_oaipmh.oai_listidentify set oai_issue = 0, oai_status = 1, oai_rdf = 0 where id_oai  = {IDX} "
-                            database.update(qd)
-                            print(nr,"Zerados dados",IDX)
-                        else:
-                            print(nr,"Mantendo",IDX)
-                        nr = nr + 1
-
-                    print("====== Dados RDF Excluidos ======")
-        sys.exit()
 
 
 def literal_double(prop = 0):
