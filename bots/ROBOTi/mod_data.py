@@ -13,7 +13,6 @@ import mod_logs
 import mod_ai_nlp
 
 def removeDouble():
-    return ""
     sql = """
         Select * From (
         SELECT oai_rdf, count(*) as total, oai_id_jnl, max(id_oai) as idx
@@ -23,13 +22,15 @@ def removeDouble():
         GROUP BY oai_rdf, oai_id_jnl
         ) as tabela where total > 1
         ORDER BY total, oai_rdf desc
-        limit 1000
+        limit 1
     """
     row = database.query(sql)
     if row != []:
         for item in row:
             qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
             row2 = database.query(qq)
+            print(row2)
+            return ""
             IDidO = None
             for item2 in row2:
                 ID = item2[0]
