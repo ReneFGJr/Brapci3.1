@@ -61,7 +61,7 @@ def process(rg):
         ########################################## Inserir Trabalho
         if (IDX == 0):
             if (TYPE == 'EV'):
-                print(Fore.BLUE,"  CREATE WORK - PROCEEDING",Fore.WHITE)
+                print(Fore.CYAN,"  CREATE WORK - PROCEEDING",Fore.WHITE)
                 IDX = create_proceeding(rg,data,JNL)
             else:
                 print(Fore.BLUE, "  CREATE WORK - ARTICLE",Fore.WHITE)
