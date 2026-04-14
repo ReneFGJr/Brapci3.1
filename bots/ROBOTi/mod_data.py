@@ -72,7 +72,7 @@ def removeDouble():
                     print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
                     print("Excluindo ID",ID)
                     qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 1 where id_oai = " + str(ID)
-                    #                    database.update(qd)
+                    database.update(qd)
                     print(qd)
                 else:
                     print(f"Reativando coleta ID {ID}")
