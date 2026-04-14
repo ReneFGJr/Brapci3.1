@@ -76,7 +76,7 @@ def removeDouble():
                     database.update(qd)
                     print(qd)
                 else:
-                    print(f"Reativando coleta ID {ID}")
+                    print(f"Reativando coleta ID {ID} - OAI_RDF {oai_rdf}")
                     clearData(oai_rdf, NR, ID)
                     if (NR > 0):
                         print(f"   Zerando ID/OAI {ID}")
