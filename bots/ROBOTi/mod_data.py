@@ -48,15 +48,11 @@ def removeDouble():
                     qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 1 where id_oai = " + str(ID)
 #                    database.update(qd)
                     print(qd)
-
-                    qd = "delete from brapci_elastic.dataset WHERE ID = " + str(ID)
-#                    database.update(qd)
-                    print(qd)
                 else:
                     NR = NR + 1
                     print("Mantendo ID {{NR}}",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
-                    #qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 0, oai_rdf = 0, oai_status = 1 where id_oai = " + str(ID)
-                    database.update(qd)
+                    qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 0, oai_rdf = 0, oai_status = 1 where id_oai = " + str(ID)
+                    #database.update(qd)
                 IDidO = IDoAT
 
     print("=" * 50)
