@@ -70,9 +70,9 @@ def removeDouble():
                 else:
                     print(f"Reativando coleta ID {ID}")
                     #clearData(ID,NR)
-                    NR = NR + 1
                     if (NR > 0):
-                        print("   Zerando RDF")
+                        print(f"   Zerando RDF {ID}")
+                    NR = NR + 1
                 IDidO = IDoAT
 
     print("=" * 50)
