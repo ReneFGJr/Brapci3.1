@@ -13,18 +13,19 @@ import mod_logs
 import mod_ai_nlp
 
 def clearData(rdf,rdfID,ID):
+    ################ Remover citações
     qd = f"delete from brapci_rdf.rdf_data where d_r1 = {rdf} or d_r2 = {rdf}"
-    print(qd)
     database.update(qd)
+
+    ################ Atualizar status da coleta
     if (rdfID != 0):
         qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where id_oai = {ID}"
     else:
         qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1 where id_oai = {ID}"
-    print(qd)
     database.update(qd)
 
+    ################ Remover dados do Elastic
     qd = "delete from brapci_elastic.dataset where ID = " + str(rdf)
-    print(qd)
     database.update(qd)
 
 def removeDouble():
