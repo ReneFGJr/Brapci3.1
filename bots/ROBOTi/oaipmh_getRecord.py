@@ -272,6 +272,7 @@ def process(rg):
 
             except Exception as e:
                 print(Fore.RED,"ERRO NO XML/SCTRUCTURE",Fore.WHITE,e)
+                print("==>",path)
         try:
             DC = [{'journal':dc_journal},{'section':dc_section},{'title':dc_titulo},{'abstract':dc_abstract},{'author':dc_author},{'subject':dc_subject},{'source':dc_source},{'datePub':dc_datePub},{'DOI':dc_doi},{'http':dc_link},{'language':dc_language},{'license':dc_license}]
         except Exception as e:
