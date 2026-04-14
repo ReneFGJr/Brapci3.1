@@ -42,6 +42,7 @@ def removeDouble():
                     item[2]) + "' order by id_oai "
             row2 = database.query(qq)
             IDidO = None
+            NR = 0
             for item2 in row2:
                 print("==>",row2)
                 ID = item2[0]
@@ -68,7 +69,10 @@ def removeDouble():
                     print(qd)
                 else:
                     print(f"Reativando coleta ID {ID}")
-                    #clearData(ID,ID)
+                    #clearData(ID,NR)
+                    NR = NR + 1
+                    if (NR > 0):
+                        print("   Zerando RDF")
                 IDidO = IDoAT
 
     print("=" * 50)
