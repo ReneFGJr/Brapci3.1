@@ -45,12 +45,10 @@ def removeDouble():
                 print("==>",row2)
                 ID = item2[0]
                 oai_id_jnl = item2[4]
-                oai_id = item2[5]
                 oai_rdf = item2[2]
                 oai_deleted = item2[3]
 
                 print("  ID",ID)
-                print("  oai_id",oai_id)
                 print("  oai_id_jnl",oai_id_jnl)
                 print("  oai_rdf",oai_rdf)
                 print("  oai_deleted",oai_deleted)
