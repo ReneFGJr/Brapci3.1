@@ -36,8 +36,9 @@ def removeDouble():
     row = database.query(sql)
     if row != []:
         for item in row:
-            qq = "select id_oai,  oai_id_jnl, oai_rdf, oai_deleted, oai_identifier from brapci_oaipmh.oai_listidentify where oai_rdf = " + str(
-                item[0]) + " and oai_id_jnl = '" + str(
+            qq = "select id_oai,  oai_id_jnl, oai_rdf, oai_deleted, oai_identifier from brapci_oaipmh.oai_listidentify "
+            qq += " where oai_rdf = " + str(
+                item[0]) + " and oai_deleted = 0 and oai_id_jnl = '" + str(
                     item[2]) + "' order by id_oai "
             row2 = database.query(qq)
             IDidO = None
@@ -54,11 +55,10 @@ def removeDouble():
                 print("  oai_id_jnl",oai_id_jnl)
                 print("  oai_rdf",oai_rdf)
                 print("  oai_deleted",oai_deleted)
-                sys.exit()
+
                 ######################
                 #Tratar
                 IDoAT = oai_id.split("/")[-1]
-                #print("==1>",IDidO)
                 print("==2>",oai_id)
                 if (IDidO == IDoAT):
                     print("Deletar",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
