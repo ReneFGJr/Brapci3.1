@@ -30,6 +30,7 @@ def removeDouble():
             qq = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = "+str(item[0])+" and oai_id_jnl = '"+str(item[2])+"' order by id_oai "
             row2 = database.query(qq)
             IDidO = None
+            NR = 0
             for item2 in row2:
                 ID = item2[0]
                 oai_id_jnl = item2[4]
@@ -52,7 +53,10 @@ def removeDouble():
 #                    database.update(qd)
                     print(qd)
                 else:
-                    print("Mantendo ID",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    NR = NR + 1
+                    print("Mantendo ID {{NR}}",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    #qd = "update brapci_oaipmh.oai_listidentify set oai_deleted = 0, oai_rdf = 0, oai_status = 1 where id_oai = " + str(ID)
+                    database.update(qd)
                 IDidO = IDoAT
 
     print("=" * 50)
