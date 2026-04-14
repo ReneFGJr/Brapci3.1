@@ -82,7 +82,7 @@ def removeDouble():
                         print(f"   Zerando ID/OAI {ID}")
                     NR = NR + 1
                 IDidO = IDoAT
-                return ""
+        return ""
     print("=" * 50)
 
     sql = """
