@@ -23,7 +23,7 @@ def clearData(rdf,rdfID,ID):
     print(qd)
     database.update(qd)
 
-    qd = "delete brapci_elastic.dataset where ID = " + str(rdf)
+    qd = "delete from brapci_elastic.dataset where ID = " + str(rdf)
     print(qd)
     database.update(qd)
 
