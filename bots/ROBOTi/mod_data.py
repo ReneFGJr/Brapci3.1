@@ -53,7 +53,6 @@ def removeDouble():
             IDidO = None
             NR = 0
             for item2 in row2:
-                print("==>",row2)
                 ID = item2[0]
                 oai_id_jnl = item2[1]
                 oai_rdf = item2[2]
@@ -106,10 +105,9 @@ def removeDouble():
             qq += " where oai_rdf = " + str(
                 item[0]) + " and oai_deleted = 0 order by id_oai "
             row2 = database.query(qq)
-            IDidO = None
+
             NR = 0
             for item2 in row2:
-                print("==>", row2)
                 ID = item2[0]
                 oai_rdf = item2[2]
 
