@@ -71,7 +71,7 @@ def removeDouble():
                     print(qd)
                 else:
                     print(f"Reativando coleta ID {ID}")
-                    clearData(ID,NR)
+                    clearData(oai_rdf, NR)
                     if (NR > 0):
                         print(f"   Zerando ID/OAI {ID}")
                     NR = NR + 1
