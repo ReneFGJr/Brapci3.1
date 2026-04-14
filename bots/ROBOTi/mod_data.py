@@ -12,10 +12,13 @@ import time
 import mod_logs
 import mod_ai_nlp
 
-def clearData(rdf):
+def clearData(rdf,rdfID):
     qd = f"delete from brapci_rdf.rdf_data where d_r1 = {rdf} or d_r2 = {rdf}"
     database.update(qd)
-    qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where oai_rdf = {rdf}"
+    if (rdfID != 0):
+        qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1, oai_rdf = 0 where oai_rdf = {rdf}"
+    else:
+        qd = f"update brapci_oaipmh.oai_listidentify set oai_status=1 where id_oai = {rdfID}"
     database.update(qd)
 
 def removeDouble():
@@ -54,8 +57,8 @@ def removeDouble():
 #                    database.update(qd)
                     print(qd)
                 else:
-                    print("Mantendo ID {{NR}}",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
-                    clearData(ID)
+                    print("Mantendo ID {ID}",ID,oai_id,oai_id_jnl,oai_rdf,oai_deleted)
+                    #clearData(ID,ID)
                 IDidO = IDoAT
 
     print("=" * 50)
