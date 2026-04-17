@@ -18,3 +18,4 @@ bots/ROBOTi/env.py
 *.bin
 *.sqlite3
 /bots/AI/SmartRetriavel/venv/Lib
+node_modules

@@ -1,7 +1,0 @@
-  Total: {{ data.data.length }}
-  <div style="column-count: 3">
-    <li *ngFor="let item of data.data" style="list-style-type: none">
-      <a class="link" [routerLink]="['/v/' + item.id_cc]">{{ item.n_name }}</a>
-      <sup>({{ item.n_lang }})</sup>
-    </li>
-  </div>

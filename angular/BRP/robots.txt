@@ -1,9 +1,0 @@
-User-agent: Googlebot
-Disallow: /admin/
-
-User-agent: *
-Allow: /
-
-Sitemap: https://brapci.inf.br/sitemap.xml
-Sitemap: https://brapci.inf.br/sitemap_01.xml
-Sitemap: https://brapci.inf.br/sitemap_01.xml
