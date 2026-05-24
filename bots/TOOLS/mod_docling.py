@@ -4,7 +4,7 @@ import shutil
 import json
 import sys
 
-def saveFileD(source):
+def saveFileD(source, id=None):
     # Ensure source is a Path object
     source_path = Path(source)
 
@@ -40,6 +40,7 @@ def saveFileD(source):
             print(f"Error during conversion: {e}")
 
     # Cria o arquivo de saída Markdown no ID
+    print(f"     Criando arquivo Markdown no ID em {md_filename} - {source}")
     if not md_filename.exists():
         md_filename.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(doc_filename, md_filename)
