@@ -48,6 +48,8 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
+    public $references = [];
+
 
     function total_cited($ID)
         {
@@ -310,6 +312,7 @@ class Index extends Model
 
     function show_ref($id)
     {
+        $ref = [];
         $Socials = new \App\Models\Socials();
         $sx = '';
         $sql = "select * from " . $this->table . '
@@ -327,6 +330,7 @@ class Index extends Model
             $sx .= '<h4>' . msg('References') . '</h4>';
             $sx .= '<ul>';
             for ($r = 0; $r < count($dt); $r++) {
+                array_push($ref, $dt[$r]);
                 $l = $dt[$r];
                 if ($Socials->getAccess("#ADM")) {
                     $st = '';
@@ -350,6 +354,7 @@ class Index extends Model
             }
             $sx .= '</ul>';
         }
+        $this->references = $ref;
         return ($sx);
     }
 

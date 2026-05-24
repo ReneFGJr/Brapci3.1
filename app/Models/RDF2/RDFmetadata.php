@@ -931,6 +931,7 @@ class RDFmetadata extends Model
 
         $Cited = new \App\Models\Cited\Index();
         $dr['cites'] = $Cited->show_ref($ID);
+        $dr['references'] = $Cited->references;
 
         $dr['meta'] = $this->metadataHeader($dr);
 
