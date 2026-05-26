@@ -931,11 +931,30 @@ class RDFmetadata extends Model
 
         $Cited = new \App\Models\Cited\Index();
         $dr['cites'] = $Cited->show_ref($ID);
+        $dr['references'] = $Cited->references;
+        $dr['markdown'] = $this->markdown($ID);
 
         $dr['meta'] = $this->metadataHeader($dr);
 
         return $dr;
     }
+
+    function markdown($ID)
+        {
+            $id = str_pad((string)$ID, 8, '0', STR_PAD_LEFT);
+            $p1 = substr($id, 0, 2);
+            $p2 = substr($id, 2, 2);
+            $p3 = substr($id, 4, 2);
+            $p4 = substr($id, 6, 2);
+
+            $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#00000.md';
+
+            if (is_file($file) && is_readable($file)) {
+                return file_get_contents($file);
+            }
+
+            return '';
+        }
 
     function metadataHeader($m)
         {
