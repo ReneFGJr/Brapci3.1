@@ -35,20 +35,16 @@ class Tools extends BaseController
         header('X-Accel-Buffering: no');
 
         echo '<style> body { font-family: Arial, sans-serif; } </style>';
-
-        echo str_repeat(' ', 2048);
         flush();
 
-        $sx .= h("FULLTEXT - PRE");
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
-        $sx .= '<p>' . $cmd . '</p>';
-        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+        echo h("FULLTEXT - PRE");
+        flush();
 
-        for ($i=0; $i < 100; $i = $i + 10) {
-            echo "Processing $type $id - $i%<br>";
-            flush();
-            sleep(1);
-        }
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
+        echo '<p>' . $cmd . '</p>';
+        echo troca(shell_exec($cmd), chr(10), '<br>');
+
+        flush();
     }
 
     public function index($act = '', $subact = '', $id = '', $id2='',$id3='',$id4='',$id5='')
