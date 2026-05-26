@@ -322,6 +322,7 @@ $routes->get('bookmarks/folders/new', 'Bookmarks::folderNew');
 $routes->get('bookmarks/folders/view/(:any)', 'Bookmarks::folderView/$1');
 $routes->get('bookmarks/link/(:any)', 'Bookmarks::link/$1');
 $routes->get('bookmarks', 'Bookmarks::index');
+$routes->get('bookmark', 'Bookmarks::index');
 
 /* ********* KANBAN */
 $routes->get('/kanban', 'Kanban::index');

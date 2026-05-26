@@ -14,11 +14,21 @@ class Bookmarks extends BaseController
     public function index()
     {
         $model = new BookmarkModel();
+        $folderModel = new FolderModel();
+
         $data['bookmarks'] =
             $model
             ->join('folder', 'folder.id_f = bookmarks.folder_id', 'left')
             ->orderBy('folder.f_title', 'ASC')
+            ->orderBy('bookmarks.title', 'ASC')
             ->findAll();
+
+        $data['categories'] =
+            $folderModel
+            ->orderBy('f_folder', 'ASC')
+            ->orderBy('f_title', 'ASC')
+            ->findAll();
+
         return view('bookmarks/index', $data);
     }
 
@@ -26,7 +36,6 @@ class Bookmarks extends BaseController
     {
         $model = new FolderModel();
         $data['folders'] = $model
-            ->orderBy('f_click', 'DESC')
             ->orderBy('f_title', 'ASC')
             ->findAll();
         return view('bookmarks/folder/index', $data);
@@ -71,6 +80,9 @@ class Bookmarks extends BaseController
     {
         $model = new BookmarkModel();
 
+        if (empty($_SESSION['id']) && empty($_SESSION['user_id'])) {
+            return redirect()->back()->with('error', 'Você precisa estar logado para excluir um site.');
+        }
         // Busca o registro
         $site = $model->find($id);
 
@@ -102,6 +114,8 @@ class Bookmarks extends BaseController
     function folderView($id)
     {
         $model = new BookmarkModel();
+        $folderModel = new FolderModel();
+
         $data['bookmarks'] =
             $model
             ->where('folder_id', $id)
@@ -111,7 +125,6 @@ class Bookmarks extends BaseController
             ->orderBy('title', 'ASC')
             ->findAll();
 
-        $folderModel = new FolderModel();;
         $data['folder'] = $folderModel->find($id);
 
         return view('bookmarks/folder/view', $data);

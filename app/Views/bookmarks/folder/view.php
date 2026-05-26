@@ -1,6 +1,12 @@
 <?= $this->extend('bookmarks/main') ?>
 <?= $this->section('content') ?>
 
+<?php
+$folder = $folder ?? [];
+$bookmarks = $bookmarks ?? [];
+$isLogged = !empty($_SESSION['id']) || !empty($_SESSION['user_id']);
+?>
+
 <div class="container py-4">
 
     <!-- Cabeçalho -->
@@ -54,12 +60,14 @@
                                 class="text-success" title="Abrir link">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </a>
-                            <a href="<?= base_url('bookmarks/site/delete/' . $b['id']) ?>"
-                                class="text-danger"
-                                onclick="return confirm('Deseja realmente remover este site?');"
-                                title="Excluir site">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            <?php if ($isLogged): ?>
+                                <a href="<?= base_url('bookmarks/site/delete/' . $b['id']) ?>"
+                                    class="text-danger"
+                                    onclick="return confirm('Deseja realmente remover este site?');"
+                                    title="Excluir site">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
 
                         <!-- Conteúdo -->
