@@ -17,8 +17,7 @@ class Tools extends BaseController
 {
     public function nlp($type='',$id='')
     {
-        echo $type . ' - ' . $id . '<br>';
-        exit;
+
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', '0');
         @ini_set('implicit_flush', '1');
@@ -38,7 +37,7 @@ class Tools extends BaseController
         echo str_repeat(' ', 2048);
         flush();
 
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 100; $i = $i + 10) {
             echo "Processing $type $id - $i%<br>";
             flush();
             sleep(1);
