@@ -17,6 +17,8 @@ class Tools extends BaseController
 {
     public function nlp($type='',$id='')
     {
+        echo $type . ' - ' . $id . '<br>';
+        exit;
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', '0');
         @ini_set('implicit_flush', '1');
