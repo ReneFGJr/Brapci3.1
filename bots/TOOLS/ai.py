@@ -125,8 +125,10 @@ if (act == 'All'):
     lists = ai_abstract.extract_abstract(txt, id)
     sys.exit()
 elif (act == 'docling'):
-    print("Extrair Markdown")
-    lists = mod_docling.saveFileD(fileO)
+    print("Extrair Markdown - Docling")
+    print("  ",fileO,id)
+    import mod_docling
+    mod_docling.saveFileD(fileO, id)
 
 elif (act == 'email'):
     print("Extrair e-mail")
