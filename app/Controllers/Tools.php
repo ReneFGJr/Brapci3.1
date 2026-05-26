@@ -17,11 +17,28 @@ class Tools extends BaseController
 {
     public function nlp($type='',$id='')
     {
-        ob_start();
-        ob_flush();
+        @ini_set('output_buffering', 'off');
+        @ini_set('zlib.output_compression', '0');
+        @ini_set('implicit_flush', '1');
+
+        while (ob_get_level() > 0) {
+            ob_end_flush();
+        }
+
+        ob_implicit_flush(true);
+
+        header('Content-Type: text/html; charset=UTF-8');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        header('X-Accel-Buffering: no');
+
+        echo str_repeat(' ', 2048);
+        flush();
+
         for ($i=0; $i < 100; $i++) {
             echo "Processing $type $id - $i%<br>";
-            ob_flush();
+            flush();
             sleep(1);
         }
     }
