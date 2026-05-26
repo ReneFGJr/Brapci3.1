@@ -39,6 +39,11 @@ class Tools extends BaseController
         echo str_repeat(' ', 2048);
         flush();
 
+        $sx .= h("FULLTEXT - PRE");
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
+        $sx .= '<p>' . $cmd . '</p>';
+        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+
         for ($i=0; $i < 100; $i = $i + 10) {
             echo "Processing $type $id - $i%<br>";
             flush();
