@@ -36,7 +36,7 @@ class Tools extends BaseController
         echo str_repeat(' ', 2048);
         flush();
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i=0; $i < 10; $i++) {
             echo "Processing $type $id - $i%<br>";
             flush();
             sleep(1);
