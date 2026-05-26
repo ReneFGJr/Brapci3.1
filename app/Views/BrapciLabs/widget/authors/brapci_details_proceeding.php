@@ -1,10 +1,11 @@
 <?php
 $works = [];
 $brapci = (array)$brapci;
+
 if (isset($brapci['works'])) {
     $works = (array)$brapci['works'];
-    if (isset($works['Article'])) {
-        $works = (array)$works['Article'];
+    if (isset($works['Proceeding'])) {
+        $works = (array)$works['Proceeding'];
         echo '<ul>';
         foreach ($works as $key => $work) {
             $works[$key] = (array)$work;

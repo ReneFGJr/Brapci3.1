@@ -19,9 +19,16 @@
 
 <!-- Tab panes -->
 <div class="tab-content card">
-    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">.x1..</div>
-    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">.x2..</div>
-    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">.x3..</div>
+    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <?= view('BrapciLabs/widget/authors/brapci_summary') ?>
+    </div>
+
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">.x2.
+        <?= view('BrapciLabs/widget/authors/brapci_details_articles') ?>
+    </div>
+    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">.x3.
+        <?= view('BrapciLabs/widget/authors/brapci_details_books') ?></div>
+
     <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
         <?= view('BrapciLabs/widget/authors/brapci_details_proceeding') ?>
     </div>
