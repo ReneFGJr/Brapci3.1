@@ -43,7 +43,9 @@ class Tools extends BaseController
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
         echo '<p>' . $cmd . '</p>';
         echo troca(shell_exec($cmd), chr(10), '<br>');
+        flush();
 
+        echo "<hr>Fim do processo.";
         flush();
     }
 
