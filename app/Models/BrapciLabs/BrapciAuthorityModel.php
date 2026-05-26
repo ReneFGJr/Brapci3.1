@@ -110,6 +110,7 @@ class BrapciAuthorityModel extends Model
     {
         $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
         $data = $ProjectAuthorModel->find($id);
+
         if ($data['brapci_id'] == 0) {
             echo 'Autor não possui BRAPCI ID definido.';
             return 0;
