@@ -34,6 +34,8 @@ class Tools extends BaseController
         header('Expires: 0');
         header('X-Accel-Buffering: no');
 
+        echo '<style> body { font-family: Arial, sans-serif; } </style>';
+
         echo str_repeat(' ', 2048);
         flush();
 
