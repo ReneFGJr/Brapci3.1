@@ -368,6 +368,8 @@ $routes->get('/parecer', 'Parecer::index');
 $routes->post('/parecer/(:any)', 'Parecer::index/$1');
 
 /********* Tools */
+$routes->get('/tools/nlp/(:any)', 'Tools::nlp/$1');
+$routes->get('/tools/nlp/(:any)/(:any)', 'Tools::nlp/$1/$2');
 $routes->get('/tools/(:any)', 'Tools::index/$1');
 $routes->get('/tools', 'Tools::index');
 $routes->post('/tools/(:any)', 'Tools::index/$1');

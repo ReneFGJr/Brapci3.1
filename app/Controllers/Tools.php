@@ -15,6 +15,20 @@ define("COLLECTION", 'tools');
 
 class Tools extends BaseController
 {
+    public function nlp($type='',$id='')
+    {
+        $Tools = new \App\Models\Tools\Index();
+        $data['page_title'] = 'Brapci Bibliometric Tools';
+        $data['bg'] = 'bg-tools';
+
+        $sx = '';
+        $sx .= view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
+        $sx .= $Tools->nlp($type, $id);
+        $sx .= view('Brapci/Headers/footer', $data);
+        return $sx;
+    }
+
     public function index($act = '', $subact = '', $id = '', $id2='',$id3='',$id4='',$id5='')
     {
         $Tools = new \App\Models\Tools\Index();
