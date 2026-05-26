@@ -17,16 +17,13 @@ class Tools extends BaseController
 {
     public function nlp($type='',$id='')
     {
-        $Tools = new \App\Models\Tools\Index();
-        $data['page_title'] = 'Brapci Bibliometric Tools';
-        $data['bg'] = 'bg-tools';
-
-        $sx = '';
-        $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Brapci/Headers/navbar', $data);
-        $sx .= $Tools->nlp($type, $id);
-        $sx .= view('Brapci/Headers/footer', $data);
-        return $sx;
+        ob_start();
+        ob_flush();
+        for ($i=0; $i < 100; $i++) {
+            echo "Processing $type $id - $i%<br>";
+            ob_flush();
+            sleep(1);
+        }
     }
 
     public function index($act = '', $subact = '', $id = '', $id2='',$id3='',$id4='',$id5='')
