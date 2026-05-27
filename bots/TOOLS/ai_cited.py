@@ -46,9 +46,7 @@ def extrair_referencias_v2(ID):
 
     print("Linhas extraidas:")
 
-    if (len(listRef) > 0):
-        saveCited(listRef, ID)
-
+    saveCited(listRef, ID)
     return listRef
 
 def saveCited(lista,idR):
@@ -87,6 +85,7 @@ def saveCited(lista,idR):
         qi += "(ca_text,ca_rdf,ca_journal_origem)"
         qi += " values"
         qi += f"('{ln}',{idR},{jnl_val})"
+
         database.insert(qi)
 
 def identificar_estilo_citacao(referencia):
