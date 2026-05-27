@@ -76,6 +76,80 @@ def remove_excess_spaces(text: str) -> str:
 
 def rebuild_broken_lines(text: str) -> str:
     """
+    Reconstrói textos quebrados por PDFs acadêmicos antigos.
+    """
+
+    lines = text.splitlines()
+
+    rebuilt = []
+
+    paragraph = ""
+
+    for raw_line in lines:
+
+        line = raw_line.strip()
+
+        # ignora vazio
+        if not line:
+
+            if paragraph:
+                rebuilt.append(paragraph.strip())
+                paragraph = ""
+
+            continue
+
+        # remove múltiplos espaços unicode
+        line = re.sub(r"\s+", " ", line)
+
+        # preserva títulos markdown
+        if line.startswith("#"):
+
+            if paragraph:
+                rebuilt.append(paragraph.strip())
+                paragraph = ""
+
+            rebuilt.append(line)
+
+            continue
+
+        # palavra isolada MAIÚSCULA
+        if (len(line.split()) <= 3 and line.upper() == line
+                and not line.endswith(".")):
+
+            paragraph += " " + line
+
+            continue
+
+        # linha curta = continua
+        if (paragraph and len(line) < 200
+                and not re.match(r"^[A-Z][a-z]+:$", line)):
+
+            paragraph += " " + line
+
+        else:
+
+            if paragraph:
+                rebuilt.append(paragraph.strip())
+
+            paragraph = line
+
+    if paragraph:
+        rebuilt.append(paragraph.strip())
+
+    # limpa espaços extras
+    final_text = "\n\n".join(rebuilt)
+
+    # remove espaços antes de pontuação
+    final_text = re.sub(r"\s+([,.;:!?])", r"\1", final_text)
+
+    # corrige hífen quebrado
+    final_text = re.sub(r"-\s+", "-", final_text)
+
+    return final_text
+
+
+def rebuild_broken_lines2(text: str) -> str:
+    """
     Reconstrói linhas quebradas típicas de PDF em colunas.
     """
 
