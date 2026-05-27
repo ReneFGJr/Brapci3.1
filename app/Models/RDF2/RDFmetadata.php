@@ -951,6 +951,8 @@ class RDFmetadata extends Model
 
             if (is_file($file) && is_readable($file)) {
                 return file_get_contents($file);
+            } else {
+                return "File not found ".$file;
             }
 
             return '';
