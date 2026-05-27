@@ -79,7 +79,7 @@ def saveCited(lista,idR):
 
             print(ln)
     else:
-        ln = "Nenhuma citação encontrada."
+        ln = "#### SEM REFERÊNCIAS ####"
         print("Nenhuma citação encontrada para salvar.")
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_text,ca_rdf,ca_journal_origem)"
