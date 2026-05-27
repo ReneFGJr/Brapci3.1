@@ -218,4 +218,4 @@ def locale_referencias_type(text):
                 wd = wd.strip()
                 if (wd == linha_limpa):
                     return ln
-    return ""
+    return 99999
