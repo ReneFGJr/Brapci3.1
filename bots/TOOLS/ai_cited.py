@@ -195,10 +195,13 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
+        # Remove numero de capitulo e espacos extras.
+        # Exemplo: "6. Referencias" -> "Referencias"
+        linha_limpa = re.sub(r'^\s*\d+(?:\.\d+)*\s*[\.\-\)]?\s*', '', linha).strip()
         for wd in tp:
             # Verifica se a palavra-chave está na linha
-            if wd in linha:
+            if wd in linha_limpa:
                 wd = wd.strip()
-                if (wd == linha):
+                if (wd == linha_limpa):
                     return wd
     return ""
