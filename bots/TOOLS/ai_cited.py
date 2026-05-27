@@ -196,6 +196,7 @@ def locale_referencias_type(text):
     # Percorre cada linha
     for linha in linhas:
         linha_limpa = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
+        print(linha_limpa)
         for wd in tp:
             # Remover número do capítulo e espaços extras
             # Verifica se a palavra-chave está na linha
