@@ -163,6 +163,8 @@ elif (act == 'metadata'):
 
 elif (act == 'cited'):
     print("Extrair Citações")
+    lists = ai_cited.extrair_referencias_v2(id)
+    sys.exit()
     lists = ai_cited.extrair_referencias(txt,id)
     fileN = fileO.replace('.pdf','_cited.json')
     saveFileD(fileN,lists)

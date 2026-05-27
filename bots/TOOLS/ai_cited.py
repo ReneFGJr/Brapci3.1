@@ -2,8 +2,36 @@ import sys_io
 import re
 import sys
 import database
+import mod_docling
+from pathlib import Path
 
-def extrair_referencias(texto,idR):
+def extrair_referencias_v2(ID):
+    md_filename = Path(mod_docling.fileName(ID))
+    print("===>",md_filename)
+    sys.exit()
+
+    ref = ""
+    ref_On = False
+
+    # Divide o texto em linhas
+    linhas = sys_io.separar_por_linhas(texto)
+
+    # Percorre cada linha
+    for linha in linhas:
+        if not ref_On:
+            if start_section in linha:
+                ref_On = True
+        else:
+            ref += linha + '\n'
+
+    tipo = identificar_estilo_citacao(texto)
+    print("========TIPO=",tipo)
+    if (tipo == 'ABNT'):
+        ref = preparar_referencias(ref)
+        saveCited(ref,idR)
+    return ref
+
+def extrair_referencias_old(texto,idR):
     start_section = locale_referencias_type(texto)
     texto = sys_io.remove_legendas(texto)
 
