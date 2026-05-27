@@ -196,7 +196,7 @@ def locale_referencias_type(text):
     # Percorre cada linha
     for linha in linhas:
         linha_limpa = linha.strip()
-        linha_limpa = linha_limpa.replace('6.  ',' ')
+        linha_limpa = linha_limpa.replace('6. ',' ')
 
         print(linha_limpa)
         for wd in tp:
