@@ -74,6 +74,7 @@ else:
 dirT = '/data/Brapci3.1/public/'
 if (id != 0):
     file = dirT + sys_io.getNameFile(id)
+    file = dirT + sys_io.getNameFile(id)
     fileTXT = sys_io.getNameFileTXT(file)
     txt = sys_io.readfile(fileTXT)
     fileO = file
