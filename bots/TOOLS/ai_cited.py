@@ -8,9 +8,6 @@ from pathlib import Path
 def extrair_referencias_v2(ID):
     md_filename = Path(mod_docling.fileName(ID))
 
-    print(md_filename)
-    sys.exit()
-
     if (md_filename.exists()):
         print("Arquivo Markdown encontrado:", md_filename)
         texto = sys_io.readfile(md_filename)
