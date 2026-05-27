@@ -217,5 +217,5 @@ def locale_referencias_type(text):
             if wd in linha_limpa:
                 wd = wd.strip()
                 if (wd == linha_limpa):
-                    return ln
-    return 99999
+                    return str(ln)
+    return '99999'
