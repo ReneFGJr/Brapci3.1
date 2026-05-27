@@ -1,28 +1,32 @@
 from pathlib import Path
 from docling.document_converter import DocumentConverter
 import shutil
-import re
 import logging
+import re
+from typing import Optional
 
 # =========================================================
-# CONFIG
+# CONFIGURAÇÕES
 # =========================================================
 
 BASE_DIR = Path("/data/Brapci3.1/public")
-converter = DocumentConverter()
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(message)s")
+
+# Reutiliza o converter (evita recriar a cada arquivo)
+converter = DocumentConverter()
 
 # =========================================================
 # HELPERS
 # =========================================================
 
 
-def build_output_filename(doc_id: int) -> Path:
+def build_repository_filename(doc_id: int) -> Path:
     """
-    Gera o caminho:
-    00/39/21/75/work_00392175#00000.md
+    Gera caminho no formato:
+
+    /data/Brapci3.1/public/_repository/00/39/21/75/work_00392175#00000.md
     """
 
     id_str = str(doc_id).strip().zfill(8)
@@ -38,95 +42,222 @@ def build_output_filename(doc_id: int) -> Path:
             parts[3] / f"work_{id_str}#00000.md")
 
 
-def normalize_markdown(text: str) -> str:
+def normalize_unicode(text: str) -> str:
     """
-    Corrige problemas comuns do Docling/PDF:
-    - espaços Unicode
-    - soft hyphen
-    - múltiplos espaços
-    - quebras excessivas
+    Corrige caracteres problemáticos comuns em PDFs acadêmicos.
     """
 
-    # Espaço unicode
-    text = text.replace("\u00A0", " ")
+    replacements = {
+        "\u00A0": " ",  # NBSP
+        "\u00AD": "",  # Soft hyphen
+        "\u200B": "",  # Zero-width space
+        "\t": " ",
+        "\r": "",
+    }
 
-    # Soft hyphen
-    text = text.replace("\u00AD", "")
+    for old, new in replacements.items():
+        text = text.replace(old, new)
 
-    # Tabs
-    text = text.replace("\t", " ")
+    return text
 
-    # Espaços múltiplos
+
+def remove_excess_spaces(text: str) -> str:
+    """
+    Remove espaços duplicados e excesso de linhas vazias.
+    """
+
+    # espaços múltiplos
     text = re.sub(r"[ ]{2,}", " ", text)
 
-    # Muitas linhas vazias
+    # linhas vazias excessivas
     text = re.sub(r"\n{3,}", "\n\n", text)
 
     return text.strip()
 
 
-def export_markdown(source: Path) -> str:
+def rebuild_broken_lines(text: str) -> str:
+    """
+    Reconstrói parágrafos quebrados típicos de PDFs em colunas.
+    """
+
+    lines = text.splitlines()
+
+    rebuilt = []
+    current = ""
+
+    for line in lines:
+
+        line = line.strip()
+
+        # Linha vazia fecha parágrafo
+        if not line:
+            if current:
+                rebuilt.append(current.strip())
+                current = ""
+            continue
+
+        # Títulos markdown preservados
+        if line.startswith("#"):
+            if current:
+                rebuilt.append(current.strip())
+                current = ""
+
+            rebuilt.append(line)
+            continue
+
+        # Linha curta = provável continuação
+        if (current and len(line) < 120 and not line.endswith(".")):
+            current += " " + line
+
+        else:
+            if current:
+                rebuilt.append(current.strip())
+
+            current = line
+
+    if current:
+        rebuilt.append(current.strip())
+
+    return "\n\n".join(rebuilt)
+
+
+def clean_markdown(text: str) -> str:
+    """
+    Pipeline completo de limpeza.
+    """
+
+    text = normalize_unicode(text)
+
+    text = rebuild_broken_lines(text)
+
+    text = remove_excess_spaces(text)
+
+    return text
+
+
+def convert_pdf_to_markdown(source: Path) -> str:
     """
     Converte PDF usando Docling.
     """
+
+    logging.info(f"Convertendo PDF: {source}")
 
     result = converter.convert(str(source))
 
     markdown = result.document.export_to_markdown()
 
-    return normalize_markdown(markdown)
+    markdown = clean_markdown(markdown)
+
+    return markdown
+
+
+def save_markdown_file(path: Path, content: str) -> None:
+    """
+    Salva markdown em UTF-8.
+    """
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    path.write_text(content, encoding="utf-8")
+
+    logging.info(f"Arquivo salvo: {path}")
+
+
+def copy_to_repository(source_md: Path, repository_md: Path) -> None:
+    """
+    Copia markdown para estrutura da BRAPCI.
+    """
+
+    repository_md.parent.mkdir(parents=True, exist_ok=True)
+
+    shutil.copy2(source_md, repository_md)
+
+    logging.info(f"Arquivo copiado para: {repository_md}")
 
 
 # =========================================================
-# MAIN
+# PROCESSAMENTO PRINCIPAL
 # =========================================================
 
 
-def save_file_docling(source: str, doc_id: int) -> None:
+def save_file_docling(source: str,
+                      doc_id: int,
+                      force: bool = False) -> Optional[Path]:
+    """
+    Fluxo principal:
+    - converte PDF
+    - limpa markdown
+    - salva .md local
+    - copia para repositório BRAPCI
+    """
 
     source_path = Path(source)
 
     if not source_path.exists():
         logging.error(f"Arquivo não encontrado: {source}")
-        return
+        return None
 
+    # markdown local
     generated_md = source_path.with_suffix(".md")
-    repository_md = build_output_filename(doc_id)
+
+    # markdown no repositório
+    repository_md = build_repository_filename(doc_id)
 
     # -----------------------------------------------------
-    # Gera markdown
+    # GERA MARKDOWN
     # -----------------------------------------------------
 
-    if not generated_md.exists():
+    if generated_md.exists() and not force:
 
-        logging.info(f"Gerando markdown: {generated_md}")
+        logging.info(f"Markdown já existe: {generated_md}")
+
+    else:
 
         try:
 
-            markdown = export_markdown(source_path)
+            markdown = convert_pdf_to_markdown(source_path)
 
-            generated_md.write_text(markdown, encoding="utf-8")
-
-            logging.info("Markdown gerado com sucesso")
+            save_markdown_file(generated_md, markdown)
 
         except Exception as e:
-            logging.exception(f"Erro na conversão: {e}")
-            return
 
-    else:
-        logging.info(f"Markdown já existe: {generated_md}")
+            logging.exception(f"Erro na conversão do PDF: {e}")
+
+            return None
 
     # -----------------------------------------------------
-    # Copia para repositório
+    # COPIA PARA REPOSITÓRIO
     # -----------------------------------------------------
 
     try:
 
-        repository_md.parent.mkdir(parents=True, exist_ok=True)
-
-        shutil.copy2(generated_md, repository_md)
-
-        logging.info(f"Arquivo copiado para: {repository_md}")
+        copy_to_repository(generated_md, repository_md)
 
     except Exception as e:
-        logging.exception(f"Erro ao copiar markdown: {e}")
+
+        logging.exception(f"Erro ao copiar para repositório: {e}")
+
+        return None
+
+    logging.info(f"Processamento concluído: {source}")
+
+    return repository_md
+
+
+# =========================================================
+# EXECUÇÃO
+# =========================================================
+
+if __name__ == "__main__":
+
+    if len(sys.argv) < 3:
+
+        print("Uso:\n"
+              "python script.py arquivo.pdf 392175")
+
+        sys.exit(1)
+
+    pdf_file = sys.argv[1]
+    doc_id = int(sys.argv[2])
+
+    save_file_docling(source=pdf_file, doc_id=doc_id)
