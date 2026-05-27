@@ -42,7 +42,7 @@ def extrair_referencias_v2(ID):
             break
 
         if linha_strip:
-            linha_ref = re.sub(r'^\s*\d+(?:\.\d+)*\s*[\.\-\)]?\s*', '', linha_strip)
+            linha_ref = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha_strip)
             listRef.append(linha_ref)
 
     print("Linhas extraidas:")
@@ -199,7 +199,7 @@ def locale_referencias_type(text):
     for linha in linhas:
         # Remove numero de capitulo e espacos extras.
         # Exemplo: "6. Referencias" -> "Referencias"
-        linha_limpa = re.sub(r'^\s*\d+(?:\.\d+)*\s*[\.\-\)]?\s*', '', linha).strip()
+        linha_limpa = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
         print(linha_limpa, "==")
         for wd in tp:
             # Verifica se a palavra-chave está na linha
