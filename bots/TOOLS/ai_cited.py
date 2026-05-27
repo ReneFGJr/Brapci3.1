@@ -195,12 +195,12 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
-        linha = linha.change_ext('1. ','').change_ext('2. ','').change_ext('3. ','').change_ext('4. ','').change_ext('5. ','').change_ext('6. ','').change_ext('7. ','').change_ext('8. ','').change_ext('9. ','')
+        linha_limpa = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
         for wd in tp:
             # Remover número do capítulo e espaços extras
             # Verifica se a palavra-chave está na linha
-            if wd in linha:
+            if wd in linha_limpa:
                 wd = wd.strip()
-                if (wd == linha):
+                if (wd == linha_limpa):
                     return wd
     return ""
