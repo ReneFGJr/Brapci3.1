@@ -42,7 +42,7 @@ def build_repository_filename(doc_id: int, source_path: Path) -> Path:
         id_str[6:8],
     ]
 
-    md_name = 'work_' + str(doc_id).zfill(8) + '@000000.md'
+    md_name = 'work_' + str(doc_id).zfill(8) + '@00000.md'
 
     return (BASE_DIR / "_repository" / parts[0] / parts[1] / parts[2] /
             parts[3] / md_name)
