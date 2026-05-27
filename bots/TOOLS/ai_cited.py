@@ -42,8 +42,7 @@ def extrair_referencias_v2(ID):
             break
 
         if linha_strip:
-            linha_ref = re.sub(r'^\s*(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', linha_strip).strip()
-            listRef.append(linha_ref)
+            listRef.append(linha_strip)
 
     print("Linhas extraidas:")
     for i, linha in enumerate(listRef, start=1):
@@ -196,7 +195,9 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
-        linha_limpa = re.sub(r'^\s*(?:#+\s*)?(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
+        linha_limpa = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
+        linha_limpa = re.sub(r'^\s*(?:#+\s*)?(?:[1-9]\d{0,2})\.\s+', '',linha_limpa).strip()
+        linha_limpa = linha_limpa.replace('1.  ','').replace('2. ','').replace('3. ','').replace('4. ','').replace('5. ','').replace('6. ','').replace('7. ','').replace('8. ','').replace('9. ','').strip()
 
         print(linha_limpa)
         for wd in tp:
