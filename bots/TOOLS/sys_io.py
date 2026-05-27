@@ -7,6 +7,12 @@ import mod_convert_repository
 
 ######################################## READFILE
 def readfile(nome_arquivo):
+    try:
+        nome_arquivo = os.fspath(nome_arquivo)
+    except TypeError:
+        print("Erro: nome_arquivo deve ser uma string ou PathLike.")
+        return ""
+
     if len(nome_arquivo) > 255:
         print("Erro: O caminho do arquivo é muito longo.")
         return False
