@@ -88,7 +88,7 @@ if (act == 'All'):
     print("<h4>Gerar Markdown</h4>")
     print(" Processoando ID",id)
     import mod_docling
-    mod_docling.saveFileD(fileO, id)
+    mod_docling.save_file_docling(fileO, id)
 
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
@@ -124,11 +124,12 @@ if (act == 'All'):
     saveFileD(fileN,lists)
     lists = ai_abstract.extract_abstract(txt, id)
     sys.exit()
+
 elif (act == 'docling'):
     print("Extrair Markdown - Docling")
     print("  ",fileO,id)
     import mod_docling
-    mod_docling.saveFileD(fileO, id)
+    mod_docling.save_file_docling(fileO, id)
 
 elif (act == 'email'):
     print("Extrair e-mail")
