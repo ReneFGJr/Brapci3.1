@@ -70,6 +70,21 @@ class BrapciLab extends BaseController
         return view('BrapciLabs/home', $data);
     }
 
+    /****** Cited */
+    public function cited($act='',$id=0)
+    {
+        $Cited = new \App\Models\AI\Cited\Index();
+        switch($act){
+            case 'edit':
+                $dt = $Cited->find($id);
+                return $Cited->edit_cited($id);
+                break;
+            default:
+                return $Cited->list_cited($id);
+                break;
+        }
+    }
+
     /**** Authors */
     public function authors()
     {

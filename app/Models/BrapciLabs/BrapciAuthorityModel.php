@@ -119,6 +119,11 @@ class BrapciAuthorityModel extends Model
         $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
         $data['brapci'] = (array)json_decode($brapci['brapci_xml'] ?? null);
 
+        $dt = json_decode($brapci['brapci_xml'], true);
+        $Cited = new \App\Models\AI\Cited\Index();
+
+        $data['cited'] = $Cited->getCitedByID($dt['worksID']);
+
         echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null, 'data' => $data]);
 
         // Exemplo de implementação para retornar um ID de projeto

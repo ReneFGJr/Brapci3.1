@@ -64,6 +64,14 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'cited':
+                $Cited = new \App\Models\AI\Cited\Index();
+                $d1 = get("idz");
+                $d2 = get("ida");
+                $RSP = $Cited->joinCited($d1, $d2);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'setTermLang':
                 $Terms = new \App\Models\RDF2\RDFliteral();
                 $RSP = $Terms->setTermLang($d2, $d3);

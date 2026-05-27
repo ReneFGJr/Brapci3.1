@@ -6,15 +6,30 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'brapci_cited';
+    protected $table            = 'cited_article';
+    protected $primaryKey       = 'id_ca';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_ca',
+        'ca_doi',
+        'ca_journal',
+        'ca_journal_origem',
+        'ca_year',
+        'ca_year_origem',
+        'ca_vol',
+        'ca_nr',
+        'ca_pag',
+        'ca_tipo',
+        'ca_tipo',
+        'ca_status',
+        'ca_ai',
+        'ca_text'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -50,6 +65,36 @@ class Index extends Model
 
         }
 
+    function joinCited($d1,$d2)
+        {
+            $txt1 = $this->find($d1);
+            $txt2 = $this->find($d2);
+
+            $txt = $txt2['ca_text'] . ' ' . $txt1['ca_text'];
+            $txt = str_replace('  ', ' ', $txt);
+            $dd = [];
+            $dd['ca_text'] = $txt;
+            $this->set($dd)->where('id_ca', $d2)->update();
+            $this->where('id_ca',$d1)->delete();
+            $RSP = [];
+            $RSP['status'] = '200';
+            return ($RSP);
+        }
+
+    function getCitedByID(array $IDs): array
+        {
+            $ids = array_values(array_unique(array_map('intval', $IDs)));
+            $ids = array_filter($ids, function ($id) {
+                return $id > 0;
+            });
+
+            if (count($ids) == 0) {
+                return (array());
+            }
+            $rlt = $this->whereIn('ca_rdf', $ids)->findAll();
+            return ($rlt);
+        }
+
     /******************************************************************/
     function list_type($id, $offset = 0)
     {
@@ -74,7 +119,7 @@ class Index extends Model
                     limit 500
                     offset $offset";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $sx = '<h1>' . msg('Source') . ' ' . $id . '</h1>';
         $sx .= '<ol>';
         for ($r = 0; $r < count($rlt); $r++) {
@@ -148,7 +193,7 @@ class Index extends Model
                         and cj_use = 0 and id_cj <> " . $d1 . "
                         order by cj_name";
             $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
+            $rlt = $rlt->getResultArray();
 
             for ($r = 0; $r < count($rlt); $r++) {
                 $line = $rlt[$r];
@@ -167,7 +212,7 @@ class Index extends Model
         $sx = '<ul>';
         $sql = "select * from " . $this->base . "cited_article where ca_journal = $d1 order by ca_text";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];
             $sx .= '<li>';
@@ -200,7 +245,7 @@ class Index extends Model
         $sql = "select * from " . $this->base . "cited_article
                         where id_ca = $id";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $sx = '';
         $line = $rlt[0];
         return ($line);
@@ -210,7 +255,7 @@ class Index extends Model
         $sql = "select * from " . $this->base . "cited_journal
                         where id_cj = $id";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $sx = '';
         $line = $rlt[0];
 
@@ -219,7 +264,7 @@ class Index extends Model
         $sql = "select * from " . $this->base . "cited_journal
                         where cj_use = $id";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         if (count($rlt) > 0) {
             $line['alias'] = $rlt;
         }
@@ -301,7 +346,7 @@ class Index extends Model
                 $sql = "select * from " . $this->base . "cited_journal
                                         where cj_name_asc = '$la' ";
                 $rlt = $this->db->query($sql);
-                $rlt = $rlt->result_array();
+                $rlt = $rlt->getResultArray();
                 $sx .= '<br>' . $l;
                 if (count($rlt) == 0) {
                     $sx .= ' <b><span style="color: green">NEW</span></b>';
@@ -334,7 +379,7 @@ class Index extends Model
         $sql .= " UNION ";
         $sql .= "select count(*) as toDO from " . $this->base . "cited_article where ca_tipo = 1 and ca_journal = 0 ";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $line = $rlt;
         $sx .= '<table width="400" style="border: 1px solid #000000">
                 <tr class="text-center"><th>Feito</th><th>Para fazer</th></tr>
@@ -354,7 +399,7 @@ class Index extends Model
                     ) as tabela
                     order by total desc, cj_name";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $sx .= '<table width="100%">';
         $sx .= '<tr class="text-center"><th width="10%">Citações</th><th>Revista</th></tr>';
         for ($r = 0; $r < count($rlt); $r++) {
@@ -386,7 +431,7 @@ class Index extends Model
                     group by ca_tipo, ct_name
                     order by toDO desc ";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $sx .= '<table width="400" style="border: 1px solid #000000">
                 <tr class="text-center"><th>Tipo</th><th>Total</th></tr>';
         $tot = 0;
@@ -416,7 +461,7 @@ class Index extends Model
                     limit 100
                     ";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $up = 0;
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];
@@ -449,7 +494,7 @@ class Index extends Model
                     (cj_name like '%" . chr(13) . "%')
                     ";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         if (count($rlt) > 0) {
             $line = $rlt[0];
             print_r($line);
@@ -459,7 +504,7 @@ class Index extends Model
         $sql = "select * from " . $this->base . "cited_journal
                     where cj_name_asc = ''";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];
             $n = $line['cj_name'];
@@ -476,36 +521,7 @@ class Index extends Model
             $this->db->query($sql);
         }
     }
-    function where($d1, $t = 0)
-    {
-        if (strlen($d1) > 0) {
-            $j = troca($d1, ' ', ';');
-            $j = splitx(';', $j . ';');
-            $wh = '';
-            for ($r = 0; $r < (count($j) - $t); $r++) {
-                $name = UpperCase(ascii($j[$r]));
 
-                if ((strlen($name) > 2) and ($name != 'AND')) {
-                    if (strlen($wh) > 0) {
-                        $wh .= ' AND ';
-                    }
-                    $wh .= " (cj_name_asc like '%$name%') ";
-                }
-            }
-            if ($wh == '') {
-                $wh = '1=1';
-            }
-            /* SQL */
-            $sql = "select * from " . $this->base . "cited_journal
-                where (" . $wh . ") and (cj_name <> '') and (cj_use = 0)
-                ";
-            $sql .= " order by cj_name";
-            $sql .= " limit 150 ";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            return ($rlt);
-        }
-    }
     function journal_ed($d1)
     {
         $d1 = get("dd1");
@@ -558,7 +574,7 @@ class Index extends Model
     {
         $sql = "select * from " . $this->base . "cited_journal";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
 
         $dt = array();
         for ($r = 0; $r < count($rlt); $r++) {
@@ -610,6 +626,63 @@ class Index extends Model
         return ($sx);
     }
 
+    function edit_cited($id)
+    {
+        $dt = $this->le_cited($id);
+        $saved = 0;
+        $message = '';
+
+        if (count($_POST) > 0) {
+            $caText = trim(get('ca_text'));
+            $viewValor = trim(get('view_valor'));
+
+            if (strlen($caText) > 0) {
+                $sql = "update " . $this->base . "cited_article set
+                            ca_text = '" . addslashes($caText) . "',
+                            ca_update_at = '" . date('Y-m-d') . "'
+                            where id_ca = " . round($id);
+                $this->db->query($sql);
+                $saved++;
+            }
+
+            if (strlen($viewValor) > 0) {
+                $ordem = round(($dt['ca_ordem'] ?? 0)) + 1;
+                $sql = "insert into " . $this->base . "cited_article
+                        (ca_rdf, ca_journal, ca_year, ca_vol, ca_nr, ca_pag, ca_tipo, ca_text, ca_status, ca_ordem, ca_update_at)
+                        values
+                        (" . round($dt['ca_rdf']) . ",
+                        " . round($dt['ca_journal'] ?? 0) . ",
+                        " . round($dt['ca_year'] ?? 0) . ",
+                        " . round($dt['ca_vol'] ?? 0) . ",
+                        " . round($dt['ca_nr'] ?? 0) . ",
+                        " . round($dt['ca_pag'] ?? 0) . ",
+                        " . round($dt['ca_tipo'] ?? 0) . ",
+                        '" . addslashes($viewValor) . "',
+                        0,
+                        " . $ordem . ",
+                        '" . date('Y-m-d') . "')";
+                $this->db->query($sql);
+                $saved++;
+            }
+
+            $dt = $this->le_cited($id);
+            $message = 'Registro atualizado';
+            if (strlen($viewValor) > 0) {
+                $message .= ' e nova referência incluída';
+            }
+        }
+
+        $data = [
+            'dt' => $dt,
+            'id' => $id,
+            'actionUrl' => base_url('/labs/cited/edit/' . $id),
+            'saved' => $saved,
+            'message' => $message,
+        ];
+
+        return view('BrapciLabs/widget/authors/cited_edit', $data);
+    }
+
     function cited_remove_blank()
     {
         $sql = "delete from " . $this->base . " cited_article
@@ -655,7 +728,7 @@ class Index extends Model
                     limit 5
                     offset $d2";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
 
         if (count($rlt) == 0) {
             $sx = 'FIM';
@@ -1342,7 +1415,7 @@ class Index extends Model
                         offset $offset
                         ";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $tot = 0;
         $sx = '<ul>';
         for ($r = 0; $r < count($rlt); $r++) {
@@ -1383,7 +1456,7 @@ class Index extends Model
         /*************** SOURCES */
         $sql = "select jnl_frbr, id_jnl from brapci.source_source";
         $rlt = $this->db->query($sql);
-        $rlt = $rlt->result_array();
+        $rlt = $rlt->getResultArray();
         $src = array();
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];

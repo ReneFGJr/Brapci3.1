@@ -223,6 +223,11 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
 
+    /********* Compat cited VC (public) */
+    $routes->get('cited/', 'BrapciLab::cited2');
+    $routes->get('cited/(:any)', 'BrapciLab::cited/$1');
+    $routes->match(['get', 'post'], 'cited/(:any)/(:any)', 'BrapciLab::cited/$1/$2');
+
     /********* Compat Labs VC (public) */
     $routes->get('viewVC/(:any)', 'BrapciLabAbs::index/viewVC/$1');
 
