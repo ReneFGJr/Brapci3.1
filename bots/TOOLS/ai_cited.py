@@ -66,17 +66,28 @@ def saveCited(lista,idR):
             jnl_txt = str(jnl).replace("'", "´")
             jnl_val = f"'{jnl_txt}'"
 
-    for ln in lista:
-        ln = re.sub(r'^\s*(?:\d+\s*:\s*)?(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', ln)
-        ln = ln.replace("'","´")
+    if (len(lista) > 0):
+        print("Salvando Citações no banco de dados...")
 
+        for ln in lista:
+            ln = re.sub(r'^\s*(?:\d+\s*:\s*)?(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', ln)
+            ln = ln.replace("'","´")
+
+            qi = "insert into brapci_cited.cited_article "
+            qi += "(ca_text,ca_rdf,ca_journal_origem)"
+            qi += " values"
+            qi += f"('{ln}',{idR},{jnl_val})"
+            database.insert(qi)
+
+            print(ln)
+    else:
+        ln = "Nenhuma citação encontrada."
+        print("Nenhuma citação encontrada para salvar.")
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_text,ca_rdf,ca_journal_origem)"
         qi += " values"
         qi += f"('{ln}',{idR},{jnl_val})"
         database.insert(qi)
-
-        print(ln)
 
 def identificar_estilo_citacao(referencia):
     referencia = referencia.strip()
