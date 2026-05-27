@@ -61,7 +61,7 @@ class Tools extends BaseController
 
                 break;
             default:
-                echo '<h1>Processando NLP</h1>';
+                echo '<h1>Processando NLP - ' . htmlspecialchars($type) . '</h1>';
                 break;
         }
 

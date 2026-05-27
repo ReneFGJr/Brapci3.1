@@ -45,9 +45,7 @@ def extrair_referencias_v2(ID):
             listRef.append(linha_strip)
 
     print("Linhas extraidas:")
-    for i, linha in enumerate(listRef, start=1):
-        #print(f"{i:04d}: {linha}")
-        print(f"{linha}")
+
     if (len(listRef) > 0):
         saveCited(listRef, ID)
 
