@@ -23,11 +23,14 @@ converter = DocumentConverter()
 # =========================================================
 
 
-def build_repository_filename(doc_id: int) -> Path:
+def build_repository_filename(doc_id: int, source_path: Path) -> Path:
     """
-    Gera caminho no formato:
+    Preserva o mesmo nome/versionamento do PDF.
 
-    /data/Brapci3.1/public/_repository/00/39/21/75/work_00392175#00000.md
+    Exemplo:
+    work_00060572#00063.pdf
+    ->
+    work_00060572#00063.md
     """
 
     id_str = str(doc_id).strip().zfill(8)
@@ -39,8 +42,15 @@ def build_repository_filename(doc_id: int) -> Path:
         id_str[6:8],
     ]
 
+    md_name = source_path.with_suffix(".md").name
+
     return (BASE_DIR / "_repository" / parts[0] / parts[1] / parts[2] /
-            parts[3] / f"work_{id_str}#00000.md")
+            parts[3] / md_name)
+
+
+# =========================================================
+# LIMPEZA DE TEXTO
+# =========================================================
 
 
 def normalize_unicode(text: str) -> str:
@@ -83,120 +93,68 @@ def rebuild_broken_lines(text: str) -> str:
 
     rebuilt = []
 
-    paragraph = ""
+    current = ""
 
     for raw_line in lines:
 
         line = raw_line.strip()
 
-        # ignora vazio
         if not line:
 
-            if paragraph:
-                rebuilt.append(paragraph.strip())
-                paragraph = ""
+            if current:
+                rebuilt.append(current.strip())
+                current = ""
 
             continue
 
-        # remove múltiplos espaços unicode
+        # normaliza espaços
         line = re.sub(r"\s+", " ", line)
 
-        # preserva títulos markdown
+        # preserva markdown
         if line.startswith("#"):
 
-            if paragraph:
-                rebuilt.append(paragraph.strip())
-                paragraph = ""
+            if current:
+                rebuilt.append(current.strip())
+                current = ""
 
             rebuilt.append(line)
 
             continue
 
-        # palavra isolada MAIÚSCULA
-        if (len(line.split()) <= 3 and line.upper() == line
-                and not line.endswith(".")):
+        # linhas curtas normalmente são continuação
+        short_line = len(line.split()) <= 4
 
-            paragraph += " " + line
+        # linha maiúscula
+        upper_line = line.upper() == line
 
-            continue
+        if current:
 
-        # linha curta = continua
-        if (paragraph and len(line) < 200
-                and not re.match(r"^[A-Z][a-z]+:$", line)):
+            if (short_line or upper_line or len(line) < 80):
 
-            paragraph += " " + line
+                current += " " + line
+                continue
 
-        else:
+        # inicia novo bloco
+        if current:
+            rebuilt.append(current.strip())
 
-            if paragraph:
-                rebuilt.append(paragraph.strip())
+        current = line
 
-            paragraph = line
+    if current:
+        rebuilt.append(current.strip())
 
-    if paragraph:
-        rebuilt.append(paragraph.strip())
-
-    # limpa espaços extras
     final_text = "\n\n".join(rebuilt)
 
-    # remove espaços antes de pontuação
+    # remove espaços antes da pontuação
     final_text = re.sub(r"\s+([,.;:!?])", r"\1", final_text)
 
     # corrige hífen quebrado
     final_text = re.sub(r"-\s+", "-", final_text)
 
+    # remove espaços duplicados
+    final_text = re.sub(r"[ ]{2,}", " ", final_text)
+
     return final_text
-
-
-def rebuild_broken_lines2(text: str) -> str:
-    """
-    Reconstrói linhas quebradas típicas de PDF em colunas.
-    """
-
-    lines = text.splitlines()
-
-    rebuilt = []
-    current = ""
-
-    for line in lines:
-
-        line = line.strip()
-
-        # linha vazia
-        if not line:
-
-            if current:
-                rebuilt.append(current.strip())
-                current = ""
-
-            continue
-
-        # títulos markdown
-        if line.startswith("#"):
-
-            if current:
-                rebuilt.append(current.strip())
-                current = ""
-
-            rebuilt.append(line)
-            continue
-
-        # continua parágrafo
-        if (current and len(line) < 120 and not re.match(r"^[A-Z\s]+$", line)):
-
-            current += " " + line
-
-        else:
-
-            if current:
-                rebuilt.append(current.strip())
-
-            current = line
-
-    if current:
-        rebuilt.append(current.strip())
-
-    return "\n\n".join(rebuilt)
 
 
 def clean_markdown(text: str) -> str:
@@ -206,11 +164,24 @@ def clean_markdown(text: str) -> str:
 
     text = normalize_unicode(text)
 
+    # Junta palavras quebradas por newline
+    # Ex:
+    # CIÊNCIA\nDA -> CIÊNCIA DA
+    text = re.sub(r"(?<=\w)\n(?=\w)", " ", text)
+
+    # normaliza tabs/espaços
+    text = re.sub(r"[ \t]+", " ", text)
+
     text = rebuild_broken_lines(text)
 
     text = remove_excess_spaces(text)
 
     return text
+
+
+# =========================================================
+# DOCILING
+# =========================================================
 
 
 def convert_pdf_to_markdown(source: Path) -> str:
@@ -227,6 +198,11 @@ def convert_pdf_to_markdown(source: Path) -> str:
     markdown = clean_markdown(markdown)
 
     return markdown
+
+
+# =========================================================
+# ARQUIVOS
+# =========================================================
 
 
 def save_markdown_file(path: Path, content: str) -> None:
@@ -281,13 +257,15 @@ def save_file_docling(source: str,
 
         return None
 
+    # markdown local
     generated_md = source_path.with_suffix(".md")
 
-    repository_md = build_repository_filename(doc_id)
+    # markdown no repositório
+    repository_md = build_repository_filename(doc_id, source_path)
 
-    # -----------------------------------------------------
+    # =====================================================
     # GERA MARKDOWN
-    # -----------------------------------------------------
+    # =====================================================
 
     if generated_md.exists() and not force:
 
@@ -307,9 +285,9 @@ def save_file_docling(source: str,
 
             return None
 
-    # -----------------------------------------------------
+    # =====================================================
     # COPIA PARA REPOSITÓRIO
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -325,6 +303,12 @@ def save_file_docling(source: str,
 
     return repository_md
 
+
+# =========================================================
+# COMPATIBILIDADE LEGADA
+# =========================================================
+
+saveFileD = save_file_docling
 
 # =========================================================
 # EXECUÇÃO
