@@ -86,7 +86,7 @@ def remove_excess_spaces(text: str) -> str:
 
 def rebuild_broken_lines(text: str) -> str:
     """
-    Reconstrói textos quebrados por PDFs acadêmicos antigos.
+    Reconstrói linhas quebradas preservando markdown.
     """
 
     lines = text.splitlines()
@@ -99,18 +99,24 @@ def rebuild_broken_lines(text: str) -> str:
 
         line = raw_line.strip()
 
+        # --------------------------------------------
+        # linha vazia
+        # --------------------------------------------
+
         if not line:
 
             if current:
                 rebuilt.append(current.strip())
                 current = ""
 
+            rebuilt.append("")
+
             continue
 
-        # normaliza espaços
-        line = re.sub(r"\s+", " ", line)
+        # --------------------------------------------
+        # títulos markdown
+        # --------------------------------------------
 
-        # preserva markdown
         if line.startswith("#"):
 
             if current:
@@ -121,37 +127,67 @@ def rebuild_broken_lines(text: str) -> str:
 
             continue
 
-        # linhas curtas normalmente são continuação
-        short_line = len(line.split()) <= 4
+        # --------------------------------------------
+        # listas markdown
+        # --------------------------------------------
 
-        # linha maiúscula
-        upper_line = line.upper() == line
+        if (line.startswith("- ") or line.startswith("* ")
+                or re.match(r"^\d+\.", line)):
+
+            if current:
+                rebuilt.append(current.strip())
+                current = ""
+
+            rebuilt.append(line)
+
+            continue
+
+        # --------------------------------------------
+        # normaliza espaços
+        # --------------------------------------------
+
+        line = re.sub(r"\s+", " ", line)
+
+        # --------------------------------------------
+        # junta linhas pequenas
+        # --------------------------------------------
 
         if current:
 
-            if (short_line or upper_line or len(line) < 80):
+            short_line = len(line) < 60
+
+            isolated_word = len(line.split()) <= 3
+
+            upper_line = (line.upper() == line and len(line) < 40)
+
+            if (short_line or isolated_word or upper_line):
 
                 current += " " + line
+
                 continue
 
-        # inicia novo bloco
+        # --------------------------------------------
+        # salva bloco anterior
+        # --------------------------------------------
+
         if current:
             rebuilt.append(current.strip())
 
         current = line
 
+    # último bloco
     if current:
         rebuilt.append(current.strip())
 
-    final_text = "\n\n".join(rebuilt)
+    final_text = "\n".join(rebuilt)
 
-    # remove espaços antes da pontuação
+    # remove espaços antes de pontuação
     final_text = re.sub(r"\s+([,.;:!?])", r"\1", final_text)
 
-    # corrige hífen quebrado
+    # hífen quebrado
     final_text = re.sub(r"-\s+", "-", final_text)
 
-    # remove espaços duplicados
+    # múltiplos espaços
     final_text = re.sub(r"[ ]{2,}", " ", final_text)
 
     return final_text
@@ -159,21 +195,18 @@ def rebuild_broken_lines(text: str) -> str:
 
 def clean_markdown(text: str) -> str:
     """
-    Pipeline completo de limpeza.
+    Pipeline seguro de limpeza.
     """
 
     text = normalize_unicode(text)
 
-    # Junta palavras quebradas por newline
-    # Ex:
-    # CIÊNCIA\nDA -> CIÊNCIA DA
-    text = re.sub(r"(?<=\w)\n(?=\w)", " ", text)
-
-    # normaliza tabs/espaços
+    # normaliza espaços
     text = re.sub(r"[ \t]+", " ", text)
 
+    # remove linhas absurdamente quebradas
     text = rebuild_broken_lines(text)
 
+    # remove excesso
     text = remove_excess_spaces(text)
 
     return text
