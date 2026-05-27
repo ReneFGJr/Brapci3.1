@@ -42,7 +42,8 @@ def extrair_referencias_v2(ID):
             break
 
         if linha_strip:
-            listRef.append(linha_strip)
+            linha_ref = re.sub(r'^\s*(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', linha_strip).strip()
+            listRef.append(linha_ref)
 
     print("Linhas extraidas:")
     for i, linha in enumerate(listRef, start=1):
@@ -195,7 +196,8 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
-        linha_limpa = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
+        linha_limpa = re.sub(r'^\s*(?:#+\s*)?(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', linha).strip()
+
         print(linha_limpa)
         for wd in tp:
             # Remover número do capítulo e espaços extras
