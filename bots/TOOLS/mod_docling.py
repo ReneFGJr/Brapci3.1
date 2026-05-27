@@ -1,60 +1,132 @@
-from docling.document_converter import DocumentConverter
 from pathlib import Path
+from docling.document_converter import DocumentConverter
 import shutil
-import json
-import sys
+import re
+import logging
 
-def saveFileD(source, id=None):
-    # Ensure source is a Path object
+# =========================================================
+# CONFIG
+# =========================================================
+
+BASE_DIR = Path("/data/Brapci3.1/public")
+converter = DocumentConverter()
+
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s [%(levelname)s] %(message)s")
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+
+def build_output_filename(doc_id: int) -> Path:
+    """
+    Gera o caminho:
+    00/39/21/75/work_00392175#00000.md
+    """
+
+    id_str = str(doc_id).strip().zfill(8)
+
+    parts = [
+        id_str[0:2],
+        id_str[2:4],
+        id_str[4:6],
+        id_str[6:8],
+    ]
+
+    return (BASE_DIR / "_repository" / parts[0] / parts[1] / parts[2] /
+            parts[3] / f"work_{id_str}#00000.md")
+
+
+def normalize_markdown(text: str) -> str:
+    """
+    Corrige problemas comuns do Docling/PDF:
+    - espaços Unicode
+    - soft hyphen
+    - múltiplos espaços
+    - quebras excessivas
+    """
+
+    # Espaço unicode
+    text = text.replace("\u00A0", " ")
+
+    # Soft hyphen
+    text = text.replace("\u00AD", "")
+
+    # Tabs
+    text = text.replace("\t", " ")
+
+    # Espaços múltiplos
+    text = re.sub(r"[ ]{2,}", " ", text)
+
+    # Muitas linhas vazias
+    text = re.sub(r"\n{3,}", "\n\n", text)
+
+    return text.strip()
+
+
+def export_markdown(source: Path) -> str:
+    """
+    Converte PDF usando Docling.
+    """
+
+    result = converter.convert(str(source))
+
+    markdown = result.document.export_to_markdown()
+
+    return normalize_markdown(markdown)
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+
+def save_file_docling(source: str, doc_id: int) -> None:
+
     source_path = Path(source)
 
     if not source_path.exists():
-        print(f"Error: File '{source}' does not exist.")
+        logging.error(f"Arquivo não encontrado: {source}")
         return
 
-    # Create output filename
-    doc_filename = source_path.with_suffix('.md')
-    md_filename = Path(fileName(id))
+    generated_md = source_path.with_suffix(".md")
+    repository_md = build_output_filename(doc_id)
 
-    if doc_filename.exists():
-        print(f"     Arquivo ja existe '{doc_filename}'")
-    else:
-        print(f"     Gerando arquivo '{doc_filename}'")
+    # -----------------------------------------------------
+    # Gera markdown
+    # -----------------------------------------------------
 
-        # Initialize converter
-        converter = DocumentConverter()
+    if not generated_md.exists():
+
+        logging.info(f"Gerando markdown: {generated_md}")
 
         try:
-            result = converter.convert(str(source_path))
-            txt = result.document.export_to_markdown()
 
-            # Export Markdown file
-            print(f"Exporting Deep Search document JSON format to {doc_filename}")
+            markdown = export_markdown(source_path)
 
-            with doc_filename.open("w", encoding="utf-8") as fp:
-                fp.write(txt)
+            generated_md.write_text(markdown, encoding="utf-8")
 
-            print("Export successful!")
+            logging.info("Markdown gerado com sucesso")
 
         except Exception as e:
-            print(f"Error during conversion: {e}")
+            logging.exception(f"Erro na conversão: {e}")
+            return
 
-    # Cria o arquivo de saída Markdown no ID
-    print(f"     Criando arquivo Markdown no ID em {md_filename} - {source}")
-    if not md_filename.exists():
-        md_filename.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(doc_filename, md_filename)
-        print(f"     Criado arquivo '{md_filename}'")
+    else:
+        logging.info(f"Markdown já existe: {generated_md}")
 
+    # -----------------------------------------------------
+    # Copia para repositório
+    # -----------------------------------------------------
 
-def fileName(id):
-    dirT = '/data/Brapci3.1/public/'
-    id_str = str(id).strip().zfill(8)
+    try:
 
-    # Ex.: 00392175 -> 00/39/21/75
-    p1 = id_str[0:2]
-    p2 = id_str[2:4]
-    p3 = id_str[4:6]
-    p4 = id_str[6:8]
+        repository_md.parent.mkdir(parents=True, exist_ok=True)
 
-    return f"{dirT}_repository/{p1}/{p2}/{p3}/{p4}/work_{id_str}#00000.md"
+        shutil.copy2(generated_md, repository_md)
+
+        logging.info(f"Arquivo copiado para: {repository_md}")
+
+    except Exception as e:
+        logging.exception(f"Erro ao copiar markdown: {e}")
