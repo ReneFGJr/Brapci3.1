@@ -180,7 +180,7 @@ def clean_markdown(text: str) -> str:
 
 
 # =========================================================
-# DOCILING
+# DOCLING
 # =========================================================
 
 
@@ -225,6 +225,17 @@ def copy_to_repository(source_md: Path, repository_md: Path) -> None:
     if not source_md.exists():
 
         raise FileNotFoundError(f"Arquivo origem inexistente: {source_md}")
+
+    # resolve paths absolutos
+    source_resolved = source_md.resolve()
+    repo_resolved = repository_md.resolve()
+
+    # evita copiar arquivo para ele mesmo
+    if source_resolved == repo_resolved:
+
+        logging.info("Arquivo já está no repositório final.")
+
+        return
 
     repository_md.parent.mkdir(parents=True, exist_ok=True)
 
