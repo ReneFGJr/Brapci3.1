@@ -38,7 +38,7 @@ class Tools extends BaseController
         flush();
 
         switch ($type) {
-            case 'docling':
+            case 'fulltext':
                 echo '<h1>Processando Docling</h1>';
                 echo h("FULLTEXT - PRE");
                 flush();
