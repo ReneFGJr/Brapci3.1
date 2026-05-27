@@ -217,5 +217,7 @@ def locale_referencias_type(text):
             if wd in linha_limpa:
                 wd = wd.strip()
                 if (wd == linha_limpa):
+                    print("Localizado seção de Referências na linha", ln)
+                    print("Linha:", linha_limpa)
                     return str(ln)
     return '99999'
