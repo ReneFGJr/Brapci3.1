@@ -281,6 +281,10 @@ def copy_to_repository(source_md: Path, repository_md: Path) -> None:
 # PROCESSAMENTO PRINCIPAL
 # =========================================================
 
+def fileName(id):
+    source_path = Path(source)
+    repository_md = build_repository_filename(id, source_path)
+    return repository_md
 
 def save_file_docling(source: str,
                       doc_id: int,
