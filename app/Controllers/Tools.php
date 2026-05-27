@@ -37,13 +37,34 @@ class Tools extends BaseController
         echo '<style> body { font-family: Arial, sans-serif; } </style>';
         flush();
 
-        echo h("FULLTEXT - PRE");
-        flush();
+        switch ($type) {
+            case 'docling':
+                echo '<h1>Processando Docling</h1>';
+                echo h("FULLTEXT - PRE");
+                flush();
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
-        echo '<p>' . $cmd . '</p>';
-        echo troca(shell_exec($cmd), chr(10), '<br>');
-        flush();
+                $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
+                echo '<p>' . $cmd . '</p>';
+                echo troca(shell_exec($cmd), chr(10), '<br>');
+                flush();
+
+                break;
+            case 'cited':
+                echo '<h1>Processando Citações</h1>';
+                echo h("FULLTEXT - PRE");
+                flush();
+
+                $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py cited ' . $id;
+                echo '<p>' . $cmd . '</p>';
+                echo troca(shell_exec($cmd), chr(10), '<br>');
+                flush();
+
+                break;
+            default:
+                echo '<h1>Processando NLP</h1>';
+                break;
+        }
+
 
         echo "<hr>Fim do processo.";
         flush();
