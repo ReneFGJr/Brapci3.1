@@ -3,6 +3,7 @@ from docling.document_converter import DocumentConverter
 import shutil
 import logging
 import re
+import sys
 from typing import Optional
 
 # =========================================================
@@ -14,7 +15,7 @@ BASE_DIR = Path("/data/Brapci3.1/public")
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(message)s")
 
-# Reutiliza o converter (evita recriar a cada arquivo)
+# Reutiliza o converter
 converter = DocumentConverter()
 
 # =========================================================
@@ -44,7 +45,7 @@ def build_repository_filename(doc_id: int) -> Path:
 
 def normalize_unicode(text: str) -> str:
     """
-    Corrige caracteres problemáticos comuns em PDFs acadêmicos.
+    Corrige caracteres problemáticos comuns em PDFs.
     """
 
     replacements = {
@@ -63,13 +64,11 @@ def normalize_unicode(text: str) -> str:
 
 def remove_excess_spaces(text: str) -> str:
     """
-    Remove espaços duplicados e excesso de linhas vazias.
+    Remove excesso de espaços e linhas vazias.
     """
 
-    # espaços múltiplos
     text = re.sub(r"[ ]{2,}", " ", text)
 
-    # linhas vazias excessivas
     text = re.sub(r"\n{3,}", "\n\n", text)
 
     return text.strip()
@@ -77,7 +76,7 @@ def remove_excess_spaces(text: str) -> str:
 
 def rebuild_broken_lines(text: str) -> str:
     """
-    Reconstrói parágrafos quebrados típicos de PDFs em colunas.
+    Reconstrói linhas quebradas típicas de PDF em colunas.
     """
 
     lines = text.splitlines()
@@ -89,15 +88,18 @@ def rebuild_broken_lines(text: str) -> str:
 
         line = line.strip()
 
-        # Linha vazia fecha parágrafo
+        # linha vazia
         if not line:
+
             if current:
                 rebuilt.append(current.strip())
                 current = ""
+
             continue
 
-        # Títulos markdown preservados
+        # títulos markdown
         if line.startswith("#"):
+
             if current:
                 rebuilt.append(current.strip())
                 current = ""
@@ -105,11 +107,13 @@ def rebuild_broken_lines(text: str) -> str:
             rebuilt.append(line)
             continue
 
-        # Linha curta = provável continuação
-        if (current and len(line) < 120 and not line.endswith(".")):
+        # continua parágrafo
+        if (current and len(line) < 120 and not re.match(r"^[A-Z\s]+$", line)):
+
             current += " " + line
 
         else:
+
             if current:
                 rebuilt.append(current.strip())
 
@@ -153,7 +157,7 @@ def convert_pdf_to_markdown(source: Path) -> str:
 
 def save_markdown_file(path: Path, content: str) -> None:
     """
-    Salva markdown em UTF-8.
+    Salva markdown UTF-8.
     """
 
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -165,8 +169,12 @@ def save_markdown_file(path: Path, content: str) -> None:
 
 def copy_to_repository(source_md: Path, repository_md: Path) -> None:
     """
-    Copia markdown para estrutura da BRAPCI.
+    Copia markdown para repositório BRAPCI.
     """
+
+    if not source_md.exists():
+
+        raise FileNotFoundError(f"Arquivo origem inexistente: {source_md}")
 
     repository_md.parent.mkdir(parents=True, exist_ok=True)
 
@@ -187,20 +195,20 @@ def save_file_docling(source: str,
     Fluxo principal:
     - converte PDF
     - limpa markdown
-    - salva .md local
-    - copia para repositório BRAPCI
+    - salva markdown
+    - copia para repositório
     """
 
     source_path = Path(source)
 
     if not source_path.exists():
+
         logging.error(f"Arquivo não encontrado: {source}")
+
         return None
 
-    # markdown local
     generated_md = source_path.with_suffix(".md")
 
-    # markdown no repositório
     repository_md = build_repository_filename(doc_id)
 
     # -----------------------------------------------------
@@ -257,7 +265,24 @@ if __name__ == "__main__":
 
         sys.exit(1)
 
-    pdf_file = sys.argv[1]
-    doc_id = int(sys.argv[2])
+    try:
 
-    save_file_docling(source=pdf_file, doc_id=doc_id)
+        pdf_file = sys.argv[1]
+
+        doc_id = int(sys.argv[2])
+
+    except ValueError:
+
+        print("Erro: doc_id precisa ser numérico")
+
+        sys.exit(1)
+
+    result = save_file_docling(source=pdf_file, doc_id=doc_id)
+
+    if result:
+
+        print(f"\nMarkdown gerado em:\n{result}")
+
+    else:
+
+        print("\nFalha no processamento.")
