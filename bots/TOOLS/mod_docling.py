@@ -282,7 +282,17 @@ def copy_to_repository(source_md: Path, repository_md: Path) -> None:
 # =========================================================
 
 def fileName(id):
-    source_path = Path(source)
+    try:
+        import sys_io
+
+        file_rel = sys_io.getNameFile(id)
+        if file_rel:
+            file_rel = str(file_rel).lstrip("/")
+            return (BASE_DIR / file_rel).with_suffix(".md")
+    except Exception:
+        pass
+
+    source_path = Path(f"work_{str(id).zfill(8)}#00000.pdf")
     repository_md = build_repository_filename(id, source_path)
     return repository_md
 
