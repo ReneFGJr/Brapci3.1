@@ -95,8 +95,8 @@ def saveCited(lista,idR):
 
     for ln in lista:
         ln = ln.replace("'","´")
-        ########## Remova "- n. " do início da linha, se presente
-        ln = re.sub(r'- n\. ', '', ln)
+        ########## Remova "- n. " do início da linha, se presente (ex: "- 6. "")
+        ln = re.sub(r'^\s*-\s*\d+\.\s+', '', ln)
 
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_text,ca_rdf,ca_journal_origem)"
