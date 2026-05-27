@@ -21,21 +21,34 @@ def extrair_referencias_v2(ID):
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(texto)
 
+    # Identificar possível seção de referências
+    start_section = locale_referencias_type(texto)
+
     # Remova linhas repetidas
     linhas = list(dict.fromkeys(linhas))
+
+    # Percorre cada linha a partir de start_section ate o proximo "##"
+    listRef = []
+    em_referencias = False
+    for linha in linhas:
+        linha_strip = linha.strip()
+
+        if not em_referencias:
+            if linha_strip == start_section.strip():
+                em_referencias = True
+            continue
+
+        if linha_strip.startswith("##") and linha_strip != start_section.strip():
+            break
+
+        if linha_strip:
+            listRef.append(linha_strip)
+
     print("Linhas extraidas:")
-    for i, linha in enumerate(linhas, start=1):
+    for i, linha in enumerate(listRef, start=1):
         print(f"{i:04d}: {linha}")
 
     sys.exit()
-
-    # Percorre cada linha
-    for linha in linhas:
-        if not ref_On:
-            if start_section in linha:
-                ref_On = True
-        else:
-            ref += linha + '\n'
 
     tipo = identificar_estilo_citacao(texto)
     print("========TIPO=",tipo)
@@ -176,7 +189,7 @@ def preparar_referencias(texto):
     return ref
 
 def locale_referencias_type(text):
-    tp = ['REFERÊNCIAS','Referências']
+    tp = ['REFERÊNCIAS', 'Referências', '## Referências', '## REFERÊNCIAS', 'REFERENCIAS', 'Referencias']
 
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
