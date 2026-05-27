@@ -193,6 +193,8 @@ def locale_referencias_type(text):
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
 
+    ln = 0
+
     # Percorre cada linha
     for linha in linhas:
         linha_limpa = linha.strip()
@@ -207,11 +209,13 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace('9. ', ' ')
         linha_limpa = linha_limpa.replace('  ', ' ')
 
+        ln += 1
+
         for wd in tp:
             # Remover número do capítulo e espaços extras
             # Verifica se a palavra-chave está na linha
             if wd in linha_limpa:
                 wd = wd.strip()
                 if (wd == linha_limpa):
-                    return linhas
+                    return ln
     return ""
