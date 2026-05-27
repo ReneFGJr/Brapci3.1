@@ -947,15 +947,15 @@ class RDFmetadata extends Model
             $p3 = substr($id, 4, 2);
             $p4 = substr($id, 6, 2);
 
-            $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#00000.md';
+            $file = '';
 
-            if (is_file($file) && is_readable($file)) {
-                return file_get_contents($file);
-            } else {
-                return "File not found ".$file;
+            for ($n=0; $n < 500; $n++) {
+                $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#'. str_pad((string)$n, 5, '0', STR_PAD_LEFT).'.md';
+                if (is_dir($file)) {
+                    return file_get_contents($file);
+                }
             }
-
-            return '';
+           return "File not found ".$file;
         }
 
     function metadataHeader($m)
