@@ -348,7 +348,7 @@ def save_file_docling(source: str,
     # =====================================================
 
     try:
-
+        print(f"Copiando para repositório... {repository_md} de {generated_md}")
         copy_to_repository(generated_md, repository_md)
 
     except Exception as e:
