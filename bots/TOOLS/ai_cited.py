@@ -47,15 +47,10 @@ def extrair_referencias_v2(ID):
     print("Linhas extraidas:")
     for i, linha in enumerate(listRef, start=1):
         print(f"{i:04d}: {linha}")
+    if (len(listRef) > 0):
+        saveCited(listRef, ID)
 
-    sys.exit()
-
-    tipo = identificar_estilo_citacao(texto)
-    print("========TIPO=",tipo)
-    if (tipo == 'ABNT'):
-        ref = preparar_referencias(ref)
-        saveCited(ref,idR)
-    return ref
+    return listRef
 
 def extrair_referencias_old(texto,idR):
     start_section = locale_referencias_type(texto)
