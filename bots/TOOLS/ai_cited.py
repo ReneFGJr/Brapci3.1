@@ -194,6 +194,7 @@ def locale_referencias_type(text):
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
 
+
     # Percorre cada linha
     for linha in linhas:
         # Remove numero de capitulo e espacos extras.
