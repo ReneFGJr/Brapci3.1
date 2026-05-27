@@ -69,9 +69,7 @@ def saveCited(lista,idR):
             jnl_val = f"'{jnl_txt}'"
 
     for ln in lista:
-        ln = re.sub(r'^\s*\d+:\s*', '', ln)
-        ln = re.sub(r'^\s*-\s*', '', ln)
-        ln = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', ln)
+        ln = re.sub(r'^\s*(?:\d+\s*:\s*)?(?:[-*]\s*)?(?:[1-9]\d{0,2})\.\s+', '', ln)
         ln = ln.replace("'","´")
 
         qi = "insert into brapci_cited.cited_article "
@@ -79,6 +77,8 @@ def saveCited(lista,idR):
         qi += " values"
         qi += f"('{ln}',{idR},{jnl_val})"
         database.insert(qi)
+
+        print(ln)
 
 def identificar_estilo_citacao(referencia):
     referencia = referencia.strip()
