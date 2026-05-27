@@ -207,12 +207,11 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace('9. ', ' ')
         linha_limpa = linha_limpa.replace('  ', ' ')
 
-        print(linha_limpa)
         for wd in tp:
             # Remover número do capítulo e espaços extras
             # Verifica se a palavra-chave está na linha
             if wd in linha_limpa:
                 wd = wd.strip()
                 if (wd == linha_limpa):
-                    return wd
+                    return linhas
     return ""
