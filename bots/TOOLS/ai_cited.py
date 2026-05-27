@@ -52,32 +52,6 @@ def extrair_referencias_v2(ID):
 
     return listRef
 
-def extrair_referencias_old(texto,idR):
-    start_section = locale_referencias_type(texto)
-    texto = sys_io.remove_legendas(texto)
-
-    ref = ""
-    ref_On = False
-
-    # Divide o texto em linhas
-    linhas = sys_io.separar_por_linhas(texto)
-
-    # Percorre cada linha
-    for linha in linhas:
-        if not ref_On:
-            if start_section in linha:
-                ref_On = True
-        else:
-            ref += linha + '\n'
-
-
-    tipo = identificar_estilo_citacao(texto)
-    print("========TIPO=",tipo)
-    if (tipo == 'ABNT'):
-        ref = preparar_referencias(ref)
-        saveCited(ref,idR)
-    return ref
-
 def saveCited(lista,idR):
     qr = f"DELETE from brapci_cited.cited_article where ca_rdf = {idR}"
     database.update(qr)
@@ -94,6 +68,9 @@ def saveCited(lista,idR):
             jnl_val = f"'{jnl_txt}'"
 
     for ln in lista:
+        ln = re.sub(r'^\s*\d+:\s*', '', ln)
+        ln = re.sub(r'^\s*-\s*', '', ln)
+        ln = re.sub(r'^\s*(?:[1-9]\d{0,2})\.\s+', '', ln)
         ln = ln.replace("'","´")
 
         qi = "insert into brapci_cited.cited_article "
