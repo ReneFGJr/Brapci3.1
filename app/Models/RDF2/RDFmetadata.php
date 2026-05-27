@@ -951,7 +951,6 @@ class RDFmetadata extends Model
 
             for ($n=0; $n < 500; $n++) {
                 $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#'. str_pad((string)$n, 5, '0', STR_PAD_LEFT).'.md';
-                echo $file.'<br>',chr(13);
                 if (file_exists($file)) {
                     return file_get_contents($file);
                 }
