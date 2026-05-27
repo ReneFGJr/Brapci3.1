@@ -80,14 +80,25 @@ def extrair_referencias_old(texto,idR):
 
 def saveCited(lista,idR):
     qr = f"DELETE from brapci_cited.cited_article where ca_rdf = {idR}"
-    database.execute(qr)
+    database.update(qr)
+
+    jnl_val = "NULL"
+    qr = f"select JOURNAL from brapci_elastic.dataset where ID = {idR}"
+    row2 = database.query(qr)
+    if row2 != [] and row2[0] != []:
+        jnl = row2[0][0]
+        if isinstance(jnl, (int, float)):
+            jnl_val = str(jnl)
+        else:
+            jnl_txt = str(jnl).replace("'", "´")
+            jnl_val = f"'{jnl_txt}'"
 
     for ln in lista:
         ln = ln.replace("'","´")
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_text,ca_rdf,ca_journal_origem)"
         qi += " values"
-        qi += f"('{ln}',{idR},{jnl})"
+        qi += f"('{ln}',{idR},{jnl_val})"
         database.insert(qi)
 
 def identificar_estilo_citacao(referencia):
