@@ -11,14 +11,23 @@ def extrair_referencias_v2(ID):
     if (md_filename.exists()):
         print("Arquivo Markdown encontrado:", md_filename)
         texto = sys_io.readfile(md_filename)
-    print("===>",md_filename)
-    sys.exit()
+    else:
+        print("Arquivo Markdown não encontrado:", md_filename)
+        sys.exit()
 
     ref = ""
     ref_On = False
 
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(texto)
+
+    # Remova linhas que contenham apenas números
+    linhas = [linha for linha in linhas if not sys_io.soNumero(linha.strip())]
+    # Remova linhas repetidas
+    linhas = list(dict.fromkeys(linhas))
+
+    print(linhas)
+    sys.exit()
 
     # Percorre cada linha
     for linha in linhas:
