@@ -26,7 +26,11 @@ def extrair_referencias_v2(ID):
     # Remova linhas repetidas
     linhas = list(dict.fromkeys(linhas))
 
-    print(linhas)
+    for i, ln in enumerate(linhas):
+        if ln.strip() == "":
+            linhas[i] = ""
+        print(ln)
+
     sys.exit()
 
     # Percorre cada linha
