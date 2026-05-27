@@ -200,6 +200,7 @@ def locale_referencias_type(text):
         linha_limpa = re.sub(r'^\s*\d+(?:\.\d+)*\s*[\.\-\)]?\s*', '', linha).strip()
         for wd in tp:
             # Verifica se a palavra-chave está na linha
+            print(linha_limpa,"==",wd)
             if wd in linha_limpa:
                 wd = wd.strip()
                 if (wd == linha_limpa):
