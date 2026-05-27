@@ -21,8 +21,6 @@ def extrair_referencias_v2(ID):
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(texto)
 
-    # Remova linhas que contenham apenas números
-    linhas = [linha for linha in linhas if not sys_io.soNumero(linha.strip())]
     # Remova linhas repetidas
     linhas = list(dict.fromkeys(linhas))
     print("Linhas extraidas:")
