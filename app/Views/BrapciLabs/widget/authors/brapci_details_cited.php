@@ -88,6 +88,7 @@ if (!is_array($cited) or count($cited) == 0) {
 
 		echo '<style>';
 		echo '.cited-group-locked { opacity: 0.85; }';
+		echo '.cited-group-hidden { display: none; }';
 		echo '.cited-group-locked .cited-action-cell a, .cited-group-locked .cited-action-cell button { pointer-events: none; opacity: 0.45; }';
 		echo '</style>';
 
@@ -103,6 +104,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  btn.classList.toggle("btn-outline-danger", lockNow);';
 		echo '  btn.classList.toggle("btn-outline-secondary", !lockNow);';
 		echo '  group.classList.toggle("cited-group-locked", lockNow);';
+		echo '  group.classList.toggle("cited-group-hidden", lockNow);';
 		echo '}';
 		echo '</script>';
 	}
