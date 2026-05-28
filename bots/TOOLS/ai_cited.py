@@ -177,7 +177,8 @@ def preparar_referencias(texto):
 def locale_referencias_type(text):
     tp = [
         'REFERÊNCIAS', 'Referências', '## Referências', '## REFERÊNCIAS',
-        'REFERENCIAS', 'Referencias', 'Referências bibliográficas', 'REFERÊNCIAS BIBLIOGRÁFICAS',
+        'REFERENCIAS', 'Referencias', 'Referências bibliográficas',
+        'Referências Bibliográficas', 'REFERÊNCIAS BIBLIOGRÁFICAS',
         'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS'
     ]
 
