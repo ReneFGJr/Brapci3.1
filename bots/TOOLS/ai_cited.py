@@ -175,7 +175,11 @@ def preparar_referencias(texto):
     return ref
 
 def locale_referencias_type(text):
-    tp = ['REFERÊNCIAS', 'Referências', '## Referências', '## REFERÊNCIAS', 'REFERENCIAS', 'Referencias']
+    tp = [
+        'REFERÊNCIAS', 'Referências', '## Referências', '## REFERÊNCIAS',
+        'REFERENCIAS', 'Referencias', 'Referências bibliográficas', 'REFERÊNCIAS BIBLIOGRÁFICAS',
+        'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS'
+    ]
 
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
