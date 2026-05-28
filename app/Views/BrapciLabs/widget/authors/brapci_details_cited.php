@@ -86,37 +86,24 @@ if (!is_array($cited) or count($cited) == 0) {
 			echo '</div>';
 		}
 
-<style>
-	.cited-group-locked {
-		opacity: 0.85;
-	}
+		echo '<style>';
+		echo '.cited-group-locked { opacity: 0.85; }';
+		echo '.cited-group-locked .cited-action-cell a, .cited-group-locked .cited-action-cell button { pointer-events: none; opacity: 0.45; }';
+		echo '</style>';
 
-	.cited-group-locked .cited-action-cell a,
-	.cited-group-locked .cited-action-cell button {
-		pointer-events: none;
-		opacity: 0.45;
-	}
-</style>
-
-<script>
-	function toggleCitedGroupLock(btn) {
-		const targetId = btn.getAttribute('data-target');
-		const group = document.getElementById(targetId);
-		if (!group) {
-			return;
-		}
-
-		const isLocked = btn.getAttribute('data-locked') === '1';
-		const lockNow = !isLocked;
-
-		btn.setAttribute('data-locked', lockNow ? '1' : '0');
-		btn.innerHTML = lockNow
-			? '<i class="bi bi-lock"></i>'
-			: '<i class="bi bi-unlock"></i>';
-		btn.classList.toggle('btn-outline-danger', lockNow);
-		btn.classList.toggle('btn-outline-secondary', !lockNow);
-		group.classList.toggle('cited-group-locked', lockNow);
-	}
-</script>
+		echo '<script>';
+		echo 'function toggleCitedGroupLock(btn) {';
+		echo '  const targetId = btn.getAttribute("data-target");';
+		echo '  const group = document.getElementById(targetId);';
+		echo '  if (!group) { return; }';
+		echo '  const isLocked = btn.getAttribute("data-locked") === "1";';
+		echo '  const lockNow = !isLocked;';
+		echo '  btn.setAttribute("data-locked", lockNow ? "1" : "0");';
+		echo '  btn.innerHTML = lockNow ? "<i class=\"bi bi-lock\"></i>" : "<i class=\"bi bi-unlock\"></i>";';
+		echo '  btn.classList.toggle("btn-outline-danger", lockNow);';
+		echo '  btn.classList.toggle("btn-outline-secondary", !lockNow);';
+		echo '  group.classList.toggle("cited-group-locked", lockNow);';
+		echo '}';
+		echo '</script>';
 	}
 }
