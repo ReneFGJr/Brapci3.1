@@ -22,10 +22,14 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '<p class="text-muted">Sem referências.</p>';
 	} else {
 		foreach ($groups as $rdf => $refs) {
+            $groupId = 'cited_group_' . preg_replace('/[^0-9A-Za-z_]/', '_', (string)$rdf);
             $href = '<a href="' . base_url('/v/' . $rdf) . '" target="_blank">';
             $hrefa = '</a>';
-			echo '<h5 class="mt-3 mb-1">ca_rdf: ' . $href . esc($rdf) . $hrefa . '</h5>';
-			echo '<div class="table-responsive">';
+			echo '<h5 class="mt-3 mb-1 d-flex align-items-center gap-2">';
+			echo '<span>ca_rdf: ' . $href . esc($rdf) . $hrefa . '</span>';
+			echo '<button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-target="' . esc($groupId) . '" data-locked="0" onclick="toggleCitedGroupLock(this)" title="Travar/Destravar registros" aria-label="Travar/Destravar registros"><i class="bi bi-unlock"></i></button>';
+			echo '</h5>';
+			echo '<div id="' . esc($groupId) . '" class="table-responsive cited-group">';
 			echo '<table class="table table-sm table-striped table-hover mb-3">';
 			echo '<thead><tr>';
 			echo '<th style="width: 60px;">#</th>';
@@ -74,12 +78,45 @@ if (!is_array($cited) or count($cited) == 0) {
 				echo '<td>' . esc($caText) . '</td>';
 				echo '<td>' . esc($caYear) . '</td>';
 				echo '<td>' . esc($caDoi) . '</td>';
-				echo '<td>' . $action . '</td>';
+				echo '<td class="cited-action-cell">' . $action . '</td>';
 				echo '</tr>';
 			}
 
 			echo '</tbody></table>';
 			echo '</div>';
 		}
+
+<style>
+	.cited-group-locked {
+		opacity: 0.85;
+	}
+
+	.cited-group-locked .cited-action-cell a,
+	.cited-group-locked .cited-action-cell button {
+		pointer-events: none;
+		opacity: 0.45;
+	}
+</style>
+
+<script>
+	function toggleCitedGroupLock(btn) {
+		const targetId = btn.getAttribute('data-target');
+		const group = document.getElementById(targetId);
+		if (!group) {
+			return;
+		}
+
+		const isLocked = btn.getAttribute('data-locked') === '1';
+		const lockNow = !isLocked;
+
+		btn.setAttribute('data-locked', lockNow ? '1' : '0');
+		btn.innerHTML = lockNow
+			? '<i class="bi bi-lock"></i>'
+			: '<i class="bi bi-unlock"></i>';
+		btn.classList.toggle('btn-outline-danger', lockNow);
+		btn.classList.toggle('btn-outline-secondary', !lockNow);
+		group.classList.toggle('cited-group-locked', lockNow);
+	}
+</script>
 	}
 }
