@@ -39,7 +39,7 @@ class Tools extends BaseController
 
         switch ($type) {
             case 'fulltext':
-                echo '<h1>Processando Docling</h1>';
+                echo '<h1>Processando Docling 2</h1>';
                 echo h("FULLTEXT - PRE");
                 flush();
 
@@ -51,7 +51,7 @@ class Tools extends BaseController
                 break;
 
             case 'docling':
-                echo '<h1>Processando Docling</h1>';
+                echo '<h1>Processando Docling 1</h1>';
                 echo h("FULLTEXT - PRE");
                 flush();
 
