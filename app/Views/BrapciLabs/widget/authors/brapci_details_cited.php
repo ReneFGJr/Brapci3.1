@@ -77,10 +77,9 @@ if (!is_array($cited) or count($cited) == 0) {
 						$urlEdit = base_url('/labs/cited/edit/' . $idCa);
 						$jsUrlEdit = str_replace("'", "\\'", $urlEdit);
 						$urlJoin = base_url('api/brapci/cited/join') . '?idz=' . $idCa.'&ida=' . $ida;
-						$urlDel = base_url(PATH . 'ia/cited/type/' . $caTipo) . '?act=DEL&idz=' . $idCa;
 
 						$action = '<nobr>';
-                        $action .= '<a class="btn btn-outline-danger btn-sm" href="' . esc($urlDel) . '" title="Deletar" aria-label="Deletar" onclick="return confirm(\'Confirma exclusao desta referencia?\');">&#128465;</a>';
+                        $action .= '<button type="button" class="btn btn-outline-danger btn-sm" data-id="' . $idCa . '" onclick="deleteCitedRecord(this)" title="Deletar" aria-label="Deletar">&#128465;</button>';
 						$action .= '<button type="button" class="btn btn-outline-primary btn-sm" onclick="const w = window.open(\'' . $jsUrlEdit . '\',\'newwin\',\'scrollbars=no,resizable=yes,width=800,height=600,top=10,left=10\'); if (w) { w.focus(); } return false;" title="Editar" aria-label="Editar">&#9998;</button> ';
                         if ($ida > 0) {
                             $action .= '<a class="btn btn-outline-secondary btn-sm" href="' . esc($urlJoin) . '" title="JOIN com anterior" aria-label="JOIN com anterior">&#128279;</a> ';
@@ -134,6 +133,31 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '        alert("Erro ao atualizar: " + data.message);';
 		echo '      }';
 		echo '      btn.disabled = false;';
+		echo '    })';
+		echo '    .catch(error => {';
+		echo '      alert("Erro na requisição: " + error.message);';
+		echo '      btn.disabled = false;';
+		echo '    });';
+		echo '}';
+		echo '';
+		echo 'function deleteCitedRecord(btn) {';
+		echo '  if (!confirm("Confirma exclusão desta referência?")) { return; }';
+		echo '  const recordId = btn.getAttribute("data-id");';
+		echo '  btn.disabled = true;';
+		echo '  fetch("/api/brapci/citedDelete?idz=" + recordId, { method: "DELETE" })';
+		echo '    .then(response => response.json())';
+		echo '    .then(data => {';
+		echo '      if (data.status === "200") {';
+		echo '        const row = btn.closest("tr");';
+		echo '        if (row) {';
+		echo '          row.style.transition = "opacity 0.3s ease";';
+		echo '          row.style.opacity = "0";';
+		echo '          setTimeout(() => row.remove(), 300);';
+		echo '        }';
+		echo '      } else {';
+		echo '        alert("Erro ao deletar: " + data.message);';
+		echo '        btn.disabled = false;';
+		echo '      }';
 		echo '    })';
 		echo '    .catch(error => {';
 		echo '      alert("Erro na requisição: " + error.message);';

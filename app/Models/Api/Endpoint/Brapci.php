@@ -86,6 +86,24 @@ class Brapci extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'citedDelete':
+                $Cited = new \App\Models\AI\Cited\Index();
+                $caId = sonumero(get("idz"));
+                if ($caId > 0) {
+                    $Cited->delete($caId);
+                    $RSP = [
+                        'status' => '200',
+                        'message' => 'Referência deletada com sucesso'
+                    ];
+                } else {
+                    $RSP = [
+                        'status' => '400',
+                        'message' => 'ID inválido'
+                    ];
+                }
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'cited':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $d1 = get("idz");
