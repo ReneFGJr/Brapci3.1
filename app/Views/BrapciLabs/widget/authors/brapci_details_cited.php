@@ -1,6 +1,16 @@
 <h4>Citações BrapciLabs</h4>
 <?php
 $cited = $data['cited'] ?? array();
+$without = $data['withoutCited'] ?? array();
+
+foreach ($without as $item) {
+	echo '<div class="alert alert-warning d-flex align-items-center gap-2" role="alert">';
+	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
+	echo '<div>';
+	echo 'Registro sem referência encontrada: <strong>' . esc($item) . '</strong>';
+	echo '</div>';
+	echo '</div>';
+}
 
 if (!is_array($cited) or count($cited) == 0) {
 	echo '<p class="text-muted">Sem referências.</p>';
