@@ -119,7 +119,7 @@ class BrapciAuthorityModel extends Model
         $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
         echo $this->getlastquery();
 
-        if (!$brapci) {
+        if ((!$brapci) and($data['brapci_id'] > 0)) {
             $this->updateFromApi($data['brapci_id']);
             $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
         }
