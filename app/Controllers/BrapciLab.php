@@ -561,6 +561,7 @@ class BrapciLab extends BaseController
                             break;
                         } else {
                             $d3b = $data['brapci_id'];
+                            # Atualiza ou insere dados do BRAPCI
                             $data = $BrapciAuthorityModel->updateFromApi($d3b);
                             echo $BrapciAuthorityModel->view($d3);
                         }
