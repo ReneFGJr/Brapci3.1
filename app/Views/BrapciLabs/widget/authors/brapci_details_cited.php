@@ -1,4 +1,4 @@
-<h4>Citações Lbas</h4>
+<h4>Citações BrapciLabs</h4>
 <?php
 $cited = $data['cited'] ?? array();
 
@@ -17,6 +17,8 @@ if (!is_array($cited) or count($cited) == 0) {
 			array_push($groups[$rdf], $item);
 		}
 	}
+
+	pre($groups);
 
 	if (count($groups) == 0) {
 		echo '<p class="text-muted">Sem referências.</p>';
