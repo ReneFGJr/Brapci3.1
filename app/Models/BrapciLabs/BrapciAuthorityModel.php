@@ -120,6 +120,11 @@ class BrapciAuthorityModel extends Model
         echo $this->getlastquery();
 
         if (!$brapci) {
+            $this->updateFromApi($data['brapci_id']);
+            $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
+        }
+
+        if (!$brapci) {
             echo 'Nenhum registro BRAPCI encontrado para este autor.';
             return 0;
         }
