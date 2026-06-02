@@ -92,11 +92,14 @@ def getNameFileTXT(fileO):
 def getNameFile(id,loop=True):
     files = mod_rdf.recover(id,'hasFileStorage')
     print("Files",files)
+
+    fileD = None  # Inicializa como None
+
     for line in files:
         idR = line
         data = mod_rdf.le(idR)
 
-        if data['data']== []:
+        if data['data'] != []:  # Se há dados
             idN = data['concept'][0][3]
             dirT = '../../public/'
             fileO = data['concept'][0][1]
@@ -115,8 +118,17 @@ def getNameFile(id,loop=True):
                 else:
                     print(f"Arquivo {fileO} não existe")
                     sys.exit()
-        else:
-            fileD = data['concept'][0][1]
+        else:  # Se não há dados
+            if 'concept' in data and len(data['concept']) > 0:
+                fileD = data['concept'][0][1]
+            else:
+                print(f"Erro: dados incompletos para o ID {id}")
+                fileD = None
+
+    if fileD is None:
+        print(f"Aviso: Nenhum arquivo encontrado para o ID {id}")
+        fileD = ""
+
     return fileD
 
 def filename(id):
