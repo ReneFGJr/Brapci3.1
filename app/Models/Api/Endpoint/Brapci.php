@@ -67,7 +67,7 @@ class Brapci extends Model
             case 'citedLock':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $dd['ca_block'] = 1;
-                $Cited->set($dd)->where('ca_id', get("idz"))->update();
+                $Cited->set($dd)->where('ca_id', sonumero(get("idz")))->update();
                 $RSP = [
                     'status' => '200',
                     'message' => 'Cited bloqueado com sucesso'
@@ -78,7 +78,7 @@ class Brapci extends Model
             case 'citedUnLock':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $dd['ca_block'] = 0;
-                $Cited->set($dd)->where('ca_id', get("idz"))->update();
+                $Cited->set($dd)->where('ca_id', sonumero(get("idz")))->update();
                 $RSP = [
                     'status' => '200',
                     'message' => 'Cited bloqueado com sucesso'
