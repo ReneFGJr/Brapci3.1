@@ -3,14 +3,18 @@
 $cited = $data['cited'] ?? array();
 $without = $data['withoutCited'] ?? array();
 
-foreach ($without as $item) {
+if (count($without) > 0) {
 	echo '<div class="alert alert-warning d-flex align-items-center gap-2" role="alert">';
 	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
 	echo '<div>';
-	echo 'Registro sem referência encontrada: <strong>' . esc($item) . '</strong>';
+	foreach ($without as $item) {
+		$link = base_url('/v/' . $item);
+		echo '<span class="mb-1 me-2"><strong><a href="' . esc($link) . '" target="_blank">' . esc($item) . '</a></strong></span>';
+	}
 	echo '</div>';
 	echo '</div>';
 }
+
 
 if (!is_array($cited) or count($cited) == 0) {
 	echo '<p class="text-muted">Sem referências.</p>';
