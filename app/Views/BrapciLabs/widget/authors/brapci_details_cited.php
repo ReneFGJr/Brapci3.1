@@ -6,12 +6,10 @@ $without = $data['withoutCited'] ?? array();
 if (count($without) > 0) {
 	echo '<div class="alert alert-warning d-flex " role="alert">';
 	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
-	echo '<div>';
-	foreach ($without as $item) {
+		foreach ($without as $item) {
 		$link = base_url('/v/' . $item);
-		echo '<span class="mb-1 me-2"><strong><a href="' . esc($link) . '" target="_blank">' . esc($item) . '</a></strong></span>';
+		echo '<span class="me-2"><strong><a href="' . esc($link) . '" target="_blank">' . esc($item) . '</a></strong></span>';
 	}
-	echo '</div>';
 	echo '</div>';
 }
 
