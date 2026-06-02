@@ -62,6 +62,12 @@ if (!is_array($cited) or count($cited) == 0) {
 				$action = '-';
 
 				if (is_array($row)) {
+					// Skip se estiver bloqueado
+					$caBlock = (int)($row['ca_block'] ?? 0);
+					if ($caBlock === 1) {
+						continue;
+					}
+
 					$caText = trim((string)($row['ca_text'] ?? ''));
 					$caYear = trim((string)($row['ca_year'] ?? ''));
 					$caDoi = trim((string)($row['ca_doi'] ?? ''));
