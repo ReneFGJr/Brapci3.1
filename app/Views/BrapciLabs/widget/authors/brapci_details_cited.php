@@ -4,11 +4,11 @@ $cited = $data['cited'] ?? array();
 $without = $data['withoutCited'] ?? array();
 
 if (count($without) > 0) {
-	echo '<div class="alert alert-warning d-flex " role="alert">';
+	echo '<div class="alert alert-warning" role="alert">';
 	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
 		foreach ($without as $item) {
 		$link = base_url('/v/' . $item);
-		echo '<span class="me-2"><strong><a href="' . esc($link) . '" target="_blank">' . esc($item) . '</a></strong></span>';
+		echo '<a href="' . esc($link) . '" target="_blank">' . esc($item) . '</a> ';
 	}
 	echo '</div>';
 }
