@@ -18,8 +18,6 @@ if (!is_array($cited) or count($cited) == 0) {
 		}
 	}
 
-	pre($groups);
-
 	if (count($groups) == 0) {
 		echo '<p class="text-muted">Sem referências.</p>';
 	} else {
