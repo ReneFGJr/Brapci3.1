@@ -84,7 +84,6 @@ class Index extends Model
     function getCitedByID(array $IDs): array
         {
             $ids = array_values(array_unique(array_map('intval', $IDs)));
-            pre($ids);
             $ids = array_filter($ids, function ($id) {
                 return $id > 0;
             });
@@ -93,6 +92,7 @@ class Index extends Model
                 return (array());
             }
             $rlt = $this->whereIn('ca_rdf', $ids)->findAll();
+            pre($rlt);
             return ($rlt);
         }
 
