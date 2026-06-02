@@ -5,6 +5,7 @@ $without = $data['withoutCited'] ?? array();
 
 if (count($without) > 0) {
 	echo '<div class="alert alert-warning" role="alert">';
+	echo '<strong>Total ' . count($without) . ' registros sem referência encontrada:</strong> ';
 	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
 		foreach ($without as $item) {
 		$link = base_url('/v/' . $item);
