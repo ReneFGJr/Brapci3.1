@@ -192,6 +192,7 @@ def locale_referencias_type(text):
         '## REFERENCIAS', '## Referencias', '## Referências bibliográficas',
         '## Referências Bibliográficas', '## REFERÊNCIAS BIBLIOGRÁFICAS',
         'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS',
+        '## References', '## REFERENCES', '## References',
         '## REFER˚NCIAS'
     ]
 

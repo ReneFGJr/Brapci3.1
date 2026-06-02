@@ -64,6 +64,28 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'citedLock':
+                $Cited = new \App\Models\AI\Cited\Index();
+                $dd['ca_block'] = 1;
+                $Cited->set($dd)->where('ca_id', get("idz"))->update();
+                $RSP = [
+                    'status' => '200',
+                    'message' => 'Cited bloqueado com sucesso'
+                ];
+                echo json_encode($RSP);
+                exit;
+                break;
+            case 'citedUnLock':
+                $Cited = new \App\Models\AI\Cited\Index();
+                $dd['ca_block'] = 0;
+                $Cited->set($dd)->where('ca_id', get("idz"))->update();
+                $RSP = [
+                    'status' => '200',
+                    'message' => 'Cited bloqueado com sucesso'
+                ];
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'cited':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $d1 = get("idz");
