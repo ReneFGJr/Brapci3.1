@@ -92,7 +92,6 @@ class Index extends Model
                 return (array());
             }
             $rlt = $this->whereIn('ca_rdf', $ids)->findAll();
-            pre($rlt);
             return ($rlt);
         }
 

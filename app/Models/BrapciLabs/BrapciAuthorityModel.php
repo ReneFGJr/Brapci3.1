@@ -129,6 +129,14 @@ class BrapciAuthorityModel extends Model
         $Cited = new \App\Models\AI\Cited\Index();
 
         $data['cited'] = $Cited->getCitedByID($dt['worksID'] ?? null);
+        $data['withoutCited'] = $dt['worksID'] ?? [];
+        foreach ($data['cited'] as $cited) {
+            $idC = $cited['ca_rdf'] ?? null;
+            if ($idC) {
+                $data['withoutCited'] = array_diff($data['withoutCited'], [$idC]);
+            }
+        }
+        pre($data['withoutCited']);
 
         echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null, 'data' => $data]);
 
