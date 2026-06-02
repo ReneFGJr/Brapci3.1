@@ -115,10 +115,6 @@ if ((act == 'All') or (act == 'all')):
 
     print("Extrair Citações")
     lists = ai_cited.extrair_referencias_v2(id)
-    sys.exit()
-    lists = ai_cited.extrair_referencias(txt, id)
-    fileN = fileO.replace('.pdf', '_cited.json')
-    saveFileD(fileN, lists)
 
     print("Extrair Sessões")
     lists = ai_section.extrair_sessao(txt,id)
@@ -170,10 +166,6 @@ elif (act == 'metadata'):
 elif (act == 'cited'):
     print("Extrair Citações")
     lists = ai_cited.extrair_referencias_v2(id)
-    sys.exit()
-    lists = ai_cited.extrair_referencias(txt,id)
-    fileN = fileO.replace('.pdf','_cited.json')
-    saveFileD(fileN,lists)
 
 elif (act == 'section'):
     print("Extrair Sessões")
@@ -185,12 +177,14 @@ elif (act == 'keywords'):
     print("==>",fileO)
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
+
 elif (act == 'keywordsOllama'):
     print("Extrair Keywords Ollama")
     lists = ai_keywords.extract_keywords_ollama(txt, id)
     print("==>", fileO)
     #fileN = fileO.replace('.pdf', '_keywords.json')
     #saveFileD(fileN, lists)
+
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
 

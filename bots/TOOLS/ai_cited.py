@@ -5,6 +5,14 @@ import database
 import mod_docling
 from pathlib import Path
 
+def isBlocked(id):
+    qr = f"select count(*) from brapci_cited.cited_article where ca_rdf = {id} and ca_blocked = 1"
+    row = database.query(qr)
+    if row != [] and row[0] != []:
+        count = row[0][0]
+        return count > 0
+    return False
+
 def extrair_referencias_v2(ID):
     md_filename = Path(mod_docling.fileName(ID))
 
@@ -50,6 +58,9 @@ def extrair_referencias_v2(ID):
     return listRef
 
 def saveCited(lista,idR):
+    if (isBlocked(idR)):
+        print("ID",idR,"está bloqueado. Nenhuma citação será salva.")
+        return False
     qr = f"DELETE from brapci_cited.cited_article where ca_rdf = {idR}"
     database.update(qr)
 
