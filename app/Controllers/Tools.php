@@ -43,6 +43,18 @@ class Tools extends BaseController
                 echo h("FULLTEXT - PRE");
                 flush();
 
+                $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py all ' . $id;
+                echo '<p>' . $cmd . '</p>';
+                echo troca(shell_exec($cmd), chr(10), '<br>');
+                flush();
+
+                break;
+
+            case 'docling':
+                echo '<h1>Processando Docling</h1>';
+                echo h("FULLTEXT - PRE");
+                flush();
+
                 $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py docling ' . $id;
                 echo '<p>' . $cmd . '</p>';
                 echo troca(shell_exec($cmd), chr(10), '<br>');
