@@ -141,7 +141,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '}';
 		echo '';
 		echo 'function deleteCitedRecord(btn) {';
-		echo '  if (!confirm("Confirma exclusão desta referência?")) { return; }';
+		echo '  if (!confirm("Confirma exclusão desta referência " + btn.getAttribute("data-id") + "?")) { return; }';
 		echo '  const recordId = btn.getAttribute("data-id");';
 		echo '  btn.disabled = true;';
 		echo '  fetch("/api/brapci/citedDelete?idz=" + recordId, { method: "DELETE" })';
