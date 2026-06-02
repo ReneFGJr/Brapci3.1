@@ -28,7 +28,8 @@ class Index extends Model
         'ca_tipo',
         'ca_status',
         'ca_ai',
-        'ca_text'
+        'ca_text',
+        'ca_blocked',
     ];
 
     // Dates
