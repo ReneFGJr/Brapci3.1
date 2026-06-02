@@ -81,7 +81,7 @@ if (id != 0):
 else:
     fileO = 'x'
 
-if (act == 'All'):
+if ((act == 'All') or (act == 'all')):
     print("Extrair Trabalhos")
 
     print("=fileO=>",fileO)
