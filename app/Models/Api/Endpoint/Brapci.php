@@ -66,7 +66,7 @@ class Brapci extends Model
         switch ($d1) {
             case 'citedLock':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $dd['ca_block'] = 1;
+                $dd['ca_blocked'] = 1;
                 $Cited->set($dd)->where('ca_id', sonumero(get("idz")))->update();
                 $RSP = [
                     'status' => '200',
@@ -77,7 +77,7 @@ class Brapci extends Model
                 break;
             case 'citedUnLock':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $dd['ca_block'] = 0;
+                $dd['ca_blocked'] = 0;
                 $Cited->set($dd)->where('ca_id', sonumero(get("idz")))->update();
                 $RSP = [
                     'status' => '200',
