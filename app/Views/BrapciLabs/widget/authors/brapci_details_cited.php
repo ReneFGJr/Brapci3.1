@@ -63,8 +63,8 @@ if (!is_array($cited) or count($cited) == 0) {
 
 				if (is_array($row)) {
 					// Skip se estiver bloqueado
-					$caBlock = (int)($row['ca_block'] ?? 0);
-					if ($caBlock === 1) {
+					$caBlocked = (int)($row['ca_blocked'] ?? 0);
+					if ($caBlocked === 1) {
 						continue;
 					}
 
