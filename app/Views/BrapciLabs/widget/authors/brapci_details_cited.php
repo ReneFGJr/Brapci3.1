@@ -4,7 +4,7 @@ $cited = $data['cited'] ?? array();
 $without = $data['withoutCited'] ?? array();
 
 if (count($without) > 0) {
-	echo '<div class="alert alert-warning d-flex align-items-center gap-2" role="alert">';
+	echo '<div class="alert alert-warning d-flex " role="alert">';
 	echo '<i class="bi bi-exclamation-triangle-fill"></i>';
 	echo '<div>';
 	foreach ($without as $item) {
