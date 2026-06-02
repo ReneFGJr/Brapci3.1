@@ -112,10 +112,14 @@ if ((act == 'All') or (act == 'all')):
     lists = ai_metadados.extrair_secoes_method_01(txt)
     fileN = fileO.replace('.pdf','_metadados.json')
     saveFileD(fileN,lists)
+
     print("Extrair Citações")
-    lists = ai_cited.extrair_referencias(txt,id)
-    fileN = fileO.replace('.pdf','_cited.json')
-    saveFileD(fileN,lists)
+    lists = ai_cited.extrair_referencias_v2(id)
+    sys.exit()
+    lists = ai_cited.extrair_referencias(txt, id)
+    fileN = fileO.replace('.pdf', '_cited.json')
+    saveFileD(fileN, lists)
+
     print("Extrair Sessões")
     lists = ai_section.extrair_sessao(txt,id)
     print("Extrair Keywords")
