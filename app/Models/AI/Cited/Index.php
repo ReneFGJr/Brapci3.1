@@ -84,6 +84,7 @@ class Index extends Model
     function getCitedByID(array $IDs): array
         {
             $ids = array_values(array_unique(array_map('intval', $IDs)));
+            pre($ids);
             $ids = array_filter($ids, function ($id) {
                 return $id > 0;
             });
