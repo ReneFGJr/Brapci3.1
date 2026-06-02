@@ -117,12 +117,18 @@ class BrapciAuthorityModel extends Model
         }
 
         $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
+
+        if (!$brapci) {
+            echo 'Nenhum registro BRAPCI encontrado para este autor.';
+            return 0;
+        }
+
         $data['brapci'] = (array)json_decode($brapci['brapci_xml'] ?? null);
 
         $dt = json_decode($brapci['brapci_xml'], true);
         $Cited = new \App\Models\AI\Cited\Index();
 
-        $data['cited'] = $Cited->getCitedByID($dt['worksID']);
+        $data['cited'] = $Cited->getCitedByID($dt['worksID'] ?? null);
 
         echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null, 'data' => $data]);
 
