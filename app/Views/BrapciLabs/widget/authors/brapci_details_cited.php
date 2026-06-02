@@ -40,7 +40,7 @@ if (!is_array($cited) or count($cited) == 0) {
             $hrefa = '</a>';
 			echo '<h5 class="mt-3 mb-1 d-flex align-items-center gap-2">';
 			echo '<span>ca_rdf: ' . $href . esc($rdf) . $hrefa . '</span>';
-			echo '<button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-target="' . esc($groupId) . '" data-locked="0" onclick="toggleCitedGroupLock(this)" title="Travar/Destravar registros" aria-label="Travar/Destravar registros"><i class="bi bi-unlock"></i></button>';
+			echo '<button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-target="' . esc($groupId) . '" data-rdf="' . esc($rdf) . '" data-locked="0" onclick="toggleCitedGroupLock(this)" title="Travar/Destravar registros" aria-label="Travar/Destravar registros"><i class="bi bi-unlock"></i></button>';
 			echo '</h5>';
 			echo '<div id="' . esc($groupId) . '" class="table-responsive cited-group">';
 			echo '<table class="table table-sm table-striped table-hover mb-3">';
@@ -113,13 +113,14 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '<script>';
 		echo 'function toggleCitedGroupLock(btn) {';
 		echo '  const targetId = btn.getAttribute("data-target");';
+		echo '  const rdfId = btn.getAttribute("data-rdf");';
 		echo '  const group = document.getElementById(targetId);';
 		echo '  if (!group) { return; }';
 		echo '  const isLocked = btn.getAttribute("data-locked") === "1";';
 		echo '  const lockNow = !isLocked;';
 		echo '  const endpoint = lockNow ? "/api/brapci/citedLock" : "/api/brapci/citedUnLock";';
 		echo '  btn.disabled = true;';
-		echo '  fetch(endpoint + "?idz=" + targetId)';
+		echo '  fetch(endpoint + "?idz=" + rdfId)';
 		echo '    .then(response => response.json())';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
