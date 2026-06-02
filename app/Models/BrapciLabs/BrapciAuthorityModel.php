@@ -136,8 +136,6 @@ class BrapciAuthorityModel extends Model
                 $data['withoutCited'] = array_diff($data['withoutCited'], [$idC]);
             }
         }
-        pre($data['withoutCited']);
-
         echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null, 'data' => $data]);
 
         // Exemplo de implementação para retornar um ID de projeto
