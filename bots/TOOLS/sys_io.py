@@ -17,6 +17,16 @@ def readfile(nome_arquivo):
         print("Erro: O caminho do arquivo é muito longo.")
         return False
 
+    # Verifica se é um diretório
+    if os.path.isdir(nome_arquivo):
+        print(f"Erro: '{nome_arquivo}' é um diretório, não um arquivo.")
+        return ""
+
+    # Verifica se o arquivo existe
+    if not os.path.isfile(nome_arquivo):
+        print(f"Erro: '{nome_arquivo}' não é um arquivo válido.")
+        return ""
+
     try:
         with open(nome_arquivo, 'r', encoding='utf-8', errors='replace') as arquivo:
             conteudo = arquivo.read()
@@ -24,8 +34,14 @@ def readfile(nome_arquivo):
     except FileNotFoundError:
         print(f"O arquivo '{nome_arquivo}' não foi encontrado. [404-3]")
         return ""
+    except IsADirectoryError:
+        print(f"Erro: '{nome_arquivo}' é um diretório, não um arquivo.")
+        return ""
     except UnicodeDecodeError as e:
         print(f"Erro de decodificação: {e}")
+        return ""
+    except Exception as e:
+        print(f"Erro ao ler arquivo '{nome_arquivo}': {e}")
         return ""
 
 ######################################## FILENAME
@@ -82,10 +98,32 @@ def file_exists(file):
         return False
 ######################################## GET TXT
 def getNameFileTXT(fileO):
-    fileTxt = fileO.replace('.pdf','.txt')
+    # Valida o arquivo de entrada
+    if not fileO or not isinstance(fileO, str):
+        print(f"Erro: Caminho de arquivo inválido: {fileO}")
+        return ""
+
+    if os.path.isdir(fileO):
+        print(f"Erro: '{fileO}' é um diretório, não um arquivo PDF.")
+        return ""
+
+    if not os.path.isfile(fileO):
+        print(f"Erro: Arquivo PDF não encontrado: {fileO}")
+        return ""
+
+    if not fileO.endswith('.pdf'):
+        print(f"Erro: '{fileO}' não é um arquivo PDF válido.")
+        return ""
+
+    fileTxt = fileO.replace('.pdf', '.txt')
     if not file_exists(fileTxt):
         print("Converter para TXT")
-        convertPDF4TXT(fileO,fileTxt)
+        try:
+            convertPDF4TXT(fileO, fileTxt)
+        except Exception as e:
+            print(f"Erro ao converter PDF para TXT: {e}")
+            return ""
+
     return fileTxt
 
 ######################################## GET NAME
@@ -117,7 +155,8 @@ def getNameFile(id,loop=True):
                     mod_convert_repository.update_rdf_data(idN,fileD)
                 else:
                     print(f"Arquivo {fileO} não existe")
-                    sys.exit()
+                    fileD = None
+                    continue
         else:  # Se não há dados
             if 'concept' in data and len(data['concept']) > 0:
                 fileD = data['concept'][0][1]
@@ -125,8 +164,11 @@ def getNameFile(id,loop=True):
                 print(f"Erro: dados incompletos para o ID {id}")
                 fileD = None
 
-    if fileD is None:
+    if fileD is None or fileD == "":
         print(f"Aviso: Nenhum arquivo encontrado para o ID {id}")
+        fileD = ""
+    elif not isinstance(fileD, str):
+        print(f"Aviso: Tipo de arquivo inválido para o ID {id}: {type(fileD)}")
         fileD = ""
 
     return fileD

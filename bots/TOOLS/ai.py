@@ -75,8 +75,29 @@ dirT = '/data/Brapci3.1/public/'
 if (id != 0):
     file = dirT + sys_io.getNameFile(id)
     file = dirT + sys_io.getNameFile(id)
+
+    # Valida se o arquivo foi encontrado
+    if not file or file == dirT or not os.path.isfile(file):
+        print(f"Erro no ID {id}")
+        print(f"Arquivo não encontrado: {file}")
+        sys.exit(1)
+
     fileTXT = sys_io.getNameFileTXT(file)
+
+    # Valida se o arquivo TXT é válido
+    if not fileTXT or not os.path.isfile(fileTXT):
+        print(f"Erro no ID {id}")
+        print(f"Arquivo TXT não encontrado ou inválido: {fileTXT}")
+        sys.exit(1)
+
     txt = sys_io.readfile(fileTXT)
+
+    # Valida se o conteúdo foi lido
+    if not txt:
+        print(f"Erro no ID {id}")
+        print(f"Não foi possível ler o arquivo: {fileTXT}")
+        sys.exit(1)
+
     fileO = file
 else:
     fileO = 'x'
