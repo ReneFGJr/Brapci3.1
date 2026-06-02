@@ -555,7 +555,7 @@ class BrapciLab extends BaseController
                 switch ($d2) {
                     case 'Brapci':
                         $data = $ProjectAuthorModel->where('id',$d3)->first();
-
+                        pre($data);
                         if ($data['brapci_id']==0){
                             echo 'Autor sem BRAPCI ID.';
                             break;
