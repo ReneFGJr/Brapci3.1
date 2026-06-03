@@ -193,7 +193,8 @@ def locale_referencias_type(text):
         '## Referências Bibliográficas', '## REFERÊNCIAS BIBLIOGRÁFICAS',
         'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS',
         '## References', '## REFERENCES', '## References', '## REFER˚NCIAS',
-        '## BIBLIOGRAFIA', '## BIBLIOGRAFIA', '## Bibliografia', '## BIBLIOGRAPHY', '## Bibliography',
+        '## BIBLIOGRAFIA', '## BIBLIOGRAFIA', '## Bibliografia',
+        '## BIBLIOGRAPHY', '## Bibliography', '## REFERENCIAS BIBLIOGRÁFICAS'
     ]
 
     # Divide o texto em linhas
