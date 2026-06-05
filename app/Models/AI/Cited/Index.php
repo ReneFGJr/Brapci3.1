@@ -68,13 +68,13 @@ class Index extends Model
 
     function search($q='')
         {
-            $sql = "select ca_text, ca_rdf, ca_doi, ca_year, ca_tipo
-                        from " . $this->base . "cited_article
-                        where ca_text like '%" . $q . "%'
-                        order by ca_text
-                        limit 100";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->getResultArray();
+            $rlt = $this->select('ca_text, ca_rdf, ca_doi, ca_year, ca_tipo')
+                        ->like('ca_text', $q)
+                        ->orderBy('ca_text')
+                        ->limit(100)
+                        ->findAll();
+            echo $this->getLastQuery();
+            exit;
             return ($rlt);
         }
 
