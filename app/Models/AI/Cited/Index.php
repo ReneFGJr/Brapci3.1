@@ -73,8 +73,6 @@ class Index extends Model
                         ->orderBy('ca_text')
                         ->limit(100)
                         ->findAll();
-            echo $this->getLastQuery();
-            exit;
             return ($rlt);
         }
 
