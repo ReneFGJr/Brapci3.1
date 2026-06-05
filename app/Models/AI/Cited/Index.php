@@ -66,6 +66,18 @@ class Index extends Model
 
         }
 
+    function search($q='')
+        {
+            $sql = "select ca_text, ca_rdf, ca_doi, ca_year, ca_tipo
+                        from " . $this->base . "cited_article
+                        where ca_text like '%" . $q . "%'
+                        order by ca_text
+                        limit 100";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->getResultArray();
+            return ($rlt);
+        }
+
     function joinCited($d1,$d2)
         {
             $txt1 = $this->find($d1);
