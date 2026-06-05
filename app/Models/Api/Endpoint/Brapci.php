@@ -75,6 +75,7 @@ class Brapci extends Model
                     exit;
                 }
                 $RSP['works'] = $Cited->search($q);
+
                 $RSP['status'] = '200';
                 $RSP['status_message'] = 'Busca realizada com sucesso';
                 echo json_encode($RSP);
