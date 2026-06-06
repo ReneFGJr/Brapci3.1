@@ -73,7 +73,7 @@ class RDFconcept extends Model
         return $dc;
     }
 
-    function exclude($id)
+    function excludeConcept($id)
     {
         $dt['cc_status'] = 9;
         $this->set($dt)->where('id_cc', $id)->update();

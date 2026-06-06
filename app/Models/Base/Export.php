@@ -640,7 +640,7 @@ class Export extends Model
             /**************************************************************/
 
             if ($delete == 1) {
-                $RDFConcept->exclude($idr);
+                $RDFConcept->excludeConcept($idr);
                 $sx .= '<li>' . strzero($idr, 8) . ' DELETED</li>';
             } else {
                 $proc++;
