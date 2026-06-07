@@ -145,7 +145,8 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  if (!confirm("Confirma exclusão desta referência " + btn.getAttribute("data-id") + "?")) { return; }';
 		echo '  const recordId = btn.getAttribute("data-id");';
 		echo '  btn.disabled = true;';
-		echo '  fetch("'.base_url('/api/brapci/citedDelete?idz=') . '" + recordId, { method: "DELETE" })';
+		echo '  url = "'.base_url('/api/brapci/citedDelete?idz=') . '" + recordId;';
+		echo '  fetch(url, { method: "GET" })';
 		echo '    .then(response => response.json())';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
