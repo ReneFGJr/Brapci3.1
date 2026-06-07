@@ -37,50 +37,98 @@ class BrapciWorksModel extends Model
         $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
         $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
         $Cited = new \App\Models\AI\Cited\Index();
-        $data = [];
-        $data2 = [];
+        if (!is_numeric($id) || (int)$id <= 0) {
+            return [];
+        }
 
-        if ($id != '')
-            {
-                $works = $ProjectAuthorModel->getWorksIDByProject($id);
-                foreach($works as $work) {
-                    $data[] = $work['brapci_id'];
-                    $data3 = $BrapciAuthorityModel->where('brapci_id', $work['brapci_id'])->first();
-                    if ($data3 == [])
-                        {
-                            $idB = $work['brapci_id'];
-                            $BrapciAuthorityModel->updateFromApi($idB);
-                            $data3 = $BrapciAuthorityModel->where('brapci_id', $work['brapci_id'])->first();
-                        }
-                    $data2[] = $data3;
-                }
+        $works = $ProjectAuthorModel->getWorksIDByProject((int)$id);
+        if (empty($works)) {
+            return [];
+        }
+
+        $authorIds = array_values(array_unique(array_map(static function ($work) {
+            return (int)($work['brapci_id'] ?? 0);
+        }, $works)));
+        $authorIds = array_values(array_filter($authorIds, static function ($v) {
+            return $v > 0;
+        }));
+
+        if (empty($authorIds)) {
+            return [];
+        }
+
+        $authorityRows = $BrapciAuthorityModel
+            ->whereIn('brapci_id', $authorIds)
+            ->findAll();
+
+        $authorityById = [];
+        foreach ($authorityRows as $row) {
+            $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
+        }
+
+        $missingIds = [];
+        foreach ($authorIds as $authorId) {
+            if (!isset($authorityById[$authorId])) {
+                $missingIds[] = $authorId;
             }
-        $cited = [];
-        foreach($data2 as $row) {
-            if (isset($row['brapci_xml'])) {
-                $xml = $row['brapci_xml'];
-                $xml = json_decode($xml, true);
+        }
 
-                $cts = $xml['worksID'];
-                foreach($cts as $ctd) {
-                    $cited[$ctd] = 0;
+        if (!empty($missingIds)) {
+            foreach ($missingIds as $missingId) {
+                $BrapciAuthorityModel->updateFromApi((int)$missingId);
+            }
+
+            $newRows = $BrapciAuthorityModel
+                ->whereIn('brapci_id', $missingIds)
+                ->findAll();
+
+            foreach ($newRows as $row) {
+                $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
+            }
+        }
+
+        $workIds = [];
+        foreach ($authorityById as $row) {
+            if (!isset($row['brapci_xml'])) {
+                continue;
+            }
+
+            $xml = json_decode($row['brapci_xml'], true);
+            if (!is_array($xml) || !isset($xml['worksID']) || !is_array($xml['worksID'])) {
+                continue;
+            }
+
+            foreach ($xml['worksID'] as $ctd) {
+                $wid = (int)$ctd;
+                if ($wid > 0) {
+                    $workIds[$wid] = true;
                 }
             }
         }
 
-        /******** Citações */
+        if (empty($workIds)) {
+            return [];
+        }
+
+        $candidateIds = array_keys($workIds);
+        $citedRows = $Cited->getCitedByID($candidateIds);
+        $citedCount = [];
+
+        foreach ($citedRows as $row) {
+            $rdf = (int)($row['ca_rdf'] ?? 0);
+            if ($rdf > 0) {
+                $citedCount[$rdf] = ($citedCount[$rdf] ?? 0) + 1;
+            }
+        }
+
         $without = [];
-
-        foreach($cited as $idw => $count) {
-            $count = $Cited->countByWorkID($idw);
-            if ($count == 0) {
-                $without[] = $idw;
-            } else {
-                $cited[$idw] = $count;
+        foreach ($candidateIds as $idw) {
+            if (($citedCount[(int)$idw] ?? 0) === 0) {
+                $without[] = (int)$idw;
             }
         }
 
-        return $without;        //getCitedByID
+        return $without;
     }
 
     function search()
