@@ -224,6 +224,7 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace('7 ', ' ')
         linha_limpa = linha_limpa.replace('8 ', ' ')
         linha_limpa = linha_limpa.replace('9 ', ' ')
+        linha_limpa = linha_limpa.replace(':', '')
 
         linha_limpa = linha_limpa.replace('  ', ' ')
 
