@@ -32,6 +32,57 @@ class BrapciWorksModel extends Model
         }
     }
 
+    function withOutCited($id = null)
+    {
+        $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
+        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+        $Cited = new \App\Models\AI\Cited\Index();
+        $data = [];
+        $data2 = [];
+
+        if ($id != '')
+            {
+                $works = $ProjectAuthorModel->getWorksIDByProject($id);
+                foreach($works as $work) {
+                    $data[] = $work['brapci_id'];
+                    $data3 = $BrapciAuthorityModel->where('brapci_id', $work['brapci_id'])->first();
+                    if ($data3 == [])
+                        {
+                            $idB = $work['brapci_id'];
+                            $BrapciAuthorityModel->updateFromApi($idB);
+                            $data3 = $BrapciAuthorityModel->where('brapci_id', $work['brapci_id'])->first();
+                        }
+                    $data2[] = $data3;
+                }
+            }
+        $cited = [];
+        foreach($data2 as $row) {
+            if (isset($row['brapci_xml'])) {
+                $xml = $row['brapci_xml'];
+                $xml = json_decode($xml, true);
+
+                $cts = $xml['worksID'];
+                foreach($cts as $ctd) {
+                    $cited[$ctd] = 0;
+                }
+            }
+        }
+
+        /******** Citações */
+        $without = [];
+
+        foreach($cited as $idw => $count) {
+            $count = $Cited->countByWorkID($idw);
+            if ($count == 0) {
+                $without[] = $idw;
+            } else {
+                $cited[$idw] = $count;
+            }
+        }
+
+        return $without;        //getCitedByID
+    }
+
     function search()
     {
         $type = get("type");
@@ -404,14 +455,14 @@ class BrapciWorksModel extends Model
         $jsonContent = file_get_contents($filePath);
 
         if ($jsonContent === false) {
-            throw new Exception("Erro ao ler o arquivo: " . $filePath);
+            throw new \Exception("Erro ao ler o arquivo: " . $filePath);
         }
 
         // Decodifica o JSON
         $data = json_decode($jsonContent, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
+            throw new \Exception("Erro ao decodificar JSON: " . json_last_error_msg());
         }
 
         return $data;
@@ -427,7 +478,7 @@ class BrapciWorksModel extends Model
         $W = $RisModel->where('project_id', $projectID)->findAll();
         $Works = [];
         foreach ($W as $row) {
-            $BrapciID = $RisModel->brapciID($row['url']);
+            $BrapciID = (string)$RisModel->brapciID($row['url']);
             $Works[$BrapciID] = $row;
         }
         $Corpus = [];
@@ -457,7 +508,7 @@ class BrapciWorksModel extends Model
         $W = $RisModel->where('project_id', $projectID)->findAll();
         $Works = [];
         foreach ($W as $row) {
-            $BrapciID = $RisModel->brapciID($row['url']);
+            $BrapciID = (string)$RisModel->brapciID($row['url']);
             $Works[$BrapciID] = $row;
         }
 

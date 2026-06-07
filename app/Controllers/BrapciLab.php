@@ -590,6 +590,16 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/sidebar');
 
         switch($d1){
+            case 'withoutCited':
+                $Project = new \App\Models\BrapciLabs\ResearchProjectModel();
+                $d2 = $Project->getProjectsID();
+                $dt = $BrapciWorksModel->withOutCited($d2);
+                echo '<div class="content">';
+                foreach($dt as $k){
+                    echo $k.'<br>';
+                }
+                echo '</div>';
+                break;
             case 'updateVC':
                 echo $BrapciWorksModel->updateVC();
                 break;

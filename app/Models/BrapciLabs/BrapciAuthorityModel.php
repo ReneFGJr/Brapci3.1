@@ -105,7 +105,6 @@ class BrapciAuthorityModel extends Model
         }
     }
 
-
     function view($id = 0)
     {
         $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();

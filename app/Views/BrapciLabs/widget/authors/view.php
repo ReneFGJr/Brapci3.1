@@ -34,6 +34,12 @@
                 🔍 Checar ID dos pesquisadores
             </a>
 
+            <!-- Checar Cited -->
+            <a href="<?= base_url('labs/works/withoutCited') ?>"
+                class="btn btn-outline-secondary btn-sm ms-2">
+                🔍 Checar trabalhos sem Referencias
+            </a>
+
         </div>
     </div>
 
@@ -110,8 +116,9 @@
 
                                     <td>
                                         <a href="<?= base_url('labs/authority/view/' . $a['id']) ?>" class="link" target="_blank">
-                                        <?= esc($a['nome']) ?></td>
-                                        </a>
+                                            <?= esc($a['nome']) ?>
+                                    </td>
+                                    </a>
 
                                     <td>
                                         <?php if (!empty($a['lattes_id'])): ?>

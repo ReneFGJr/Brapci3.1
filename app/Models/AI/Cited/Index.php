@@ -66,6 +66,12 @@ class Index extends Model
 
         }
 
+    function countByWorkID(int $workID=0)
+        {
+            $rlt = $this->where('ca_rdf', $workID)->countAllResults();
+            return ($rlt);
+        }
+
     function search($q='')
         {
             $rlt = $this->select('ca_text, ca_rdf, ca_doi, ca_year, ca_tipo')
