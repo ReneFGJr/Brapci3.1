@@ -194,7 +194,11 @@ def locale_referencias_type(text):
         'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS',
         '## References', '## REFERENCES', '## References', '## REFER˚NCIAS',
         '## BIBLIOGRAFIA', '## BIBLIOGRAFIA', '## Bibliografia',
-        '## BIBLIOGRAPHY', '## Bibliography', '## REFERENCIAS BIBLIOGRÁFICAS'
+        '## BIBLIOGRAPHY', '## Bibliography', '## REFERENCIAS BIBLIOGRÁFICAS',
+        '## BIBLIOGRAFÍA','## Bibliografía','ReferGLYPH<144>ncias',
+        'REFERGLYPH<144>NCIAS','## ReferGLYPH&lt;144&gt;ncias',
+        '## REFER~NCIAS','## REFER˚NCIASBIBLIOGR`FICAS',
+        '## Bibliografia citada','## R E F E R Ê N C I A S', '## R E F E R E N C I A S', '## R E F E R E N C I A S BIBLIOGRÁFICAS',
     ]
 
     # Divide o texto em linhas
@@ -214,6 +218,22 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace('7. ', ' ')
         linha_limpa = linha_limpa.replace('8. ', ' ')
         linha_limpa = linha_limpa.replace('9. ', ' ')
+        linha_limpa = linha_limpa.replace('1 ', ' ')
+        linha_limpa = linha_limpa.replace('2 ', ' ')
+        linha_limpa = linha_limpa.replace('3 ', ' ')
+        linha_limpa = linha_limpa.replace('4 ', ' ')
+        linha_limpa = linha_limpa.replace('5 ', ' ')
+        linha_limpa = linha_limpa.replace('6 ', ' ')
+        linha_limpa = linha_limpa.replace('7 ', ' ')
+        linha_limpa = linha_limpa.replace('8 ', ' ')
+        linha_limpa = linha_limpa.replace('9 ', ' ')
+        linha_limpa = linha_limpa.replace(':', '')
+        linha_limpa = linha_limpa.replace(' 1', '')
+        linha_limpa = linha_limpa.replace(' 2', '')
+        linha_limpa = linha_limpa.replace(' 3', '')
+        linha_limpa = linha_limpa.replace(' 4', '')
+        linha_limpa = linha_limpa.replace(' 5', '')
+
         linha_limpa = linha_limpa.replace('  ', ' ')
 
         ln += 1

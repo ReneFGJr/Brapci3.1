@@ -64,6 +64,23 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'cited-search':
+                $Cited = new \App\Models\AI\Cited\Index();
+                $RSP = [];
+                $q = get("q");
+                if ($q == '') {
+                    $RSP['status'] = '400';
+                    $RSP['status_message'] = 'Parâmetro de busca "q" é obrigatório';
+                    echo json_encode($RSP);
+                    exit;
+                }
+                $RSP['works'] = $Cited->search($q);
+
+                $RSP['status'] = '200';
+                $RSP['status_message'] = 'Busca realizada com sucesso';
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'citedLock':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $dd['ca_blocked'] = 1;

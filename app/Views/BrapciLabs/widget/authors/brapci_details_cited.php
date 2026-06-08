@@ -76,13 +76,13 @@ if (!is_array($cited) or count($cited) == 0) {
 					if ($idCa > 0) {
 						$urlEdit = base_url('/labs/cited/edit/' . $idCa);
 						$jsUrlEdit = str_replace("'", "\\'", $urlEdit);
-						$urlJoin = base_url('api/brapci/cited/join') . '?idz=' . $idCa.'&ida=' . $ida;
+						$urlJoin = base_url('api/brapci/cited/join');
 
 						$action = '<nobr>';
                         $action .= '<button type="button" class="btn btn-outline-danger btn-sm" data-id="' . $idCa . '" onclick="deleteCitedRecord(this)" title="Deletar" aria-label="Deletar">&#128465;</button>';
 						$action .= '<button type="button" class="btn btn-outline-primary btn-sm" onclick="const w = window.open(\'' . $jsUrlEdit . '\',\'newwin\',\'scrollbars=no,resizable=yes,width=800,height=600,top=10,left=10\'); if (w) { w.focus(); } return false;" title="Editar" aria-label="Editar">&#9998;</button> ';
                         if ($ida > 0) {
-                            $action .= '<a class="btn btn-outline-secondary btn-sm" href="' . esc($urlJoin) . '" title="JOIN com anterior" aria-label="JOIN com anterior">&#128279;</a> ';
+							$action .= '<button type="button" class="btn btn-outline-secondary btn-sm" data-id="' . $idCa . '" data-prev-id="' . $ida . '" data-url="' . esc($urlJoin) . '" onclick="joinCitedRecord(this)" title="JOIN com anterior" aria-label="JOIN com anterior">&#128279;</button> ';
                         }
                         $action .= '</nobr>';
 					}
@@ -145,7 +145,8 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  if (!confirm("Confirma exclusão desta referência " + btn.getAttribute("data-id") + "?")) { return; }';
 		echo '  const recordId = btn.getAttribute("data-id");';
 		echo '  btn.disabled = true;';
-		echo '  fetch("'.base_url('/api/brapci/citedDelete?idz=') . '" + recordId, { method: "DELETE" })';
+		echo '  url = "'.base_url('/api/brapci/citedDelete?idz=') . '" + recordId;';
+		echo '  fetch(url, { method: "GET" })';
 		echo '    .then(response => response.json())';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
@@ -157,6 +158,35 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '        }';
 		echo '      } else {';
 		echo '        alert("Erro ao deletar: " + data.message);';
+		echo '        btn.disabled = false;';
+		echo '      }';
+		echo '    })';
+		echo '    .catch(error => {';
+		echo '      alert("Erro na requisição: " + error.message);';
+		echo '      btn.disabled = false;';
+		echo '    });';
+		echo '}';
+		echo '';
+		echo 'function joinCitedRecord(btn) {';
+		echo '  const idz = btn.getAttribute("data-id");';
+		echo '  const ida = btn.getAttribute("data-prev-id");';
+		echo '  const baseUrl = btn.getAttribute("data-url");';
+		echo '  if (!idz || !ida || !baseUrl) { return; }';
+		echo '  btn.disabled = true;';
+		echo '  const sep = baseUrl.indexOf("?") >= 0 ? "&" : "?";';
+		echo '  const url = baseUrl + sep + "idz=" + encodeURIComponent(idz) + "&ida=" + encodeURIComponent(ida);';
+		echo '  fetch(url, { method: "GET" })';
+		echo '    .then(response => response.json())';
+		echo '    .then(data => {';
+		echo '      if (data.status === "200") {';
+		echo '        const row = btn.closest("tr");';
+		echo '        if (row) {';
+		echo '          row.style.transition = "opacity 0.3s ease";';
+		echo '          row.style.opacity = "0";';
+		echo '          setTimeout(() => row.remove(), 300);';
+		echo '        }';
+		echo '      } else {';
+		echo '        alert("Erro ao unir: " + (data.message || "resposta inválida"));';
 		echo '        btn.disabled = false;';
 		echo '      }';
 		echo '    })';

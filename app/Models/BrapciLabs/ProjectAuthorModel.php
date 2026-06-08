@@ -39,6 +39,15 @@ class ProjectAuthorModel extends Model
         }
     }
 
+    public function getWorksIDByProject(int $id): array
+    {
+        $data = $this->select('brapci_id')
+            ->where('project_id', $id)
+            ->where('brapci_id > ', '0')
+            ->findAll();
+        return $data;
+    }
+
     /**************************** Search */
     public function searchAuthorityLattes(string $term): array
     {

@@ -73,6 +73,12 @@ class RDFconcept extends Model
         return $dc;
     }
 
+    function excludeConcept($id)
+    {
+        $dt['cc_status'] = 9;
+        $this->set($dt)->where('id_cc', $id)->update();
+    }
+
     function searchTerm($term, $class,$facted=false)
     {
         $cp = 'id_cc as ID, n_name as Term, cc_use as use';
