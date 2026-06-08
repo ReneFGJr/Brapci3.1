@@ -227,6 +227,11 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace('8 ', ' ')
         linha_limpa = linha_limpa.replace('9 ', ' ')
         linha_limpa = linha_limpa.replace(':', '')
+        linha_limpa = linha_limpa.replace(' 1', '')
+        linha_limpa = linha_limpa.replace(' 2', '')
+        linha_limpa = linha_limpa.replace(' 3', '')
+        linha_limpa = linha_limpa.replace(' 4', '')
+        linha_limpa = linha_limpa.replace(' 5', '')
 
         linha_limpa = linha_limpa.replace('  ', ' ')
 
