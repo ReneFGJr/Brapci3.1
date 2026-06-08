@@ -543,7 +543,7 @@ def updateHtml():
     print("141 - Change URLs")
     urls = {}
     #urls['https://periodicos.ufpb.br/ojs2/index.php/biblio/article/view/'] = 'https://periodicos.ufpb.br/index.php/biblio/article/view/'
-    urls['https://periodicos.ufpb.br/ojs2/index.php/ies/article/view/'] = 'https://periodicos.ufpb.br/index.php/ies/article/view/'
+    urls['http://periodicos.ufpb.br/ojs2/index.php/ies/article/view/'] = 'https://periodicos.ufpb.br/index.php/ies/article/view/'
 
     for(url, new_url) in urls.items():
         print(f"Buscando {url}")
