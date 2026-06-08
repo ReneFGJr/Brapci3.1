@@ -520,6 +520,13 @@ def check_all():
     qd = "COMMIT"
     database.update(qd)
 
+def updateHtml():
+    urls = {}
+    urls['https://periodicos.ufpb.br/index.php/biblio/article/view/'] = 'https://periodicos.ufpb.br/ojs2/index.php/biblio/article/view/'
+
+
+
+
 def update_term(id,term):
     qr = f"update brapci_rdf.rdf_literal set n_name = '{term}' where id_n = {id}"
     row = database.update(qr)

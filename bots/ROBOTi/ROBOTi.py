@@ -206,6 +206,7 @@ def run(parm):
         mod_concept.remissives()
 
         mod_ontology.classification()
+        mod_literal.updateHtml()
         mod_literal.check_utf8()
         mod_literal.check_duplicate()
         mod_literal.check_double_name()
@@ -253,6 +254,8 @@ def run(parm):
     #################### LITERAL
     if (act == '140'):
         lp = mod_literal.check_duplicate()
+    if (act == '141'):
+        mod_literal.updateHtml()
     if (act == '150'):
         lp = mod_literal.check_trim()
     if (act == '151'):
