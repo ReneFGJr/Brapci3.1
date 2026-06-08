@@ -521,8 +521,23 @@ def check_all():
     database.update(qd)
 
 def updateHtml():
+    print("141 - Change URLs")
     urls = {}
     urls['https://periodicos.ufpb.br/index.php/biblio/article/view/'] = 'https://periodicos.ufpb.br/ojs2/index.php/biblio/article/view/'
+
+    for(url, new_url) in urls.items():
+        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '{url}%'"
+        row = database.query(qr)
+        print(row)
+        sys.exit()
+        for ln in row:
+            id = ln[0]
+            name = ln[1]
+            name2 = name.replace(url, new_url)
+            if name != name2:
+                qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
+                database.update(qru)
+                print(f"Updated URL for id {id}")
 
 
 
