@@ -198,7 +198,7 @@ def locale_referencias_type(text):
         '## BIBLIOGRAFÍA','## Bibliografía','ReferGLYPH<144>ncias',
         'REFERGLYPH<144>NCIAS','## ReferGLYPH&lt;144&gt;ncias',
         '## REFER~NCIAS','## REFER˚NCIASBIBLIOGR`FICAS',
-        '## Bibliografia citada'
+        '## Bibliografia citada','## R E F E R Ê N C I A S', '## R E F E R E N C I A S', '## R E F E R E N C I A S BIBLIOGRÁFICAS',
     ]
 
     # Divide o texto em linhas
