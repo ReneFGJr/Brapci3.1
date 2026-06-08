@@ -256,6 +256,8 @@ def run(parm):
         lp = mod_literal.check_duplicate()
     if (act == '141'):
         mod_literal.updateHtml()
+    if (act == '142'):
+        mod_literal.updateDePara()
     if (act == '150'):
         lp = mod_literal.check_trim()
     if (act == '151'):

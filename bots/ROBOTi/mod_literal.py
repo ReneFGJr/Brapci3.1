@@ -520,6 +520,25 @@ def check_all():
     qd = "COMMIT"
     database.update(qd)
 
+def updateDePara():
+    dt = {}
+    dt['GLYPH<144>'] = 'ê'
+    for(k,v) in dt.items():
+        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '%{k}%'"
+        row = database.query(qr)
+        for ln in row:
+            id = ln[0]
+            name = ln[1]
+            name2 = name.replace(k, v)
+            print(name,name2)
+            sys.exit()
+
+            if name != name2:
+                qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
+                database.update(qru)
+                print(f"Updated URL for id {id}")
+
+
 def updateHtml():
     print("141 - Change URLs")
     urls = {}
