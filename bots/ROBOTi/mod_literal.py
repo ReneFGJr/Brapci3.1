@@ -532,6 +532,8 @@ def updateHtml():
             id = ln[0]
             name = ln[1]
             name2 = name.replace(url, new_url)
+            print('O',name)
+            print('R', name2)
             print(ln)
             sys.exit()
 
