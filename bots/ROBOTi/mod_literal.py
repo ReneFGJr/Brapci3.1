@@ -535,8 +535,6 @@ def updateHtml():
 
             if name != name2:
                 qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
-                print(qru)
-                sys.exit()
                 database.update(qru)
                 print(f"Updated URL for id {id}")
 
