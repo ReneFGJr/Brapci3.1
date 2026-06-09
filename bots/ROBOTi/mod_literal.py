@@ -534,7 +534,7 @@ def updateDePara():
             name = ln[1]
             name2 = name
             for (n1,n2) in dt.items():
-                name2 = name.replace(n1, n2)
+                name2 = name2.replace(n1, n2)
             print(name)
             print(name2)
             print("")
