@@ -526,6 +526,8 @@ def updateDePara():
     # LATIN-1 / WINDOWS-1252
     # -------------------------
     dt = {}
+    dt['&gt;'] = '>'
+    dt['&lt;'] = '<'
     dt['GLYPH<146>'] = '´'
     dt['GLYPH<193>'] = 'Á'
     dt['GLYPH<194>'] = 'Â'
