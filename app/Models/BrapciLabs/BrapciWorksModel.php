@@ -860,7 +860,7 @@ class BrapciWorksModel extends Model
                         if (!isset($list[$auth])) {
                             $list[$auth] = [];
                         }
-                        $list[$auth][] = $row;
+                        $list[$auth][] = [$row['ca_rdf'],$row['ca_text']];
                     }
                 }
                 pre($list);
