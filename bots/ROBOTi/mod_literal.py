@@ -536,7 +536,7 @@ def updateDePara():
 
 
     for(k,v) in dt.items():
-        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%'"
+        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%' order by id_ca"
         row = database.query(qr)
         for ln in row:
             id = ln[0]
