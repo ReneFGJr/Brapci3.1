@@ -522,90 +522,153 @@ def check_all():
 
 def updateDePara():
     print("142 - Change PDF Old Char")
-    dt = {}
-    # Minúsculas
-    dt['GLYPH&lt;143&gt;'] = 'á'
-    dt['GLYPH&lt;130&gt;'] = 'é'
-    dt['GLYPH&lt;144&gt;'] = 'ê'
-    dt['GLYPH&lt;161&gt;'] = 'í'
-    dt['GLYPH&lt;162&gt;'] = 'ó'
-    dt['GLYPH&lt;147&gt;'] = 'ô'
-    dt['GLYPH&lt;163&gt;'] = 'ú'
+    # -------------------------
+    # LATIN-1 / WINDOWS-1252
+    # -------------------------
 
-    dt['GLYPH&lt;198&gt;'] = 'à'
-    dt['GLYPH&lt;199&gt;'] = 'ã'
-    dt['GLYPH&lt;200&gt;'] = 'õ'
+    dt['GLYPH<193>'] = 'Á'
+    dt['GLYPH<194>'] = 'Â'
+    dt['GLYPH<195>'] = 'Ã'
+    dt['GLYPH<199>'] = 'Ç'
+    dt['GLYPH<201>'] = 'É'
+    dt['GLYPH<202>'] = 'Ê'
+    dt['GLYPH<205>'] = 'Í'
+    dt['GLYPH<211>'] = 'Ó'
+    dt['GLYPH<212>'] = 'Ô'
+    dt['GLYPH<213>'] = 'Õ'
+    dt['GLYPH<218>'] = 'Ú'
 
-    dt['GLYPH&lt;141&gt;'] = 'ç'
+    dt['GLYPH<225>'] = 'á'
+    dt['GLYPH<226>'] = 'â'
+    dt['GLYPH<227>'] = 'ã'
+    dt['GLYPH<231>'] = 'ç'
+    dt['GLYPH<233>'] = 'é'
+    dt['GLYPH<234>'] = 'ê'
+    dt['GLYPH<237>'] = 'í'
+    dt['GLYPH<243>'] = 'ó'
+    dt['GLYPH<244>'] = 'ô'
+    dt['GLYPH<245>'] = 'õ'
+    dt['GLYPH<250>'] = 'ú'
 
-    # Maiúsculas
-    dt['GLYPH&LT;143&GT;'] = 'Á'
-    dt['GLYPH&lt;201&gt;'] = 'É'
-    dt['GLYPH&LT;144&GT;'] = 'Ê'
-    dt['GLYPH&lt;161&GT;'] = 'Í'
-    dt['GLYPH&lt;162&GT;'] = 'Ó'
-    dt['GLYPH&lt;147&GT;'] = 'Ô'
-    dt['GLYPH&lt;163&GT;'] = 'Ú'
+    # -------------------------
+    # ASPAS E TRAVESSÕES
+    # -------------------------
 
-    dt['GLYPH&LT;198&GT;'] = 'À'
-    dt['GLYPH&LT;199&GT;'] = 'Ã'
-    dt['GLYPH&LT;200&GT;'] = 'Õ'
+    dt['GLYPH<145>'] = "'"
+    dt['GLYPH<146>'] = "'"
+    dt['GLYPH<147>'] = '"'
+    dt['GLYPH<148>'] = '"'
 
-    dt['GLYPH&LT;141&GT;'] = 'Ç'
+    dt['GLYPH<150>'] = ' – '
+    dt['GLYPH<151>'] = ' — '
 
-    # Combinações frequentes encontradas em textos em português
-    dt['GLYPH&lt;141&gt;‹o'] = 'ção'
-    dt['GLYPH&lt;141&gt;›es'] = 'ções'
-    dt['GLYPH&lt;141&gt;›'] = 'çõ'
-    dt['GLYPH&lt;141&gt;‹'] = 'çã'
+    # -------------------------
+    # SÍMBOLOS
+    # -------------------------
 
-    dt['GLYPH&lt;143&gt;o'] = 'ão'
-    dt['GLYPH&lt;143&gt;es'] = 'ães'
-    dt['GLYPH&lt;200&gt;es'] = 'ões'
+    dt['GLYPH<149>'] = '•'
+    dt['GLYPH<171>'] = '«'
+    dt['GLYPH<187>'] = '»'
+    dt['GLYPH<176>'] = '°'
+    dt['GLYPH<177>'] = '±'
+    dt['GLYPH<181>'] = 'µ'
+    dt['GLYPH<215>'] = '×'
+    dt['GLYPH<247>'] = '÷'
 
-    # Símbolos
+    # -------------------------
+    # ERROS OCR COMUNS
+    # -------------------------
+
+    dt['Æ'] = 'á'
+    dt['æ'] = 'á'
+
+    dt['ª'] = 'ã'
+    dt['º'] = 'õ'
+
+    dt['¤'] = 'à'
+    dt['§'] = 'ç'
+    dt['¨'] = 'ê'
+
+    dt['˙'] = 'Ç'
+
+    dt['Ø'] = 'é'
+    dt['ø'] = 'é'
+
+    dt['Ð'] = 'É'
+    dt['ð'] = 'é'
+
+    dt['Ý'] = 'Í'
+    dt['ý'] = 'í'
+
+    # -------------------------
+    # COMBINAÇÕES MUITO FREQUENTES
+    # -------------------------
+
+    dt['GLYPH<141>‹'] = 'çã'
+    dt['GLYPH<141>›'] = 'çõ'
+    dt['GLYPH<141>‹o'] = 'ção'
+    dt['GLYPH<141>›es'] = 'ções'
+
+    dt['GLYPH<143>o'] = 'ão'
+    dt['GLYPH<143>es'] = 'ães'
+
+    dt['GLYPH<200>es'] = 'ões'
+
+    # -------------------------
+    # CIDADES FREQUENTES
+    # -------------------------
+
+    dt['Sªo'] = 'São'
+    dt['Joªo'] = 'João'
+    dt['Nªo'] = 'Não'
+
+    dt['PetrGLYPH<243>polis'] = 'Petrópolis'
+
+    # -------------------------
+    # FRANCÊS
+    # -------------------------
+
+    dt['lGLYPH<146>'] = "l'"
+    dt['Øconomie'] = 'économie'
+    dt['Øchanges'] = 'échanges'
+    dt['Øducation'] = 'éducation'
+    dt['Øditeur'] = 'éditeur'
+
+    # -------------------------
+    # HTML
+    # -------------------------
+
     dt['&amp;'] = '&'
     dt['&lt;'] = '<'
     dt['&gt;'] = '>'
     dt['&quot;'] = '"'
     dt['&#39;'] = "'"
+    dt['&nbsp;'] = ' '
 
-    # Lixo comum gerado por PDF
-    dt['GLYPH&lt;1&gt;'] = ''
-    dt['GLYPH&lt;0&gt;'] = ''
-    dt['glyph&lt;c=27,font=/BANIEP+ArialMT&gt;1-6'] = ''
-    dt['glyph&lt;c=27,font=/ArialMT&gt;'] = ''
-    dt['glyph&lt;c='] = ''
+    # -------------------------
+    # LIXO PDFBOX / GROBID
+    # -------------------------
 
-    dt['&amp;'] = '&'
-    dt['GLYPH&lt;1&gt;'] = ''
-    dt['GLYPH<231>'] = 'ç'
-    dt['GLYPH<150>'] = ' – '
-    dt['GLYPH<252>'] = 'u'
-    dt['GLYPH<237>'] = 'í'
-    dt['GLYPH<243>'] = 'ó'
-    dt['GLYPH<130>'] = 'é'
-    dt['GLYPH<141>'] = 'ç'
-    dt['GLYPH<143>'] = 'á'
-    dt['GLYPH<144>'] = 'ê'
-    dt['GLYPH<211>'] = 'Ó'
-    dt['GLYPH<244>'] = 'ô'
+    dt['GLYPH<0>'] = ''
+    dt['GLYPH<1>'] = ''
+    dt['GLYPH<2>'] = ''
 
-    dt['GLYPH<150>'] = ' – '
+    dt['glyph<c='] = ''
 
-    dt['GLYPH<231>'] = 'ç'
-    dt['GLYPH<237>'] = 'í'
-    dt['GLYPH<243>'] = 'ó'
-    dt['GLYPH<252>'] = 'u'
-    dt['ª'] = 'ã'
-    dt['Æ'] = 'á'
-    dt['æ'] = 'á'
-    dt['¤'] = 'à'
-    dt['§'] = 'ç'
-    dt['¨'] = 'ê'
-    dt['ª'] = 'ã'
-    dt['º'] = 'õ'
-    dt['˙'] = 'Ç'
+    dt['glyph<c=27,font=/ArialMT>'] = ''
+    dt['glyph<c=27,font=/BANIEP+ArialMT>'] = ''
+    dt['glyph<c=27,font=/BANIEP+ArialMT>1-6'] = ''
+
+    # -------------------------
+    # SEQUÊNCIAS DUPLAS
+    # -------------------------
+
+    dt['..'] = '.'
+    dt[' ,'] = ','
+    dt[' .'] = '.'
+    dt[' ;'] = ';'
+    dt[' :'] = ':'
+    dt['  '] = ' '
 
 
     for(k,v) in dt.items():
