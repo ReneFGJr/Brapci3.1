@@ -526,8 +526,18 @@ def updateDePara():
     # LATIN-1 / WINDOWS-1252
     # -------------------------
     dt = {}
-    dt['&gt;'] = '>'
+    # -------------------------
+    # HTML
+    # -------------------------
+
+    dt['&amp;'] = '&'
     dt['&lt;'] = '<'
+    dt['&gt;'] = '>'
+    dt['&quot;'] = '"'
+    dt['&#39;'] = "'"
+    dt['&nbsp;'] = ' '
+
+
     dt['GLYPH<146>'] = '´'
     dt['GLYPH<193>'] = 'Á'
     dt['GLYPH<194>'] = 'Â'
@@ -552,6 +562,7 @@ def updateDePara():
     dt['GLYPH<244>'] = 'ô'
     dt['GLYPH<245>'] = 'õ'
     dt['GLYPH<250>'] = 'ú'
+    dt['GLYPH<252>'] = 'u'
 
     # -------------------------
     # ASPAS E TRAVESSÕES
@@ -637,16 +648,7 @@ def updateDePara():
     dt['Øducation'] = 'éducation'
     dt['Øditeur'] = 'éditeur'
 
-    # -------------------------
-    # HTML
-    # -------------------------
 
-    dt['&amp;'] = '&'
-    dt['&lt;'] = '<'
-    dt['&gt;'] = '>'
-    dt['&quot;'] = '"'
-    dt['&#39;'] = "'"
-    dt['&nbsp;'] = ' '
 
     # -------------------------
     # LIXO PDFBOX / GROBID
