@@ -562,7 +562,7 @@ def updateDePara():
     dt['GLYPH<244>'] = 'ô'
     dt['GLYPH<245>'] = 'õ'
     dt['GLYPH<250>'] = 'ú'
-    dt['GLYPH<252>'] = 'u'
+    dt['GLYPH<252>'] = 'ü'
 
     # -------------------------
     # ASPAS E TRAVESSÕES
