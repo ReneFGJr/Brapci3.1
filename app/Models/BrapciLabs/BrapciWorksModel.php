@@ -736,6 +736,7 @@ class BrapciWorksModel extends Model
      */
     public function getCitationsByAuthors($id = null, $searchTerm = '')
     {
+            set_time_limit(300);
             $auths =
                 [
                     'Comte, A',
