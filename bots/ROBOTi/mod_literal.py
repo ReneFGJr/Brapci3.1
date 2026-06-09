@@ -679,6 +679,7 @@ def updateDePara():
     for(k,v) in dt.items():
         qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%' order by id_ca"
         row = database.query(qr)
+        print("Total de registros para GLYPH: ",len(row))
         for ln in row:
             id = ln[0]
             name = ln[1]
