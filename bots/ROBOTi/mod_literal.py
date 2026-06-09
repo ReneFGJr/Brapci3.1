@@ -531,7 +531,8 @@ def updateDePara():
             id = ln[0]
             name = ln[1]
             name2 = name.replace(k, v)
-            print(name,name2)
+            print(name)
+            print(name2)
             sys.exit()
 
             if name != name2:
