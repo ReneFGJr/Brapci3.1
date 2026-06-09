@@ -526,6 +526,9 @@ def updateDePara():
     dt['GLYPH&lt;144&gt;'] = 'ê'
     dt['GLYPH&lt;141&gt;›'] = 'çõ'
     dt['GLYPH&lt;141&gt;‹'] = 'çã'
+    dt['GLYPH&lt;141&gt;'] = 'ç'
+    dt['GLYPH&lt;130&gt;'] = 'é'
+
 
     for(k,v) in dt.items():
         qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%'"
