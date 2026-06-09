@@ -34,11 +34,16 @@
                 🔍 Checar ID dos pesquisadores
             </a>
 
-            <!-- Checar Cited -->
-            <a href="<?= base_url('labs/works/withoutCited') ?>"
-                class="btn btn-outline-secondary btn-sm ms-2">
-                🔍 Checar trabalhos sem Referencias
-            </a>
+            <!-- Citações Dropdown -->
+            <div class="btn-group ms-2" role="group">
+                <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    📋 Citações
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="<?= base_url('labs/works/withoutCited') ?>">🔍 Checar trabalhos sem Referencias</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('labs/works/citationsByAuthors') ?>">Citações por autores</a></li>
+                </ul>
+            </div>
 
         </div>
     </div>

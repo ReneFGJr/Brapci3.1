@@ -730,4 +730,69 @@ class BrapciWorksModel extends Model
         // Substitua isso pela lógica real conforme necessário
         return 0; // Retorna um ID fixo para demonstração
     }
+
+    /**
+     * Retorna citações agrupadas por autor
+     */
+    public function getCitationsByAuthors($projectId = null, $searchTerm = '')
+    {
+        $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
+        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+        $CitedModel = new \App\Models\AI\Cited\Index();
+
+        if (!is_numeric($projectId) || (int)$projectId <= 0) {
+            return [
+                'data' => [],
+                'total' => 0,
+                'totalAuthors' => 0,
+                'totalCitations' => 0,
+                'avgCitations' => 0,
+                'topAuthor' => 'N/A'
+            ];
+        }
+
+        $auths =
+        [
+            'Comte, A','Nagel, E','Saint-Simon','Marx, K',
+            'Durkheim, E','Weber, M',
+            ''
+        ];
+
+        $auths[] = 'Erich Fromm, E';
+        $auths[] = 'Neumann, F';
+        $auths[] = 'Pollock, F';
+        $auths[] = 'Marcuse, H';
+        $auths[] = 'Löwenthal, L';
+        $auths[] = 'Horkheimer, M';
+
+        $auths[] = 'Hahn, H';
+        $auths[] = 'Frank, P';
+        $auths[] = 'Neurath, O';
+        $auths[] = 'Schilick, M';
+        $auths[] = 'Reichenbach, H';
+        $auths[] = 'Carnap, R';
+
+        $auths[] = 'Popper, K';
+        $auths[] = 'Lakatos, I';
+        $auths[] = 'Kuhn, T S';
+        $auths[] = 'Laudan, L';
+        $auths[] = 'Toulmin, S';
+        $auths[] = 'Bachelard, G';
+
+        $sql = "SELECT * FROM project_author WHERE project_id = $projectId";
+
+        echo '<div class="content ">';
+        echo $sql;
+
+
+        $dt = $ProjectAuthorModel->first();
+        pre($dt);
+
+        echo '</div>';
+
+        exit;
+
+        // Obter todos os autores do projeto
+        $authors = $ProjectAuthorModel->where('project_id', $projectId)->findAll();
+    }
 }

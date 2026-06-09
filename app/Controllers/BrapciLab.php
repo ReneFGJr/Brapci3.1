@@ -602,6 +602,31 @@ class BrapciLab extends BaseController
                 }
                 echo '</div>';
                 break;
+            case 'citationsByAuthors':
+                $Project = new \App\Models\BrapciLabs\ResearchProjectModel();
+                $projectId = $Project->getProjectsID();
+                $q = $this->request->getGet('q');
+
+                $model = new \App\Models\BrapciLabs\BrapciWorksModel();
+                $citationsByAuthors = $model->getCitationsByAuthors($projectId, $q);
+
+                $data = [
+                    'project' => $Project->find($projectId),
+                    'citationsByAuthors' => $citationsByAuthors['data'] ?? [],
+                    'total' => $citationsByAuthors['total'] ?? 0,
+                    'totalAuthors' => $citationsByAuthors['totalAuthors'] ?? 0,
+                    'totalCitations' => $citationsByAuthors['totalCitations'] ?? 0,
+                    'avgCitations' => $citationsByAuthors['avgCitations'] ?? 0,
+                    'topAuthor' => $citationsByAuthors['topAuthor'] ?? 'N/A',
+                    'q' => $q,
+                    'pager' => null
+                ];
+
+                echo view('BrapciLabs/layout/header', $data);
+                echo view('BrapciLabs/layout/sidebar');
+                echo view('BrapciLabs/widget/works/citations-by-authors', $data);
+                echo view('BrapciLabs/layout/footer');
+                break;
             case 'updateVC':
                 echo $BrapciWorksModel->updateVC();
                 break;
