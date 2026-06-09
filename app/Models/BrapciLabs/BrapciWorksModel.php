@@ -734,65 +734,145 @@ class BrapciWorksModel extends Model
     /**
      * Retorna citações agrupadas por autor
      */
-    public function getCitationsByAuthors($projectId = null, $searchTerm = '')
+    public function getCitationsByAuthors($id = null, $searchTerm = '')
     {
-        $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
-        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
-        $CitedModel = new \App\Models\AI\Cited\Index();
+            $auths =
+                [
+                    'Comte, A',
+                    'Nagel, E',
+                    'Saint-Simon',
+                    'Marx, K',
+                    'Durkheim, E',
+                    'Weber, M',
+                    ''
+                ];
 
-        if (!is_numeric($projectId) || (int)$projectId <= 0) {
-            return [
-                'data' => [],
-                'total' => 0,
-                'totalAuthors' => 0,
-                'totalCitations' => 0,
-                'avgCitations' => 0,
-                'topAuthor' => 'N/A'
-            ];
+            $auths[] = 'Erich Fromm, E';
+            $auths[] = 'Neumann, F';
+            $auths[] = 'Pollock, F';
+            $auths[] = 'Marcuse, H';
+            $auths[] = 'Löwenthal, L';
+            $auths[] = 'Horkheimer, M';
+
+            $auths[] = 'Hahn, H';
+            $auths[] = 'Frank, P';
+            $auths[] = 'Neurath, O';
+            $auths[] = 'Schilick, M';
+            $auths[] = 'Reichenbach, H';
+            $auths[] = 'Carnap, R';
+
+            $auths[] = 'Popper, K';
+            $auths[] = 'Lakatos, I';
+            $auths[] = 'Kuhn, T S';
+            $auths[] = 'Laudan, L';
+            $auths[] = 'Toulmin, S';
+            $auths[] = 'Bachelard, G';
+
+            $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
+            $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+            $Cited = new \App\Models\AI\Cited\Index();
+            if (!is_numeric($id) || (int)$id <= 0) {
+                return [];
+            }
+
+            $works = $ProjectAuthorModel->getWorksIDByProject((int)$id);
+            if (empty($works)) {
+                return [];
+            }
+
+            $authorIds = array_values(array_unique(array_map(static function ($work) {
+                return (int)($work['brapci_id'] ?? 0);
+            }, $works)));
+            $authorIds = array_values(array_filter($authorIds, static function ($v) {
+                return $v > 0;
+            }));
+
+            if (empty($authorIds)) {
+                return [];
+            }
+
+            $authorityRows = $BrapciAuthorityModel
+                ->whereIn('brapci_id', $authorIds)
+                ->findAll();
+
+            $authorityById = [];
+            foreach ($authorityRows as $row) {
+                $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
+            }
+
+            $missingIds = [];
+            foreach ($authorIds as $authorId) {
+                if (!isset($authorityById[$authorId])) {
+                    $missingIds[] = $authorId;
+                }
+            }
+
+            if (!empty($missingIds)) {
+                foreach ($missingIds as $missingId) {
+                    $BrapciAuthorityModel->updateFromApi((int)$missingId);
+                }
+
+                $newRows = $BrapciAuthorityModel
+                    ->whereIn('brapci_id', $missingIds)
+                    ->findAll();
+
+                foreach ($newRows as $row) {
+                    $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
+                }
+            }
+
+            $workIds = [];
+            foreach ($authorityById as $row) {
+                if (!isset($row['brapci_xml'])) {
+                    continue;
+                }
+
+                $xml = json_decode($row['brapci_xml'], true);
+                if (!is_array($xml) || !isset($xml['worksID']) || !is_array($xml['worksID'])) {
+                    continue;
+                }
+
+                foreach ($xml['worksID'] as $ctd) {
+                    $wid = (int)$ctd;
+                    if ($wid > 0) {
+                        $workIds[$wid] = true;
+                    }
+                }
+            }
+
+            if (empty($workIds)) {
+                return [];
+            }
+
+            $candidateIds = array_keys($workIds);
+            $citedRows = $Cited->getCitedByID($candidateIds);
+            $citedCount = [];
+
+            echo '<div class="content">';
+
+            $list = [];
+            foreach($auths as $auth) {
+                $auth = strtolower(ascii($auth));
+
+                foreach ($citedRows as $row) {
+                    $line  = strtolower(ascii($row['ca_text'] ?? ''));
+                    if (str_contains($line, $auth)) {
+                        if (!isset($list[$auth])) {
+                            $list[$auth] = [];
+                        }
+                        $list[$auth][] = $row;
+                    }
+                }
+                pre($list);
+            }
+
+            $without = [];
+            foreach ($candidateIds as $idw) {
+                if (($citedCount[(int)$idw] ?? 0) === 0) {
+                    $without[] = (int)$idw;
+                }
+            }
+
+            return $without;
         }
-
-        $auths =
-        [
-            'Comte, A','Nagel, E','Saint-Simon','Marx, K',
-            'Durkheim, E','Weber, M',
-            ''
-        ];
-
-        $auths[] = 'Erich Fromm, E';
-        $auths[] = 'Neumann, F';
-        $auths[] = 'Pollock, F';
-        $auths[] = 'Marcuse, H';
-        $auths[] = 'Löwenthal, L';
-        $auths[] = 'Horkheimer, M';
-
-        $auths[] = 'Hahn, H';
-        $auths[] = 'Frank, P';
-        $auths[] = 'Neurath, O';
-        $auths[] = 'Schilick, M';
-        $auths[] = 'Reichenbach, H';
-        $auths[] = 'Carnap, R';
-
-        $auths[] = 'Popper, K';
-        $auths[] = 'Lakatos, I';
-        $auths[] = 'Kuhn, T S';
-        $auths[] = 'Laudan, L';
-        $auths[] = 'Toulmin, S';
-        $auths[] = 'Bachelard, G';
-
-        $sql = "SELECT * FROM project_author WHERE project_id = $projectId";
-
-        echo '<div class="content ">';
-        echo $sql;
-
-
-        $dt = $ProjectAuthorModel->first();
-        pre($dt);
-
-        echo '</div>';
-
-        exit;
-
-        // Obter todos os autores do projeto
-        $authors = $ProjectAuthorModel->where('project_id', $projectId)->findAll();
-    }
 }
