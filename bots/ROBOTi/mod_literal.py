@@ -583,6 +583,18 @@ def updateDePara():
     dt['GLYPH<150>'] = ' – '
     dt['GLYPH<252>'] = 'u'
     dt['GLYPH<237>'] = 'í'
+    dt['GLYPH<243>'] = 'ó'
+    dt['GLYPH<130>'] = 'é'
+    dt['GLYPH<141>'] = 'ç'
+    dt['GLYPH<143>'] = 'á'
+    dt['GLYPH<144>'] = 'ê'
+
+    dt['GLYPH<150>'] = ' – '
+
+    dt['GLYPH<231>'] = 'ç'
+    dt['GLYPH<237>'] = 'í'
+    dt['GLYPH<243>'] = 'ó'
+    dt['GLYPH<252>'] = 'u'
     dt['ª'] = 'ã'
     dt['Æ'] = 'á'
     dt['æ'] = 'á'
