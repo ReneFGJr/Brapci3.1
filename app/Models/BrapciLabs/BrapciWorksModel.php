@@ -868,29 +868,4 @@ class BrapciWorksModel extends Model
 
             return $list;
         }
-
-        /**
-         * Obtém citações agrupadas por autor e retorna formatado para visualização
-         *
-         * @param int|null $id ID do projeto
-         * @param string $searchTerm Termo de busca opcional
-         * @return array Array de citações agrupadas por autor
-         */
-        public function getCitationsByAuthorsFormatted($id = null, $searchTerm = '')
-        {
-            $citations = $this->getCitationsByAuthors($id, $searchTerm);
-
-            // Formata os dados para exibição
-            $formatted = [];
-            foreach ($citations as $author => $items) {
-                $formatted[$author] = array_map(function($item) {
-                    return [
-                        'id' => $item[0] ?? null,
-                        'text' => $item[1] ?? '',
-                    ];
-                }, $items);
-            }
-
-            return $formatted;
-        }
-    }
+}
