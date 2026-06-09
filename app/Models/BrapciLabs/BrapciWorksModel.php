@@ -892,3 +892,5 @@ class BrapciWorksModel extends Model
             }
 
             return $formatted;
+        }
+    }
