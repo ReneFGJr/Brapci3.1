@@ -532,7 +532,9 @@ def updateDePara():
         for ln in row:
             id = ln[0]
             name = ln[1]
-            name2 = name.replace(k, v)
+            name2 = name
+            for (n1,n2) in dt.items():
+                name2 = name.replace(n1, n2)
             print(name)
             print(name2)
             print("")
