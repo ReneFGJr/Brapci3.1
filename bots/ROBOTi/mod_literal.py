@@ -549,6 +549,7 @@ def updateHtml():
     for(url, new_url) in urls.items():
         print(f"Buscando {url}")
         qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '{url}%'"
+        print(qr)
         row = database.query(qr)
         for ln in row:
             id = ln[0]
