@@ -533,6 +533,7 @@ def updateDePara():
     dt['GLYPH&lt;143&gt;'] = 'á'
     dt['GLYPH&LT;144&GT; '] = 'Ê'
     dt['glyph&lt;c=27,font=/BANIEP+ArialMT&gt;1-6'] = ''
+    dt['GLYPH&lt;201&gt;'] = 'É'
     dt['&amp;'] = '&'
     dt['GLYPH&lt;1&gt;'] = ''
 
