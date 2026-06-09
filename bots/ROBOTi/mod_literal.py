@@ -528,7 +528,7 @@ def updateDePara():
     dt['GLYPH&lt;141&gt;‹'] = 'çã'
 
     for(k,v) in dt.items():
-        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH%'"
+        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%'"
         row = database.query(qr)
         for ln in row:
             id = ln[0]
