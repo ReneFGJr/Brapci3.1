@@ -521,6 +521,7 @@ def check_all():
     database.update(qd)
 
 def updateDePara():
+    print("142 - Change PDF Old Char")
     dt = {}
     dt['GLYPH<144>'] = 'ê'
     for(k,v) in dt.items():
