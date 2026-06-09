@@ -12,7 +12,7 @@
                 border: 1px solid #dee2e6;
                 border-radius: 0.375rem;
                 overflow: hidden;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             }
 
             .author-header {
@@ -29,7 +29,7 @@
             }
 
             .citation-count {
-                background-color: rgba(255,255,255,0.25);
+                background-color: rgba(255, 255, 255, 0.25);
                 color: white;
                 border-radius: 50%;
                 width: 2rem;
@@ -114,7 +114,9 @@
                             <?php foreach ($authorCitations as $citation): ?>
                                 <tr>
                                     <td class="citation-id">
-                                        <?= htmlspecialchars($citation[0] ?? '-'); ?>
+                                        <nobr>
+                                            <?= htmlspecialchars($citation[0] ?? '-'); ?>
+                                        </nobr>
                                     </td>
                                     <td class="citation-text">
                                         <?= htmlspecialchars($citation[1] ?? 'Sem descrição'); ?>
