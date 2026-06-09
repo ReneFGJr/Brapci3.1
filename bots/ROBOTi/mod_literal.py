@@ -523,7 +523,9 @@ def check_all():
 def updateDePara():
     print("142 - Change PDF Old Char")
     dt = {}
-    dt['GLYPH<144>'] = 'ê'
+    dt['GLYPH&lt;144&gt;'] = 'ê'
+    dt['GLYPH&lt;141&gt;›'] = 'çõ'
+
     for(k,v) in dt.items():
         qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH%'"
         row = database.query(qr)
