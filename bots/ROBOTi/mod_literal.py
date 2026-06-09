@@ -547,11 +547,13 @@ def updateDePara():
             print(name2)
             print("")
 
+            if 'GLYPH' in name2:
+                print("+++++++++++++++++++++++++++++")
+                sys.exit()
+
+
 
             if name != name2:
-                if 'GLYPH' in name2:
-                    print("+++++++++++++++++++++++++++++")
-                    sys.exit()
                 qru = f"update brapci_cited.cited_article set ca_text = '{name2}' where id_ca = {id}"
                 database.update(qru)
                 print(f"Updated URL for id {id}")
