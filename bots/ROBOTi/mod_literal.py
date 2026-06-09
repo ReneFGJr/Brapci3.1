@@ -523,17 +523,60 @@ def check_all():
 def updateDePara():
     print("142 - Change PDF Old Char")
     dt = {}
+    # Minúsculas
+    dt['GLYPH&lt;143&gt;'] = 'á'
+    dt['GLYPH&lt;130&gt;'] = 'é'
     dt['GLYPH&lt;144&gt;'] = 'ê'
+    dt['GLYPH&lt;161&gt;'] = 'í'
+    dt['GLYPH&lt;162&gt;'] = 'ó'
+    dt['GLYPH&lt;147&gt;'] = 'ô'
+    dt['GLYPH&lt;163&gt;'] = 'ú'
+
+    dt['GLYPH&lt;198&gt;'] = 'à'
+    dt['GLYPH&lt;199&gt;'] = 'ã'
+    dt['GLYPH&lt;200&gt;'] = 'õ'
+
+    dt['GLYPH&lt;141&gt;'] = 'ç'
+
+    # Maiúsculas
+    dt['GLYPH&LT;143&GT;'] = 'Á'
+    dt['GLYPH&lt;201&gt;'] = 'É'
+    dt['GLYPH&LT;144&GT;'] = 'Ê'
+    dt['GLYPH&lt;161&GT;'] = 'Í'
+    dt['GLYPH&lt;162&GT;'] = 'Ó'
+    dt['GLYPH&lt;147&GT;'] = 'Ô'
+    dt['GLYPH&lt;163&GT;'] = 'Ú'
+
+    dt['GLYPH&LT;198&GT;'] = 'À'
+    dt['GLYPH&LT;199&GT;'] = 'Ã'
+    dt['GLYPH&LT;200&GT;'] = 'Õ'
+
+    dt['GLYPH&LT;141&GT;'] = 'Ç'
+
+    # Combinações frequentes encontradas em textos em português
+    dt['GLYPH&lt;141&gt;‹o'] = 'ção'
+    dt['GLYPH&lt;141&gt;›es'] = 'ções'
     dt['GLYPH&lt;141&gt;›'] = 'çõ'
     dt['GLYPH&lt;141&gt;‹'] = 'çã'
-    dt['GLYPH&lt;141&gt;'] = 'ç'
-    dt['GLYPH&lt;130&gt;'] = 'é'
-    dt['GLYPH&LT;141&GT;'] = 'Ç'
-    dt['GLYPH&lt;143&gt;s'] = 'á'
-    dt['GLYPH&lt;143&gt;'] = 'á'
-    dt['GLYPH&LT;144&GT; '] = 'Ê'
+
+    dt['GLYPH&lt;143&gt;o'] = 'ão'
+    dt['GLYPH&lt;143&gt;es'] = 'ães'
+    dt['GLYPH&lt;200&gt;es'] = 'ões'
+
+    # Símbolos
+    dt['&amp;'] = '&'
+    dt['&lt;'] = '<'
+    dt['&gt;'] = '>'
+    dt['&quot;'] = '"'
+    dt['&#39;'] = "'"
+
+    # Lixo comum gerado por PDF
+    dt['GLYPH&lt;1&gt;'] = ''
+    dt['GLYPH&lt;0&gt;'] = ''
     dt['glyph&lt;c=27,font=/BANIEP+ArialMT&gt;1-6'] = ''
-    dt['GLYPH&lt;201&gt;'] = 'É'
+    dt['glyph&lt;c=27,font=/ArialMT&gt;'] = ''
+    dt['glyph&lt;c='] = ''
+
     dt['&amp;'] = '&'
     dt['GLYPH&lt;1&gt;'] = ''
 
