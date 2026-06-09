@@ -863,16 +863,8 @@ class BrapciWorksModel extends Model
                         $list[$auth][] = [$row['ca_rdf'],$row['ca_text']];
                     }
                 }
-                pre($list);
             }
 
-            $without = [];
-            foreach ($candidateIds as $idw) {
-                if (($citedCount[(int)$idw] ?? 0) === 0) {
-                    $without[] = (int)$idw;
-                }
-            }
-
-            return $without;
+            pre($list);
         }
 }
