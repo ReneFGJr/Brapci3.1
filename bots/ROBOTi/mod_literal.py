@@ -568,8 +568,8 @@ def updateDePara():
     # ASPAS E TRAVESSÕES
     # -------------------------
 
-    dt['GLYPH<145>'] = "'"
-    dt['GLYPH<146>'] = "'"
+    dt['GLYPH<145>'] = "´"
+    dt['GLYPH<146>'] = "´"
     dt['GLYPH<147>'] = '"'
     dt['GLYPH<148>'] = '"'
 
