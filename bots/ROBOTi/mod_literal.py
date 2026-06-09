@@ -525,7 +525,7 @@ def updateDePara():
     dt = {}
     dt['GLYPH<144>'] = 'ê'
     for(k,v) in dt.items():
-        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '%GLYPH%'"
+        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '%GLYPH&%'"
         row = database.query(qr)
         for ln in row:
             id = ln[0]
