@@ -529,6 +529,8 @@ def updateDePara():
     dt['GLYPH&lt;141&gt;'] = 'ç'
     dt['GLYPH&lt;130&gt;'] = 'é'
     dt['GLYPH&LT;141&GT;'] = 'Ç'
+    dt['GLYPH&lt;143&gt;s'] = 'á'
+    dt['GLYPH&lt;143&gt;'] = 'á'
 
 
     for(k,v) in dt.items():
