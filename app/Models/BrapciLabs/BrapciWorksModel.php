@@ -744,8 +744,7 @@ class BrapciWorksModel extends Model
                     'Saint-Simon',
                     'Marx, K',
                     'Durkheim, E',
-                    'Weber, M',
-                    ''
+                    'Weber, M'
                 ];
 
             $auths[] = 'Erich Fromm, E';
