@@ -608,7 +608,8 @@ class BrapciLab extends BaseController
                 $q = $this->request->getGet('q');
 
                 $model = new \App\Models\BrapciLabs\BrapciWorksModel();
-                $data = $model->getCitationsByAuthors($projectId, $q);
+                $data = [];
+                $data['citationsByAuthors'] = $model->getCitationsByAuthors($projectId, $q);
                 echo view('BrapciLabs/widget/works/citations-by-authors', $data);
                 break;
             case 'updateVC':

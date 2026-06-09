@@ -849,8 +849,6 @@ class BrapciWorksModel extends Model
             $citedRows = $Cited->getCitedByID($candidateIds);
             $citedCount = [];
 
-            echo '<div class="content">';
-
             $list = [];
             foreach($auths as $auth) {
                 $auth = strtolower(ascii($auth));
@@ -865,7 +863,6 @@ class BrapciWorksModel extends Model
                     }
                 }
             }
-
             return $list;
         }
 }
