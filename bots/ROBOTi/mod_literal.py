@@ -676,30 +676,29 @@ def updateDePara():
     dt['  '] = ' '
 
 
-    for(k,v) in dt.items():
-        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%' order by id_ca"
-        row = database.query(qr)
-        print("Total de registros para GLYPH: ",len(row))
-        for ln in row:
-            id = ln[0]
-            name = ln[1]
-            name2 = name
-            for (n1,n2) in dt.items():
-                name2 = name2.replace(n1, n2)
-            print(name)
-            print(name2)
-            print("")
+    qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH&%' order by id_ca"
+    row = database.query(qr)
+    print("Total de registros para GLYPH: ",len(row))
+    for ln in row:
+        id = ln[0]
+        name = ln[1]
+        name2 = name
+        for (n1,n2) in dt.items():
+            name2 = name2.replace(n1, n2)
+        print(name)
+        print(name2)
+        print("")
 
-            if 'GLYPH' in name2:
-                print("+++++++++++++++++++++++++++++")
-                sys.exit()
-
+        if 'GLYPH' in name2:
+            print("+++++++++++++++++++++++++++++")
+            sys.exit()
 
 
-            if name != name2:
-                qru = f"update brapci_cited.cited_article set ca_text = '{name2}' where id_ca = {id}"
-                database.update(qru)
-                print(f"Updated URL for id {id}")
+
+        if name != name2:
+            qru = f"update brapci_cited.cited_article set ca_text = '{name2}' where id_ca = {id}"
+            database.update(qru)
+            print(f"Updated URL for id {id}")
 
 
 def updateHtml():
