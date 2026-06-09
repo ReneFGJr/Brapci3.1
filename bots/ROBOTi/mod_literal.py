@@ -580,7 +580,15 @@ def updateDePara():
     dt['&amp;'] = '&'
     dt['GLYPH&lt;1&gt;'] = ''
     dt['GLYPH<231>'] = 'ç'
+    dt['GLYPH<150>'] = ' – '
     dt['ª'] = 'ã'
+    dt['Æ'] = 'á'
+    dt['æ'] = 'á'
+    dt['¤'] = 'à'
+    dt['§'] = 'ç'
+    dt['¨'] = 'ê'
+    dt['ª'] = 'ã'
+    dt['º'] = 'õ'
 
 
     for(k,v) in dt.items():
