@@ -525,7 +525,7 @@ def updateDePara():
     dt = {}
     dt['GLYPH<144>'] = 'ê'
     for(k,v) in dt.items():
-        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '%GLYPH&%'"
+        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '%GLYPH%'"
         row = database.query(qr)
         for ln in row:
             id = ln[0]
@@ -535,7 +535,7 @@ def updateDePara():
             sys.exit()
 
             if name != name2:
-                qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
+                qru = f"update brapci_cited.cited_article set ca_text = '{name2}' where id_ca = {id}"
                 database.update(qru)
                 print(f"Updated URL for id {id}")
 
@@ -548,8 +548,7 @@ def updateHtml():
 
     for(url, new_url) in urls.items():
         print(f"Buscando {url}")
-        qr = f"select id_ca, ca_text from brapci_cited.cited_article where ca_text like '{url}%'"
-        print(qr)
+        qr = f"select id_n, n_name from brapci_rdf.rdf_literal where n_name like '{url}%'"
         row = database.query(qr)
         for ln in row:
             id = ln[0]
@@ -557,7 +556,7 @@ def updateHtml():
             name2 = name.replace(url, new_url)
 
             if name != name2:
-                qru = f"update brapci_cited.cited_article set ca_text = '{name2}' where id_ca = {id}"
+                qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
                 database.update(qru)
                 print(f"Updated URL for id {id}")
 
