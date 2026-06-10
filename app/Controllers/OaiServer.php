@@ -453,7 +453,8 @@ class OaiServer extends BaseController
 
         // Palavras-chave
         if (!empty($record['keywords'])) {
-            $keywords = explode(';', $record['keywords']);
+            $keywords = troca($record['keywords'],'.',';');
+            $keywords = explode(';', $keywords);
             foreach ($keywords as $keyword) {
                 $keyword = trim($keyword);
                 if (!empty($keyword)) {
