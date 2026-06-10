@@ -225,7 +225,7 @@ def process(rg):
                         try:
                             lg = mod_language.check(reg['@xml:lang'])
                         except Exception as e:
-                            print("String Source: "+reg)
+                            print("String Source (501): "+reg)
                         else:
                             sourceName = mod_issue.decode(reg['#text'],lg,source)
                             dc_source = sourceName
@@ -233,7 +233,7 @@ def process(rg):
                     try:
                         lg = mod_language.check(TIT['@xml:lang'])
                     except Exception as e:
-                        print("String Source: "+TIT)
+                        print("String Source (502): "+TIT)
                     else:
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
                         dc_source = sourceName
