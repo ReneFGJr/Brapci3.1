@@ -37,8 +37,11 @@ class OaiServer extends BaseController
      */
     public function index($path = '', $act = '', $subact = '', $id = '', $id2 = '', $id3 = '', $id4 = '', $id5 = '')
     {
-        header('Content-Type: application/xml; charset=UTF-8');
+
         $verb = get("verb");
+        if ($verb != '') {
+            header('Content-Type: application/xml; charset=UTF-8');
+        }
         if ($path == '')
             {
                 $this->oaiError('badArgument', 'Parâmetro obrigatório ausente: path');
@@ -75,8 +78,9 @@ class OaiServer extends BaseController
                 break;
 
             default:
-                $this->oaiError('badArgument', 'Verbo OAI-PMH inválido ou não suportado: ' . htmlspecialchars($verb));
-                break;
+                $sx = $this->cab();
+                $sx .= view('oai/server', ['path' => $path]);
+                return $sx;
         }
 
         echo $response;
