@@ -413,6 +413,7 @@ class OaiServer extends BaseController
         $xml .= '<record>' . "\n";
         $xml .= '<header>' . "\n";
         $xml .= '<identifier>' . htmlspecialchars($identifier) . '</identifier>' . "\n";
+        $xml .= '<dc:identifier>' . htmlspecialchars($identifier) . '</dc:identifier>' . "\n";
         $xml .= '<datestamp>' . date('Y-m-d\TH:i:s\Z', strtotime($record['created_at'])) . '</datestamp>' . "\n";
 
         if (!empty($record['s_cod'])) {
