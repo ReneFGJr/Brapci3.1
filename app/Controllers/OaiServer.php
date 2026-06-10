@@ -452,7 +452,7 @@ class OaiServer extends BaseController
             $xml .= '<dc:description>' . htmlspecialchars($record['abstract']) . '</dc:description>';
         }
 
-        $xml .= '<dc:source>' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>' . "\n";
+        $xml .= '<dc:source xml:lang="pt-BR">' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>' . "\n";
         $xml .= '<dc:publisher xml:lang="pt-BR">IKSO Brasil</dc:publisher>'."\n";
         $xml .= '<dc:date>2023-06-01</dc:date>'."\n";
         $xml .= '<dc:type>info:eu-repo/semantics/article</dc:type>'."\n";
