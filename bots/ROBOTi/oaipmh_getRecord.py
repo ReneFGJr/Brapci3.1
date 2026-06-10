@@ -334,11 +334,11 @@ def get(rg):
     print(Fore.YELLOW + "... Recuperando: " + Fore.GREEN + f"{LINK}" + Fore.WHITE)
 
     # Define o caminho do arquivo a ser salvo
-    file = mod_listidentify.directory(ID) + '.getRecord.xmlx'
+    file = mod_listidentify.directory(ID) + '.getRecord.xml'
     print(Fore.YELLOW + "... Arquivo: " + Fore.GREEN + f"{file}" + Fore.WHITE)
 
     # Verifica se o arquivo já existe
-    if os.path.exists(file):
+    if os.path.exists(file+'x'):
         print(Fore.CYAN + f"... Arquivo já existe: {file}, pulando download." + Fore.WHITE)
     else:
         # Faz o download do arquivo apenas se não existir
