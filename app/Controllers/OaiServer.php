@@ -79,7 +79,7 @@ class OaiServer extends BaseController
 
             default:
                 $sx = $this->cab();
-                $sx .= view('oai/server', ['path' => $path]);
+                $sx .= view('Oai/server', ['path' => $path]);
                 return $sx;
         }
 
