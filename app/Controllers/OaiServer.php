@@ -451,6 +451,8 @@ class OaiServer extends BaseController
             $xml .= '<dc:description>' . htmlspecialchars($record['abstract']) . '</dc:description>';
         }
 
+        $xml .= '<dc:source>' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>';
+
         // Palavras-chave
         if (!empty($record['keywords'])) {
             $keywords = troca($record['keywords'],'.',';');
