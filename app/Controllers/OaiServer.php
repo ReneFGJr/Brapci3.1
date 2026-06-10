@@ -41,8 +41,7 @@ class OaiServer extends BaseController
         $verb = get("verb");
         if ($path == '')
             {
-                echo "Nome do repositório não especificado. Use o parâmetro 'verb' para indicar a ação OAI-PMH desejada.";
-                exit;
+                $this->oaiError('badArgument', 'Parâmetro obrigatório ausente: path');
             } else {
                 // Checa se o path corresponde a um repositório configurado
                 if (!$this->validateRepository($path)) {
