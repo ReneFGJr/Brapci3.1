@@ -451,7 +451,12 @@ class OaiServer extends BaseController
             $xml .= '<dc:description>' . htmlspecialchars($record['abstract']) . '</dc:description>';
         }
 
-        $xml .= '<dc:source>' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>';
+        $xml .= '<dc:source>' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>' . "\n";
+        $xml .= '<dc:publisher xml:lang="pt-BR">IKSO Brasil</dc:publisher>'."\n";
+        $xml .= '<dc:date>2023-06-01</dc:date>'."\n";
+        $xml .= '<dc:type>info:eu-repo/semantics/article</dc:type>'."\n";
+        $xml .= '<dc:relation>https://cip.brapci.inf.br/oai-server/download/'.htmlspecialchars(sonumero($identifier)).'</dc:relation>'."\n";
+        $xml .= '<dc:rights xml:lang="en">https://creativecommons.org/licenses/by/4.0/</dc:rights>'."\n";
 
         // Palavras-chave
         if (!empty($record['keywords'])) {
