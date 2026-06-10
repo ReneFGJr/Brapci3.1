@@ -97,6 +97,7 @@ class Database extends Config
 
     public array $simori = [];
     public array $ojs_import = [];
+    public array $oai_server = [];
 
 
 
@@ -188,7 +189,8 @@ class Database extends Config
             'bookmarks' => 'bookmark',
             'brapci_labs' => 'brapci_labs',
             'simori' => 'simori',
-            'ojs_import' => 'ojs_import'
+            'ojs_import' => 'ojs_import',
+            'oai_server' => 'brapci_oai_server',
         ];
     /*
 

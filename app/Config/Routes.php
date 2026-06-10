@@ -65,6 +65,12 @@ $routes->get('/doi/(:any)', 'Doi::index/$1');
 $routes->get('/oai/(:any)', 'Oai::index/$1');
 $routes->get('/oai/', 'Oai::index');
 
+/*********** OAI-SERVER */
+$routes->get('/oai-server', 'OaiServer::index');
+$routes->get('/oai-server/(:any)', 'OaiServer::index/$1');
+$routes->post('/oai-server', 'OaiServer::index');
+$routes->post('/oai-server/(:any)', 'OaiServer::index/$1');
+
 /********** BOTS */
 $routes->get('/bots', 'Bots::index');
 $routes->get('/bots/(:any)', 'Bots::index/$1');
