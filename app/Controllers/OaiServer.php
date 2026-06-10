@@ -75,9 +75,8 @@ class OaiServer extends BaseController
                 break;
 
             default:
-                $sx = $this->cab();
-                $sx .= view('oai/server', ['path' => $path]);
-                return $sx;
+                $this->oaiError('badArgument', 'Verbo OAI-PMH inválido ou não suportado: ' . htmlspecialchars($verb));
+                break;
         }
 
         echo $response;
