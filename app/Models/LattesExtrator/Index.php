@@ -109,8 +109,6 @@ class Index extends Model
             }
 
             /***** Processar Dados */
-            echo $filename;
-            exit;
             $myXMLData = file_get_contents($filename);
             $xml = simplexml_load_string($myXMLData);
 
