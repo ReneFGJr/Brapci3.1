@@ -11,7 +11,7 @@ def extract_lattes(lattes_id):
     if len(lattes_id) != 16:
         return ""
 
-    url = f"https://brapci.inf.br/ws/api/?verb=lattes&q={lattes_id.strip()}"
+    url = f"https://brapci.inf.br/ws/api/?verb=lattes&token=02wpioiwj987h98we7h9we7hc&q={lattes_id.strip()}"
     log.append(f"Coletando Lattes {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>")
 
     if not file_is_updated(lattes_id):
