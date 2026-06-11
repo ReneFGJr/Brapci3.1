@@ -31,7 +31,7 @@ def process(rg):
     if os.path.isfile(path):
         if os.path.isfile(path):
             os.remove(path)
-        os.rename(path+'z',path)
+        os.rename(path,path)
 
     if not os.path.isfile(path):
         mod_listidentify.updateStatus(ID,1)
