@@ -101,8 +101,6 @@ class Index extends Model
             if ($harvesting) {
                 // Chama script.py com dois argumentos: 5 e 10
                 $CMD = "python3 /data/Brapci3.1/bots/TOOLS/mod_lattes.py ".$id;
-                echo $CMD;
-                exit;
                 $command = escapeshellcmd($CMD);
                 $output = shell_exec($command);
 
