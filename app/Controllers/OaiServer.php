@@ -449,7 +449,7 @@ class OaiServer extends BaseController
 
         // Resumo
         if (!empty($record['abstract'])) {
-            $xml .= '<dc:description>' . htmlspecialchars($record['abstract']) . '</dc:description>';
+            $xml .= '<dc:description  xml:lang="pt-BR">' . htmlspecialchars($record['abstract']) . '</dc:description>';
         }
 
         $xml .= '<dc:source xml:lang="pt-BR">' . htmlspecialchars('ISKO Brasil, 2023, v. 7') . '</dc:source>' . "\n";
@@ -466,7 +466,7 @@ class OaiServer extends BaseController
             foreach ($keywords as $keyword) {
                 $keyword = trim($keyword);
                 if (!empty($keyword)) {
-                    $xml .= '<dc:subject>' . htmlspecialchars($keyword) . '</dc:subject>';
+                    $xml .= '<dc:subject xml:lang="pt-BR">' . htmlspecialchars($keyword) . '</dc:subject>';
                 }
             }
         }
