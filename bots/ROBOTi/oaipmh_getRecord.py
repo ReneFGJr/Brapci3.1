@@ -28,11 +28,14 @@ def process(rg):
     ID = rg[0]
     print(Fore.YELLOW+f"... Processando ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(rg[0])+'.getRecord.xml'
+
+    # Para excluir e recoletar
     if os.path.isfile(path+'.clear'):
         if os.path.isfile(path):
             print(Fore.RED, "... Removendo", path, Fore.WHITE)
             os.remove(path)
 
+    #
     if not os.path.isfile(path):
         mod_listidentify.updateStatus(ID,1)
         print(Fore.RED,"... ERRO - File or found",path,Fore.WHITE)
