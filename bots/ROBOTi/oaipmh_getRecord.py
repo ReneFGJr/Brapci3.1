@@ -30,7 +30,7 @@ def process(rg):
     path = mod_listidentify.directory(rg[0])+'.getRecord.xml'
     if os.path.isfile(path):
         if os.path.isfile(path):
-            print(Fore.BROWN, "... Removendo", path, Fore.WHITE)
+            print(Fore.RED, "... Removendo", path, Fore.WHITE)
             os.remove(path)
 
     if not os.path.isfile(path):
