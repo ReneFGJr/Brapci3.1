@@ -12,7 +12,6 @@ def extract_lattes(lattes_id):
         return ""
 
     url = f"https://brapci.inf.br/ws/api/?verb=lattes&q={lattes_id.strip()}"
-    log.append(f"<hr>{url}<br>")
     log.append(f"Coletando Lattes {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>")
 
     if not file_is_updated(lattes_id):
