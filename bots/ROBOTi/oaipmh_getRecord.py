@@ -33,6 +33,8 @@ def process(rg):
             os.remove(path)
         os.rename(path,path+'x')
 
+    print("----",path)
+
     if not os.path.isfile(path):
         mod_listidentify.updateStatus(ID,1)
         print(Fore.RED,"... ERRO - File or found",path,Fore.WHITE)
