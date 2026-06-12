@@ -833,13 +833,14 @@ class BrapciWorksModel extends Model
                     continue;
                 }
 
-                pre($xml);
+                $author = $xml['name'] ?? '';
 
                 foreach ($xml['worksID'] as $ctd) {
                     $wid = (int)$ctd;
                     if ($wid > 0) {
                         $workIds[$wid] = true;
-                        $workAuthors[$wid][] = $row;
+                        $workAuthors[$author][] = $wid;
+                        pre($workAuthors, true);
                     }
                 }
             }
