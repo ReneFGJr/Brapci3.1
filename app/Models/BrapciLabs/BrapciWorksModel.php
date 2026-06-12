@@ -799,7 +799,6 @@ class BrapciWorksModel extends Model
             foreach ($authorityRows as $row) {
                 $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
             }
-            pre($authorityById);
 
             $missingIds = [];
             foreach ($authorIds as $authorId) {
@@ -823,6 +822,7 @@ class BrapciWorksModel extends Model
             }
 
             $workIds = [];
+            $workAuthors = [];
             foreach ($authorityById as $row) {
                 if (!isset($row['brapci_xml'])) {
                     continue;
@@ -833,10 +833,13 @@ class BrapciWorksModel extends Model
                     continue;
                 }
 
+                pre($xml);
+
                 foreach ($xml['worksID'] as $ctd) {
                     $wid = (int)$ctd;
                     if ($wid > 0) {
                         $workIds[$wid] = true;
+                        $workAuthors[$wid][] = $row;
                     }
                 }
             }
