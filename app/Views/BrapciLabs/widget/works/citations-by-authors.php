@@ -6,6 +6,11 @@
     <?php else: ?>
         <h5>Citações por Autor (<?= count($citationsByAuthors); ?> autores)</h5>
 
+        <!-- DEBUG -->
+        <pre style="background: #f0f0f0; padding: 10px; display: none;">
+<?php var_dump(array_slice($citationsByAuthors, 0, 1)); ?>
+        </pre>
+
         <style>
             .author-section {
                 margin-bottom: 2rem;
@@ -23,7 +28,7 @@
                 font-size: 1rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                display: flex;
+                display: flex !important;
                 justify-content: space-between;
                 align-items: center;
             }
@@ -39,17 +44,20 @@
                 justify-content: center;
                 font-size: 0.85rem;
                 font-weight: 600;
+                flex-shrink: 0;
             }
 
             .citations-table {
-                width: 100%;
+                width: 100% !important;
                 border-collapse: collapse;
                 background: white;
+                display: table;
             }
 
             .citations-table thead {
                 background-color: #f8f9fa;
                 border-bottom: 2px solid #dee2e6;
+                display: table-header-group;
             }
 
             .citations-table th {
@@ -59,14 +67,20 @@
                 color: #495057;
                 font-size: 0.9rem;
                 border-right: 1px solid #dee2e6;
+                display: table-cell;
             }
 
             .citations-table th:last-child {
                 border-right: none;
             }
 
+            .citations-table tbody {
+                display: table-row-group;
+            }
+
             .citations-table tbody tr {
                 border-bottom: 1px solid #dee2e6;
+                display: table-row;
             }
 
             .citations-table tbody tr:hover {
@@ -76,23 +90,36 @@
             .citations-table td {
                 padding: 0.75rem;
                 vertical-align: top;
+                display: table-cell;
+                border-right: 1px solid #dee2e6;
+            }
+
+            .citations-table td:last-child {
+                border-right: none;
             }
 
             .citation-id {
-                width: 10%;
+                width: 10% !important;
                 font-weight: 600;
                 color: #667eea;
                 font-size: 0.85rem;
-                border-right: 1px solid #dee2e6;
                 word-break: break-word;
+                min-width: 60px;
             }
 
             .citation-text {
-                width: 60%;
+                width: 60% !important;
                 line-height: 1.6;
                 color: #212529;
                 font-size: 0.95rem;
-                border-right: 1px solid #dee2e6;
+                min-width: 200px;
+            }
+
+            .citation-authors {
+                width: 30% !important;
+                font-size: 0.9rem;
+                color: #6c757d;
+                min-width: 120px;
             }
         </style>
 
@@ -129,7 +156,7 @@
                                     <td class="citation-text">
                                         <?= htmlspecialchars($citationText); ?>
                                     </td>
-                                    <td style="font-size: 0.9rem; color: #6c757d;">
+                                    <td class="citation-authors">
                                         <small><?= htmlspecialchars($citingAuthorsList ?: 'N/A'); ?></small>
                                     </td>
                                 </tr>
