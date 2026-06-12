@@ -781,6 +781,7 @@ class BrapciWorksModel extends Model
      * ========================================================== */
 
         $works = $ProjectAuthorModel->getWorksIDByProject((int)$id);
+        echo '<div class="content">'.count($works).' obras encontradas para o projeto</div>';
 
         if (empty($works)) {
             return [];
@@ -795,6 +796,7 @@ class BrapciWorksModel extends Model
                 $authorIds[$aid] = true;
             }
         }
+        echo '<div class="content">' . count($authorIds) . ' autores encontrados para o projeto</div>';
 
         $authorIds = array_keys($authorIds);
 
@@ -815,6 +817,7 @@ class BrapciWorksModel extends Model
         foreach ($authorityRows as $row) {
             $authorityById[(int)$row['brapci_id']] = $row;
         }
+        echo '<div class="content">' . count($authorityById) . ' autoridades encontradas para o projeto</div>';
 
         $missingIds = array_diff(
             $authorIds,
