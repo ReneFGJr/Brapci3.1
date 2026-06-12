@@ -6,11 +6,6 @@
     <?php else: ?>
         <h5>Citações por Autor (<?= count($citationsByAuthors); ?> autores)</h5>
 
-        <!-- DEBUG -->
-        <pre style="background: #f0f0f0; padding: 10px; display: none;">
-<?php var_dump(array_slice($citationsByAuthors, 0, 1)); ?>
-        </pre>
-
         <style>
             .author-section {
                 margin-bottom: 2rem;
@@ -142,10 +137,9 @@
                         <tbody>
                             <?php foreach ($authorCitations as $citation): ?>
                                 <?php
-                                    pre($citation);
-                                    $citationId = $citation[0] ?? '-';
-                                    $citingAuthors = $citation[1] ?? [];
-                                    $citationText = $citation[2] ?? 'Sem descrição';
+                                    $citationId = $citation['rdf'] ?? '-';
+                                    $citingAuthors = $citation['authors'] ?? [];
+                                    $citationText = $citation['text'] ?? 'Sem descrição';
                                     $citingAuthorsList = implode(', ', array_keys((array)$citingAuthors));
                                 ?>
                                 <tr>
