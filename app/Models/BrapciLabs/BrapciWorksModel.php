@@ -839,8 +839,7 @@ class BrapciWorksModel extends Model
                     $wid = (int)$ctd;
                     if ($wid > 0) {
                         $workIds[$wid] = true;
-                        $workAuthors[$author][] = $wid;
-                        pre($workAuthors, true);
+                        $workAuthors[$wid][$author] = 1;
                     }
                 }
             }
@@ -863,10 +862,12 @@ class BrapciWorksModel extends Model
                         if (!isset($list[$auth])) {
                             $list[$auth] = [];
                         }
-                        $list[$auth][] = [$row['ca_rdf'],$row['ca_text']];
+                        $author =
+                        $list[$auth][] = [$row['ca_rdf'], $workAuthors[$row['ca_rdf']] ?? [], $row['ca_text']];
                     }
                 }
             }
+            pre($list);
             return $list;
         }
 }
