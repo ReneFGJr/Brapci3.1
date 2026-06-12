@@ -41,12 +41,17 @@ class ProjectAuthorModel extends Model
 
     public function getWorksResearchByProject(int $id): array
     {
+        $author = [];
         $data = $this->select('*')
             ->where('project_id', $id)
             ->where('brapci_id > ', '0')
             ->findAll();
-        pre($data);
-        return $data;
+        foreach ($data as $key => $value) {
+
+            $author[$value['brapci_id']][] = $value;
+        }
+        pre($author);
+        return $author;
     }
 
     public function getWorksIDByProject(int $id): array
