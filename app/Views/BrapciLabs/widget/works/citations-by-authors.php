@@ -88,18 +88,19 @@
             }
 
             .citation-text {
-                width: 90%;
+                width: 60%;
                 line-height: 1.6;
                 color: #212529;
                 font-size: 0.95rem;
+                border-right: 1px solid #dee2e6;
             }
         </style>
 
-        <?php foreach ($citationsByAuthors as $author => $authorCitations): ?>
+        <?php foreach ($citationsByAuthors as $citedAuthor => $authorCitations): ?>
             <?php if (is_array($authorCitations) && !empty($authorCitations)): ?>
                 <div class="author-section">
                     <div class="author-header">
-                        <span><?= ucfirst(str_replace('_', ' ', htmlspecialchars($author))); ?></span>
+                        <span><?= htmlspecialchars(ucwords($citedAuthor)); ?></span>
                         <span class="citation-count"><?= count($authorCitations); ?></span>
                     </div>
 
@@ -107,19 +108,29 @@
                         <thead>
                             <tr>
                                 <th style="width: 10%;">ID</th>
-                                <th style="width: 90%;">Citação</th>
+                                <th style="width: 60%;">Citação</th>
+                                <th style="width: 30%;">Citado por</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($authorCitations as $citation): ?>
+                                <?php
+                                    $citationId = $citation[0] ?? '-';
+                                    $citingAuthors = $citation[1] ?? [];
+                                    $citationText = $citation[2] ?? 'Sem descrição';
+                                    $citingAuthorsList = implode(', ', array_keys((array)$citingAuthors));
+                                ?>
                                 <tr>
                                     <td class="citation-id">
                                         <nobr>
-                                            <?= htmlspecialchars($citation[0] ?? '-'); ?>
+                                            <?= htmlspecialchars($citationId); ?>
                                         </nobr>
                                     </td>
                                     <td class="citation-text">
-                                        <?= htmlspecialchars($citation[1] ?? 'Sem descrição'); ?>
+                                        <?= htmlspecialchars($citationText); ?>
+                                    </td>
+                                    <td style="font-size: 0.9rem; color: #6c757d;">
+                                        <small><?= htmlspecialchars($citingAuthorsList ?: 'N/A'); ?></small>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
