@@ -867,7 +867,6 @@ class BrapciWorksModel extends Model
                     }
                 }
             }
-            pre($list);
             return $list;
         }
 }
