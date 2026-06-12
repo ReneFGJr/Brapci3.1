@@ -817,7 +817,6 @@ class BrapciWorksModel extends Model
         foreach ($authorityRows as $row) {
             $authorityById[(int)$row['brapci_id']] = $row;
         }
-        echo '<div class="content">' . count($authorityById) . ' autoridades encontradas para o projeto</div>';
 
         $missingIds = array_diff(
             $authorIds,
@@ -880,6 +879,7 @@ class BrapciWorksModel extends Model
         if (empty($workIds)) {
             return [];
         }
+        echo '<div class="content">' . count($workIds) . ' Trabalhos encontradas para o projeto</div>';
 
         /* ==========================================================
      * CITAÇÕES
@@ -892,6 +892,7 @@ class BrapciWorksModel extends Model
         if (empty($citedRows)) {
             return [];
         }
+        echo '<div class="content">' . count($citedRows) . ' Citações encontradas para o projeto</div>';
 
         /* ==========================================================
      * NORMALIZA AUTORES
