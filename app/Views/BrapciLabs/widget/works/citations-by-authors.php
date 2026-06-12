@@ -142,6 +142,7 @@
                         <tbody>
                             <?php foreach ($authorCitations as $citation): ?>
                                 <?php
+                                    pre($citation);
                                     $citationId = $citation[0] ?? '-';
                                     $citingAuthors = $citation[1] ?? [];
                                     $citationText = $citation[2] ?? 'Sem descrição';
