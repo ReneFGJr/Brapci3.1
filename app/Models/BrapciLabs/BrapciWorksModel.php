@@ -780,7 +780,8 @@ class BrapciWorksModel extends Model
                 return [];
             }
 
-            pre($works);
+            $workAuthors = $ProjectAuthorModel->getWorksResearchByProject((int)$id);
+            pre($workAuthors);
 
             $authorIds = array_values(array_unique(array_map(static function ($work) {
                 return (int)($work['brapci_id'] ?? 0);
