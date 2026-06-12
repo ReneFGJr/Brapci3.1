@@ -736,137 +736,224 @@ class BrapciWorksModel extends Model
      */
     public function getCitationsByAuthors($id = null, $searchTerm = '')
     {
-            set_time_limit(300);
-            $auths =
-                [
-                    'Comte, A',
-                    'Nagel, E',
-                    'Saint-Simon',
-                    'Marx, K',
-                    'Durkheim, E',
-                    'Weber, M'
-                ];
+        set_time_limit(300);
 
-            $auths[] = 'Erich Fromm, E';
-            $auths[] = 'Neumann, F';
-            $auths[] = 'Pollock, F';
-            $auths[] = 'Marcuse, H';
-            $auths[] = 'Löwenthal, L';
-            $auths[] = 'Horkheimer, M';
+        if (!is_numeric($id) || (int)$id <= 0) {
+            return [];
+        }
 
-            $auths[] = 'Hahn, H';
-            $auths[] = 'Frank, P';
-            $auths[] = 'Neurath, O';
-            $auths[] = 'Schilick, M';
-            $auths[] = 'Reichenbach, H';
-            $auths[] = 'Carnap, R';
+        $auths = [
+            'Comte, A',
+            'Nagel, E',
+            'Saint-Simon',
+            'Marx, K',
+            'Durkheim, E',
+            'Weber, M',
 
-            $auths[] = 'Popper, K';
-            $auths[] = 'Lakatos, I';
-            $auths[] = 'Kuhn, T S';
-            $auths[] = 'Laudan, L';
-            $auths[] = 'Toulmin, S';
-            $auths[] = 'Bachelard, G';
+            'Erich Fromm, E',
+            'Neumann, F',
+            'Pollock, F',
+            'Marcuse, H',
+            'Löwenthal, L',
+            'Horkheimer, M',
 
-            $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
-            $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
-            $Cited = new \App\Models\AI\Cited\Index();
-            if (!is_numeric($id) || (int)$id <= 0) {
-                return [];
+            'Hahn, H',
+            'Frank, P',
+            'Neurath, O',
+            'Schlick, M',
+            'Reichenbach, H',
+            'Carnap, R',
+
+            'Popper, K',
+            'Lakatos, I',
+            'Kuhn, T S',
+            'Laudan, L',
+            'Toulmin, S',
+            'Bachelard, G'
+        ];
+
+        $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
+        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+        $Cited = new \App\Models\AI\Cited\Index();
+
+        /* ==========================================================
+     * AUTORES DO PROJETO
+     * ========================================================== */
+
+        $works = $ProjectAuthorModel->getWorksIDByProject((int)$id);
+
+        if (empty($works)) {
+            return [];
+        }
+
+        $authorIds = [];
+
+        foreach ($works as $work) {
+            $aid = (int)($work['brapci_id'] ?? 0);
+
+            if ($aid > 0) {
+                $authorIds[$aid] = true;
+            }
+        }
+
+        $authorIds = array_keys($authorIds);
+
+        if (empty($authorIds)) {
+            return [];
+        }
+
+        /* ==========================================================
+     * AUTORIDADES
+     * ========================================================== */
+
+        $authorityRows = $BrapciAuthorityModel
+            ->whereIn('brapci_id', $authorIds)
+            ->findAll();
+
+        $authorityById = [];
+
+        foreach ($authorityRows as $row) {
+            $authorityById[(int)$row['brapci_id']] = $row;
+        }
+
+        $missingIds = array_diff(
+            $authorIds,
+            array_keys($authorityById)
+        );
+
+        if (!empty($missingIds)) {
+
+            foreach ($missingIds as $missingId) {
+                $BrapciAuthorityModel->updateFromApi((int)$missingId);
             }
 
-            $works = $ProjectAuthorModel->getWorksIDByProject((int)$id);
-            if (empty($works)) {
-                return [];
-            }
-
-            $authorIds = array_values(array_unique(array_map(static function ($work) {
-                return (int)($work['brapci_id'] ?? 0);
-            }, $works)));
-            $authorIds = array_values(array_filter($authorIds, static function ($v) {
-                return $v > 0;
-            }));
-
-            if (empty($authorIds)) {
-                return [];
-            }
-
-            $authorityRows = $BrapciAuthorityModel
-                ->whereIn('brapci_id', $authorIds)
+            $newRows = $BrapciAuthorityModel
+                ->whereIn('brapci_id', $missingIds)
                 ->findAll();
 
-            $authorityById = [];
-            foreach ($authorityRows as $row) {
-                $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
+            foreach ($newRows as $row) {
+                $authorityById[(int)$row['brapci_id']] = $row;
             }
-
-            $missingIds = [];
-            foreach ($authorIds as $authorId) {
-                if (!isset($authorityById[$authorId])) {
-                    $missingIds[] = $authorId;
-                }
-            }
-
-            if (!empty($missingIds)) {
-                foreach ($missingIds as $missingId) {
-                    $BrapciAuthorityModel->updateFromApi((int)$missingId);
-                }
-
-                $newRows = $BrapciAuthorityModel
-                    ->whereIn('brapci_id', $missingIds)
-                    ->findAll();
-
-                foreach ($newRows as $row) {
-                    $authorityById[(int)($row['brapci_id'] ?? 0)] = $row;
-                }
-            }
-
-            $workIds = [];
-            $workAuthors = [];
-            foreach ($authorityById as $row) {
-                if (!isset($row['brapci_xml'])) {
-                    continue;
-                }
-
-                $xml = json_decode($row['brapci_xml'], true);
-                if (!is_array($xml) || !isset($xml['worksID']) || !is_array($xml['worksID'])) {
-                    continue;
-                }
-
-                $author = $xml['name'] ?? '';
-
-                foreach ($xml['worksID'] as $ctd) {
-                    $wid = (int)$ctd;
-                    if ($wid > 0) {
-                        $workIds[$wid] = true;
-                        $workAuthors[$wid][$author] = 1;
-                    }
-                }
-            }
-
-            if (empty($workIds)) {
-                return [];
-            }
-
-            $candidateIds = array_keys($workIds);
-            $citedRows = $Cited->getCitedByID($candidateIds);
-            $citedCount = [];
-
-            $list = [];
-            foreach($auths as $auth) {
-                $auth = strtolower(ascii($auth));
-
-                foreach ($citedRows as $row) {
-                    $line  = strtolower(ascii($row['ca_text'] ?? ''));
-                    if (str_contains($line, $auth)) {
-                        if (!isset($list[$auth])) {
-                            $list[$auth] = [];
-                        }
-                        $author =
-                        $list[$auth][] = [$row['ca_rdf'], $workAuthors[$row['ca_rdf']] ?? [], $row['ca_text']];
-                    }
-                }
-            }
-            return $list;
         }
+
+        /* ==========================================================
+     * OBRAS DOS AUTORES
+     * ========================================================== */
+
+        $workIds = [];
+        $workAuthors = [];
+
+        foreach ($authorityById as $row) {
+
+            if (empty($row['brapci_xml'])) {
+                continue;
+            }
+
+            $xml = json_decode($row['brapci_xml'], true);
+
+            if (
+                !is_array($xml)
+                || empty($xml['worksID'])
+                || !is_array($xml['worksID'])
+            ) {
+                continue;
+            }
+
+            $author = $xml['name'] ?? '';
+
+            foreach ($xml['worksID'] as $wid) {
+
+                $wid = (int)$wid;
+
+                if ($wid <= 0) {
+                    continue;
+                }
+
+                $workIds[$wid] = true;
+                $workAuthors[$wid][$author] = 1;
+            }
+        }
+
+        if (empty($workIds)) {
+            return [];
+        }
+
+        /* ==========================================================
+     * CITAÇÕES
+     * ========================================================== */
+
+        $candidateIds = array_keys($workIds);
+
+        $citedRows = $Cited->getCitedByID($candidateIds);
+
+        if (empty($citedRows)) {
+            return [];
+        }
+
+        /* ==========================================================
+     * NORMALIZA AUTORES
+     * ========================================================== */
+
+        $searchAuthors = [];
+
+        foreach ($auths as $auth) {
+
+            $normalized = strtolower(ascii($auth));
+
+            $searchAuthors[$normalized] = $auth;
+        }
+
+        $normalizedSearch = '';
+
+        if ($searchTerm != '') {
+            $normalizedSearch = strtolower(ascii($searchTerm));
+        }
+
+        /* ==========================================================
+     * PROCESSAMENTO
+     * ========================================================== */
+
+        $list = [];
+
+        foreach ($citedRows as $row) {
+
+            $text = $row['ca_text'] ?? '';
+
+            if ($text == '') {
+                continue;
+            }
+
+            $line = strtolower(ascii($text));
+
+            if (
+                $normalizedSearch != ''
+                && !str_contains($line, $normalizedSearch)
+            ) {
+                continue;
+            }
+
+            foreach ($searchAuthors as $search => $label) {
+
+                if (!str_contains($line, $search)) {
+                    continue;
+                }
+
+                $list[$label][] = [
+                    'rdf'     => $row['ca_rdf'],
+                    'authors' => $workAuthors[$row['ca_rdf']] ?? [],
+                    'text'    => $text
+                ];
+            }
+        }
+
+        /* ==========================================================
+     * ORDENA
+     * ========================================================== */
+
+        uasort($list, function ($a, $b) {
+            return count($b) <=> count($a);
+        });
+
+        return $list;
+    }
 }
