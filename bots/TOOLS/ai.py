@@ -52,7 +52,10 @@ def saveFileD(fileN,arquivo):
 print("TOOLS AI",version())
 print("===============================================")
 dir = '/data/Brapci3.1/bots/TOOLS'
+print (" - Checando diretorio:",dir)
 os.chdir(dir)
+
+print (" - Checando argumentos")
 
 if (len(sys.argv) > 1):
     parm = sys.argv
