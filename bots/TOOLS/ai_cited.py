@@ -4,6 +4,7 @@ import sys
 import database
 import mod_docling
 from pathlib import Path
+import unicodedata
 
 def isBlocked(id):
     qr = f"select count(*) from brapci_cited.cited_article where ca_rdf = {id} and ca_blocked = 1"
@@ -186,21 +187,35 @@ def preparar_referencias(texto):
             ref.append(ln)
     return ref
 
+def limpar_texto(texto):
+    # caixa baixa
+    texto = texto.lower()
+
+    # remover acentos
+    texto = unicodedata.normalize('NFD', texto)
+    texto = ''.join(c for c in texto if unicodedata.category(c) != 'Mn')
+
+    # manter apenas letras e espaços
+    texto = re.sub(r'[^a-z\s]', ' ', texto)
+
+    # remover espaços duplicados
+    texto = re.sub(r'\s+', ' ', texto).strip()
+
+    return texto
+
+
 def locale_referencias_type(text):
     tp = [
-        'REFERÊNCIAS', 'Referências', '## Referências', '## REFERÊNCIAS',
-        'REFERENCIAS', 'Referencias', 'Referências bibliográficas',
-        '## REFERENCIAS', '## Referencias', '## Referências bibliográficas',
-        '## Referências Bibliográficas', '## REFERÊNCIAS BIBLIOGRÁFICAS',
-        'Referencias bibliograficas', 'REFERENCIAS BIBLIOGRAFICAS',
-        '## References', '## REFERENCES', '## References', '## REFER˚NCIAS',
-        '## BIBLIOGRAFIA', '## BIBLIOGRAFIA', '## Bibliografia',
-        '## BIBLIOGRAPHY', '## Bibliography', '## REFERENCIAS BIBLIOGRÁFICAS',
-        '## BIBLIOGRAFÍA','## Bibliografía','ReferGLYPH<144>ncias',
-        'REFERGLYPH<144>NCIAS','## ReferGLYPH&lt;144&gt;ncias',
-        '## REFER~NCIAS','## REFER˚NCIASBIBLIOGR`FICAS',
-        '## Obras consultadas','## Obras Consultadas','## OBRAS CONSULTADAS',
-        '## Bibliografia citada','## R E F E R Ê N C I A S', '## R E F E R E N C I A S', '## R E F E R E N C I A S BIBLIOGRÁFICAS',
+        'referencias',
+        'referencias bibliograficas',
+        'references',
+        'bibliografia',
+        'bibliography',
+        'bibliografia citada',
+        'obras consultadas',
+        'referencias bibliograficas',
+        'r e f e r e n c i a s',
+        'r e f e r e n c i a s bibliograficas'
     ]
 
     # Divide o texto em linhas
@@ -211,33 +226,8 @@ def locale_referencias_type(text):
     # Percorre cada linha
     for linha in linhas:
         linha_limpa = linha.strip()
-        linha_limpa = linha_limpa.replace('1. ',' ')
-        linha_limpa = linha_limpa.replace('2. ', ' ')
-        linha_limpa = linha_limpa.replace('3. ', ' ')
-        linha_limpa = linha_limpa.replace('4. ', ' ')
-        linha_limpa = linha_limpa.replace('5. ', ' ')
-        linha_limpa = linha_limpa.replace('6. ', ' ')
-        linha_limpa = linha_limpa.replace('7. ', ' ')
-        linha_limpa = linha_limpa.replace('8. ', ' ')
-        linha_limpa = linha_limpa.replace('9. ', ' ')
-        linha_limpa = linha_limpa.replace('1 ', ' ')
-        linha_limpa = linha_limpa.replace('2 ', ' ')
-        linha_limpa = linha_limpa.replace('3 ', ' ')
-        linha_limpa = linha_limpa.replace('4 ', ' ')
-        linha_limpa = linha_limpa.replace('5 ', ' ')
-        linha_limpa = linha_limpa.replace('6 ', ' ')
-        linha_limpa = linha_limpa.replace('7 ', ' ')
-        linha_limpa = linha_limpa.replace('8 ', ' ')
-        linha_limpa = linha_limpa.replace('9 ', ' ')
-        linha_limpa = linha_limpa.replace(':', '')
-        linha_limpa = linha_limpa.replace(' 1', '')
-        linha_limpa = linha_limpa.replace(' 2', '')
-        linha_limpa = linha_limpa.replace(' 3', '')
-        linha_limpa = linha_limpa.replace(' 4', '')
-        linha_limpa = linha_limpa.replace(' 5', '')
-
+        linha_limpa = limpar_texto(linha_limpa)
         linha_limpa = linha_limpa.replace('  ', ' ')
-        linha_limpa = linha_limpa.replace('.', '')
 
         ln += 1
 
