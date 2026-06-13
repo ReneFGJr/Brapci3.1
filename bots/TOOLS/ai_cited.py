@@ -212,6 +212,7 @@ def locale_referencias_type(text):
         'bibliografia',
         'bibliography',
         'bibliografia citada',
+        'literature',
         'obras consultadas',
         'referencias bibliograficas',
         'r e f e r e n c i a s',
