@@ -182,6 +182,7 @@ def preparar_referencias(texto):
     for i, ln in enumerate(lns):
         if (ln != ''):
             ln = ln.replace('  ',' ')
+            ln = ln.replace('.','')
             ref.append(ln)
     return ref
 
@@ -236,6 +237,7 @@ def locale_referencias_type(text):
         linha_limpa = linha_limpa.replace(' 5', '')
 
         linha_limpa = linha_limpa.replace('  ', ' ')
+        linha_limpa = linha_limpa.replace('.', '')
 
         ln += 1
 

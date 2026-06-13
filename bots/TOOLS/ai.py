@@ -30,7 +30,7 @@ def toDO():
     print("Arquivo gerado:",nome_arquivo)
 
 def version():
-    return "v0.24.10.27"
+    return "v0.26.06.13"
 
 def extrair_emails(texto):
     # Expressão regular para detectar e-mails
@@ -74,7 +74,7 @@ else:
 dirT = '/data/Brapci3.1/public/'
 if (id != 0):
     file = dirT + sys_io.getNameFile(id)
-    file = dirT + sys_io.getNameFile(id)
+    print("Processando ID #1",id)
 
     # Valida se o arquivo foi encontrado
     if not file or file == dirT or not os.path.isfile(file):
@@ -103,9 +103,10 @@ else:
     fileO = 'x'
 
 if ((act == 'All') or (act == 'all')):
-    print("Extrair Trabalhos")
-
+    print("Extrair Trabalhos v2")
     print("=fileO=>",fileO)
+    # Checar existencia do aquivo Markdown
+
 
     print("<h4>Gerar Markdown</h4>")
     print(" Processoando ID",id)
