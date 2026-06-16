@@ -157,6 +157,7 @@ def main(ID):
 
     if not arquivo_md.exists():
         print(f"Arquivo não encontrado: {arquivo_md}")
+        mod_docling.save_file_docling(ID, str(source_path))
         return
 
     print(f"Lendo: {arquivo_md}")
