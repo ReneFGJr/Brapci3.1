@@ -6,7 +6,7 @@ import re, sys
 import os
 import requests
 import mod_docling
-import mod_abstract
+import ai_abstract
 from pathlib import Path
 
 # Arquivos
@@ -167,7 +167,7 @@ def main(ID):
     abstract = resultado.get("resumo", "")
     palavras_chave = resultado.get("palavras_chave", [])
     if (abstract):
-        mod_abstract.saveAbstract(ID, abstract)
+        ai_abstract.saveAbstract(ID, abstract)
 
     salvar_json(resultado, ARQUIVO_JSON)
 
