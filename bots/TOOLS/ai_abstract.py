@@ -19,7 +19,7 @@ def extract_abstract(text,id):
     if (tam > 100) and (tam < 1500):
         saveAbstract(id,Resumo)
         return Resumo
-    sys.exit()
+    return ""
 
 def saveAbstract(id,abstract):
     print("=== Analisando Resumo")
