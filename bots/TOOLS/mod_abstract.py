@@ -152,7 +152,8 @@ def salvar_json(dados, arquivo_json):
 def main(ID):
 
     ### Arquivo
-    arquivo_md = mod_docling.build_repository_filename(ID)
+    source_path = Path(f"work_{str(ID).zfill(8)}#00000.pdf")
+    arquivo_md = mod_docling.build_repository_filename(ID, source_path)
 
     if not arquivo_md.exists():
         print(f"Arquivo não encontrado: {arquivo_md}")
