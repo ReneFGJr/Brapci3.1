@@ -213,6 +213,8 @@ elif (act == 'keywordsOllama'):
 
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
+    print(lists)
+    print("==========================")
     if (not lists):
         mod_abstract.main(id)
 
