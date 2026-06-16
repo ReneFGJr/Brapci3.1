@@ -56,7 +56,7 @@ Você é um pesquisador especializado em Ciência da Informação.
 
 Analise o texto abaixo e execute as tarefas:
 
-1. Produza um resumo científico entre 250 e 350 palavras.
+1. Produza um resumo científico entre 350 e 550 palavras.
 2. Identifique exatamente 5 palavras-chave.
 3. Utilize apenas informações presentes no texto.
 4. Não invente informações.
