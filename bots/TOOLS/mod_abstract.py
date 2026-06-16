@@ -161,8 +161,6 @@ def main(ID):
         return
 
     print(f"Lendo: {arquivo_md}")
-    sys.exit(0)
-
     resultado = processar_markdown(str(arquivo_md))
 
     salvar_json(resultado, ARQUIVO_JSON)
