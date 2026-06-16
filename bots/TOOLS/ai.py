@@ -214,7 +214,7 @@ elif (act == 'keywordsOllama'):
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
     if (lists==""):
-        print("==========================ABSTRACT==========================")
+        print("=Usando OA model=")
         mod_abstract.main(id)
 
 ########## Small World
