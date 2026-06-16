@@ -155,14 +155,19 @@ def main(ID):
     ### Arquivo
     source_path = Path(f"work_{str(ID).zfill(8)}#00000.pdf")
     arquivo_md = mod_docling.build_repository_filename(ID, source_path)
+    arquivo_js = arquivo_md.with_suffix(".json")
+    if (not arquivo_js.exists()):
+        if not arquivo_md.exists():
+            print(f"Arquivo não encontrado: {arquivo_md}")
+            mod_docling.save_file_docling(ID, str(source_path))
+            return
 
-    if not arquivo_md.exists():
-        print(f"Arquivo não encontrado: {arquivo_md}")
-        mod_docling.save_file_docling(ID, str(source_path))
-        return
-
-    print(f"Lendo: {arquivo_md}")
-    resultado = processar_markdown(str(arquivo_md))
+        print(f"Lendo: {arquivo_md}")
+        resultado = processar_markdown(str(arquivo_md))
+    else:
+        print(f"JSON já existe: {arquivo_js}")
+        with open(arquivo_js, "r", encoding="utf-8") as f:
+            resultado = json.load(f)
 
     abstract = resultado.get("resumo", "")
     palavras_chave = resultado.get("palavras_chave", [])
