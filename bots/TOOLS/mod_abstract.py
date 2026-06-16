@@ -163,6 +163,12 @@ def main(ID):
     print(f"Lendo: {arquivo_md}")
     resultado = processar_markdown(str(arquivo_md))
 
+    abstract = resultado.get("resumo", "")
+    palavras_chave = resultado.get("palavras_chave", [])
+    print("Resumo extraído:", abstract[:200], "...")
+    sys.exit(0)
+    mod_abstract.saveAbstract(ID, abstract)
+
     salvar_json(resultado, ARQUIVO_JSON)
 
     print(f"JSON salvo em:")
