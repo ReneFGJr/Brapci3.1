@@ -17,6 +17,7 @@ import mod_convert_repository
 import database
 
 import mod_small_world
+import mod_abstract
 
 def toDO():
     qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = '')"
@@ -212,6 +213,8 @@ elif (act == 'keywordsOllama'):
 
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
+    if (not lists):
+        mod_abstract.main(id)
 
 ########## Small World
 elif (act == 'smallWorld'):
