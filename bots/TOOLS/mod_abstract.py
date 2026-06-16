@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import json
-import re
+import re, sys
+import os
 import requests
+import mod_docling
 from pathlib import Path
 
 # Arquivos
@@ -126,6 +128,9 @@ def processar_markdown(arquivo_md):
 
     resultado_llm = resumir_com_ollama(texto)
 
+    ### Arquivo
+    mod_docling.build_repository_filename(id)
+
     resultado = {
         "arquivo": arquivo_md,
         "modelo": OLLAMA_MODEL,
@@ -170,4 +175,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 3:
+        print("Uso:\n"
+              "python mod_abstract.py <doc_id>")
+        sys.exit(1)
+    try:
+        print(sys.argv[1])
+        sys.exit(0)
+        result = main(sys.argv[1])
+        pdf_file =
+        doc_id = int(sys.argv[2])
+    except ValueError:
+        print("Erro: doc_id precisa ser numérico")
+        sys.exit(1)
