@@ -175,7 +175,7 @@ def main():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print("Uso:\n"
               "python mod_abstract.py <doc_id>")
         sys.exit(1)
