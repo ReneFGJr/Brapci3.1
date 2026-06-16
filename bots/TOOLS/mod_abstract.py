@@ -165,6 +165,7 @@ def main(ID):
 
         print(f"Lendo: {arquivo_md}")
         resultado = processar_markdown(str(arquivo_md))
+
     else:
         print(f"JSON já existe: {arquivo_js}")
         with open(arquivo_js, "r", encoding="utf-8") as f:

@@ -77,6 +77,7 @@ else:
 
 dirT = '/data/Brapci3.1/public/'
 if (id != 0):
+    idO = id
     file = dirT + sys_io.getNameFile(id)
     print("Processando ID #1",id)
 
@@ -215,7 +216,7 @@ elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
     if (lists==""):
         print("=Usando OA model=")
-        mod_abstract.main(id)
+        mod_abstract.main(idO)
 
 ########## Small World
 elif (act == 'smallWorld'):
