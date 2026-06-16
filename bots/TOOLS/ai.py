@@ -212,11 +212,9 @@ elif (act == 'keywordsOllama'):
     #saveFileD(fileN, lists)
 
 elif (act == 'abstract'):
-    print("==========================ABSTRACT==========================")
     lists = ai_abstract.extract_abstract(txt,id)
-    print(lists)
-    print("==========================ABSTRACT==========================")
-    if (not lists):
+    if (lists==""):
+        print("==========================ABSTRACT==========================")
         mod_abstract.main(id)
 
 ########## Small World
