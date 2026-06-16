@@ -183,7 +183,6 @@ if __name__ == "__main__":
         print(sys.argv[1])
         sys.exit(0)
         result = main(sys.argv[1])
-        pdf_file =
         doc_id = int(sys.argv[2])
     except ValueError:
         print("Erro: doc_id precisa ser numérico")
