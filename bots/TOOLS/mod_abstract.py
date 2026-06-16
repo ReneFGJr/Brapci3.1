@@ -3,84 +3,170 @@
 
 import json
 import re
-from collections import Counter
+import requests
+from pathlib import Path
 
+# Arquivos
 ARQUIVO_MD = "/data/Brapci3.1/public/_repository/00/13/50/06/work_00135006#00000.md"
 ARQUIVO_JSON = "/data/Brapci3.1/public/_repository/00/13/50/06/work_00135006#00000.json"
 
+# Configuração do Ollama
+OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_MODEL = "llama3.2:3b"
+
 
 def limpar_markdown(texto):
-    """Remove marcações básicas de Markdown."""
+    """
+    Remove marcações Markdown e reduz ruído para o LLM.
+    """
+
+    # Blocos de código
     texto = re.sub(r'```.*?```', ' ', texto, flags=re.S)
-    texto = re.sub(r'`.*?`', ' ', texto)
+
+    # Código inline
+    texto = re.sub(r'`[^`]*`', ' ', texto)
+
+    # Imagens
     texto = re.sub(r'!\[.*?\]\(.*?\)', ' ', texto)
+
+    # Links
     texto = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', texto)
-    texto = re.sub(r'[#>*_\-\|]', ' ', texto)
+
+    # Cabeçalhos
+    texto = re.sub(r'^#+\s*', '', texto, flags=re.M)
+
+    # Tabelas e símbolos markdown
+    texto = re.sub(r'[\|\*\_\~\>]', ' ', texto)
+
+    # Espaços duplicados
     texto = re.sub(r'\s+', ' ', texto)
+
     return texto.strip()
 
 
-def extrair_palavras_chave(texto, n=5):
-    stopwords = {
-        'a', 'o', 'e', 'de', 'da', 'do', 'das', 'dos', 'em', 'para',
-        'por', 'com', 'um', 'uma', 'os', 'as', 'na', 'no', 'nas', 'nos',
-        'que', 'se', 'ao', 'à', 'às', 'ou', 'como', 'mais', 'menos',
-        'são', 'foi', 'ser', 'sua', 'seu', 'suas', 'seus', 'entre',
-        'sobre', 'também', 'este', 'esta', 'esses', 'essas', 'artigo',
-        'pesquisa', 'estudo', 'trabalho'
+def resumir_com_ollama(texto):
+    """
+    Envia o texto ao Ollama e solicita um JSON contendo:
+    - resumo (~300 palavras)
+    - 5 palavras-chave
+    """
+
+    prompt = f"""
+Você é um pesquisador especializado em Ciência da Informação.
+
+Analise o texto abaixo e execute as tarefas:
+
+1. Produza um resumo científico entre 250 e 350 palavras.
+2. Identifique exatamente 5 palavras-chave.
+3. Utilize apenas informações presentes no texto.
+4. Não invente informações.
+5. Responda EXCLUSIVAMENTE em JSON válido.
+
+Formato obrigatório:
+
+{{
+    "resumo": "texto do resumo",
+    "palavras_chave": [
+        "palavra1",
+        "palavra2",
+        "palavra3",
+        "palavra4",
+        "palavra5"
+    ]
+}}
+
+Texto:
+
+{texto[:30000]}
+"""
+
+    payload = {
+        "model": OLLAMA_MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "format": "json",
+        "options": {
+            "temperature": 0,
+            "top_p": 0.1,
+            "num_ctx": 8192
+        }
     }
 
-    palavras = re.findall(r'\b[\wÀ-ÿ]{4,}\b', texto.lower())
+    response = requests.post(
+        OLLAMA_URL,
+        json=payload,
+        timeout=600
+    )
 
-    palavras = [
-        p for p in palavras
-        if p not in stopwords and not p.isdigit()
-    ]
+    response.raise_for_status()
 
-    frequencia = Counter(palavras)
+    resposta = response.json()["response"].strip()
 
-    return [p for p, _ in frequencia.most_common(n)]
+    try:
+        return json.loads(resposta)
+
+    except Exception as e:
+        print(f"Erro ao interpretar JSON do Ollama: {e}")
+
+        return {
+            "resumo": resposta,
+            "palavras_chave": []
+        }
 
 
-def resumir_texto(texto, limite_palavras=300):
-    frases = re.split(r'(?<=[.!?])\s+', texto)
+def processar_markdown(arquivo_md):
+    """
+    Lê o markdown, gera resumo e palavras-chave.
+    """
 
-    resumo = []
-    total = 0
+    with open(arquivo_md, "r", encoding="utf-8") as f:
+        markdown = f.read()
 
-    for frase in frases:
-        qtd = len(frase.split())
+    texto = limpar_markdown(markdown)
 
-        if total + qtd > limite_palavras:
-            break
+    resultado_llm = resumir_com_ollama(texto)
 
-        resumo.append(frase)
-        total += qtd
+    resultado = {
+        "arquivo": arquivo_md,
+        "modelo": OLLAMA_MODEL,
+        "resumo": resultado_llm.get("resumo", ""),
+        "palavras_chave": resultado_llm.get("palavras_chave", [])
+    }
 
-    return " ".join(resumo)
+    return resultado
+
+
+def salvar_json(dados, arquivo_json):
+
+    with open(arquivo_json, "w", encoding="utf-8") as f:
+        json.dump(
+            dados,
+            f,
+            ensure_ascii=False,
+            indent=4
+        )
 
 
 def main():
 
-    with open(ARQUIVO_MD, "r", encoding="utf-8") as f:
-        md = f.read()
+    arquivo_md = Path(ARQUIVO_MD)
 
-    texto = limpar_markdown(md)
+    if not arquivo_md.exists():
+        print(f"Arquivo não encontrado: {arquivo_md}")
+        return
 
-    resumo = resumir_texto(texto, 300)
-    palavras_chave = extrair_palavras_chave(texto, 5)
+    print(f"Lendo: {arquivo_md}")
 
-    resultado = {
-        "arquivo": ARQUIVO_MD,
-        "resumo": resumo,
-        "palavras_chave": palavras_chave,
-        "total_palavras_resumo": len(resumo.split())
-    }
+    resultado = processar_markdown(str(arquivo_md))
 
-    with open(ARQUIVO_JSON, "w", encoding="utf-8") as f:
-        json.dump(resultado, f, ensure_ascii=False, indent=4)
+    salvar_json(resultado, ARQUIVO_JSON)
 
-    print(f"JSON gerado: {ARQUIVO_JSON}")
+    print(f"JSON salvo em:")
+    print(ARQUIVO_JSON)
+
+    print("\nPalavras-chave:")
+    for p in resultado["palavras_chave"]:
+        print(f" - {p}")
 
 
 if __name__ == "__main__":
