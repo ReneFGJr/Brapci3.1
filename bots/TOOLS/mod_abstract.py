@@ -156,6 +156,7 @@ def main(ID):
     source_path = Path(f"work_{str(ID).zfill(8)}#00000.pdf")
     arquivo_md = mod_docling.build_repository_filename(ID, source_path)
     arquivo_js = arquivo_md.with_suffix(".json")
+    print("=== arquivo_js:", arquivo_js)
     if (not arquivo_js.exists()):
         if not arquivo_md.exists():
             print(f"Arquivo não encontrado: {arquivo_md}")
