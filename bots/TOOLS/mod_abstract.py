@@ -9,10 +9,6 @@ import mod_docling
 import ai_abstract
 from pathlib import Path
 
-# Arquivos
-ARQUIVO_MD = "/data/Brapci3.1/public/_repository/00/13/50/06/work_00135006#00000.md"
-ARQUIVO_JSON = "/data/Brapci3.1/public/_repository/00/13/50/06/work_00135006#00000.json"
-
 # Configuração do Ollama
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "llama3.2:3b"
@@ -176,10 +172,10 @@ def main(ID):
     if (abstract):
         ai_abstract.saveAbstract(ID, abstract)
 
-    salvar_json(resultado, ARQUIVO_JSON)
+    salvar_json(resultado, arquivo_js)
 
     print(f"JSON salvo em:")
-    print(ARQUIVO_JSON)
+    print(arquivo_js)
 
     print("\nPalavras-chave:")
     for p in resultado["palavras_chave"]:
