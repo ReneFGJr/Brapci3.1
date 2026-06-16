@@ -128,9 +128,6 @@ def processar_markdown(arquivo_md):
 
     resultado_llm = resumir_com_ollama(texto)
 
-    ### Arquivo
-    mod_docling.build_repository_filename(id)
-
     resultado = {
         "arquivo": arquivo_md,
         "modelo": OLLAMA_MODEL,
@@ -152,15 +149,17 @@ def salvar_json(dados, arquivo_json):
         )
 
 
-def main():
+def main(ID):
 
-    arquivo_md = Path(ARQUIVO_MD)
+    ### Arquivo
+    arquivo_md = mod_docling.build_repository_filename(ID)
 
     if not arquivo_md.exists():
         print(f"Arquivo não encontrado: {arquivo_md}")
         return
 
     print(f"Lendo: {arquivo_md}")
+    sys.exit(0)
 
     resultado = processar_markdown(str(arquivo_md))
 
@@ -181,9 +180,7 @@ if __name__ == "__main__":
         sys.exit(1)
     try:
         print(sys.argv[1])
-        sys.exit(0)
         result = main(sys.argv[1])
-        doc_id = int(sys.argv[2])
     except ValueError:
         print("Erro: doc_id precisa ser numérico")
         sys.exit(1)
