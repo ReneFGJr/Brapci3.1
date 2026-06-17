@@ -59,7 +59,7 @@ def indexKeyWords(keys,idR):
     urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
     tkey = 0
     stop = 0
-    size = 55
+    size = 80
     for k in keys:
             if (len(k) >= size):
                 print("Termo muito longo: ",Fore.RED,len(k),k,Fore.WHITE)
