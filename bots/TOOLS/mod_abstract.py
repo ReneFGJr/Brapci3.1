@@ -171,7 +171,7 @@ def main(ID):
     palavras_chave = resultado.get("palavras_chave", [])
     print("Keywords:", palavras_chave)
     ai_keywords.indexKeyWords(palavras_chave, ID)
-    sys.exit(0)
+
     if (abstract):
         ai_abstract.saveAbstract(ID, abstract)
 
