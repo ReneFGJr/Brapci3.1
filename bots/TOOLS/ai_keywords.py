@@ -55,7 +55,7 @@ def extract_keywords(text,id):
     else:
         return False
 
-def indexKeyWords(keys):
+def indexKeyWords(keys,idR):
     urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
     tkey = 0
     stop = 0
@@ -78,7 +78,7 @@ def indexKeyWords(keys):
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
                     if isinstance(rst, dict) and 'id' in rst:
                         idr = rst['id']
-                        url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSubject&resource={idr}'
+                        url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={idR}&prop=hasSubject&resource={idr}'
                         rst = mod_api.api_post(url, data)
                         print(rst)
                     else:
