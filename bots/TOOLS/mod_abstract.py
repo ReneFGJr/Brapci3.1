@@ -173,6 +173,7 @@ def main(ID):
     ai_keywords.indexKeyWords(palavras_chave, ID)
 
     if (abstract):
+        abstract = abstract.replace("'", "")
         ai_abstract.saveAbstract(ID, abstract)
 
 
