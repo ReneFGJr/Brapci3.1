@@ -341,7 +341,7 @@ def get(rg):
     print(Fore.YELLOW + "... Arquivo: " + Fore.GREEN + f"{file}" + Fore.WHITE)
 
     # Verifica se o arquivo já existe
-    if os.path.exists(file+'x'):
+    if os.path.exists(file):
         print(Fore.CYAN + f"... Arquivo já existe: {file}, pulando download." + Fore.WHITE)
     else:
         # Faz o download do arquivo apenas se não existir
