@@ -161,7 +161,7 @@ def main(ID):
 
         print(f"Lendo: {arquivo_md}")
         resultado = processar_markdown(str(arquivo_md))
-
+        salvar_json(resultado, arquivo_js)
     else:
         print(f"JSON já existe: {arquivo_js}")
         with open(arquivo_js, "r", encoding="utf-8") as f:
@@ -169,13 +169,11 @@ def main(ID):
 
     abstract = resultado.get("resumo", "")
     palavras_chave = resultado.get("palavras_chave", [])
+    print("Keywords:", palavras_chave)
+    sys.exit(0)
     if (abstract):
         ai_abstract.saveAbstract(ID, abstract)
 
-    salvar_json(resultado, arquivo_js)
-
-    print(f"JSON salvo em:")
-    print(arquivo_js)
 
     print("\nPalavras-chave:")
     for p in resultado["palavras_chave"]:
