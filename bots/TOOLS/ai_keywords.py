@@ -80,7 +80,6 @@ def indexKeyWords(keys,idR):
                         idr = rst['id']
                         url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={idR}&prop=hasSubject&resource={idr}'
                         rst = mod_api.api_post(url, data)
-                        print(rst)
                     else:
                         print(f"Resposta inesperada da API para '{k}'")
                         print(f"==>{rst}")
