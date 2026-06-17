@@ -217,6 +217,9 @@ elif (act == 'abstract'):
     if (lists==""):
         print("=Usando OA model=")
         mod_abstract.main(idO)
+elif (act == 'abstract_ia'):
+    print("=Usando OA model=")
+    mod_abstract.main(idO)
 
 ########## Small World
 elif (act == 'smallWorld'):

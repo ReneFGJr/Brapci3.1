@@ -49,12 +49,17 @@ def extract_keywords(text,id):
     if match:
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
-        urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
-        tkey = 0
 
-        size = 55
+        indexKeyWords()
+        return True
+    else:
+        return False
 
-        for k in keys:
+def indexKeyWords(keys):
+    urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
+    tkey = 0
+    size = 55
+    for k in keys:
             if (len(k) >= size):
                 print("Termo muito longo: ",Fore.RED,len(k),k,Fore.WHITE)
                 stop = 1
@@ -84,6 +89,3 @@ def extract_keywords(text,id):
             else:
                 print(Fore.RED,"=nao processado=>",k,Fore.WHITE)
                 print(k != '',len(k) < 40,stop == 0,tkey <= 6)
-        return True
-    else:
-        return False

@@ -7,6 +7,7 @@ import os
 import requests
 import mod_docling
 import ai_abstract
+import ai_keywords
 from pathlib import Path
 
 # Configuração do Ollama
@@ -147,7 +148,6 @@ def salvar_json(dados, arquivo_json):
 
 
 def main(ID):
-
     ### Arquivo
     source_path = Path(f"work_{str(ID).zfill(8)}#00000.pdf")
     arquivo_md = mod_docling.build_repository_filename(ID, source_path)
@@ -170,6 +170,7 @@ def main(ID):
     abstract = resultado.get("resumo", "")
     palavras_chave = resultado.get("palavras_chave", [])
     print("Keywords:", palavras_chave)
+    ai_keywords.indexKeyWords(palavras_chave)
     sys.exit(0)
     if (abstract):
         ai_abstract.saveAbstract(ID, abstract)
