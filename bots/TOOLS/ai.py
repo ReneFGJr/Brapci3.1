@@ -202,6 +202,11 @@ elif (act == 'keywords'):
     print("Extrair Keywords")
     lists = ai_keywords.extract_keywords(txt,id)
     print("==>",fileO)
+
+    if (lists == ""):
+        print("=Usando OA model=")
+        mod_abstract.main(idO)
+
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
 
