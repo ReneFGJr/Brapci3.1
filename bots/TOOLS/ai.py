@@ -202,13 +202,14 @@ elif (act == 'keywords'):
     print("Extrair Keywords")
     lists = ai_keywords.extract_keywords(txt,id)
     print("==>",fileO)
+    fileN = fileO.replace('.pdf', '_keywords.json')
+    saveFileD(fileN, lists)
 
-    if (lists == ""):
-        print("=Usando OA model=")
-        mod_abstract.main(idO)
 
-    fileN = fileO.replace('.pdf','_keywords.json')
-    saveFileD(fileN,lists)
+elif (act == 'keywords_ia'):
+    print("=Usando OA model=")
+    mod_abstract.main(idO,keywords=True)
+
 
 elif (act == 'keywordsOllama'):
     print("Extrair Keywords Ollama")
