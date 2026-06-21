@@ -106,7 +106,7 @@ if (id != 0):
     fileO = file
 else:
     fileO = 'x'
-
+sys.exit()
 if ((act == 'All') or (act == 'all')):
     print("Extrair Trabalhos v2")
     print("=fileO=>",fileO)
