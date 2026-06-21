@@ -164,7 +164,14 @@ def run(parm):
         mod_issue.checkDuplicateIssue()
 
     if (act == 'pdf'):
-        mod_pdf.harvestingPDF()
+        if (parm[2] != ''):
+            print("PDF",parm[2])
+            sys.exit()
+            mod_pdf.getPDF(parm[2])
+        else:
+            print("PDF")
+            sys.exit()
+            mod_pdf.harvestingPDF()
     if (act == 'getpdf'):
         mod_pdf.getPDF(parm[2])
     if (act == 'pdfv'):
