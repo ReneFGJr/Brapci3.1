@@ -57,9 +57,6 @@ class Document:
 
         self.pdf = PUBLIC_DIR / sys_io.getNameFile(self.id)
 
-        print("==> PDF:", self.pdf)
-        sys.exit()
-
         if not self.pdf.exists():
             raise FileNotFoundError(self.pdf)
 

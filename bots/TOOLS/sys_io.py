@@ -99,6 +99,8 @@ def file_exists(file):
 ######################################## GET TXT
 def getNameFileTXT(fileO):
     # Valida o arquivo de entrada
+    print("Validando arquivo de entrada:", fileO)
+    sys.exit()
     if not fileO or not isinstance(fileO, str):
         print(f"Erro: Caminho de arquivo inválido: {fileO}")
         return ""
