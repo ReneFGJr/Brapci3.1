@@ -28,7 +28,7 @@ def extract_keywords_ollama(text,id):
 
 import re
 
-def extract_keywords(text, id=None):
+def extract_keywords(text, ID=None):
 
     pattern = r'''
         Palavras[- ]?chave[s]?      # marcador
@@ -57,6 +57,9 @@ def extract_keywords(text, id=None):
     content = match.group(1).strip()
 
     keywords = re.split(r'[;,.]', content)
+
+    print("Keywords:", keywords)
+    indexKeyWords(keywords, ID)
 
     return [
         k.strip()
