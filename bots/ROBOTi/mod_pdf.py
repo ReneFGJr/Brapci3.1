@@ -77,6 +77,35 @@ def existPDF(ID):
     else:
         return True
 
+def uploadPDF(ID,url):
+    fileDownload = downloadPDF(url,ID)
+
+    if fileDownload == "":
+        return ""
+
+    # Cria valor literal
+    IDn = mod_literal.register(fileDownload,'nn')
+    IDClass = mod_class.getClass("FileStorage")
+
+    # Cria o FileStorage
+    IDc = mod_concept.register(IDClass,IDn)
+
+    print("==========================================")
+    print("... ID         : ",ID)
+    print("... Link       : ",url)
+    print("... Filename   : ",fileDownload)
+    print("... ID Class   : ",IDClass)
+    print("... ID literal : ",IDn)
+    print("... ID concept : ",IDc)
+
+    # Associa o FileStorage ao Trabalho
+    #IDprop = mod_class.getClass("hasFileStorage")
+    mod_data.register(ID,"hasFileStorage",IDc,0)
+
+     #Atualiza sistema
+    updatePDFdataset(ID,1)
+    return fileDownload
+
 def updatePDFdataset(ID,status):
     qu = "update brapci_elastic.dataset "
     qu += f" set PDF = {status} "

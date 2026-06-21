@@ -163,6 +163,19 @@ def run(parm):
     if (act == 'issue'):
         mod_issue.checkDuplicateIssue()
 
+    if (act == 'pdfupload'):
+        if (parm[2] != ''):
+            if (parm[3] != ''):
+                print("PDF Upload",parm[2],parm[3])
+                mod_pdf.uploadPDF(parm[2],parm[3])
+            else:
+                print("URL not found")
+                sys.exit()
+        else:
+            print("ID not found")
+            sys.exit()
+
+
     if (act == 'pdf'):
         if (parm[2] != ''):
             print("PDF",parm[2])
