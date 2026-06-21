@@ -123,25 +123,29 @@ if ((act == 'All') or (act == 'all')):
         sys.exit(1)
     else:
         print("Arquivo Markdown encontrado:",fileD)
-    sys.exit()
+        txt = sys_io.readfile(fileTXT)
 
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
     fileN = fileO.replace('.pdf','_email.json')
     saveFileD(fileN,lists)
+
     print("Extrair URL")
     lists = ai_url.extrair_urls(txt)
     fileN = fileO.replace('.pdf','_url.json')
     saveFileD(fileN,lists)
+
     print("Extrair DOI")
     ai_doi_handle.doi(txt, id)
     lists = ai_doi_handle.extrair_doi(txt)
     fileN = fileO.replace('.pdf','_doi.json')
     saveFileD(fileN,lists)
+
     print("Extrair HANDLE")
     lists = ai_doi_handle.extrair_handle(txt)
     fileN = fileO.replace('.pdf','_handle.json')
     saveFileD(fileN,lists)
+
     print("Extrair Metadados")
     lists = ai_metadados.extrair_secoes_method_01(txt)
     fileN = fileO.replace('.pdf','_metadados.json')
@@ -152,11 +156,12 @@ if ((act == 'All') or (act == 'all')):
 
     print("Extrair Sessões")
     lists = ai_section.extrair_sessao(txt,id)
+
     print("Extrair Keywords")
     lists = ai_keywords.extract_keywords(txt,id)
-    print("==>",fileO)
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
+
     lists = ai_abstract.extract_abstract(txt, id)
     sys.exit()
 

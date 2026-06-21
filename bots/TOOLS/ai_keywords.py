@@ -7,6 +7,8 @@ def locateKeywords(text):
     t = {
         'Palavras–chave:', 'Palavras-Chave:', 'Palavras-chave:',
         'Palavra-chave:', 'Palavra-Chave:',
+        '## Palavras–chave:', '## Palavras-Chave:', '## Palavras-chave:',
+        '## Palavra-chave:', '## Palavra-Chave:',
     }
     for te in t:
         if te in text:
