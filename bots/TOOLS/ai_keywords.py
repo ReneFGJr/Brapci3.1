@@ -72,6 +72,7 @@ def indexKeyWords(keys,idR):
     stop = 0
     size = 80
     for k in keys:
+            k = k.strip()
             if (len(k) >= size):
                 print("Termo muito longo: ",Fore.RED,len(k),k,Fore.WHITE)
                 stop = 1
