@@ -28,7 +28,7 @@ def extract_keywords_ollama(text,id):
 
 import re
 
-def extract_keywords(text):
+def extract_keywords(text, id=None):
 
     pattern = r'''
         Palavras[- ]?chave[s]?      # marcador
