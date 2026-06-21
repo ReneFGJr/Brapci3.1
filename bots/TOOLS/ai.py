@@ -116,8 +116,9 @@ def action_section(doc):
 
 def action_keywords(doc):
     print(doc.txt[:4000])
-    sys.exit()
     data = ai_keywords.extract_keywords(doc.txt, doc.id)
+    print(data)
+    sys.exit()
     save_json(doc.json_name("_keywords.json"), data)
 
 

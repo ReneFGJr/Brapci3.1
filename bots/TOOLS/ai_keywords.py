@@ -26,40 +26,43 @@ def extract_keywords_ollama(text,id):
     rsp = ai_ollama_chat.extrair_palavras_chave(text)
     print("==>",rsp)
 
-def extract_keywords(text,id):
-    text = text.replace(chr(10), ' ')
-    text = text.replace('.', ';')
-    text = text.replace(',', ';')
-    text = text.replace('Palavras-Chave','Palavras-chave')
-    text = text.replace('Palavras Chave','Palavras-chave')
-    text = text.replace('PALAVRAS-CHAVE:','Palavras-chave:')
-    term = locateAbstract(text)
-    keyw = locateKeywords(text)
+import re
 
-    print("==>TERM & KEY Position=====>",keyw,text[:4000])
-    sys.exit()
+def extract_keywords(text):
 
-    if term == '' or keyw == '':
-        print(f"Área não localizada [{keyw}],[{term}]")
-        print(text[:2000])
-        sys.exit()
-    print("=TERM & KEY Position=====>",keyw,term)
+    pattern = r'''
+        Palavras[- ]?chave[s]?      # marcador
+        \s*:?\s*
+        (.*?)                       # conteúdo das palavras-chave
+        (?=
+            Abstract\s*:|
+            Resumo\s*:|
+            Introdução|
+            Introduction|
+            1\s+Introdução|
+            1\s+Introduction|
+            \n[A-Z][A-Za-z\s]{3,20}\:
+        )
+    '''
 
-    exp = f"{keyw}\s*(.*?)(?={term})"
-    #exp = f"{keyw}\\s*(.*?)(?={term})"
+    match = re.search(
+        pattern,
+        text,
+        re.IGNORECASE | re.DOTALL | re.VERBOSE
+    )
 
-    match = re.search(exp, text, re.DOTALL)
-    stop = 0
+    if not match:
+        return []
 
-    if match:
-        keywords = match.group(1).split(";")
-        keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
-        print(keys)
-        sys.exit()
-        #indexKeyWords(keys, id)
-        return True
-    else:
-        return False
+    content = match.group(1).strip()
+
+    keywords = re.split(r'[;,.]', content)
+
+    return [
+        k.strip()
+        for k in keywords
+        if len(k.strip()) > 1
+    ]
 
 def indexKeyWords(keys,idR):
     urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
