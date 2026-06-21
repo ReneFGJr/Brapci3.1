@@ -110,13 +110,20 @@ if ((act == 'All') or (act == 'all')):
     print("Extrair Trabalhos v2")
     print("=fileO=>",fileO)
     # Checar existencia do aquivo Markdown
-    sys.exit()
-
 
     print("<h4>Gerar Markdown</h4>")
     print(" Processoando ID",id)
     import mod_docling
     mod_docling.save_file_docling(fileO, id)
+
+    fileD = fileO.replace('.pdf','.md')
+    if not os.path.isfile(fileD):
+        print(f"Erro no ID {id}")
+        print(f"Arquivo Markdown não encontrado: {fileD}")
+        sys.exit(1)
+    else:
+        print("Arquivo Markdown encontrado:",fileD)
+    sys.exit()
 
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
