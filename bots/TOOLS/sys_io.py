@@ -100,7 +100,7 @@ def file_exists(file):
 def getNameFileTXT(fileO):
     # Valida o arquivo de entrada
     print("Validando arquivo de entrada:", fileO)
-    sys.exit()
+
     if not fileO or not isinstance(fileO, str):
         print(f"Erro: Caminho de arquivo inválido: {fileO}")
         return ""
@@ -117,9 +117,9 @@ def getNameFileTXT(fileO):
         print(f"Erro: '{fileO}' não é um arquivo PDF válido.")
         return ""
 
-    fileTxt = fileO.replace('.pdf', '.txt')
+    fileTxt = fileO.replace('.pdf', '.md')
     if not file_exists(fileTxt):
-        print("Converter para TXT")
+        print("ERRO DE ARQUIVO MD")
         try:
             convertPDF4TXT(fileO, fileTxt)
         except Exception as e:
