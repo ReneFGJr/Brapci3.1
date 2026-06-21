@@ -58,7 +58,6 @@ def extract_keywords(text, ID=None):
 
     keywords = re.split(r'[;,.]', content)
 
-    print("Keywords:", keywords)
     indexKeyWords(keywords, ID)
 
     return [
@@ -79,9 +78,8 @@ def indexKeyWords(keys,idR):
             if (len(k) <= 2):
                 stop = 1
 
-            print("==>Processando:",Fore.BLUE,k,Fore.WHITE)
-
             if k != '' and len(k) < size and stop == 0 and tkey <= 6:
+                print("==>Processando:",Fore.BLUE,k,Fore.WHITE)
                 tkey = tkey + 1
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
