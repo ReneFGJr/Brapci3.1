@@ -166,7 +166,8 @@ def run(parm):
     if (act == 'pdfupload'):
         if (parm[2] != ''):
             if (parm[3] != ''):
-                print("PDF Upload",parm[2],parm[3])
+                print("ID",parm[2])
+                print("URL",parm[3])
                 mod_pdf.uploadPDF(parm[2],parm[3])
             else:
                 print("URL not found")
