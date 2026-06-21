@@ -62,7 +62,6 @@ class Document:
 
         self.txt_file = Path(sys_io.getNameFileTXT(str(self.pdf)))
         print("TXT file:", self.txt_file)
-        sys.exit()
 
         if not self.txt_file.exists():
             raise FileNotFoundError(self.txt_file)
@@ -116,6 +115,8 @@ def action_section(doc):
 
 
 def action_keywords(doc):
+    print(doc.txt[:4000])
+    sys.exit()
     data = ai_keywords.extract_keywords(doc.txt, doc.id)
     save_json(doc.json_name("_keywords.json"), data)
 
