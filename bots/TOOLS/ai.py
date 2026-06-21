@@ -118,10 +118,8 @@ def action_keywords(doc):
     data = ai_keywords.extract_keywords(doc.txt, doc.id)
     save_json(doc.json_name("_keywords.json"), data)
 
-
 def action_keywords_ia(doc):
     mod_abstract.main(doc.id, keywords=True)
-
 
 def action_abstract(doc):
     result = ai_abstract.extract_abstract(doc.txt, doc.id)
