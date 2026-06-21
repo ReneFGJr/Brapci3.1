@@ -256,10 +256,12 @@ def fileName(ID):
     return full_path
 
 def downloadPDF(url,ID):
+    print("Download PDF ",ID)
     timeout = 60
     filename = fileName(ID)
+    print("Filename",filename)
     output_path = '../../public/'+filename
-    print("Download PDF ",ID, output_path)
+
     try:
         print(" ")
         print(f"Baixando ...: {ID}, {url}")
