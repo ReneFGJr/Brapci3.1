@@ -257,6 +257,7 @@ def fileName(ID):
 
 def downloadPDF(url,ID):
     print("Download PDF ",ID)
+    print("Type",type(ID))
     timeout = 60
     filename = fileName(ID)
     print("Filename",filename)
