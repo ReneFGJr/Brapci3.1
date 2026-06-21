@@ -61,6 +61,8 @@ class Document:
             raise FileNotFoundError(self.pdf)
 
         self.txt_file = Path(sys_io.getNameFileTXT(str(self.pdf)))
+        print("TXT file:", self.txt_file)
+        sys.exit()
 
         if not self.txt_file.exists():
             raise FileNotFoundError(self.txt_file)
