@@ -1,7 +1,9 @@
-import re
-import os
+from pathlib import Path
 import json
+import os
 import sys
+
+import database
 import sys_io
 
 import ai_email
@@ -13,239 +15,200 @@ import ai_keywords
 import ai_section
 import ai_abstract
 
-import mod_convert_repository
-import database
-
-import mod_small_world
 import mod_abstract
+import mod_small_world
 
-def toDO():
-    qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = '')"
-    row = database.query(qr)
 
-    nome_arquivo = "toDO.sh"
-    with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
-        for r in row:
-            id = r[0]
-            arquivo.write(f"python3 ai.py All {id}\n")
-    print("Arquivo gerado:",nome_arquivo)
+BASE_DIR = Path("/data/Brapci3.1/bots/TOOLS")
+PUBLIC_DIR = Path("/data/Brapci3.1/public")
+
 
 def version():
-    return "v0.26.06.13"
-
-def extrair_emails(texto):
-    # Expressão regular para detectar e-mails
-    padrao_email = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
-
-    # Busca todos os e-mails no texto
-    emails = re.findall(padrao_email, texto)
-
-    return emails
-
-def saveFileD(fileN,arquivo):
-    # Salva a lista em um arquivo JSON
-    with open(fileN, "w", encoding="utf-8") as arquivo:
-        json.dump(lists, arquivo, ensure_ascii=False, indent=4)
-
-    return True
-
-########################################### Início
-print("TOOLS AI",version())
-print("===============================================")
-dir = '/data/Brapci3.1/bots/TOOLS'
-print (" - Checando diretorio:",dir)
-os.chdir(dir)
-
-print (" - Checando argumentos")
-
-if (len(sys.argv) > 1):
-    parm = sys.argv
-    act = parm[1]
-    if (act == 'X'):
-        print("Extrair Trabalhos")
-        lists = toDO()
-        sys.exit()
-    if (len(sys.argv) > 2):
-        id = parm[2]
-    else:
-        id = 0
-else:
-    id = 309177
-    act = 'email'
+    return "v0.26.06.21"
 
 
+def save_json(filename, data):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
-dirT = '/data/Brapci3.1/public/'
-if (id != 0):
-    idO = id
-    file = dirT + sys_io.getNameFile(id)
-    print("Processando ID #1",id)
 
-    # Valida se o arquivo foi encontrado
-    if not file or file == dirT or not os.path.isfile(file):
-        print(f"Erro no ID {id}")
-        print(f"Arquivo não encontrado: {file}")
-        sys.exit(1)
+def todo():
+    sql = """
+        SELECT ID
+        FROM brapci_elastic.dataset
+        WHERE JOURNAL = 75
+          AND (ABSTRACT = '' OR KEYWORDS = '')
+    """
 
-    fileTXT = sys_io.getNameFileTXT(file)
+    rows = database.query(sql)
 
-    # Valida se o arquivo TXT é válido
-    if not fileTXT or not os.path.isfile(fileTXT):
-        print(f"Erro no ID {id}")
-        print(f"Arquivo TXT não encontrado ou inválido: {fileTXT}")
-        sys.exit(1)
+    with open("toDO.sh", "w", encoding="utf-8") as f:
+        for row in rows:
+            f.write(f"python3 ai.py All {row[0]}\n")
 
-    txt = sys_io.readfile(fileTXT)
+    print("Arquivo gerado: toDO.sh")
 
-    # Valida se o conteúdo foi lido
-    if not txt:
-        print(f"Erro no ID {id}")
-        print(f"Não foi possível ler o arquivo: {fileTXT}")
-        sys.exit(1)
 
-    fileO = file
-else:
-    fileO = 'x'
-if ((act == 'All') or (act == 'all')):
-    print("Extrair Trabalhos v2")
-    print("=fileO=>",fileO)
-    # Checar existencia do aquivo Markdown
+class Document:
 
-    print("<h4>Gerar Markdown</h4>")
-    print(" Processoando ID",id)
+    def __init__(self, doc_id):
+
+        self.id = int(doc_id)
+
+        self.pdf = PUBLIC_DIR / sys_io.getNameFile(self.id)
+
+        if not self.pdf.exists():
+            raise FileNotFoundError(self.pdf)
+
+        self.txt_file = Path(sys_io.getNameFileTXT(str(self.pdf)))
+
+        if not self.txt_file.exists():
+            raise FileNotFoundError(self.txt_file)
+
+        self.txt = sys_io.readfile(str(self.txt_file))
+
+        if not self.txt:
+            raise Exception(f"Erro lendo {self.txt_file}")
+
+    def json_name(self, suffix):
+        return str(self.pdf).replace(".pdf", suffix)
+
+
+#########################################################
+# AÇÕES
+#########################################################
+
+def action_email(doc):
+    data = ai_email.extrair_emails(doc.txt)
+    save_json(doc.json_name("_email.json"), data)
+
+
+def action_url(doc):
+    data = ai_url.extrair_urls(doc.txt)
+    save_json(doc.json_name("_url.json"), data)
+
+
+def action_doi(doc):
+    ai_doi_handle.doi(doc.txt, doc.id)
+
+    data = ai_doi_handle.extrair_doi(doc.txt)
+    save_json(doc.json_name("_doi.json"), data)
+
+
+def action_handle(doc):
+    data = ai_doi_handle.extrair_handle(doc.txt)
+    save_json(doc.json_name("_handle.json"), data)
+
+
+def action_metadata(doc):
+    data = ai_metadados.extrair_secoes_method_01(doc.txt)
+    save_json(doc.json_name("_metadados.json"), data)
+
+
+def action_cited(doc):
+    ai_cited.extrair_referencias_v2(doc.id)
+
+
+def action_section(doc):
+    ai_section.extrair_sessao(doc.txt, doc.id)
+
+
+def action_keywords(doc):
+    data = ai_keywords.extract_keywords(doc.txt, doc.id)
+    save_json(doc.json_name("_keywords.json"), data)
+
+
+def action_keywords_ia(doc):
+    mod_abstract.main(doc.id, keywords=True)
+
+
+def action_abstract(doc):
+    result = ai_abstract.extract_abstract(doc.txt, doc.id)
+
+    if not result:
+        mod_abstract.main(doc.id)
+
+
+def action_abstract_ia(doc):
+    mod_abstract.main(doc.id)
+
+
+def action_docling(doc):
+
     import mod_docling
-    mod_docling.save_file_docling(fileO, id)
 
-    fileD = fileO.replace('.pdf','.md')
-    if not os.path.isfile(fileD):
-        print(f"Erro no ID {id}")
-        print(f"Arquivo Markdown não encontrado: {fileD}")
-        sys.exit(1)
+    mod_docling.save_file_docling(str(doc.pdf), doc.id)
+
+
+def action_all(doc):
+
+    print("== Executando pipeline completa ==")
+
+    action_docling(doc)
+    action_email(doc)
+    action_url(doc)
+    action_doi(doc)
+    action_handle(doc)
+    action_metadata(doc)
+    action_cited(doc)
+    action_section(doc)
+    action_keywords(doc)
+    action_abstract(doc)
+
+
+#########################################################
+# MAIN
+#########################################################
+
+ACTIONS = {
+    "email": action_email,
+    "url": action_url,
+    "doi": action_doi,
+    "handle": action_handle,
+    "metadata": action_metadata,
+    "cited": action_cited,
+    "section": action_section,
+    "keywords": action_keywords,
+    "keywords_ia": action_keywords_ia,
+    "abstract": action_abstract,
+    "abstract_ia": action_abstract_ia,
+    "docling": action_docling,
+    "all": action_all,
+}
+
+
+def main():
+
+    print("TOOLS AI", version())
+    print("=" * 60)
+
+    os.chdir(BASE_DIR)
+
+    if len(sys.argv) < 2:
+        action = "email"
+        doc_id = 309177
     else:
-        print("Arquivo Markdown encontrado:",fileD)
-        txt = sys_io.readfile(fileTXT)
+        action = sys.argv[1].lower()
 
-    print("Extrair e-mail")
-    lists = ai_email.extrair_emails(txt)
-    fileN = fileO.replace('.pdf','_email.json')
-    saveFileD(fileN,lists)
+        if action == "x":
+            todo()
+            return
 
-    print("Extrair URL")
-    lists = ai_url.extrair_urls(txt)
-    fileN = fileO.replace('.pdf','_url.json')
-    saveFileD(fileN,lists)
+        doc_id = int(sys.argv[2])
 
-    print("Extrair DOI")
-    ai_doi_handle.doi(txt, id)
-    lists = ai_doi_handle.extrair_doi(txt)
-    fileN = fileO.replace('.pdf','_doi.json')
-    saveFileD(fileN,lists)
+    if action in ("sw", "smallworld"):
+        mod_small_world.proccess()
+        return
 
-    print("Extrair HANDLE")
-    lists = ai_doi_handle.extrair_handle(txt)
-    fileN = fileO.replace('.pdf','_handle.json')
-    saveFileD(fileN,lists)
+    doc = Document(doc_id)
 
-    print("Extrair Metadados")
-    lists = ai_metadados.extrair_secoes_method_01(txt)
-    fileN = fileO.replace('.pdf','_metadados.json')
-    saveFileD(fileN,lists)
+    if action not in ACTIONS:
+        print("Ação inválida")
+        print(", ".join(ACTIONS.keys()))
+        return
 
-    print("Extrair Citações")
-    lists = ai_cited.extrair_referencias_v2(id)
-
-    print("Extrair Sessões")
-    lists = ai_section.extrair_sessao(txt,id)
-
-    print("Extrair Keywords")
-    lists = ai_keywords.extract_keywords(txt,id)
-    fileN = fileO.replace('.pdf','_keywords.json')
-    saveFileD(fileN,lists)
-
-    lists = ai_abstract.extract_abstract(txt, id)
-    sys.exit()
-
-elif (act == 'docling'):
-    print("Extrair Markdown - Docling")
-    print("  ",fileO,id)
-    import mod_docling
-    mod_docling.save_file_docling(fileO, id)
-
-elif (act == 'email'):
-    print("Extrair e-mail")
-    lists = ai_email.extrair_emails(txt)
-    fileN = fileO.replace('.pdf','_email.json')
-    saveFileD(fileN,lists)
-
-elif (act == 'url'):
-    print("Extrair URL")
-    lists = ai_url.extrair_urls(txt)
-    fileN = fileO.replace('.pdf','_url.json')
-    saveFileD(fileN,lists)
-
-elif (act == 'doi'):
-    print("Extrair DOI")
-    ai_doi_handle.doi(txt, id)
-    lists = ai_doi_handle.extrair_doi(txt)
-    fileN = fileO.replace('.pdf','_doi.json')
-    saveFileD(fileN,lists)
-
-elif (act == 'handle'):
-    print("Extrair HANDLE")
-    lists = ai_doi_handle.extrair_handle(txt)
-    fileN = fileO.replace('.pdf','_handle.json')
-    saveFileD(fileN,lists)
-
-elif (act == 'metadata'):
-    print("Extrair Metadados")
-    lists = ai_metadados.extrair_secoes_method_01(txt)
-    fileN = fileO.replace('.pdf','_metadados.json')
-    saveFileD(fileN,lists)
-
-elif (act == 'cited'):
-    print("Extrair Citações")
-    lists = ai_cited.extrair_referencias_v2(id)
-
-elif (act == 'section'):
-    print("Extrair Sessões")
-    lists = ai_section.extrair_sessao(txt,id)
-
-elif (act == 'keywords'):
-    print("Extrair Keywords")
-    lists = ai_keywords.extract_keywords(txt,id)
-    print("==>",fileO)
-    fileN = fileO.replace('.pdf', '_keywords.json')
-    saveFileD(fileN, lists)
+    ACTIONS[action](doc)
 
 
-elif (act == 'keywords_ia'):
-    print("=Usando OA model=")
-    mod_abstract.main(idO,keywords=True)
-
-
-elif (act == 'keywordsOllama'):
-    print("Extrair Keywords Ollama")
-    lists = ai_keywords.extract_keywords_ollama(txt, id)
-    print("==>", fileO)
-    #fileN = fileO.replace('.pdf', '_keywords.json')
-    #saveFileD(fileN, lists)
-
-elif (act == 'abstract'):
-    lists = ai_abstract.extract_abstract(txt,id)
-    if (lists==""):
-        print("=Usando OA model=")
-        mod_abstract.main(idO)
-
-elif (act == 'abstract_ia'):
-    print("=Usando OA model=")
-    mod_abstract.main(idO)
-
-########## Small World
-elif (act == 'smallWorld'):
-    mod_small_world.proccess()
-elif (act == 'sw'):
-    mod_small_world.proccess()
-else:
-    print("Ação não localizada")
-    print("email, url, doi, handle, metadata, cited, section, keywords, docling")
-    sys.exit()
+if __name__ == "__main__":
+    main()
