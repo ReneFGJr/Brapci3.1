@@ -166,7 +166,6 @@ def run(parm):
     if (act == 'pdf'):
         if (parm[2] != ''):
             print("PDF",parm[2])
-            sys.exit()
             mod_pdf.getPDF(parm[2])
         else:
             print("PDF")
