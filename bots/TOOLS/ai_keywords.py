@@ -49,8 +49,9 @@ def extract_keywords(text,id):
     if match:
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
-
-        indexKeyWords()
+        print(keys)
+        sys.exit()
+        #indexKeyWords(keys, id)
         return True
     else:
         return False
