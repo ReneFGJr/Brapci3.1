@@ -259,6 +259,7 @@ def downloadPDF(url,ID):
     timeout = 60
     filename = fileName(ID)
     output_path = '../../public/'+filename
+    print("Download PDF ",ID, output_path)
     try:
         print(" ")
         print(f"Baixando ...: {ID}, {url}")
