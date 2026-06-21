@@ -34,6 +34,9 @@ def extract_keywords(text,id):
     term = locateAbstract(text)
     keyw = locateKeywords(text)
 
+    print("==>TERM & KEY Position=====>",keyw,text[:4000])
+    sys.exit()
+
     if term == '' or keyw == '':
         print(f"Área não localizada [{keyw}],[{term}]")
         print(text[:2000])
