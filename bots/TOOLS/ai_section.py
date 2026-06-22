@@ -15,7 +15,7 @@ GT_SECTIONS = {
     'GT6 Informação': 'GT-06 (ENANCIB)',
     'GT7 Produção': 'GT-07 (ENANCIB)',
     'GT8 Informação': 'GT-08 (ENANCIB)',
-    'GT8 Dados': 'GT-08 (ENANCIB)',
+    'GT8 Dado': 'GT-08 (ENANCIB)',
     'GT9 Museu': 'GT-09 (ENANCIB)',
     'GT10 Informação': 'GT-10 (ENANCIB)',
     'GT10 Memória': 'GT-10 (ENANCIB)',
