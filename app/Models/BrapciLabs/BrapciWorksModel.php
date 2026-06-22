@@ -743,6 +743,8 @@ class BrapciWorksModel extends Model
         }
 
         $auths = [
+            'Kuhn , T',
+            'Feyerabend',
             'Comte, A',
             'Nagel, E',
             'Saint-Simon',
