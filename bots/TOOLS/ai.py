@@ -25,7 +25,7 @@ BASE_DIR = Path("/data/Brapci3.1/bots/TOOLS")
 PUBLIC_DIR = Path("/data/Brapci3.1/public")
 
 def logo():
-    print(Fore.WHITE + "═" * 80)
+    print(Fore.WHITE + "═" * 60)
 
     print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^80}")
     print(Fore.CYAN + f"{'Version ' + version():^80}")
@@ -50,7 +50,7 @@ def logo():
         )
 
     print()
-    print(Fore.WHITE + "═" * 80 + Style.RESET_ALL)
+    print(Fore.WHITE + "═" * 60 + Style.RESET_ALL)
 
 
 def version():
@@ -228,6 +228,7 @@ def main():
             return
 
         doc_id = int(sys.argv[2])
+    print("  [Ação:", action, "Doc ID:", doc_id,']')
 
     if action in ("sw", "smallworld"):
         mod_small_world.proccess()
