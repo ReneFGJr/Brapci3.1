@@ -963,20 +963,20 @@ def rag_query_v2(question: str, json_path: str):
 
     ##################################### Fase I
     llm_concepts = ollama_interpret(question, authorized_terms)
-    print("====", llm_concepts)
+    aligned_terms = extrair_termo_geral(llm_concepts, net_terms)
+    print("===A=", llm_concepts)
     print("*" * 60)
+    print("==B==", aligned_terms)
+    print("*" * 60)
+    print(llm_ids_unicos)
+    print("*" * 60)
+    print(f"\n")
+
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
     aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
 
-    aligned_terms = extrair_termo_geral(aligned_terms, net_terms)
-
-    print("Hierarquia de IDs recuperada:", aligned_terms)
-    print("*" * 60)
-    print(llm_ids_unicos)
-    print("*" * 60)
-    print(f"\n")
 
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
