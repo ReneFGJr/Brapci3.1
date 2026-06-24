@@ -868,6 +868,9 @@ def rag_query_v2(question: str, json_path: str):
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
 
+    print("Hierarquia de IDs recuperada:", llm_ids_unicos)
+    print("*"*60)
+
     #################################### Fase III - Recupera termos específicos por conceito identificado
     estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
 
@@ -882,9 +885,6 @@ def rag_query_v2(question: str, json_path: str):
         "total_variantes": sum(len(v) for v in variantes.values()),
         "use_ia": useIA
     }
-
-    print(f"🔹 Fase I: Conceitos LLM: {base_result}")
-    sys.exit(0)
 
     expanded = process_smartretriavel_py(base_result, thesaurus)
 
