@@ -24,6 +24,36 @@ from colorama import Fore, Style
 BASE_DIR = Path("/data/Brapci3.1/bots/TOOLS")
 PUBLIC_DIR = Path("/data/Brapci3.1/public")
 
+def logo():
+    print(Fore.WHITE + "═" * 80)
+
+    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^80}")
+    print(Fore.CYAN + f"{'Version ' + version():^80}")
+    print()
+
+    logo = [
+        (" █████╗ ██╗ ", "████████╗ ██████╗  ██████╗ ██╗     ███████╗"),
+        ("██╔══██╗██║ ", "╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝"),
+        ("███████║██║ ", "   ██║   ██║   ██║██║   ██║██║     ███████╗"),
+        ("██╔══██║██║ ", "   ██║   ██║   ██║██║   ██║██║     ╚════██║"),
+        ("██║  ██║██║ ", "   ██║   ╚██████╔╝╚██████╔╝███████╗███████║"),
+        ("╚═╝  ╚═╝╚═╝ ", "   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝"),
+    ]
+
+    for left, right in logo:
+        # sombra
+        print(Fore.BLACK + Style.DIM + " " + left + "  " + right)
+
+        # texto principal
+        print(
+            Fore.GREEN + Style.BRIGHT + left +
+            "  " +
+            Fore.BLUE + Style.BRIGHT + right
+        )
+
+    print()
+    print(Fore.WHITE + "═" * 80 + Style.RESET_ALL)
+
 
 def version():
     return "v0.26.06.21"
@@ -182,35 +212,7 @@ ACTIONS = {
 
 def main():
 
-    logo = [
-        (" AAA   IIII ", "TTTTTT  OOO   OOO  LL      SSSS"),
-        ("A   A   II  ", "  TT   O   O O   O LL     S"),
-        ("A   A   II  ", "  TT   O   O O   O LL      SSS"),
-        ("AAAAA   II  ", "  TT   O   O O   O LL         S"),
-        ("A   A   II  ", "  TT    OOO   OOO  LLLL   SSSS"),
-    ]
-
-    print(Fore.WHITE + "═" * 80)
-
-    # Título
-    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^80}")
-    print(Fore.CYAN + f"{'Version ' + version():^80}")
-    print()
-
-    for left, right in logo:
-
-        # sombra
-        shadow = " " + left.ljust(20) + right
-        print(Fore.BLACK + Style.DIM + shadow)
-
-        # logo principal
-        print(
-            Fore.GREEN + Style.BRIGHT + left.ljust(20) +
-            Fore.BLUE + Style.BRIGHT + right
-        )
-
-    print()
-    print(Fore.WHITE + "═" * 80 + Style.RESET_ALL)
+    logo()
 
     os.chdir(BASE_DIR)
 
