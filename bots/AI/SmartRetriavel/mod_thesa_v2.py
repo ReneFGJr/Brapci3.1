@@ -576,6 +576,109 @@ def recover_terms_by_id(ids, variantes):
     return terms
 
 
+def extrair_termo_geral(termos, net_terms):
+    """
+    Recebe uma lista de termos e retorna os termos mais gerais imediatos
+    encontrados na hierarquia do grafo .net.
+    """
+    if not termos:
+        return []
+
+    termos = [str(termo).strip() for termo in termos if str(termo).strip()]
+    if not termos:
+        return []
+
+    terms_json_path = str(Path(net_terms).with_name(Path(net_terms).stem + "_terms.json"))
+    variantes = load_all_variants(terms_json_path)
+    nodes, children = load_net_graph(net_terms)
+
+    if not nodes:
+        return termos
+
+    concept_to_node_ids = {}
+    for node_id, label in nodes.items():
+        concept_id = extract_concept_id_from_label(label)
+        if concept_id is None:
+            continue
+        concept_to_node_ids.setdefault(concept_id, []).append(node_id)
+
+    parents_by_node = {}
+    for parent_id, child_ids in children.items():
+        for child_id in child_ids:
+            parents_by_node.setdefault(child_id, []).append(parent_id)
+
+    term_to_concepts = {}
+    concept_to_preferred_term = {}
+
+    for concept_id, entries in variantes.items():
+        preferred_por = ""
+        preferred_any = ""
+
+        for item in entries:
+            term = str(item.get("term", "")).strip()
+            if not term:
+                continue
+
+            normalized_term = normalize(term)
+            term_to_concepts.setdefault(normalized_term, set()).add(str(concept_id))
+
+            if not preferred_any:
+                preferred_any = term
+
+            lang = str(item.get("lang", "")).strip().lower()
+            if lang == "por" and not preferred_por:
+                preferred_por = term
+
+        concept_to_preferred_term[str(concept_id)] = preferred_por or preferred_any
+
+    def resolve_concept_ids(term):
+        normalized_term = normalize(term)
+        matched_ids = set(term_to_concepts.get(normalized_term, set()))
+
+        if matched_ids:
+            return sorted(matched_ids, key=lambda x: int(x) if x.isdigit() else x)
+
+        matches = get_close_matches(normalized_term, list(term_to_concepts.keys()), n=1, cutoff=0.88)
+        for match in matches:
+            matched_ids.update(term_to_concepts.get(match, set()))
+
+        return sorted(matched_ids, key=lambda x: int(x) if x.isdigit() else x)
+
+    termos_gerais = []
+    seen = set()
+
+    for termo in termos:
+        resolved_terms = []
+        concept_ids = resolve_concept_ids(termo)
+
+        for concept_id in concept_ids:
+            node_ids = concept_to_node_ids.get(concept_id, [])
+            for node_id in node_ids:
+                parent_ids = parents_by_node.get(node_id, [])
+                for parent_id in parent_ids:
+                    parent_label = nodes.get(parent_id, "")
+                    parent_concept_id = extract_concept_id_from_label(parent_label)
+                    if parent_concept_id is None:
+                        continue
+
+                    preferred_term = concept_to_preferred_term.get(parent_concept_id, "").strip()
+                    if preferred_term:
+                        resolved_terms.append(preferred_term)
+
+        if not resolved_terms:
+            resolved_terms.append(termo)
+
+        for resolved_term in resolved_terms:
+            normalized_resolved = normalize(resolved_term)
+            if normalized_resolved in seen:
+                continue
+
+            seen.add(normalized_resolved)
+            termos_gerais.append(resolved_term)
+
+    return termos_gerais
+
+
 def recover_term_variantes(llm_hierarquia, variantes):
     """
         Recupera variantes de termos a partir da hierarquia de IDs.
@@ -864,6 +967,8 @@ def rag_query_v2(question: str, json_path: str):
 
     #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
     aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
+
+    aligned_terms = extrair_termo_geral(aligned_terms, net_terms)
 
     print("Hierarquia de IDs recuperada:", aligned_terms)
     print("*" * 60)
