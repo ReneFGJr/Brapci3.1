@@ -47,7 +47,7 @@ GT_MODALIDADE = {
 # Função para localizar e extrair a sessão
 def locate_extrair_sessao(texto):
     texto = texto[:1200]
-    texto = text.replca('#','')
+    texto = texto.replace('#','')
     texto = texto.replace('G8-', 'GT8').replace('G4-', 'GT4').replace('G5-', 'GT5').replace('GT-', 'GT').replace('- ',' ').replace(' –', ' ').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e').replace('–', '-')
     sectionX = ''
     maxPos = 99999999
