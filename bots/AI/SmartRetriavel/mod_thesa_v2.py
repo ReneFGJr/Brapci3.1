@@ -865,11 +865,11 @@ def rag_query_v2(question: str, json_path: str):
     #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
     aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
 
+    print("Hierarquia de IDs recuperada:", aligned_terms)
+    print("*" * 60)
+
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
-
-    print("Hierarquia de IDs recuperada:", llm_ids_unicos)
-    print("*"*60)
 
     #################################### Fase III - Recupera termos específicos por conceito identificado
     estrategia_expansao = recover_term_variantes(llm_hierarquia, variantes)
