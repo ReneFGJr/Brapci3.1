@@ -18,6 +18,8 @@ import ai_abstract
 import mod_abstract
 import mod_small_world
 
+from colorama import Fore, Style
+
 
 BASE_DIR = Path("/data/Brapci3.1/bots/TOOLS")
 PUBLIC_DIR = Path("/data/Brapci3.1/public")
@@ -180,16 +182,35 @@ ACTIONS = {
 
 def main():
 
-    print("=" * 60)
-    print(" AAA  IIII "+version())
-    print("A   A  II                            ")
-    print("A   A  II                            ")
-    print("AAAAA  II   TTTTTT  OOO  LL    SSSS")
-    print("A   A  II     TT   O   O LL   S     ")
-    print("A   A  II     TT   O   O LL    SSS ")
-    print("A   A  II    TT   O   O LL       S")
-    print("A   A IIII    TT    OOO  LLLL SSSS")
-    print("=" * 60)
+    logo = [
+        (" AAA   IIII ", "TTTTTT  OOO   OOO  LL      SSSS"),
+        ("A   A   II  ", "  TT   O   O O   O LL     S"),
+        ("A   A   II  ", "  TT   O   O O   O LL      SSS"),
+        ("AAAAA   II  ", "  TT   O   O O   O LL         S"),
+        ("A   A   II  ", "  TT    OOO   OOO  LLLL   SSSS"),
+    ]
+
+    print(Fore.WHITE + "═" * 80)
+
+    # Título
+    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^80}")
+    print(Fore.CYAN + f"{'Version ' + version():^80}")
+    print()
+
+    for left, right in logo:
+
+        # sombra
+        shadow = " " + left.ljust(20) + right
+        print(Fore.BLACK + Style.DIM + shadow)
+
+        # logo principal
+        print(
+            Fore.GREEN + Style.BRIGHT + left.ljust(20) +
+            Fore.BLUE + Style.BRIGHT + right
+        )
+
+    print()
+    print(Fore.WHITE + "═" * 80 + Style.RESET_ALL)
 
     os.chdir(BASE_DIR)
 
