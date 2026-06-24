@@ -963,6 +963,8 @@ def rag_query_v2(question: str, json_path: str):
 
     ##################################### Fase I
     llm_concepts = ollama_interpret(question, authorized_terms)
+    print("====", llm_concepts)
+    print("*" * 60)
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
 
     #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
