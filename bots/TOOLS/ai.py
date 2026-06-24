@@ -27,8 +27,8 @@ PUBLIC_DIR = Path("/data/Brapci3.1/public")
 def logo():
     print(Fore.WHITE + "═" * 60)
 
-    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^80}")
-    print(Fore.CYAN + f"{'Version ' + version():^80}")
+    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^60}")
+    print(Fore.CYAN + f"{'Version ' + version():^60}")
     print()
 
     logo = [
@@ -228,7 +228,7 @@ def main():
             return
 
         doc_id = int(sys.argv[2])
-    print("  [Ação:", action, "Doc ID:", doc_id,']')
+    print("  [ Ação:", action, "Doc ID:", doc_id,']')
 
     if action in ("sw", "smallworld"):
         mod_small_world.proccess()
