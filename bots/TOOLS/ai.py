@@ -162,18 +162,18 @@ def action_abstract_ia(doc):
     mod_abstract.main(doc.id)
 
 
-def action_docling(doc):
+def action_docling(doc,force=False):
 
     import mod_docling
 
-    print(Fore.BLUE+f"\n== Executando pipeline Docling =="+Fore.RESET)
+    print(Fore.YELLOW+f"\n== Executando pipeline Docling =========================================="+Fore.RESET)
 
     mod_docling.save_file_docling(str(doc.pdf), doc.id)
 
 
 def action_all(doc):
 
-    print(Fore.BLUE+f"\n== Executando pipeline completa =="+Fore.RESET)
+    print(Fore.YELLOW+f"\n== Executando pipeline completa =========================================="+Fore.RESET)
 
     action_docling(doc)
     action_email(doc)
@@ -228,7 +228,8 @@ def main():
             return
 
         doc_id = int(sys.argv[2])
-    print("[ Ação:", action, "Doc ID:", doc_id,']')
+    force = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
+    print("[ Ação:", action, "Doc ID:", doc_id,' Force', force,']')
 
     if action in ("sw", "smallworld"):
         mod_small_world.proccess()
