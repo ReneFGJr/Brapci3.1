@@ -166,14 +166,14 @@ def action_docling(doc):
 
     import mod_docling
 
-    print(f"\n== Executando pipeline Docling ==")
+    print(Fore.BLUE+f"\n== Executando pipeline Docling =="+Fore.RESET)
 
     mod_docling.save_file_docling(str(doc.pdf), doc.id)
 
 
 def action_all(doc):
 
-    print("== Executando pipeline completa ==")
+    print(Fore.BLUE+f"\n== Executando pipeline completa =="+Fore.RESET)
 
     action_docling(doc)
     action_email(doc)
