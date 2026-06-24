@@ -215,8 +215,11 @@ def main():
     os.chdir(BASE_DIR)
 
     if len(sys.argv) < 2:
-        action = "email"
-        doc_id = 309177
+        print("Uso:\n"
+              "python ai.py <acao> <doc_id>\n"
+              "Ações disponíveis: " + ", ".join(ACTIONS.keys()) + "\n"
+              "Exemplo: python ai.py all 392175")
+        sys.exit(1)
     else:
         action = sys.argv[1].lower()
 
