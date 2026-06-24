@@ -166,7 +166,7 @@ def action_docling(doc):
 
     import mod_docling
 
-    print("== Executando pipeline Docling ==")
+    print(f"\n== Executando pipeline Docling ==")
 
     mod_docling.save_file_docling(str(doc.pdf), doc.id)
 
@@ -228,7 +228,7 @@ def main():
             return
 
         doc_id = int(sys.argv[2])
-    print("  [ Ação:", action, "Doc ID:", doc_id,']')
+    print("[ Ação:", action, "Doc ID:", doc_id,']')
 
     if action in ("sw", "smallworld"):
         mod_small_world.proccess()
