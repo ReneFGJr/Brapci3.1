@@ -168,7 +168,7 @@ def action_docling(doc,force=False):
 
     print(Fore.YELLOW+f"\n== Executando pipeline Docling =========================================="+Fore.RESET)
 
-    mod_docling.save_file_docling(str(doc.pdf), doc.id)
+    mod_docling.save_file_docling(str(doc.pdf), doc.id, force=force)
 
 
 def action_all(doc):
@@ -228,7 +228,12 @@ def main():
             return
 
         doc_id = int(sys.argv[2])
-    force = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
+
+    if len(sys.argv) > 3:
+        force_arg = str(sys.argv[3]).strip().lower()
+        force = force_arg in ("1", "true", "yes", "y", "on")
+    else:
+        force = False
     print("[ Ação:", action, "Doc ID:", doc_id,' Force', force,']')
 
     if action in ("sw", "smallworld"):
@@ -242,7 +247,7 @@ def main():
         print(", ".join(ACTIONS.keys()))
         return
 
-    ACTIONS[action](doc)
+    ACTIONS[action](doc, force) if action == "docling" else ACTIONS[action](doc)
 
 
 if __name__ == "__main__":
