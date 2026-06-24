@@ -968,12 +968,11 @@ def rag_query_v2(question: str, json_path: str):
     print("*" * 60)
     print("==B==", aligned_terms)
     print("*" * 60)
-    print(llm_ids_unicos)
-    print("*" * 60)
     print(f"\n")
 
     llm_conceptsID, llm_ids_unicos = map_llm_concepts_to_ids(llm_concepts, variantes)
-
+    print("*" * 60)
+    print(llm_ids_unicos)
     #################################### Fase I.5 - Recupera termos alinhados (apenas os IDs base identificados pelo LLM, sem hierarquia)
     aligned_terms = recover_terms_by_id(llm_ids_unicos, variantes)
 
