@@ -970,6 +970,10 @@ def rag_query_v2(question: str, json_path: str):
 
     aligned_terms = extrair_termo_geral(aligned_terms, net_terms)
 
+    print("Hierarquia de IDs recuperada:", aligned_terms)
+    print("*" * 60)
+    print(f"\n")
+
     ##################################### Fase II - Alinhamento com vocabulário autorizado
     llm_hierarquia = recover_hierarquia(llm_ids_unicos, net_terms)
 
