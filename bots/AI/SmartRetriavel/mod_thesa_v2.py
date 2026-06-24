@@ -883,6 +883,9 @@ def rag_query_v2(question: str, json_path: str):
         "use_ia": useIA
     }
 
+    print(f"🔹 Fase I: Conceitos LLM: {base_result}")
+    sys.exit(0)
+
     expanded = process_smartretriavel_py(base_result, thesaurus)
 
     base_result.update(expanded)

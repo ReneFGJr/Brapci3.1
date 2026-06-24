@@ -15,3 +15,7 @@ Resposta contextualizada
 python3 -m venv venv
 source venv_brapci/bin/activate
 venv_brapci\Scripts\activate
+
+------------------------------ EXECUTANDO UM TESTE
+source venv/bin/activate
+'/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python' '/data/Brapci3.1/bots/AI/SmartRetriavel/smartretriavel2.py' --q 'Inteligência artificial'
