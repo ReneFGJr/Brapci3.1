@@ -332,6 +332,7 @@ def save_file_docling(source: str,
     else:
 
         try:
+            print(f"Gerando markdown para {source_path}...")
 
             markdown = convert_pdf_to_markdown(source_path)
 
