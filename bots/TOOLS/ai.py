@@ -136,7 +136,7 @@ def action_docling(doc):
 
     import mod_docling
 
-    print*("== Executando pipeline Docling ==")
+    print("== Executando pipeline Docling ==")
 
     mod_docling.save_file_docling(str(doc.pdf), doc.id)
 
@@ -180,7 +180,15 @@ ACTIONS = {
 
 def main():
 
-    print("TOOLS AI", version())
+    print("=" * 60)
+    print(" AAA  IIII "+version())
+    print("A   A  II                            ")
+    print("A   A  II                            ")
+    print("AAAAA  II   TTTTTT  OOO  LL    SSSS")
+    print("A   A  II     TT   O   O LL   S     ")
+    print("A   A  II     TT   O   O LL    SSS ")
+    print("A   A  II    TT   O   O LL       S")
+    print("A   A IIII    TT    OOO  LLLL SSSS")
     print("=" * 60)
 
     os.chdir(BASE_DIR)
