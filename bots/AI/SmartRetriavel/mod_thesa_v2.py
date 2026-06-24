@@ -972,6 +972,8 @@ def rag_query_v2(question: str, json_path: str):
 
     print("Hierarquia de IDs recuperada:", aligned_terms)
     print("*" * 60)
+    print(llm_ids_unicos)
+    print("*" * 60)
     print(f"\n")
 
     ##################################### Fase II - Alinhamento com vocabulário autorizado
