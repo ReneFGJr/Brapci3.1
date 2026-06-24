@@ -41,8 +41,6 @@ def logo():
     ]
 
     for left, right in logo:
-        # sombra
-        print(Fore.BLACK + Style.DIM + " " + left + "  " + right)
 
         # texto principal
         print(
