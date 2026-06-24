@@ -964,6 +964,7 @@ def rag_query_v2(question: str, json_path: str):
     ##################################### Fase I
     llm_concepts = ollama_interpret(question, authorized_terms)
     aligned_terms = extrair_termo_geral(llm_concepts, net_terms)
+    llm_concepts = aligned_terms
     print("===A=", llm_concepts)
     print("*" * 60)
     print("==B==", aligned_terms)
