@@ -136,6 +136,8 @@ def action_docling(doc):
 
     import mod_docling
 
+    print*("== Executando pipeline Docling ==")
+
     mod_docling.save_file_docling(str(doc.pdf), doc.id)
 
 
