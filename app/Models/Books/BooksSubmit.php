@@ -276,8 +276,9 @@ class BooksSubmit extends Model
                 }
             }
         }
-
-
+        $dd = [];
+        $dd['bs_status'] = 2;
+        $this->set($dd)->where('id_bs', $id)->update();
         return 'Arquivo JSON recebido e associado ao registro.';
     }
 
