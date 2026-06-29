@@ -224,14 +224,14 @@ class BooksSubmit extends Model
                         $prop = 'hasPageStart';
                         $valueID = $v['hasInitialPage'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $prop, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $valueID);
                     }
 
                     if (isset($v['hasPageEnd'])) {
                         $prop = 'hasPageEnd';
                         $valueID = $v['hasPageEnd'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $prop, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $valueID);
                     }
                 }
             } else {
