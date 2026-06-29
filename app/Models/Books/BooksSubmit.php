@@ -183,6 +183,7 @@ class BooksSubmit extends Model
         foreach ($data as $key => $value) {
             /********************************** Chapter */
             if ($key == 'hasBookChapter') {
+                pre($value);
                 $Chapter++;
                 $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
                 $class = 'BookChapter';
@@ -193,6 +194,10 @@ class BooksSubmit extends Model
                 $value = 'Capítulo de livro';
                 $IDsection = $this->register_data($IDchapter, $key, $class, $value);
                 echo $key.'==>'.$IDchapter.'-'.$ChapterID.'-X-'. $IDsection;
+
+                $key = 'hasTitle';
+                $value = 'Título do capítulo';
+                $this->register_value($IDchapter, $key, $value);
                 exit;
 
                 exit;
