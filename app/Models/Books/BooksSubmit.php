@@ -210,9 +210,8 @@ class BooksSubmit extends Model
                     }
 
                     $key = 'Page';
-                    pre($v);
-                    if (isset($v['hasPageStart'])) {
-                        $value = $v['hasPageStart'];
+                    if (isset($v['hasInitialPage'])) {
+                        $value = $v['hasInitialPage'];
                         $this->register_data($IDchapter, $key, $class, $v);
                     }
 
