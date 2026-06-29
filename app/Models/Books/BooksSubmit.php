@@ -182,20 +182,20 @@ class BooksSubmit extends Model
         return 'Arquivo JSON recebido e associado ao registro.';
     }
 
-    function register_data($idRDF,$propierty,$class,$value)
+    function register_data($idRDF, $property,$class,$value)
     {
         if ($idRDF == 0)
             {
                 return 'Registro RDF não localizado.';
             }
-        $RDFclass = new \App\Models\RDF2\RDFclass();
-        $idC = $RDFclass->getClass($class);
-        pre($idC);
+
+        /*************** Criar conceito */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $idC = $RDFconcept->createConcept(['Class'=>$class,'Name'=>$value,'Lang'=>'nn']);
+
         $RDFdata = new \App\Models\RDF2\RDFdata();
-        $RDF2 = new \App\Models\RDF2\RDF();
-        $idc = $RDF2->register($idRDF, $property, $value, 0);
-        return $idc;
+        $RDFdata->register($idRDF, $property, $idC, 0);
+        return True;
     }
 
     function discalimer($d2,$d3)
