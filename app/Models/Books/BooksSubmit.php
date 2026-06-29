@@ -173,7 +173,7 @@ class BooksSubmit extends Model
                                 }
                             break;
                         case 'hasTitle':
-                            $sx .= $this->register_value($dt['bs_rdf'], $key, 'ISBN', $v);
+                            $sx .= $this->register_value($dt['bs_rdf'], $key, $v);
                             break;
                         default:
                             echo "OPS ".$key;
