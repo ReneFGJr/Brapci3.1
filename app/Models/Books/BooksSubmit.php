@@ -170,6 +170,10 @@ class BooksSubmit extends Model
                 'hasSubject'=>'Subject',
                 'hasOrganizator'=>'Person',
                 'hasPage'=>'Page',
+                'isPlaceOfPublication'=>'Place',
+                'wasPublicationInDate '=>'Date',
+                'isPublisher'=>'Publisher',
+                'hasEdition'=>'Edition',
                 'hasDate'=>'Date'];
 
         foreach($data as $key=>$value)
