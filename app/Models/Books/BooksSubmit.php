@@ -188,10 +188,12 @@ class BooksSubmit extends Model
                         if (isset($Classes[$key]))
                             {
                                 $class = $Classes[$key];
+                                print("<br>Classe associada: $class");
                                 foreach($value as $k=>$v)
                                     {
                                         $v = sonumero($v);
                                         $sx .= $this->register_data($dt['bs_rdf'], $key , $class, $v);
+                                        print("<br>Valor registrado: $v");
                                     }
                             } else {
                                 echo "<br>Propriedade não mapeada: $key";
