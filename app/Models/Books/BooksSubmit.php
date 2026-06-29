@@ -195,7 +195,6 @@ class BooksSubmit extends Model
                                 print("<br>Classe associada: $class");
                                 foreach($value as $k=>$v)
                                     {
-                                        $v = sonumero($v);
                                         $sx .= $this->register_data($dt['bs_rdf'], $key , $class, $v);
                                         print("<br>Valor registrado: $v");
                                     }
