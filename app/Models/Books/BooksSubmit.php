@@ -161,23 +161,33 @@ class BooksSubmit extends Model
         pre($dt,false);
         pre($data,false);
         $sx = '';
+        $literal = ['hasTitle','hasAbstract'];
+        $Classes = [
+                'hasISBN'=>'ISBN',
+                'hasAuthor'=>'Person',
+                'hasPublisher'=>'Publisher',
+                'hasLanguage'=>'Language',
+                'hasSubject'=>'Subject',
+                'hasDate'=>'Date'];
         foreach($data as $key=>$value)
             {
-                switch($key)
+                if (in_array($key, $literal))
                     {
-                        case 'hasISBN':
-                            foreach($value as $k=>$v)
-                                {
-                                    $v = sonumero($v);
-                                    $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $v);
-                                }
-                            break;
-                        case 'hasTitle':
-                            $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
-                            break;
-                        default:
-                            echo "OPS ".$key;
-                            exit;
+                        $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
+                    } else {
+                        if (isset($Classes[$key]))
+                            {
+                                $class = $Classes[$key];
+                                foreach($value as $k=>$v)
+                                    {
+                                        $v = sonumero($v);
+                                        $sx .= $this->register_data($dt['bs_rdf'], $key , $class, $v);
+                                    }
+                            } else {
+                                echo "<br>Propriedade não mapeada: $key";
+                                exit;
+                            }
+                        break;
                     }
             }
         exit;
