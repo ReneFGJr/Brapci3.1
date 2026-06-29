@@ -186,6 +186,7 @@ class BooksSubmit extends Model
                 foreach ($value as $k => $v) {
                     $Chapter++;
                     $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
+                    echo $ChapterID.'<br>';
                     $class = 'BookChapter';
                     $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
                     /******************** Section */
@@ -224,7 +225,6 @@ class BooksSubmit extends Model
                         $this->register_data($IDchapter, $key, $class, $value);
                     }
                 }
-                exit;
             } else {
                 continue;
                 if (in_array($key, $literal)) {
