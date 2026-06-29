@@ -186,6 +186,8 @@ class BooksSubmit extends Model
             if ($key == 'hasBookChapter') {
                 $Chapter++;
                 $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
+                $class = 'BookChapter';
+                $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
                 pre($ChapterID, false);
                 exit;
 
@@ -204,16 +206,13 @@ class BooksSubmit extends Model
                         if (isset($Classes[$key])) {
 
                             $class = $Classes[$key];
-                            print("<br>Classe associada: $class");
 
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
                                     $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
-                                    print("<br>Valor registrado: $v");
                                 }
                             } else {
                                 $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $value);
-                                print("<br>Valor registrado: $value");
                             }
                         } else {
                             echo "<br><span style=\"color:red\">Propriedade não mapeada: $key</span>";
@@ -259,7 +258,7 @@ class BooksSubmit extends Model
 
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, $idC, 0);
-        return True;
+        return $idC;
     }
 
     function discalimer($d2, $d3)
