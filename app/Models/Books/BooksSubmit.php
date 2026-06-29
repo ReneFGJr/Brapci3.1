@@ -172,6 +172,13 @@ class BooksSubmit extends Model
 
         foreach($data as $key=>$value)
             {
+                print("<br>Propriedade: $key");
+                if (is_array($value))
+                    {
+                        print("<br>Valor: " . implode(", ", $value));
+                    } else {
+                        print("<br>Valor: $value");
+                    }
                 if (in_array($key, $literal))
                     {
                         $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
