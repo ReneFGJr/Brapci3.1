@@ -173,8 +173,11 @@ class BooksSubmit extends Model
             'hasDOI' => 'DOI',
             'hasDate' => 'Date'
         ];
-
-        $ISBN = $data['hasISBN'] ?? '';
+        if (!isset($data['hasISBN'])) {
+            return 'Arquivo JSON inválido. Propriedade "hasISBN" não encontrada.';
+        }
+        $ISBN = $data['hasISBN'];
+        pre($ISBN, false);
         if (is_array($ISBN)) {
             $ISBN = $ISBN[0];
         }
