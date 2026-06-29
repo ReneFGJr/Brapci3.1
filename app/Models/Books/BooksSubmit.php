@@ -172,6 +172,9 @@ class BooksSubmit extends Model
                                     $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $v);
                                 }
                             break;
+                        case 'hasTitle':
+                            $sx .= $this->register_value($dt['bs_rdf'], $key, 'ISBN', $v);
+                            break;
                         default:
                             echo "OPS ".$key;
                             exit;
@@ -180,6 +183,19 @@ class BooksSubmit extends Model
         exit;
 
         return 'Arquivo JSON recebido e associado ao registro.';
+    }
+
+    function register_value($idRDF, $property,$value)
+    {
+        if ($idRDF == 0)
+            {
+                return 'Registro RDF não localizado.';
+            }
+
+        /*************** Criar conceito */
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFdata->register($idRDF, $property, 0, $value);
+        return True;
     }
 
     function register_data($idRDF, $property,$class,$value)
