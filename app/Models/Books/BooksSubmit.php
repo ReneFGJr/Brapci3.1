@@ -192,8 +192,7 @@ class BooksSubmit extends Model
                     $class = 'BookSection';
                     $key = 'hasSectionOf';
                     $value = 344893;
-                    $IDsection = $this->register_data($IDchapter, $key, $class, $value,'pt');
-                    echo $key.'==>'.$IDchapter.'-'.$ChapterID.'-X-'. $IDsection;
+                    $this->register_data($IDchapter, $key, $class, $value,'pt');
 
                     $key = 'hasTitle';
                     $value = $v['hasTitle'];
@@ -202,6 +201,13 @@ class BooksSubmit extends Model
                     $key = 'hasAbstract';
                     $value = $v['hasAbstract'];
                     $this->register_value($IDchapter, $key, $value);
+
+                    $key = 'hasAuthor';
+                    $value = $v['hasAuthor'];
+                    foreach ($value as $k => $v) {
+                        $class = 'Person';
+                        $this->register_data($IDchapter, $key, $class, $v);
+                    }
 
                     exit;
                 }
