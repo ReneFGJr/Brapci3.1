@@ -169,6 +169,7 @@ class BooksSubmit extends Model
                 'hasLanguage'=>'Language',
                 'hasSubject'=>'Subject',
                 'hasDate'=>'Date'];
+
         foreach($data as $key=>$value)
             {
                 if (in_array($key, $literal))
@@ -190,6 +191,7 @@ class BooksSubmit extends Model
                         break;
                     }
             }
+        echo $sx;
         exit;
 
         return 'Arquivo JSON recebido e associado ao registro.';
