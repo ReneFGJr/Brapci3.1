@@ -169,6 +169,7 @@ class BooksSubmit extends Model
                 'hasLanguageExpression'=>'Language',
                 'hasSubject'=>'Subject',
                 'hasOrganizator'=>'Person',
+                'hasPage'=>'Page',
                 'hasDate'=>'Date'];
 
         foreach($data as $key=>$value)
