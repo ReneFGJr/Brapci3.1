@@ -189,23 +189,27 @@ class BooksSubmit extends Model
                     echo $ChapterID.'<br>';
                     $class = 'BookChapter';
                     $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
+
+                    $this->register_link($dt['bs_rdf'], $key, $ChapterID, 0);
+
                     /******************** Section */
                     $class = 'BookSection';
                     $key = 'hasSectionOf';
-                    $value = 344893;
-                    $this->register_data($IDchapter, $key, $class, $value,'pt');
+                    $valueID = 344893;
+                    $this->register_data($IDchapter, $key, $class, $value);
+                    $this->register_link($IDchapter, $key, $valueID, 0);
 
                     $key = 'hasTitle';
-                    $value = $v['hasTitle'];
-                    $this->register_value($IDchapter, $key, $value);
+                    $valueID = $v['hasTitle'];
+                    $this->register_value($IDchapter, $key, $valueID);
 
                     $key = 'hasAbstract';
-                    $value = $v['hasAbstract'];
-                    $this->register_value($IDchapter, $key, $value);
+                    $valueID = $v['hasAbstract'];
+                    $this->register_value($IDchapter, $key, $valueID);
 
                     $key = 'hasAuthor';
                     $value = $v['hasAuthor'];
-                    foreach ($value as $k => $va) {
+                    foreach ($value as $kID => $va) {
                         $class = 'Person';
                         $this->register_data($IDchapter, $key, $class, $va);
                     }
@@ -276,6 +280,18 @@ class BooksSubmit extends Model
         /*************** Criar conceito */
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, 0, $value);
+        return True;
+    }
+
+    function register_link($idRDF, $property, $value, $lang = 'pt')
+    {
+        if ($idRDF == 0) {
+            return 'Registro RDF não localizado.';
+        }
+
+        /*************** Criar conceito */
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFdata->register($idRDF, $property, $value, 0);
         return True;
     }
 
