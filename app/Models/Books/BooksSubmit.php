@@ -198,8 +198,6 @@ class BooksSubmit extends Model
                     $prop = 'hasChapterOf';
                     $this->register_link($RdfID, $prop, $IDchapter, 0);
 
-                    continue;
-
                     /******************** Section */
                     $valueID = 344893;
                     $prop = 'hasSectionOf';
@@ -220,21 +218,19 @@ class BooksSubmit extends Model
                         $this->register_data($IDchapter, $key, $class, $va);
                     }
 
-                    /*
                     if (isset($v['hasInitialPage'])) {
-                        $key = 'hasPageStart';
+                        $prop = 'hasPageStart';
                         $value = $v['hasInitialPage'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $key, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $value);
                     }
 
                     if (isset($v['hasPageEnd'])) {
-                        $key = 'hasPageEnd';
+                        $prop = 'hasPageEnd';
                         $value = $v['hasPageEnd'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $key, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $value);
                     }
-                    */
                 }
             } else {
                 continue;
