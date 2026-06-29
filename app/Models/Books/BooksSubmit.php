@@ -183,7 +183,7 @@ class BooksSubmit extends Model
                 print("<br>Propriedade: $key");
                 if (is_array($value))
                     {
-                        print("<br>Valor: " . implode(", ", $value));
+                        pre($value);
                     } else {
                         print("<br>Valor: $value");
                     }
