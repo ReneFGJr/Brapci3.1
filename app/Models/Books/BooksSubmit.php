@@ -191,6 +191,7 @@ class BooksSubmit extends Model
 
                 exit;
             } else {
+                continue;
                 if (in_array($key, $literal)) {
                     print("<br>Registrando valor literal para a propriedade: $key");
                     $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
