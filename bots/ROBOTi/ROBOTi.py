@@ -224,6 +224,7 @@ def run(parm):
     if (act == 'check'):
         mod_concept.UpdateUse()
         mod_concept.remissives()
+        mod_data.DataDouble()
 
         mod_ontology.classification()
         mod_literal.updateHtml()
