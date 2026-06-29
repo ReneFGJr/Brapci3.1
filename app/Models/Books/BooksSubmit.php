@@ -192,7 +192,7 @@ class BooksSubmit extends Model
                     $class = 'BookSection';
                     $key = 'hasSectionOf';
                     $value = 344893;
-                    $IDsection = $this->register_data($IDchapter, $key, $class, $value);
+                    $IDsection = $this->register_data($IDchapter, $key, $class, $value,'pt');
                     echo $key.'==>'.$IDchapter.'-'.$ChapterID.'-X-'. $IDsection;
 
                     $key = 'hasTitle';
