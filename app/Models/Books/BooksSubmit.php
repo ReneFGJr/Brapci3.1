@@ -216,7 +216,7 @@ class BooksSubmit extends Model
                     $prop = 'hasAuthor';
                     foreach ($value as $kID => $va) {
                         $class = 'Person';
-                        pre($va);
+                        pre($va,false);
                         $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
