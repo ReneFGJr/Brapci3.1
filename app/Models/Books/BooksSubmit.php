@@ -196,7 +196,6 @@ class BooksSubmit extends Model
                     $class = 'BookSection';
                     $key = 'hasSectionOf';
                     $valueID = 344893;
-                    $this->register_data($IDchapter, $key, $class, $value);
                     $this->register_link($IDchapter, $key, $valueID, 0);
 
                     $key = 'hasTitle';
