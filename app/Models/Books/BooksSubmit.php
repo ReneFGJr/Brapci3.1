@@ -375,6 +375,9 @@ class BooksSubmit extends Model
         if ($dt != []) {
             $js = (array)json_decode($dt['bs_post']);
 
+            $sx .= bsc(msg('brapci.RDFID'), 3, 'small mt-2');
+            $sx .= bsc($dt['bs_rdf'], 3, 'small mt-2');
+
             foreach ($js as $key => $value) {
                 $sx .= bsc(msg('brapci.' . $key), 3, 'small mt-2');
                 $sx .= bsc($value . '&nbsp;', 9, 'border-top border-secondary');
