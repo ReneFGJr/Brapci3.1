@@ -203,17 +203,16 @@ class BooksSubmit extends Model
                     $prop = 'hasSectionOf';
                     $this->register_link($IDchapter, $prop, $valueID, 0);
 
-                    $key = 'hasTitle';
+                    $prop = 'hasTitle';
                     $valueID = $v['hasTitle'];
-                    $this->register_value($IDchapter, $key, $valueID);
+                    $this->register_value($IDchapter, $prop, $valueID);
 
-                    $key = 'hasAbstract';
+                    $prop = 'hasAbstract';
                     $valueID = $v['hasAbstract'];
-                    $this->register_value($IDchapter, $key, $valueID);
+                    $this->register_value($IDchapter, $prop, $valueID);
 
-                    $key = 'hasAuthor';
-                    $valueID = $v['hasAuthor'];
                     $prop = 'hasAuthor';
+                    $valueID = $v['hasAuthor'];
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         pre($va,false);
