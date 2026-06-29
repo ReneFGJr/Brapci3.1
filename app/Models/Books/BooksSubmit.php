@@ -196,7 +196,7 @@ class BooksSubmit extends Model
                                         print("<br>Valor registrado: $v");
                                     }
                             } else {
-                                echo "<br>Propriedade não mapeada: $key";
+                                echo "<br><span class='text-danger'>Propriedade não mapeada: $key</span>";
                                 exit;
                             }
                     }
