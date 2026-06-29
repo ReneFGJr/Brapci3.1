@@ -163,10 +163,10 @@ class BooksSubmit extends Model
         $sx = '';
         foreach($data as $key=>$value)
             {
-                echo $key . ' => ' . $value . '<br>';
                 switch($key)
                     {
                         case 'hasISBN':
+                            pre($value);
                             $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $value);
                             break;
                         default:
