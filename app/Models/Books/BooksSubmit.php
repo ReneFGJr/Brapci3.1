@@ -198,6 +198,8 @@ class BooksSubmit extends Model
                     $prop = 'hasChapterOf';
                     $this->register_link($RdfID, $prop, $IDchapter, 0);
 
+                    continue;
+
                     /******************** Section */
                     $valueID = 344893;
                     $prop = 'hasSectionOf';
