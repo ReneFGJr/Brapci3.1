@@ -166,7 +166,7 @@ class BooksSubmit extends Model
                 'hasISBN'=>'ISBN',
                 'hasAuthor'=>'Person',
                 'hasPublisher'=>'Publisher',
-                'hasLanguage'=>'Language',
+                'hasLanguageExpression'=>'Language',
                 'hasSubject'=>'Subject',
                 'hasDate'=>'Date'];
 
