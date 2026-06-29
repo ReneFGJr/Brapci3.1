@@ -176,7 +176,6 @@ class BooksSubmit extends Model
             return 'Arquivo JSON inválido. Propriedade "hasISBN" não encontrada.';
         }
         $ISBN = $data['hasISBN'];
-        pre($ISBN, false);
         if (is_array($ISBN)) {
             $ISBN = $ISBN[0];
         }
@@ -186,7 +185,7 @@ class BooksSubmit extends Model
             print("<br>Propriedade: $key");
             if ($key == 'hasBookChapter') {
                 $Chapter++;
-                $ChapterID = $ISBN.'_'.strzero($Chapter, 2);
+                $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
                 pre($ChapterID, false);
                 exit;
 
