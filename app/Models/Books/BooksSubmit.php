@@ -174,6 +174,7 @@ class BooksSubmit extends Model
                 'wasPublicationInDate'=>'Date',
                 'isPublisher'=>'Publisher',
                 'hasEdition'=>'Edition',
+                'hasKeywords'=>'Subject',
                 'hasDOI'=>'DOI',
                 'hasDate'=>'Date'];
 
