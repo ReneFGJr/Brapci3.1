@@ -17,7 +17,8 @@ class BooksSubmit extends Model
     protected $allowedFields    = [
         'id_bs', 'bs_post', 'bs_status',
         'bs_title', 'b_isbn', 'bs_rdf',
-        'bs_arquivo','bs_email'
+        'bs_arquivo','bs_email',
+        'bs_json'
     ];
 
     // Dates
@@ -143,7 +144,7 @@ class BooksSubmit extends Model
             }
 
         $dd = [];
-        $dd['bs_post'] = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $dd['bs_json'] = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         if (isset($data['b_titulo']) && trim($data['b_titulo']) != '')
             {
@@ -156,6 +157,10 @@ class BooksSubmit extends Model
             }
 
         $this->set($dd)->where('id_bs', $id)->update();
+
+        pre($dt,false);
+        pre($data,false);
+        exit;
 
         return 'Arquivo JSON recebido e associado ao registro.';
     }
