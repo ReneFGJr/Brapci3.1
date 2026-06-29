@@ -153,7 +153,6 @@ class BooksSubmit extends Model
 
         $this->set($dd)->where('id_bs', $id)->update();
 
-        pre($data, false);
         $sx = '';
         $literal = ['hasTitle', 'hasAbstract'];
         $Classes = [
@@ -182,8 +181,6 @@ class BooksSubmit extends Model
         $Chapter = 0;
 
         foreach ($data as $key => $value) {
-            print("<br>Propriedade: $key");
-
             /********************************** Chapter */
             if ($key == 'hasBookChapter') {
                 $Chapter++;
