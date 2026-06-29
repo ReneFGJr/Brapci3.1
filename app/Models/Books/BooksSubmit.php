@@ -181,8 +181,10 @@ class BooksSubmit extends Model
                     }
                 if (in_array($key, $literal))
                     {
+                        print("<br>Registrando valor literal para a propriedade: $key");
                         $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
                     } else {
+                        print("<br>Registrando valor de conceito para a propriedade: $key");
                         if (isset($Classes[$key]))
                             {
                                 $class = $Classes[$key];
