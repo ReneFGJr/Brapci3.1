@@ -187,7 +187,7 @@ class BooksSubmit extends Model
                 $Chapter++;
                 $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
                 $class = 'BookChapter';
-                $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $v);
+                $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
                 pre($IDchapter.'-'.$ChapterID, false);
                 exit;
 
