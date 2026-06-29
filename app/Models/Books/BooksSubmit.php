@@ -259,7 +259,7 @@ class BooksSubmit extends Model
 
         /*************** Criar conceito */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => 'nn']);
+        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => 'pt']);
 
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, $idC, 0);
