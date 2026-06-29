@@ -251,7 +251,7 @@ class BooksSubmit extends Model
         return True;
     }
 
-    function register_data($idRDF, $property, $class, $value)
+    function register_data($idRDF, $property, $class, $value, $lang = 'pt')
     {
         if ($idRDF == 0) {
             return 'Registro RDF não localizado.';
@@ -259,7 +259,7 @@ class BooksSubmit extends Model
 
         /*************** Criar conceito */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => 'pt']);
+        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => $lang]);
 
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, $idC, 0);
