@@ -185,8 +185,6 @@ class BooksSubmit extends Model
             if ($key == 'hasBookChapter') {
                 $RdfID = $dt['bs_rdf'];
 
-                pre($value,false);
-
                 foreach ($value as $k => $v) {
                     $Chapter++;
                     $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
