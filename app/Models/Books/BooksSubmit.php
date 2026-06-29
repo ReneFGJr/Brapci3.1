@@ -199,7 +199,6 @@ class BooksSubmit extends Model
                                 echo "<br>Propriedade não mapeada: $key";
                                 exit;
                             }
-                        break;
                     }
             }
         echo $sx;
