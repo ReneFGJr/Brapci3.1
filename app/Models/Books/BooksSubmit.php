@@ -160,9 +160,39 @@ class BooksSubmit extends Model
 
         pre($dt,false);
         pre($data,false);
+        $sx = '';
+        foreach($data as $key=>$value)
+            {
+                echo $key . ' => ' . $value . '<br>';
+                switch($key)
+                    {
+                        case 'hasISBN':
+                            $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $value);
+                            break;
+                        default:
+                            echo "OPS ".$key;
+                            exit;
+                    }
+            }
         exit;
 
         return 'Arquivo JSON recebido e associado ao registro.';
+    }
+
+    function register_data($idRDF,$propierty,$class,$value)
+    {
+        if ($idRDF == 0)
+            {
+                return 'Registro RDF não localizado.';
+            }
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $idC = $RDFclass->getClass($class);
+        pre($idC);
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDF2 = new \App\Models\RDF2\RDF();
+        $idc = $RDF2->register($idRDF, $property, $value, 0);
+        return $idc;
     }
 
     function discalimer($d2,$d3)
