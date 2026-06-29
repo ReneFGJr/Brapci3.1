@@ -223,9 +223,6 @@ class BooksSubmit extends Model
                         $class = 'Page';
                         $this->register_data($IDchapter, $key, $class, $value);
                     }
-
-                    pre($v);
-                    exit;
                 }
                 exit;
             } else {
