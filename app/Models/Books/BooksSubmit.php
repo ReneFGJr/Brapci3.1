@@ -171,7 +171,7 @@ class BooksSubmit extends Model
                 'hasOrganizator'=>'Person',
                 'hasPage'=>'Page',
                 'isPlaceOfPublication'=>'Place',
-                'wasPublicationInDate '=>'Date',
+                'wasPublicationInDate'=>'Date',
                 'isPublisher'=>'Publisher',
                 'hasEdition'=>'Edition',
                 'hasDate'=>'Date'];
