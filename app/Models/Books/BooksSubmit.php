@@ -184,10 +184,13 @@ class BooksSubmit extends Model
                         print("<br>Registrando valor literal para a propriedade: $key");
                         $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
                     } else {
+                        if ($key == 'hasKeyword') {
+                            $key = 'hasSubject';
+                        }
                         print("<br>Registrando valor de conceito para a propriedade: $key");
                         if (isset($Classes[$key]))
                             {
-                                if ($key == 'hasKeyword') { $key = 'hasSubject';}
+
                                 $class = $Classes[$key];
                                 print("<br>Classe associada: $class");
                                 foreach($value as $k=>$v)
