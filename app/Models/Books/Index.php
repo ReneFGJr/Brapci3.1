@@ -67,8 +67,7 @@ class Index extends Model
 
                                 case '12':
                                     //$BookSubmit->chache_status($d2, 2);
-                                    //$sx = bs(bsc($BookSubmit->view($d2), 12));
-                                    $sx = "OK";
+                                    $sx = bs(bsc($BookSubmit->import_json($d2), 12));
                                     break;
 
                                 case '13':

@@ -78,6 +78,88 @@ class BooksSubmit extends Model
 
     }
 
+    function import_json($id)
+    {
+        $dt = $this->find($id);
+        if ($dt == [])
+            {
+                return 'Registro não localizado '.$id;
+            }
+
+        if (isset($_FILES['file']) && ($_FILES['file']['error'] === UPLOAD_ERR_OK))
+            {
+                $tmp = $_FILES['file']['tmp_name'];
+                $name = $_FILES['file']['name'];
+                $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+                if ($ext != 'json')
+                    {
+                        return 'Envie um arquivo JSON válido.';
+                    }
+
+                $dir = $this->directory();
+                $filename = $dir . md5_file($tmp) . '.json';
+
+                if (move_uploaded_file($tmp, $filename))
+                    {
+                        return $this->process_json($id, $filename);
+                    }
+
+                return 'Não foi possível salvar o arquivo enviado.';
+            }
+
+        $action = PATH . 'admin/book/change/' . $id . '/12';
+        $sx = '';
+        $sx .= '<form method="post" action="' . $action . '" enctype="multipart/form-data">';
+        $sx .= '<div class="mb-3">';
+        $sx .= '<label for="file" class="form-label">Arquivo JSON</label>';
+        $sx .= '<input type="file" class="form-control" name="file" id="file" accept=".json,application/json" required>';
+        $sx .= '</div>';
+        $sx .= '<button type="submit" class="btn btn-primary">' . lang('brapci.import_json') . '</button>';
+        $sx .= '</form>';
+        $sx .= '<div class="mt-3 small text-muted">Envie um arquivo JSON para processar esta submissão.</div>';
+        return $sx;
+    }
+
+    function process_json($id, $path_do_arquivo)
+    {
+        $dt = $this->find($id);
+        if ($dt == [])
+            {
+                return 'Registro não localizado '.$id;
+            }
+
+        if (!file_exists($path_do_arquivo))
+            {
+                return 'Arquivo JSON não encontrado.';
+            }
+
+        $json = file_get_contents($path_do_arquivo);
+        $data = json_decode($json, true);
+
+        if (!is_array($data))
+            {
+                return 'Arquivo JSON inválido.';
+            }
+
+        $dd = [];
+        $dd['bs_post'] = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        if (isset($data['b_titulo']) && trim($data['b_titulo']) != '')
+            {
+                $dd['bs_title'] = $data['b_titulo'];
+            }
+
+        if (isset($data['b_isbn']) && trim($data['b_isbn']) != '')
+            {
+                $dd['b_isbn'] = $data['b_isbn'];
+            }
+
+        $this->set($dd)->where('id_bs', $id)->update();
+
+        return 'Arquivo JSON recebido e associado ao registro.';
+    }
+
     function discalimer($d2,$d3)
         {
             $id = $d2;

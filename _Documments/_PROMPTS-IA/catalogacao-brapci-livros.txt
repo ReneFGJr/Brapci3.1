@@ -24,3 +24,6 @@ Crie as palavras-chave para a obra
 
 Identifique todos os capítulos, marcando o título, autores e página inicial
 Gerar em um único arquivo JSON válido para download
+
+No ISBN deixe somente os número
+Salvo o nome do arquivo JSON com o número do {ISBN}.json
