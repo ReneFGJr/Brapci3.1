@@ -224,6 +224,7 @@ class BooksSubmit extends Model
                             $sx .= '<br><i>' . $js['b_autor'] . '</i>';
                             $sx .= '</b>';
                         } else {
+                            pre($line);
                             $sx .= '<b>';
                             $sx .= $link . 'Não informado' . $linka;
                             $sx .= '<br><i>' . 'sem autoria registrada' . '</i>';
