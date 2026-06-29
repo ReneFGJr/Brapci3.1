@@ -380,7 +380,7 @@ class BooksSubmit extends Model
             $sx .= bsc($url, 3, 'small mt-2');
 
             $sx .= bsc(msg('brapci.hasTitle'), 3, 'small mt-2');
-            $sx .= bsc($dt['bs_title'], 3, 'small mt-2');
+            $sx .= bsc('<b>'.$dt['bs_title'].'</b>', 9, 'small mt-2');
 
             foreach ($js as $key => $value) {
                 $sx .= bsc(msg('brapci.' . $key), 3, 'small mt-2');
