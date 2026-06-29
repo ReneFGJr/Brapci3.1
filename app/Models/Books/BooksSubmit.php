@@ -153,7 +153,6 @@ class BooksSubmit extends Model
 
         $this->set($dd)->where('id_bs', $id)->update();
 
-        pre($dt, false);
         pre($data, false);
         $sx = '';
         $literal = ['hasTitle', 'hasAbstract'];
@@ -187,7 +186,7 @@ class BooksSubmit extends Model
             print("<br>Propriedade: $key");
             if ($key == 'hasBookChapter') {
                 $Chapter++;
-                $ChapterID = $Chapter.'_'.strzero($Chapter, 2);
+                $ChapterID = $ISBN.'_'.strzero($Chapter, 2);
                 pre($ChapterID, false);
                 exit;
 
