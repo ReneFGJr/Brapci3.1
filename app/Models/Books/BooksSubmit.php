@@ -194,9 +194,10 @@ class BooksSubmit extends Model
                     echo $RdfID . '<br>';
                     echo $ChapterID.'<br>';
                     echo $IDchapter.'<br>';
-                    exit;
 
-                    $this->register_link($dt['bs_rdf'], $key, $ChapterID, 0);
+                    $prop = 'hasChapterOf';
+                    $this->register_link($RdfID, $prop, $IDchapter, 0);
+                    exit;
 
                     /******************** Section */
                     $class = 'BookSection';
