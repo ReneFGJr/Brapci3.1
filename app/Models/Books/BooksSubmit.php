@@ -166,8 +166,11 @@ class BooksSubmit extends Model
                 switch($key)
                     {
                         case 'hasISBN':
-                            pre($value);
-                            $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $value);
+                            foreach($value as $k=>$v)
+                                {
+                                    $v = sonumero($v);
+                                    $sx .= $this->register_data($dt['bs_rdf'], $key , 'ISBN', $v);
+                                }
                             break;
                         default:
                             echo "OPS ".$key;
