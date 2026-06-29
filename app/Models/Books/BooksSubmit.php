@@ -212,9 +212,9 @@ class BooksSubmit extends Model
                     $this->register_value($IDchapter, $key, $valueID);
 
                     $key = 'hasAuthor';
-                    $value = $v['hasAuthor'];
+                    $valueID = $v['hasAuthor'];
                     $prop = 'hasAuthor';
-                    foreach ($value as $kID => $va) {
+                    foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         pre($va,false);
                         $this->register_data($IDchapter, $prop, $class, $va);
@@ -222,14 +222,14 @@ class BooksSubmit extends Model
 
                     if (isset($v['hasInitialPage'])) {
                         $prop = 'hasPageStart';
-                        $value = $v['hasInitialPage'];
+                        $valueID = $v['hasInitialPage'];
                         $class = 'Page';
                         $this->register_data($IDchapter, $prop, $class, $value);
                     }
 
                     if (isset($v['hasPageEnd'])) {
                         $prop = 'hasPageEnd';
-                        $value = $v['hasPageEnd'];
+                        $valueID = $v['hasPageEnd'];
                         $class = 'Page';
                         $this->register_data($IDchapter, $prop, $class, $value);
                     }
