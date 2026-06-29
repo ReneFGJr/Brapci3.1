@@ -168,6 +168,7 @@ class BooksSubmit extends Model
                 'hasPublisher'=>'Publisher',
                 'hasLanguageExpression'=>'Language',
                 'hasSubject'=>'Subject',
+                'hasOrganizator'=>'Person',
                 'hasDate'=>'Date'];
 
         foreach($data as $key=>$value)
@@ -188,18 +189,26 @@ class BooksSubmit extends Model
                             $key = 'hasSubject';
                         }
                         print("<br>Registrando valor de conceito para a propriedade: $key");
-                        if (isset($Classes[$key]))
-                            {
+                        try:
+                            if (isset($Classes[$key]))
+                                {
 
-                                $class = $Classes[$key];
-                                print("<br>Classe associada: $class");
-                                foreach($value as $k=>$v)
-                                    {
-                                        $sx .= $this->register_data($dt['bs_rdf'], $key , $class, $v);
-                                        print("<br>Valor registrado: $v");
-                                    }
-                            } else {
-                                echo "<br><span class='text-danger'>Propriedade não mapeada: $key</span>";
+                                    $class = $Classes[$key];
+                                    print("<br>Classe associada: $class");
+                                    foreach($value as $k=>$v)
+                                        {
+                                            $sx .= $this->register_data($dt['bs_rdf'], $key , $class, $v);
+                                            print("<br>Valor registrado: $v");
+                                        }
+                                } else {
+                                    echo "<br><span class='text-danger'>Propriedade não mapeada: $key</span>";
+                                    exit;
+                                }
+                        catch (\Exception $e)
+                            {
+                                pre($key,false);
+                                pre($value,false);
+                                echo "<br><span class='text-danger'>Erro ao registrar a propriedade: $key - " . $e->getMessage() . "</span>";
                                 exit;
                             }
                     }
