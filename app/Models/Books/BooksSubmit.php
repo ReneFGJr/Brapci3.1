@@ -459,14 +459,14 @@ class BooksSubmit extends Model
 
             if (isset($js['b_titulo'])) {
                 $sx .= '<b>';
-                $sx .= $link . (string)$js['b_titulo'] . $linka;
+                $sx .= $link . $line['bs_title'] . $linka;
                 $sx .= '<br><i>' . $js['b_autor'] . '</i>';
                 $sx .= '</b>';
             } else {
                 $sx .= $line['created_at'];
                 $sx .= '<br>';
                 $sx .= '<b>';
-                $sx .= $link . 'Não informado' . $linka;
+                $sx .= $link . $line['bs_title'] . $linka;
                 $sx .= '<br><i>' . 'sem autoria registrada' . '</i>';
                 $sx .= '</b>';
             }
