@@ -187,6 +187,7 @@ class BooksSubmit extends Model
                         print("<br>Registrando valor de conceito para a propriedade: $key");
                         if (isset($Classes[$key]))
                             {
+                                if ($key == 'hasKeyword') { $key = 'hasSubject';}
                                 $class = $Classes[$key];
                                 print("<br>Classe associada: $class");
                                 foreach($value as $k=>$v)
