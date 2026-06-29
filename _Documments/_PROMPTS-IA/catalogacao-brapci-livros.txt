@@ -18,6 +18,8 @@ hasTitle (com o subtítulo)
 hasAuthor
 hasAbstract (entre 250 e 400 palavras)
 hasSubject (crie tres se não existir)
+hasPageEnd
+hasPageStart
 
 Crie um campo para descrição da obra (hasAbstract) se não existir
 Crie as palavras-chave para a obra
