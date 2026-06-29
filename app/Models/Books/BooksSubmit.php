@@ -174,10 +174,20 @@ class BooksSubmit extends Model
             'hasDate' => 'Date'
         ];
 
+        $ISBN = $data['hasISBN'] ?? '';
+        if (is_array($ISBN)) {
+            $ISBN = $ISBN[0];
+        }
+        $Chapter = 0;
+
         foreach ($data as $key => $value) {
             print("<br>Propriedade: $key");
             if ($key == 'hasBookChapter') {
-                echo "Capítulo do livro, não processado neste momento.";
+                $Chapter++;
+                $ChapterID = $Chapter.'_'.strzero($Chapter, 2);
+                pre($ChapterID, false);
+                exit;
+
                 exit;
             } else {
                 if (in_array($key, $literal)) {
