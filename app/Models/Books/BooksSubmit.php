@@ -180,6 +180,11 @@ class BooksSubmit extends Model
                         $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
                         $sx .= $btn;
                         break;
+                    case '7':
+                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/12"  class="btn btn-outline-danger ms-2">' . lang('brapci.import_json') . '</btn>';
+                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/13"  class="btn btn-outline-danger ms-2">' . lang('brapci.manual') . '</btn>';
+                        $sx .= $btn;
+                        break;
                     default:
                         $sx .= 'No actions';
                     break;

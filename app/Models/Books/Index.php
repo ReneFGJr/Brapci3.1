@@ -65,6 +65,17 @@ class Index extends Model
                                     $BookSubmit->chache_status($d2, 7);
                                 break;
 
+                                case '12':
+                                    //$BookSubmit->chache_status($d2, 2);
+                                    //$sx = bs(bsc($BookSubmit->view($d2), 12));
+                                    $sx = "OK";
+                                    break;
+
+                                case '13':
+                                    $BookSubmit->chache_status($d2, 2);
+                                    $sx = bs(bsc($BookSubmit->view($d2), 12));
+                                    break;
+
                                 default:
                                     $BookSubmit->chache_status($d2, $d3);
                                     $sx = bs(bsc($BookSubmit->view($d2), 12));
