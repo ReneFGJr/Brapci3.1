@@ -183,23 +183,28 @@ class BooksSubmit extends Model
         foreach ($data as $key => $value) {
             /********************************** Chapter */
             if ($key == 'hasBookChapter') {
-                pre($value);
-                $Chapter++;
-                $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
-                $class = 'BookChapter';
-                $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
-                /******************** Section */
-                $class = 'BookSection';
-                $key = 'hasSectionOf';
-                $value = 'Capítulo de livro';
-                $IDsection = $this->register_data($IDchapter, $key, $class, $value);
-                echo $key.'==>'.$IDchapter.'-'.$ChapterID.'-X-'. $IDsection;
+                foreach ($value as $k => $v) {
+                    $Chapter++;
+                    $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
+                    $class = 'BookChapter';
+                    $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
+                    /******************** Section */
+                    $class = 'BookSection';
+                    $key = 'hasSectionOf';
+                    $value = 'Capítulo de livro';
+                    $IDsection = $this->register_data($IDchapter, $key, $class, $value);
+                    echo $key.'==>'.$IDchapter.'-'.$ChapterID.'-X-'. $IDsection;
 
-                $key = 'hasTitle';
-                $value = 'Título do capítulo';
-                $this->register_value($IDchapter, $key, $value);
-                exit;
+                    $key = 'hasTitle';
+                    $value = $v['hasTitle'];
+                    $this->register_value($IDchapter, $key, $value);
 
+                    $key = 'hasAbstract';
+                    $value = $v['hasAbstract'];
+                    $this->register_value($IDchapter, $key, $value);
+
+                    exit;
+                }
                 exit;
             } else {
                 continue;
