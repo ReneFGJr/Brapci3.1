@@ -184,6 +184,8 @@ class BooksSubmit extends Model
         }
         $Chapter = 0;
 
+        $IDCatalogador = $this->register_data($dt['bs_rdf'], 'hasCataloger', 'Cataloger', 'BrapciIA');
+
         foreach ($data as $key => $value) {
             /********************************** Chapter */
             if ($key == 'hasBookChapter') {
@@ -194,6 +196,8 @@ class BooksSubmit extends Model
                     $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
                     $class = 'BookChapter';
                     $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
+
+                    $IDCatalogador = $this->register_data($IDchapter, 'hasCataloger', 'Cataloger', 'BrapciIA');
 
                     echo $RdfID . '<br>';
                     echo $ChapterID.'<br>';
