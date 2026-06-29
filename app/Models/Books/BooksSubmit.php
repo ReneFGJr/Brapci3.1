@@ -15,9 +15,14 @@ class BooksSubmit extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_bs', 'bs_post', 'bs_status',
-        'bs_title', 'b_isbn', 'bs_rdf',
-        'bs_arquivo','bs_email',
+        'id_bs',
+        'bs_post',
+        'bs_status',
+        'bs_title',
+        'b_isbn',
+        'bs_rdf',
+        'bs_arquivo',
+        'bs_email',
         'bs_json'
     ];
 
@@ -51,7 +56,7 @@ class BooksSubmit extends Model
         $dt = $BookSubmit->find($id);
 
         // Caminho do arquivo no servidor
-        $file_path = '../.tmp/booksubmit/'.$dt['bs_arquivo'];
+        $file_path = '../.tmp/booksubmit/' . $dt['bs_arquivo'];
 
         // Verifica se o arquivo existe
         if (file_exists($file_path)) {
@@ -76,38 +81,33 @@ class BooksSubmit extends Model
             pre($dt);
             echo "Arquivo não encontrado!";
         }
-
     }
 
     function import_json($id)
     {
         $dt = $this->find($id);
-        if ($dt == [])
-            {
-                return 'Registro não localizado '.$id;
+        if ($dt == []) {
+            return 'Registro não localizado ' . $id;
+        }
+
+        if (isset($_FILES['file']) && ($_FILES['file']['error'] === UPLOAD_ERR_OK)) {
+            $tmp = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+            if ($ext != 'json') {
+                return 'Envie um arquivo JSON válido.';
             }
 
-        if (isset($_FILES['file']) && ($_FILES['file']['error'] === UPLOAD_ERR_OK))
-            {
-                $tmp = $_FILES['file']['tmp_name'];
-                $name = $_FILES['file']['name'];
-                $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            $dir = $this->directory();
+            $filename = $dir . md5_file($tmp) . '.json';
 
-                if ($ext != 'json')
-                    {
-                        return 'Envie um arquivo JSON válido.';
-                    }
-
-                $dir = $this->directory();
-                $filename = $dir . md5_file($tmp) . '.json';
-
-                if (move_uploaded_file($tmp, $filename))
-                    {
-                        return $this->process_json($id, $filename);
-                    }
-
-                return 'Não foi possível salvar o arquivo enviado.';
+            if (move_uploaded_file($tmp, $filename)) {
+                return $this->process_json($id, $filename);
             }
+
+            return 'Não foi possível salvar o arquivo enviado.';
+        }
 
         $action = PATH . 'admin/book/change/' . $id . '/12';
         $sx = '';
@@ -125,117 +125,109 @@ class BooksSubmit extends Model
     function process_json($id, $path_do_arquivo)
     {
         $dt = $this->find($id);
-        if ($dt == [])
-            {
-                return 'Registro não localizado '.$id;
-            }
+        if ($dt == []) {
+            return 'Registro não localizado ' . $id;
+        }
 
-        if (!file_exists($path_do_arquivo))
-            {
-                return 'Arquivo JSON não encontrado.';
-            }
+        if (!file_exists($path_do_arquivo)) {
+            return 'Arquivo JSON não encontrado.';
+        }
 
         $json = file_get_contents($path_do_arquivo);
         $data = json_decode($json, true);
 
-        if (!is_array($data))
-            {
-                return 'Arquivo JSON inválido.';
-            }
+        if (!is_array($data)) {
+            return 'Arquivo JSON inválido.';
+        }
 
         $dd = [];
         $dd['bs_json'] = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        if (isset($data['b_titulo']) && trim($data['b_titulo']) != '')
-            {
-                $dd['bs_title'] = $data['b_titulo'];
-            }
+        if (isset($data['b_titulo']) && trim($data['b_titulo']) != '') {
+            $dd['bs_title'] = $data['b_titulo'];
+        }
 
-        if (isset($data['b_isbn']) && trim($data['b_isbn']) != '')
-            {
-                $dd['b_isbn'] = $data['b_isbn'];
-            }
+        if (isset($data['b_isbn']) && trim($data['b_isbn']) != '') {
+            $dd['b_isbn'] = $data['b_isbn'];
+        }
 
         $this->set($dd)->where('id_bs', $id)->update();
 
-        pre($dt,false);
-        pre($data,false);
+        pre($dt, false);
+        pre($data, false);
         $sx = '';
-        $literal = ['hasTitle','hasAbstract'];
+        $literal = ['hasTitle', 'hasAbstract'];
         $Classes = [
-                'hasISBN'=>'ISBN',
-                'hasAuthor'=>'Person',
-                'hasPublisher'=>'Publisher',
-                'hasLanguageExpression'=>'Language',
-                'hasSubject'=>'Subject',
-                'hasOrganizator'=>'Person',
-                'hasPage'=>'Page',
-                'isPlaceOfPublication'=>'Place',
-                'wasPublicationInDate'=>'Date',
-                'isPublisher'=>'Publisher',
-                'hasEdition'=>'Edition',
-                'hasKeywords'=>'Subject',
-                'hasDOI'=>'DOI',
-                'hasDate'=>'Date'];
+            'hasISBN' => 'ISBN',
+            'hasAuthor' => 'Person',
+            'hasPublisher' => 'Publisher',
+            'hasLanguageExpression' => 'Language',
+            'hasSubject' => 'Subject',
+            'hasOrganizator' => 'Person',
+            'hasPage' => 'Page',
+            'isPlaceOfPublication' => 'Place',
+            'wasPublicationInDate' => 'Date',
+            'isPublisher' => 'Publisher',
+            'hasEdition' => 'Edition',
+            'hasKeywords' => 'Subject',
+            'hasDOI' => 'DOI',
+            'hasDate' => 'Date'
+        ];
 
-        foreach($data as $key=>$value)
-            {
-                print("<br>Propriedade: $key");
-                if (is_array($value))
-                    {
-                        pre($value);
-                    } else {
-                        print("<br>Valor: $value");
+        foreach ($data as $key => $value) {
+            print("<br>Propriedade: $key");
+            if ($key == 'hasBookChapter') {
+                echo "Capítulo do livro, não processado neste momento.";
+                exit;
+            } else {
+                if (in_array($key, $literal)) {
+                    print("<br>Registrando valor literal para a propriedade: $key");
+                    $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
+                } else {
+                    if ($key == 'hasKeyword') {
+                        $key = 'hasSubject';
                     }
-                if (in_array($key, $literal))
-                    {
-                        print("<br>Registrando valor literal para a propriedade: $key");
-                        $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
-                    } else {
-                        if ($key == 'hasKeyword') {
-                            $key = 'hasSubject';
-                        }
-                        print("<br>Registrando valor de conceito para a propriedade: $key");
-                        try {
-                            if (isset($Classes[$key])) {
+                    print("<br>Registrando valor de conceito para a propriedade: $key");
+                    try {
+                        if (isset($Classes[$key])) {
 
-                                $class = $Classes[$key];
-                                print("<br>Classe associada: $class");
+                            $class = $Classes[$key];
+                            print("<br>Classe associada: $class");
 
-                                if (is_array($value)) {
-                                    foreach ($value as $k => $v) {
-                                        $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
-                                        print("<br>Valor registrado: $v");
-                                    }
-                                } else {
-                                    $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $value);
-                                    print("<br>Valor registrado: $value");
+                            if (is_array($value)) {
+                                foreach ($value as $k => $v) {
+                                    $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
+                                    print("<br>Valor registrado: $v");
                                 }
                             } else {
-                                echo "<br><span style=\"color:red\">Propriedade não mapeada: $key</span>";
-                                exit;
+                                $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $value);
+                                print("<br>Valor registrado: $value");
                             }
-                        } catch (\Exception $e) {
-
-                            pre($key, false);
-                            pre($value, false);
-
-                            echo "<br><span class='text-danger'>Erro ao registrar a propriedade: $key - {$e->getMessage()}</span>";
+                        } else {
+                            echo "<br><span style=\"color:red\">Propriedade não mapeada: $key</span>";
                             exit;
                         }
+                    } catch (\Exception $e) {
+
+                        pre($key, false);
+                        pre($value, false);
+
+                        echo "<br><span class='text-danger'>Erro ao registrar a propriedade: $key - {$e->getMessage()}</span>";
+                        exit;
                     }
+                }
             }
+        }
 
 
         return 'Arquivo JSON recebido e associado ao registro.';
     }
 
-    function register_value($idRDF, $property,$value)
+    function register_value($idRDF, $property, $value)
     {
-        if ($idRDF == 0)
-            {
-                return 'Registro RDF não localizado.';
-            }
+        if ($idRDF == 0) {
+            return 'Registro RDF não localizado.';
+        }
 
         /*************** Criar conceito */
         $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -243,236 +235,222 @@ class BooksSubmit extends Model
         return True;
     }
 
-    function register_data($idRDF, $property,$class,$value)
+    function register_data($idRDF, $property, $class, $value)
     {
-        if ($idRDF == 0)
-            {
-                return 'Registro RDF não localizado.';
-            }
+        if ($idRDF == 0) {
+            return 'Registro RDF não localizado.';
+        }
 
         /*************** Criar conceito */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $idC = $RDFconcept->createConcept(['Class'=>$class,'Name'=>$value,'Lang'=>'nn']);
+        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => 'nn']);
 
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, $idC, 0);
         return True;
     }
 
-    function discalimer($d2,$d3)
-        {
-            $id = $d2;
-            $md5 = $d3;
-            $dt = $this->where('id_bs',$id)->first();
-            $dt['bs_status'] = 1;
-            $this->set($dt)->where('id_bs',$id)->update();
-            return $dt;
-        }
+    function discalimer($d2, $d3)
+    {
+        $id = $d2;
+        $md5 = $d3;
+        $dt = $this->where('id_bs', $id)->first();
+        $dt['bs_status'] = 1;
+        $this->set($dt)->where('id_bs', $id)->update();
+        return $dt;
+    }
 
     function registerPDF()
-        {
-            $tmp = $_FILES['file']['tmp_name'];
-            $name = $_FILES['file']['name'];
-            $md5 = md5_file($tmp);
-            $dir = $this->directory();
-            $filename = $dir . $md5 . '.pdf';
-            $exist = file_exists($filename);
-            move_uploaded_file($tmp,$filename);
+    {
+        $tmp = $_FILES['file']['tmp_name'];
+        $name = $_FILES['file']['name'];
+        $md5 = md5_file($tmp);
+        $dir = $this->directory();
+        $filename = $dir . $md5 . '.pdf';
+        $exist = file_exists($filename);
+        move_uploaded_file($tmp, $filename);
 
-            $dt = $this
-                ->where('bs_arquivo',$md5)
-                ->first();
-            if ($dt == [])
-                {
-                    $dd['bs_arquivo'] = $md5;
-                    $idc = $this->set($dd)->insert();
-                    $status = 0;
-                } else {
-                    $idc = $dt['id_bs'];
-                    $status = $dt['bs_status'];
-                }
-            return [$md5,$exist,$idc,$status];
+        $dt = $this
+            ->where('bs_arquivo', $md5)
+            ->first();
+        if ($dt == []) {
+            $dd['bs_arquivo'] = $md5;
+            $idc = $this->set($dd)->insert();
+            $status = 0;
+        } else {
+            $idc = $dt['id_bs'];
+            $status = $dt['bs_status'];
         }
+        return [$md5, $exist, $idc, $status];
+    }
 
     function directory()
-        {
-            $dir = '.tmp/books/';
-            dircheck($dir);
-            return $dir;
-        }
+    {
+        $dir = '.tmp/books/';
+        dircheck($dir);
+        return $dir;
+    }
 
     function view($id)
-        {
-            $sx = '';
-            $dt = $this->find($id);
+    {
+        $sx = '';
+        $dt = $this->find($id);
 
-            if ($dt['bs_status'] == 2)
-                {
-                    if ($dt['bs_rdf'] > 0)
-                        {
-                            $url = 'https://brapci.inf.br/admin/a/' . $dt['bs_rdf'];
-                            echo metarefresh($url,0);
-                            exit;
-                        }
-                }
-
-            $sx .= bsc($this->action($dt),12);
-
-            if ($dt != [])
-                {
-                    $js = (array)json_decode($dt['bs_post']);
-
-                    foreach($js as $key=>$value)
-                        {
-                            $sx .= bsc(msg('brapci.'.$key), 3, 'small mt-2');
-                            $sx .= bsc($value.'&nbsp;', 9,'border-top border-secondary');
-                        }
-                } else {
-                    $sx .= 'Registro não localizado '.$id;
-                }
-            $sx = bsc($sx,5);
-            $iframe = $this->show_pdf($dt);
-            $sx .= bsc($iframe,7);
-            return bs($sx);
+        if ($dt['bs_status'] == 2) {
+            if ($dt['bs_rdf'] > 0) {
+                $url = 'https://brapci.inf.br/admin/a/' . $dt['bs_rdf'];
+                echo metarefresh($url, 0);
+                exit;
+            }
         }
 
-    function chache_status($id,$sta)
-        {
-            $dd['bs_status'] = $sta;
-            $this->set($dd)->where('id_bs',$id)->update();
-            return True;
+        $sx .= bsc($this->action($dt), 12);
+
+        if ($dt != []) {
+            $js = (array)json_decode($dt['bs_post']);
+
+            foreach ($js as $key => $value) {
+                $sx .= bsc(msg('brapci.' . $key), 3, 'small mt-2');
+                $sx .= bsc($value . '&nbsp;', 9, 'border-top border-secondary');
+            }
+        } else {
+            $sx .= 'Registro não localizado ' . $id;
         }
+        $sx = bsc($sx, 5);
+        $iframe = $this->show_pdf($dt);
+        $sx .= bsc($iframe, 7);
+        return bs($sx);
+    }
+
+    function chache_status($id, $sta)
+    {
+        $dd['bs_status'] = $sta;
+        $this->set($dd)->where('id_bs', $id)->update();
+        return True;
+    }
 
     function action($dt)
-        {
-            $sx = '';
-            $sta = $dt['bs_status'];
-            $id = $dt['id_bs'];
-            $btn = '<a href="'.PATH.'admin/book/status/0" class="btn btn-outline-warning ms-2">' . lang('brapci.return') . '</a>';
-            switch($sta)
-                {
-                    case '0':
-                        $sx .= '<a href="'.PATH.'admin/book/change/'.$id.'/1" class="btn btn-outline-primary">'.lang('brapci.accept').'</a>';
-                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
-                        $sx .= $btn;
-                        break;
-                    case '1':
-                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/2" class="btn btn-outline-primary">' . lang('brapci.create_book') . '</a>';
-                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
-                        $sx .= $btn;
-                        break;
-                    case '7':
-                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/12"  class="btn btn-outline-danger ms-2">' . lang('brapci.import_json') . '</btn>';
-                        $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/13"  class="btn btn-outline-danger ms-2">' . lang('brapci.manual') . '</btn>';
-                        $sx .= $btn;
-                        break;
-                    default:
-                        $sx .= 'No actions';
-                    break;
-                }
-            return $sx;
+    {
+        $sx = '';
+        $sta = $dt['bs_status'];
+        $id = $dt['id_bs'];
+        $btn = '<a href="' . PATH . 'admin/book/status/0" class="btn btn-outline-warning ms-2">' . lang('brapci.return') . '</a>';
+        switch ($sta) {
+            case '0':
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/1" class="btn btn-outline-primary">' . lang('brapci.accept') . '</a>';
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
+                $sx .= $btn;
+                break;
+            case '1':
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/2" class="btn btn-outline-primary">' . lang('brapci.create_book') . '</a>';
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
+                $sx .= $btn;
+                break;
+            case '7':
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/12"  class="btn btn-outline-danger ms-2">' . lang('brapci.import_json') . '</btn>';
+                $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/13"  class="btn btn-outline-danger ms-2">' . lang('brapci.manual') . '</btn>';
+                $sx .= $btn;
+                break;
+            default:
+                $sx .= 'No actions';
+                break;
         }
+        return $sx;
+    }
 
     function show_pdf($dt)
-        {
-            $html = PATH.'admin/book/preview/'.$dt['id_bs'];
-            $sx = $html.'
-            <iframe src="'.$html.'" style="width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
+    {
+        $html = PATH . 'admin/book/preview/' . $dt['id_bs'];
+        $sx = $html . '
+            <iframe src="' . $html . '" style="width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
                 Your browser doesnt support iframes
             </iframe>';
-            return $sx;
-        }
+        return $sx;
+    }
 
-    function savePDF($id)
-        {
-
-        }
+    function savePDF($id) {}
 
     function list($sta)
-        {
-            $sx = '';
-            $dt = $this
-                ->where('bs_status',$sta)
-                ->findAll();
-            foreach($dt as $id=>$line)
-                {
-                    $link = '<a href="'.PATH.'admin/book/view/'.$line['id_bs'].'">';
-                    $linka = '</a>';
-                    $js = (array)$line['bs_post'];
-                    $sx .= '<li>';
-                    $js = $js[0];
-                    $js = (array)json_decode($js);
+    {
+        $sx = '';
+        $dt = $this
+            ->where('bs_status', $sta)
+            ->findAll();
+        foreach ($dt as $id => $line) {
+            $link = '<a href="' . PATH . 'admin/book/view/' . $line['id_bs'] . '">';
+            $linka = '</a>';
+            $js = (array)$line['bs_post'];
+            $sx .= '<li>';
+            $js = $js[0];
+            $js = (array)json_decode($js);
 
-                    if (isset($js['b_titulo']))
-                        {
-                            $sx .= '<b>';
-                            $sx .= $link . (string)$js['b_titulo'].$linka;
-                            $sx .= '<br><i>' . $js['b_autor'] . '</i>';
-                            $sx .= '</b>';
-                        } else {
-                            $sx .= $line['created_at'];
-                            $sx .= '<br>';
-                            $sx .= '<b>';
-                            $sx .= $link . 'Não informado' . $linka;
-                            $sx .= '<br><i>' . 'sem autoria registrada' . '</i>';
-                            $sx .= '</b>';
-                        }
+            if (isset($js['b_titulo'])) {
+                $sx .= '<b>';
+                $sx .= $link . (string)$js['b_titulo'] . $linka;
+                $sx .= '<br><i>' . $js['b_autor'] . '</i>';
+                $sx .= '</b>';
+            } else {
+                $sx .= $line['created_at'];
+                $sx .= '<br>';
+                $sx .= '<b>';
+                $sx .= $link . 'Não informado' . $linka;
+                $sx .= '<br><i>' . 'sem autoria registrada' . '</i>';
+                $sx .= '</b>';
+            }
 
-                    $sx .= '</li>';
-                }
-            return $sx;
+            $sx .= '</li>';
         }
+        return $sx;
+    }
 
     function resume()
-        {
-            $sx = '';
-            $dt = $this
-                ->select("count(*) as total, bs_status")
-                ->where('bs_status',1)
-                ->ORwhere('bs_status', 2)
-                ->ORwhere('bs_status > ', 2)
-                ->groupBy('bs_status')
-                ->orderBy('bs_status')
-                ->findAll();
-            foreach($dt as $id=>$line)
-                {
-                    $link = '<a class="text-danger" href="'.PATH.'admin/book/status/'.$line['bs_status'].'">';
-                    $linka = '</a>';
-                    $sx .= '<li class="text-danger" style="font-size: 0.7em;">';
-                    $sx .= $link.lang('brapci.book_status_'.$line['bs_status']).$linka;
-                    $sx .= ' <b>';
-                    $sx .= '('.$line['total'].')';
-                    $sx .= '</b>';
-                    $sx .= '</li>';
-                }
-            if ($sx != '')
-                {
-                    $sx = '<b>Livros submetidos</b>'.$sx;
-                }
-            return $sx;
+    {
+        $sx = '';
+        $dt = $this
+            ->select("count(*) as total, bs_status")
+            ->where('bs_status', 1)
+            ->ORwhere('bs_status', 2)
+            ->ORwhere('bs_status > ', 2)
+            ->groupBy('bs_status')
+            ->orderBy('bs_status')
+            ->findAll();
+        foreach ($dt as $id => $line) {
+            $link = '<a class="text-danger" href="' . PATH . 'admin/book/status/' . $line['bs_status'] . '">';
+            $linka = '</a>';
+            $sx .= '<li class="text-danger" style="font-size: 0.7em;">';
+            $sx .= $link . lang('brapci.book_status_' . $line['bs_status']) . $linka;
+            $sx .= ' <b>';
+            $sx .= '(' . $line['total'] . ')';
+            $sx .= '</b>';
+            $sx .= '</li>';
         }
+        if ($sx != '') {
+            $sx = '<b>Livros submetidos</b>' . $sx;
+        }
+        return $sx;
+    }
 
     function sendEmail($id)
-        {
-            $dt = $this->where('id_bs',$id)->first();
-            $email = $dt['bs_email'];
-            $subject = 'Submissão de livro';
-            $name = 'Rene Faustino Gabriel Junior';
-            $to = [$email];
+    {
+        $dt = $this->where('id_bs', $id)->first();
+        $email = $dt['bs_email'];
+        $subject = 'Submissão de livro';
+        $name = 'Rene Faustino Gabriel Junior';
+        $to = [$email];
 
-            $btn_concordancia = '<a href="https://brapci.inf.br/books/disclaimer/'.$id.'/'.md5($id.'brapci_livros').'" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>';
+        $btn_concordancia = '<a href="https://brapci.inf.br/books/disclaimer/' . $id . '/' . md5($id . 'brapci_livros') . '" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>';
 
-            /* Enviar e-mail */
-            $txt = '';
-            $txt .= '<table width="600" border=0>';
-            $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
-            $txt .= '<tr><td>';
-            $txt .= 'Prezado autor ' . $name . ',<br>';
-            $txt .= '<br>';
-            $txt .= 'Sua submissão foi registrada e será analisada, porém é necessário que concorde com os termos.';
-            $txt .= '<br><br>';
-            $txt .=
-        '<h2>Disclaimer - Brapci-Livros</h2><br>
+        /* Enviar e-mail */
+        $txt = '';
+        $txt .= '<table width="600" border=0>';
+        $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+        $txt .= '<tr><td>';
+        $txt .= 'Prezado autor ' . $name . ',<br>';
+        $txt .= '<br>';
+        $txt .= 'Sua submissão foi registrada e será analisada, porém é necessário que concorde com os termos.';
+        $txt .= '<br><br>';
+        $txt .=
+            '<h2>Disclaimer - Brapci-Livros</h2><br>
             A Brapci-Livros tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas.
             Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
             Não existe cobrança para registrar ou acessar as obras.
@@ -497,46 +475,44 @@ class BooksSubmit extends Model
             Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.<br>
             <a href="https://brapci.inf.br/#/books">https://brapci.inf.br/#/books</a>
             <br><br>
-            '.$btn_concordancia.'
+            ' . $btn_concordancia . '
             ';
-            $txt .= '</td></tr></table>';
-            $subject = '[BRAPCI-LIVROS] ';
-            $subject .= 'Termo de submissão';
+        $txt .= '</td></tr></table>';
+        $subject = '[BRAPCI-LIVROS] ';
+        $subject .= 'Termo de submissão';
 
-            sendemail($email,$subject,$txt);
-        }
+        sendemail($email, $subject, $txt);
+    }
 
     function register()
-        {
-            $PS = array_merge($_POST, $_GET);
-            $PSj = json_encode($PS);
-            $RSP = [];
-            $dt = [];
-            if (isset($PS['fileO']))
-                {
-                    $dt = $this->where('bs_arquivo', $PS['fileO'])->first();
-                    if ($dt == [])
-                        {
-                            $dt['bs_title'] = $PS['file'];
-                            $dt['bs_post'] = $PSj;
-                            $dt['bs_status'] = 0;
-                            $dt['bs_email'] = $PS['email'];
-                            $dt['bs_arquivo'] = $PS['fileO'];
-                            $dt['id_b'] = $this->insert($dt);
-                            $RSP['status'] = '200';
-                            $RSP['message'] = 'Registro efetuado com sucesso';
-                        } else {
-                            $RSP['status'] = '201';
-                            $RSP['message'] = 'Registro já existe na base de dados';
-                            $dt['id_b'] = $dt['id_bs'];
-                        }
-                    $this->sendEmail($dt['id_b']);
-                } else {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Arquivo vazio';
-                    $RSP['post'] = $PSj;
-                }
-
-                return $RSP;
+    {
+        $PS = array_merge($_POST, $_GET);
+        $PSj = json_encode($PS);
+        $RSP = [];
+        $dt = [];
+        if (isset($PS['fileO'])) {
+            $dt = $this->where('bs_arquivo', $PS['fileO'])->first();
+            if ($dt == []) {
+                $dt['bs_title'] = $PS['file'];
+                $dt['bs_post'] = $PSj;
+                $dt['bs_status'] = 0;
+                $dt['bs_email'] = $PS['email'];
+                $dt['bs_arquivo'] = $PS['fileO'];
+                $dt['id_b'] = $this->insert($dt);
+                $RSP['status'] = '200';
+                $RSP['message'] = 'Registro efetuado com sucesso';
+            } else {
+                $RSP['status'] = '201';
+                $RSP['message'] = 'Registro já existe na base de dados';
+                $dt['id_b'] = $dt['id_bs'];
+            }
+            $this->sendEmail($dt['id_b']);
+        } else {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Arquivo vazio';
+            $RSP['post'] = $PSj;
         }
+
+        return $RSP;
+    }
 }
