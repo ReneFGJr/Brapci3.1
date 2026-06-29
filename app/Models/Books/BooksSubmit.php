@@ -121,6 +121,7 @@ class BooksSubmit extends Model
         $sx .= '<div class="mt-3 small text-muted">Envie um arquivo JSON para processar esta submissão.</div>';
 
         $txt = file_get_contents('../_Documments/_PROMPTS-IA/catalogacao-brapci-livros.txt');
+        $sx .= '<hr>PROPOMPT ia';
         $sx .= '<textarea class="form-control mt-3" rows="10" readonly>' . $txt . '</textarea>';
         return $sx;
     }
