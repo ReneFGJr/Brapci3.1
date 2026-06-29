@@ -331,6 +331,7 @@ class BooksSubmit extends Model
                 ->select("count(*) as total, bs_status")
                 ->where('bs_status',1)
                 ->ORwhere('bs_status', 2)
+                ->ORwhere('bs_status', 12)
                 ->groupBy('bs_status')
                 ->orderBy('bs_status')
                 ->findAll();
