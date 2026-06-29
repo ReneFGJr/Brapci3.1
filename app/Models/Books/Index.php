@@ -62,10 +62,13 @@ class Index extends Model
 
                                     $dd['bs_rdf'] = $idc;
                                     $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
+                                    $BookSubmit->chache_status($d2, 7);
                                 break;
+
+                                default:
+                                    $BookSubmit->chache_status($d2, $d3);
+                                    $sx = bs(bsc($BookSubmit->view($d2), 12));
                             }
-                        $BookSubmit->chache_status($d2, $d3);
-                        $sx = bs(bsc($BookSubmit->view($d2), 12));
                         break;
                     break;
 
@@ -77,11 +80,11 @@ class Index extends Model
                         break;
 
                     case 'status':
-                    $sx = bs(bsc($BookSubmit->list($d2),12,'small'));
-                    break;
-                    default:
+                        $sx = bs(bsc($BookSubmit->list($d2),12,'small'));
+                        break;
+                        default:
 
-                    break;
+                        break;
                 }
             return $sx;
         }

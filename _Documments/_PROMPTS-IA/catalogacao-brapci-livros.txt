@@ -1,0 +1,26 @@
+Crie a catalogação JSON para essa obra
+Usando as propriedades:
+hasISBN
+hasTitle (com o subtítulo)
+hasAbstract
+hasLanguageExpression (pt, en, es, fr)
+hasSubject (crie cinco se não existir)
+hasAuthor
+hasOrganizator
+hasPage
+isPlaceOfPublication
+wasPublicationInDate
+isPublisher
+hasDOI
+
+Os capitulos crie uma array dentro de: hasBookChapter com
+hasTitle (com o subtítulo)
+hasAuthor
+hasAbstract (entre 250 e 400 palavras)
+hasSubject (crie tres se não existir)
+
+Crie um campo para descrição da obra (hasAbstract) se não existir
+Crie as palavras-chave para a obra
+
+Identifique todos os capítulos, marcando o título, autores e página inicial
+Gerar em um único arquivo JSON válido para download
