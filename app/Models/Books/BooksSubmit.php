@@ -119,6 +119,10 @@ class BooksSubmit extends Model
         $sx .= '<button type="submit" class="btn btn-primary">' . lang('brapci.import_json') . '</button>';
         $sx .= '</form>';
         $sx .= '<div class="mt-3 small text-muted">Envie um arquivo JSON para processar esta submissão.</div>';
+
+        $txt = file_get_contents('../_Documments/_PROMPTS-IA/catalogacao-brapci-livros.txt');
+        $sx .= '<hr>PROPOMPT ia';
+        $sx .= '<textarea class="form-control mt-3" rows="10" readonly>' . $txt . '</textarea>';
         return $sx;
     }
 
@@ -180,56 +184,63 @@ class BooksSubmit extends Model
         }
         $Chapter = 0;
 
+        $IDCatalogador = $this->register_data($dt['bs_rdf'], 'hasCataloger', 'Cataloger', 'BrapciIA');
+
         foreach ($data as $key => $value) {
             /********************************** Chapter */
             if ($key == 'hasBookChapter') {
+                $RdfID = $dt['bs_rdf'];
+
                 foreach ($value as $k => $v) {
                     $Chapter++;
                     $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
                     $class = 'BookChapter';
                     $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
+
+                    $IDCatalogador = $this->register_data($IDchapter, 'hasCataloger', 'Cataloger', 'BrapciIA');
+
+                    echo $RdfID . '<br>';
+                    echo $ChapterID.'<br>';
+                    echo $IDchapter.'<br>';
+
+                    $prop = 'hasChapterOf';
+                    $this->register_link($RdfID, $prop, $IDchapter, 0);
+
                     /******************** Section */
-                    $class = 'BookSection';
-                    $key = 'hasSectionOf';
-                    $value = 344893;
-                    $this->register_data($IDchapter, $key, $class, $value,'pt');
+                    $valueID = 344893;
+                    $prop = 'hasSectionOf';
+                    $this->register_link($IDchapter, $prop, $valueID, 0);
 
-                    $key = 'hasTitle';
-                    $value = $v['hasTitle'];
-                    $this->register_value($IDchapter, $key, $value);
+                    $prop = 'hasTitle';
+                    $valueID = $v['hasTitle'];
+                    $this->register_value($IDchapter, $prop, $valueID);
 
-                    $key = 'hasAbstract';
-                    $value = $v['hasAbstract'];
-                    $this->register_value($IDchapter, $key, $value);
+                    $prop = 'hasAbstract';
+                    $valueID = $v['hasAbstract'];
+                    $this->register_value($IDchapter, $prop, $valueID);
 
-                    $key = 'hasAuthor';
-                    $value = $v['hasAuthor'];
-                    foreach ($value as $k => $va) {
+                    $prop = 'hasAuthor';
+                    $valueID = $v['hasAuthor'];
+                    foreach ($valueID as $kID => $va) {
                         $class = 'Person';
-                        $this->register_data($IDchapter, $key, $class, $va);
+                        $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
-
-                    if (isset($v['hasInitialPage'])) {
-                        $key = 'hasPageStart';
-                        $value = $v['hasInitialPage'];
+                    if (isset($v['hasPageStart'])) {
+                        $prop = 'hasPageStart';
+                        $valueID = $v['hasPageStart'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $key, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $valueID);
                     }
 
                     if (isset($v['hasPageEnd'])) {
-                        $key = 'hasPageEnd';
-                        $value = $v['hasPageEnd'];
+                        $prop = 'hasPageEnd';
+                        $valueID = $v['hasPageEnd'];
                         $class = 'Page';
-                        $this->register_data($IDchapter, $key, $class, $value);
+                        $this->register_data($IDchapter, $prop, $class, $valueID);
                     }
-
-                    pre($v);
-                    exit;
                 }
-                exit;
             } else {
-                continue;
                 if (in_array($key, $literal)) {
                     print("<br>Registrando valor literal para a propriedade: $key");
                     $sx .= $this->register_value($dt['bs_rdf'], $key, $value);
@@ -265,8 +276,9 @@ class BooksSubmit extends Model
                 }
             }
         }
-
-
+        $dd = [];
+        $dd['bs_status'] = 2;
+        $this->set($dd)->where('id_bs', $id)->update();
         return 'Arquivo JSON recebido e associado ao registro.';
     }
 
@@ -279,6 +291,18 @@ class BooksSubmit extends Model
         /*************** Criar conceito */
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFdata->register($idRDF, $property, 0, $value);
+        return True;
+    }
+
+    function register_link($idRDF, $property, $value, $lang = 'pt')
+    {
+        if ($idRDF == 0) {
+            return 'Registro RDF não localizado.';
+        }
+
+        /*************** Criar conceito */
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFdata->register($idRDF, $property, $value, 0);
         return True;
     }
 
@@ -355,6 +379,13 @@ class BooksSubmit extends Model
 
         if ($dt != []) {
             $js = (array)json_decode($dt['bs_post']);
+
+            $sx .= bsc(msg('brapci.RDFID'), 3, 'small mt-2');
+            $url = '<a href="https://brapci.inf.br/v/' . $dt['bs_rdf'].'" target="_blank">'. $dt['bs_rdf'].'</a>';
+            $sx .= bsc($url, 3, 'small mt-2');
+
+            $sx .= bsc(msg('brapci.hasTitle'), 3, 'small mt-2');
+            $sx .= bsc('<b>'.$dt['bs_title'].'</b>', 9, 'small mt-2');
 
             foreach ($js as $key => $value) {
                 $sx .= bsc(msg('brapci.' . $key), 3, 'small mt-2');
@@ -433,14 +464,14 @@ class BooksSubmit extends Model
 
             if (isset($js['b_titulo'])) {
                 $sx .= '<b>';
-                $sx .= $link . (string)$js['b_titulo'] . $linka;
+                $sx .= $link . $line['bs_title'] . $linka;
                 $sx .= '<br><i>' . $js['b_autor'] . '</i>';
                 $sx .= '</b>';
             } else {
                 $sx .= $line['created_at'];
                 $sx .= '<br>';
                 $sx .= '<b>';
-                $sx .= $link . 'Não informado' . $linka;
+                $sx .= $link . $line['bs_title'] . $linka;
                 $sx .= '<br><i>' . 'sem autoria registrada' . '</i>';
                 $sx .= '</b>';
             }
