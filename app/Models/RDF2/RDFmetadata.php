@@ -131,8 +131,8 @@ class RDFmetadata extends Model
             case 'Issue':
                 $Brapci = new \App\Models\Api\Endpoint\Brapci();
                 $RSP = $Brapci->issueV2($ID);
-                pre($RSP);
-                return $this->metadataIssue($dt);
+                return $RSP;
+                //return $this->metadataIssue($dt);
                 break;
             case 'Article':
                 return $this->metadataWork($dt);
