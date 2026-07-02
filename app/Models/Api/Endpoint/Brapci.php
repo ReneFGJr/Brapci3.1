@@ -576,7 +576,7 @@ class Brapci extends Model
         $dd['keywords'] = $keywords;
         $dd['totalAuthors'] = $totAut;
         $dd['coAuthors'] = $coAA;
-        if (vcount($dt) > 0)
+        if (count($dt) > 0)
             {
                 $dd['coAuthorsMedia'] = round(100*$totAut / count($dt))/100;
             } else {
