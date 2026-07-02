@@ -497,6 +497,7 @@ class Brapci extends Model
         $wk = [];
         $coA = [];
         $IDs = -1;
+        pre($dt);
         $SESSIONx = '';
         foreach ($dt as $id => $line) {
             $SESSION = $line['SESSION'];
