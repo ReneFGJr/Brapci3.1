@@ -127,6 +127,8 @@ class RDFmetadata extends Model
 
         $class = $dt['concept']['c_class'];
 
+        pre($dt);
+
         switch ($class) {
             case 'Issue':
                 return $this->metadataIssue($dt);
