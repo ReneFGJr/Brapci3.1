@@ -215,6 +215,7 @@ class Brapci extends Model
                 break;
             case 'get':
                 $RSP['result'] = $this->get($d2, $d3);
+                pre($RSP);
                 break;
             case 'issue':
                 $RSP = $this->issue($d2, $d3);
