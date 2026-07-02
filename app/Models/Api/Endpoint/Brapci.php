@@ -496,8 +496,9 @@ class Brapci extends Model
         $au = [];
         $wk = [];
         $coA = [];
+        $keywords = [];
         $IDs = -1;
-        pre($dt);
+
         $SESSIONx = '';
         foreach ($dt as $id => $line) {
             $SESSION = $line['SESSION'];
@@ -537,8 +538,22 @@ class Brapci extends Model
                     $au[$nome]['total'] = $au[$nome]['total'] + 1;
                 }
             }
-
             array_push($dw[$IDs]['data'], $dq);
+
+            /******** Keywords */
+            $KEYw = $line['KEYWORDS'];
+            $KEYw = troca($KEYw, '; ', ';');
+            $KEYw = explode(';', $KEYw);
+            foreach ($KEYw as $idk => $kw) {
+                if ($kw == '') {
+                    continue;
+                }
+                if (!isset($keywords[$kw])) {
+                    $keywords[$kw] = ['name' => $kw, 'total' => 1];
+                } else {
+                    $keywords[$kw]['total'] = $keywords[$kw]['total'] + 1;
+                }
+            }
         }
         /******** Co-Authors */
         $coAA = [];
@@ -558,6 +573,7 @@ class Brapci extends Model
         $dd['works'] = $dw;
         $dd['worksID'] = $wk;
         $dd['authors'] = $nm;
+        $dd['keywords'] = $keywords;
         $dd['totalAuthors'] = $totAut;
         $dd['coAuthors'] = $coAA;
         $dd['coAuthorsMedia'] = round(100*$totAut / count($dt))/100;
