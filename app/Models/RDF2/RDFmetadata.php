@@ -129,7 +129,9 @@ class RDFmetadata extends Model
 
         switch ($class) {
             case 'Issue':
-                pre($dt);
+                $Brapci = new \App\Models\Api\Endpoint\Brapci();
+                $RSP = $Brapci->issueV2($ID);
+                pre($RSP);
                 return $this->metadataIssue($dt);
                 break;
             case 'Article':
