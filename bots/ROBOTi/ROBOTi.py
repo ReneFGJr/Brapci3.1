@@ -263,6 +263,7 @@ def run(parm):
         mod_data.removeDouble()
 
 
+
     if (act == 'keyword'):
         print("=================KEYWORDS")
         mod_subject.removeOrfa()
@@ -274,6 +275,9 @@ def run(parm):
         mod_person.check()
         mod_gender.check()
 
+    #################### ISSUE
+    if (act == '139'):
+        oai_issue.updateIssues()
 
     #################### LITERAL
     if (act == '140'):
