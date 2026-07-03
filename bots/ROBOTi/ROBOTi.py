@@ -41,6 +41,7 @@ import mod_person
 import mod_session
 import mod_statistics
 import socket
+import oai_issue
 from colorama import Fore
 
 def logo():
@@ -239,6 +240,8 @@ def run(parm):
         mod_dataset.check_type()
         mod_ontology.checkData()
         mod_concept.removeElastic()
+
+        oai_issue.updateIssues()
 
         mod_author.check_dupla_remissiva()
         mod_author.check_remissiva()

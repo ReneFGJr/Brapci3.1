@@ -4,7 +4,7 @@
 
 import requests
 import xml.etree.ElementTree as ET
-#import database
+import database
 import mod_setSpec
 import mod_listidentify
 from colorama import Fore
@@ -13,6 +13,25 @@ table = 'brapci_oaipmh.oai_listidentify'
 
 def register(ID,JNL):
     print("HELLO")
+
+def updateIssues():
+    print("Updating issues...")
+    QU = """
+        UPDATE brapci.source_issue si
+        LEFT JOIN (
+            SELECT
+                d_r1,
+                COUNT(*) AS total
+            FROM brapci_rdf.rdf_data
+            GROUP BY d_r1
+        ) t
+            ON t.d_r1 = si.is_source_issue
+        SET
+            si.is_works = COALESCE(t.total, 0)
+        WHERE
+        si.is_works <> COALESCE(t.total, 0);
+    """
+    row = database.query(QU)
 
 def getListIdentifiers(URL,JNL, token, ISSUE):
 
