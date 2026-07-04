@@ -42,6 +42,7 @@ import mod_session
 import mod_statistics
 import socket
 import oai_issue
+import mod_book_ibict
 from colorama import Fore
 
 def logo():
@@ -196,6 +197,11 @@ def run(parm):
         mod_cited.locate()
         mod_cited.cited()
         mod_cited.longCited()
+
+    if (act == 'book'):
+        mod_book_ibict.harvest()
+        mod_book_ibict.enrich_cover_and_doi()
+        mod_book_ibict.enrich_chapterbook()
 
     if (act == 'cited'):
         mod_cited.harvesting()

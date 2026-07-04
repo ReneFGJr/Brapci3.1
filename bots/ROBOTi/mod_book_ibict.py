@@ -523,6 +523,5 @@ def harvest():
 
 if __name__ == "__main__":
     enrich_chapterbook()
-
     ##enrich_cover_and_doi()
     ##harvest()
