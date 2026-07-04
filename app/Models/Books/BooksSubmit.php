@@ -502,6 +502,11 @@ class BooksSubmit extends Model
             $sx .= '</b>';
             $sx .= '</li>';
         }
+        $sx .= '<li class="text-danger" style="font-size: 0.7em;">';
+        $sx .= '<a class="text-danger" href="' . PATH . 'admin/book/">';
+        $sx .= lang('brapci.book_hasvestings_publisher');
+        $sx .= '</a>';
+
         if ($sx != '') {
             $sx = '<b>Livros submetidos</b>' . $sx;
         }
