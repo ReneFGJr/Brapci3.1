@@ -556,36 +556,6 @@ class Issues extends Model
             array_push($ISSUE,$I);
         }
         return $ISSUE;
-
-        foreach($dt as $id=>$line)
-            {
-                $link = '<a href="'.PATH.'v/'.$line['is_source_issue'].'" target="_blanl">';
-                $linka = '</a>';
-                $vs = $line['is_visible'];
-                $year = $line['is_year'];
-                if ($year != $xyear)
-                    {
-                        $sx .= h($year,2);
-                        $xyear = $year;
-                    }
-                $sx .= '<li>';
-                $sx .= $link;
-                $sx .= $line['is_year'];
-                if (isset($line['is_vol_roman']) and (trim($line['is_vol_roman']) != ''))
-                    {
-                        $sx .= ' '.$line['is_vol_roman'];
-                        $sx .= ' '.$line['jnl_name'];
-                    } else {
-                        $sx .= ', ' . $line['is_vol'];
-                        if (isset($line['is_nr'])) {
-                            $sx .= ', ' . $line['is_nr'];
-                        }
-                    }
-                    $sx .= ' - (' . $line['is_source_issue'].')';
-                $sx .= $linka;
-                $sx .= '</li>';
-            }
-        return $sx;
     }
 
     /* Legado */
