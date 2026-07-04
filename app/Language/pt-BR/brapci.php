@@ -211,4 +211,5 @@ return [
         'ITEM_FileStorage' => 'Total de arquivos',
         'ITEM_Person' => 'Total de autores',
         'ITEM_Journals' => 'Total de fontes',
+        'book_hasvestings_publisher' => 'Livros submetidos por editoras',
 ];
