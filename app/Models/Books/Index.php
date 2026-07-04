@@ -4,6 +4,7 @@ namespace App\Models\Books;
 
 use App\Models\Functions\ISBNdb;
 use CodeIgniter\Model;
+use Config\Database;
 
 class Index extends Model
 {
@@ -92,12 +93,171 @@ class Index extends Model
                     case 'status':
                         $sx = bs(bsc($BookSubmit->list($d2),12,'small'));
                         break;
+                    case 'summary':
+                        $sx .= $this->book_harvesting_summary();
+                        break;
+                    case 'items':
+                        $sx .= $this->book_harvesting_items($d2);
+                        break;
+                    case 'detail':
+                        $sx .= $this->book_harvesting_detail($d2);
+                        break;
                         default:
-
+                        $sx .= $this->book_harvesting_summary();
                         break;
                 }
             return $sx;
         }
+
+    private function book_harvesting_summary()
+    {
+        $db = Database::connect('default');
+
+        $schemas = ['brapci_books', 'brapci_book'];
+        $summary = [];
+        $total = 0;
+        $tableUsed = '';
+
+        foreach ($schemas as $schema) {
+            try {
+                $sql = "
+                    SELECT `status`, COUNT(*) as qtd
+                    FROM {$schema}.book_harvesting
+                    GROUP BY `status`
+                    ORDER BY `status`
+                ";
+                $rows = $db->query($sql)->getResultArray();
+
+                $summary = [];
+                $total = 0;
+                foreach ($rows as $row) {
+                    $status = (string)$row['status'];
+                    $qtd = (int)$row['qtd'];
+                    $summary[$status] = $qtd;
+                    $total += $qtd;
+                }
+
+                $tableUsed = $schema . '.book_harvesting';
+                break;
+            } catch (\Throwable $e) {
+                continue;
+            }
+        }
+
+        if ($tableUsed == '') {
+            return bsmessage('Nao foi possivel ler brapci_books.book_harvesting ou brapci_book.book_harvesting.', 3);
+        }
+
+        $labels = [
+            '0' => 'Pendente (coleta capa/DOI)',
+            '1' => 'Pendente (coleta capitulos)',
+            '2' => 'Processado',
+            '9' => 'Erro',
+        ];
+
+        $data = [
+            'tableUsed' => $tableUsed,
+            'summary' => $summary,
+            'labels' => $labels,
+            'total' => $total,
+        ];
+
+        return view('Admin/book_status_summary', $data);
+    }
+
+    private function book_harvesting_items($status)
+    {
+        $db = Database::connect('default');
+
+        $schemas = ['brapci_books', 'brapci_book'];
+        $tableUsed = '';
+        $items = [];
+
+        foreach ($schemas as $schema) {
+            try {
+                $sql = "
+                    SELECT identifier, title, `status`, DOI, coverage, datestamp, identifiers
+                    FROM {$schema}.book_harvesting
+                    WHERE `status` = ?
+                    ORDER BY datestamp DESC
+                ";
+                $items = $db->query($sql, [$status])->getResultArray();
+                $tableUsed = $schema . '.book_harvesting';
+                break;
+            } catch (\Throwable $e) {
+                continue;
+            }
+        }
+
+        if ($tableUsed == '') {
+            return bsmessage('Nao foi possivel ler brapci_books.book_harvesting ou brapci_book.book_harvesting.', 3);
+        }
+
+        $labels = [
+            '0' => 'Pendente (coleta capa/DOI)',
+            '1' => 'Pendente (coleta capitulos)',
+            '2' => 'Processado',
+            '9' => 'Erro',
+        ];
+
+        $data = [
+            'tableUsed' => $tableUsed,
+            'status' => (string)$status,
+            'statusLabel' => $labels[(string)$status] ?? 'Status customizado',
+            'items' => $items,
+        ];
+
+        return view('Admin/book_status_items', $data);
+    }
+
+    private function book_harvesting_detail($token)
+    {
+        $db = Database::connect('default');
+
+        $token = (string)$token;
+        if ($token == '' || preg_match('/^[a-f0-9]+$/i', $token) !== 1 || (strlen($token) % 2) !== 0) {
+            return bsmessage('Identificador invalido para detalhe do registro.', 3);
+        }
+
+        $identifier = hex2bin($token);
+        if ($identifier === false || trim($identifier) == '') {
+            return bsmessage('Identificador invalido para detalhe do registro.', 3);
+        }
+
+        $schemas = ['brapci_books', 'brapci_book'];
+        $tableUsed = '';
+        $item = [];
+
+        foreach ($schemas as $schema) {
+            try {
+                $sql = "
+                    SELECT *
+                    FROM {$schema}.book_harvesting
+                    WHERE identifier = ?
+                    LIMIT 1
+                ";
+                $row = $db->query($sql, [$identifier])->getRowArray();
+                if (is_array($row) && count($row) > 0) {
+                    $item = $row;
+                    $tableUsed = $schema . '.book_harvesting';
+                    break;
+                }
+            } catch (\Throwable $e) {
+                continue;
+            }
+        }
+
+        if ($tableUsed == '' || count($item) == 0) {
+            return bsmessage('Registro nao encontrado em brapci_books.book_harvesting ou brapci_book.book_harvesting.', 3);
+        }
+
+        $data = [
+            'tableUsed' => $tableUsed,
+            'item' => $item,
+        ];
+
+        return view('Admin/book_status_item_detail', $data);
+    }
 
     function Xindex($d1 = '', $d2 = '', $d3 = '')
     {
