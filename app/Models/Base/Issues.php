@@ -154,6 +154,7 @@ class Issues extends Model
             $ISU['thema'] = $rg['is_thema'];
             $ISU['id_jnl'] = $rg['siw_journal'];
             $ISU['journal'] = $rg['jnl_name'];
+            $ISU['totalWorks'] = $rg['is_works'];
             return $ISU;
         }
 
@@ -381,6 +382,7 @@ class Issues extends Model
                         $d['VOL'] = $dt['is_vol'];
                         $d['NR'] = $dt['is_nr'];
                         $d['ID'] = $dt['is_source_issue'];
+                        $d['totalWorks'] = $dt['is_works'];
                         return $d;
                     } else {
                         $dt['status'] = 'Issue not found';
