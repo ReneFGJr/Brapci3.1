@@ -165,6 +165,12 @@ $routes->get('/books/(:any)', 'Books::index/$1');
 $routes->post('/books/(:any)', 'Books::index/$1');
 $routes->get('/books', 'Books::index');
 
+/********* Notepad */
+$routes->get('/notepad', 'Notepad::index');
+$routes->post('/notepad', 'Notepad::create');
+$routes->get('/notepad/(:segment)', 'Notepad::pad/$1');
+$routes->post('/notepad/(:segment)', 'Notepad::save/$1');
+
 /********* TOOLS */
 //$routes->get('/rdf', 'Rdf::index');
 $routes->get('/rdf/', 'Rdf::index/');
