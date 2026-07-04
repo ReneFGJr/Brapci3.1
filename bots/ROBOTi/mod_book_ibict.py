@@ -6,9 +6,11 @@ import json
 import requests
 import pymysql
 import database
+import env
 from lxml import etree
 
 URL = "https://omp-editora.prd.ibict.br/index.php/edibict/oai?verb=ListRecords&metadataPrefix=oai_dc"
+MYSQL = env.db()
 
 NS = {
     "oai": "http://www.openarchives.org/OAI/2.0/",
@@ -98,7 +100,7 @@ def save_record(cur, record):
         raw_xml=VALUES(raw_xml)
     """
 
-    cur.execute(sql, record)
+    database.update(sql, record)
 
 
 def harvest():

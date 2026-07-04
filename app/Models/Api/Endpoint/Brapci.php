@@ -404,6 +404,7 @@ class Brapci extends Model
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
         $dd['id_jnl'] = $dt['is_source'];
+        $dd['totalWorks'] = $dt['is_works'];
 
         $dj = $Source->where('id_jnl', $dt['is_source'])->first();
         $dd['source']['name'] = $dj['jnl_name'];
@@ -479,6 +480,7 @@ class Brapci extends Model
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
         $dd['id_jnl'] = $dt['is_source'];
+        $dd['totalWorks'] = $dt['is_works'];
 
         $dj = $Source->where('id_jnl', $dt['is_source'])->first();
         $dd['source']['name'] = $dj['jnl_name'];

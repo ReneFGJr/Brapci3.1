@@ -66,10 +66,10 @@ def query(qr, params=None):
             print("Conexão já estava finalizadas")
 
     return resultados
-def update(qr):
-    return insert(qr)
+def update(qr, params=None):
+    return insert(qr, params)
 
-def insert(qr):
+def insert(qr, params=None):
     try:
         config = env.db()
         conexao = mysql.connector.connect(**config)
@@ -78,7 +78,10 @@ def insert(qr):
         cursor = conexao.cursor()
 
         # Executar uma consulta
-        cursor.execute(qr)
+        if params:
+            cursor.execute(qr, params)
+        else:
+            cursor.execute(qr)
         conexao.commit()
 
     except mysql.connector.Error as erro:

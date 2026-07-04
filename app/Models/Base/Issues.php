@@ -550,6 +550,7 @@ class Issues extends Model
             $I['acron'] = $line['jnl_name_abrev'];
             $I['place'] = $line['is_place'];
             $I['ID'] = $line['is_source_issue'];
+            $I['totalWorks'] = $line['is_works'];
             array_push($ISSUE,$I);
         }
         return $ISSUE;
