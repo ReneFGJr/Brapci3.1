@@ -427,14 +427,6 @@ class BooksSubmit extends Model
             $dd['b_isbn'] = $data['b_isbn'];
         }
 
-
-        echo '<h1>OPS</h1>';
-        pre($data,false);
-        pre($dd);
-
-
-        $this->set($dd)->where('id_bs', $id)->update();
-
         $sx = '';
         $literal = ['hasTitle', 'hasAbstract'];
         $Classes = [
@@ -461,6 +453,8 @@ class BooksSubmit extends Model
             $ISBN = $ISBN[0];
         }
         $Chapter = 0;
+
+        $this->set($dd)->where('id_bs', $id)->update();
 
         $IDCatalogador = $this->register_data($dt['bs_rdf'], 'hasCataloger', 'Cataloger', 'BrapciIA');
 
