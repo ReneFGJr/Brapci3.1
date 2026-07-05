@@ -429,7 +429,7 @@ class BooksSubmit extends Model
 
                     $prop = 'hasAuthor';
                     $valueID = $v['hasAuthor'];
-                    pre($valueID);
+                    pre($valueID,false);
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         $va = nbr_author($va,7);
