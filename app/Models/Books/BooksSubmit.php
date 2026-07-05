@@ -347,10 +347,9 @@ class BooksSubmit extends Model
         $json = file_get_contents($path_do_arquivo);
         $data = json_decode($json, true);
 
-        pre($data);
-
         if (!is_array($data)) {
-            return 'Arquivo JSON inválido.';
+            echo 'Arquivo JSON inválido.';
+            exit;
         }
 
         $dd = [];
