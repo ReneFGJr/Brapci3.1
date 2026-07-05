@@ -88,18 +88,195 @@ class BooksSubmit extends Model
             $BooksModel = new \App\Models\Books\BookHarvesting();
             $dt = $BooksModel->find($id);
             echo "Catalogando registro de harvesting: " . $id . "<br>";
-            pre($dt);
 
+            /******************************************* */
             /*************************** Criar Livro (Conceito) */
-            $RDF = new \App\Models\FindServer\RDFconcept();
-            $RDFdata = new \App\Models\FindServer\RDFdata();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $isbn = $dt['ISBN'];
 
-            $name = 'ISBN:'.$isbn;
-            $idC = $RDF->createConcept('Book',$name,'pt_BR');
+            if ($isbn == '') {
+                $DOI = $dt['DOI'];
+                if ($DOI != '') {
+                    $pos = strpos($DOI, '978');
+                    if ($pos !== false) {
+                        $isbn = substr($DOI, $pos, 20);
+                        $isbn = sonumero($isbn);
+                    }
+                } else {
+                    echo "ISBN não localizado";
+                    exit;
+                }
+            }
 
-            echo "OK";
+            /**************************** */
+            $name = 'ISBN:' . $isbn;
+            $class = 'Book';
+            $lang = 'pt_BR';
+            $value = $isbn;
+
+            $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => $lang]);
+
+            $dd = $this->where('b_isbn', $isbn)->first();
+            if ($dd != []) {
+                echo "Registro já catalogado: " . $dd['id_bs'] . "<br>";
+            } else {
+                echo "Registro não catalogado, criando registro de submissão...<br>";
+                $dd['bs_title'] = $dt['title'];
+                $dd['bs_post'] = json_encode($dt);
+                $dd['bs_status'] = 7;
+                $dd['b_isbn'] = $isbn;
+                $dd['bs_rdf'] = $idC;
+                $dd['bs_arquivo'] = '';
+                $dd['bs_email'] = '';
+                $dd['id_bs'] = $this->insert($dd);
+            }
+
+            $json = $this->generateBookJson($dt);
+            $filename = preg_replace('/\D/', '', $dt['ISBN']);
+            if ($filename == '') {
+                $filename = preg_replace('/[^A-Za-z0-9]/', '', $dt['identifier']);
+            }
+            $dir = '../../.tmp/booksubmit/';
+            dircheck($dir);
+
+            $filename = $dir . $filename;
+            file_put_contents($filename . '.json', $json);
+            $dd = [];
+            $dd['bs_json'] = json_encode($json);
+            $dd = $this->where('b_isbn', $isbn)->first();
+            $this->set($dd)->where('b_isbn', $isbn)->update();
+            $this->process_json($idC, $filename . '.json');
+            echo "FIM: ".$name;
             exit;
         }
+
+    /**
+     * Gera o JSON padronizado de um livro
+     */
+    function generateBookJson(array $dt): string
+    {
+        // Idiomas
+        $langMap = [
+            'por' => 'pt',
+            'pt'  => 'pt',
+            'eng' => 'en',
+            'en'  => 'en',
+            'spa' => 'es',
+            'es'  => 'es',
+            'fra' => 'fr',
+            'fr'  => 'fr'
+        ];
+
+        $language = strtolower(trim($dt['language'] ?? ''));
+        $language = $langMap[$language] ?? $language;
+
+        // ISBN
+        $isbn = preg_replace('/\D/', '', $dt['ISBN'] ?? '');
+
+        // Subjects
+        $subjects = [];
+        if (!empty($dt['subjects'])) {
+            $subjects = is_array($dt['subjects'])
+                ? $dt['subjects']
+                : json_decode($dt['subjects'], true);
+        }
+
+        // Autores
+        $authors = [];
+        if (!empty($dt['creators'])) {
+
+            $tmp = is_array($dt['creators'])
+                ? $dt['creators']
+                : json_decode($dt['creators'], true);
+
+            foreach ($tmp as $a) {
+                $parts = explode(';', $a);
+                $authors[] = trim($parts[0]);
+            }
+
+            $authors = array_values(array_unique($authors));
+        }
+
+        // Organizadores
+        $organizers = [];
+        if (!empty($dt['organizators'])) {
+
+            $tmp = is_array($dt['organizators'])
+                ? $dt['organizators']
+                : json_decode($dt['organizators'], true);
+
+            foreach ($tmp as $a) {
+                $parts = explode(';', $a);
+                $organizers[] = trim($parts[0]);
+            }
+        }
+
+        // Capítulos
+        $chapters = [];
+
+        if (!empty($dt['ChaptherBook'])) {
+
+            $tmp = is_array($dt['ChaptherBook'])
+                ? $dt['ChaptherBook']
+                : json_decode($dt['ChaptherBook'], true);
+
+            foreach ($tmp as $c) {
+
+                $chapters[] = [
+                    'hasTitle'      => $c['title'] ?? '',
+                    'hasAuthor'     => array_map('trim', explode(';', $c['author'] ?? '')),
+                    'hasAbstract'   => $c['abstract'] ?? null,
+                    'hasSubject'    => $c['subjects'] ?? [],
+                    'hasPageStart'  => $c['pageStart'] ?? null,
+                    'hasPageEnd'    => $c['pageEnd'] ?? null,
+                    'hasDOI'        => $c['doi'] ?? null
+                ];
+            }
+        }
+
+        $book = [
+
+            'hasISBN' => $isbn,
+
+            'hasTitle' => $dt['title'] ?? '',
+
+            'hasAbstract' => trim($dt['description'] ?? ''),
+
+            'hasLanguageExpression' => $language,
+
+            'hasSubject' => $subjects,
+
+            // opcional
+            'hasKeywords' => $subjects,
+
+            'hasAuthor' => $authors,
+
+            'hasOrganizator' => $organizers,
+
+            'hasPage' => $dt['pages'] ?? null,
+
+            'isPlaceOfPublication' => $dt['place'] ?? null,
+
+            'wasPublicationInDate' => substr($dt['dc_date'] ?? '', 0, 4),
+
+            'isPublisher' => !empty($dt['publishers'])
+                ? (is_array($dt['publishers'])
+                    ? $dt['publishers']
+                    : json_decode($dt['publishers'], true))
+                : [],
+
+            'hasDOI' => $dt['DOI'] ?? null,
+
+            'hasBookChapter' => $chapters
+        ];
+
+        return json_encode(
+            $book,
+            JSON_PRETTY_PRINT |
+                JSON_UNESCAPED_UNICODE |
+                JSON_UNESCAPED_SLASHES
+        );
+    }
 
     function import_json($id)
     {
