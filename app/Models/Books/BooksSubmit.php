@@ -356,10 +356,13 @@ class BooksSubmit extends Model
                 $filename = $dir.'/image.png';
                 file_put_contents($filename,$content);
                 echo "Capa salva: ".$filename;
+
+                $RDFdata = new \App\Models\RDF2\RDFdata();
+                $RDFdata->register($ID, 'hasCover', 0, $filename);
             } catch (\Exception $e) {
                 echo "Erro ao salvar capa: ".$e->getMessage();
             }
-            exit;
+
 
         }
 
