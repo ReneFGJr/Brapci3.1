@@ -149,7 +149,7 @@ class BooksSubmit extends Model
             echo "FIM: ".$name;
             $dd = [];
             $dd['status'] = 2;
-            $$BooksModel->set($dd)->where('id', $id)->update();
+            $BooksModel->set($dd)->where('id', $id)->update();
             echo "<br>Registro de harvesting atualizado para catalogado.";
             exit;
         }
