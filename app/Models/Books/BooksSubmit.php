@@ -407,8 +407,8 @@ class BooksSubmit extends Model
 
                     $IDCatalogador = $this->register_data($IDchapter, 'hasCataloger', 'Cataloger', 'BrapciIA');
 
-                    echo $RdfID . '<br>';
-                    echo $ChapterID.'<br>';
+                    echo $RdfID . ' - ';
+                    echo $ChapterID.' - ';
                     echo $IDchapter.'<br>';
 
                     $prop = 'hasChapterOf';
@@ -433,8 +433,7 @@ class BooksSubmit extends Model
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         $va = nbr_author($va,7);
-                        pre($va, false);
-                        //$this->register_data($IDchapter, $prop, $class, $va);
+                        $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
                     if (isset($v['hasPageStart'])) {
@@ -467,6 +466,10 @@ class BooksSubmit extends Model
 
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
+                                    if ($k == 'hasAuthor')
+                                        {
+                                            $v = nbr_author($v,7);
+                                        }
                                     $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
                                 }
                             } else {
