@@ -36,6 +36,7 @@ class Books extends BaseController
         $act = trim($act);
         switch ($act) {
             case 'a':
+            case 'catalog':
                 $RDF = new \App\Models\Rdf\RDF();
                 $Socials = new \App\Models\Socials();
                 $cat = $Socials->getAccess("#ADM#CAT#BOK");

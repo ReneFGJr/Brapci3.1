@@ -83,6 +83,24 @@ class BooksSubmit extends Model
         }
     }
 
+    function catalogHarvesting($id)
+        {
+            $BooksModel = new \App\Models\Books\BookHarvesting();
+            $dt = $BooksModel->find($id);
+            echo "Catalogando registro de harvesting: " . $id . "<br>";
+            pre($dt);
+
+            /*************************** Criar Livro (Conceito) */
+            $RDF = new \App\Models\FindServer\RDFconcept();
+            $RDFdata = new \App\Models\FindServer\RDFdata();
+
+            $name = 'ISBN:'.$isbn;
+            $idC = $RDF->createConcept('Book',$name,'pt_BR');
+
+            echo "OK";
+            exit;
+        }
+
     function import_json($id)
     {
         $dt = $this->find($id);

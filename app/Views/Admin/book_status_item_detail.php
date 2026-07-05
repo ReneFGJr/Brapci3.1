@@ -7,6 +7,8 @@ $backLink = PATH . 'admin/book';
 $coverage = (string)($item['coverage'] ?? '');
 $doi = (string)($item['DOI'] ?? '');
 $doiLink = $doi != '' ? 'https://doi.org/' . $doi : '';
+$id = (int)$item['id'] ?? 0;
+
 ?>
 
 <div class="container py-4">
@@ -32,6 +34,9 @@ $doiLink = $doi != '' ? 'https://doi.org/' . $doi : '';
                         <?php endif; ?>
                         <?php if ($coverage != ''): ?>
                             <a href="<?= esc($coverage) ?>" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm">Abrir capa</a>
+                        <?php endif; ?>
+                        <?php if ($coverage != ''): ?>
+                            <a href="<?=base_url('admin/book/catalog')?>/<?=esc($id);?>" target="_blank" rel="noopener" class="btn btn-outline-danger btn-sm">Catalogar</a>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -117,6 +117,18 @@ class Book extends Model
         return $file;
     }
 
+    function createISBN($isbn)
+    {
+        $ISBN = new \App\Models\ISBN\Index();
+        $isbn = str_replace('-', '', $isbn);
+        $isbn = str_replace(' ', '', $isbn);
+        $isbn = strtoupper($isbn);
+        $isbn = $ISBN->format($isbn);
+        pre($isbn);
+
+        return '';
+    }
+
     function registerChapter($IDBook, $txt)
     {
         $RDF2 = new \App\Models\RDF2\RDF();

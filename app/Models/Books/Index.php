@@ -99,6 +99,9 @@ class Index extends Model
                     case 'items':
                         $sx .= $this->book_harvesting_items($d2);
                         break;
+                    case 'catalog':
+                        $sx .= $BookSubmit->catalogHarvesting($d2);
+                        break;
                     case 'detail':
                         $sx .= $this->book_harvesting_detail($d2);
                         break;
