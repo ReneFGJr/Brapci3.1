@@ -358,7 +358,8 @@ class BooksSubmit extends Model
                 echo "Capa salva: ".$filename;
 
                 $RDFdata = new \App\Models\RDF2\RDFdata();
-                $RDFdata->register($ID, 'hasCover', 0, $filename);
+                $http = 'https://cip.brapci.inf.br/'.$filename;
+                $RDFdata->register($ID, 'hasCover', 0, $http);
             } catch (\Exception $e) {
                 echo "Erro ao salvar capa: ".$e->getMessage();
             }
