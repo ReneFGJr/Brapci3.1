@@ -146,7 +146,7 @@ class BooksSubmit extends Model
             $this->set($dd)->where('b_isbn', $isbn)->update();
 
             $dd = $this->where('b_isbn', $isbn)->first();
-            pre($dd);
+            $id_dd = $dd['id_bs'];
 
             $this->process_json($id_dd, $filename . '.json');
             echo "<br>FIM: ".$name;
