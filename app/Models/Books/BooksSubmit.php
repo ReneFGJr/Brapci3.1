@@ -431,6 +431,9 @@ class BooksSubmit extends Model
                     $valueID = $v['hasAuthor'];
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
+                        $va = nbr_author($va,7);
+                        echo '<h1>'.$va.'</h1>';
+                        exit;
                         $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
