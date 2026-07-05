@@ -140,7 +140,7 @@ class BooksSubmit extends Model
             dircheck($dir);
 
             $filename = $dir . $filename;
-            file_put_contents($filename . '.json', json_encode($json));
+            file_put_contents($filename . '.json', $json);
             $dd = [];
             $dd['bs_json'] = json_encode($json);
             $this->set($dd)->where('b_isbn', $isbn)->update();
