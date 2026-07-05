@@ -329,7 +329,9 @@ class BooksSubmit extends Model
     {
         echo "<h1>Processando</h1>";
         $dt = $this->find($id);
+
         if ($dt == []) {
+            echo $this->getlastquery();
             echo 'Registro não localizado ' . $id;
             return "";
         }
