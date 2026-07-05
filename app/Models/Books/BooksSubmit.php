@@ -108,6 +108,8 @@ class BooksSubmit extends Model
                 }
             }
 
+            $cover = $dt['coverage'] ?? '';
+
             /**************************** */
             $name = 'ISBN:' . $isbn;
             $class = 'Book';
@@ -147,6 +149,14 @@ class BooksSubmit extends Model
 
             $dd = $this->where('b_isbn', $isbn)->first();
             $id_dd = $dd['id_bs'];
+
+            if ($cover != '') {
+                echo "<br>Salvando capa: ".$cover;
+                $this->saveCover($idC,$cover);
+            } else {
+                echo "<br>Capa não localizada.";
+            }
+            $this->saveCover($idC,$cover);
 
             $this->process_json($id_dd, $filename . '.json');
             echo "<br>FIM: ".$name;
@@ -327,6 +337,25 @@ class BooksSubmit extends Model
         $sx .= '<textarea class="form-control mt-3" rows="10" readonly>' . $txt . '</textarea>';
         return $sx;
     }
+
+    function saveCover($ID,$link)
+        {
+            $dir = '_repository';
+            if (!is_dir($dir)) {
+                echo "OPS, diretorio não localizado: ".$dir;
+                exit;
+            }
+            try{
+                $content = file_get_contents($link);
+                $filename = $dir.'/cover_'.$ID.'.jpg';
+                file_put_contents($filename,$content);
+                echo "Capa salva: ".$filename;
+            } catch (\Exception $e) {
+                echo "Erro ao salvar capa: ".$e->getMessage();
+            }
+            exit;
+
+        }
 
     function process_json($id, $path_do_arquivo)
     {
