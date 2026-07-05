@@ -327,6 +327,7 @@ class BooksSubmit extends Model
 
     function process_json($id, $path_do_arquivo)
     {
+        echo "<h1>Processando</h1>";
         $dt = $this->find($id);
         if ($dt == []) {
             return 'Registro não localizado ' . $id;
