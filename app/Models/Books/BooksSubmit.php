@@ -143,8 +143,6 @@ class BooksSubmit extends Model
             file_put_contents($filename . '.json', json_encode($json));
             $dd = [];
             $dd['bs_json'] = json_encode($json);
-            $dd = $this->where('b_isbn', $isbn)->first();
-
             $this->set($dd)->where('b_isbn', $isbn)->update();
             echo $this->getlastquery();
 
