@@ -147,7 +147,7 @@ class BooksSubmit extends Model
             echo $this->getlastquery();
 
             $this->process_json($idC, $filename . '.json');
-            echo "FIM: ".$name;
+            echo "<br>FIM: ".$name;
             $dd = [];
             $dd['status'] = 2;
             $BooksModel->set($dd)->where('id', $id)->update();
