@@ -147,6 +147,10 @@ class BooksSubmit extends Model
             $this->set($dd)->where('b_isbn', $isbn)->update();
             $this->process_json($idC, $filename . '.json');
             echo "FIM: ".$name;
+            $dd = [];
+            $dd['status'] = 2;
+            $$BooksModel->set($dd)->where('id', $id)->update();
+            echo "<br>Registro de harvesting atualizado para catalogado.";
             exit;
         }
 
