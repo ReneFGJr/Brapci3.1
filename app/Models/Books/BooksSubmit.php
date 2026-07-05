@@ -136,7 +136,7 @@ class BooksSubmit extends Model
             if ($filename == '') {
                 $filename = preg_replace('/[^A-Za-z0-9]/', '', $dt['identifier']);
             }
-            $dir = '../../.tmp/booksubmit/';
+            $dir = '../.tmp/booksubmit/';
             dircheck($dir);
 
             $filename = $dir . $filename;
