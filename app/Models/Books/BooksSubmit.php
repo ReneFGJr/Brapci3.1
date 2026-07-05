@@ -144,8 +144,10 @@ class BooksSubmit extends Model
             $dd = [];
             $dd['bs_json'] = json_encode($json);
             $dd = $this->where('b_isbn', $isbn)->first();
-            echo $this->getlastquery();
+
             $this->set($dd)->where('b_isbn', $isbn)->update();
+            echo $this->getlastquery();
+
             $this->process_json($idC, $filename . '.json');
             echo "FIM: ".$name;
             $dd = [];
