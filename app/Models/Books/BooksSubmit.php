@@ -228,10 +228,10 @@ class BooksSubmit extends Model
                 : json_decode($dt['ChaptherBook'], true);
 
             foreach ($tmp as $c) {
-
+                $va = nbr_author($c['author'], 7);
                 $chapters[] = [
                     'hasTitle'      => $c['title'] ?? '',
-                    'hasAuthor'     => array_map('trim', explode(';', $c['author'] ?? '')),
+                    'hasAuthor'     => array_map('trim', explode(';', $va ?? '')),
                     'hasAbstract'   => $c['abstract'] ?? null,
                     'hasSubject'    => $c['subjects'] ?? [],
                     'hasPageStart'  => $c['pageStart'] ?? null,
@@ -432,8 +432,6 @@ class BooksSubmit extends Model
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         $va = nbr_author($va,7);
-                        echo '<h1>'.$va.'</h1>';
-                        exit;
                         $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
