@@ -355,7 +355,7 @@ class BooksSubmit extends Model
             $dir = '_repository';
             $IDs = strzero($ID, 8);
             $pdf = file_get_contents($http);
-            $dir = $dir . '/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
+            $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
             dircheck($dir);
             file_put_contents($dir . '/book.pdf', $pdf);
 
