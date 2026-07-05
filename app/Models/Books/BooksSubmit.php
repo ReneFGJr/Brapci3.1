@@ -141,6 +141,7 @@ class BooksSubmit extends Model
 
             $filename = $dir . $filename;
             file_put_contents($filename . '.json', $json);
+            pre($json);
             $dd = [];
             $dd['bs_json'] = json_encode($json);
             $dd = $this->where('b_isbn', $isbn)->first();
