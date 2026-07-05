@@ -427,10 +427,10 @@ class BooksSubmit extends Model
             $dd['b_isbn'] = $data['b_isbn'];
         }
 
-        if ($dd['b_isbn'] == '')
+        if ($data['b_isbn'] == '')
             {
                 echo '<h1>OPS</h1>';
-                pre($dd);
+                pre($data);
             }
 
         $this->set($dd)->where('id_bs', $id)->update();
