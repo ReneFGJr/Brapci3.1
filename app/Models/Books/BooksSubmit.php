@@ -330,11 +330,13 @@ class BooksSubmit extends Model
         echo "<h1>Processando</h1>";
         $dt = $this->find($id);
         if ($dt == []) {
-            return 'Registro não localizado ' . $id;
+            echo 'Registro não localizado ' . $id;
+            return "";
         }
 
         if (!file_exists($path_do_arquivo)) {
-            return 'Arquivo JSON não encontrado.';
+            echo 'Arquivo JSON não encontrado.';
+            return "";
         }
 
         $json = file_get_contents($path_do_arquivo);
