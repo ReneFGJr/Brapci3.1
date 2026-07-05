@@ -466,7 +466,7 @@ class BooksSubmit extends Model
 
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
-                                    if ($k == 'hasAuthor')
+                                    if ($class == 'Person')
                                         {
                                             $v = nbr_author($v,7);
                                         }
