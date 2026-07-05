@@ -341,13 +341,19 @@ class BooksSubmit extends Model
     function saveCover($ID,$link)
         {
             $dir = '_repository';
+            $IDs = strzero($ID, 8);
+            $dir = $dir . '/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
+            dircheck($dir);
+
             if (!is_dir($dir)) {
                 echo "OPS, diretorio não localizado: ".$dir;
                 exit;
+            } else {
+                echo "Salvando em ".$dir;
             }
             try{
                 $content = file_get_contents($link);
-                $filename = $dir.'/cover_'.$ID.'.jpg';
+                $filename = $dir.'/image.png';
                 file_put_contents($filename,$content);
                 echo "Capa salva: ".$filename;
             } catch (\Exception $e) {
