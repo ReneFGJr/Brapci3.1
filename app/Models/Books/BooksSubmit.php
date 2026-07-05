@@ -429,11 +429,12 @@ class BooksSubmit extends Model
 
                     $prop = 'hasAuthor';
                     $valueID = $v['hasAuthor'];
-                    pre($valueID,false);
+
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
                         $va = nbr_author($va,7);
-                        $this->register_data($IDchapter, $prop, $class, $va);
+                        pre($va, false);
+                        //$this->register_data($IDchapter, $prop, $class, $va);
                     }
 
                     if (isset($v['hasPageStart'])) {
