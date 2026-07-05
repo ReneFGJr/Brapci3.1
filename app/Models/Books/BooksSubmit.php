@@ -145,7 +145,7 @@ class BooksSubmit extends Model
             $dd['bs_json'] = json_encode($json);
             $this->set($dd)->where('b_isbn', $isbn)->update();
 
-            $this->process_json($idC, $filename . '.json');
+            $this->process_json($isbn, $filename . '.json');
             echo "<br>FIM: ".$name;
             $dd = [];
             $dd['status'] = 2;
