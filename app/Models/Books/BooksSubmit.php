@@ -109,6 +109,7 @@ class BooksSubmit extends Model
             }
 
             $cover = $dt['coverage'] ?? '';
+            $pdf = $dt['relation'] ?? '';
 
             /**************************** */
             $name = 'ISBN:' . $isbn;
@@ -157,6 +158,16 @@ class BooksSubmit extends Model
                 echo "<br>Capa não localizada.";
             }
             $this->saveCover($idC,$cover);
+
+            /*************** URL */
+        //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/book/3733
+        //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/view/277/280/1600
+        if ($pdf != '')
+                {
+                    $this->savePDFxRDF($idC,$pdf);
+                }
+
+
 
             $this->process_json($id_dd, $filename . '.json');
             echo "<br>FIM: ".$name;
@@ -337,6 +348,20 @@ class BooksSubmit extends Model
         $sx .= '<textarea class="form-control mt-3" rows="10" readonly>' . $txt . '</textarea>';
         return $sx;
     }
+
+    function savePDFxRDF($ID, $http)
+        {
+            $propt = 'hasFileStorage';
+            $dir = '_repository';
+            $IDs = strzero($ID, 8);
+            $pdf = file_get_contents($http);
+            $dir = $dir . '/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
+            dircheck($dir);
+            file_put_contents($dir . '/book.pdf', $pdf);
+
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $RDFdata->register($ID, $propt, 0, $dir . '/book.pdf');
+        }
 
     function saveCover($ID,$link)
         {
