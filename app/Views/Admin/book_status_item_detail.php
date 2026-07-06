@@ -37,7 +37,7 @@ $status = (string)($item['status'] ?? '');
                             <a href="<?= esc($coverage) ?>" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm">Abrir capa</a>
                         <?php endif; ?>
                         <?php if ($coverage != '' && $status === '2'): ?>
-                            <a href="<?=base_url('admin/book/catalog')?>/<?=esc($id);?>" target="_blank" rel="noopener" class="btn btn-outline-danger btn-sm">Catalogar</a>
+                            <a href="<?=base_url('admin/book/catalog')?>/<?=esc($id);?>" rel="noopener" class="btn btn-outline-danger btn-sm">Catalogar</a>
                         <?php endif; ?>
                     </div>
                 </div>
