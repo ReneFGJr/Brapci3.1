@@ -231,6 +231,8 @@ class BooksSubmit extends Model
 
         $log[] = "<strong>Catalogação concluída com sucesso.</strong>";
 
+        $log[] = "<a href='" . PATH . "/admin/book/items/2' class='btn btn-outline-primary'>Voltar</a>";
+
         return $this->showLog($log);
     }
 
