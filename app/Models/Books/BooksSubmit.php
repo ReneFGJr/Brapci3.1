@@ -351,16 +351,22 @@ class BooksSubmit extends Model
 
     function savePDFxRDF($ID, $http)
         {
-            $propt = 'hasFileStorage';
+            $pdf = file_get_contents($http);
             $dir = '_repository';
             $IDs = strzero($ID, 8);
-            $pdf = file_get_contents($http);
-            $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
+            $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2) . '/' . substr($IDs, 4, 2) . '/' . substr($IDs, 6, 2);
+            $file = $dir.'/book.pdf';
             dircheck($dir);
+
+            $Class = "FileStorage";
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $IDf = $RDFconcept->createConcept(['Class' => $Class, 'Name' => $file, 'Lang' => 'pt']);
+
+            $propt = 'hasFileStorage';
             file_put_contents($dir . '/book.pdf', $pdf);
 
             $RDFdata = new \App\Models\RDF2\RDFdata();
-            $RDFdata->register($ID, $propt, 0, $dir . '/book.pdf');
+            $RDFdata->register($ID, $propt, $IDf,0);
         }
 
     function saveCover($ID,$link)
