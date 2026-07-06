@@ -373,7 +373,9 @@ class BooksSubmit extends Model
         {
             $html = file_get_contents($http);
             $pdf = $this->getURL4html($html);
-            pre($pdf);
+
+            /************************** Get Content */
+            $pdf = file_get_contents($pdf);
 
             $dir = '_repository';
             $IDs = strzero($ID, 8);
