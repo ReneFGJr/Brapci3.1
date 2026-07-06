@@ -369,7 +369,7 @@ class BooksSubmit extends Model
 
     function savePDFxRDF($ID, $http)
         {
-            $hmtl = file_get_contents($http);
+            $html = file_get_contents($http);
             $pdf = $this->getURL4html($html);
             pre($pdf);
 
