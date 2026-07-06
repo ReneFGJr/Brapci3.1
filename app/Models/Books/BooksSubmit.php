@@ -85,101 +85,168 @@ class BooksSubmit extends Model
         }
     }
 
-    function catalogHarvesting($id)
+    public function catalogHarvesting($id)
     {
         $BooksModel = new \App\Models\Books\BookHarvesting();
-        $dt = $BooksModel->find($id);
-        $sx = "<h3>Catalogando registro de harvesting: " . $id . "</h3>";
-
-        /******************************************* */
-        /*************************** Criar Livro (Conceito) */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $isbn = $dt['ISBN'];
+
+        $dt = $BooksModel->find($id);
+
+        if (!$dt) {
+            return $this->showLog([
+                "Registro de harvesting {$id} não localizado."
+            ]);
+        }
+
+        $log = [];
+        $log[] = "<h3>Catalogação do registro #{$id}</h3>";
+
+        /****************************************************************
+         * 1. Localizar ISBN
+         ****************************************************************/
+        $isbn = trim($dt['ISBN']);
 
         if ($isbn == '') {
-            $DOI = $dt['DOI'];
-            if ($DOI != '') {
-                $pos = strpos($DOI, '978');
+            $doi = trim($dt['DOI']);
+
+            if ($doi != '') {
+                $pos = strpos($doi, '978');
+
                 if ($pos !== false) {
-                    $isbn = substr($DOI, $pos, 20);
-                    $isbn = sonumero($isbn);
+                    $isbn = sonumero(substr($doi, $pos, 20));
+                    $log[] = "ISBN extraído do DOI: {$isbn}";
                 }
-            } else {
-                echo "ISBN não localizado";
-                exit;
             }
         }
 
-        $cover = $dt['coverage'] ?? '';
-        $pdf = $dt['relation'] ?? '';
-
-        /**************************** */
-        $name = 'ISBN:' . $isbn;
-        $class = 'Book';
-        $lang = 'pt_BR';
-        $value = $isbn;
-
-        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => $lang]);
-
-        $dd = $this->where('b_isbn', $isbn)->first();
-        if ($dd != []) {
-            echo "Registro já catalogado: " . $dd['id_bs'] . "<br>";
-        } else {
-            echo "Registro não catalogado, criando registro de submissão...<br>";
-            $dd['bs_title'] = $dt['title'];
-            $dd['bs_post'] = json_encode($dt);
-            $dd['bs_status'] = 7;
-            $dd['b_isbn'] = $isbn;
-            $dd['bs_rdf'] = $idC;
-            $dd['bs_arquivo'] = '';
-            $dd['bs_email'] = '';
-            $dd['id_bs'] = $this->insert($dd);
+        if ($isbn == '') {
+            $log[] = "<span class='text-danger'>ISBN não localizado.</span>";
+            return $this->showLog($log);
         }
 
+        /****************************************************************
+         * 2. Criar conceito RDF
+         ****************************************************************/
+        $idConcept = $RDFconcept->createConcept([
+            'Class' => 'Book',
+            'Name'  => $isbn,
+            'Lang'  => 'pt_BR'
+        ]);
+
+        $log[] = "Conceito RDF criado: {$idConcept}";
+
+        /****************************************************************
+         * 3. Criar submissão
+         ****************************************************************/
+        $book = $this->where('b_isbn', $isbn)->first();
+
+        if ($book) {
+
+            $log[] = "Livro já catalogado (ID {$book['id_bs']}).";
+        } else {
+
+            $book = [
+                'bs_title'    => $dt['title'],
+                'bs_post'     => json_encode($dt),
+                'bs_status'   => 7,
+                'b_isbn'      => $isbn,
+                'bs_rdf'      => $idConcept,
+                'bs_arquivo'  => '',
+                'bs_email'    => ''
+            ];
+
+            $book['id_bs'] = $this->insert($book);
+
+            $log[] = "Registro de submissão criado (ID {$book['id_bs']}).";
+        }
+
+        /****************************************************************
+         * 4. Gerar JSON
+         ****************************************************************/
         $json = $this->generateBookJson($dt);
+
         $filename = preg_replace('/\D/', '', $dt['ISBN']);
+
         if ($filename == '') {
             $filename = preg_replace('/[^A-Za-z0-9]/', '', $dt['identifier']);
         }
+
         $dir = '../.tmp/booksubmit/';
         dircheck($dir);
 
-        $filename = $dir . $filename;
-        file_put_contents($filename . '.json', $json);
-        $dd = [];
-        $dd['bs_json'] = json_encode($json);
-        $this->set($dd)->where('b_isbn', $isbn)->update();
+        $file = $dir . $filename . '.json';
 
-        $dd = $this->where('b_isbn', $isbn)->first();
-        $id_dd = $dd['id_bs'];
+        file_put_contents($file, $json);
+
+        $this->set([
+            'bs_json' => $json
+        ])->where('b_isbn', $isbn)->update();
+
+        $book = $this->where('b_isbn', $isbn)->first();
+
+        $log[] = "JSON gerado: {$file}";
+
+        /****************************************************************
+         * 5. Capa
+         ****************************************************************/
+        $cover = $dt['coverage'] ?? '';
 
         if ($cover != '') {
-            $sx .= "<br>Salvando capa: " . $cover;
-            $this->saveCover($idC, $cover);
+
+            $this->saveCover($idConcept, $cover);
+            $log[] = "Capa salva.";
         } else {
-            $sx .= "<br>Capa não localizada.";
-        }
-        $this->saveCover($idC, $cover);
 
-        /*************** URL */
-        //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/book/3733
-        //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/view/277/280/1600
+            $log[] = "Livro sem imagem de capa.";
+        }
+
+        /****************************************************************
+         * 6. PDF
+         ****************************************************************/
+        $pdf = $dt['relation'] ?? '';
+
         if ($pdf != '') {
-            $this->savePDFxRDF($idC, $pdf);
+
+            $this->savePDFxRDF($idConcept, $pdf);
+            $log[] = "PDF vinculado.";
+        } else {
+
+            $log[] = "Livro sem PDF.";
         }
 
-        $this->process_json($id_dd, $filename . '.json');
-        $sx .= "<br>FIM: " . $name;
-        $dd = [];
-        $dd['status'] = 2;
-        $BooksModel->set($dd)->where('id', $id)->update();
-        $sx .= "<br>Registro de harvesting atualizado para catalogado.";
+        /****************************************************************
+         * 7. Processar JSON
+         ****************************************************************/
+        $this->process_json($book['id_bs'], $file);
 
-        $BooksModel = new \App\Models\Books\BookHarvesting();
-        $dd = [];
-        $dd['status'] = 10;
-        $dt = $BooksModel->set($dd)->where('id', $id)->update();
-        return '<div class="content"><div class="row"><div class="col-12">'.$sx.'</div></div></div>';
+        $log[] = "Metadados processados.";
+
+        /****************************************************************
+         * 8. Finalizar
+         ****************************************************************/
+        $BooksModel
+            ->set(['status' => 10])
+            ->where('id', $id)
+            ->update();
+
+        $log[] = "<strong>Catalogação concluída com sucesso.</strong>";
+
+        return $this->showLog($log);
+    }
+
+    /**
+     * Exibe as mensagens da catalogação.
+     */
+    private function showLog(array $log): string
+    {
+        return '
+        <div class="content">
+            <div class="row">
+                <div class="col-12">'
+            . implode('<br>', $log) .
+            '</div>
+        </div>
+    </div>';
     }
 
     /**
