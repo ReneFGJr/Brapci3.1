@@ -349,9 +349,30 @@ class BooksSubmit extends Model
         return $sx;
     }
 
+    function getURL4html($html)
+        {
+            libxml_use_internal_errors(true);
+
+            $dom = new DOMDocument();
+            $dom->loadHTML($html);
+
+            $xpath = new DOMXPath($dom);
+
+            // Localiza o <a> que possui a classe "download"
+            $nodes = $xpath->query("//a[contains(concat(' ', normalize-space(@class), ' '), ' download ')]");
+
+            foreach ($nodes as $node) {
+                $href = $node->getAttribute('href');
+                return $href; // Retorna o link encontrado
+            }
+        }
+
     function savePDFxRDF($ID, $http)
         {
-            $pdf = file_get_contents($http);
+            $hmtl = file_get_contents($http);
+            $pdf = $this->getURL4html($html);
+            pre($pdf);
+
             $dir = '_repository';
             $IDs = strzero($ID, 8);
             $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2) . '/' . substr($IDs, 4, 2) . '/' . substr($IDs, 6, 2);
