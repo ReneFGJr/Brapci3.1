@@ -86,99 +86,101 @@ class BooksSubmit extends Model
     }
 
     function catalogHarvesting($id)
-        {
-            $BooksModel = new \App\Models\Books\BookHarvesting();
-            $dt = $BooksModel->find($id);
-            echo "Catalogando registro de harvesting: " . $id . "<br>";
+    {
+        $BooksModel = new \App\Models\Books\BookHarvesting();
+        $dt = $BooksModel->find($id);
+        $sx = "<h3>Catalogando registro de harvesting: " . $id . "</h3>";
 
-            /******************************************* */
-            /*************************** Criar Livro (Conceito) */
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $isbn = $dt['ISBN'];
+        /******************************************* */
+        /*************************** Criar Livro (Conceito) */
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $isbn = $dt['ISBN'];
 
-            if ($isbn == '') {
-                $DOI = $dt['DOI'];
-                if ($DOI != '') {
-                    $pos = strpos($DOI, '978');
-                    if ($pos !== false) {
-                        $isbn = substr($DOI, $pos, 20);
-                        $isbn = sonumero($isbn);
-                    }
-                } else {
-                    echo "ISBN não localizado";
-                    exit;
+        if ($isbn == '') {
+            $DOI = $dt['DOI'];
+            if ($DOI != '') {
+                $pos = strpos($DOI, '978');
+                if ($pos !== false) {
+                    $isbn = substr($DOI, $pos, 20);
+                    $isbn = sonumero($isbn);
                 }
-            }
-
-            $cover = $dt['coverage'] ?? '';
-            $pdf = $dt['relation'] ?? '';
-
-            /**************************** */
-            $name = 'ISBN:' . $isbn;
-            $class = 'Book';
-            $lang = 'pt_BR';
-            $value = $isbn;
-
-            $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => $lang]);
-
-            $dd = $this->where('b_isbn', $isbn)->first();
-            if ($dd != []) {
-                echo "Registro já catalogado: " . $dd['id_bs'] . "<br>";
             } else {
-                echo "Registro não catalogado, criando registro de submissão...<br>";
-                $dd['bs_title'] = $dt['title'];
-                $dd['bs_post'] = json_encode($dt);
-                $dd['bs_status'] = 7;
-                $dd['b_isbn'] = $isbn;
-                $dd['bs_rdf'] = $idC;
-                $dd['bs_arquivo'] = '';
-                $dd['bs_email'] = '';
-                $dd['id_bs'] = $this->insert($dd);
+                echo "ISBN não localizado";
+                exit;
             }
+        }
 
-            $json = $this->generateBookJson($dt);
-            $filename = preg_replace('/\D/', '', $dt['ISBN']);
-            if ($filename == '') {
-                $filename = preg_replace('/[^A-Za-z0-9]/', '', $dt['identifier']);
-            }
-            $dir = '../.tmp/booksubmit/';
-            dircheck($dir);
+        $cover = $dt['coverage'] ?? '';
+        $pdf = $dt['relation'] ?? '';
 
-            $filename = $dir . $filename;
-            file_put_contents($filename . '.json', $json);
-            $dd = [];
-            $dd['bs_json'] = json_encode($json);
-            $this->set($dd)->where('b_isbn', $isbn)->update();
+        /**************************** */
+        $name = 'ISBN:' . $isbn;
+        $class = 'Book';
+        $lang = 'pt_BR';
+        $value = $isbn;
 
-            $dd = $this->where('b_isbn', $isbn)->first();
-            $id_dd = $dd['id_bs'];
+        $idC = $RDFconcept->createConcept(['Class' => $class, 'Name' => $value, 'Lang' => $lang]);
 
-            if ($cover != '') {
-                echo "<br>Salvando capa: ".$cover;
-                $this->saveCover($idC,$cover);
-            } else {
-                echo "<br>Capa não localizada.";
-            }
-            $this->saveCover($idC,$cover);
+        $dd = $this->where('b_isbn', $isbn)->first();
+        if ($dd != []) {
+            echo "Registro já catalogado: " . $dd['id_bs'] . "<br>";
+        } else {
+            echo "Registro não catalogado, criando registro de submissão...<br>";
+            $dd['bs_title'] = $dt['title'];
+            $dd['bs_post'] = json_encode($dt);
+            $dd['bs_status'] = 7;
+            $dd['b_isbn'] = $isbn;
+            $dd['bs_rdf'] = $idC;
+            $dd['bs_arquivo'] = '';
+            $dd['bs_email'] = '';
+            $dd['id_bs'] = $this->insert($dd);
+        }
 
-            /*************** URL */
+        $json = $this->generateBookJson($dt);
+        $filename = preg_replace('/\D/', '', $dt['ISBN']);
+        if ($filename == '') {
+            $filename = preg_replace('/[^A-Za-z0-9]/', '', $dt['identifier']);
+        }
+        $dir = '../.tmp/booksubmit/';
+        dircheck($dir);
+
+        $filename = $dir . $filename;
+        file_put_contents($filename . '.json', $json);
+        $dd = [];
+        $dd['bs_json'] = json_encode($json);
+        $this->set($dd)->where('b_isbn', $isbn)->update();
+
+        $dd = $this->where('b_isbn', $isbn)->first();
+        $id_dd = $dd['id_bs'];
+
+        if ($cover != '') {
+            $sx .= "<br>Salvando capa: " . $cover;
+            $this->saveCover($idC, $cover);
+        } else {
+            $sx .= "<br>Capa não localizada.";
+        }
+        $this->saveCover($idC, $cover);
+
+        /*************** URL */
         //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/book/3733
         //https://omp-editora.prd.ibict.br/index.php/edibict/catalog/view/277/280/1600
-        if ($pdf != '')
-                {
-                    $this->savePDFxRDF($idC,$pdf);
-                }
-
-
-
-            $this->process_json($id_dd, $filename . '.json');
-            echo "<br>FIM: ".$name;
-            $dd = [];
-            $dd['status'] = 2;
-            $BooksModel->set($dd)->where('id', $id)->update();
-            echo "<br>Registro de harvesting atualizado para catalogado.";
-            exit;
+        if ($pdf != '') {
+            $this->savePDFxRDF($idC, $pdf);
         }
+
+        $this->process_json($id_dd, $filename . '.json');
+        $sx .= "<br>FIM: " . $name;
+        $dd = [];
+        $dd['status'] = 2;
+        $BooksModel->set($dd)->where('id', $id)->update();
+        $sx .= "<br>Registro de harvesting atualizado para catalogado.";
+
+        $BooksModel = new \App\Models\Books\BookHarvesting();
+        $dd = [];
+        $dd['status'] = 10;
+        $dt = $BooksModel->set($dd)->where('id', $id)->update();
+        return $sx;
+    }
 
     /**
      * Gera o JSON padronizado de um livro
@@ -352,76 +354,74 @@ class BooksSubmit extends Model
     }
 
     function getURL4html($html)
-        {
-            libxml_use_internal_errors(true);
+    {
+        libxml_use_internal_errors(true);
 
-            $dom = new DOMDocument();
-            $dom->loadHTML($html);
+        $dom = new DOMDocument();
+        $dom->loadHTML($html);
 
-            $xpath = new DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
 
-            // Localiza o <a> que possui a classe "download"
-            $nodes = $xpath->query("//a[contains(concat(' ', normalize-space(@class), ' '), ' download ')]");
+        // Localiza o <a> que possui a classe "download"
+        $nodes = $xpath->query("//a[contains(concat(' ', normalize-space(@class), ' '), ' download ')]");
 
-            foreach ($nodes as $node) {
-                $href = $node->getAttribute('href');
-                return $href; // Retorna o link encontrado
-            }
+        foreach ($nodes as $node) {
+            $href = $node->getAttribute('href');
+            return $href; // Retorna o link encontrado
         }
+    }
 
     function savePDFxRDF($ID, $http)
-        {
-            $html = file_get_contents($http);
-            $pdf = $this->getURL4html($html);
+    {
+        $html = file_get_contents($http);
+        $pdf = $this->getURL4html($html);
 
-            /************************** Get Content */
-            $pdf = file_get_contents($pdf);
+        /************************** Get Content */
+        $pdf = file_get_contents($pdf);
 
-            $dir = '_repository';
-            $IDs = strzero($ID, 8);
-            $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2) . '/' . substr($IDs, 4, 2) . '/' . substr($IDs, 6, 2);
-            $file = $dir.'/book.pdf';
-            dircheck($dir);
+        $dir = '_repository';
+        $IDs = strzero($ID, 8);
+        $dir = $dir . '/book/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2) . '/' . substr($IDs, 4, 2) . '/' . substr($IDs, 6, 2);
+        $file = $dir . '/book.pdf';
+        dircheck($dir);
 
-            $Class = "FileStorage";
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $IDf = $RDFconcept->createConcept(['Class' => $Class, 'Name' => $file, 'Lang' => 'pt']);
+        $Class = "FileStorage";
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $IDf = $RDFconcept->createConcept(['Class' => $Class, 'Name' => $file, 'Lang' => 'pt']);
 
-            $propt = 'hasFileStorage';
-            file_put_contents($dir . '/book.pdf', $pdf);
+        $propt = 'hasFileStorage';
+        file_put_contents($dir . '/book.pdf', $pdf);
+
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFdata->register($ID, $propt, $IDf, 0);
+    }
+
+    function saveCover($ID, $link)
+    {
+        $dir = '_repository';
+        $IDs = strzero($ID, 8);
+        $dir = $dir . '/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2) . '/' . substr($IDs, 4, 2) . '/' . substr($IDs, 6, 2);
+        dircheck($dir);
+
+        if (!is_dir($dir)) {
+            echo "OPS, diretorio não localizado: " . $dir;
+            exit;
+        } else {
+            echo "Salvando em " . $dir;
+        }
+        try {
+            $content = file_get_contents($link);
+            $filename = $dir . '/image.png';
+            file_put_contents($filename, $content);
+            echo "Capa salva: " . $filename;
 
             $RDFdata = new \App\Models\RDF2\RDFdata();
-            $RDFdata->register($ID, $propt, $IDf,0);
+            $http = 'https://cip.brapci.inf.br/' . $filename;
+            $RDFdata->register($ID, 'hasCover', 0, $http);
+        } catch (\Exception $e) {
+            echo "Erro ao salvar capa: " . $e->getMessage();
         }
-
-    function saveCover($ID,$link)
-        {
-            $dir = '_repository';
-            $IDs = strzero($ID, 8);
-            $dir = $dir . '/' . substr($IDs, 0, 2) . '/' . substr($IDs, 2, 2).'/' . substr($IDs, 4, 2).'/' . substr($IDs, 6, 2);
-            dircheck($dir);
-
-            if (!is_dir($dir)) {
-                echo "OPS, diretorio não localizado: ".$dir;
-                exit;
-            } else {
-                echo "Salvando em ".$dir;
-            }
-            try{
-                $content = file_get_contents($link);
-                $filename = $dir.'/image.png';
-                file_put_contents($filename,$content);
-                echo "Capa salva: ".$filename;
-
-                $RDFdata = new \App\Models\RDF2\RDFdata();
-                $http = 'https://cip.brapci.inf.br/'.$filename;
-                $RDFdata->register($ID, 'hasCover', 0, $http);
-            } catch (\Exception $e) {
-                echo "Erro ao salvar capa: ".$e->getMessage();
-            }
-
-
-        }
+    }
 
     function process_json($id, $path_do_arquivo)
     {
@@ -496,15 +496,15 @@ class BooksSubmit extends Model
 
                 foreach ($value as $k => $v) {
                     $Chapter++;
-                    $ChapterID = 'ISBN:'.$ISBN.'_'.strzero($Chapter, 2);
+                    $ChapterID = 'ISBN:' . $ISBN . '_' . strzero($Chapter, 2);
                     $class = 'BookChapter';
                     $IDchapter = $this->register_data($dt['bs_rdf'], $key, $class, $ChapterID);
 
                     $IDCatalogador = $this->register_data($IDchapter, 'hasCataloger', 'Cataloger', 'BrapciIA');
 
                     echo $RdfID . ' - ';
-                    echo $ChapterID.' - ';
-                    echo $IDchapter.'<br>';
+                    echo $ChapterID . ' - ';
+                    echo $IDchapter . '<br>';
 
                     $prop = 'hasChapterOf';
                     $this->register_link($RdfID, $prop, $IDchapter, 0);
@@ -527,7 +527,7 @@ class BooksSubmit extends Model
 
                     foreach ($valueID as $kID => $va) {
                         $class = 'Person';
-                        $va = nbr_author($va,7);
+                        $va = nbr_author($va, 7);
                         $this->register_data($IDchapter, $prop, $class, $va);
                     }
 
@@ -561,10 +561,9 @@ class BooksSubmit extends Model
 
                             if (is_array($value)) {
                                 foreach ($value as $k => $v) {
-                                    if ($class == 'Person')
-                                        {
-                                            $v = nbr_author($v,7);
-                                        }
+                                    if ($class == 'Person') {
+                                        $v = nbr_author($v, 7);
+                                    }
                                     $sx .= $this->register_data($dt['bs_rdf'], $key, $class, $v);
                                 }
                             } else {
@@ -690,11 +689,11 @@ class BooksSubmit extends Model
             $js = (array)json_decode($dt['bs_post']);
 
             $sx .= bsc(msg('brapci.RDFID'), 3, 'small mt-2');
-            $url = '<a href="https://brapci.inf.br/v/' . $dt['bs_rdf'].'" target="_blank">'. $dt['bs_rdf'].'</a>';
+            $url = '<a href="https://brapci.inf.br/v/' . $dt['bs_rdf'] . '" target="_blank">' . $dt['bs_rdf'] . '</a>';
             $sx .= bsc($url, 3, 'small mt-2');
 
             $sx .= bsc(msg('brapci.hasTitle'), 3, 'small mt-2');
-            $sx .= bsc('<b>'.$dt['bs_title'].'</b>', 9, 'small mt-2');
+            $sx .= bsc('<b>' . $dt['bs_title'] . '</b>', 9, 'small mt-2');
 
             foreach ($js as $key => $value) {
                 $sx .= bsc(msg('brapci.' . $key), 3, 'small mt-2');
