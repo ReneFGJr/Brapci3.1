@@ -179,7 +179,7 @@ class BooksSubmit extends Model
         $dd = [];
         $dd['status'] = 10;
         $dt = $BooksModel->set($dd)->where('id', $id)->update();
-        return $sx;
+        return '<div class="content"><div class="row"><div class="col-12">'.$sx.'</div></div></div>';
     }
 
     /**
