@@ -254,12 +254,54 @@ class Index extends Model
             return bsmessage('Registro nao encontrado em brapci_books.book_harvesting ou brapci_book.book_harvesting.', 3);
         }
 
+        $isbnField = '';
+        if (array_key_exists('ISBN', $item)) {
+            $isbnField = 'ISBN';
+        } elseif (array_key_exists('isbn', $item)) {
+            $isbnField = 'isbn';
+        }
+
+        $doi = trim((string)($item['DOI'] ?? $item['doi'] ?? ''));
+        $isbn = $isbnField != '' ? trim((string)($item[$isbnField] ?? '')) : '';
+
+        if ($isbnField != '' && $this->isNullLike($isbn) && $doi != '') {
+            $isbnFromDoi = $this->extractIsbnFromDoi($doi);
+
+            if ($isbnFromDoi != '') {
+                $sql = "UPDATE {$tableUsed} SET {$isbnField} = ? WHERE identifier = ?";
+                $db->query($sql, [$isbnFromDoi, $identifier]);
+                $item[$isbnField] = $isbnFromDoi;
+            }
+        }
+
         $data = [
             'tableUsed' => $tableUsed,
             'item' => $item,
         ];
 
         return view('Admin/book_status_item_detail', $data);
+    }
+
+    private function isNullLike(string $value): bool
+    {
+        $value = trim($value);
+        return $value == '' || strtolower($value) == 'null';
+    }
+
+    private function extractIsbnFromDoi(string $doi): string
+    {
+        if (preg_match('/97[89][0-9Xx\-\s]{10,20}/', $doi, $matches) !== 1) {
+            return '';
+        }
+
+        $isbn = preg_replace('/[^0-9Xx]/', '', $matches[0]);
+        $isbn = strtoupper($isbn);
+
+        if (strlen($isbn) < 13) {
+            return '';
+        }
+
+        return substr($isbn, 0, 13);
     }
 
     function Xindex($d1 = '', $d2 = '', $d3 = '')
