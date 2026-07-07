@@ -194,6 +194,8 @@ class Auth extends Controller
 
     public function newpass($key = '')
     {
+        define('PATH', getenv('app.baseURL') . '/');
+        define('URL', getenv('app.baseURL') . '/');
         $Socials = new Socials();
         $key = trim((string) $key);
         $data['page_title'] = 'Brapci';
