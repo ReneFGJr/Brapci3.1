@@ -196,17 +196,26 @@ class Auth extends Controller
     {
         $Socials = new Socials();
         $key = trim((string) $key);
-        $sx = '';
+        $data['page_title'] = 'Brapci';
+        $data['bg'] = 'bg-primary';
+        $sx = view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
+
+        $body = '';
 
         if ($key === '') {
-            $sx .= bsmessage('Link de recuperação não informado.', 3);
-            return bs(bsc($sx, 12));
+            $body .= bsmessage('Link de recuperação não informado.', 3);
+            $sx .= bs(bsc($body, 12));
+            $sx .= view('Brapci/Headers/footer', $data);
+            return $sx;
         }
 
         $recover = $Socials->validRecover($key);
         if (!isset($recover['status']) || $recover['status'] !== '200') {
-            $sx .= bsmessage('Link de recuperação inválido ou expirado.', 3);
-            return bs(bsc($sx, 12));
+            $body .= bsmessage('Link de recuperação inválido ou expirado.', 3);
+            $sx .= bs(bsc($body, 12));
+            $sx .= view('Brapci/Headers/footer', $data);
+            return $sx;
         }
 
         session()->set('forgout', $key);
@@ -214,25 +223,27 @@ class Auth extends Controller
         $pass1 = trim((string) $this->request->getVar('password'));
         $pass2 = trim((string) $this->request->getVar('password_confirm'));
 
-        $sx .= h(lang('social.forgout_new_password'), 1);
-        $sx .= '<p>' . htmlspecialchars($recover['fullname'] ?? '') . ' - ' . htmlspecialchars($recover['email'] ?? '') . '</p>';
+        $body .= h(lang('social.forgout_new_password'), 1);
+        $body .= '<p>' . htmlspecialchars($recover['fullname'] ?? '') . ' - ' . htmlspecialchars($recover['email'] ?? '') . '</p>';
 
         if ($this->request->getMethod() === 'post') {
             $result = $Socials->chagePassword($key, $pass1, $pass2);
             if (($result['status'] ?? '') === '200') {
-                $sx .= bsmessage($result['message'] ?? lang('social.password_changed'), 1);
-                $sx .= '<br/>';
-                $sx .= '<a href="' . PATH . '/social/login">' . lang('social.return_login') . '</a>';
-                return bs(bsc($sx, 12));
+                $body .= bsmessage($result['message'] ?? lang('social.password_changed'), 1);
+                $body .= '<br/>';
+                $body .= '<a href="' . PATH . '/social/login">' . lang('social.return_login') . '</a>';
+                $sx .= bs(bsc($body, 12));
+                $sx .= view('Brapci/Headers/footer', $data);
+                return $sx;
             }
 
-            $sx .= bsmessage($result['message'] ?? 'Não foi possível alterar a senha.', 3);
+            $body .= bsmessage($result['message'] ?? 'Não foi possível alterar a senha.', 3);
         }
 
-        $sx .= form_open('/auth/newpass/' . $key, ['method' => 'post']);
-        $sx .= '<div class="form-group">';
-        $sx .= '<label for="password">' . lang('social.forgout_new_password') . '</label>';
-        $sx .= form_input([
+        $body .= form_open('/auth/newpass/' . $key, ['method' => 'post']);
+        $body .= '<div class="form-group">';
+        $body .= '<label for="password">' . lang('social.forgout_new_password') . '</label>';
+        $body .= form_input([
             'name' => 'password',
             'id' => 'password',
             'type' => 'password',
@@ -240,10 +251,10 @@ class Auth extends Controller
             'value' => $pass1,
             'placeholder' => lang('social.forgout_new_password'),
         ]);
-        $sx .= '</div>';
-        $sx .= '<div class="form-group mt-3">';
-        $sx .= '<label for="password_confirm">' . lang('social.forgout_new_password_confirm') . '</label>';
-        $sx .= form_input([
+        $body .= '</div>';
+        $body .= '<div class="form-group mt-3">';
+        $body .= '<label for="password_confirm">' . lang('social.forgout_new_password_confirm') . '</label>';
+        $body .= form_input([
             'name' => 'password_confirm',
             'id' => 'password_confirm',
             'type' => 'password',
@@ -251,12 +262,14 @@ class Auth extends Controller
             'value' => $pass2,
             'placeholder' => lang('social.forgout_new_password_confirm'),
         ]);
-        $sx .= '</div>';
-        $sx .= '<div class="mt-3">';
-        $sx .= form_submit(['class' => 'btn btn-primary'], lang('social.save'));
-        $sx .= '</div>';
-        $sx .= form_close();
+        $body .= '</div>';
+        $body .= '<div class="mt-3">';
+        $body .= form_submit(['class' => 'btn btn-primary'], lang('social.save'));
+        $body .= '</div>';
+        $body .= form_close();
 
-        return bs(bsc($sx, 12));
+        $sx .= bs(bsc($body, 12));
+        $sx .= view('Brapci/Headers/footer', $data);
+        return $sx;
     }
 }
