@@ -47,6 +47,7 @@ class News extends Model
         {
             $sx = '';
             $dt = $this->orderBy('nw_data desc')->findAll(10);
+            pre($dt);
             $xver = '';
             foreach($dt as $id=>$line)
                 {
