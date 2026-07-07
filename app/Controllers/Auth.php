@@ -196,6 +196,7 @@ class Auth extends Controller
     {
         define('PATH', getenv('app.baseURL') . '/');
         define('URL', getenv('app.baseURL') . '/');
+        define('COLLECTION', '/auth');
         $Socials = new Socials();
         $key = trim((string) $key);
         $data['page_title'] = 'Brapci';
