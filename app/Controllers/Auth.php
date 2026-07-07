@@ -145,14 +145,12 @@ class Auth extends Controller
 
         if (($method === 'post') or ($method === 'get')) {
             if ($email === '') {
-                $sx .= bsmessage(lang('social.email_not_found'), 3);
-                return bs(bsc($sx, 12));
+                $RSP['error'] = lang('social.email_not_found');
             }
 
             $user = $Socials->where('us_email', $email)->first();
             if (!$user) {
-                $sx .= bsmessage(lang('social.email_not_found'), 3);
-                return bs(bsc($sx, 12));
+                $RSP['error'] = lang('social.email_not_found');
             }
 
             $key = $Socials->getRecoverKey($email);
