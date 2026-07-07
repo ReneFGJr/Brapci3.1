@@ -170,7 +170,8 @@ class Index extends Model
                 $sx = $Datasets->index($d2, $d3, $d4);
                 break;
             case 'socials':
-                $Oauth = new \App\Models\Api\Endpoint\Oauth();
+                //$Oauth = new \App\Models\Api\Endpoint\Oauth();
+                $Oauth = new \App\Models\Socials();
                 $sx = $Oauth->index($d2, $d3, $d4);
                 break;
             case 'isbn':
