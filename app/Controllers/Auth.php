@@ -15,7 +15,7 @@ class Auth extends Controller
 
     public function __construct()
     {
-        helper(['url', 'session']);
+        helper(['url', 'session', 'sisdoc_email']);
     }
 
     public function login()
@@ -130,5 +130,75 @@ class Auth extends Controller
     {
         session()->destroy();
         return redirect()->to('/');
+    }
+
+    public function forgot()
+    {
+        $Socials = new Socials();
+        $sx = '';
+
+        $email = trim((string) $this->request->getVar('email'));
+
+        $sx .= h(lang('social.social_forgot_password'), 1);
+        $sx .= '<p>' . lang('social.social_forgot_password_info') . '</p>';
+
+        $sx .= form_open('/auth/forgot-password', ['method' => 'post']);
+        $sx .= form_input([
+            'name'  => 'email',
+            'class' => 'form-control',
+            'value' => $email,
+            'placeholder' => lang('social.email'),
+        ], '', lang('social.email'));
+        $sx .= '<div class="mt-3">';
+        $sx .= form_submit(['class' => 'btn btn-primary'], lang('social.enter'));
+        $sx .= '</div>';
+        $sx .= form_close();
+
+        if ($this->request->getMethod() === 'post') {
+            if ($email === '') {
+                $sx .= bsmessage(lang('social.email_not_found'), 3);
+                return bs(bsc($sx, 12));
+            }
+
+            $user = $Socials->where('us_email', $email)->first();
+            if (!$user) {
+                $sx .= bsmessage(lang('social.email_not_found'), 3);
+                return bs(bsc($sx, 12));
+            }
+
+            $key = $Socials->getRecoverKey($email);
+            $Socials->set(['us_recover' => $key])->where('id_us', $user['id_us'])->update();
+
+            session()->set('forgout', $key);
+
+            $recoverLink = base_url('social/pass/' . $key);
+            $subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
+
+            $txt = '<h1>' . lang('social.forgout_email_title') . '</h1>';
+            $txt .= '<center>';
+            $txt .= '<table width="600" border="0">';
+            $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+            $txt .= '<tr><td cellpadding="5">';
+            $txt .= '<br/><br/>';
+            $txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
+            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text') . '</p>';
+            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_password') . '</p>';
+            $txt .= '<p style="font-size: 1.2em;"><a href="' . $recoverLink . '">' . $recoverLink . '</a></p>';
+            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text2') . '</p>';
+            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text3') . '</p>';
+            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text4') . '</p>';
+            $txt .= '</td></tr>';
+            $txt .= '</table>';
+            $txt .= '</center>';
+
+            $result = sendmail($email, $subject, $txt);
+
+            $sx .= bsmessage(lang('social.email_send_your_account') . '. ' . lang('social.forgout_info'), 1);
+            $sx .= '<div class="mt-3"><h4>Resultado do envio</h4><pre class="border p-3 bg-light">';
+            $sx .= htmlspecialchars($result);
+            $sx .= '</pre></div>';
+        }
+
+        return bs(bsc($sx, 12));
     }
 }
