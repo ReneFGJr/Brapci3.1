@@ -47,15 +47,20 @@ class Email extends Model
         $sx = h('Email de teste', 1);
         $sx .= '<p>Enviado para '.$email.'</p>';
 
-        $sx = bs(bsc($sx, 12));
-
         $txt = '';
         $txt .= '<center>';
         $txt .= '<img src="cid:$image1" style="width: 600px;">';
         $txt .= h('Hello World!');
         $txt .= '<p>Welcome to Brapci 3.1!</p>';
         //$this->sendmail($email, , $txt);
-        sendmail($email, 'E-mail de teste', $txt);
+
+        $result = $this->sendmail($email, 'E-mail de teste', $txt);
+
+        $sx .= '<div class="mt-3"><h4>Resultado do envio</h4><pre class="border p-3 bg-light">';
+        $sx .= htmlspecialchars($result);
+        $sx .= '</pre></div>';
+
+        $sx = bs(bsc($sx, 12));
         return $sx;
     }
 
@@ -68,18 +73,18 @@ class Email extends Model
     {
         $this->email = \Config\Services::email();
 
-        $config['protocol'] = 'sendmail';
-        $config['mailPath'] = '/usr/sbin/sendmail';
+        $config = [];
+        $config['protocol'] = 'smtp';
+        $config['SMTPHost'] = getenv('EMAIL_SMTP');
+        $config['SMTPUser'] = getenv('EMAIL_USER_AUTH');
+        $config['SMTPPass'] = getenv('EMAIL_PASSWORD');
+        $config['SMTPPort'] = (int) getenv('EMAIL_SMTP_PORT');
+        $config['SMTPCrypto'] = 'ssl';
+        $config['SMTPTimeout'] = 10;
 
         $config['wordWrap'] = true;
-        $config['protocol'] = 'smtp';
-        $config['SMTPHost'] = getenv('email_stmp');
-        $config['SMTPUser'] = getenv('email_user_auth');
-        $config['SMTPPass'] = getenv('email_password');
-        $config['SMTPPort'] = (int)getenv('email_stmp_port');
-        $cofngi['SMTPCrypto'] = '';
-        $config['fromEmail'] = getenv('email_fromEmail');
-        $config['fromName'] = getenv('email_fromName');
+        $config['fromEmail'] = getenv('EMAIL_FROM');
+        $config['fromName'] = getenv('EMAIL_FROM_NAME');
 
         $config['charset']    = 'utf-8';
         //$config['newline']    = "\r\n";
@@ -105,9 +110,12 @@ class Email extends Model
         $this->email->setSubject($subject);
         $this->email->setMessage($text);
 
-        $this->email->send();
+        $sent = $this->email->send(false);
 
-        $sx = 'Send email';
+        $sx = '';
+        $sx .= $sent ? 'Email enviado com sucesso.' : 'Erro ao enviar o email.';
+        $sx .= "\n\n";
+        $sx .= $this->email->printDebugger(['headers', 'subject', 'body']);
         return $sx;
     }
 }
