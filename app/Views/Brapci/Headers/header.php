@@ -41,7 +41,7 @@ $baseUrl = rtrim(base_url(), '/');
     </script>
     <script src="<?= $baseUrl; ?>/js/bootstrap.js" crossorigin="anonymous">
     </script>
-    <!--    <script src="<?= URL; ?>/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    <!--    <script src="<?= $baseUrl; ?>/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script> -->
     <script src="<?= $baseUrl; ?>/js/jquery.min.js?v3.6" crossorigin="anonymous">
     </script>
