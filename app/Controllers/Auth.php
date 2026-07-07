@@ -159,7 +159,7 @@ class Auth extends Controller
             $RSP['status'] = 'fase 2';
             session()->set('forgout', $key);
 
-            $recoverLink = base_url('social/pass/' . $key);
+            $recoverLink = base_url('auth/newpass/' . $key);
             $subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
 
             $txt = '<h1>' . lang('social.forgout_email_title') . '</h1>';
@@ -190,5 +190,73 @@ class Auth extends Controller
 
         echo json_encode($RSP);
         exit;
+    }
+
+    public function newpass($key = '')
+    {
+        $Socials = new Socials();
+        $key = trim((string) $key);
+        $sx = '';
+
+        if ($key === '') {
+            $sx .= bsmessage('Link de recuperação não informado.', 3);
+            return bs(bsc($sx, 12));
+        }
+
+        $recover = $Socials->validRecover($key);
+        if (!isset($recover['status']) || $recover['status'] !== '200') {
+            $sx .= bsmessage('Link de recuperação inválido ou expirado.', 3);
+            return bs(bsc($sx, 12));
+        }
+
+        session()->set('forgout', $key);
+
+        $pass1 = trim((string) $this->request->getVar('password'));
+        $pass2 = trim((string) $this->request->getVar('password_confirm'));
+
+        $sx .= h(lang('social.forgout_new_password'), 1);
+        $sx .= '<p>' . htmlspecialchars($recover['fullname'] ?? '') . ' - ' . htmlspecialchars($recover['email'] ?? '') . '</p>';
+
+        if ($this->request->getMethod() === 'post') {
+            $result = $Socials->chagePassword($key, $pass1, $pass2);
+            if (($result['status'] ?? '') === '200') {
+                $sx .= bsmessage($result['message'] ?? lang('social.password_changed'), 1);
+                $sx .= '<br/>';
+                $sx .= '<a href="' . PATH . '/social/login">' . lang('social.return_login') . '</a>';
+                return bs(bsc($sx, 12));
+            }
+
+            $sx .= bsmessage($result['message'] ?? 'Não foi possível alterar a senha.', 3);
+        }
+
+        $sx .= form_open('/auth/newpass/' . $key, ['method' => 'post']);
+        $sx .= '<div class="form-group">';
+        $sx .= '<label for="password">' . lang('social.forgout_new_password') . '</label>';
+        $sx .= form_input([
+            'name' => 'password',
+            'id' => 'password',
+            'type' => 'password',
+            'class' => 'form-control',
+            'value' => $pass1,
+            'placeholder' => lang('social.forgout_new_password'),
+        ]);
+        $sx .= '</div>';
+        $sx .= '<div class="form-group mt-3">';
+        $sx .= '<label for="password_confirm">' . lang('social.forgout_new_password_confirm') . '</label>';
+        $sx .= form_input([
+            'name' => 'password_confirm',
+            'id' => 'password_confirm',
+            'type' => 'password',
+            'class' => 'form-control',
+            'value' => $pass2,
+            'placeholder' => lang('social.forgout_new_password_confirm'),
+        ]);
+        $sx .= '</div>';
+        $sx .= '<div class="mt-3">';
+        $sx .= form_submit(['class' => 'btn btn-primary'], lang('social.save'));
+        $sx .= '</div>';
+        $sx .= form_close();
+
+        return bs(bsc($sx, 12));
     }
 }
