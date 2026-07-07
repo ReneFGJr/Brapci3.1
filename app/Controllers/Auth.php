@@ -270,7 +270,7 @@ class Auth extends Controller
             'name' => 'password',
             'id' => 'password',
             'type' => 'password',
-            'class' => 'form-control form-control-lg',
+            'class' => 'form-control form-control-lg border border-secondary',
             'value' => $pass1,
             'placeholder' => lang('social.forgout_new_password'),
         ]);
@@ -281,7 +281,7 @@ class Auth extends Controller
             'name' => 'password_confirm',
             'id' => 'password_confirm',
             'type' => 'password',
-            'class' => 'form-control form-control-lg',
+            'class' => 'form-control form-control-lg border border-secondary',
             'value' => $pass2,
             'placeholder' => lang('social.forgout_new_password_confirm'),
         ]);
