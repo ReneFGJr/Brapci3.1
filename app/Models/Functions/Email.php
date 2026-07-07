@@ -43,9 +43,24 @@ class Email extends Model
     function test()
     {
         $email = 'renefgj@gmail.com';
+        $smtpHost = getenv('EMAIL_SMTP');
+        $smtpUser = getenv('EMAIL_USER_AUTH');
+        $smtpPass = getenv('EMAIL_PASSWORD');
+        $smtpPort = getenv('EMAIL_SMTP_PORT');
+        $fromEmail = getenv('EMAIL_FROM');
+        $fromName = getenv('EMAIL_FROM_NAME');
 
         $sx = h('Email de teste', 1);
         $sx .= '<p>Enviado para '.$email.'</p>';
+
+        $sx .= '<div class="mt-3"><h4>Parâmetros do .env</h4><pre class="border p-3 bg-light">';
+        $sx .= 'EMAIL_SMTP: ' . htmlspecialchars((string) $smtpHost) . "\n";
+        $sx .= 'EMAIL_SMTP_PORT: ' . htmlspecialchars((string) $smtpPort) . "\n";
+        $sx .= 'EMAIL_USER_AUTH: ' . htmlspecialchars((string) $smtpUser) . "\n";
+        $sx .= 'EMAIL_FROM: ' . htmlspecialchars((string) $fromEmail) . "\n";
+        $sx .= 'EMAIL_FROM_NAME: ' . htmlspecialchars((string) $fromName) . "\n";
+        $sx .= 'EMAIL_PASSWORD: ' . htmlspecialchars(substr((string) $smtpPass, 0, 6)) . "\n";
+        $sx .= '</pre></div>';
 
         $txt = '';
         $txt .= '<center>';
@@ -101,7 +116,13 @@ class Email extends Model
 
         $this->email->initialize($config);
 
-        $this->email->setFrom('brapcici@gmail.com', 'Brapci');
+        $fromEmail = getenv('EMAIL_FROM');
+        $fromName = getenv('EMAIL_FROM_NAME');
+        if ($fromName == '') {
+            $fromName = $fromEmail;
+        }
+
+        $this->email->setFrom($fromEmail, $fromName);
         $this->email->setTo($to);
         $this->email->setBCC($to);
         //$this->email->setCC('rene.gabriel@ufrgs.br');
