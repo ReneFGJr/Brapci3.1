@@ -143,7 +143,7 @@ class Auth extends Controller
         $RSP['email'] = $email;
         $RSP['method'] = $method;
 
-        if ($method === 'post') {
+        if (($method === 'post') or ($method === 'get')) {
             if ($email === '') {
                 $sx .= bsmessage(lang('social.email_not_found'), 3);
                 return bs(bsc($sx, 12));
