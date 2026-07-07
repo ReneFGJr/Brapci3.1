@@ -138,23 +138,8 @@ class Auth extends Controller
         $sx = '';
 
         $email = trim((string) $this->request->getVar('email'));
-
-        $sx .= h(lang('social.social_forgot_password'), 1);
-        $sx .= '<p>' . lang('social.social_forgot_password_info') . '</p>';
-
-        $sx .= form_open('/auth/forgot-password', ['method' => 'post']);
-        $sx .= form_input([
-            'name'  => 'email',
-            'class' => 'form-control',
-            'value' => $email,
-            'placeholder' => lang('social.email'),
-        ], '', lang('social.email'));
-        $sx .= '<div class="mt-3">';
-        $sx .= form_submit(['class' => 'btn btn-primary'], lang('social.enter'));
-        $sx .= '</div>';
-        $sx .= form_close();
-
-        if ($this->request->getMethod() === 'post') {
+        $method = strtolower($this->request->getMethod());
+        if ($method === 'post') {
             if ($email === '') {
                 $sx .= bsmessage(lang('social.email_not_found'), 3);
                 return bs(bsc($sx, 12));
