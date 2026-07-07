@@ -67,7 +67,8 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
                 qu += f"oai_deleted = {deleted}, "
                 qu += f"oai_status = {status} "
                 qu += f"where id_oai = {id_oai} "
-                database.update(qu)
+                ######### Teste
+                # database.update(qu)
                 print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id_reg+Fore.WHITE)
             else:
                 print(Fore.BLUE+"... Já existe "+Fore.GREEN+id_reg+Fore.WHITE)
