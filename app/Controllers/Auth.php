@@ -194,9 +194,6 @@ class Auth extends Controller
 
     public function newpass($key = '')
     {
-        define('PATH', getenv('app.baseURL') . '/');
-        define('URL', getenv('app.baseURL') . '/');
-        define('COLLECTION', '/auth');
         $Socials = new Socials();
         $key = trim((string) $key);
         $data['page_title'] = 'Brapci';
@@ -226,15 +223,34 @@ class Auth extends Controller
         $pass1 = trim((string) $this->request->getVar('password'));
         $pass2 = trim((string) $this->request->getVar('password_confirm'));
 
-        $body .= h(lang('social.forgout_new_password'), 1);
-        $body .= '<p>' . htmlspecialchars($recover['fullname'] ?? '') . ' - ' . htmlspecialchars($recover['email'] ?? '') . '</p>';
+        $body .= '<div class="container py-5">';
+        $body .= '<div class="row justify-content-center">';
+        $body .= '<div class="col-12 col-md-10 col-lg-6">';
+        $body .= '<div class="card border-0 shadow-lg rounded-4 overflow-hidden">';
+        $body .= '<div class="card-header bg-white border-0 px-4 pt-4 pb-2">';
+        $body .= '<div class="d-flex align-items-center gap-3">';
+        $body .= '<div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-primary text-white" style="width: 48px; height: 48px;">';
+        $body .= bsicone('lock', 20);
+        $body .= '</div>';
+        $body .= '<div>';
+        $body .= '<h2 class="h4 mb-1">' . lang('social.forgout_new_password') . '</h2>';
+        $body .= '<div class="text-muted small">' . lang('social.forgout_password') . '</div>';
+        $body .= '</div>';
+        $body .= '</div>';
+        $body .= '</div>';
+        $body .= '<div class="card-body px-4 pb-4">';
+        $body .= '<div class="alert alert-info d-flex align-items-start gap-3" role="alert">';
+        $body .= '<div class="fw-bold">' . lang('social.forgout_email_user') . '</div>';
+        $body .= '<div>' . htmlspecialchars($recover['fullname'] ?? '') . '<br><span class="small text-muted">' . htmlspecialchars($recover['email'] ?? '') . '</span></div>';
+        $body .= '</div>';
 
         if ($this->request->getMethod() === 'post') {
             $result = $Socials->chagePassword($key, $pass1, $pass2);
             if (($result['status'] ?? '') === '200') {
                 $body .= bsmessage($result['message'] ?? lang('social.password_changed'), 1);
                 $body .= '<br/>';
-                $body .= '<a href="' . PATH . '/social/login">' . lang('social.return_login') . '</a>';
+                $body .= '<a class="btn btn-outline-primary" href="' . base_url('/social/login') . '">' . lang('social.return_login') . '</a>';
+                $body .= '</div></div></div></div></div>';
                 $sx .= bs(bsc($body, 12));
                 $sx .= view('Brapci/Headers/footer', $data);
                 return $sx;
@@ -243,33 +259,38 @@ class Auth extends Controller
             $body .= bsmessage($result['message'] ?? 'Não foi possível alterar a senha.', 3);
         }
 
-        $body .= form_open('/auth/newpass/' . $key, ['method' => 'post']);
-        $body .= '<div class="form-group">';
-        $body .= '<label for="password">' . lang('social.forgout_new_password') . '</label>';
+        $body .= form_open('/auth/newpass/' . $key, ['method' => 'post', 'class' => 'mt-4']);
+        $body .= '<div class="form-group mb-3">';
+        $body .= '<label for="password" class="form-label">' . lang('social.forgout_new_password') . '</label>';
         $body .= form_input([
             'name' => 'password',
             'id' => 'password',
             'type' => 'password',
-            'class' => 'form-control',
+            'class' => 'form-control form-control-lg',
             'value' => $pass1,
             'placeholder' => lang('social.forgout_new_password'),
         ]);
         $body .= '</div>';
-        $body .= '<div class="form-group mt-3">';
-        $body .= '<label for="password_confirm">' . lang('social.forgout_new_password_confirm') . '</label>';
+        $body .= '<div class="form-group mb-3">';
+        $body .= '<label for="password_confirm" class="form-label">' . lang('social.forgout_new_password_confirm') . '</label>';
         $body .= form_input([
             'name' => 'password_confirm',
             'id' => 'password_confirm',
             'type' => 'password',
-            'class' => 'form-control',
+            'class' => 'form-control form-control-lg',
             'value' => $pass2,
             'placeholder' => lang('social.forgout_new_password_confirm'),
         ]);
         $body .= '</div>';
-        $body .= '<div class="mt-3">';
-        $body .= form_submit(['class' => 'btn btn-primary'], lang('social.save'));
+        $body .= '<div class="d-grid gap-2 mt-4">';
+        $body .= form_submit(['class' => 'btn btn-primary btn-lg'], lang('social.save'));
         $body .= '</div>';
         $body .= form_close();
+        $body .= '</div>';
+        $body .= '</div>';
+        $body .= '</div>';
+        $body .= '</div>';
+        $body .= '</div>';
 
         $sx .= bs(bsc($body, 12));
         $sx .= view('Brapci/Headers/footer', $data);
