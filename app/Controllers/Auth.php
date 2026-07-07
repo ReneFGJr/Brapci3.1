@@ -156,7 +156,7 @@ class Auth extends Controller
 
             $key = $Socials->getRecoverKey($email);
             $Socials->set(['us_recover' => $key])->where('id_us', $user['id_us'])->update();
-
+            $RSP['status'] = 'fase 2';
             session()->set('forgout', $key);
 
             $recoverLink = base_url('social/pass/' . $key);
@@ -180,11 +180,9 @@ class Auth extends Controller
             $txt .= '</center>';
 
             $result = sendmail($email, $subject, $txt);
-
-            $sx .= bsmessage(lang('social.email_send_your_account') . '. ' . lang('social.forgout_info'), 1);
-            $sx .= '<div class="mt-3"><h4>Resultado do envio</h4><pre class="border p-3 bg-light">';
-            $sx .= htmlspecialchars($result);
-            $sx .= '</pre></div>';
+            $RSP['status'] = 'fase 3 - email';
+            $RSP['message'] = 'send_mail';
+            $RSP['status'] = '200';
         }
 
         echo json_encode($RSP);
