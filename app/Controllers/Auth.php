@@ -139,6 +139,10 @@ class Auth extends Controller
 
         $email = trim((string) $this->request->getVar('email'));
         $method = strtolower($this->request->getMethod());
+        $RSP = [];
+        $RSP['email'] = $email;
+        $RSP['method'] = $method;
+
         if ($method === 'post') {
             if ($email === '') {
                 $sx .= bsmessage(lang('social.email_not_found'), 3);
@@ -184,6 +188,7 @@ class Auth extends Controller
             $sx .= '</pre></div>';
         }
 
-        return bs(bsc($sx, 12));
+        echo json_encode($RSP);
+        exit;
     }
 }
