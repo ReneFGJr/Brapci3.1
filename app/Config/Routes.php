@@ -15,6 +15,7 @@ $routes->set404Override();
 $routes->get('/auth/login', 'Auth::login');
 $routes->get('/auth/callback', 'Auth::callback');
 $routes->get('/auth/status', 'Auth::status');
+$routes->get('/auth/forgout', 'Auth::forgout');
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/pdfHarvesting', 'MainPages::index/pdfHarvesting');
 
