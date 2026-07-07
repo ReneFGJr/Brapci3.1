@@ -179,9 +179,9 @@ class Auth extends Controller
             $txt .= '</table>';
             $txt .= '</center>';
 
-            $email = new \App\Models\Functions\Email();
+            $emailS = new \App\Models\Functions\Email();
 
-            $result = $email->sendmail($email, $subject, $txt);
+            $result = $emailS->sendmail($email, $subject, $txt);
 
             $RSP['status'] = 'fase 3 - email';
             $RSP['message'] = 'send_mail';
