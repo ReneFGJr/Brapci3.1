@@ -59,6 +59,8 @@ function email_smtp_test()
         'wordWrap'  => true
     ];
 
+    $sx .= '<div class="mt-3"><h4>Log SMTP</h4><pre class="border p-3 bg-light">';
+
     if ($smtpHost and $smtpPort and $fromEmail and $smtpUser) {
 
         $email->initialize($config);
@@ -68,13 +70,19 @@ function email_smtp_test()
         $email->setSubject('Teste de configuração SMTP');
         $email->setMessage('Este é um email de teste para verificar a configuração do servidor SMTP.');
 
-        if ($email->send()) {
+        $sent = $email->send(false);
+        if ($sent) {
             $sx .= bsmessage('Email enviado com sucesso!', 1);
         } else {
             $sx .= bsmessage('Erro ao enviar o email:', 3);
-            print_r($email->printDebugger(['headers']));
         }
+
+        $sx .= htmlspecialchars($email->printDebugger(['headers', 'subject', 'body']));
+    } else {
+        $sx .= 'Configuração incompleta. Informe SMTP host, porta, remetente e usuário para testar o envio.';
     }
+
+    $sx .= '</pre></div>';
     $sx = bs(bsc($sx, 12));
     return $sx;
 }
@@ -153,7 +161,15 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
     $sx .= 'Enviando para: ' . $emails;
     $sx .= '<br />';
 
-    $email->send(false);
-    $sx .= $email->printDebugger(['headers']);
+    $sent = $email->send(false);
+    if ($sent) {
+        $sx .= bsmessage('Email enviado com sucesso!', 1);
+    } else {
+        $sx .= bsmessage('Erro ao enviar o email:', 3);
+    }
+
+    $sx .= '<div class="mt-3"><h4>Log SMTP</h4><pre class="border p-3 bg-light">';
+    $sx .= htmlspecialchars($email->printDebugger(['headers', 'subject', 'body']));
+    $sx .= '</pre></div>';
     return $sx;
 }

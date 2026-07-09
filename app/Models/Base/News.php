@@ -46,11 +46,18 @@ class News extends Model
     function news($limit = 10)
         {
             $sx = '';
-            $dt = $this->orderBy('nw_data desc')->findAll(10);
+            $dt = $this->orderBy('nw_data desc')->orderby('id_nw desc')->findAll(10);
             $xver = '';
+            $nw = [];
             foreach($dt as $id=>$line)
                 {
                     $ver = $line['nw_build'];
+                    if (!isset($nw[$ver]))
+                        {
+                            $nw[$ver] = [];
+                        }
+                    $nw[$ver][] = ['title'=>$line['nw_title'], 'description'=>$line['nw_description'], 'link'=>$line['nw_link']];
+
                     if ($ver != $xver)
                         {
                             $sx .= '<span class="fw-bold mt-2" style="font-size: 1.4em; weigth: bold;">'.$ver.'</span><br>';
@@ -60,6 +67,7 @@ class News extends Model
                 }
             $dd['text'] = $sx;
             $dd['status'] = '200';
+            $dd['news'] = $nw;
             return $dd;
         }
 }

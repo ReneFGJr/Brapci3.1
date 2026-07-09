@@ -341,6 +341,9 @@ class Socials extends Model
 			case 'forgout':
 				$sx = $this->forgout_form($id, $dt, $cab);
 				break;
+			case 'forgot':
+				$sx = $this->forgout_form($id, $dt, $cab);
+				break;
 
 			case 'login':
 				$sx = $cab;
@@ -965,7 +968,7 @@ class Socials extends Model
 		} else {
 			$img = '/img/genre/no_image_she_he.jpg';
 		}
-		return URL . $img;
+		return rtrim((string) getenv('app.baseURL'), '/') . $img;
 	}
 
 	function my_library($id)
@@ -1691,8 +1694,9 @@ class Socials extends Model
 			$sx .= '            ' . $email . cr();
 			$sx .= '          </a>' . cr();
 			$sx .= '          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">' . cr();
-			$sx .= '            <li><a class="dropdown-item" href="' . (URL . '/social/?cmd=perfil') . '">' . lang('social.perfil') . '</a></li>' . cr();
-			$sx .= '            <li><a class="dropdown-item" href="' . (URL . '/social/?cmd=logout') . '">' . lang('social.logout') . '</a></li>' . cr();
+			$baseUrl = rtrim((string) getenv('app.baseURL'), '/');
+			$sx .= '            <li><a class="dropdown-item" href="' . ($baseUrl . '/social/?cmd=perfil') . '">' . lang('social.perfil') . '</a></li>' . cr();
+			$sx .= '            <li><a class="dropdown-item" href="' . ($baseUrl . '/social/?cmd=logout') . '">' . lang('social.logout') . '</a></li>' . cr();
 			$sx .= '          </ul>' . cr();
 			$sx .= '        </li>' . cr();
 			$sx .= '</ul>' . cr();
