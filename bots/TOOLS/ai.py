@@ -25,6 +25,7 @@ BASE_DIR = Path("/data/Brapci3.1/bots/TOOLS")
 PUBLIC_DIR = Path("/data/Brapci3.1/public")
 
 def logo():
+    print("<tt>")
     print(Fore.WHITE + "═" * 57)
 
     print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^57}")
@@ -52,6 +53,7 @@ def logo():
 
     print()
     print(Fore.WHITE + "═" * 57 + Style.RESET_ALL)
+    print("</tt>")
 
 
 def version():
