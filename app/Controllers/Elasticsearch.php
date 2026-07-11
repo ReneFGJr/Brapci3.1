@@ -113,6 +113,7 @@ class Elasticsearch extends BaseController
                 break;
 
             case 'search':
+                /*********************************************** Atualizar */
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
                 $sx .= view('Tools/Elasticsearch/WelcomeElasticSearch', $data);
                 $sx .= view('Tools/Elasticsearch/Form', $data);
