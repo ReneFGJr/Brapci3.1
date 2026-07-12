@@ -249,6 +249,8 @@ class Download extends Model
             $fileURL = str_replace('http://', 'https://', $fileURL);
         }
 
+        echo h('PDF localizado: <a href="' . $fileURL . '">' . $fileURL . '</a>', 5);
+
         // ==========================================================
         // Download
         // ==========================================================
