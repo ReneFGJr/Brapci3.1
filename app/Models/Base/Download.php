@@ -224,6 +224,7 @@ class Download extends Model
             return;
         }
 
+        echo h('Processando download do PDF', 2);
         echo h('<a href="' . $url . '">' . $url . '</a>', 5);
 
         // ==========================================================
