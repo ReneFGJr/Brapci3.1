@@ -152,6 +152,7 @@ class Download extends BaseController
                                     array_push($links, $line['Caption']);
                                 }
                             }
+                            pre($links);
                         if ($links != [])
                             {
                                 $line = [];
@@ -171,7 +172,6 @@ class Download extends BaseController
 
                     }
                 $id = $id[0];
-                pre($id);
                 return $id;
         }
 
