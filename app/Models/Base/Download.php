@@ -235,7 +235,7 @@ class Download extends Model
         if (empty($fileURL)) {
             echo "Não foi possível acessar o PDF.<hr>";
             echo "Clique no link acima para verificar na revista.";
-            return;
+            exit;
         }
 
         // Alguns eventos aceitam apenas HTTP
