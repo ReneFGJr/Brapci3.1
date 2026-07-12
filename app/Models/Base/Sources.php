@@ -26,7 +26,7 @@ class Sources extends Model
 
     protected $viewFields        = [
         'id_jnl', 'jnl_name', 'jnl_name_abrev',
-        'jnl_issn'
+        'jnl_issn', 'gc_name'
     ];
 
     protected $typeFields        = [
@@ -125,6 +125,7 @@ class Sources extends Model
             case 'tableview':
                 $this->path = PATH . 'admin/source';
                 $this->path_back = PATH . 'admin/source/tableview';
+                $this->join('geo_cidade', 'id_gc = jnl_cidade', 'left');
                 $sx = bs(bsc(tableview($this, $_POST)));
                 break;
 
