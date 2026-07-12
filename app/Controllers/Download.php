@@ -43,8 +43,6 @@ class Download extends BaseController
             }
 
         $class = $dt['concept']['c_class'];
-        echo h($class,2);
-        exit;
 
         switch ($class) {
             case 'Article':
@@ -173,6 +171,7 @@ class Download extends BaseController
 
                     }
                 $id = $id[0];
+                pre($id);
                 return $id;
         }
 
