@@ -388,104 +388,153 @@ class Download extends Model
         }
     }
 
-    function ocs_2($url)
+    public function ocs_2(string $url): ?string
     {
-        $Otxt = 'VAZIO';
+        // ==========================================================
+        // Ajustes de URLs conhecidas
+        // ==========================================================
+        $url = str_replace(
+            '//seer.ufs.br/index.php/',
+            '//periodicos.ufs.br/',
+            $url
+        );
 
-        /*************************** Tratamentos */
-        $url = troca($url, '//seer.ufs.br/index.php/', '//periodicos.ufs.br/');
+        // ==========================================================
+        // Download da página
+        // ==========================================================
+        $html = read_link($url, 'curl', true);
 
-        if (strpos($url, 'article/view')) {
-            $txt = read_link($url, 'curl', True);
-            $Otxt = $txt;
-
-            if ($pos = strpos($txt, 'citation_pdf_url')) {
-                $txt = substr($txt, $pos, 300);
-                $st = 'content="';
-                $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
-                $txt = substr($txt, 0, strpos($txt, '"'));
-                if (substr($txt, 0, 4) == 'http') {
-                    echo "<h4>Localizado $txt</h4>";
-                    return $txt;
-                }
-                if (strpos($txt, 'noframes')) {
-                    $url = troca($url, 'paper/view', 'paper/viewPaper');
-                    $txt = read_link($url);
-                    echo 'Change: ' . $url;
-                }
-            }
-
-            /********************* EBOOK */
-            if (strpos($Otxt, '_btn pdf') > 0) {
-                echo "<br>Methodo BTN PDF";
-                $pos = strpos($Otxt, '_btn pdf');
-                $txt = substr($Otxt, $pos, 300);
-                $txt = substr($txt, strpos($txt, 'http'), 300);
-                $txt = substr($txt, 0, strpos($txt, '"'));
-
-                if (substr($txt, 0, 4) == 'http') {
-                    echo "<br>Lendo " . $txt;
-                    $Otxt = read_link($txt);
-                }
-            }
-
-            /********************* Article Download */
-            if (strpos($Otxt, 'article/download/') > 0) {
-                $pos = strpos($Otxt, 'article/download/');
-                while (substr($Otxt, $pos, 1) != '"') {
-                    $pos--;
-                }
-                $txt = substr($Otxt, $pos + 1, 200);
-                $txt = substr($txt, 0, strpos($txt, '"'));
-                if (substr($txt, 0, 4) == 'http') {
-                    return $txt;
-                }
-            }
-
-
-
-            /********************* IFRAME */
-            if (strpos($txt, '<iframe')) {
-                $pos = strpos($txt, '<iframe');
-                $txt = substr($txt, $pos + 13, 300);
-                $txt = substr($txt, 0, strpos($txt, '"'));
-                if (strpos($txt, '?file=')) {
-                    $txt = substr($txt, strpos($txt, '?file=') + 6, strlen($txt));
-                    $txt = urldecode($txt);
-                }
-                if (substr($txt, 0, 4) == 'http') {
-                    return $txt;
-                }
-            }
+        if (empty($html)) {
+            return null;
         }
 
-
-        if (strpos($url, 'paper/view')) {
-            $txt = read_link($url);
-
-            if (strpos($txt, 'noframes')) {
-                $url = troca($url, 'paper/view', 'paper/viewPaper');
-                $txt = read_link($url);
-                echo 'Change: ' . $url;
-            }
-            if ($pos = strpos($txt, 'citation_pdf_url')) {
-                $txt = substr($txt, $pos, 300);
-                $st = 'content="';
-                $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
-                $txt = substr($txt, 0, strpos($txt, '"'));
-                if (substr($txt, 0, 4) == 'http') {
-                    return $txt;
-                }
-            } else {
-                echo 'ERRO: ' . $url;
-                echo '<br>Size: ' . strlen($txt);
-                echo $txt;
-            }
+        // Algumas instalações antigas do OCS
+        if (
+            str_contains($url, 'paper/view') &&
+            str_contains($html, 'noframes')
+        ) {
+            $url = str_replace('paper/view', 'paper/viewPaper', $url);
+            $html = read_link($url, 'curl', true);
         }
-        echo "<br>Não foi possível localizar o PDF";
-        echo "<br>URL: " . $url;
-        exit;
+
+        // ==========================================================
+        // 1. Meta citation_pdf_url
+        // ==========================================================
+        if ($pdf = $this->extractCitationPdf($html)) {
+            return $pdf;
+        }
+
+        // ==========================================================
+        // 2. Botão PDF (ebooks)
+        // ==========================================================
+        if ($pdf = $this->extractButtonPdf($html)) {
+            return $pdf;
+        }
+
+        // ==========================================================
+        // 3. article/download/
+        // ==========================================================
+        if ($pdf = $this->extractArticleDownload($html)) {
+            return $pdf;
+        }
+
+        // ==========================================================
+        // 4. iframe
+        // ==========================================================
+        if ($pdf = $this->extractIframePdf($html)) {
+            return $pdf;
+        }
+
+        log_message('warning', 'PDF não localizado: ' . $url);
+
+        return null;
     }
+
+    private function extractCitationPdf(string $html): ?string
+    {
+        if (
+            preg_match(
+                '/citation_pdf_url[^>]*content="([^"]+)"/i',
+                $html,
+                $matches
+            )
+        ) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    private function extractButtonPdf(string $html): ?string
+    {
+        // OJS 3.3 / 3.4
+        if (
+            preg_match(
+                '/<a[^>]*class="[^"]*article__btn[^"]*pdf[^"]*"[^>]*href="([^"]+)"/i',
+                $html,
+                $matches
+            )
+        ) {
+            return html_entity_decode($matches[1]);
+        }
+
+        // Compatibilidade com versões antigas
+        if (
+            preg_match(
+                '/<a[^>]*href="([^"]+)"[^>]*>\s*PDF\s*<\/a>/i',
+                $html,
+                $matches
+            )
+        ) {
+            return html_entity_decode($matches[1]);
+        }
+
+        return null;
+    }
+
+    private function extractArticleDownload(string $html): ?string
+    {
+        if (
+            preg_match(
+                '/https?:\/\/[^"]*article\/download\/[^"]+/i',
+                $html,
+                $matches
+            )
+        ) {
+            return $matches[0];
+        }
+
+        return null;
+    }
+
+    private function extractIframePdf(string $html): ?string
+    {
+        if (
+            preg_match(
+                '/<iframe[^>]+src="([^"]+)"/i',
+                $html,
+                $matches
+            )
+        ) {
+            $url = $matches[1];
+
+            if (str_contains($url, '?file=')) {
+                parse_str(parse_url($url, PHP_URL_QUERY), $query);
+
+                if (isset($query['file'])) {
+                    $url = urldecode($query['file']);
+                }
+            }
+
+            if (filter_var($url, FILTER_VALIDATE_URL)) {
+                return $url;
+            }
+        }
+
+        return null;
+    }
+
+
 
     function send_file($file)
     {
