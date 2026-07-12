@@ -655,9 +655,6 @@ class Brapci extends Model
                     ->orderBy('jnl_name')->findAll();
                 break;
         }
-        echo $Source->getLastQuery();
-        pre($dt);
-        exit;
         $Cover = new \App\Models\Base\Cover();
 
         foreach ($dt as $id => $data) {
