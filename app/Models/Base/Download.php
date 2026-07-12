@@ -467,6 +467,7 @@ class Download extends Model
 
     private function extractButtonPdf(string $html): ?string
     {
+        pre($html);
         preg_match_all('/<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>/is', $html, $matches);
 
         foreach ($matches[1] as $url) {
