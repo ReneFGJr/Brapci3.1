@@ -43,6 +43,8 @@ class Download extends BaseController
             }
 
         $class = $dt['concept']['c_class'];
+        echo h($class,2);
+        exit;
 
         switch ($class) {
             case 'Article':
