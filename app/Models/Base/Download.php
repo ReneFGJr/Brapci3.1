@@ -231,6 +231,7 @@ class Download extends Model
         // Localiza PDF
         // ==========================================================
         $fileURL = $this->ocs_2($url);
+        echo "XXXXXXXX";
 
         if (empty($fileURL)) {
             echo "Não foi possível acessar o PDF.<hr>";
