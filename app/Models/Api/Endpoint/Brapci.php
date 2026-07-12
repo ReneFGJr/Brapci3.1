@@ -617,6 +617,7 @@ class Brapci extends Model
         }
         $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
         $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
+        $cp .= ',gc_name ,gc_lat as lat, gc_long as long, gc_type as type, gc_code_hichart as code';
         $Source = new \App\Models\Base\Sources();
         if ($d1 == 'EV') {
             $d1 = 'proceddings';
@@ -634,19 +635,23 @@ class Brapci extends Model
         switch ($d1) {
             case 'proceddings':
                 $dt = $Source->select($cp)
+                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
                     ->where('jnl_collection', 'EV')
                     ->orderBy('jnl_name')
                     ->findAll();
                 break;
             case 'journal':
                 $dt = $Source->select($cp)
+                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
                     ->where('jnl_collection', 'JA')
                     ->OrWhere('jnl_collection', 'JE')
                     ->orderBy('jnl_name')
                     ->findAll();
                 break;
             default:
-                $dt = $Source->select($cp)->orderBy('jnl_name')->findAll();
+                $dt = $Source->select($cp)
+                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
+                    ->orderBy('jnl_name')->findAll();
                 break;
         }
         echo $Source->getLastQuery();
