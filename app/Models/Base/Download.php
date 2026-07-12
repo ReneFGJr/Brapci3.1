@@ -467,26 +467,19 @@ class Download extends Model
 
     private function extractButtonPdf(string $html): ?string
     {
-        // OJS 3.3 / 3.4
-        if (
-            preg_match(
-                '/<a[^>]*class="[^"]*article__btn[^"]*pdf[^"]*"[^>]*href="([^"]+)"/i',
-                $html,
-                $matches
-            )
-        ) {
-            return html_entity_decode($matches[1]);
-        }
+        preg_match_all('/<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>/is', $html, $matches);
 
-        // Compatibilidade com versões antigas
-        if (
-            preg_match(
-                '/<a[^>]*href="([^"]+)"[^>]*>\s*PDF\s*<\/a>/i',
-                $html,
-                $matches
-            )
-        ) {
-            return html_entity_decode($matches[1]);
+        foreach ($matches[1] as $url) {
+
+            $url = html_entity_decode($url);
+
+            // PDF do OJS
+            if (
+                preg_match('#/article/view/\d+/\d+$#', $url) ||
+                preg_match('#/article/download/#', $url)
+            ) {
+                return $url;
+            }
         }
 
         return null;
