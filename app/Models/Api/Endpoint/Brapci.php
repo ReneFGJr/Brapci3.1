@@ -618,7 +618,7 @@ class Brapci extends Model
         $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
         $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
         $cp .= ', gc_name ,gc_lat as lat, gc_long as long, gc_type as type, gc_code_hichart as code';
-        $cp = '*';
+
         $Source = new \App\Models\Base\Sources();
         if ($d1 == 'EV') {
             $d1 = 'proceddings';
