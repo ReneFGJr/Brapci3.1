@@ -35,7 +35,7 @@ class Sources extends Model
         'year', 'year', 'string:20',
         'string:20', 'string:20',
         'op: & :100&Atual:200&Corrent:404&Fora do Ar:500&Para coletar:501&Erro de acesso aos dados',
-        'string:20',
+        'sql:id_gc:gc_name:brapci.geo_cidade order by gc_name',
         'sn', 'string:20', 'sn',
         'sn', 'string:20', 'set:1900-01-01'
     ];
