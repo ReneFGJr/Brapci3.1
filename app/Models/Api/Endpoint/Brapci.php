@@ -643,7 +643,7 @@ class Brapci extends Model
                 break;
             case 'journal':
                 $dt = $Source->select($cp)
-                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
+                    ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
                     ->where('jnl_collection', 'JA')
                     ->OrWhere('jnl_collection', 'JE')
                     ->orderBy('jnl_name')
@@ -651,7 +651,7 @@ class Brapci extends Model
                 break;
             default:
                 $dt = $Source->select($cp)
-                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
+                    ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
                     ->orderBy('jnl_name')->findAll();
                 break;
         }
