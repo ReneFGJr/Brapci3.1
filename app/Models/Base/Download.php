@@ -152,92 +152,130 @@ class Download extends Model
         return $sx;
     }
 
-    function download_methods($dt, $idc)
+            private function showWaitingScreen(): void
+            {
+                echo view('Brapci/Headers/header');
+
+                echo <<<HTML
+                    <center>
+                        <img src="{$GLOBALS['URL']}/img/thema/wait.gif">
+                        <br>
+                        Aguarde...
+                    </center>
+                 HTML;
+            }
+
+    private function normalizeUrl(string $url): string
+    {
+        $original = $url;
+
+        $replace = [
+            '/XIXENANCIB/'                     => '/XIX_ENANCIB/',
+            '/xviiienancib/'                   => '/XVIII_ENANCIB/',
+            'http://www.periodicos.ufpb.br/ojs/' => 'https://www.pbcib.com/',
+            'http://'                          => 'https://',
+        ];
+
+        $url = str_replace(
+            array_keys($replace),
+            array_values($replace),
+            $url
+        );
+
+        if ($original !== $url) {
+            $RDFLiteral = new \App\Models\RDF2\RDFliteral();
+
+            if ($literal = $RDFLiteral->where('n_name', $original)->first()) {
+                $literal['n_name'] = $url;
+                //$RDFLiteral->update($literal['id_n'], $literal);
+            }
+        }
+
+        return $url;
+    }
+
+    public function download_methods(array $dt, int $idc): void
     {
         $RDF = new \App\Models\RDF2\RDF();
-
         $IssueWorks = new \App\Models\Base\IssuesWorks();
-        $dw = $IssueWorks->where('siw_work_rdf', $idc)->first();
-        if ($dw == []) {
-            echo '<hr>';
-            echo "Erro de Download methods WORK Issue";
-            exit;
-        }
-        $jnl = $dw['siw_journal'];
 
+        // ==========================================================
+        // Recupera dados do trabalho
+        // ==========================================================
+        $work = $IssueWorks->where('siw_work_rdf', $idc)->first();
 
-        if (isset($dt['Caption'])) {
-            $name = $dt['Caption'];
-        } else {
-            $name = 'ERRO';
+        if (!$work) {
+            throw new \RuntimeException('IssueWork não localizado para RDF: ' . $idc);
         }
 
+        $journal = $work['siw_journal'];
+        $url = $dt['Caption'] ?? '';
+
+        if (empty($url)) {
+            return;
+        }
+
+        // ==========================================================
+        // Corrige URLs antigas
+        // ==========================================================
+        $url = $this->normalizeUrl($url);
+
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return;
+        }
+
+        echo h('<a href="' . $url . '">' . $url . '</a>', 5);
+
+        // ==========================================================
+        // Localiza PDF
+        // ==========================================================
+        $fileURL = $this->ocs_2($url);
+
+        if (empty($fileURL)) {
+            echo "Não foi possível acessar o PDF.<hr>";
+            echo "Clique no link acima para verificar na revista.";
+            return;
+        }
+
+        // Alguns eventos aceitam apenas HTTP
         if (
-            strpos($name, '/XIXENANCIB/')
-            or (strpos($name, 'xviiienancib/'))
-            or (strpos($name, 'http://'))
-            or (strpos($name, 'www.periodicos.ufpb.br/ojs/'))
+            str_contains($fileURL, 'rev-ib.unam.mx') ||
+            str_contains($fileURL, 'XIX_ENANCIB') ||
+            str_contains($fileURL, 'XVIII_ENANCIB')
         ) {
-            $nameO = $name;
-            $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
-            $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
-            $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
-            $name = troca($name, 'http://', 'https://');
-
-
-            $RDFLiteral = new \App\Models\RDF2\RDFliteral();
-            $dtd = $RDFLiteral->where('n_name', $nameO)->first();
-            $ddd = $RDFLiteral->first();
-            $ddd['n_name'] = $name;
-            //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
+            $fileURL = str_replace('https://', 'http://', $fileURL);
+        } else {
+            $fileURL = str_replace('http://', 'https://', $fileURL);
         }
 
+        // ==========================================================
+        // Download
+        // ==========================================================
+        $directory = $this->directory($idc);
 
-        if (substr($name, 0, 4) == 'http') {
-            if ((strpos($name, 'rev-ib.unam.mx'))
-            or (strpos($name, 'XIX_ENANCIB'))
-            or (strpos($name, 'XVIII_ENANCIB'))
-            )
-                {
-                    $name = troca($name, 'https://', 'http://');
-                } else {
-                    $name = troca($name, 'http://', 'https://');
-                }
+        $pdfFile = sprintf(
+            '%swork_%08d#%05d.pdf',
+            $directory,
+            $idc,
+            $journal
+        );
 
-            $url = $name;
-            echo h('<a href="' . $url . '">' . $url . '</a>', 5);
+        $this->showWaitingScreen();
 
-            /******************************************************* Recupera via OCS2 */
-            $fileURL = $this->ocs_2($url);
+        $content = read_link($fileURL);
 
-            if ($fileURL == '') {
-                echo "Não foi possível acessar o PDF, provavelmente a revista não disponibilizou o arquivo.";
-                echo '<hr>Clique no link acima para verificar na revista';
-                return "";
-            }
-
-            if (substr($fileURL, 0, 4) == 'http') {
-                $dir = $this->directory($idc);
-                $filePDF = $dir . 'work_' . strzero($idc, 8) . '#' . strzero($jnl, 5) . '.pdf';
-
-                $data = array();
-                echo view('Brapci/Headers/header', $data);
-                echo '<center>';
-                echo '<img src="' . URL . '/img/thema/wait.gif">';
-                echo '<br>';
-                echo 'Aguarde...';
-                echo '</center>';
-
-                //echo metarefresh($fileURL,5);
-                //exit;
-
-                $txtFile = read_link($fileURL);
-                file_put_contents($filePDF, $txtFile);
-                $id = $this->create_FileStorage($idc, $filePDF);
-                echo metarefresh('', 1);
-            }
+        if (!$content) {
+            echo "Erro ao realizar download.";
+            return;
         }
+
+        file_put_contents($pdfFile, $content);
+
+        $this->create_FileStorage($idc, $pdfFile);
+
+        echo metarefresh('', 1);
     }
+
 
     function create_FileStorage($id, $filename)
     {

@@ -152,7 +152,7 @@ class Download extends BaseController
                                     array_push($links, $line['Caption']);
                                 }
                             }
-                            pre($links);
+
                         if ($links != [])
                             {
                                 $line = [];
