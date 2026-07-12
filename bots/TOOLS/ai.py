@@ -28,8 +28,8 @@ def logo():
     print("<tt>")
     print(Fore.WHITE + "═" * 57)
 
-    print(Fore.YELLOW + Style.BRIGHT + f"{'AI TOOLS':^57}")
-    print(Fore.CYAN + f"{'Version ' + version():^57}")
+    print(f"{'AI TOOLS':^57}")
+    print(f"{'Version ' + version():^57}")
     print()
 
     logo = [
@@ -46,14 +46,14 @@ def logo():
 
         # texto principal
         print(
-            Fore.GREEN + Style.BRIGHT + left +
+            left +
             "  " +
-            Fore.BLUE + Style.BRIGHT + right
+            right
         )
 
     print()
     print(Fore.WHITE + "═" * 57 + Style.RESET_ALL)
-    print("</tt>")
+
 
 
 def version():
