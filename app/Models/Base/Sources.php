@@ -507,6 +507,7 @@ class Sources extends Model
 
         $dt = $this
             ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl', 'left')
+            ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
             ->where('jnl_collection', 'JA')
             ->ORwhere('jnl_collection', 'JE')
             ->OrderBy($fldo)
@@ -523,9 +524,11 @@ class Sources extends Model
                 $xlb = $lb;
                 $sx .= h($xlb, 4);
             }
+            $cidade = trim((string) ($line['gc_name'] ?? ''));
             $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
             $tt++;
-            $sx .= bsc($tt . '. ' . $link, 7, 'brp_row');
+            $sx .= bsc($tt . '. ' . $link, 5, 'brp_row');
+            $sx .= bsc($cidade, 2, 'brp_row small text-secondary');
 
             $link = '';
 
