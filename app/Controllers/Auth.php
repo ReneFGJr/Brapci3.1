@@ -13,6 +13,27 @@ class Auth extends Controller
 {
     private $googleClient;
 
+    private function applySigninCorsHeaders()
+    {
+        $origin = trim((string) $this->request->getHeaderLine('Origin'));
+        $allowedOrigins = [
+            'https://brapci.inf.br',
+            'https://cip.brapci.inf.br',
+            'http://localhost:4200',
+        ];
+
+        if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
+            $this->response->setHeader('Access-Control-Allow-Origin', $origin);
+            $this->response->setHeader('Vary', 'Origin');
+        } else {
+            $this->response->setHeader('Access-Control-Allow-Origin', 'https://brapci.inf.br');
+        }
+
+        $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    }
+
     public function __construct()
     {
         helper(['url', 'session', 'sisdoc_email']);
@@ -42,6 +63,12 @@ class Auth extends Controller
 
     public function signin()
     {
+        $this->applySigninCorsHeaders();
+
+        if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
+            return $this->response->setStatusCode(204);
+        }
+
         $username = trim((string) $this->request->getVar('username'));
         if ($username === '') {
             $username = trim((string) $this->request->getVar('user'));

@@ -13,7 +13,7 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
 $routes->get('/auth/login', 'Auth::login');
-$routes->match(['get', 'post'], '/api/socials/signin', 'Auth::signin');
+$routes->match(['get', 'post', 'options'], '/api/socials/signin', 'Auth::signin');
 $routes->get('/auth/callback', 'Auth::callback');
 $routes->get('/auth/status', 'Auth::status');
 
