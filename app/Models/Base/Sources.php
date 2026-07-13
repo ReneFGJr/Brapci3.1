@@ -539,13 +539,13 @@ class Sources extends Model
             switch($line['jnl_collection'])
                 {
                     case 'JA':
-                        $type = 'Rev.Bras.';
+                        $xtype = 'Rev.Bras.';
                         break;
                     case 'JE':
-                        $type = 'Rev.Estr.';
+                        $xtype = 'Rev.Estr.';
                         break;
                     case 'EV':
-                        $type = 'Evento';
+                        $xtype = 'Evento';
                         break;
                 }
             $sx .= bsc($type, 1, 'brp_row small text-secondary');
