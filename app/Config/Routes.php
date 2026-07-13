@@ -13,9 +13,10 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
 $routes->get('/auth/login', 'Auth::login');
-$routes->get('/api/socials/signin', 'Auth::login');
+$routes->match(['get', 'post'], '/api/socials/signin', 'Auth::signin');
 $routes->get('/auth/callback', 'Auth::callback');
 $routes->get('/auth/status', 'Auth::status');
+
 $routes->match(['get', 'post'], '/auth/forgot-password', 'Auth::forgot');
 $routes->match(['get', 'post'], '/auth/newpass/(:any)', 'Auth::newpass/$1');
 $routes->get('/logout', 'Auth::logout');

@@ -40,6 +40,104 @@ class Auth extends Controller
         return redirect()->to($url);
     }
 
+    public function signin()
+    {
+        $username = trim((string) $this->request->getVar('username'));
+        if ($username === '') {
+            $username = trim((string) $this->request->getVar('user'));
+        }
+        if ($username === '') {
+            $username = trim((string) $this->request->getVar('email'));
+        }
+
+        $password = trim((string) $this->request->getVar('password'));
+        if ($password === '') {
+            $password = trim((string) $this->request->getVar('pwd'));
+        }
+
+        $rsp = [
+            'status'  => '400',
+            'message' => 'User or Password incorrect',
+        ];
+
+        if ($username === '' || $password === '') {
+            $rsp['message'] = 'Username or password is empty';
+            return $this->response->setJSON($rsp);
+        }
+
+        $Socials = new Socials();
+        $user = $Socials
+            ->groupStart()
+            ->where('us_login', $username)
+            ->orWhere('us_email', $username)
+            ->groupEnd()
+            ->first();
+
+        if (!$user) {
+            $rsp['message'] = 'User not found';
+            return $this->response->setJSON($rsp);
+        }
+
+        $storedPassword = (string) ($user['us_password'] ?? '');
+        $validPassword = false;
+
+        if ($storedPassword !== '') {
+            if ($storedPassword === md5($password)) {
+                $validPassword = true;
+            } elseif (password_get_info($storedPassword)['algo'] !== 0) {
+                $validPassword = password_verify($password, $storedPassword);
+            }
+        }
+
+        if (!$validPassword) {
+            $rsp['message'] = 'Password is invalid';
+            return $this->response->setJSON($rsp);
+        }
+
+        $apikey = (string) ($user['us_apikey'] ?? '');
+        if ($apikey === '') {
+            $apikey = md5($storedPassword . ($user['us_email'] ?? ''));
+            $Socials->set([
+                'us_apikey' => $apikey,
+                'us_apikey_active' => 1,
+            ])->where('id_us', $user['id_us'])->update();
+        }
+
+        $Socials->set([
+            'us_lastaccess' => date('Y-m-d H:i:s'),
+        ])->where('id_us', $user['id_us'])->update();
+
+        $sessionData = [
+            'id'      => $user['id_us'],
+            'user'    => $user['us_nome'],
+            'email'   => $user['us_email'],
+            'apikey'  => $apikey,
+            'access'  => substr(md5('#ADMIN'), 6, 6),
+            'check'   => substr((string) $user['id_us'] . (string) $user['id_us'], 0, 10),
+            'user_id' => $user['id_us'],
+        ];
+
+        $_SESSION['id'] = $sessionData['id'];
+        $_SESSION['user'] = $sessionData['user'];
+        $_SESSION['email'] = $sessionData['email'];
+        $_SESSION['apikey'] = $sessionData['apikey'];
+        $_SESSION['access'] = $sessionData['access'];
+        $_SESSION['check'] = $sessionData['check'];
+
+        session()->set($sessionData);
+
+        $rsp = [
+            'status'  => '200',
+            'message' => 'Success',
+            'user'    => $user['us_nome'],
+            'ID'      => $user['id_us'],
+            'email'   => $user['us_email'],
+            'apikey'  => $apikey,
+        ];
+
+        return $this->response->setJSON($rsp);
+    }
+
     public function status()
         {
             $userData = $_SESSION['userOAUTH2'];
