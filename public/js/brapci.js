@@ -50,13 +50,23 @@ function markSource(ms, ta) {
 }
 
 function markSourceAll(collections) {
+  var list = (collections || '').split(',').map(function (item) {
+    return item.trim();
+  }).filter(function (item) {
+    return item.length > 0;
+  });
+  var selector = list.map(function (item) {
+    return "#search_source_list input[data-collection='" + item + "']";
+  }).join(', ');
   $.ajax({
     type: "POST",
     url: "/ajax/mark?time=" + Date.now() + "&all=1",
     data: { collections: collections },
   }).done(function (data) {
     $("#label_select_source").html(data);
-    $("#search_source_list input[data-collection='JA'], #search_source_list input[data-collection='JE']").prop("checked", true);
+    if (selector.length > 0) {
+      $(selector).prop("checked", true);
+    }
     console.log(data);
   });
 }

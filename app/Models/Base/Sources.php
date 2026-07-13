@@ -512,6 +512,15 @@ class Sources extends Model
             ->OrderBy($fldo)
             ->findAll();
 
+        $sx .= '<div id="label_select_source" class="mb-3 small text-secondary">';
+        $sx .= $this->list_selected();
+        $sx .= '</div>';
+        $sx .= '<div class="mb-3 d-flex gap-2 flex-wrap">';
+        $sx .= '<button type="button" class="btn btn-sm btn-outline-primary" onclick="markSourceAll(\'JA,JE\');">Selecionar JA/JE</button>';
+        $sx .= '<button type="button" class="btn btn-sm btn-outline-secondary" onclick="markSourceAll(\'JA\');">Selecionar JA</button>';
+        $sx .= '<button type="button" class="btn btn-sm btn-outline-secondary" onclick="markSourceAll(\'JE\');">Selecionar JE</button>';
+        $sx .= '</div>';
+
         $xlb = '';
 
         $stx = [];
@@ -712,6 +721,9 @@ class Sources extends Model
         $xcollection = '';
         $sx .= '<div class="mb-3">';
         $sx .= '<button type="button" class="btn btn-sm btn-outline-primary" onclick="markSourceAll(\'JA,JE\');">Selecionar JA/JE</button>';
+        $sx .= '</div>';
+        $sx .= '<div id="label_select_source" class="mb-3 small text-secondary">';
+        $sx .= $this->list_selected();
         $sx .= '</div>';
         $sx .= '<div id="search_source_list">';
         $sx .= '<ul style="list-style-type: none;">';
