@@ -539,10 +539,10 @@ class Sources extends Model
             switch($line['jnl_collection'])
                 {
                     case 'JA':
-                        $type = 'Brasileira';
+                        $type = 'Rev.Bras.';
                         break;
                     case 'JE':
-                        $type = 'Estrangeira';
+                        $type = 'Rev.Estr.';
                         break;
                     case 'EV':
                         $type = 'Evento';
