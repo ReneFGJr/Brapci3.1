@@ -144,13 +144,6 @@ class Auth extends Controller
             'user_id' => $user['id_us'],
         ];
 
-        $_SESSION['id'] = $sessionData['id'];
-        $_SESSION['user'] = $sessionData['user'];
-        $_SESSION['email'] = $sessionData['email'];
-        $_SESSION['apikey'] = $sessionData['apikey'];
-        $_SESSION['access'] = $sessionData['access'];
-        $_SESSION['check'] = $sessionData['check'];
-
         session()->set($sessionData);
 
         $rsp = [
@@ -159,6 +152,7 @@ class Auth extends Controller
             'user'    => $user['us_nome'],
             'ID'      => $user['id_us'],
             'email'   => $user['us_email'],
+            'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
             'apikey'  => $apikey,
         ];
 
