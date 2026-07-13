@@ -528,8 +528,7 @@ class Sources extends Model
             $anos = trim((string) ($line['jnl_ano_inicio'] ?? '')) . ' - ' . trim((string) ($line['jnl_ano_fim'] ?? ''));
             $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
             $tt++;
-            $sx .= bsc('-=--',12);
-            $sx .= bsc($tt . '. ' . $link, 5, 'brp_row');
+            $sx .= bsc($tt . '. ' . $link, 6, 'brp_row');
             $sx .= bsc($cidade, 2, 'brp_row small text-secondary');
             $sx .= bsc($anos, 1, 'brp_row small text-secondary');
 
