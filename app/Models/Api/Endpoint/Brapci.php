@@ -636,7 +636,7 @@ class Brapci extends Model
         switch ($d1) {
             case 'proceddings':
                 $dt = $Source->select($cp)
-                    ->join('geonames_place', 'id_gc = jnl_cidade', 'left')
+                    ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
                     ->where('jnl_collection', 'EV')
                     ->orderBy('jnl_name')
                     ->findAll();
