@@ -529,13 +529,11 @@ class Sources extends Model
             $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
             $tt++;
             $sx .= bsc($tt . '. ' . $link, 5, 'brp_row');
-            $sx .= bsc($cidade, 1, 'brp_row small text-secondary');
+            $sx .= bsc($cidade, 2, 'brp_row small text-secondary');
             $sx .= bsc($anos, 1, 'brp_row small text-secondary');
 
             $link = '';
 
-
-            $sx .= bsc('', 1, 'brp_row');
             $sx .= bsc($line['year'], 1, 'brp_row');
             $sx .= bsc(substr((string)$line['update_at'], 0, 10), 2, 'brp_row small');
             $sta = $line['jnl_oai_status'];
