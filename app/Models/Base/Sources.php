@@ -665,6 +665,21 @@ class Sources extends Model
             $sj = (array)json_decode($_SESSION['sj']);
         }
 
+        if (get('all') == '1') {
+            $collections = get('collections');
+            if ($collections == '') {
+                $collections = 'JA,JE';
+            }
+            $collections = array_values(array_filter(array_map('trim', explode(',', $collections))));
+            $dt = $this->whereIn('jnl_collection', $collections)->findAll();
+            foreach ($dt as $line) {
+                $sj[$line['id_jnl']] = 1;
+            }
+            $_SESSION['sj'] = json_encode($sj);
+
+            return $this->list_selected();
+        }
+
         /********************************* CHECK */
         if (!isset($sj[$id])) {
             $sj[$id] = 1;
@@ -695,6 +710,10 @@ class Sources extends Model
         $sx = '';
 
         $xcollection = '';
+        $sx .= '<div class="mb-3">';
+        $sx .= '<button type="button" class="btn btn-sm btn-outline-primary" onclick="markSourceAll(\'JA,JE\');">Selecionar JA/JE</button>';
+        $sx .= '</div>';
+        $sx .= '<div id="search_source_list">';
         $sx .= '<ul style="list-style-type: none;">';
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
@@ -712,7 +731,7 @@ class Sources extends Model
                 $sx .= h(lang('brapci.' . $collection), 4);
             }
             $sx .= '<li>';
-            $sx .= '<input type="checkbox" id="jnl_' . $id . '" ' . $check . ' class="me-2" onclick="markSource(' . $id . ',this);">';
+            $sx .= '<input type="checkbox" id="jnl_' . $id . '" data-collection="' . $collection . '" ' . $check . ' class="me-2" onclick="markSource(' . $id . ',this);">';
             $sx .= $line['jnl_name'];
             if (strlen(trim($line['jnl_issn'])) > 0) {
                 $sx .= ' (ISSN ' . $line['jnl_issn'] . ')';
@@ -720,6 +739,7 @@ class Sources extends Model
             $sx .= '</>';
         }
         $sx .= '</ul>';
+        $sx .= '</div>';
         return $sx;
     }
 

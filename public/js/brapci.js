@@ -49,6 +49,18 @@ function markSource(ms, ta) {
   });
 }
 
+function markSourceAll(collections) {
+  $.ajax({
+    type: "POST",
+    url: "/ajax/mark?time=" + Date.now() + "&all=1",
+    data: { collections: collections },
+  }).done(function (data) {
+    $("#label_select_source").html(data);
+    $("#search_source_list input[data-collection='JA'], #search_source_list input[data-collection='JE']").prop("checked", true);
+    console.log(data);
+  });
+}
+
 function download($url) {
   NewWindow = window.open(
     $url,
