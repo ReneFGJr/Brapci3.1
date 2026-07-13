@@ -153,7 +153,7 @@ class Auth extends Controller
             'ID'      => $user['id_us'],
             'email'   => $user['us_email'],
             'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
-            'apikey'  => $apikey,
+            'token'  => $apikey,
         ];
 
         return $this->response->setJSON($rsp);
