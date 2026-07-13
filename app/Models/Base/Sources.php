@@ -575,7 +575,6 @@ class Sources extends Model
                     break;
             }
             $sx .= bsc($sta, 1, 'brp_row');
-            $sx .= bsc("============",12);
         }
 
         $sx .= '<li>404 - Page not found</li>';
