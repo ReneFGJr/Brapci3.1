@@ -535,7 +535,7 @@ class Sources extends Model
             $link = '';
 
             $sx .= bsc($line['year'], 1, 'brp_row');
-            $sx .= bsc(substr((string)$line['update_at'], 0, 10), 1, 'brp_row small');
+            //$sx .= bsc(substr((string)$line['update_at'], 0, 10), 1, 'brp_row small');
             switch($line['jnl_collection'])
                 {
                     case 'JA':
