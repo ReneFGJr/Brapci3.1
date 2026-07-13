@@ -536,6 +536,7 @@ class Sources extends Model
 
             $sx .= bsc($line['year'], 1, 'brp_row');
             //$sx .= bsc(substr((string)$line['update_at'], 0, 10), 1, 'brp_row small');
+            $xtype = '???';
             switch($line['jnl_collection'])
                 {
                     case 'JA':
@@ -548,7 +549,7 @@ class Sources extends Model
                         $xtype = 'Evento';
                         break;
                 }
-            $sx .= bsc($type, 1, 'brp_row small text-secondary');
+            $sx .= bsc($xtype, 1, 'brp_row small text-secondary');
             $sta = $line['jnl_oai_status'];
 
             if (isset($stx[$sta])) {
