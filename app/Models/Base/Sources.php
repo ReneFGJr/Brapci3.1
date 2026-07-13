@@ -535,7 +535,8 @@ class Sources extends Model
             $link = '';
 
             $sx .= bsc($line['year'], 1, 'brp_row');
-            $sx .= bsc(substr((string)$line['update_at'], 0, 10), 2, 'brp_row small');
+            $sx .= bsc(substr((string)$line['update_at'], 0, 10), 1, 'brp_row small');
+            $sx .= bsc($line['jnl_collection'], 1, 'brp_row small text-secondary');
             $sta = $line['jnl_oai_status'];
 
             if (isset($stx[$sta])) {
