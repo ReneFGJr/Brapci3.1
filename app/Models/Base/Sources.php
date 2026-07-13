@@ -525,10 +525,12 @@ class Sources extends Model
                 $sx .= h($xlb, 4);
             }
             $cidade = trim((string) ($line['gc_name'] ?? ''));
+            $anos = trim((string) ($line['jnl_ano_inicio'] ?? '')) . ' - ' . trim((string) ($line['jnl_ano_fim'] ?? ''));
             $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
             $tt++;
             $sx .= bsc($tt . '. ' . $link, 5, 'brp_row');
-            $sx .= bsc($cidade, 2, 'brp_row small text-secondary');
+            $sx .= bsc($cidade, 1, 'brp_row small text-secondary');
+            $sx .= bsc($anos, 1, 'brp_row small text-secondary');
 
             $link = '';
 
