@@ -27,8 +27,7 @@ def updateIssues():
                 ON d1.d_r2 = d2.d_r1
             INNER JOIN brapci_rdf.rdf_concept AS rc
                 ON d2.d_r2 = rc.id_cc
-            WHERE d1.d_p = 31
-            AND d2.d_p = 31
+            WHERE d2.d_p = 31
             AND rc.cc_status <> 9
             GROUP BY d2.d_r1
         ) AS t
