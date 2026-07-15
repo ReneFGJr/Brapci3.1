@@ -463,6 +463,7 @@ class Brapci extends Model
 
         $dt = $Issues
             ->join('source_source', 'id_jnl = is_source', 'left')
+            ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
             ->where('is_source_issue', $issue)->first();
         $totAut = 0;
 
@@ -476,7 +477,6 @@ class Brapci extends Model
 
         $dd['ID'] = $dt['is_source_issue'];
         $dd['source']['id_jnl'] = $dt['is_source'];
-        $dd[] = $dt['is_place'];
         $nr = $dt['is_nr'];
         $vol = $dt['is_vol'];
         if ($nr != '') {
@@ -487,8 +487,8 @@ class Brapci extends Model
         }
         $dd['nr'] = $nr;
         $dd['vol'] = $vol;
-        $dd['legend'] = $dt['jnl_name'] . ', ' . $vol . ', '.$nr . ', ' . $dt['is_year'] . ')';
-        $dd['place'] = $dt['is_place'];
+        $dd['legend'] = $dt['jnl_name'] . ', ' . $vol . ', '.$nr . ', ' . $dt['is_year'] . '.';
+        $dd['place'] = $dt['geo_cidade'];
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
         $dd['id_jnl'] = $dt['is_source'];
