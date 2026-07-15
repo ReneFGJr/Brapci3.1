@@ -53,7 +53,7 @@ def checkNamesIssue():
         vol_original = r[1] or ""
         nr_original = r[2] or ""
 
-        pre(nr_original, vol_original, is_vol_original, is_nr_original)
+        print(nr_original, vol_original, id_is)
 
 def checkNamesIssue_pre():
     qr = """
