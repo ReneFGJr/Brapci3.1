@@ -542,12 +542,22 @@ class Issues extends Model
         foreach ($dt as $id => $line) {
             $I = [];
             $I['year'] = $line['is_year'];
-            $I['vol'] = $line['is_vol_roman'];
-            if ($I['vol'] == '')
-                {
-                    $I['vol'] = $line['is_vol'];
+            if ($line['jnl_collection'] == 'EV') {
+                $I['vol'] = $line['is_vol_roman'];
+                $I['nr'] = $line['is_nr'];
+            } else {
+                if ($line['is_vol'] != '') {
+                    $I['vol'] = 'v. ' . $line['is_vol'];
+                } else {
+                    $I['vol'] = '';
                 }
-            $I['nr'] = $line['is_nr'];
+                if ($line['is_nr'] != '') {
+                    $I['nr'] = 'n. ' . $line['is_nr'];
+                } else {
+                    $I['nr'] = '';
+                }
+            }
+
             $I['thema'] = $line['is_thema'];
             $I['acron'] = $line['jnl_name_abrev'];
             $I['place'] = $line['is_place'];
