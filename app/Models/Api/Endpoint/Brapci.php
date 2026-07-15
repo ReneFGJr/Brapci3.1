@@ -461,7 +461,9 @@ class Brapci extends Model
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-        $dt = $Issues->where('is_source_issue', $issue)->first();
+        $dt = $Issues
+            ->join('source_source', 'id_jnl = is_source', 'left')
+            ->where('is_source_issue', $issue)->first();
         $totAut = 0;
 
         if ($dt == null) {
@@ -477,7 +479,7 @@ class Brapci extends Model
         $dd[] = $dt['is_place'];
         $dd['nr'] = $dt['is_nr'];
         $dd['vol'] = $dt['is_vol'];
-        $dd['legend'] = $dt['jnl_name'] . ' - ' . $dt['is_nr'] . ' (' . $dt['is_year'] . ')';
+        $dd['legend'] = $dt['jnl_name'] . ', ' . $dt['is_vol'] . ', '.$dt['is_nr'] . ', ' . $dt['is_year'] . ')';
         $dd['place'] = $dt['is_place'];
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
