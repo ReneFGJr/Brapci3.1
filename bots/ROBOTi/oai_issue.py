@@ -22,7 +22,7 @@ def updateIssues():
             SELECT
                 d1.d_r1,
                 COUNT(*) AS total
-            FROM brapci_rdf.rdf_data` as d1
+            FROM brapci_rdf.rdf_data as d1
             INNER JOIN brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc and c1.cc_class = 5 and c1.cc_status = 1
             INNER JOIN brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status = 1
             WHERE d_p = 31
