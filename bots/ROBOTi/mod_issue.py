@@ -227,6 +227,7 @@ def normalizar_volume(texto: str) -> str:
         volume xii
         v. xxiv
         vol. iii
+
     """
 
     if not texto:
@@ -239,7 +240,7 @@ def normalizar_volume(texto: str) -> str:
     texto = texto.lower().strip()
 
     # Remove palavras irrelevantes
-    texto = re.sub(r'\b(volume|volumen|vol)\b', '', texto)
+    texto = re.sub(r'\b(volume|volumen|vol|v.)\b', '', texto)
 
     # 1️⃣ Primeiro tenta número arábico
     match_arabico = re.search(r'\d+', texto)
