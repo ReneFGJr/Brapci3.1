@@ -59,8 +59,8 @@ def checkNamesIssue():
         qq = f"""
             update brapci.source_issue
             set is_need_review = 1,
-                is_vol_original = '{vol}',
-                is_nr_original = '{nr}'
+                is_vol = '{vol}',
+                is_nr = '{nr}'
             where id_is = {id_is}
         """
         print(qq)
