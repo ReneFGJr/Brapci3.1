@@ -227,7 +227,7 @@ def normalizar_volume(texto: str) -> str:
         volume xii
         v. xxiv
         vol. iii
-
+        v.
     """
 
     if not texto:
@@ -240,7 +240,7 @@ def normalizar_volume(texto: str) -> str:
     texto = texto.lower().strip()
 
     # Remove palavras irrelevantes
-    texto = re.sub(r'\b(volume|volumen|vol|v.)\b', '', texto)
+    texto = re.sub(r'\b(volume|volumen|vol|v)\b\.?', '', texto)
 
     # 1️⃣ Primeiro tenta número arábico
     match_arabico = re.search(r'\d+', texto)
@@ -474,11 +474,11 @@ def decode(n,lg,vl):
     ############################################## Recupera ANO
     ################### method 01 - (YEAR)
     try:
-        yearR = re.findall(r'\(\d{4}\)', n)
+        yearR = re.findall('\(\d{4}\)',n)
         if yearR == []:
-            yearR = re.findall(r'\ \d{4}\;', n)
+            yearR = re.findall('\ \d{4}\;',n)
         if yearR == []:
-            yearR = re.findall(r'\ \d{4}', n)
+            yearR = re.findall('\ \d{4}',n)
         for y in yearR:
             year = y.replace('(','')
             year = year.replace(')','')
@@ -492,8 +492,8 @@ def decode(n,lg,vl):
         vols = ['vol. ','vol.','v. ','v.']
         vol = ''
         for cg in vols:
-            volR = re.findall(re.escape(cg) + r'\d', n)
-            volR = re.findall(r" " + re.escape(cg) + r"[a-zA-Z0-9/\.\-_\+]+", n)
+            volR = re.findall(cg+'\d',n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
             if (vol == '') and (volR != []):
                 vol = volR[0]
                 vol = vol.replace(cg,'').strip()
@@ -505,7 +505,7 @@ def decode(n,lg,vl):
         vols = ['nr. ','num.','n. ','n.','núm.', ' Esp', ' esp']
         nr = ''
         for cg in vols:
-            volR = re.findall(r" " + re.escape(cg) + r"[a-zA-Z0-9/\.\-_\+]+", n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
             #print("volRY",volR)
             if (nr == '') and (volR != []):
                 nr = volR[0]
