@@ -52,7 +52,6 @@ def checkNamesIssue():
         id_is = r[0]
         vol_original = r[1] or ""
         nr_original = r[2] or ""
-        is_vol_original = r[3] or ""
 
         pre(nr_original, vol_original, is_vol_original, is_nr_original)
 
