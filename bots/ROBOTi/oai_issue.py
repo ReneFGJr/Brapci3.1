@@ -29,7 +29,7 @@ def updateIssues():
                 ON d2.d_r2 = rc.id_cc
             WHERE d1.d_p = 31
             AND d2.d_p = 31
-            AND rc.cc_status = 1
+            AND rc.cc_status <> 9
             GROUP BY d2.d_r1
         ) AS t
             ON t.d_r1 = si.is_source_issue
