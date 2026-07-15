@@ -153,7 +153,7 @@ class Download extends Model
 
         echo <<<HTML
                     <center>
-                        <img src="<?php echo base_url('/img/thema/wait.gif'); ?>">
+                        <img src="/img/thema/wait.gif">
                         <br>
                         Aguarde...
                     </center>
