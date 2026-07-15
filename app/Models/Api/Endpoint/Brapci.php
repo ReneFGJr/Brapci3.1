@@ -382,77 +382,7 @@ class Brapci extends Model
 
     function issue($issue)
     {
-        $Source = new \App\Models\Base\Sources();
-        $Issues = new \App\Models\Base\Issues();
-        $IssuesWorks = new \App\Models\Base\IssuesWorks();
-
-        $dt = $Issues->where('is_source_issue', $issue)->first();
-
-        if ($dt == null) {
-            echo "Vazio";
-            echo '<a href="' . PATH . '/api/rdf/in/' . $issue . '">IN</a>';
-            exit;
-        }
-
-        $dd = [];
-
-        $dd['ID'] = $dt['is_source_issue'];
-        $dd['source']['id_jnl'] = $dt['is_source'];
-        $dd['place'] = $dt['is_place'];
-        $dd['nr'] = $dt['is_nr'];
-        $dd['vol'] = $dt['is_vol'];
-        $dd['works'] = $dt['is_works'];
-        $dd['year'] = $dt['is_year'];
-        $dd['id_jnl'] = $dt['is_source'];
-        $dd['totalWorks'] = $dt['is_works'];
-
-        $dj = $Source->where('id_jnl', $dt['is_source'])->first();
-        $dd['source']['name'] = $dj['jnl_name'];
-        $dd['source']['rdf'] = $dj['jnl_frbr'];
-        $dd['jnl_frbr'] = $dj['jnl_frbr'];
-        $dd['acron'] = $dj['jnl_name_abrev'];
-
-        $dt = $IssuesWorks
-            ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
-            ->where('siw_issue', $issue)
-            ->orderBy('TITLE')
-            ->findAll();
-
-        $dw = [];
-        $au = [];
-        $wk = [];
-        foreach ($dt as $id => $line) {
-            $dq = [];
-            $dq['ID'] = $line['siw_work_rdf'];
-            array_push($wk, $line['siw_work_rdf']);
-            $dq['LEGEND'] = $line['TITLE'];
-            $dq['AUTHORS'] = $line['AUTHORS'];
-            $dq['PDF'] = $line['PDF'];
-            $dq['SESSION'] = $line['SESSION'];
-            $dq['USE'] = $line['use'];
-            $aut = troca($dq['AUTHORS'], '; ', ';');
-            $aut = explode(';', $aut);
-            foreach ($aut as $ida => $nome) {
-                if (!isset($au[$nome])) {
-                    $au[$nome] = ['name' => $nome, 'ID' => 0, 'total' => 1];
-                } else {
-                    $au[$nome]['total'] = $au[$nome]['total'] + 1;
-                }
-            }
-            array_push($dw, $dq);
-        }
-        /******** Authors */
-        ksort($au);
-        $nm = [];
-        foreach ($au as $name => $line) {
-            array_push($nm, $line);
-        }
-        $dd['worksTotal'] = count($dt);
-        $dd['works'] = $dw;
-        $dd['worksID'] = $wk;
-        $dd['authors'] = $nm;
-        $dd['authorsTotal'] = count($au);
-        return $dd;
+        return $this->issuev2($issue);
     }
 
     function issuev2($issue)

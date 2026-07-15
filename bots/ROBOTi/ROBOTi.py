@@ -284,6 +284,7 @@ def run(parm):
     #################### ISSUE
     if (act == '139'):
         oai_issue.updateIssues()
+        mod_issue.checkNamesIssue();
 
     #################### LITERAL
     if (act == '140'):
