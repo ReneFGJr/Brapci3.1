@@ -63,8 +63,6 @@ def checkNamesIssue():
                 is_nr_original = '{nr}'
             where id_is = {id_is}
         """
-        print(qq)
-        sys.exit()
         database.update(qq)
 
 def checkNamesIssue_pre():
