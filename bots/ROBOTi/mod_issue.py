@@ -218,7 +218,7 @@ def romano_para_int(romano: str) -> int:
 def normalizar_volume(texto: str) -> str:
     """
     Normaliza representações de volume para:
-        v. <numero>
+        <numero>
 
     Aceita:
         v. vol 5
@@ -244,7 +244,7 @@ def normalizar_volume(texto: str) -> str:
     # 1️⃣ Primeiro tenta número arábico
     match_arabico = re.search(r'\d+', texto)
     if match_arabico:
-        return f"{match_arabico.group()}"
+        return match_arabico.group()
 
     # 2️⃣ Tenta número romano
     match_romano = re.search(r'\b[ivxlcdm]+\b', texto)
@@ -252,7 +252,7 @@ def normalizar_volume(texto: str) -> str:
         romano = match_romano.group()
         numero = romano_para_int(romano)
         if numero > 0:
-            return f"{numero}"
+            return str(numero)
 
     return ""
 
