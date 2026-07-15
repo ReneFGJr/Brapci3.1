@@ -24,11 +24,11 @@ def updateIssues():
                 COUNT(*) AS total
             FROM brapci_rdf.rdf_data AS d1
             INNER JOIN brapci_rdf.rdf_data AS d2
-                ON d1.d_r2 = d2.d_r1
+                ON d1.d_r2 = d2.d_r1 and d2.d_p = 31
             INNER JOIN brapci_rdf.rdf_concept AS rc
                 ON d2.d_r2 = rc.id_cc
-            WHERE d2.d_p = 31
-            AND rc.cc_status <> 9
+            WHERE
+            rc.cc_status <> 9
             GROUP BY d2.d_r1
         ) AS t
             ON t.d_r1 = si.is_source_issue
