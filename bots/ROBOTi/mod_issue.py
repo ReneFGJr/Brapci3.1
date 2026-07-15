@@ -54,6 +54,18 @@ def checkNamesIssue():
         nr_original = r[2] or ""
 
         print(nr_original, vol_original, id_is)
+        nr = nr_original.replace("n.", "").strip()
+        vol = vol_original.replace("v.", "").strip()
+        qq = f"""
+            update brapci.source_issue
+            set is_need_review = 1,
+                is_vol_original = '{vol}',
+                is_nr_original = '{nr}'
+            where id_is = {id_is}
+        """
+        print(qq)
+        sys.exit()
+        database.update(qq)
 
 def checkNamesIssue_pre():
     qr = """
