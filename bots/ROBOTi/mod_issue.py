@@ -41,7 +41,7 @@ def checkDuplicateIssue(JNL=0):
     return row
 def checkNamesIssue():
     qr = """
-        select id_is, is_vol, is_nr,
+        select id_is, is_vol, is_nr
         from brapci.source_issue
         where is_nr like '%n.%' or is_vol like '%v.%'
         limit 1000
