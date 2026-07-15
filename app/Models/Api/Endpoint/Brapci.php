@@ -477,9 +477,17 @@ class Brapci extends Model
         $dd['ID'] = $dt['is_source_issue'];
         $dd['source']['id_jnl'] = $dt['is_source'];
         $dd[] = $dt['is_place'];
-        $dd['nr'] = $dt['is_nr'];
-        $dd['vol'] = $dt['is_vol'];
-        $dd['legend'] = $dt['jnl_name'] . ', ' . $dt['is_vol'] . ', '.$dt['is_nr'] . ', ' . $dt['is_year'] . ')';
+        $nr = $dt['is_nr'];
+        $vol = $dt['is_vol'];
+        if ($nr != '') {
+            $nr = 'n. ' . $nr;
+        }
+        if ($vol != '') {
+            $vol = 'v. ' . $vol;
+        }
+        $dd['nr'] = $nr;
+        $dd['vol'] = $vol;
+        $dd['legend'] = $dt['jnl_name'] . ', ' . $vol . ', '.$nr . ', ' . $dt['is_year'] . ')';
         $dd['place'] = $dt['is_place'];
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
