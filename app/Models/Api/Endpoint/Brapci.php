@@ -477,6 +477,7 @@ class Brapci extends Model
         $dd[] = $dt['is_place'];
         $dd['nr'] = $dt['is_nr'];
         $dd['vol'] = $dt['is_vol'];
+        $dd['legend'] = $dt['jnl_name'] . ' - ' . $dt['is_nr'] . ' (' . $dt['is_year'] . ')';
         $dd['place'] = $dt['is_place'];
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
