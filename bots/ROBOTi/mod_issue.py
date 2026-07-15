@@ -40,6 +40,9 @@ def checkDuplicateIssue(JNL=0):
 
     return row
 def checkNamesIssue():
+
+    checkNamesIssue_pre()
+
     qr = """
         select id_is, is_vol, is_nr
         from brapci.source_issue
