@@ -68,6 +68,7 @@ def checkNamesIssue():
 
         if vol == "":
             print("ERRO: Volume não identificado", id_is, vol_original)
+            print(r)
 
             if (is_vol_original != ""):
                 vol_original_sql = is_vol_original.replace("'", "''")
