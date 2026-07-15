@@ -20,16 +20,13 @@ def updateIssues():
         UPDATE brapci.source_issue si
         LEFT JOIN (
             SELECT
-                d2.d_r1,
+                d1.d_r1,
                 COUNT(*) AS total
-            FROM brapci_rdf.rdf_data AS d1
-            INNER JOIN brapci_rdf.rdf_data AS d2
-                ON d1.d_r2 = d2.d_r1 and d2.d_p = 31
-            INNER JOIN brapci_rdf.rdf_concept AS rc
-                ON d2.d_r2 = rc.id_cc
-            WHERE
-            rc.cc_status <> 9
-            GROUP BY d2.d_r1
+            FROM `rdf_data` as d1
+            INNER JOIN brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc and c1.cc_class = 5 and c1.cc_status = 1
+            INNER JOIN brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status = 1
+            WHERE d_p = 31
+            GROUP BY d1.d_r1
         ) AS t
             ON t.d_r1 = si.is_source_issue
         SET
