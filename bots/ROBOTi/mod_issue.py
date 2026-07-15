@@ -39,9 +39,24 @@ def checkDuplicateIssue(JNL=0):
     print("Duplicate Issues:", len(row))
 
     return row
-
-
 def checkNamesIssue():
+    qr = """
+        select id_is, is_vol, is_nr,
+        from brapci.source_issue
+        where is_nr like '%n.%' or is_vol like '%v.%'
+        limit 1000
+    """
+    row = database.query(qr)
+
+    for r in row:
+        id_is = r[0]
+        vol_original = r[1] or ""
+        nr_original = r[2] or ""
+        is_vol_original = r[3] or ""
+
+        pre(nr_original, vol_original, is_vol_original, is_nr_original)
+
+def checkNamesIssue_pre():
     qr = """
         select id_is, is_vol, is_nr,
         is_vol_original, is_nr_original
@@ -68,7 +83,6 @@ def checkNamesIssue():
 
         if vol == "":
             print("ERRO: Volume não identificado", id_is, vol_original)
-            print(r)
 
             if (is_vol_original != ""):
                 vol_original_sql = is_vol_original.replace("'", "''")
@@ -219,7 +233,7 @@ def romano_para_int(romano: str) -> int:
 def normalizar_volume(texto: str) -> str:
     """
     Normaliza representações de volume para:
-        <numero>
+        v. <numero>
 
     Aceita:
         v. vol 5
@@ -228,7 +242,6 @@ def normalizar_volume(texto: str) -> str:
         volume xii
         v. xxiv
         vol. iii
-        v.
     """
 
     if not texto:
@@ -241,12 +254,12 @@ def normalizar_volume(texto: str) -> str:
     texto = texto.lower().strip()
 
     # Remove palavras irrelevantes
-    texto = re.sub(r'\b(volume|volumen|vol|v)\b\.?', '', texto)
+    texto = re.sub(r'\b(volume|volumen|vol)\b', '', texto)
 
     # 1️⃣ Primeiro tenta número arábico
     match_arabico = re.search(r'\d+', texto)
     if match_arabico:
-        return match_arabico.group()
+        return f"v. {match_arabico.group()}"
 
     # 2️⃣ Tenta número romano
     match_romano = re.search(r'\b[ivxlcdm]+\b', texto)
@@ -254,7 +267,7 @@ def normalizar_volume(texto: str) -> str:
         romano = match_romano.group()
         numero = romano_para_int(romano)
         if numero > 0:
-            return str(numero)
+            return f"v. {numero}"
 
     return ""
 
@@ -475,11 +488,11 @@ def decode(n,lg,vl):
     ############################################## Recupera ANO
     ################### method 01 - (YEAR)
     try:
-        yearR = re.findall(r'\(\d{4}\)', n)
+        yearR = re.findall('\(\d{4}\)',n)
         if yearR == []:
-            yearR = re.findall(r'\s\d{4};', n)
+            yearR = re.findall('\ \d{4}\;',n)
         if yearR == []:
-            yearR = re.findall(r'\s\d{4}', n)
+            yearR = re.findall('\ \d{4}',n)
         for y in yearR:
             year = y.replace('(','')
             year = year.replace(')','')
@@ -493,9 +506,8 @@ def decode(n,lg,vl):
         vols = ['vol. ','vol.','v. ','v.']
         vol = ''
         for cg in vols:
-            prefix = re.escape(cg)
-            volR = re.findall(prefix + r'\d', n)
-            volR = re.findall(r'\s' + prefix + r'[a-zA-Z0-9/._\-\+]+', n)
+            volR = re.findall(cg+'\d',n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
             if (vol == '') and (volR != []):
                 vol = volR[0]
                 vol = vol.replace(cg,'').strip()
@@ -507,8 +519,7 @@ def decode(n,lg,vl):
         vols = ['nr. ','num.','n. ','n.','núm.', ' Esp', ' esp']
         nr = ''
         for cg in vols:
-            prefix = re.escape(cg)
-            volR = re.findall(r'\s' + prefix + r'[a-zA-Z0-9/._\-\+]+', n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
             #print("volRY",volR)
             if (nr == '') and (volR != []):
                 nr = volR[0]

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Base;
+
 helper('markdown');
 
 use CodeIgniter\Model;
@@ -45,17 +46,16 @@ class Download extends Model
     {
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($idc);
-        $files = $RDF->extract($dt, 'hasFileStorage' , 'A');
+        $files = $RDF->extract($dt, 'hasFileStorage', 'A');
         $dir = $this->directory($idc);
 
-        if (count($files) > 0)
-            {
-                $idf = $files[0];
-                $dt = $RDF->le($idf);
-                $file = $dt['concept']['n_name'];
-            } else {
-                return [];
-            }
+        if (count($files) > 0) {
+            $idf = $files[0];
+            $dt = $RDF->le($idf);
+            $file = $dt['concept']['n_name'];
+        } else {
+            return [];
+        }
 
         $RSP = [];
         $RSP['status'] = '404';
@@ -64,50 +64,45 @@ class Download extends Model
         $fileMD = troca($file, '.pdf', '.md');
         $fileTXT = troca($file, '.pdf', '.txt');
 
-        if (file_exists($fileMD))
-            {
-                $TXT = markdown_to_html(file_get_contents($fileMD));
-                $file = $fileMD;
-            }
-        else if (file_exists($file))
-            {
-                $TXT = shell_exec('pdftotext '.$file.' '.$fileTXT);
-                $file = $fileTXT;
-            }
+        if (file_exists($fileMD)) {
+            $TXT = markdown_to_html(file_get_contents($fileMD));
+            $file = $fileMD;
+        } else if (file_exists($file)) {
+            $TXT = shell_exec('pdftotext ' . $file . ' ' . $fileTXT);
+            $file = $fileTXT;
+        }
 
-            $RSP['status'] = '200';
-            $RSP['message'] = 'Success';
-            $RSP['file'] = $file;
-            $RSP['full'] = $TXT;
-            //$RSP['line'] = $this->explode_line($RSP['full']);
-            return $RSP;
+        $RSP['status'] = '200';
+        $RSP['message'] = 'Success';
+        $RSP['file'] = $file;
+        $RSP['full'] = $TXT;
+        //$RSP['line'] = $this->explode_line($RSP['full']);
+        return $RSP;
 
-            $fileEMAIL = troca($file,'.txt', '_email.json');
-            if (file_exists($dir.$fileEMAIL))
-                {
-                    $RSP['email'] = json_decode(file_get_contents($dir.$fileEMAIL));
-                } else {
-                    $RSP['email'] = ['none'];
-                }
+        $fileEMAIL = troca($file, '.txt', '_email.json');
+        if (file_exists($dir . $fileEMAIL)) {
+            $RSP['email'] = json_decode(file_get_contents($dir . $fileEMAIL));
+        } else {
+            $RSP['email'] = ['none'];
+        }
 
-            $fileEMAIL = troca($file,'.txt', '_cited.json');
-            if (file_exists($dir.$fileEMAIL))
-                {
-                    $RSP['cited'] = json_decode(file_get_contents($dir.$fileEMAIL));
-                } else {
-                    $RSP['cited'] = ['none'];
-                }
+        $fileEMAIL = troca($file, '.txt', '_cited.json');
+        if (file_exists($dir . $fileEMAIL)) {
+            $RSP['cited'] = json_decode(file_get_contents($dir . $fileEMAIL));
+        } else {
+            $RSP['cited'] = ['none'];
+        }
 
         return $RSP;
     }
 
     function explode_line($txt)
-        {
-            $txt = troca($txt,chr(10),chr(13));
-            $txt = troca($txt, chr(13).chr(13), chr(13));
-            $ln = explode(chr(13),$txt);
-            return $ln;
-        }
+    {
+        $txt = troca($txt, chr(10), chr(13));
+        $txt = troca($txt, chr(13) . chr(13), chr(13));
+        $ln = explode(chr(13), $txt);
+        return $ln;
+    }
 
     function show_resources($dt)
     {
@@ -152,18 +147,18 @@ class Download extends Model
         return $sx;
     }
 
-            private function showWaitingScreen(): void
-            {
-                echo view('Brapci/Headers/header');
+    private function showWaitingScreen(): void
+    {
+        echo view('Brapci/Headers/header');
 
-                echo <<<HTML
+        echo <<<HTML
                     <center>
                         <img src="<?php echo base_url('/img/thema/wait.gif'); ?>">
                         <br>
                         Aguarde...
                     </center>
                  HTML;
-            }
+    }
 
     private function normalizeUrl(string $url): string
     {
