@@ -371,7 +371,10 @@ class Issues extends Model
                     if ($dt == '')
                         {
                             $this->getIssue($id);
-                            $dt = $this->where('is_source_issue', $id)->first();
+                            $dt = $this
+                                ->where('is_source_issue', $id)
+                                ->where('is_works > 0')
+                                ->first();
                         }
 
                     if ($dt != '') {
