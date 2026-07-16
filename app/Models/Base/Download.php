@@ -206,6 +206,8 @@ class Download extends Model
 
             $JounalID = $RDF->extract($dt, 'hasSource');
             pre($JounalID,false);
+            echo '<hr>';
+            $jnl = $JounalID[0] ?? null;
             pre($dt);
             $dd = [];
             $dd['siw_work_rdf'] = $idc;
