@@ -206,7 +206,7 @@ class Download extends Model
 
             $IssueID = $RDF->extract($dt, 'hasIssueOf','A');
             $dt_issue = $RDF->le($IssueID[0]);
-            $JounalID = $RDF->extract($dt_issue, 'hasSource','A');
+            $JounalID = $RDF->extract($dt_issue, 'hasIssueOf','A');
             pre($IssueID, false);
             pre($JounalID,false);
             pre($dt_issue,false);
