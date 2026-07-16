@@ -365,7 +365,10 @@ class Issues extends Model
             {
                 if ($dt == [])
                     {
-                        $dt = $this->where('is_source_issue', $id)->first();
+                        $dt = $this
+                        ->join('source_source', 'id_jnl = is_source', 'left')
+                        ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
+                        ->where('is_source_issue', $id)->first();
                     }
 
                     if ($dt == '')
@@ -381,8 +384,23 @@ class Issues extends Model
                         $d['ID'] = $dt['is_source_issue'];
                         $d['YEAR'] = $dt['is_year'];
                         $d['JOURNAL'] = $dt['is_source'];
-                        $d['VOL'] = $dt['is_vol'];
-                        $d['NR'] = $dt['is_nr'];
+
+                        if ($dt['jnl_collection'] == 'EV') {
+                            $I['VOL'] = $dt['is_vol_roman'];
+                            $I['NR'] = $dt['is_nr'];
+                        } else {
+                            if ($dt['is_vol'] != '') {
+                                $I['VOL'] = 'v. ' . $dt['is_vol'];
+                            } else {
+                                $I['VOL'] = '';
+                            }
+                            if ($dt['is_nr'] != '') {
+                                $I['NR'] = 'n. ' . $dt['is_nr'];
+                            } else {
+                                $I['NR'] = '';
+                            }
+                        }
+
                         $d['ID'] = $dt['is_source_issue'];
                         $d['totalWorks'] = $dt['is_works'];
                         return $d;
