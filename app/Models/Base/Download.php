@@ -207,13 +207,17 @@ class Download extends Model
             $IssueID = $RDF->extract($dt, 'hasIssueOf','A');
             $dt_issue = $RDF->le($IssueID[0]);
             $issueID = $IssueID[0] ?? null;
+            $JounalID = null;
 
             if (!$issueID) {
                 throw new \RuntimeException('Issue não localizado para RDF: ' . $idc);
             }
 
             foreach ($dt_issue['data'] as $line) {
+                echo '<br>';
+                echo  $line['Property'] . ' - ' . $line['Class'] . ' - ' . $line['ID'];
                 if (($line['Property'] == 'hasIssueOf') and ($line['Class'] == 'Journal')) {
+                    echo "OOOOOOOOOO";
                     $JounalID = $line['ID'];
                 }
             }
