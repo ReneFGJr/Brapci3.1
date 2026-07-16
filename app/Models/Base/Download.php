@@ -209,6 +209,7 @@ class Download extends Model
             $JounalID = $RDF->extract($dt_issue, 'hasSource','A');
             pre($IssueID, false);
             pre($JounalID,false);
+            pre($dt_issue,false);
             echo '<hr>';
             $jnl = $JounalID[0] ?? null;
             pre($dt);
