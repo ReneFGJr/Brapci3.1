@@ -405,6 +405,7 @@ class Issues extends Model
                         }
 
                         $d['ID'] = $dt['is_source_issue'];
+                        $d['VERSION'] = 'ISSUE-V2';
                         $d['totalWorks'] = $dt['is_works'];
                         return $d;
                     } else {
