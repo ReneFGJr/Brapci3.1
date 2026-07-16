@@ -378,6 +378,7 @@ class Issues extends Model
                                 ->join('source_source', 'id_jnl = is_source', 'left')
                                 ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
                                 ->where('is_source_issue', $id)
+                                ->where('is_works > 0')
                                 ->first();
                         }
 
