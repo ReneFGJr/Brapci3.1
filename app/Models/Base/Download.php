@@ -204,7 +204,7 @@ class Download extends Model
             $Source = new \App\Models\Base\Sources();
             $dt = $RDF->le($idc);
 
-            $JounalID = $RDF->extract($dt['data'], 'hasSource');
+            $JounalID = $RDF->extract($dt, 'hasSource');
             pre($JounalID,false);
             echo '<hr>';
             $jnl = $JounalID[0] ?? null;
