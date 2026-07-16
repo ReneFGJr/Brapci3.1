@@ -237,8 +237,6 @@ class Download extends Model
             $dd['siw_pag_end'] = '';
             $dd['siw_section'] = 0;
             $IssueWorks->set($dd)->insert();
-            throw new \RuntimeException('IssueWork não localizado para RDF: ' . $idc);
-
             $work = $IssueWorks->where('siw_work_rdf', $idc)->first();
         }
 
