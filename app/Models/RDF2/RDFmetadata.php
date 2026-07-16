@@ -625,7 +625,10 @@ class RDFmetadata extends Model
             if (!isset($YEARS[$ANO])) {
                 $YEARS[$ANO] = $ANO;
             }
-            array_push($ISSUE, $dti);
+            if ($dti['totalWorks'] > 0)
+                {
+                    array_push($ISSUE, $dti);
+                }
         }
         krsort($YEARS);
         $sYEARS = [];
