@@ -200,6 +200,9 @@ class Download extends Model
         $work = $IssueWorks->where('siw_work_rdf', $idc)->first();
 
         if (!$work) {
+            $RDF = new \App\Models\RDF2\RDF();
+            $dt = $RDF->le($idc);
+            pre($dt);
             throw new \RuntimeException('IssueWork não localizado para RDF: ' . $idc);
         }
 
