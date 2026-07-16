@@ -223,7 +223,11 @@ class Download extends Model
                 throw new \RuntimeException('Journal não localizado para RDF: ' . $idc);
             }
             $JNL = $Source->where('jnl_frbr', $JounalID)->first();
-            pre($JNL, false);
+            $JounalID = $JNL['id_jnl'] ?? null;
+            if (!$JounalID) {
+                throw new \RuntimeException('JournalIDsource não localizado para RDF: ' . $idc);
+            }
+            pre($issueID, false);
             pre($JounalID,false);
             pre($dt_issue,false);
             echo '<hr>';
