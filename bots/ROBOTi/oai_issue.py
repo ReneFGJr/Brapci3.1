@@ -16,6 +16,9 @@ def register(ID,JNL):
 
 def updateIssues():
     print("Updating issues...")
+    QU = """update brapci.source_issue set is_works = 0"""
+    database.query(QU)
+
     QU = """
         UPDATE brapci.source_issue si
         LEFT JOIN (
