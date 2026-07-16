@@ -388,18 +388,18 @@ class Issues extends Model
                         $d['JOURNAL'] = $dt['is_source'];
 
                         if ($dt['jnl_collection'] == 'EV') {
-                            $I['VOL'] = $dt['is_vol_roman'];
-                            $I['NR'] = $dt['is_nr'];
+                            $d['VOL'] = $dt['is_vol_roman'];
+                            $d['NR'] = $dt['is_nr'];
                         } else {
                             if ($dt['is_vol'] != '') {
-                                $I['VOL'] = 'v. ' . $dt['is_vol'];
+                                $d['VOL'] = 'v. ' . $dt['is_vol'];
                             } else {
-                                $I['VOL'] = '';
+                                $d['VOL'] = '';
                             }
                             if ($dt['is_nr'] != '') {
-                                $I['NR'] = 'n. ' . $dt['is_nr'];
+                                $d['NR'] = 'n. ' . $dt['is_nr'];
                             } else {
-                                $I['NR'] = '';
+                                $d['NR'] = '';
                             }
                         }
 
