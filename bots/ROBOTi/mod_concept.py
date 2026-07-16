@@ -4,6 +4,14 @@ import mod_class
 import mod_literal
 import sys
 
+def updateRDF(ID,STATUS):
+    qu = f"update brapci_rdf.rdf_concept set cc_status = {STATUS} where id_cc = {ID}"
+    database.update(qu)
+
+    qd = "COMMIT"
+    database.update(qd)
+
+
 def le(ID):
     qr = "SELECT * FROM brapci_rdf.rdf_concept "
     qr += " INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r1 "

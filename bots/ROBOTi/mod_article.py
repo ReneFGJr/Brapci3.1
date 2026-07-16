@@ -343,4 +343,6 @@ def article_data(IDC,rg,data,jnl):
 
     mod_listidentify.updateRDFid(rg[0],IDC)
 
+    mod_concept.updateRDF(IDC,1)
+
     print("============================ FINALIZADO COM SUCESSO",rg[0],"IDC ",IDC)

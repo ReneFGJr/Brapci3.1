@@ -19,16 +19,15 @@ def updateIssues():
     QU = """
         UPDATE brapci.source_issue si
         LEFT JOIN (
-            SELECT
-                d1.d_r1,
-                COUNT(*) AS total
+            SELECT d1.d_r1 as ISSUE,count(*) as total
             FROM brapci_rdf.rdf_data as d1
-            INNER JOIN brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc and c1.cc_class = 5 and c1.cc_status = 1
-            INNER JOIN brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status = 1
-            WHERE d_p = 31
-            GROUP BY d1.d_r1
+            INNER JOIN brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc
+            INNER JOIN brapci_rdf.rdf_class as cl1 ON c1.cc_class = cl1.id_c
+            inner join brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status <> 9
+            where d1.d_p = 31 and cl1.c_class = 'Issue'
+            group by d1.d_r1
         ) AS t
-            ON t.d_r1 = si.is_source_issue
+            ON t.ISSUE = si.is_source_issue
         SET
             si.is_works = COALESCE(t.total, 0)
         WHERE
