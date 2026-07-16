@@ -202,9 +202,9 @@ class Download extends Model
         if (!$work) {
             $RDF = new \App\Models\RDF2\RDF();
             $Source = new \App\Models\Base\Sources();
-            $dt = $RDF->le($idc);
+            $dtx = $RDF->le($idc);
 
-            $IssueID = $RDF->extract($dt, 'hasIssueOf','A');
+            $IssueID = $RDF->extract($dtx, 'hasIssueOf','A');
             $dt_issue = $RDF->le($IssueID[0]);
             $issueID = $IssueID[0] ?? null;
             $JounalID = null;
@@ -227,16 +227,19 @@ class Download extends Model
             if (!$JounalID) {
                 throw new \RuntimeException('JournalIDsource não localizado para RDF: ' . $idc);
             }
-            pre($issueID, false);
-            pre($JounalID,false);
-            pre($dt_issue,false);
-            echo '<hr>';
             $jnl = $JounalID[0] ?? null;
-            pre($dt);
             $dd = [];
             $dd['siw_work_rdf'] = $idc;
+            $dd['siw_journal'] = $JounalID;
+            $dd['siw_issue'] = $issueID;
+            $dd['siw_order'] = 0;
+            $dd['siw_pag_ini'] = '';
+            $dd['siw_pag_end'] = '';
+            $dd['siw_section'] = 0;
             $IssueWorks->set($dd)->insert();
             throw new \RuntimeException('IssueWork não localizado para RDF: ' . $idc);
+
+            $work = $IssueWorks->where('siw_work_rdf', $idc)->first();
         }
 
         $journal = $work['siw_journal'];
