@@ -373,7 +373,6 @@ class Issues extends Model
                             $this->getIssue($id);
                             $dt = $this
                                 ->where('is_source_issue', $id)
-                                ->where('is_works > 0')
                                 ->first();
                         }
 
@@ -534,6 +533,7 @@ class Issues extends Model
             ->join('source_source', 'is_source = id_jnl')
             ->where("is_source", $id)
             ->where('is_visible',1)
+            ->where('is_works > 0')
             ->orderBy('is_year', 'DESC')
             ->orderBy('is_vol', 'DESC')
             ->orderBy('is_source_issue', 'DESC')
