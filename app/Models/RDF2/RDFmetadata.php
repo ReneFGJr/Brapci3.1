@@ -612,7 +612,10 @@ class RDFmetadata extends Model
         $dr = array_merge($dr, $dt);
 
         /******************** ISSUE */
-        $dti = $Issues->where('is_source',$IDjnl)
+        $dti = $Issues
+            ->join('source_source', 'id_jnl = is_source', 'left')
+            ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
+            ->where('is_source',$IDjnl)
             ->orderBy('is_vol desc, is_nr desc')
             ->findAll();
 

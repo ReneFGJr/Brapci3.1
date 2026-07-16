@@ -380,7 +380,6 @@ class Issues extends Model
                                 ->where('is_source_issue', $id)
                                 ->first();
                         }
-                    pre($dt);
 
                     if ($dt != '') {
                         $d = [];
