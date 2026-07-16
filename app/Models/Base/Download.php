@@ -214,9 +214,10 @@ class Download extends Model
             }
 
             foreach ($dt_issue['data'] as $line) {
+                $prop = trim($line['Property']);
                 echo '<br>';
-                echo  $line['Property'] . ' - ' . $line['Class'] . ' - ' . $line['ID'];
-                if (($line['Property'] == 'hasIssueOf') and ($line['Class'] == 'Journal')) {
+                echo  $prop . ' - ' . $line['Class'] . ' - ' . $line['ID'];
+                if (($prop == 'hasIssueOf') and ($line['Class'] == 'Journals')) {
                     echo "OOOOOOOOOO";
                     $JounalID = $line['ID'];
                 }
