@@ -394,6 +394,7 @@ class Brapci extends Model
         $dt = $Issues
             ->join('source_source', 'id_jnl = is_source', 'left')
             ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
+            ->where('is_works > 0')
             ->where('is_source_issue', $issue)->first();
         $totAut = 0;
 
