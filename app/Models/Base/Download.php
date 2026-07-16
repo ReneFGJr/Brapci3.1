@@ -201,7 +201,11 @@ class Download extends Model
 
         if (!$work) {
             $RDF = new \App\Models\RDF2\RDF();
+            $Source = new \App\Models\Base\Sources();
             $dt = $RDF->le($idc);
+
+            $JounalID = $RDF->extract($dt, 'hasSource');
+            pre($JounalID,false);
             pre($dt);
             $dd = [];
             $dd['siw_work_rdf'] = $idc;
