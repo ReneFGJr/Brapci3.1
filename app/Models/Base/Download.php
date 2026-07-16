@@ -215,14 +215,15 @@ class Download extends Model
 
             foreach ($dt_issue['data'] as $line) {
                 $prop = trim($line['Property']);
-                echo '<br>';
-                echo  $prop . ' - ' . $line['Class'] . ' - ' . $line['ID'];
                 if (($prop == 'hasIssueOf') and ($line['Class'] == 'Journals')) {
-                    echo "OOOOOOOOOO";
                     $JounalID = $line['ID'];
                 }
             }
-            pre($IssueID, false);
+            if (!$JounalID) {
+                throw new \RuntimeException('Journal não localizado para RDF: ' . $idc);
+            }
+            $JNL = $Source->where('jnl_frbr', $JounalID)->first();
+            pre($JNL, false);
             pre($JounalID,false);
             pre($dt_issue,false);
             echo '<hr>';
