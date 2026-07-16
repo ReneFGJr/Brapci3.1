@@ -200,7 +200,6 @@ class Download extends Model
         $work = $IssueWorks->where('siw_work_rdf', $idc)->first();
 
         if (!$work) {
-            return;
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($idc);
             pre($dt);
