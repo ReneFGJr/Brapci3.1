@@ -25,7 +25,7 @@ def checkIssueWork():
             INNER join brapci.source_source ON d2.d_r1 = source_source.jnl_frbr
             where d1.d_p = 31 and cl1.c_class = 'Issue'
 
-            and id_jnl = 1
+            and id_jnl = 2
     """
     row = database.query(qr)
     for r in row:
