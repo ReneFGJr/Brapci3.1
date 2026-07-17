@@ -43,6 +43,7 @@ import mod_statistics
 import socket
 import oai_issue
 import mod_book_ibict
+import mod_source_issue_work
 from colorama import Fore
 
 def logo():
@@ -284,7 +285,8 @@ def run(parm):
     #################### ISSUE
     if (act == '139'):
         oai_issue.updateIssues()
-        mod_issue.checkNamesIssue();
+        mod_issue.checkNamesIssue()
+        mod_source_issue_work.checkIssueWork()
 
     #################### LITERAL
     if (act == '140'):
