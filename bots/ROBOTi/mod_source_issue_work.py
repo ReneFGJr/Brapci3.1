@@ -23,9 +23,9 @@ def checkIssueWork():
             INNER join brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status <> 9
             INNER join brapci_rdf.rdf_data as d2 ON d1.d_r2 = d2.d_r2
             INNER join brapci.source_source ON d2.d_r1 = source_source.jnl_frbr
+            LEFT JOIN brapci.source_issue_work as siw ON siw_work_rdf = d1.d_r2
             where d1.d_p = 31 and cl1.c_class = 'Issue'
-
-            and id_jnl = 2
+            and siw_work_rdf is null
     """
     row = database.query(qr)
     for r in row:
