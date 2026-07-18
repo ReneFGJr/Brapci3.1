@@ -153,8 +153,11 @@ def getNameFile(id,loop=True):
             if not file_exists(dirT+fileD):
                 if file_exists(dirT+fileO):
                     print("Transferindo arquivos")
+                    print("<BR>Fase 1")
                     mod_convert_repository.copy_file(dirT+fileO,dirT+fileD)
+                    print("<BR>Fase 2")
                     mod_convert_repository.update_rdf_data(idN,fileD)
+                    print("<BR>Fase 3")
                 else:
                     print(f"Arquivo {fileO} não existe")
                     fileD = None
