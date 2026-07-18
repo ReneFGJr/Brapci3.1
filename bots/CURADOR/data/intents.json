@@ -1,0 +1,55 @@
+{
+    "0000   ": {
+        "description": "Status do sistema",
+        "patterns": [
+            "status",
+            "status do sistema",
+            "verificar status",
+            "verificar status do sistema",
+            "verificar status do robô"
+        ]
+    },
+    "0001": {
+        "description": "Atualizar listas de revistas",
+        "patterns": [
+            "atualizar",
+            "atualizar revistas"
+        ]
+    },
+    "1000": {
+        "description": "Iniciar coleta das revistas",
+        "patterns": [
+            "iniciar coleta das revistas",
+            "coletar revistas",
+            "rodar coleta",
+            "executar coleta"
+        ]
+    },
+    "2000": {
+        "description": "Gerar palavras-chave",
+        "patterns": [
+            "gerar palavras-chave",
+            "extrair palavras-chave",
+            "criar palavras-chave",
+            "indexar palavras-chave"
+        ]
+    },
+    "3000": {
+        "description": "Normalizar autores",
+        "patterns": [
+            "normalizar autores",
+            "corrigir autores",
+            "padronizar autores"
+        ]
+    },
+    "9999": {
+        "description": "Ajuda",
+        "patterns": [
+            "help",
+            "ajuda",
+            "como usar",
+            "ajuda curador"
+        ]
+    }
+
+}

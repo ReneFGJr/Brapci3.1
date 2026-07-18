@@ -1,0 +1,50 @@
+############################################
+# CURADOR
+############################################
+
+APP_NAME=CURADOR
+APP_VERSION=0.1
+DEBUG=True
+
+############################################
+# Banco de Dados
+############################################
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=brapci
+DB_USERNAME=root
+DB_PASSWORD=senha
+
+############################################
+# IA
+############################################
+
+LLM_PROVIDER=ollama
+
+OLLAMA_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2
+
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5
+
+############################################
+# Diretórios
+############################################
+
+LOG_PATH=logs
+TEMP_PATH=temp
+DATA_PATH=data
+
+############################################
+# Sistema
+############################################
+
+MAX_THREADS=4
+TIMEOUT=300
+LANGUAGE=pt_BR
+
+############################################
+# User API
+############################################
+USER_API = [API]
