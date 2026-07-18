@@ -70,6 +70,7 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
                 ######### Teste
                 # database.update(qu)
                 print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id_reg+Fore.WHITE)
+                print(Fore.YELLOW+"... "+str(deleted)+'-'+str(deleted_db)+Fore.WHITE)
             else:
                 print(Fore.BLUE+"... Já existe "+Fore.GREEN+id_reg+Fore.WHITE)
     return True
