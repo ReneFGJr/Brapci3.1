@@ -6,13 +6,18 @@ with open("data/intents.json", encoding="utf8") as f:
 
 def localizar(texto):
 
-    texto = texto.lower()
+    texto = texto.lower().strip()
+
+    if not texto:
+        return None
+
+    comando = texto.split()[0]
 
     for codigo, intent in INTENTS.items():
 
         for pattern in intent["patterns"]:
 
-            if pattern.lower() in texto:
+            if comando == pattern.lower():
 
                 return int(codigo)
 

@@ -1,4 +1,4 @@
-def run(args):
+def run(parametros=None, chat=None):
 
     print("==== Estatísticas ====")
 

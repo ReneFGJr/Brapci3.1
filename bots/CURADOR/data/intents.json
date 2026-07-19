@@ -25,13 +25,18 @@
             "executar coleta"
         ]
     },
-    "2000": {
+    "0200": {
         "description": "Gerar palavras-chave",
         "patterns": [
+            "revisar keywords",
             "gerar palavras-chave",
-            "extrair palavras-chave",
-            "criar palavras-chave",
-            "indexar palavras-chave"
+            "gerar keywords",
+            "revisar palavras-chave",
+            "palavras-chave",
+            "keywords",
+            "palavras chave",
+            "keywords do artigo",
+            "gerar palavras chave"
         ]
     },
     "3000": {
@@ -40,6 +45,65 @@
             "normalizar autores",
             "corrigir autores",
             "padronizar autores"
+        ]
+    },
+    "4000": {
+        "description": "Definir ID para a memoria",
+        "patterns": [
+            "set",
+            "definir id",
+            "armazenar id"
+        ]
+    },
+    "4001": {
+        "description": "Carrega IDs para a memoria",
+        "patterns": [
+            "get",
+            "ids",
+            "id",
+            "list",
+            "listar ids",
+            "list ids",
+            "listar id",
+            "list id",
+            "carregar ids",
+            "recuperar ids",
+            "carregar ids",
+            "recuperar ids"
+        ]
+    },
+    "4002": {
+        "description": "Remove IDs para da memoria",
+        "patterns": [
+            "remove",
+            "delete",
+            "remover ids",
+            "excluir ids",
+            "del",
+            "rm"
+        ]
+    },
+    "4003": {
+        "description": "Limpa todos os IDs armazenados",
+        "patterns": [
+            "clear",
+            "clear ids",
+            "limpar",
+            "reset"
+        ]
+    },
+    "6000": {
+        "description": "Buscar o ORCID de um autor",
+        "patterns": [
+            "orcid",
+            "buscar orcid"
+        ]
+    },
+    "6001": {
+        "description": "Buscar o ROR de uma instituição",
+        "patterns": [
+            "ror",
+            "buscar ror"
         ]
     },
     "9999": {
@@ -51,5 +115,4 @@
             "ajuda curador"
         ]
     }
-
 }

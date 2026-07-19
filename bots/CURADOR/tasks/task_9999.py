@@ -91,7 +91,7 @@ def ajuda():
     return True
 
 
-def run(args):
+def run(parametros=None, chat=None):
 
     ajuda()
     return True

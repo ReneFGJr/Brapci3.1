@@ -132,7 +132,7 @@ def atualizar_eventos():
     )
 
 
-def run(args):
+def run(parametros=None, chat=None):
 
     console.rule("[bold blue]CURADOR - Atualização da Base Local[/bold blue]")
 

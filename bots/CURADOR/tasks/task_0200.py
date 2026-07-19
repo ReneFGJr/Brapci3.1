@@ -1,11 +1,13 @@
-def run(args):
+from rich.console import Console
 
-    print("Revisão de palavras-chave")
+console = Console()
 
-    if len(args):
-        print("Parâmetros:", args)
+def run(parametros=None, chat=None):
 
-    # Aqui entrará a IA
-    # localizar artigos sem palavras-chave
-    # gerar sugestões
-    # salvar no banco
+    if parametros is None:
+        parametros = []
+
+    console.print("[bold cyan]Revisão de palavras-chave[/bold cyan]")
+
+    print(parametros)
+    print(chat)

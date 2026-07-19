@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import shlex
+
 from lib.ai import perguntar
 from chat.memory import Conversation
 from chat.router import localizar
@@ -15,36 +20,67 @@ def iniciar(first_message=None):
         #
         # Primeira mensagem (quando vem da linha de comando)
         #
-        if first_message:
+
+        if first_message is not None:
+
             pergunta = first_message
             first_message = None
+
             print(f"CURADOR > {pergunta}")
 
         else:
-            pergunta = input("CURADOR > ")
 
-        if pergunta.lower() in ["sair", "exit", "quit"]:
+            pergunta = input("CURADOR > ").strip()
+
+        #
+        # Sai
+        #
+
+        if pergunta.lower() in (
+            "sair",
+            "exit",
+            "quit"
+        ):
             break
 
         #
         # Procura uma tarefa
         #
+
         task = localizar(pergunta)
 
-
         if task is not None:
-            resposta = executar(task, [])
-            print(resposta)
-            continue
 
-        if task:
-            print(f"\n▶ Executando tarefa {task['id']:04d}\n")
-            executar(task["id"])
+            #
+            # Divide a linha preservando textos entre aspas
+            #
+
+            partes = shlex.split(pergunta)
+
+            #
+            # Remove o comando e envia apenas os parâmetros
+            #
+
+            parametros = partes[1:]
+
+            resposta = executar(
+                codigo=task,
+                parametros=parametros,
+                chat=pergunta
+            )
+
+            if resposta:
+
+                print()
+                print(resposta)
+                print()
+
             continue
 
         #
-        # Chat IA
+        # Conversa com a IA
         #
+
         conversa.user(pergunta)
 
         resposta = perguntar(
