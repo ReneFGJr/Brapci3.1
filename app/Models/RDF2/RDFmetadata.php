@@ -507,6 +507,7 @@ class RDFmetadata extends Model
         $dr['ID'] = $dt['concept']['id_cc'];
         $dr['data'] = $dt['data'];
         $wk = [];
+        pre($dt);
 
         $n = 0;
 
