@@ -52,7 +52,7 @@ class Apa extends Model
 				$tela = $this->apa_article($dt);
 				break;
 			case 'Subject':
-				$ref = 'BRAPCI. (' . date("Y") . '). <i>' . $dt['title'] . '</i>. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul.';
+				$ref = 'BRAPCI. (' . date("Y") . '). <i>' . $dt['title'] . '</i>. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul. ';
 				$ref .= '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
 				return $ref;
 				break;
