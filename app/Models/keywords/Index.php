@@ -70,7 +70,15 @@ class Index extends Model
         $IDs = explode(",",$idz);
         $Search = new \App\Models\ElasticSearch\Search();
         $dt = $Search->whereIn('ID',$IDs)->findAll();
-        $RSP['data'] = $dt;
+
+        $kw = [];
+        foreach($dt as $line) {
+            $json = json_decode($line['json'],true);
+            pre($json);
+            $concept = $line['concept'];
+            $kw[] = $concept;
+        }
+        $RSP['data'] = $kw;
         return $RSP;
     }
 }
