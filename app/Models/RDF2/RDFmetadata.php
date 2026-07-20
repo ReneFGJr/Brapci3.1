@@ -515,6 +515,21 @@ class RDFmetadata extends Model
 
         /***************************** Works */
         $works = [];
+        $worksID = [];
+
+        foreach ($dt['data'] ?? [] as $id => $line) {
+            $lang = $line['Lang'];
+            $prop = $line['Property'];
+
+            /*******************/
+            switch ($prop) {
+                case 'hasSubject':
+                    array_push($worksID, $line['ID']);
+                    break;
+            }
+        }
+
+
         if ($n > 0) {
             $dx = $dataset->findAll($limit);
             foreach ($dx as $id => $line) {
@@ -528,7 +543,7 @@ class RDFmetadata extends Model
             }
         }
         $dr['works'] = $works;
-        $dr['worksID'] = $wk;
+        $dr['worksID'] = $worksID;
 
         return $dr;
     }
