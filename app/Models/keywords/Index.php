@@ -68,6 +68,18 @@ class Index extends Model
         $RPS['status'] = '200';
         $idz = get("idz");
         $IDs = explode(",",$idz);
+        $RDFdata = new \App\Models\Rdf2\RDFdata();
+
+        $dt = $RDFdata->select("SELECT d_r1, d_r2, id_n, n_name, n_lang")
+            ->join('rdf_concept', 'd_r2 = id_cc', 'INNER')
+            ->join('rdf_class', 'cc_class = id_c and c_class = "Subject"', 'INNER')
+            ->join('rdf_literal', 'cc_pref_term = id_n', 'INNER')
+            ->whereIn('d_r1', $IDs)
+            ->orderBy("d_r1", "DESC")
+            ->findAll();
+        pre($dt);
+
+
         $Search = new \App\Models\ElasticSearch\Search();
         $dt = $Search->whereIn('ID',$IDs)->findAll();
 
