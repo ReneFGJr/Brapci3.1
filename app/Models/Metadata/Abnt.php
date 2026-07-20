@@ -55,7 +55,7 @@ class Abnt extends Model
 				case 'Subject':
 					$ref = 'BRAPCI. Termo: '.$dt['title'].'. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026.';
 					$ref .= ' Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
-					$ref .= '. Disponível em: ' . '&lt;a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '&lt;/a&gt;';
+					$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
 					return $ref;
 				case 'Issue':
 					return "ISSUE - Construção";
