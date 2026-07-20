@@ -505,9 +505,10 @@ class RDFmetadata extends Model
         $dr = [];
         $dr['term'] = $dt['concept']['n_name'];
         $dr['ID'] = $dt['concept']['id_cc'];
+        $dt['Class'] = 'Subject';
+        $dt['title'] = $dt['concept']['n_name'];
         $dr['data'] = $dt['data'];
         $wk = [];
-        pre($dt);
 
         $n = 0;
 
