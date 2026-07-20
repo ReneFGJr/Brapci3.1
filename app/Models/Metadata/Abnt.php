@@ -54,6 +54,8 @@ class Abnt extends Model
 			{
 				case 'Subject':
 					$ref = 'BRAPCI. Termo: '.$dt['title'].'. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026. Disponível em: &lt;https://hdl.handle.net/20.500.11959/brapci/'.$dt['ID'].'&gt;. Acesso em: '.date("d").' '.mes_abreviado(date("m")).' '.date("Y");
+					echo $ref;
+					exit;
 					return $ref;
 				case 'Issue':
 					return "ISSUE - Construção";
