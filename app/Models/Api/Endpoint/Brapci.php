@@ -701,7 +701,6 @@ class Brapci extends Model
             $RSP['message'] = 'Register canceled';
             $RSP['status'] = '404';
         } else {
-
             $RSP['Class'] = $dt['concept']['c_class'];
             $RSP['Views'] = $Views->views($id);
             $RSP['Download'] = $Downloads->views($id);
