@@ -62,6 +62,7 @@ class Brapci extends Model
 
         $RSP = [];
         $RSP['status'] = '200';
+        if ($d1 == 'keywords') { $d1 = 'keyword'; }
 
         switch ($d1) {
             case 'cited-search':
@@ -118,6 +119,19 @@ class Brapci extends Model
                         'message' => 'ID inválido'
                     ];
                 }
+                echo json_encode($RSP);
+                exit;
+                break;
+            case 'keyword':
+                $Keywords = new \App\Models\Keywords\Index();
+                $caID = sonumero(get("idz"));
+                if (($caID == 0) or ($caID == '')) {
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Invalid IDs, put in idz parameter';
+                    echo json_encode($RSP);
+                    exit;
+                }
+                $RSP = $Keywords->index($d2,$caID);
                 echo json_encode($RSP);
                 exit;
                 break;

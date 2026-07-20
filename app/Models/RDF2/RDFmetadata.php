@@ -503,40 +503,13 @@ class RDFmetadata extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
         $dr = [];
-        $dr['publisher'] = $dt['concept']['n_name'];
+        $dr['term'] = $dt['concept']['n_name'];
         $dr['ID'] = $dt['concept']['id_cc'];
         $dr['data'] = $dt['data'];
         $wk = [];
 
         $n = 0;
-        $dataset->select('*');
-        foreach ($dt['data'] as $ida => $linea) {
-            $type = $linea['Class'];
-            array_push($wk,$linea['ID']);
-            $ok = 0;
-            switch ($type) {
-                case 'Proceeding':
-                    $ok = 1;
-                    break;
-                case 'Article':
-                    $ok = 1;
-                    break;
-                case 'Book':
-                    $ok = 1;
-                    break;
-                case 'BookChapter':
-                    $ok = 1;
-                    break;
-            }
-            if ($ok == 1) {
-                if ($n == 0) {
-                    $dataset->where('ID', $linea['ID']);
-                } else {
-                    $dataset->orwhere('ID', $linea['ID']);
-                }
-                $n++;
-            }
-        }
+
 
         /***************************** Works */
         $works = [];
