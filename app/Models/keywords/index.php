@@ -42,6 +42,8 @@ class Index extends Model
 
     function index($d1='', $caID='')
     {
+        echo $d1;
+        exit;
         $RSP = [];
         $RSP['status'] = '404';
         $RSP['message'] = 'Function not Found';
