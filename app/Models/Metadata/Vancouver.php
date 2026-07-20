@@ -44,6 +44,7 @@ class Vancouver extends Model
 
 	function show($dt, $type = 'A')
 	{
+		$URL = 'https://hdl.handle.net/20.500.11959/brapci/';
 		$tela = '';
 		switch ($dt['Class']) {
 			case 'Article':
