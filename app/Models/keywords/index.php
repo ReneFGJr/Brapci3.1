@@ -53,7 +53,7 @@ class Index extends Model
                 break;
             default:
                 $RSP['status'] = '404';
-                $RSP['status_message'] = 'Function not Found';
+                $RSP['status_message'] = 'Function '.$d1.' not Found';
                 break;
         }
         return $RSP;
