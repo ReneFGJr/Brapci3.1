@@ -49,6 +49,17 @@ class Index extends Model
         $RSP['verb'] = $d1;
 
         switch ($d1) {
+            case 'fix':
+                $APIKEY = get("apikey");
+                $idz = sonumero(get("idz"));
+                $idfix = sonumero(get("idfix"));
+                if (!$this->checkAPIKey($APIKEY)) {
+                    $RSP['status'] = '401';
+                    $RSP['status_message'] = 'Unauthorized';
+                    return $RSP;
+                }
+                $RSP = $this->fixKeyword($idz, $idfix);
+                break;
             case 'get':
                 $RSP = $this->getKeywords($caID);
                 $RSP['status'] = '200';
@@ -61,6 +72,14 @@ class Index extends Model
         }
         return $RSP;
     }
+
+    function fixKeyword($id1,$id2)
+        {
+            $RSP = [];
+            $RSP['status'] = '200';
+            $RSP['message'] = 'Ops';
+            return $RSP;
+        }
 
     function getKeywords($d1)
     {
