@@ -508,9 +508,8 @@ class RDFmetadata extends Model
         $dr['Class'] = 'Subject';
         $dr['title'] = $dt['concept']['n_name'];
         $dr['data'] = $dt['data'];
-        $dr['cited'] = [];
+
         $cited_ABNT = $ABNT->short($dr, False);
-        $dr['cited']['abnt'] = $cited_ABNT;
         /*
         $dt['cited']['abnt'] = $ABNT->short($dt, False);
         $dt['cited']['abnt'] = $ABNT->short($dt, False);
@@ -555,7 +554,8 @@ class RDFmetadata extends Model
         }
         $dr['works'] = $works;
         $dr['worksID'] = $worksID;
-
+        $dr['cited'] = [];
+        $dr['cited']['abnt'] = $cited_ABNT;
         return $dr;
     }
 
