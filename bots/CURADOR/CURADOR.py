@@ -10,11 +10,13 @@ Autor : Rene Gabriel Junior
 """
 
 import argparse
+import json
 import sys
 
 from config import APP_VERSION
 from lib.banner import show as banner
 from chat.session import iniciar as iniciar_chat
+from chat.router import localizar
 from tasks.executor import executar
 
 
@@ -50,28 +52,41 @@ def main():
 
     args = parser.parse_args()
 
-    banner()
-
     #
-    # Sem parâmetros → abre o Chat
+    # Sem parâmetros -> modo interativo
     #
 
     if args.comando is None:
+
+        banner()
+
         iniciar_chat()
+
         return
 
     comando = args.comando.strip()
 
     #
-    # Executa uma tarefa numérica
+    # Tarefa numérica
     #
 
     if comando.isdigit():
 
-        executar(
+        resultado = executar(
             int(comando),
-            args.parametros
+            parametros=args.parametros,
+            chat=None,
+            silent=True
         )
+
+        print(
+            json.dumps(
+                resultado,
+                indent=4,
+                ensure_ascii=False
+            )
+        )
+
         return
 
     #
@@ -80,8 +95,8 @@ def main():
 
     comandos = {
 
-        "ajuda": "ajuda",
-        "help": "ajuda",
+        ##"ajuda": "ajuda",
+        ##"help": "ajuda",
 
         "tarefas": "tarefas",
         "tasks": "tarefas",
@@ -96,6 +111,8 @@ def main():
 
     if comando.lower() in comandos:
 
+        banner()
+
         iniciar_chat(
             first_message=comandos[comando.lower()]
         )
@@ -103,12 +120,46 @@ def main():
         return
 
     #
-    # Linguagem natural
+    # Localiza a tarefa pelo router
     #
 
-    iniciar_chat(
-        first_message=" ".join(
-            [comando] + args.parametros
+    texto = " ".join(
+        [comando] + args.parametros
+    )
+
+    codigo = localizar(texto)
+
+    if codigo is None:
+
+        print(
+            json.dumps(
+                {
+                    "success": False,
+                    "error": "Comando não reconhecido."
+                },
+                indent=4,
+                ensure_ascii=False
+            )
+        )
+
+        return
+
+    #
+    # Executa a tarefa
+    #
+
+    resultado = executar(
+        codigo,
+        parametros=args.parametros,
+        chat=None,
+        silent=True
+    )
+
+    print(
+        json.dumps(
+            resultado,
+            indent=4,
+            ensure_ascii=False
         )
     )
 

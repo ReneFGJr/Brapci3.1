@@ -35,6 +35,14 @@ TASK = {
 }
 
 
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
+
+
 def get_ip():
     """
     Retorna o IP local da máquina.
@@ -67,6 +75,33 @@ def get_arquivo():
     return TMP / f"var_{get_ip()}.json"
 
 
+def carregar_ids():
+
+    global IDs
+
+    arquivo = get_arquivo()
+
+    IDs = []
+
+    if arquivo.exists():
+
+        try:
+
+            with open(
+                arquivo,
+                "r",
+                encoding="utf-8"
+            ) as f:
+
+                IDs = json.load(f)
+
+        except Exception:
+
+            IDs = []
+
+    return IDs
+
+
 def salvar_ids():
 
     arquivo = get_arquivo()
@@ -85,26 +120,97 @@ def salvar_ids():
         )
 
 
-def run(parametros=None, chat=None):
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     global IDs
 
-    console.print()
-    console.rule("[bold red]CLEAR[/bold red]")
+    if parametros is None:
+
+        parametros = []
+
+    if not silent:
+
+        console.print()
+
+        console.rule(
+            "[bold red]CLEAR[/bold red]"
+        )
+
+    #
+    # Carrega os IDs atuais
+    #
+
+    try:
+
+        carregar_ids()
+
+    except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
+        console.print(
+            f"[red]Erro ao carregar IDs:[/red] {e}"
+        )
+
+        return False
 
     quantidade = len(IDs)
 
     #
-    # Limpa a memória
+    # Limpa a lista
     #
 
     IDs.clear()
 
     #
-    # Atualiza o arquivo
+    # Salva o arquivo atualizado
     #
 
-    salvar_ids()
+    try:
+
+        salvar_ids()
+
+    except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
+        console.print(
+            f"[red]Erro ao salvar arquivo:[/red] {e}"
+        )
+
+        return False
+
+    resultado = {
+
+        "success": True,
+
+        "removed": quantidade,
+
+        "total": 0,
+
+        "arquivo": str(
+            get_arquivo()
+        ),
+
+        "ids": []
+
+    }
+
+    if silent:
+
+        return resultado
 
     console.print(
         f"[bold green]✔ {quantidade} IDs removidos.[/bold green]"
@@ -118,4 +224,4 @@ def run(parametros=None, chat=None):
         f"[cyan]Arquivo:[/cyan] {get_arquivo()}"
     )
 
-    return IDs
+    return resultado

@@ -21,7 +21,7 @@ TASK = {
 }
 
 
-def run(parametros=None, chat=None):
+def run(parametros=None,chat=None,silent=False):
 
     print("Iniciando coleta...")
 

@@ -41,6 +41,14 @@ TASK = {
 }
 
 
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
+
+
 def get_ip():
 
     try:
@@ -115,7 +123,11 @@ def salvar_ids():
         )
 
 
-def run(parametros=None, chat=None):
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     global IDs
 
@@ -123,11 +135,21 @@ def run(parametros=None, chat=None):
 
         parametros = []
 
-    console.print()
+    if not silent:
 
-    console.rule("[bold red]REMOVE[/bold red]")
+        console.print()
+
+        console.rule(
+            "[bold red]REMOVE[/bold red]"
+        )
 
     if len(parametros) == 0:
+
+        if silent:
+
+            return erro(
+                "Nenhum ID informado."
+            )
 
         console.print(
             "[bold red]Nenhum ID informado.[/bold red]"
@@ -145,9 +167,29 @@ def run(parametros=None, chat=None):
 
         return False
 
-    carregar_ids()
+    try:
+
+        carregar_ids()
+
+    except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
+        console.print(
+            f"[red]Erro ao carregar IDs:[/red] {e}"
+        )
+
+        return False
 
     removidos = 0
+
+    invalidos = []
+
+    nao_encontrados = []
 
     for item in parametros:
 
@@ -163,19 +205,71 @@ def run(parametros=None, chat=None):
 
             else:
 
-                console.print(
-                    f"[yellow]ID não encontrado:[/yellow] {valor}"
+                nao_encontrados.append(
+                    valor
                 )
+
+                if not silent:
+
+                    console.print(
+                        f"[yellow]ID não encontrado:[/yellow] {valor}"
+                    )
 
         except ValueError:
 
-            console.print(
-                f"[yellow]Valor inválido:[/yellow] {item}"
+            invalidos.append(
+                item
             )
+
+            if not silent:
+
+                console.print(
+                    f"[yellow]Valor inválido:[/yellow] {item}"
+                )
 
     IDs.sort()
 
-    salvar_ids()
+    try:
+
+        salvar_ids()
+
+    except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
+        console.print(
+            f"[red]Erro ao salvar arquivo:[/red] {e}"
+        )
+
+        return False
+
+    resultado = {
+
+        "success": True,
+
+        "removed": removidos,
+
+        "total": len(IDs),
+
+        "invalidos": invalidos,
+
+        "nao_encontrados": nao_encontrados,
+
+        "arquivo": str(
+            get_arquivo()
+        ),
+
+        "ids": IDs
+
+    }
+
+    if silent:
+
+        return resultado
 
     console.print()
 
@@ -187,6 +281,18 @@ def run(parametros=None, chat=None):
         f"[bold cyan]Total de IDs:[/bold cyan] {len(IDs)}"
     )
 
+    if nao_encontrados:
+
+        console.print(
+            f"[yellow]IDs não encontrados:[/yellow] {nao_encontrados}"
+        )
+
+    if invalidos:
+
+        console.print(
+            f"[yellow]Valores inválidos:[/yellow] {invalidos}"
+        )
+
     console.print(
         f"[green]IDs:[/green] {IDs}"
     )
@@ -195,4 +301,4 @@ def run(parametros=None, chat=None):
         f"[cyan]Arquivo:[/cyan] {get_arquivo()}"
     )
 
-    return IDs
+    return resultado

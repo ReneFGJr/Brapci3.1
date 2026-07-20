@@ -22,7 +22,6 @@ TMP = Path(".tmp")
 #
 IDs = []
 
-
 TASK = {
     "id": 4001,
     "name": "Get",
@@ -35,6 +34,14 @@ TASK = {
     ],
     "parameters": []
 }
+
+
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
 
 
 def get_ip():
@@ -56,19 +63,37 @@ def get_ip():
     return ip.replace(".", "_")
 
 
-def carregar_ids():
+def get_arquivo():
+
+    TMP.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    return TMP / f"var_{get_ip()}.json"
+
+
+def carregar_ids(silent=False):
 
     global IDs
 
-    arquivo = TMP / f"var_{get_ip()}.json"
+    arquivo = get_arquivo()
+
+    IDs = []
 
     if not arquivo.exists():
+
+        if silent:
+
+            return erro(
+                "Arquivo de IDs não encontrado."
+            )
 
         console.print(
             "[bold red]Arquivo de IDs não encontrado.[/bold red]"
         )
 
-        return []
+        return None
 
     try:
 
@@ -82,20 +107,114 @@ def carregar_ids():
 
     except Exception as e:
 
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
         console.print(
             f"[bold red]Erro ao carregar arquivo:[/bold red] {e}"
         )
 
-        return []
+        return None
 
-    console.print(
-        f"[bold green]✔ {len(IDs)} IDs carregados.[/bold green]"
-    )
+    if not silent:
+
+        console.print(
+            f"[bold green]✔ {len(IDs)} IDs carregados.[/bold green]"
+        )
 
     return IDs
 
 
 def mostrar_ids():
+
+    table = Table(
+        title="IDs em Memória",
+        header_style="bold cyan"
+    )
+
+    table.add_column(
+        "#",
+        style="yellow",
+        width=6
+    )
+
+    table.add_column(
+        "ID",
+        style="green"
+    )
+
+    for k, item in enumerate(
+        IDs,
+        start=1
+    ):
+
+        table.add_row(
+            str(k),
+            str(item)
+        )
+
+    console.print(
+        table
+    )
+
+
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
+
+    if parametros is None:
+
+        parametros = []
+
+    if not silent:
+
+        console.rule(
+            "[bold blue]GET[/bold blue]"
+        )
+
+    resultado = carregar_ids(
+        silent=silent
+    )
+
+    #
+    # Erro
+    #
+
+    if isinstance(
+        resultado,
+        dict
+    ):
+
+        return resultado
+
+    #
+    # Sucesso
+    #
+
+    retorno = {
+
+        "success": True,
+
+        "total": len(
+            IDs
+        ),
+
+        "arquivo": str(
+            get_arquivo()
+        ),
+
+        "ids": IDs
+
+    }
+
+    if silent:
+
+        return retorno
 
     if len(IDs) == 0:
 
@@ -103,32 +222,8 @@ def mostrar_ids():
             "[yellow]Nenhum ID carregado.[/yellow]"
         )
 
-        return
+    else:
 
-    table = Table(
-        title="IDs em Memória",
-        header_style="bold cyan"
-    )
+        mostrar_ids()
 
-    table.add_column("#", style="yellow", width=6)
-    table.add_column("ID", style="green")
-
-    for k, item in enumerate(IDs, start=1):
-
-        table.add_row(
-            str(k),
-            str(item)
-        )
-
-    console.print(table)
-
-
-def run(parametros=None, chat=None):
-
-    console.rule("[bold blue]GET[/bold blue]")
-
-    carregar_ids()
-
-    mostrar_ids()
-
-    return IDs
+    return retorno

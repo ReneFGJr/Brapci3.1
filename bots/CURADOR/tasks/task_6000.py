@@ -36,14 +36,24 @@ HEADERS = {
 }
 
 
-def buscar(nome):
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
+
+
+def buscar(nome, silent=False):
     """
     Pesquisa pesquisadores pelo nome.
     """
 
-    console.print(
-        f"[bold blue]Consultando ORCID:[/bold blue] {nome}"
-    )
+    if not silent:
+
+        console.print(
+            f"[bold blue]Consultando ORCID:[/bold blue] {nome}"
+        )
 
     r = requests.get(
         URL,
@@ -67,19 +77,12 @@ def ultima_instituicao(item):
     instituicoes = item.get("institution-name")
 
     if instituicoes is None:
-        return ""
 
-    #
-    # Apenas uma instituição
-    #
+        return ""
 
     if isinstance(instituicoes, str):
 
         return instituicoes
-
-    #
-    # Lista de instituições
-    #
 
     if isinstance(instituicoes, list):
 
@@ -90,16 +93,31 @@ def ultima_instituicao(item):
     return ""
 
 
-def run(parametros=None, chat=None):
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     if parametros is None:
+
         parametros = []
 
-    console.print()
+    if not silent:
 
-    console.rule("[bold blue]ORCID[/bold blue]")
+        console.print()
+
+        console.rule(
+            "[bold blue]ORCID[/bold blue]"
+        )
 
     if len(parametros) == 0:
+
+        if silent:
+
+            return erro(
+                "Informe o nome do pesquisador."
+            )
 
         console.print(
             "[bold red]Informe o nome do pesquisador.[/bold red]"
@@ -117,13 +135,24 @@ def run(parametros=None, chat=None):
 
         return False
 
-    nome = " ".join(parametros).strip()
+    nome = " ".join(
+        parametros
+    ).strip()
 
     try:
 
-        dados = buscar(nome)
+        dados = buscar(
+            nome,
+            silent=silent
+        )
 
     except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
 
         console.print(
             f"[red]Erro ao consultar ORCID:[/red] {e}"
@@ -140,17 +169,25 @@ def run(parametros=None, chat=None):
 
     for item in resultados:
 
-        credit = item.get("credit-name") or ""
+        credit = item.get(
+            "credit-name"
+        ) or ""
 
-        given = item.get("given-names") or ""
+        given = item.get(
+            "given-names"
+        ) or ""
 
-        family = item.get("family-names") or ""
+        family = item.get(
+            "family-names"
+        ) or ""
 
         nome_orcid = credit.strip()
 
         if not nome_orcid:
 
-            nome_orcid = f"{given} {family}".strip()
+            nome_orcid = (
+                f"{given} {family}"
+            ).strip()
 
         #
         # Comparação exata
@@ -164,13 +201,22 @@ def run(parametros=None, chat=None):
 
             "nome": nome_orcid,
 
-            "orcid": item.get("orcid-id") or "",
+            "orcid": item.get(
+                "orcid-id",
+                ""
+            ),
 
             "instituicao": ultima_instituicao(item)
 
         })
 
     if len(encontrados) == 0:
+
+        if silent:
+
+            return erro(
+                "Nenhum pesquisador encontrado."
+            )
 
         console.print()
 
@@ -179,6 +225,22 @@ def run(parametros=None, chat=None):
         )
 
         return False
+
+    resultado = {
+
+        "success": True,
+
+        "total": len(
+            encontrados
+        ),
+
+        "results": encontrados
+
+    }
+
+    if silent:
+
+        return resultado
 
     table = Table()
 
@@ -209,6 +271,8 @@ def run(parametros=None, chat=None):
 
         )
 
-    console.print(table)
+    console.print(
+        table
+    )
 
-    return encontrados
+    return resultado

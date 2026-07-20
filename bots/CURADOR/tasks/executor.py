@@ -1,7 +1,12 @@
 import importlib
 
 
-def executar(codigo, parametros=None, chat=None):
+def executar(
+    codigo,
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     if parametros is None:
         parametros = []
@@ -20,15 +25,25 @@ def executar(codigo, parametros=None, chat=None):
 
             return task.run(
                 parametros=parametros,
-                chat=chat
+                chat=chat,
+                silent=silent
             )
 
-        return f"Tarefa {codigo:04d} não possui função run()."
+        return {
+            "success": False,
+            "error": f"Tarefa {codigo:04d} não possui função run()."
+        }
 
     except ModuleNotFoundError:
 
-        return f"Tarefa {codigo:04d} não encontrada."
+        return {
+            "success": False,
+            "error": f"Tarefa {codigo:04d} não encontrada."
+        }
 
     except Exception as e:
 
-        return f"Erro: {e}"
+        return {
+            "success": False,
+            "error": str(e)
+        }

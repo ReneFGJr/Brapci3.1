@@ -2,7 +2,7 @@ from rich.console import Console
 
 console = Console()
 
-def run(parametros=None, chat=None):
+def run(parametros=None,chat=None,silent=False):
 
     if parametros is None:
         parametros = []

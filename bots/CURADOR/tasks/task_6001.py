@@ -36,14 +36,16 @@ HEADERS = {
 }
 
 
-def buscar(nome):
+def buscar(nome, silent=False):
     """
     Pesquisa uma instituição no ROR.
     """
 
-    console.print(
-        f"[bold blue]Consultando ROR:[/bold blue] {nome}"
-    )
+    if not silent:
+
+        console.print(
+            f"[bold blue]Consultando ROR:[/bold blue] {nome}"
+        )
 
     r = requests.get(
         URL,
@@ -60,9 +62,6 @@ def buscar(nome):
 
 
 def igual(a, b):
-    """
-    Compara duas strings ignorando maiúsculas/minúsculas.
-    """
 
     return (
         str(a).strip().casefold()
@@ -72,9 +71,6 @@ def igual(a, b):
 
 
 def localizar(resultado, nome):
-    """
-    Localiza a melhor correspondência.
-    """
 
     nome = nome.strip()
 
@@ -121,10 +117,6 @@ def localizar(resultado, nome):
 
                     return item
 
-    #
-    # Retorna o primeiro encontrado
-    #
-
     if itens:
 
         return itens[0]
@@ -133,100 +125,48 @@ def localizar(resultado, nome):
 
 
 def nome_principal(item):
-    """
-    Retorna o nome principal da instituição.
-    """
 
-    nomes = item.get(
-        "names",
-        []
-    )
-
-    #
-    # Nome oficial do ROR
-    #
+    nomes = item.get("names", [])
 
     for nome in nomes:
 
-        if "ror_display" in nome.get(
-            "types",
-            []
-        ):
+        if "ror_display" in nome.get("types", []):
 
-            return nome.get(
-                "value",
-                ""
-            )
-
-    #
-    # Português
-    #
+            return nome.get("value", "")
 
     for nome in nomes:
 
         if nome.get("lang") == "pt":
 
-            return nome.get(
-                "value",
-                ""
-            )
-
-    #
-    # Inglês
-    #
+            return nome.get("value", "")
 
     for nome in nomes:
 
         if nome.get("lang") == "en":
 
-            return nome.get(
-                "value",
-                ""
-            )
-
-    #
-    # Primeiro disponível
-    #
+            return nome.get("value", "")
 
     if nomes:
 
-        return nomes[0].get(
-            "value",
-            ""
-        )
+        return nomes[0].get("value", "")
 
     return ""
 
 
 def sigla(item):
-    """
-    Retorna a sigla.
-    """
 
-    for nome in item.get(
-        "names",
-        []
-    ):
+    for nome in item.get("names", []):
 
-        if "acronym" in nome.get(
-            "types",
-            []
-        ):
+        if "acronym" in nome.get("types", []):
 
-            return nome.get(
-                "value",
-                ""
-            )
+            return nome.get("value", "")
 
     return ""
 
 
 def pais(item):
 
-    for local in item.get(
-        "locations",
-        []
-    ):
+    for local in item.get("locations", []):
 
         geo = local.get(
             "geonames_details",
@@ -245,10 +185,7 @@ def pais(item):
 
 def estado(item):
 
-    for local in item.get(
-        "locations",
-        []
-    ):
+    for local in item.get("locations", []):
 
         geo = local.get(
             "geonames_details",
@@ -267,10 +204,7 @@ def estado(item):
 
 def cidade(item):
 
-    for local in item.get(
-        "locations",
-        []
-    ):
+    for local in item.get("locations", []):
 
         geo = local.get(
             "geonames_details",
@@ -287,19 +221,39 @@ def cidade(item):
     return ""
 
 
-def run(parametros=None, chat=None):
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
+
+
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     if parametros is None:
 
         parametros = []
 
-    console.print()
+    if not silent:
 
-    console.rule(
-        "[bold blue]ROR[/bold blue]"
-    )
+        console.print()
+
+        console.rule(
+            "[bold blue]ROR[/bold blue]"
+        )
 
     if len(parametros) == 0:
+
+        if silent:
+
+            return erro(
+                "Informe uma instituição."
+            )
 
         console.print(
             "[bold red]Informe uma instituição.[/bold red]"
@@ -325,9 +279,16 @@ def run(parametros=None, chat=None):
 
     try:
 
-        dados = buscar(nome)
+        dados = buscar(
+            nome,
+            silent=silent
+        )
 
     except Exception as e:
+
+        if silent:
+
+            return erro(str(e))
 
         console.print(
             f"[red]Erro ao consultar o ROR:[/red] {e}"
@@ -342,6 +303,12 @@ def run(parametros=None, chat=None):
 
     if item is None:
 
+        if silent:
+
+            return erro(
+                "Instituição não encontrada."
+            )
+
         console.print()
 
         console.print(
@@ -349,6 +316,36 @@ def run(parametros=None, chat=None):
         )
 
         return False
+
+    resultado = {
+
+        "success": True,
+
+        "nome": nome_principal(item),
+
+        "sigla": sigla(item),
+
+        "cidade": cidade(item),
+
+        "estado": estado(item),
+
+        "pais": pais(item),
+
+        "ror": item.get(
+            "id",
+            ""
+        ),
+
+        "status": item.get(
+            "status",
+            ""
+        )
+
+    }
+
+    if silent:
+
+        return resultado
 
     table = Table()
 
@@ -389,28 +386,22 @@ def run(parametros=None, chat=None):
 
     table.add_row(
 
-        nome_principal(item),
+        resultado["nome"],
 
-        sigla(item),
+        resultado["sigla"],
 
-        cidade(item),
+        resultado["cidade"],
 
-        estado(item),
+        resultado["estado"],
 
-        pais(item),
+        resultado["pais"],
 
-        item.get(
-            "id",
-            ""
-        ),
+        resultado["ror"],
 
-        item.get(
-            "status",
-            ""
-        )
+        resultado["status"]
 
     )
 
     console.print(table)
 
-    return item
+    return resultado

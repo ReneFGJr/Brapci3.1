@@ -38,6 +38,14 @@ TASK = {
 }
 
 
+def erro(mensagem):
+
+    return {
+        "success": False,
+        "error": mensagem
+    }
+
+
 def get_ip():
     """
     Retorna o IP local da máquina.
@@ -114,34 +122,57 @@ def salvar_ids():
         )
 
 
-def run(parametros=None, chat=None):
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
     global IDs
 
     if parametros is None:
+
         parametros = []
 
-    console.print()
-    console.rule("[bold blue]SET[/bold blue]")
+    if not silent:
+
+        console.print()
+
+        console.rule(
+            "[bold blue]SET[/bold blue]"
+        )
 
     if len(parametros) == 0:
+
+        if silent:
+
+            return erro(
+                "Nenhum ID informado."
+            )
 
         console.print(
             "[bold red]Nenhum ID informado.[/bold red]"
         )
 
-        console.print("Exemplo:")
-        console.print("    set 123 456 789")
+        console.print(
+            "Exemplo:"
+        )
+
+        console.print(
+            "    set 123 456 789"
+        )
 
         return False
 
     #
-    # Carrega os IDs já existentes
+    # Carrega os IDs atuais
     #
 
     carregar_ids()
 
     novos = 0
+
+    ignorados = []
 
     for item in parametros:
 
@@ -152,25 +183,60 @@ def run(parametros=None, chat=None):
             if valor not in IDs:
 
                 IDs.append(valor)
+
                 novos += 1
 
         except ValueError:
 
-            console.print(
-                f"[yellow]Ignorando valor inválido:[/yellow] {item}"
-            )
+            ignorados.append(item)
 
-    #
-    # Ordena os IDs
-    #
+            if not silent:
+
+                console.print(
+                    f"[yellow]Ignorando valor inválido:[/yellow] {item}"
+                )
 
     IDs.sort()
 
-    #
-    # Salva novamente
-    #
+    try:
 
-    salvar_ids()
+        salvar_ids()
+
+    except Exception as e:
+
+        if silent:
+
+            return erro(
+                str(e)
+            )
+
+        console.print(
+            f"[red]Erro ao salvar arquivo:[/red] {e}"
+        )
+
+        return False
+
+    resultado = {
+
+        "success": True,
+
+        "added": novos,
+
+        "total": len(IDs),
+
+        "ignored": ignorados,
+
+        "arquivo": str(
+            get_arquivo()
+        ),
+
+        "ids": IDs
+
+    }
+
+    if silent:
+
+        return resultado
 
     console.print(
         f"[bold green]✔ {novos} novos IDs adicionados.[/bold green]"
@@ -180,6 +246,12 @@ def run(parametros=None, chat=None):
         f"[bold cyan]Total de IDs:[/bold cyan] {len(IDs)}"
     )
 
+    if ignorados:
+
+        console.print(
+            f"[yellow]Ignorados:[/yellow] {', '.join(ignorados)}"
+        )
+
     console.print(
         f"[green]IDs:[/green] {IDs}"
     )
@@ -188,4 +260,4 @@ def run(parametros=None, chat=None):
         f"[cyan]Arquivo:[/cyan] {get_arquivo()}"
     )
 
-    return IDs
+    return resultado

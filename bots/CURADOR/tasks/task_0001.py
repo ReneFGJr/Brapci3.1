@@ -22,7 +22,6 @@ URL_EVENTS   = "https://cip.brapci.inf.br/api/brapci/source/E"
 ARQ_JOURNALS = CACHE / "journals.json"
 ARQ_EVENTS   = CACHE / "events.json"
 
-
 TASK = {
     "id": 1,
     "name": "Atualização de Cache",
@@ -39,14 +38,37 @@ TASK = {
 }
 
 
-def baixar_json(url: str, arquivo: Path, titulo: str):
+def erro(mensagem):
 
-    console.print()
-    console.print(f"[bold cyan]{titulo}[/bold cyan]")
+    return {
+        "success": False,
+        "error": mensagem
+    }
 
-    CACHE.mkdir(parents=True, exist_ok=True)
 
-    console.print(f"[yellow]Endpoint:[/yellow] {url}")
+def baixar_json(
+    url: str,
+    arquivo: Path,
+    titulo: str,
+    silent=False
+):
+
+    if not silent:
+
+        console.print()
+
+        console.print(
+            f"[bold cyan]{titulo}[/bold cyan]"
+        )
+
+        console.print(
+            f"[yellow]Endpoint:[/yellow] {url}"
+        )
+
+    CACHE.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
     try:
 
@@ -57,15 +79,15 @@ def baixar_json(url: str, arquivo: Path, titulo: str):
 
     except Exception as e:
 
-        console.print(f"[bold red]Erro de conexão:[/bold red] {e}")
-        return False
+        return erro(
+            f"Erro de conexão: {e}"
+        )
 
     if resposta.status_code != 200:
 
-        console.print(
-            f"[bold red]Erro HTTP {resposta.status_code}[/bold red]"
+        return erro(
+            f"Erro HTTP {resposta.status_code}"
         )
-        return False
 
     try:
 
@@ -73,84 +95,192 @@ def baixar_json(url: str, arquivo: Path, titulo: str):
 
     except Exception:
 
+        return erro(
+            "O endpoint não retornou um JSON válido."
+        )
+
+    try:
+
+        with open(
+            arquivo,
+            "w",
+            encoding="utf-8"
+        ) as f:
+
+            json.dump(
+                dados,
+                f,
+                ensure_ascii=False,
+                indent=4
+            )
+
+    except Exception as e:
+
+        return erro(
+            f"Erro ao gravar arquivo: {e}"
+        )
+
+    total = 0
+
+    if isinstance(
+        dados,
+        list
+    ):
+
+        total = len(dados)
+
+    elif isinstance(
+        dados,
+        dict
+    ):
+
+        total = len(dados)
+
+    if not silent:
+
         console.print(
-            "[bold red]O endpoint não retornou um JSON válido.[/bold red]"
+            f"[green]✔ Arquivo salvo:[/green] {arquivo}"
         )
-        return False
-
-    with open(
-        arquivo,
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            dados,
-            f,
-            ensure_ascii=False,
-            indent=4
-        )
-
-    console.print(
-        f"[green]✔ Arquivo salvo:[/green] {arquivo}"
-    )
-
-    if isinstance(dados, list):
 
         console.print(
-            f"[green]✔ Registros:[/green] {len(dados)}"
+            f"[green]✔ Registros:[/green] {total}"
         )
-
-    elif isinstance(dados, dict):
 
         console.print(
-            f"[green]✔ Objetos:[/green] {len(dados.keys())}"
+            "[bold green]✔ Atualização concluída[/bold green]"
         )
 
-    console.print(
-        "[bold green]✔ Atualização concluída[/bold green]"
-    )
+    return {
 
-    return True
+        "success": True,
+
+        "arquivo": str(
+            arquivo
+        ),
+
+        "url": url,
+
+        "total": total
+
+    }
 
 
-def atualizar_revistas():
+def atualizar_revistas(
+    silent=False
+):
 
     return baixar_json(
+
         URL_JOURNALS,
+
         ARQ_JOURNALS,
-        "Atualizando revistas da BRAPCI"
+
+        "Atualizando revistas da BRAPCI",
+
+        silent=silent
+
     )
 
 
-def atualizar_eventos():
+def atualizar_eventos(
+    silent=False
+):
 
     return baixar_json(
+
         URL_EVENTS,
+
         ARQ_EVENTS,
-        "Atualizando eventos da BRAPCI"
+
+        "Atualizando eventos da BRAPCI",
+
+        silent=silent
+
     )
 
 
-def run(parametros=None, chat=None):
+def run(
+    parametros=None,
+    chat=None,
+    silent=False
+):
 
-    console.rule("[bold blue]CURADOR - Atualização da Base Local[/bold blue]")
+    if parametros is None:
 
-    ok1 = atualizar_revistas()
+        parametros = []
 
-    ok2 = atualizar_eventos()
+    if not silent:
+
+        console.rule(
+            "[bold blue]CURADOR - Atualização da Base Local[/bold blue]"
+        )
+
+    revistas = atualizar_revistas(
+        silent=silent
+    )
+
+    eventos = atualizar_eventos(
+        silent=silent
+    )
+
+    sucesso = (
+
+        revistas.get(
+            "success",
+            False
+        )
+
+        and
+
+        eventos.get(
+            "success",
+            False
+        )
+
+    )
+
+    resultado = {
+
+        "success": sucesso,
+
+        "journals": revistas,
+
+        "events": eventos
+
+    }
+
+    if silent:
+
+        return resultado
 
     console.rule()
 
-    if ok1 and ok2:
+    if sucesso:
 
         console.print(
+
             "[bold green]✓ Cache da BRAPCI atualizado com sucesso.[/bold green]"
+
         )
-        return "Atualização concluída."
 
-    console.print(
-        "[bold red]⚠ A atualização foi concluída com erros.[/bold red]"
-    )
+    else:
 
-    return "Atualização concluída com erros."
+        console.print(
+
+            "[bold red]⚠ A atualização foi concluída com erros.[/bold red]"
+
+        )
+
+        if not revistas.get("success"):
+
+            console.print(
+                f"[red]Revistas:[/red] {revistas['error']}"
+            )
+
+        if not eventos.get("success"):
+
+            console.print(
+                f"[red]Eventos:[/red] {eventos['error']}"
+            )
+
+    return []

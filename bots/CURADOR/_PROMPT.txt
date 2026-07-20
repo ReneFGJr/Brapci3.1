@@ -1,0 +1,1 @@
+Ajuste o silent, caso ativo, retornar somente um json. Os erros também deve retornar um json. Mostre o codigo completo
