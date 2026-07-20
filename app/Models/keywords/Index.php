@@ -53,11 +53,6 @@ class Index extends Model
                 $APIKEY = get("apikey");
                 $idz = sonumero(get("idz"));
                 $idfix = sonumero(get("idfix"));
-                if (!$this->checkAPIKey($APIKEY)) {
-                    $RSP['status'] = '401';
-                    $RSP['status_message'] = 'Unauthorized';
-                    return $RSP;
-                }
                 $RSP = $this->fixKeyword($idz, $idfix);
                 break;
             case 'get':
@@ -76,7 +71,7 @@ class Index extends Model
     function fixKeyword($id1,$id2)
         {
             $Socials = new \App\Models\Socials();
-            $user = $Socials->validToken(get("token"));
+            $user = $Socials->validToken(get("apikey"));
             if ($user['status'] != '200') {
                 $RSP = [];
                 $RSP['status'] = '401';
