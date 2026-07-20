@@ -556,6 +556,7 @@ class RDFmetadata extends Model
         $dr['worksID'] = $worksID;
         $dr['cited'] = [];
         $dr['cited']['abnt'] = $cited_ABNT;
+        pre($cited_ABNT);
         return $dr;
     }
 
