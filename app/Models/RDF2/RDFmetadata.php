@@ -539,7 +539,7 @@ class RDFmetadata extends Model
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
-                array_push($works, ['ref' => $ref,'ID'=>$line['ID']]);
+                array_push($works, $ref);
             }
 
             if ($n >= $limit) {

@@ -47,7 +47,7 @@ class Abnt extends Model
 		$URL = 'https://hdl.handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
-		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank" class="link">';
+		$link = '<a href="/v/'.$dt['ID'].'" target="_blank" class="link">';
 		$linka = '</a>';
 
 		switch($Class)
