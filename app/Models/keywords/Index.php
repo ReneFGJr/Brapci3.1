@@ -84,6 +84,31 @@ class Index extends Model
             $RSP = [];
             $d1 = $RDF->le_concept($id1);
             $d2 = $RDF->le_concept($id2);
+
+            /******** Check 1 */
+            if ($d1['status'] != '200') {
+                $RSP['status'] = '404';
+                $RSP['message'] = 'Keyword '.$id1.' not found';
+                return $RSP;
+            } else {
+                if ($d1['concept']['id_cc'] != $d1['concept']['cc_user'])
+                    {
+                        $RSP['status'] = '500';
+                        $RSP['message'] = 'Keyword ' . $id1 . ' already fixed';
+                        return $RSP;
+                    }
+            }
+            if ($d2['status'] != '200') {
+                $RSP['status'] = '404';
+                $RSP['message'] = 'Keyword ' . $id1 . ' not found';
+                return $RSP;
+            } else {
+                if ($d2['concept']['id_cc'] != $d2['concept']['cc_user'])
+                    {
+                        $RSP['status'] = '500';
+                        $RSP['message'] = 'Keyword (master) is a remissive ' . $id2;
+                        return $RSP;
+                    }
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
             $RSP['d1'] = $d1;
