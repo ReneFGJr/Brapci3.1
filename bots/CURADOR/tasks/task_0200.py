@@ -1,13 +1,13 @@
 from rich.console import Console
 import requests
-import task_4002
+from tasks import task_4002
 
 console = Console()
 
 URL_KEYWORDS = "https://cip.brapci.inf.br/api/brapci/keyword/get"
 
 
-def run(parametros=None, chat=None, silent=False):
+def run(parametros=None,chat=None,silent=False):
 
     parametros = parametros or []
 
@@ -30,7 +30,7 @@ def get_keywords(silent=False):
     Recupera as palavras-chave dos trabalhos da task_4002.
     """
 
-    works = task_4002.carregar_ids("task_4002")
+    works = task_4002.carregar_ids()
 
     if not works:
         return []
