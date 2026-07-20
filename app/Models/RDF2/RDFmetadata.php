@@ -525,13 +525,15 @@ class RDFmetadata extends Model
             switch ($prop) {
                 case 'hasSubject':
                     array_push($worksID, $line['ID']);
+                    $n++;
                     break;
             }
         }
 
 
         if ($n > 0) {
-            $dx = $dataset->findAll($limit);
+            $dx = $dataset->Inwhere('ID',$worksID)->findAll($limit);
+            pre($dx);
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
