@@ -82,8 +82,8 @@ class Index extends Model
                 return $RSP;
             }
             $RSP = [];
-            $d1 = $RDF->le($id1);
-            $d2 = $RDF->le($id2);
+            $d1 = $RDF->le_concept($id1);
+            $d2 = $RDF->le_concept($id2);
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
             $RSP['d1'] = $d1;

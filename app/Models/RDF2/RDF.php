@@ -362,6 +362,15 @@ class RDF extends Model
         pre($d);
     }
 
+    function le_concept($id=0)
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $d = [];
+        $d['concept'] = $RDFconcept->le($id);
+        return $d;
+    }
+
     function le($id)
     {
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
