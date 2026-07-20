@@ -65,6 +65,7 @@ class Index extends Model
         $RPS['status'] = '200';
         $idz = get("idz");
         $IDs = explode(",",$idz);
+        pre($IDs);
         $Search = new \App\Models\Elasticsearch\Search();
         $dt = $Search->whereIn('ID',$IDs)->findAll();
         $RSP['data'] = $dt;
