@@ -123,7 +123,6 @@ class Brapci extends Model
                 exit;
                 break;
             case 'keyword':
-                pre("OK");
                 $Keywords = new \App\Models\keywords\Index();
                 $caID = sonumero(get("idz"));
                 if (($caID == 0) or ($caID == '')) {
@@ -133,6 +132,7 @@ class Brapci extends Model
                     exit;
                 }
                 $RSP = $Keywords->index($d2,$caID);
+                pre($RSP);
                 echo json_encode($RSP);
                 exit;
                 break;
