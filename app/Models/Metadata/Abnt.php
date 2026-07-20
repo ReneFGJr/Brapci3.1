@@ -49,8 +49,6 @@ class Abnt extends Model
 		$Class = $dt['Class'];
 		$link = '<a href="/v/'.$dt['ID'].'" target="_blank" class="link">';
 		$linka = '</a>';
-		echo '===>'.$Class;
-		pre($dt);
 
 		switch($Class)
 			{
