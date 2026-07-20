@@ -68,6 +68,7 @@ class Index extends Model
         $Search = new \App\Models\Elasticsearch\Search();
         $dt = $Search->whereIn('ID',$IDs)->findAll();
         $RSP['data'] = $dt;
+        pre($dt);
         return $RSP;
     }
 }
