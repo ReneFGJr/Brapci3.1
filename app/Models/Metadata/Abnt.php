@@ -52,6 +52,11 @@ class Abnt extends Model
 
 		switch($Class)
 			{
+				case 'Subject':
+					echo '<h1>Termo</h1>';
+					pre($dt);
+					$ref = 'BRAPCI. Termo: '.$dt['data'][''].'. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026. Disponível em: <https://brapci.inf.br/index.php/res/v/xxxxx>. Acesso em: 20 jul. 2026.';
+					return $link;
 				case 'Issue':
 					return "ISSUE - Construção";
 			}
