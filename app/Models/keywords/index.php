@@ -63,12 +63,9 @@ class Index extends Model
     {
         $RSP = [];
         $RPS['status'] = '200';
+        $Search = new \App\Models\Elasticsearch\Search();
+        $dt = $Search->whereIn('ID',$IDs)->findAll();
+
         return $RSP;
-        $d1 = ascii(mb_strtolower($d1));
-        $d1 = str_replace(" ", "%", $d1);
-        $sql = "select * from keywords where keyword like '%$d1%' order by keyword limit 0, 20";
-        $dt = $this->db->query($sql);
-        $dt = $dt->getResultArray();
-        return $dt;
     }
 }
