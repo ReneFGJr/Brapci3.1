@@ -535,7 +535,7 @@ class RDFmetadata extends Model
             $dx = $dataset
                 ->whereIn('ID', $worksID)
                 ->findAll($limit);
-            pre($dx);
+
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
