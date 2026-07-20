@@ -50,6 +50,12 @@ class Vancouver extends Model
 				$tela = $this->vancouver_article($dt);
 				return $tela;
 				break;
+			case 'Subject':
+				$ref = 'BRAPCI. ' . $dt['title'] . ' [Internet]. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026.';
+				$ref .= ' [Cited ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y") . ']';
+				$ref .= '. Available from: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
+				return $ref;
+				break;
 			case 'Issue':
 				if (isset($dt['publisher']))
 					{
