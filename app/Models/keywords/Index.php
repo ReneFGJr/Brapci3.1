@@ -42,6 +42,7 @@ class Index extends Model
 
     function index($d1='', $caID='')
     {
+        $d1 = trim(strtolower($d1));
         $RSP = [];
         $RSP['status'] = '404';
         $RSP['message'] = 'Function not Found';
@@ -50,7 +51,6 @@ class Index extends Model
         switch ($d1) {
             case 'get':
                 $RSP = $this->getKeywords($caID);
-                pre($RSP);
                 $RSP['status'] = '200';
                 $RSP['status_message'] = 'OK';
                 break;
