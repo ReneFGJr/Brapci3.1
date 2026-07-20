@@ -131,6 +131,7 @@ class Brapci extends Model
                     echo json_encode($RSP);
                     exit;
                 }
+                echo "XXXXXXXXXXXXXXXX";
                 $RSP = $Keywords->index($d2,$caID);
                 echo json_encode($RSP);
                 exit;
