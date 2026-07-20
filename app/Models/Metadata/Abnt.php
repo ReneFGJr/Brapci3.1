@@ -53,7 +53,9 @@ class Abnt extends Model
 		switch($Class)
 			{
 				case 'Subject':
-					$ref = 'BRAPCI. Termo: '.$dt['title'].'. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026. Disponível em: https://hdl.handle.net/20.500.11959/brapci/'.$dt['ID'].'. Acesso em: '.date("d").' '.mes_abreviado(date("m")).' '.date("Y");
+					$ref = 'BRAPCI. Termo: '.$dt['title'].'. Rio Grande do Sul: Universidade Federal do Rio Grande do Sul, 2026. Disponível em: ';
+					$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
+					$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
 					return $ref;
 				case 'Issue':
 					return "ISSUE - Construção";
