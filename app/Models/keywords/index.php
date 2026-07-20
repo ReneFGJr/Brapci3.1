@@ -44,7 +44,7 @@ class Index extends Model
     {
         $RSP = [];
         $RSP['status'] = '404';
-        $RSP['status_message'] = 'Function not Found';
+        $RSP['message'] = 'Function not Found';
         $RSP['verb'] = $d1;
         switch ($d1) {
             case 'get':
