@@ -46,6 +46,7 @@ class Index extends Model
         $RSP['status'] = '404';
         $RSP['message'] = 'Function not Found';
         $RSP['verb'] = $d1;
+        pre($RSP);
         switch ($d1) {
             case 'get':
                 $RSP = $this->getKeywords($caID);
