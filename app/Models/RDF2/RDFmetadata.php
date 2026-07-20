@@ -503,7 +503,7 @@ class RDFmetadata extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
         $dr = [];
-        $dr['term'] = $dt['concept']['n_name'];
+
         $dr['ID'] = $dt['concept']['id_cc'];
         $dt['Class'] = 'Subject';
         $dt['title'] = $dt['concept']['n_name'];
