@@ -76,20 +76,32 @@ class Index extends Model
             ->join('rdf_class', 'cc_class = id_c AND c_class = "Subject"', 'INNER')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'INNER')
             ->whereIn('d_r1', $IDs)
-            ->orderBy('d_r1', 'DESC')
+            ->orderBy('n_name', 'DESC')
             ->findAll();
-        pre($dt);
 
-
-        $Search = new \App\Models\ElasticSearch\Search();
-        $dt = $Search->whereIn('ID',$IDs)->findAll();
-
+        $kwTemp = [];
         $kw = [];
         foreach($dt as $line) {
-            $json = json_decode($line['json'],true);
-            pre($json);
-            $concept = $line['concept'];
-            $kw[] = $concept;
+            $IDkey = $line['d_r2'];
+            $name = $line['n_name'];
+            $lang = $line['n_lang'];
+
+            if (!isset($kwTemp[$IDkey])) {
+                $kwTemp[$IDkey] = 1;
+                $concept = [
+                    'ID' => $IDkey,
+                    'name' => $name,
+                    'lang' => $lang,
+                ];
+                array_push($kw, $concept);
+            } else {
+                $kwTemp[$IDkey]++;
+            }
+        }
+
+
+        foreach($kw as $IDr=>$line) {
+            $kw[$IDr]['count'] = $kwTemp[$line['ID']];
         }
         $RSP['data'] = $kw;
         return $RSP;
