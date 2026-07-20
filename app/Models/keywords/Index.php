@@ -70,12 +70,13 @@ class Index extends Model
         $IDs = explode(",",$idz);
         $RDFdata = new \App\Models\RDF2\RDFdata();
 
-        $dt = $RDFdata->select("SELECT d_r1, d_r2, id_n, n_name, n_lang")
+        $dt = $RDFdata
+            ->select('d_r1, d_r2, id_n, n_name, n_lang')
             ->join('rdf_concept', 'd_r2 = id_cc', 'INNER')
-            ->join('rdf_class', 'cc_class = id_c and c_class = "Subject"', 'INNER')
+            ->join('rdf_class', 'cc_class = id_c AND c_class = "Subject"', 'INNER')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'INNER')
             ->whereIn('d_r1', $IDs)
-            ->orderBy("d_r1", "DESC")
+            ->orderBy('d_r1', 'DESC')
             ->findAll();
         pre($dt);
 
