@@ -68,7 +68,7 @@ class Index extends Model
         $RPS['status'] = '200';
         $idz = get("idz");
         $IDs = explode(",",$idz);
-        $RDFdata = new \App\Models\Rdf2\RDFdata();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
 
         $dt = $RDFdata->select("SELECT d_r1, d_r2, id_n, n_name, n_lang")
             ->join('rdf_concept', 'd_r2 = id_cc', 'INNER')
