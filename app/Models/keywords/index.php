@@ -40,7 +40,7 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
-    function index($d1, $caID)
+    function index($d1='', $caID='')
     {
         $RSP = [];
         $RSP['status'] = '404';

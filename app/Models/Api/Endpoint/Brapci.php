@@ -123,7 +123,7 @@ class Brapci extends Model
                 exit;
                 break;
             case 'keyword':
-                $Keywords = new \App\Models\Keywords\Index();
+                $Keywords = new \App\Models\keywords\Index();
                 $caID = sonumero(get("idz"));
                 if (($caID == 0) or ($caID == '')) {
                     $RSP['status'] = '500';

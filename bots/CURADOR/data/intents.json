@@ -26,7 +26,7 @@
         ]
     },
     "0200": {
-        "description": "Gerar palavras-chave",
+        "description": "Analisar palavras-chave",
         "patterns": [
             "revisar keywords",
             "gerar palavras-chave",
@@ -34,6 +34,7 @@
             "revisar palavras-chave",
             "palavras-chave",
             "keywords",
+            "kw",
             "palavras chave",
             "keywords do artigo",
             "gerar palavras chave"
