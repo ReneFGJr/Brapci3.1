@@ -509,7 +509,9 @@ class RDFmetadata extends Model
         $dr['title'] = $dt['concept']['n_name'];
         $dr['data'] = $dt['data'];
         $dr['cited'] = [];
-        $dt['cited']['abnt'] = $ABNT->short($dr, False);
+        $cited_ABNT = $ABNT->short($dt, False);
+        pre($cited_ABNT);
+        $dt['cited']['abnt'] = $cited_ABNT;
         /*
         $dt['cited']['abnt'] = $ABNT->short($dt, False);
         $dt['cited']['abnt'] = $ABNT->short($dt, False);
