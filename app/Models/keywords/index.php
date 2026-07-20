@@ -49,6 +49,7 @@ class Index extends Model
         switch ($d1) {
             case 'get':
                 $RSP = $this->getKeywords($caID);
+                pre($RSP);
                 $RSP['status'] = '200';
                 $RSP['status_message'] = 'OK';
                 break;
