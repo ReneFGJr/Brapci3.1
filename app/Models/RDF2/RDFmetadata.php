@@ -532,7 +532,9 @@ class RDFmetadata extends Model
 
 
         if ($n > 0) {
-            $dx = $dataset->Inwhere('ID',$worksID)->findAll($limit);
+            $dx = $dataset
+                ->whereIn('ID', $worksID)
+                ->findAll($limit);
             pre($dx);
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
