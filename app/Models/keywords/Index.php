@@ -100,6 +100,7 @@ class Index extends Model
             }
 
             /******** Check 2 */
+            pre($d1);
             if ($d2['status'] != '200') {
                 $RSP['status'] = '404';
                 $RSP['message'] = 'Keyword ' . $id1 . ' not found';
