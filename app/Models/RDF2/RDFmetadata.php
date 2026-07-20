@@ -157,7 +157,6 @@ class RDFmetadata extends Model
                 break;
             case 'Subject':
                 $RSP = $this->metadataSubject($dt);
-                pre($RSP);
                 return $RSP;
                 break;
             case 'Section':
