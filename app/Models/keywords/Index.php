@@ -75,6 +75,14 @@ class Index extends Model
 
     function fixKeyword($id1,$id2)
         {
+            $Socials = new \App\Models\Socials();
+            $user = $Socials->validToken(get("token"));
+            if ($user['status'] != '200') {
+                $RSP = [];
+                $RSP['status'] = '401';
+                $RSP['message'] = 'Unauthorized';
+                return $RSP;
+            }
             $RSP = [];
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
