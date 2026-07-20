@@ -224,6 +224,10 @@ class Abnt extends Model
 				$tela = $this->abnt_bookchapter($dt);
 				return $tela;
 				break;
+			case 'Subject':
+				$tela = $this->short($dt);
+				return $tela;
+				break;
 			case 'Issue':
 				$tela = '';
 				if (isset($dt['publisher'])) {
