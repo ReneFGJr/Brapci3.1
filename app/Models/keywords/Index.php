@@ -71,6 +71,8 @@ class Index extends Model
     function fixKeyword($id1,$id2)
         {
             $Socials = new \App\Models\Socials();
+            $RDF = new \App\Models\RDF2\RDF();
+
             $user = $Socials->validToken(get("apikey"));
             if ($user['status'] != '200') {
                 $RSP = [];
@@ -80,8 +82,12 @@ class Index extends Model
                 return $RSP;
             }
             $RSP = [];
+            $d1 = $RDF->le($id1);
+            $d2 = $RDF->le($id2);
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
+            $RSP['d1'] = $d1;
+            $RSP['d2'] = $d2;
             return $RSP;
         }
 
