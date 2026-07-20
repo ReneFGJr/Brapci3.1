@@ -98,6 +98,8 @@ class Index extends Model
                         return $RSP;
                     }
             }
+
+            /******** Check 2 */
             if ($d2['status'] != '200') {
                 $RSP['status'] = '404';
                 $RSP['message'] = 'Keyword ' . $id1 . ' not found';
@@ -109,6 +111,7 @@ class Index extends Model
                         $RSP['message'] = 'Keyword (master) is a remissive ' . $id2;
                         return $RSP;
                     }
+            }
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
             $RSP['d1'] = $d1;
