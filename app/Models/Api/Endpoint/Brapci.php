@@ -672,9 +672,7 @@ class Brapci extends Model
             {
                 $id = $dt['concept']['cc_use'];
                 $dt = $RDF->le($id);
-                pre($dt);
             }
-
 
         if ($dt['concept']['cc_status'] == 9)
             {
