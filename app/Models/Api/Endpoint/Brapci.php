@@ -670,6 +670,8 @@ class Brapci extends Model
 
         if (isset($dt['concept']['cc_status']) and ($dt['concept']['cc_use'] != $dt['concept']['id_cc']))
             {
+                $id = $dt['concept']['cc_use'];
+                $dt = $RDF->le($id);
                 pre($dt);
             }
 
