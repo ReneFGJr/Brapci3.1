@@ -59,7 +59,8 @@ class Index extends Model
                 $RSP = $this->getKeywords($caID);
                 $RSP['status'] = '200';
                 $RSP['status_message'] = 'OK';
-                $RSP['parame'] = $caID;
+                $RSP['paramets'] = $caID;
+                $RSP['post'] = $_POST;
                 break;
             default:
                 $RSP['status'] = '404';
