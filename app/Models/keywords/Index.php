@@ -72,6 +72,7 @@ class Index extends Model
         {
             $Socials = new \App\Models\Socials();
             $RDF = new \App\Models\RDF2\RDF();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
             $user = $Socials->validToken(get("apikey"));
             if ($user['status'] != '200') {
@@ -112,6 +113,11 @@ class Index extends Model
                         return $RSP;
                     }
             }
+
+            $dd = [];
+            $dd['cc_use'] = $id2;
+            $RDFconcept->set($dd)->where('id_cc', $id1)->update();
+
             $RSP['status'] = '200';
             $RSP['message'] = 'Ops';
             $RSP['d1'] = $d1;
