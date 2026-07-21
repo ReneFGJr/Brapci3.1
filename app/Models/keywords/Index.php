@@ -86,8 +86,7 @@ class Index extends Model
             $d2 = $RDF->le_concept($id2);
 
             /******** Check 1 */
-            pre($d1);
-            if ($d1['status'] != '200') {
+            if ($d1['concept']['status'] != '200') {
                 $RSP['status'] = '404';
                 $RSP['message'] = 'Keyword '.$id1.' not found';
                 return $RSP;
@@ -101,8 +100,7 @@ class Index extends Model
             }
 
             /******** Check 2 */
-            pre($d1);
-            if ($d2['status'] != '200') {
+            if ($d2['concept']['status'] != '200') {
                 $RSP['status'] = '404';
                 $RSP['message'] = 'Keyword ' . $id1 . ' not found';
                 return $RSP;
