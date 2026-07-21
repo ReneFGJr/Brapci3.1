@@ -91,7 +91,7 @@ class Index extends Model
                 $RSP['message'] = 'Keyword '.$id1.' not found';
                 return $RSP;
             } else {
-                if ($d1['concept']['id_cc'] != $d1['concept']['cc_user'])
+                if ($d1['concept']['id_cc'] != $d1['concept']['cc_use'])
                     {
                         $RSP['status'] = '500';
                         $RSP['message'] = 'Keyword ' . $id1 . ' already fixed';
@@ -105,7 +105,7 @@ class Index extends Model
                 $RSP['message'] = 'Keyword ' . $id1 . ' not found';
                 return $RSP;
             } else {
-                if ($d2['concept']['id_cc'] != $d2['concept']['cc_user'])
+                if ($d2['concept']['id_cc'] != $d2['concept']['cc_use'])
                     {
                         $RSP['status'] = '500';
                         $RSP['message'] = 'Keyword (master) is a remissive ' . $id2;
