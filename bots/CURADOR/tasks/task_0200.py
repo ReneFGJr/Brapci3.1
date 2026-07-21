@@ -53,7 +53,7 @@ def get_keywords(silent=False):
     if not works:
         return []
 
-    payload = {"idz": works}
+    payload = {"idz": ",".join(map(str, works))}
 
     try:
         response = requests.post(
@@ -87,7 +87,7 @@ def has_encoding_problem(text):
         r"ã¡",
         r"ãª",
         r"ãµ",
-        r"çõ",          # Indexaçõo
+        r"çõo",          # Indexaçõo
         r"õo",          # Avaliaçõo
     ]
 
