@@ -86,6 +86,7 @@ class Index extends Model
             $d2 = $RDF->le_concept($id2);
 
             /******** Check 1 */
+            pre($d1);
             if ($d1['status'] != '200') {
                 $RSP['status'] = '404';
                 $RSP['message'] = 'Keyword '.$id1.' not found';
