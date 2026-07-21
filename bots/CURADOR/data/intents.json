@@ -40,6 +40,15 @@
             "gerar palavras chave"
         ]
     },
+    "0201": {
+        "description": "Traduzir",
+        "patterns": [
+            "traduzir",
+            "traduza","translate",
+            "traduzir para",
+            "t"
+        ]
+    },
     "3000": {
         "description": "Normalizar autores",
         "patterns": [

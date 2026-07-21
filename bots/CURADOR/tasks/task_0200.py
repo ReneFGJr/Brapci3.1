@@ -7,8 +7,6 @@ from rich.text import Text
 
 console = Console()
 
-console = Console()
-
 URL_KEYWORDS = "https://cip.brapci.inf.br/api/brapci/keyword/get"
 URL_KEYWORD_FIX = "https://cip.brapci.inf.br/api/brapci/keyword/fix"
 
