@@ -27,13 +27,14 @@ def run(parametros=None, chat=None, silent=False):
 
     parametros = parametros or []
 
-    if len(parametros) < 2:
-        console.print("[red]Uso: t <texto> [idioma][/red]")
+    if len(parametros) < 1:
+        console.print("[red]Uso: t <texto>[/red]")
         return
 
-    texto = " ".join(parametros[1:])
+    texto = " ".join(parametros)
+    lang = "en"
 
-    traducao = translate_text(texto)
+    traducao = translate_text(texto, lang)
 
     if silent:
         return {
@@ -43,4 +44,4 @@ def run(parametros=None, chat=None, silent=False):
 
     console.print("[bold cyan]Google Translate[/bold cyan]")
     console.print(f"[yellow]Original:[/yellow] {texto}")
-    console.print(f"[green]Tradução:[/green] {traducao}")
+    console.print(f"[green]Tradução:[/green] {traducao} ({lang})")

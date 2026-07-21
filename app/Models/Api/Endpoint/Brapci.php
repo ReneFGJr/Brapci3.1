@@ -124,7 +124,7 @@ class Brapci extends Model
                 break;
             case 'keyword':
                 $Keywords = new \App\Models\keywords\Index();
-                $caID = sonumero(get("idz"));
+                $caID = trim(get("idz"));
                 if (($caID == 0) or ($caID == '')) {
                     $RSP['status'] = '500';
                     $RSP['message'] = 'Invalid IDs, put in idz parameter';
