@@ -667,7 +667,12 @@ class Brapci extends Model
 
         /* Le Registro do RDF */
         $dt = $RDF->le($id);
-        pre($dt);
+
+        if (isset($dt['concept']['cc_status']) and ($dt['concept']['cc_use'] != $dt['concept']['id_cc']))
+            {
+                pre($dt);
+            }
+
 
         if ($dt['concept']['cc_status'] == 9)
             {
