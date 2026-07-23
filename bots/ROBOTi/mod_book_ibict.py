@@ -8,6 +8,7 @@ import pymysql
 import re
 import env
 from lxml import etree
+from datetime import datetime
 
 URL = "https://omp-editora.prd.ibict.br/index.php/edibict/oai?verb=ListRecords&metadataPrefix=oai_dc"
 MYSQL = {**env.db(), "database": "brapci_books"}
@@ -18,6 +19,33 @@ NS = {
     "dc": "http://purl.org/dc/elements/1.1/"
 }
 
+
+def normalize_datetime(value):
+    """
+    Converte datas ISO8601 para formato MySQL.
+
+    Exemplos:
+        2026-03-17T23:47:06Z -> 2026-03-17 23:47:06
+        2026-03-17           -> 2026-03-17
+    """
+    if not value:
+        return None
+
+    value = value.strip()
+
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        pass
+
+    try:
+        dt = datetime.strptime(value, "%Y-%m-%d")
+        return dt.strftime("%Y-%m-%d")
+    except Exception:
+        pass
+
+    return value
 
 def get_text(node, xpath):
     x = node.find(xpath, NS)
@@ -451,7 +479,7 @@ def harvest():
                 "identifier":
                 get_text(header, "oai:identifier"),
                 "datestamp":
-                get_text(header, "oai:datestamp"),
+                normalize_datetime(get_text(header, "oai:datestamp")),
                 "setSpec":
                 get_text(header, "oai:setSpec"),
                 "title":
@@ -469,7 +497,7 @@ def harvest():
                 "contributors":
                 json.dumps(get_list(dc, "dc:contributor"), ensure_ascii=False),
                 "dc_date":
-                get_text(dc, "dc:date"),
+                normalize_datetime(get_text(dc, "dc:date")),
                 "dc_type":
                 get_text(dc, "dc:type"),
                 "format":
