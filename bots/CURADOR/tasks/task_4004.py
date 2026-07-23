@@ -70,6 +70,51 @@ def montar_v_erro(termo):
     return ""
 
 
+def sincronizar_conceitos_pt(cursor):
+
+    cursor.execute(
+        """
+        INSERT INTO brapci_vc.vc_concept (
+            c_rdf,
+            c_use
+        )
+        SELECT vt.id_v, 0
+          FROM brapci_vc.vc_term vt
+         WHERE LOWER(vt.v_lang) = 'pt'
+           AND vt.v_concept = 0
+           AND NOT EXISTS (
+               SELECT 1
+                 FROM brapci_vc.vc_concept vc
+                WHERE vc.c_rdf = vt.id_v
+           )
+        """
+    )
+
+    conceitos_criados = cursor.rowcount
+
+    cursor.execute(
+        """
+        UPDATE brapci_vc.vc_term vt
+        JOIN (
+            SELECT c_rdf, MIN(id_c) AS id_c
+              FROM brapci_vc.vc_concept
+             GROUP BY c_rdf
+        ) vc
+          ON vc.c_rdf = vt.id_v
+           SET vt.v_concept = vc.id_c
+         WHERE LOWER(vt.v_lang) = 'pt'
+           AND vt.v_concept = 0
+        """
+    )
+
+    termos_vinculados = cursor.rowcount
+
+    return {
+        "conceitos_criados": conceitos_criados,
+        "termos_vinculados": termos_vinculados
+    }
+
+
 def run(
     parametros=None,
     chat=None,
@@ -137,6 +182,8 @@ def run(
     existentes = 0
     ignorados = 0
     avaliados = 0
+    conceitos_criados = 0
+    termos_vinculados = 0
     vistos = set()
 
     try:
@@ -210,6 +257,18 @@ def run(
 
             inseridos += 1
 
+        sincronizacao_conceitos = sincronizar_conceitos_pt(
+            cursor
+        )
+
+        conceitos_criados = sincronizacao_conceitos[
+            "conceitos_criados"
+        ]
+
+        termos_vinculados = sincronizacao_conceitos[
+            "termos_vinculados"
+        ]
+
         conexao.commit()
 
     except Exception as e:
@@ -239,6 +298,8 @@ def run(
         if conexao is not None:
 
             conexao.close()
+    ########################## Syncronizar tabela
+
 
     resultado = {
         "success": True,
@@ -247,6 +308,8 @@ def run(
         "inseridos": inseridos,
         "existentes": existentes,
         "ignorados": ignorados,
+        "conceitos_criados": conceitos_criados,
+        "termos_vinculados": termos_vinculados,
         "tabela": "brapci_vc.vc_term"
     }
 
@@ -268,6 +331,14 @@ def run(
 
     console.print(
         f"[magenta]Ignorados:[/magenta] {ignorados}"
+    )
+
+    console.print(
+        f"[green]Conceitos criados:[/green] {conceitos_criados}"
+    )
+
+    console.print(
+        f"[blue]Termos PT vinculados:[/blue] {termos_vinculados}"
     )
 
     return resultado
