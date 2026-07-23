@@ -102,6 +102,13 @@
             "reset"
         ]
     },
+    "4004": {
+        "description": "Syncronização de IDs com o banco de dados",
+        "patterns": [
+            "sinc",
+            "sync"
+        ]
+    },
     "6000": {
         "description": "Buscar o ORCID de um autor",
         "patterns": [
