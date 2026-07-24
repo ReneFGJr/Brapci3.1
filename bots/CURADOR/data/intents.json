@@ -123,6 +123,22 @@
             "buscar ror"
         ]
     },
+    "6002": {
+        "description": "Buscar metadados de DOI na Crossref e DataCite",
+        "patterns": [
+            "doi",
+            "buscar doi"
+        ]
+    },
+    "6100": {
+        "description": "Exportar trabalho por ID para a tabela dataset",
+        "patterns": [
+            "dataset id",
+            "exportar dataset",
+            "reindexar id",
+            "dataset"
+        ]
+    },
     "9999": {
         "description": "Ajuda",
         "patterns": [
