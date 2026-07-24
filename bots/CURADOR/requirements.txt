@@ -3,3 +3,4 @@ mysql-connector-python
 requests
 rich
 google-cloud-translate
+pymysql
