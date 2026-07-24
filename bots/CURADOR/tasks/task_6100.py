@@ -200,7 +200,7 @@ def dataset_sync(id_work):
             "ID": int(data.get("ID", 0)),
             "DOI": "",
             "CLASS": data.get("Class", ""),
-            "COLLECTION": "A",
+            "COLLECTION": "JA",
             "JSON": json.dumps(data, ensure_ascii=False),
             "JOURNAL": int(issue.get("jnl_rdf", 0) or 0),
             "PUBLICATION": issue.get("publisher", ""),
