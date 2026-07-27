@@ -12,13 +12,14 @@ $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
-$routes->get('/auth/login', 'Auth::login');
-$routes->get('/auth/callback', 'Auth::callback');
-$routes->get('/auth/status', 'Auth::status');
+/*************************** NewPass */
+$routes->match(['get', 'post', 'options'], '/auth/newpass/(:any)', 'Auth::newpass/$1');
+
 $routes->match(['get', 'post', 'options'], '/api/socials/(:any)', 'Auth::index/$1');
+$routes->match(['get', 'post', 'options'], '/auth/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/api/socials/signup', 'Auth::signup');
 $routes->match(['get', 'post'], '/auth/forgot-password', 'Auth::forgot');
-$routes->match(['get', 'post'], '/auth/newpass/(:any)', 'Auth::newpass/$1');
+
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/pdfHarvesting', 'MainPages::index/pdfHarvesting');
 

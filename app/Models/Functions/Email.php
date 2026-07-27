@@ -40,47 +40,13 @@ class Email extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function test()
+    public function test()
     {
         $email = 'renefgj@gmail.com';
 
-        $smtpHost  = getenv('EMAIL_SMTP');
-        $smtpUser  = getenv('EMAIL_USER_AUTH');
-        $smtpPass  = getenv('EMAIL_PASSWORD');
-        $smtpPort  = getenv('EMAIL_SMTP_PORT');
-        $smtpCrypt = getenv('EMAIL_SMTP_CRYPTO');
-
-        $fromEmail = getenv('EMAIL_FROM');
-        $fromName  = getenv('EMAIL_FROM_NAME');
-
-        $sx  = h('Teste de envio de e-mail', 1);
-
-        $sx .= '<div class="alert alert-info">';
-        $sx .= 'Destinatário: <b>' . esc($email) . '</b>';
-        $sx .= '</div>';
-
-        $sx .= '<div class="card mt-3">';
-        $sx .= '<div class="card-header"><b>Configuração SMTP</b></div>';
-        $sx .= '<div class="card-body"><pre>';
-
-        $sx .= 'EMAIL_SMTP...........: ' . esc($smtpHost) . "\n";
-        $sx .= 'EMAIL_SMTP_PORT......: ' . esc($smtpPort) . "\n";
-        $sx .= 'EMAIL_SMTP_CRYPTO....: ' . esc($smtpCrypt) . "\n";
-        $sx .= 'EMAIL_USER_AUTH......: ' . esc($smtpUser) . "\n";
-        $sx .= 'EMAIL_FROM...........: ' . esc($fromEmail) . "\n";
-        $sx .= 'EMAIL_FROM_NAME......: ' . esc($fromName) . "\n";
-
-        if (!empty($smtpPass)) {
-            $sx .= 'EMAIL_PASSWORD.......: **************' . "\n";
-        } else {
-            $sx .= 'EMAIL_PASSWORD.......: NÃO CONFIGURADA' . "\n";
-        }
-
-        $sx .= '</pre></div></div>';
-
         $txt  = '<center>';
         $txt .= '<img src="cid:$image1" style="width:600px">';
-        $txt .= h('Hello World!');
+        $txt .= '<h2>Hello World!</h2>';
         $txt .= '<p>Welcome to Brapci 3.1!</p>';
         $txt .= '<p><b>' . date('d/m/Y H:i:s') . '</b></p>';
         $txt .= '</center>';
@@ -91,42 +57,34 @@ class Email extends Model
             $txt
         );
 
-        $sx .= '<div class="card mt-4">';
+        $rsp = [];
 
-        if ($result['success']) {
+        $rsp['success'] = $result['success'] ?? false;
 
-            $sx .= '<div class="card-header bg-success text-white">';
-            $sx .= '✔ E-mail enviado';
-            $sx .= '</div>';
+        $rsp['smtp'] = [
+            'host'      => getenv('EMAIL_SMTP'),
+            'port'      => getenv('EMAIL_SMTP_PORT'),
+            'crypto'    => getenv('EMAIL_SMTP_CRYPTO'),
+            'user'      => getenv('EMAIL_USER_AUTH'),
+            'from'      => getenv('EMAIL_FROM'),
+            'from_name' => getenv('EMAIL_FROM_NAME'),
+            'password'  => empty(getenv('EMAIL_PASSWORD'))
+                ? 'NÃO CONFIGURADA'
+                : '********'
+        ];
 
-            $sx .= '<div class="card-body">';
-            $sx .= '<pre>' . esc($result['message']) . '</pre>';
-            $sx .= '</div>';
-        } else {
+        $rsp['mail'] = [
+            'to'      => $email,
+            'subject' => 'Teste SMTP - Brapci',
+            'date'    => date('Y-m-d H:i:s')
+        ];
 
-            $sx .= '<div class="card-header bg-danger text-white">';
-            $sx .= '✘ Falha no envio';
-            $sx .= '</div>';
+        $rsp['result'] = [
+            'message' => $result['message'] ?? '',
+            'debug'   => $result['debug'] ?? ''
+        ];
 
-            $sx .= '<div class="card-body">';
-            $sx .= '<pre>' . esc($result['message']) . '</pre>';
-
-            if (!empty($result['debug'])) {
-                $sx .= '<hr>';
-                $sx .= '<h5>Debugger SMTP</h5>';
-                $sx .= '<pre>';
-                $sx .= esc($result['debug']);
-                $sx .= '</pre>';
-            }
-
-            $sx .= '</div>';
-        }
-
-        $sx .= '</div>';
-
-        return bs(
-            bsc($sx, 12)
-        );
+        return $rsp;
     }
 
     public function sendmail(

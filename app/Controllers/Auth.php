@@ -13,83 +13,6 @@ class Auth extends Controller
 {
     private $googleClient;
 
-    public function index(string $cmd = '')
-    {
-        // Aplica os cabeçalhos CORS
-        if ($response = $this->applySigninCorsHeaders()) {
-            return $response;
-        }
-
-        try {
-
-            $Socials = new Socials();
-
-            if (empty($cmd)) {
-                $cmd = $this->request->getGet('cmd');
-            }
-
-            // Compatibilidade com versão antiga
-            if ($cmd === 'forgout') {
-                $cmd = 'forgot';
-            }
-
-            switch ($cmd) {
-
-                case 'check-change-password':
-
-                    return $this->response->setJSON(
-                        $Socials->validRecover(
-                            $this->request->getGet('apikey')
-                        )
-                    );
-
-                case 'test':
-                    $emailS = new \App\Models\Functions\Email();
-
-                    $send = $emailS->test();
-
-                    return $this->response->setJSON([
-                        'status'  => 200,
-                        'message' => 'Teste OK'
-                    ]);
-
-                case 'signin':
-                    return $this->response->setJSON(
-                        $Socials->signin()
-                    );
-
-                case 'signup':
-                    return $this->response->setJSON(
-                        $Socials->signup()
-                    );
-
-                case 'forgot':
-                    return $this->forgot();
-
-                default:
-                    return $this->response
-                        ->setStatusCode(404)
-                        ->setJSON([
-                            'status'  => 404,
-                            'message' => "Command '{$cmd}' not found"
-                        ]);
-            }
-        } catch (\Throwable $e) {
-
-            log_message('error', $e->getMessage());
-
-            return $this->response
-                ->setStatusCode(500)
-                ->setJSON([
-                    'status'  => 500,
-                    'message' => 'Internal server error',
-                    'error'   => ENVIRONMENT !== 'production'
-                        ? $e->getMessage()
-                        : null
-                ]);
-        }
-    }
-
     private function applySigninCorsHeaders()
     {
         $origin = $this->request->getHeaderLine('Origin');
@@ -119,223 +42,58 @@ class Auth extends Controller
         return null;
     }
 
+    /***************************************************** |INDEX API| */
+    public function index(string $provider)
+    {
+        $corsResponse = $this->applySigninCorsHeaders();
+        if ($corsResponse !== null) {
+            return $corsResponse;
+        }
+
+        // Call the appropriate method based on the provider
+        switch ($provider) {
+            case 'email':
+                $RSP = $this->email();
+                break;
+            case 'status':
+                $RSP = $this->status();
+                break;
+            case 'signin':
+                $RSP = $this->signin();
+                break;
+            case 'forgot':
+                $RSP = $this->forgot();
+                break;
+            default:
+                $RSP = [];
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Unsupported provider';
+                break;
+        }
+        return $this->response->setJSON($RSP);
+    }
+
+    public function email()
+    {
+        $emailS = new \App\Models\Functions\Email();
+
+        return $emailS->test();
+    }
+
+    public function status()
+    {
+        $RSP = [];
+        $RSP['status'] = '200';
+        $RSP['message'] = 'Authentication is well';
+        return $RSP;
+    }
+
     public function __construct()
     {
         helper(['url', 'session', 'sisdoc_email']);
     }
 
-    public function login()
-    {
-        $client_id = getenv('google.client_id');
-        $redirect_uri = getenv('google.redirect_uri');
-
-        $scope = urlencode('email profile');
-        $state = bin2hex(random_bytes(8));
-
-        session()->set('oauth_state', $state);
-
-        $url = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query([
-            'client_id'     => $client_id,
-            'redirect_uri'  => $redirect_uri,
-            'response_type' => 'code',
-            'scope'         => 'openid email profile',
-            'state'         => $state,
-            'access_type'   => 'offline',
-            'prompt'        => 'select_account'
-        ]);
-        return redirect()->to($url);
-    }
-
-    public function signin()
-    {
-        $this->applySigninCorsHeaders();
-
-        if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
-            return $this->response->setStatusCode(204);
-        }
-
-        $username = trim((string) $this->request->getVar('username'));
-        if ($username === '') {
-            $username = trim((string) $this->request->getVar('user'));
-        }
-        if ($username === '') {
-            $username = trim((string) $this->request->getVar('email'));
-        }
-
-        $password = trim((string) $this->request->getVar('password'));
-        if ($password === '') {
-            $password = trim((string) $this->request->getVar('pwd'));
-        }
-
-        $rsp = [
-            'status'  => '400',
-            'message' => 'User or Password incorrect',
-        ];
-
-        if ($username === '' || $password === '') {
-            $rsp['message'] = 'Username or password is empty';
-            return $this->response->setJSON($rsp);
-        }
-
-        $Socials = new Socials();
-        $user = $Socials
-            ->groupStart()
-            ->where('us_login', $username)
-            ->orWhere('us_email', $username)
-            ->groupEnd()
-            ->first();
-
-        if (!$user) {
-            $rsp['message'] = 'User not found';
-            return $this->response->setJSON($rsp);
-        }
-
-        $storedPassword = (string) ($user['us_password'] ?? '');
-        $validPassword = false;
-
-        if ($storedPassword !== '') {
-            if ($storedPassword === md5($password)) {
-                $validPassword = true;
-            } elseif (password_get_info($storedPassword)['algo'] !== 0) {
-                $validPassword = password_verify($password, $storedPassword);
-            }
-        }
-
-        if (!$validPassword) {
-            $rsp['message'] = 'Password is invalid';
-            return $this->response->setJSON($rsp);
-        }
-
-        $apikey = (string) ($user['us_apikey'] ?? '');
-        if ($apikey === '') {
-            $apikey = md5($storedPassword . ($user['us_email'] ?? ''));
-            $Socials->set([
-                'us_apikey' => $apikey,
-                'us_apikey_active' => 1,
-            ])->where('id_us', $user['id_us'])->update();
-        }
-
-        $Socials->set([
-            'us_lastaccess' => date('Y-m-d H:i:s'),
-        ])->where('id_us', $user['id_us'])->update();
-
-        $sessionData = [
-            'id'      => $user['id_us'],
-            'user'    => $user['us_nome'],
-            'email'   => $user['us_email'],
-            'apikey'  => $apikey,
-            'access'  => substr(md5('#ADMIN'), 6, 6),
-            'check'   => substr((string) $user['id_us'] . (string) $user['id_us'], 0, 10),
-            'user_id' => $user['id_us'],
-        ];
-
-        session()->set($sessionData);
-
-        $rsp = [
-            'status'  => '200',
-            'message' => 'Success',
-            'user'    => $user['us_nome'],
-            'ID'      => $user['id_us'],
-            'email'   => $user['us_email'],
-            'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
-            'token'  => $apikey,
-        ];
-
-        return $this->response->setJSON($rsp);
-    }
-
-    public function status()
-        {
-            $userData = $_SESSION['userOAUTH2'];
-            $Socials = new \App\Models\Socials();
-            $token = $Socials->OAUTH2_user($userData);
-            if (!$token) {
-                echo "Não logado";
-                exit;
-            } else {
-                echo 'http://localhost:4200/callback/' . $token;
-            }
-            exit;
-            return redirect()->to('https://brapci.inf.br/callback/' . $token);
-    }
-
-    /**
-     * Etapa 2 – Callback do Google
-     */
-    public function callback()
-    {
-        $state         = $this->request->getVar('state');
-        $sessionState  = session()->get('oauth_state');
-
-        // ✅ validação do state
-        if (!$state || $state !== $sessionState) {
-            session()->remove('oauth_state');
-            return redirect()->to('/')->with('error', 'Invalid state.');
-        }
-
-        session()->remove('oauth_state'); // remove após uso
-
-        $code = $this->request->getVar('code');
-        if (!$code) {
-            return redirect()->to('/')->with('error', 'Authorization code missing.');
-        }
-
-        // 🔄 troca code por token
-        $tokenData = $this->getAccessToken($code);
-        if (!isset($tokenData['access_token'])) {
-            return redirect()->to('/')->with('error', 'Failed to obtain token.');
-        }
-
-        // 👤 obtém dados do usuário
-        $userData = $this->getUserInfo($tokenData['access_token']);
-        $userData['type'] = 'google';
-
-        $_SESSION['userOAUTH2'] = $userData;
-
-        $Socials = new Socials();
-        $token = $Socials->OAUTH2_user($userData);
-
-        if (!$token) {
-            return redirect()->to('/')->with('error', 'Error processing user data.');
-        }
-
-        return redirect()->to('https://brapci.inf.br/callback/' . $token);
-    }
-
-    private function getAccessToken($code)
-    {
-        $url = "https://oauth2.googleapis.com/token";
-
-        $response = service('curlrequest')->post($url, [
-            'form_params' => [
-                'code'          => $code,
-                'client_id'     => getenv('google.client_id'),
-                'client_secret' => getenv('google.client_secret'),
-                'redirect_uri'  => getenv('google.redirect_uri'),
-                'grant_type'    => 'authorization_code',
-            ]
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }
-
-    private function getUserInfo($accessToken)
-    {
-        $response = service('curlrequest')->get('https://www.googleapis.com/oauth2/v3/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $accessToken
-            ]
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }
-
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('/');
-    }
-
+    /***************************************************** |FORGOT API| */
     public function forgot()
     {
         // Aplica CORS e responde ao preflight
@@ -351,21 +109,17 @@ class Auth extends Controller
             $method = strtolower($this->request->getMethod());
 
             if (!in_array($method, ['get', 'post'], true)) {
-                return $this->response
-                    ->setStatusCode(405)
-                    ->setJSON([
-                        'status'  => 405,
-                        'message' => 'Method not allowed'
-                    ]);
+                return [
+                    'status'  => 405,
+                    'message' => 'Method not allowed'
+                ];
             }
 
             if (empty($email)) {
-                return $this->response
-                    ->setStatusCode(400)
-                    ->setJSON([
-                        'status'  => 400,
-                        'message' => lang('social.email_not_found')
-                    ]);
+                return [
+                    'status'  => 400,
+                    'message' => lang('social.email_not_found')
+                ];
             }
 
             $user = $Socials
@@ -378,10 +132,10 @@ class Auth extends Controller
          * Evita enumeração de usuários.
          */
             if (!$user) {
-                return $this->response->setJSON([
+                return [
                     'status'  => 200,
                     'message' => lang('social.email_send_your_account')
-                ]);
+                ];
             }
 
             // Gera token
@@ -458,33 +212,210 @@ class Auth extends Controller
             );
 
             if (!$send) {
-                return $this->response
-                    ->setStatusCode(500)
-                    ->setJSON([
-                        'status'  => 500,
-                        'message' => 'Erro ao enviar o e-mail.'
-                    ]);
+                return [
+                    'status'  => 500,
+                    'message' => 'Erro ao enviar o e-mail.'
+                ];
             }
 
-            return $this->response->setJSON([
+            return [
                 'status'  => 200,
                 'message' => lang('social.email_send_your_account')
-            ]);
+            ];
         } catch (\Throwable $e) {
 
             log_message('error', $e->getMessage());
 
-            return $this->response
-                ->setStatusCode(500)
-                ->setJSON([
-                    'status'  => 500,
-                    'message' => ENVIRONMENT === 'production'
-                        ? 'Internal Server Error'
-                        : $e->getMessage()
-                ]);
+            return [
+                'status'  => 500,
+                'message' => ENVIRONMENT === 'production'
+                    ? 'Internal Server Error'
+                    : $e->getMessage()
+            ];
         }
     }
 
+    /************************************************************* Logout */
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('/');
+    }
+
+    /************************************************************************* GMAIL */
+    private function getAccessToken($code)
+    {
+        $url = "https://oauth2.googleapis.com/token";
+
+        $response = service('curlrequest')->post($url, [
+            'form_params' => [
+                'code'          => $code,
+                'client_id'     => getenv('google.client_id'),
+                'client_secret' => getenv('google.client_secret'),
+                'redirect_uri'  => getenv('google.redirect_uri'),
+                'grant_type'    => 'authorization_code',
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+  /**
+     * Etapa 2 – Callback do Google
+     */
+    public function callback()
+    {
+        $state         = $this->request->getVar('state');
+        $sessionState  = session()->get('oauth_state');
+
+        // ✅ validação do state
+        if (!$state || $state !== $sessionState) {
+            session()->remove('oauth_state');
+            return redirect()->to('/')->with('error', 'Invalid state.');
+        }
+
+        session()->remove('oauth_state'); // remove após uso
+
+        $code = $this->request->getVar('code');
+        if (!$code) {
+            return redirect()->to('/')->with('error', 'Authorization code missing.');
+        }
+
+        // 🔄 troca code por token
+        $tokenData = $this->getAccessToken($code);
+        if (!isset($tokenData['access_token'])) {
+            return redirect()->to('/')->with('error', 'Failed to obtain token.');
+        }
+
+        // 👤 obtém dados do usuário
+        $userData = $this->getUserInfo($tokenData['access_token']);
+        $userData['type'] = 'google';
+
+        $_SESSION['userOAUTH2'] = $userData;
+
+        $Socials = new Socials();
+        $token = $Socials->OAUTH2_user($userData);
+
+        if (!$token) {
+            return redirect()->to('/')->with('error', 'Error processing user data.');
+        }
+
+        return redirect()->to('https://brapci.inf.br/callback/' . $token);
+    }
+
+    /************************************************************* SIGNIN */
+    public function signin()
+    {
+        $this->applySigninCorsHeaders();
+
+        if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
+            return $this->response->setStatusCode(204);
+        }
+
+        $username = trim((string) $this->request->getVar('username'));
+        if ($username === '') {
+            $username = trim((string) $this->request->getVar('user'));
+        }
+        if ($username === '') {
+            $username = trim((string) $this->request->getVar('email'));
+        }
+
+        $password = trim((string) $this->request->getVar('password'));
+        if ($password === '') {
+            $password = trim((string) $this->request->getVar('pwd'));
+        }
+
+        $rsp = [
+            'status'  => '400',
+            'message' => 'User or Password incorrect',
+        ];
+
+        if ($username === '' || $password === '') {
+            $rsp['message'] = 'Username or password is empty';
+            return $this->response->setJSON($rsp);
+        }
+
+        $Socials = new Socials();
+        $user = $Socials
+            ->groupStart()
+            ->where('us_login', $username)
+            ->orWhere('us_email', $username)
+            ->groupEnd()
+            ->first();
+
+        if (!$user) {
+            $rsp['message'] = 'User not found';
+            return $this->response->setJSON($rsp);
+        }
+
+        $storedPassword = (string) ($user['us_password'] ?? '');
+        $validPassword = false;
+
+        if ($storedPassword !== '') {
+            if ($storedPassword === md5($password)) {
+                $validPassword = true;
+            } elseif (password_get_info($storedPassword)['algo'] !== 0) {
+                $validPassword = password_verify($password, $storedPassword);
+            }
+        }
+
+        if (!$validPassword) {
+            $rsp['message'] = 'Password is invalid';
+            return $rsp;
+        }
+
+        $apikey = (string) ($user['us_apikey'] ?? '');
+        if ($apikey === '') {
+            $apikey = md5($storedPassword . ($user['us_email'] ?? ''));
+            $Socials->set([
+                'us_apikey' => $apikey,
+                'us_apikey_active' => 1,
+            ])->where('id_us', $user['id_us'])->update();
+        }
+
+        $Socials->set([
+            'us_lastaccess' => date('Y-m-d H:i:s'),
+        ])->where('id_us', $user['id_us'])->update();
+
+        $sessionData = [
+            'id'      => $user['id_us'],
+            'user'    => $user['us_nome'],
+            'email'   => $user['us_email'],
+            'apikey'  => $apikey,
+            'access'  => substr(md5('#ADMIN'), 6, 6),
+            'check'   => substr((string) $user['id_us'] . (string) $user['id_us'], 0, 10),
+            'user_id' => $user['id_us'],
+        ];
+
+        session()->set($sessionData);
+
+        $rsp = [
+            'status'  => '200',
+            'message' => 'Success',
+            'user'    => $user['us_nome'],
+            'ID'      => $user['id_us'],
+            'email'   => $user['us_email'],
+            'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
+            'token'  => $apikey,
+        ];
+
+        return $rsp;
+    }
+
+    /************************************************************* getUserInfo */
+    private function getUserInfo($accessToken)
+    {
+        $response = service('curlrequest')->get('https://www.googleapis.com/oauth2/v3/userinfo', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+
+    /************************************************************* Forgout */
     public function newpass($key = '')
     {
         define('PATH', getenv('app.baseURL') . '/');
@@ -541,7 +472,8 @@ class Auth extends Controller
         $body .= '<div>' . htmlspecialchars($recover['fullname'] ?? '') . '<br><span class="small text-muted">' . htmlspecialchars($recover['email'] ?? '') . '</span></div>';
         $body .= '</div>';
 
-        if ($this->request->getMethod() === 'post') {
+        $method = strtolower($this->request->getMethod());
+        if ($method === 'post') {
             $result = $Socials->chagePassword($key, $pass1, $pass2);
             if (($result['status'] ?? '') === '200') {
                 $body .= bsmessage($result['message'] ?? lang('social.password_changed'), 1);
