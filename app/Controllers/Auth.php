@@ -24,6 +24,11 @@ class Auth extends Controller
         $rsp['status'] = '9';
         $rsp['message'] = 'service not found';
         switch ($cmd) {
+            case 'check-change-password':
+                $dd = $Socials->validRecover(get("apikey"));
+                echo json_encode($dd);
+                exit;
+                break;
             case 'test':
                 $rsp['status'] = 1;
                 $rsp['message'] = 'Teste OK';
