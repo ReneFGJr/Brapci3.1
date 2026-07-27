@@ -139,6 +139,15 @@
             "dataset"
         ]
     },
+    "9001": {
+        "description": "E-mail teste",
+        "patterns": [
+            "email",
+            "teste email",
+            "teste e-mail",
+            "test email"
+        ]
+    },
     "9999": {
         "description": "Ajuda",
         "patterns": [

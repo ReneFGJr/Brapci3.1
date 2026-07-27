@@ -48,3 +48,23 @@ LANGUAGE=pt_BR
 # User API
 ############################################
 USER_API = [API]
+
+# ======================================================================
+# E-MAIL (SMTP)
+# ======================================================================
+
+MAIL_HOST=smtp.office365.com
+MAIL_PORT=587
+MAIL_USERNAME=datarepository@ipen.br
+MAIL_PASSWORD=sua_senha_ou_app_password
+MAIL_FROM=datarepository@ipen.br
+MAIL_FROM_NAME=CURADOR BRAPCI
+
+# TLS | SSL | NONE
+MAIL_ENCRYPTION=TLS
+
+# Timeout em segundos
+MAIL_TIMEOUT=30
+
+# Ativa modo debug SMTP (0,1,2)
+MAIL_DEBUG=0
