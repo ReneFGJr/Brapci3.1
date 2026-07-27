@@ -13,7 +13,7 @@ class Auth extends Controller
 {
     private $googleClient;
 
-    function ajax($cmd)
+    function index($cmd)
     {
         $this->applySigninCorsHeaders();
         $Socials = new Socials();
@@ -59,23 +59,31 @@ class Auth extends Controller
 
     private function applySigninCorsHeaders()
     {
-        $origin = trim((string) $this->request->getHeaderLine('Origin'));
-        $allowedOrigins = [
+        $origin = $this->request->getHeaderLine('Origin');
+
+        $allowed = [
             'https://brapci.inf.br',
             'https://cip.brapci.inf.br',
             'http://localhost:4200',
         ];
 
-        if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
+        if (in_array($origin, $allowed, true)) {
             $this->response->setHeader('Access-Control-Allow-Origin', $origin);
-            $this->response->setHeader('Vary', 'Origin');
-        } else {
-            $this->response->setHeader('Access-Control-Allow-Origin', 'https://brapci.inf.br');
         }
 
+        $this->response->setHeader('Vary', 'Origin');
         $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
         $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+        $this->response->setHeader(
+            'Access-Control-Allow-Headers',
+            'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        );
+
+        if ($this->request->getMethod() === 'OPTIONS') {
+            return $this->response->setStatusCode(204);
+        }
+
+        return null;
     }
 
     public function __construct()
