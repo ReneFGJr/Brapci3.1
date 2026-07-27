@@ -14,6 +14,7 @@ $routes->set404Override();
 
 /*************************** NewPass */
 $routes->match(['get', 'post', 'options'], '/auth/newpass/(:any)', 'Auth::newpass/$1');
+$routes->match(['get', 'post', 'options'], '/social/login', 'Auth::index/login');
 
 $routes->match(['get', 'post', 'options'], '/api/socials/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/auth/(:any)', 'Auth::index/$1');
