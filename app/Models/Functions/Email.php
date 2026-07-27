@@ -43,40 +43,90 @@ class Email extends Model
     function test()
     {
         $email = 'renefgj@gmail.com';
-        $smtpHost = getenv('EMAIL_SMTP');
-        $smtpUser = getenv('EMAIL_USER_AUTH');
-        $smtpPass = getenv('EMAIL_PASSWORD');
-        $smtpPort = getenv('EMAIL_SMTP_PORT');
+
+        $smtpHost  = getenv('EMAIL_SMTP');
+        $smtpUser  = getenv('EMAIL_USER_AUTH');
+        $smtpPass  = getenv('EMAIL_PASSWORD');
+        $smtpPort  = getenv('EMAIL_SMTP_PORT');
+        $smtpCrypt = getenv('EMAIL_SMTP_CRYPTO');
+
         $fromEmail = getenv('EMAIL_FROM');
-        $fromName = getenv('EMAIL_FROM_NAME');
+        $fromName  = getenv('EMAIL_FROM_NAME');
 
-        $sx = h('Email de teste', 1);
-        $sx .= '<p>Enviado para ' . $email . '</p>';
+        $sx  = h('Teste de envio de e-mail', 1);
 
-        $sx .= '<div class="mt-3"><h4>Parâmetros do .env</h4><pre class="border p-3 bg-light">';
-        $sx .= 'EMAIL_SMTP: ' . htmlspecialchars((string) $smtpHost) . "\n";
-        $sx .= 'EMAIL_SMTP_PORT: ' . htmlspecialchars((string) $smtpPort) . "\n";
-        $sx .= 'EMAIL_USER_AUTH: ' . htmlspecialchars((string) $smtpUser) . "\n";
-        $sx .= 'EMAIL_FROM: ' . htmlspecialchars((string) $fromEmail) . "\n";
-        $sx .= 'EMAIL_FROM_NAME: ' . htmlspecialchars((string) $fromName) . "\n";
-        $sx .= 'EMAIL_PASSWORD: ' . htmlspecialchars(substr((string) $smtpPass, 0, 6)) . "\n";
-        $sx .= '</pre></div>';
+        $sx .= '<div class="alert alert-info">';
+        $sx .= 'Destinatário: <b>' . esc($email) . '</b>';
+        $sx .= '</div>';
 
-        $txt = '';
-        $txt .= '<center>';
-        $txt .= '<img src="cid:$image1" style="width: 600px;">';
+        $sx .= '<div class="card mt-3">';
+        $sx .= '<div class="card-header"><b>Configuração SMTP</b></div>';
+        $sx .= '<div class="card-body"><pre>';
+
+        $sx .= 'EMAIL_SMTP...........: ' . esc($smtpHost) . "\n";
+        $sx .= 'EMAIL_SMTP_PORT......: ' . esc($smtpPort) . "\n";
+        $sx .= 'EMAIL_SMTP_CRYPTO....: ' . esc($smtpCrypt) . "\n";
+        $sx .= 'EMAIL_USER_AUTH......: ' . esc($smtpUser) . "\n";
+        $sx .= 'EMAIL_FROM...........: ' . esc($fromEmail) . "\n";
+        $sx .= 'EMAIL_FROM_NAME......: ' . esc($fromName) . "\n";
+
+        if (!empty($smtpPass)) {
+            $sx .= 'EMAIL_PASSWORD.......: **************' . "\n";
+        } else {
+            $sx .= 'EMAIL_PASSWORD.......: NÃO CONFIGURADA' . "\n";
+        }
+
+        $sx .= '</pre></div></div>';
+
+        $txt  = '<center>';
+        $txt .= '<img src="cid:$image1" style="width:600px">';
         $txt .= h('Hello World!');
         $txt .= '<p>Welcome to Brapci 3.1!</p>';
-        //$this->sendmail($email, , $txt);
+        $txt .= '<p><b>' . date('d/m/Y H:i:s') . '</b></p>';
+        $txt .= '</center>';
 
-        $result = $this->sendmail($email, 'E-mail de teste', $txt);
+        $result = $this->sendmail(
+            $email,
+            'Teste SMTP - Brapci',
+            $txt
+        );
 
-        $sx .= '<div class="mt-3"><h4>Resultado do envio</h4><pre class="border p-3 bg-light">';
-        $sx .= htmlspecialchars($result);
-        $sx .= '</pre></div>';
+        $sx .= '<div class="card mt-4">';
 
-        $sx = bs(bsc($sx, 12));
-        return $sx;
+        if ($result['success']) {
+
+            $sx .= '<div class="card-header bg-success text-white">';
+            $sx .= '✔ E-mail enviado';
+            $sx .= '</div>';
+
+            $sx .= '<div class="card-body">';
+            $sx .= '<pre>' . esc($result['message']) . '</pre>';
+            $sx .= '</div>';
+        } else {
+
+            $sx .= '<div class="card-header bg-danger text-white">';
+            $sx .= '✘ Falha no envio';
+            $sx .= '</div>';
+
+            $sx .= '<div class="card-body">';
+            $sx .= '<pre>' . esc($result['message']) . '</pre>';
+
+            if (!empty($result['debug'])) {
+                $sx .= '<hr>';
+                $sx .= '<h5>Debugger SMTP</h5>';
+                $sx .= '<pre>';
+                $sx .= esc($result['debug']);
+                $sx .= '</pre>';
+            }
+
+            $sx .= '</div>';
+        }
+
+        $sx .= '</div>';
+
+        return bs(
+            bsc($sx, 12)
+        );
     }
 
     public function sendmail(
