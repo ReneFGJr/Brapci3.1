@@ -44,6 +44,9 @@ class Auth extends Controller
                     );
 
                 case 'test':
+                    $emailS = new \App\Models\Functions\Email();
+
+                    $send = $emailS->test();
 
                     return $this->response->setJSON([
                         'status'  => 200,
