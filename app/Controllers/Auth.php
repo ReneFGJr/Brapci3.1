@@ -17,7 +17,9 @@ class Auth extends Controller
     {
         $Socials = new Socials();
         $rsp = array();
-        $cmd = get("cmd");
+        if ($cmd === '') {
+            $cmd = get("cmd");
+        }
 
         $rsp['status'] = '9';
         $rsp['message'] = 'service not found';
