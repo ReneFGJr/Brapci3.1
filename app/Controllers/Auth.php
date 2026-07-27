@@ -296,11 +296,14 @@ class Auth extends Controller
 
     public function forgot()
     {
+        $this->applySigninCorsHeaders();
+
         $Socials = new Socials();
         $sx = '';
 
         $email = trim((string) $this->request->getVar('email'));
         $method = strtolower($this->request->getMethod());
+
         $RSP = [];
         $RSP['email'] = $email;
         $RSP['method'] = $method;
