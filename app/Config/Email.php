@@ -136,5 +136,7 @@ class Email extends BaseConfig
         $this->SMTPTimeout = (int) env('EMAIL_TIMEOUT', 30);
 
         $this->SMTPCrypto = strtolower(env('EMAIL_ENCRYPTION', 'tls'));
+
+        pre($this);
     }
 }
