@@ -1883,10 +1883,13 @@ class Email
 
         $ssl = '';
 
-        pre($this);
-
         // Connection to port 465 should use implicit TLS (without STARTTLS)
         // as per RFC 8314.
+
+        var_dump($this->SMTPPort);
+        var_dump(gettype($this->SMTPPort));
+        die();
+
         if ($this->SMTPPort === 465) {
             $ssl = 'tls://';
         }
