@@ -51,23 +51,19 @@ class Auth extends Controller
                     ]);
 
                 case 'signin':
-
                     return $this->response->setJSON(
                         $Socials->signin()
                     );
 
                 case 'signup':
-
                     return $this->response->setJSON(
                         $Socials->signup()
                     );
 
                 case 'forgot':
-
                     return $this->forgot();
 
                 default:
-
                     return $this->response
                         ->setStatusCode(404)
                         ->setJSON([
@@ -339,65 +335,151 @@ class Auth extends Controller
 
     public function forgot()
     {
-        $this->applySigninCorsHeaders();
+        // Aplica CORS e responde ao preflight
+        if ($response = $this->applySigninCorsHeaders()) {
+            return $response;
+        }
 
-        $Socials = new Socials();
-        $sx = '';
+        try {
 
-        $email = trim((string) $this->request->getVar('email'));
-        $method = strtolower($this->request->getMethod());
+            $Socials = new Socials();
 
-        $RSP = [];
-        $RSP['email'] = $email;
-        $RSP['method'] = $method;
+            $email = trim((string) $this->request->getVar('email'));
+            $method = strtolower($this->request->getMethod());
 
-        if (($method === 'post') or ($method === 'get')) {
-            $RSP['status'] = 'fase 1';
-            if ($email === '') {
-                $RSP['error'] = lang('social.email_not_found');
+            if (!in_array($method, ['get', 'post'], true)) {
+                return $this->response
+                    ->setStatusCode(405)
+                    ->setJSON([
+                        'status'  => 405,
+                        'message' => 'Method not allowed'
+                    ]);
             }
 
-            $user = $Socials->where('us_email', $email)->first();
+            if (empty($email)) {
+                return $this->response
+                    ->setStatusCode(400)
+                    ->setJSON([
+                        'status'  => 400,
+                        'message' => lang('social.email_not_found')
+                    ]);
+            }
+
+            $user = $Socials
+                ->where('us_email', $email)
+                ->first();
+
+            /*
+         * Segurança:
+         * Não informa se o e-mail existe ou não.
+         * Evita enumeração de usuários.
+         */
             if (!$user) {
-                $RSP['error'] = lang('social.email_not_found');
+                return $this->response->setJSON([
+                    'status'  => 200,
+                    'message' => lang('social.email_send_your_account')
+                ]);
             }
 
+            // Gera token
             $key = $Socials->getRecoverKey($email);
-            $Socials->set(['us_recover' => $key])->where('id_us', $user['id_us'])->update();
-            $RSP['status'] = 'fase 2';
+
+            $Socials
+                ->set([
+                    'us_recover' => $key
+                ])
+                ->where('id_us', $user['id_us'])
+                ->update();
+
             session()->set('forgout', $key);
 
             $recoverLink = base_url('auth/newpass/' . $key);
-            $subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
 
-            $txt = '<h1>' . lang('social.forgout_email_title') . '</h1>';
+            $subject = '['
+                . getenv('app.project_name')
+                . '] '
+                . lang('social.forgout_email_title');
+
+            $txt  = '<h1>' . lang('social.forgout_email_title') . '</h1>';
             $txt .= '<center>';
             $txt .= '<table width="600" border="0">';
-            $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
-            $txt .= '<tr><td cellpadding="5">';
-            $txt .= '<br/><br/>';
-            $txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
-            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text') . '</p>';
-            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_password') . '</p>';
-            $txt .= '<p style="font-size: 1.2em;"><a href="' . $recoverLink . '">' . $recoverLink . '</a></p>';
-            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text2') . '</p>';
-            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text3') . '</p>';
-            $txt .= '<p style="font-size: 1.2em;">' . lang('social.forgout_email_text4') . '</p>';
+            $txt .= '<tr>';
+            $txt .= '<td><img src="cid:$image1" style="width:100%;"></td>';
+            $txt .= '</tr>';
+            $txt .= '<tr><td>';
+
+            $txt .= '<br><br>';
+
+            $txt .= '<p style="font-size:1.4em;"><b>';
+            $txt .= lang('social.forgout_email_user');
+            $txt .= ' ';
+            $txt .= esc($user['us_nome']);
+            $txt .= '</b></p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= lang('social.forgout_email_text');
+            $txt .= '</p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= lang('social.forgout_email_password');
+            $txt .= '</p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= '<a href="' . $recoverLink . '">';
+            $txt .= $recoverLink;
+            $txt .= '</a>';
+            $txt .= '</p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= lang('social.forgout_email_text2');
+            $txt .= '</p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= lang('social.forgout_email_text3');
+            $txt .= '</p>';
+
+            $txt .= '<p style="font-size:1.2em;">';
+            $txt .= lang('social.forgout_email_text4');
+            $txt .= '</p>';
+
             $txt .= '</td></tr>';
             $txt .= '</table>';
             $txt .= '</center>';
 
             $emailS = new \App\Models\Functions\Email();
 
-            $result = $emailS->sendmail($email, $subject, $txt);
+            $send = $emailS->sendmail(
+                $email,
+                $subject,
+                $txt
+            );
 
-            $RSP['status'] = 'fase 3 - email';
-            $RSP['message'] = 'send_mail';
-            $RSP['status'] = '200';
+            if (!$send) {
+                return $this->response
+                    ->setStatusCode(500)
+                    ->setJSON([
+                        'status'  => 500,
+                        'message' => 'Erro ao enviar o e-mail.'
+                    ]);
+            }
+
+            return $this->response->setJSON([
+                'status'  => 200,
+                'message' => lang('social.email_send_your_account')
+            ]);
+        } catch (\Throwable $e) {
+
+            log_message('error', $e->getMessage());
+
+            return $this->response
+                ->setStatusCode(500)
+                ->setJSON([
+                    'status'  => 500,
+                    'message' => ENVIRONMENT === 'production'
+                        ? 'Internal Server Error'
+                        : $e->getMessage()
+                ]);
         }
-
-        echo json_encode($RSP);
-        exit;
     }
 
     public function newpass($key = '')
