@@ -1516,7 +1516,7 @@ class Socials extends Model
 			}
 		} else {
 			$dt['status'] = '500';
-			$dt['messagem'] = 'API não informada';
+			$dt['messagem'] = 'APIKEY nao informada';
 		}
 		return $dt;
 	}
