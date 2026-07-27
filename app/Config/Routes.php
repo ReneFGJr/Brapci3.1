@@ -13,9 +13,10 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
 $routes->get('/auth/login', 'Auth::login');
-$routes->match(['get', 'post', 'options'], '/api/socials/signin', 'Auth::signin');
 $routes->get('/auth/callback', 'Auth::callback');
 $routes->get('/auth/status', 'Auth::status');
+$routes->match(['get', 'post', 'options'], '/api/socials/signin', 'Auth::signin');
+$routes->match(['get', 'post'], '/api/socials/(:any)', 'Auth::ajax/$1');
 
 $routes->match(['get', 'post'], '/auth/forgot-password', 'Auth::forgot');
 $routes->match(['get', 'post'], '/auth/newpass/(:any)', 'Auth::newpass/$1');
@@ -25,7 +26,7 @@ $routes->get('/pdfHarvesting', 'MainPages::index/pdfHarvesting');
 $routes->get('/screensaver', 'MainPages::screensaver');
 
 $routes->get('/api', 'Api::index');
-$routes->match(['get', 'post'], '/api/socials/(:any)', 'Auth::ajax/$1');
+
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
 $routes->put('/api/(:any)', 'Api::index/$1');
