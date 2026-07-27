@@ -102,7 +102,7 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
         $config['SMTPHost'] = getenv('EMAIL_SMTP');
         $config['SMTPUser'] = getenv('EMAIL_USER_AUTH');
         $config['SMTPPass'] = getenv('EMAIL_PASSWORD');
-        $config['SMTPPort'] = getenv('EMAIL_SMTP_PORT');
+        $config['SMTPPort'] = (int)getenv('EMAIL_SMTP_PORT');
         $cofngi['SMTPCrypto'] = '';
         $config['fromEmail'] = getenv('EMAIL_FROM');
         $config['fromName'] = getenv('EMAIL_FROM_NAME');
