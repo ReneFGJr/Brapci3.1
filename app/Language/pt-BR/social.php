@@ -47,7 +47,7 @@ return [
 	'logs' => 'Acessos',
 	'research' => 'Consultas',
 	'no_logs' => 'Sem acessos',
-	'email_send_your_account' => 'Envio confirmado',
+	'email_send_your_account' => 'Envio confirmado, verifique seu e-mail para ativar sua conta',
 	'return_login' => 'Voltar ao login',
 	'forgout_info' => 'Um email foi enviado com as instruções para gerar uma nova senha.',
 	'email_not_found' => 'e-mail não localizado',

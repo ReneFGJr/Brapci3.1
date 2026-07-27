@@ -51,7 +51,7 @@ class Email extends Model
         $fromName = getenv('EMAIL_FROM_NAME');
 
         $sx = h('Email de teste', 1);
-        $sx .= '<p>Enviado para '.$email.'</p>';
+        $sx .= '<p>Enviado para ' . $email . '</p>';
 
         $sx .= '<div class="mt-3"><h4>Parâmetros do .env</h4><pre class="border p-3 bg-light">';
         $sx .= 'EMAIL_SMTP: ' . htmlspecialchars((string) $smtpHost) . "\n";
@@ -79,64 +79,102 @@ class Email extends Model
         return $sx;
     }
 
-    function sendemail($to = '', $subject = '', $text = '', $files = array())
-        {
-            return $this->sendmail($to,$subject,$text,$files);
-        }
+    public function sendmail(
+        string $to = '',
+        string $subject = '',
+        string $text = '',
+        array $files = []
+    ): array {
 
-    function sendmail($to = '', $subject = '', $text = '', $files = array())
-    {
-        $this->email = \Config\Services::email();
+        $email = \Config\Services::email();
 
-        $config = [];
-        $config['protocol'] = 'smtp';
-        $config['SMTPHost'] = getenv('EMAIL_SMTP');
-        $config['SMTPUser'] = getenv('EMAIL_USER_AUTH');
-        $config['SMTPPass'] = getenv('EMAIL_PASSWORD');
-        $config['SMTPPort'] = (int) getenv('EMAIL_SMTP_PORT');
-        $config['SMTPCrypto'] = 'ssl';
-        $config['SMTPTimeout'] = 10;
+        $config = [
+            'protocol'     => 'smtp',
+            'SMTPHost'     => getenv('EMAIL_SMTP'),
+            'SMTPUser'     => getenv('EMAIL_USER_AUTH'),
+            'SMTPPass'     => getenv('EMAIL_PASSWORD'),
+            'SMTPPort'     => (int) getenv('EMAIL_SMTP_PORT'),
+            'SMTPCrypto'   => getenv('EMAIL_SMTP_CRYPTO') ?: '',
+            'SMTPTimeout'  => 30,
 
-        $config['wordWrap'] = true;
-        $config['fromEmail'] = getenv('EMAIL_FROM');
-        $config['fromName'] = getenv('EMAIL_FROM_NAME');
+            'mailType'     => 'html',
+            'charset'      => 'UTF-8',
+            'wordWrap'     => true,
 
-        $config['charset']    = 'utf-8';
-        //$config['newline']    = "\r\n";
-        $config['mailType'] = 'html';
+            'CRLF'         => "\r\n",
+            'newline'      => "\r\n",
+        ];
 
-        $filename = 'img/email/bg-email-hL3a.jpg';
-        if (file_exists($filename)) {
-            $this->email->attach($filename);
-            $cid = $this->email->setAttachmentCID($filename);
-            $text = troca($text, '$image1', $cid);
-        } else {
-            echo "Logo not found";
-        }
-
-        $this->email->initialize($config);
+        $email->initialize($config);
 
         $fromEmail = getenv('EMAIL_FROM');
-        $fromName = getenv('EMAIL_FROM_NAME');
-        if ($fromName == '') {
+        $fromName  = getenv('EMAIL_FROM_NAME');
+
+        if (empty($fromName)) {
             $fromName = $fromEmail;
         }
 
-        $this->email->setFrom($fromEmail, $fromName);
-        $this->email->setTo($to);
-        $this->email->setBCC($to);
-        //$this->email->setCC('rene.gabriel@ufrgs.br');
-        //$email->setBCC('them@their-example.com');
+        $email->setFrom($fromEmail, $fromName);
+        $email->setTo($to);
+        $email->setSubject($subject);
 
-        $this->email->setSubject($subject);
-        $this->email->setMessage($text);
+        /*
+     * Imagem incorporada
+     */
+        $filename = FCPATH . 'img/email/bg-email-hL3a.jpg';
 
-        $sent = $this->email->send(false);
+        if (is_file($filename)) {
+            $email->attach($filename);
 
-        $sx = '';
-        $sx .= $sent ? 'Email enviado com sucesso.' : 'Erro ao enviar o email.';
-        $sx .= "\n\n";
-        $sx .= $this->email->printDebugger(['headers', 'subject', 'body']);
-        return $sx;
+            $cid = $email->setAttachmentCID($filename);
+
+            $text = str_replace('$image1', $cid, $text);
+        } else {
+            log_message('warning', 'Imagem do e-mail não encontrada: ' . $filename);
+
+            $text = str_replace('$image1', '', $text);
+        }
+
+        /*
+     * Anexos extras
+     */
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                $email->attach($file);
+            }
+        }
+
+        $email->setMessage($text);
+
+        try {
+
+            if ($email->send()) {
+
+                return [
+                    'success' => true,
+                    'message' => 'E-mail enviado com sucesso.',
+                    'debug'   => ''
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => 'Erro ao enviar o e-mail.',
+                'debug'   => $email->printDebugger([
+                    'headers',
+                    'subject',
+                    'body'
+                ])
+            ];
+        } catch (\Throwable $e) {
+
+            log_message('error', $e->getMessage());
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'debug'   => $e->getTraceAsString()
+            ];
+        }
     }
 }
