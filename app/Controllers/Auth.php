@@ -24,7 +24,7 @@ class Auth extends Controller
 
         $rsp['status'] = '9';
         $rsp['message'] = 'service not found';
-        if ($cmd == 'forgot') { $cmd = 'forgout';}
+        if ($cmd == 'forgout') { $cmd = 'forgot';}
 
         switch ($cmd) {
             case 'check-change-password':
@@ -46,7 +46,7 @@ class Auth extends Controller
                 return $rsp;
                 break;
             case 'forgout':
-                $rsp = $Socials->forgout();
+                $rsp = $Socials->forgot();
                 return $rsp;
                 break;
             default:
