@@ -13,6 +13,40 @@ class Auth extends Controller
 {
     private $googleClient;
 
+    function ajax($cmd)
+    {
+        $Socials = new Socials();
+        $rsp = array();
+        $cmd = get("cmd");
+
+        $rsp['status'] = '9';
+        $rsp['message'] = 'service not found';
+        switch ($cmd) {
+            case 'test':
+                $rsp['status'] = 1;
+                $rsp['message'] = 'Teste OK';
+                return json_encode($rsp);
+                break;
+            case 'signin':
+                $rsp = $Socials->signin();
+                return $rsp;
+                break;
+            case 'signup':
+                $rsp = $Socials->signup();
+                return $rsp;
+                break;
+            case 'forgout':
+                $rsp = $Socials->forgout();
+                return $rsp;
+                break;
+            default:
+                $sx = 'Command not found - ' . $cmd;
+                $sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+                return $sx;
+                break;
+        }
+    }
+
     private function applySigninCorsHeaders()
     {
         $origin = trim((string) $this->request->getHeaderLine('Origin'));

@@ -25,7 +25,7 @@ $routes->get('/pdfHarvesting', 'MainPages::index/pdfHarvesting');
 $routes->get('/screensaver', 'MainPages::screensaver');
 
 $routes->get('/api', 'Api::index');
-$routes->get('/api/socials/(:any)', 'Socials::ajax/$1');
+$routes->get('/api/socials/(:any)', 'Auth::ajax/$1');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
 $routes->put('/api/(:any)', 'Api::index/$1');
