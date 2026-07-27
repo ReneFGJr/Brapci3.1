@@ -76,6 +76,9 @@ class Auth extends Controller
             case 'forgot':
                 $RSP = $this->forgot();
                 break;
+            case 'callback':
+                $RSP = $this->callback();
+                break;
             default:
                 $RSP = [];
                 $RSP['status'] = '500';
