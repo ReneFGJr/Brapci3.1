@@ -337,14 +337,14 @@ class Socials extends Model
 			case 'admin':
 				$sx = $this->admin($id, $dt, $cab);
 				break;
-			/*
+
 			case 'forgout':
 				$sx = $this->forgout_form($id, $dt, $cab);
 				break;
 			case 'forgot':
 				$sx = $this->forgout_form($id, $dt, $cab);
 				break;
-			*/
+
 			case 'login':
 				$sx = $cab;
 				$sx .= $this->login();
