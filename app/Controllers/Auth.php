@@ -47,6 +47,7 @@ class Auth extends Controller
                 break;
             case 'forgot':
                 $rsp = $this->forgot();
+                return $rsp;
                 break;
             default:
                 $sx = 'Command not found - ' . $cmd;
