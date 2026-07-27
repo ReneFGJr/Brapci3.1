@@ -13,47 +13,81 @@ class Auth extends Controller
 {
     private $googleClient;
 
-    function index($cmd)
+    public function index(string $cmd = '')
     {
-        $this->applySigninCorsHeaders();
-        $Socials = new Socials();
-        $rsp = array();
-        if ($cmd === '') {
-            $cmd = get("cmd");
+        // Aplica os cabeçalhos CORS
+        if ($response = $this->applySigninCorsHeaders()) {
+            return $response;
         }
 
-        $rsp['status'] = '9';
-        $rsp['message'] = 'service not found';
-        if ($cmd == 'forgout') { $cmd = 'forgot';}
+        try {
 
-        switch ($cmd) {
-            case 'check-change-password':
-                $dd = $Socials->validRecover(get("apikey"));
-                echo json_encode($dd);
-                exit;
+            $Socials = new Socials();
 
-            case 'test':
-                $rsp['status'] = 1;
-                $rsp['message'] = 'Teste OK';
-                return json_encode($rsp);
-                break;
-            case 'signin':
-                $rsp = $Socials->signin();
-                return $rsp;
-                break;
-            case 'signup':
-                $rsp = $Socials->signup();
-                return $rsp;
-                break;
-            case 'forgot':
-                $rsp = $this->forgot();
-                return $rsp;
-                break;
-            default:
-                $sx = 'Command not found - ' . $cmd;
-                $sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-                return $sx;
-                break;
+            if (empty($cmd)) {
+                $cmd = $this->request->getGet('cmd');
+            }
+
+            // Compatibilidade com versão antiga
+            if ($cmd === 'forgout') {
+                $cmd = 'forgot';
+            }
+
+            switch ($cmd) {
+
+                case 'check-change-password':
+
+                    return $this->response->setJSON(
+                        $Socials->validRecover(
+                            $this->request->getGet('apikey')
+                        )
+                    );
+
+                case 'test':
+
+                    return $this->response->setJSON([
+                        'status'  => 200,
+                        'message' => 'Teste OK'
+                    ]);
+
+                case 'signin':
+
+                    return $this->response->setJSON(
+                        $Socials->signin()
+                    );
+
+                case 'signup':
+
+                    return $this->response->setJSON(
+                        $Socials->signup()
+                    );
+
+                case 'forgot':
+
+                    return $this->forgot();
+
+                default:
+
+                    return $this->response
+                        ->setStatusCode(404)
+                        ->setJSON([
+                            'status'  => 404,
+                            'message' => "Command '{$cmd}' not found"
+                        ]);
+            }
+        } catch (\Throwable $e) {
+
+            log_message('error', $e->getMessage());
+
+            return $this->response
+                ->setStatusCode(500)
+                ->setJSON([
+                    'status'  => 500,
+                    'message' => 'Internal server error',
+                    'error'   => ENVIRONMENT !== 'production'
+                        ? $e->getMessage()
+                        : null
+                ]);
         }
     }
 
