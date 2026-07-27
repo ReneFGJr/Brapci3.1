@@ -52,9 +52,18 @@ class Auth extends Controller
 
         // Call the appropriate method based on the provider
         switch ($provider) {
+            /**************** System */
             case 'email':
                 $RSP = $this->email();
                 break;
+            case 'test':
+                $RSP = $this->email();
+                break;
+            /**************** Redirect */
+            case 'login':
+                return redirect()->to('https://brapci.inf.br/social/signin');
+                break;
+            /**************** Status */
             case 'status':
                 $RSP = $this->status();
                 break;
