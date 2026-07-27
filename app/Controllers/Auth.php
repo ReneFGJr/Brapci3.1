@@ -45,7 +45,7 @@ class Auth extends Controller
                 $rsp = $Socials->signup();
                 return $rsp;
                 break;
-            case 'forgout':
+            case 'forgot':
                 $rsp = $Socials->forgot();
                 return $rsp;
                 break;
