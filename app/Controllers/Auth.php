@@ -255,6 +255,28 @@ class Auth extends Controller
     }
 
     /************************************************************************* GMAIL */
+    public function login_google()
+    {
+        $client_id = getenv('google.client_id');
+        $redirect_uri = getenv('google.redirect_uri');
+
+        $scope = urlencode('email profile');
+        $state = bin2hex(random_bytes(8));
+
+        session()->set('oauth_state', $state);
+
+        $url = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query([
+            'client_id'     => $client_id,
+            'redirect_uri'  => $redirect_uri,
+            'response_type' => 'code',
+            'scope'         => 'openid email profile',
+            'state'         => $state,
+            'access_type'   => 'offline',
+            'prompt'        => 'select_account'
+        ]);
+        return redirect()->to($url);
+    }
+
     private function getAccessToken($code)
     {
         $url = "https://oauth2.googleapis.com/token";
