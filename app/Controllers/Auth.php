@@ -15,6 +15,7 @@ class Auth extends Controller
 
     function ajax($cmd)
     {
+        $this->applySigninCorsHeaders();
         $Socials = new Socials();
         $rsp = array();
         if ($cmd === '') {
