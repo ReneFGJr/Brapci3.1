@@ -23,6 +23,8 @@ class Auth extends Controller
 
         $rsp['status'] = '9';
         $rsp['message'] = 'service not found';
+        if ($cmd == 'forgot') { $cmd = 'forgout';}
+
         switch ($cmd) {
             case 'check-change-password':
                 $dd = $Socials->validRecover(get("apikey"));
