@@ -1524,11 +1524,13 @@ class Socials extends Model
 	function forgout_form($d1 = '', $d2 = '')
 	{
 		$sx = '';
+		/*
 		if (!isset($_SESSION['forgout'])) {
 			$sx = '<h2>' . lang('social.link_expired') . '</h2>';
 			$sx .= bsmessage('Abra o link no mesmo navegador da solicitação do e-mail', 3);
 			return $sx;
 		}
+		*/
 
 		$dt = $this->find($d1);
 		$keys = $_SESSION['forgout'];
