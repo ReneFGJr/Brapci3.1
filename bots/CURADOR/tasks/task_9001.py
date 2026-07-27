@@ -75,26 +75,34 @@ def run(parametros=None, chat=None, silent=False):
         if destino == "":
             destino = "renefgj@gmail.com"
 
-    # ------------------------------------------------------------
-    # Configuração SMTP
-    # ------------------------------------------------------------
+        # ------------------------------------------------------------
+        # Configuração SMTP
+        # ------------------------------------------------------------
 
-    HOST = os.getenv("MAIL_HOST", "smtp.gmail.com")
-    PORT = int(os.getenv("MAIL_PORT", "587"))
-    USER = os.getenv("MAIL_USERNAME")
-    PASSWORD = os.getenv("MAIL_PASSWORD")
-    FROM = os.getenv("MAIL_FROM", USER)
-    FROM_NAME = os.getenv("MAIL_FROM_NAME", "CURADOR")
-    REPLY = os.getenv("MAIL_REPLY_TO", FROM)
+        TYPE = os.getenv("EMAIL_TYPE", "smtp").lower()
 
-    ENCRYPTION = os.getenv("MAIL_ENCRYPTION", "TLS").upper()
+        HOST = os.getenv("EMAIL_SMTP", "smtp.gmail.com")
+        PORT = int(os.getenv("EMAIL_SMTP_PORT", "587"))
 
-    TIMEOUT = int(os.getenv("MAIL_TIMEOUT", "30"))
+        USER = os.getenv("EMAIL_USER_AUTH")
+        PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-    DEBUG = int(os.getenv("MAIL_DEBUG", "1"))
+        FROM = os.getenv("EMAIL_FROM", USER)
+        FROM_NAME = os.getenv("EMAIL_FROM_NAME", "CURADOR")
 
-    if USER is None or PASSWORD is None:
-        return erro("MAIL_USERNAME ou MAIL_PASSWORD não configurados.")
+        REPLY = os.getenv("EMAIL_REPLY_TO", FROM)
+
+        ENCRYPTION = os.getenv("EMAIL_ENCRYPTION", "TLS").upper()
+
+        TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "30"))
+
+        DEBUG = int(os.getenv("EMAIL_DEBUG", "0"))
+
+        if TYPE != "smtp":
+            return erro(f"EMAIL_TYPE '{TYPE}' não suportado. Utilize 'smtp'.")
+
+        if USER is None or PASSWORD is None:
+            return erro("EMAIL_USER_AUTH ou EMAIL_PASSWORD não configurados.")
 
     # ------------------------------------------------------------
     # Monta mensagem
