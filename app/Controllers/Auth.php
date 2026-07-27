@@ -61,6 +61,9 @@ class Auth extends Controller
             case 'signin':
                 $RSP = $this->signin();
                 break;
+            case 'forgot-password':
+                $RSP = $this->forgot();
+                break;
             case 'forgot':
                 $RSP = $this->forgot();
                 break;
