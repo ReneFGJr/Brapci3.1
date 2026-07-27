@@ -47,7 +47,8 @@ class Auth extends Controller
                 break;
             case 'forgot':
                 $rsp = $Socials->forgot();
-                return $rsp;
+                echo json_encode($rsp);
+                exit;
                 break;
             default:
                 $sx = 'Command not found - ' . $cmd;
