@@ -1446,62 +1446,82 @@ class Socials extends Model
 	}
 
 
-	function forgout()
+	public function forgot()
 	{
-		$email = get("email");
-		$dt = $this->where('us_email', $email)->findAll();
+		$email = trim(get('email'));
 
-		if (count($dt) == 0) {
-			$sx = lang('social.email_not_found');
-			return $sx;
-			exit;
-		} else {
-			$user = $dt[0];
-			$email = $user['us_email'];
-			$key = $this->getRecoverKey($email);
-			$dd['us_recover'] = $key;
-			$this->set($dd)->where('id_us', $user['id_us'])->update();
+		if (empty($email)) {
+			return [
+				'status' => 400,
+				'message' => lang('social.email_invalid')
+			];
 		}
-		$sx = '<b>' . lang('social.email_send_your_account') . '</b><br>';
-		$sx .= '<span class="small">' . lang('social.forgout_info') . '</span>';
 
+		$user = $this->where('us_email', $email)->first();
+
+		if (!$user) {
+			return [
+				'status' => 404,
+				'message' => lang('social.email_not_found')
+			];
+		}
+
+		// Gera chave de recuperação
+		$key = $this->getRecoverKey($email);
+
+		$this->set([
+			'us_recover' => $key
+		])->where('id_us', $user['id_us'])->update();
 
 		$_SESSION['forgout'] = $key;
+
 		$link = $this->site . 'social/pass/' . $key;
-		$link_html = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
+		$linkHtml = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
 
-		/*********************************/
-		$txt = '<h1>' . lang('social.forgout_email_title') . '</h1>';
+		$size = 'style="font-size:1.2em;"';
+
+		$txt  = '<h1>' . lang('social.forgout_email_title') . '</h1>';
 		$txt .= '<center>';
-		$txt .= '<table width="600" border=0>';
-		$txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+		$txt .= '<table width="600" border="0">';
+		$txt .= '<tr><td><img src="cid:$image1" style="width:100%;"></td></tr>';
+		$txt .= '<tr><td>';
 
-		$txt .= '<tr><td cellpadding="5">';
-		$size = ' style="font-size: 1.2em;"';
-		$txt .= '<br/><br/>';
-		$txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
+		$txt .= '<br><br>';
+		$txt .= '<p style="font-size:1.4em;"><b>';
+		$txt .= lang('social.forgout_email_user') . ' ' . $user['us_nome'];
+		$txt .= '</b></p>';
 
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text') . '</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_password') . '</p>';
-		$txt .= '<p ' . $size . '>' . $link . '</p>';
+		$txt .= '<p ' . $size . '>$link</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text2') . '</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text3') . '</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text4') . '</p>';
+
 		$txt .= '</td></tr>';
-
-		$txt = troca($txt, '$link', $link_html);
+		$txt .= '</table>';
 		$txt .= '</center>';
-		$txt .= '<br><br><br>';
-		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
-		$emails = [];
-		array_push($emails, $email);
-		array_push($emails, 'brapcici@gmail.com');
-		sendmail($email, $subject, $txt);
 
-		return $sx;
+		$txt = troca($txt, '$link', $linkHtml);
+
+		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
+
+		$send = sendmail($email, $subject, $txt);
+
+		if (!$send) {
+			return [
+				'status' => 500,
+				'message' => lang('social.email_send_error')
+			];
+		}
+
+		return [
+			'status' => 200,
+			'message' => lang('social.email_send_your_account')
+		];
 	}
 
-	function validRecover($key)
+	function validRecover(string $key='')
 	{
 		if ($key != '') {
 			$cp = 'us_nome as fullname, id_us as ID, us_email as email, us_recover as apikey';
