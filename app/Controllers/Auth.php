@@ -112,7 +112,7 @@ class Auth extends Controller
     {
         $Socials = new Socials();
 
-        return $Socials->signup()
+        return $Socials->signup();
     }
 
     /***************************************************** |FORGOT API| */
