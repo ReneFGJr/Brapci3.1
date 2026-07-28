@@ -1689,7 +1689,25 @@ class Socials extends Model
 		$txt .= '</td></tr></table>';
 		$subject = '[BRAPCI] ';
 		$subject .= lang('social.social_user_add');
-		sendemail($user, $subject, $txt);
+
+		$emailS = new \App\Models\Functions\Email();
+		$send = $emailS->sendmail(
+			$user,
+			$subject,
+			$txt
+		);
+
+		if (!$send) {
+			return [
+				'status'  => 500,
+				'message' => 'Erro ao enviar o e-mail.'
+			];
+		}
+
+		return [
+			'status'  => 200,
+			'message' => 'Usuário cadastrado com sucesso. Verifique seu e-mail para obter a senha temporária.'
+		];
 	}
 
 	function user_exists($email = '')
