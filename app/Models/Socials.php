@@ -1625,31 +1625,42 @@ class Socials extends Model
 
 	function signup()
 	{
-		$sx = '';
 		$user = get("signup_email");
 		$name = get("signup_name");
 		$inst = get("signup_institution");
 
+		// E-mail inválido
 		if (!check_email($user)) {
-			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-			$this->error = 510;
-			return $sx;
+			return [
+				"status" => '510',
+				"error"   => 510,
+				"message" => lang('social.email_invalid'),
+				"action"  => "showLogin"
+			];
 		}
 
+		// Verifica se o usuário já existe
 		$dt = $this->user_exists($user);
 
 		if (!isset($dt[0])) {
+
 			$this->user_add($user, $name, $inst);
-			$sx .= '<h2>' . lang('social.social_user_add_success') . '<h2>';
-			$sx .= '<hr>';
-			$sx .= '<p>' . lang('social.social_check_you_email') . '<p>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-		} else {
-			$sx .= '<h2>' . lang('social.user_already') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+
+			return [
+				"status" => '200',
+				"message" => lang('social.social_user_add_success'),
+				"detail"  => lang('social.social_check_you_email'),
+				"action"  => "showLogin"
+			];
 		}
-		return $sx;
+
+		// Usuário já cadastrado
+		return [
+			"status" => '511',
+			"error"   => 511,
+			"message" => lang('social.user_already'),
+			"action"  => "showLogin"
+		];
 	}
 
 	function user_add($user = '', $name = '', $inst = '')
