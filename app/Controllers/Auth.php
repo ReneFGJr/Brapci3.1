@@ -70,6 +70,9 @@ class Auth extends Controller
             case 'signin':
                 $RSP = $this->signin();
                 break;
+            case 'signup':
+                $RSP = $this->signup();
+                break;
             case 'forgot-password':
                 $RSP = $this->forgot();
                 break;
@@ -103,6 +106,13 @@ class Auth extends Controller
     public function __construct()
     {
         helper(['url', 'session', 'sisdoc_email']);
+    }
+
+    public function signup()
+    {
+        $Socials = new Socials();
+
+        return $Socials->signup()
     }
 
     /***************************************************** |FORGOT API| */
