@@ -678,7 +678,7 @@ class Index extends Model
                         0,
                         " . $ordem . ",
                         '" . date('Y-m-d') . "')";
-                        pre($sql);
+
                 $this->db->query($sql);
                 $saved++;
             }
