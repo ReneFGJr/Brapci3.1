@@ -167,10 +167,9 @@ class Index extends Model
     function directory(int $ID)
         {
             $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
-            $file = '_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
+            $file = '/_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
 
-            pre($_SERVER);
-            if (file_exists($file))
+            if (file_exists($_SERVER['DOCUMENT_ROOT'].$file))
                 {
                     return 'https://cip.brapci.inf.br/' . $file;
                 } else {
