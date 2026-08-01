@@ -205,7 +205,7 @@ class Index extends Model
             {
                 if ($r['ID'] == $r['use'])
                     {
-                        $file = $this->directory($r['ID'],substr($r['class'],0,1));
+                        $file = $this->directory($r['ID'],substr($class,0,1));
                         $row[$k]['picture'] = $file;
                     } else {
                         unset($row[$k]);
