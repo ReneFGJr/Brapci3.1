@@ -169,13 +169,21 @@ class Index extends Model
             $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
             $file = '/_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
             $fileF = $_SERVER['DOCUMENT_ROOT'] . $file;
-            pre($fileF,false);
+            if (!file_exists($fileF))
+            {
+                $file = '/_repository/' . substr($IDn, 0, 2) . '/' . substr($IDn, 2, 2) . '/' . substr($IDn, 4, 2) . '/' . substr($IDn, 6, 2) . '/image.jpg';
+                $fileF = $_SERVER['DOCUMENT_ROOT'] . $file;
+            }
+
             if (file_exists($fileF))
                 {
                     return 'https://cip.brapci.inf.br/' . $file;
                 } else {
                     return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
                 }
+            } else {
+                return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+            }
         }
 
     function search_base($n,$class='Person')
