@@ -180,7 +180,6 @@ class Index extends Model
         foreach($row as $k=>$r)
             {
                 $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
-                pre($r);
                 if ($r['ID'] == $r['use'])
                     {
                         $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
