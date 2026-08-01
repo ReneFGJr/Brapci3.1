@@ -181,7 +181,13 @@ class Index extends Model
             {
                 $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
                 pre($r);
-                $row[$k]['picture'] = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
+                if ($r['ID'] == $r['use'])
+                    {
+                        $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
+                    } else {
+                        $file = 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+                    }
+                $row[$k]['picture'] = $file;
             }
 
         return $row;
