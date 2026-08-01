@@ -179,15 +179,9 @@ class Index extends Model
         /* Picture */
         foreach($row as $k=>$r)
             {
+                $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
+                pre($r);
                 $row[$k]['picture'] = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
-                if (isset($r['c_cpf']))
-                    {
-                        $cpf = $r['c_cpf'];
-                        if ($cpf != '')
-                            {
-                                $row[$k]['picture'] = 'https://www.sisdoc.com.br/cpf/' . $cpf . '.jpg';
-                            }
-                    }
             }
 
         return $row;
