@@ -164,6 +164,18 @@ class Index extends Model
         return $idc;
     }
 
+    function directory(int $ID)
+        {
+            $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
+            $file = '_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
+            if (file_exists($file))
+                {
+                    return 'https://cip.brapci.inf.br/' . $file;
+                } else {
+                    return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+                }
+        }
+
     function search_base($n,$class='Person')
     {
         /*************** Busca RDF */
@@ -179,10 +191,9 @@ class Index extends Model
         /* Picture */
         foreach($row as $k=>$r)
             {
-                $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
                 if ($r['ID'] == $r['use'])
                     {
-                        $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
+                        $file = $this->directory($r['ID']);
                         $row[$k]['picture'] = $file;
                     } else {
                         unset($row[$k]);
