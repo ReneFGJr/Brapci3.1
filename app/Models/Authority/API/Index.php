@@ -183,7 +183,7 @@ class Index extends Model
                         {
                             return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
                         } else {
-                            return 'https://cip.brapci.inf.br/img/genre/no_image_co.jpg';
+                            return 'https://cip.brapci.inf.br/img/genre/no_image_co.svg';
                         }
                 }
         }
