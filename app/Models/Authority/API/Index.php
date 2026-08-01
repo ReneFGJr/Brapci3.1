@@ -181,9 +181,6 @@ class Index extends Model
                 } else {
                     return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
                 }
-            } else {
-                return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
-            }
         }
 
     function search_base($n,$class='Person')
