@@ -164,7 +164,7 @@ class Index extends Model
         return $idc;
     }
 
-    function directory(int $ID)
+    function directory(int $ID, string $type="P")
         {
             $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
             $file = '/_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
@@ -179,7 +179,12 @@ class Index extends Model
                 {
                     return 'https://cip.brapci.inf.br' . $file;
                 } else {
-                    return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+                    if ($type == "P")
+                        {
+                            return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+                        } else {
+                            return 'https://cip.brapci.inf.br/img/genre/no_image_co.jpg';
+                        }
                 }
         }
 
@@ -200,29 +205,13 @@ class Index extends Model
             {
                 if ($r['ID'] == $r['use'])
                     {
-                        $file = $this->directory($r['ID']);
+                        $file = $this->directory($r['ID'],substr($r['class'],0,1));
                         $row[$k]['picture'] = $file;
                     } else {
                         unset($row[$k]);
                     }
             }
-
         return $row;
-        exit;
-
-
-        $n = mb_strtoupper(ASCII($n));
-        $AuthName = new \App\Models\Authority\API\AuthName();
-        $flag = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
-        $cp = 'id_an, id_c, an_name, c_use';
-        $cp = '*';
-        $dt = $AuthName
-            ->select($cp)
-            ->join('auth_concept', 'c_prefName = id_an')
-            ->like('an_name_asc', $n)
-            ->orderBy('an_name')
-            ->findAll();
-        return $dt;
     }
 
     function getid($id)
