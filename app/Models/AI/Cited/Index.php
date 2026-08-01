@@ -670,14 +670,15 @@ class Index extends Model
                         (" . round($dt['ca_rdf']) . ",
                         " . round($dt['ca_journal'] ?? 0) . ",
                         " . round($dt['ca_year'] ?? 0) . ",
-                        " . round($dt['ca_vol'] ?? 0) . ",
-                        " . round($dt['ca_nr'] ?? 0) . ",
-                        " . round($dt['ca_pag'] ?? 0) . ",
-                        " . round($dt['ca_tipo'] ?? 0) . ",
+                        '" . ($dt['ca_vol'] ?? "") . "',
+                        '" . ($dt['ca_nr'] ?? "") . "',
+                        '" . ($dt['ca_pag'] ?? "") . "',
+                        '" . ($dt['ca_tipo'] ?? "") . "',
                         '" . addslashes($viewValor) . "',
                         0,
                         " . $ordem . ",
                         '" . date('Y-m-d') . "')";
+
                 $this->db->query($sql);
                 $saved++;
             }
