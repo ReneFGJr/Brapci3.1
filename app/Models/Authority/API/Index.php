@@ -176,6 +176,8 @@ class Index extends Model
         $idc = $RDFclass->getClass($class);
         $row = $RDFconcept->searchTerm($name,$idc,$faceted);
 
+        pre($row);
+
         return $row;
         exit;
 
