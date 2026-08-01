@@ -183,10 +183,10 @@ class Index extends Model
                 if ($r['ID'] == $r['use'])
                     {
                         $file = 'https://cip.brapci.inf.br/_repository/00/34/39/94/photo_00004604.jpg';
+                        $row[$k]['picture'] = $file;
                     } else {
-                        $file = 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+                        unset($row[$k]);
                     }
-                $row[$k]['picture'] = $file;
             }
 
         return $row;
