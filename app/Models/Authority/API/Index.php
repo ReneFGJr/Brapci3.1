@@ -177,7 +177,7 @@ class Index extends Model
 
             if (file_exists($fileF))
                 {
-                    return 'https://cip.brapci.inf.br/' . $file;
+                    return 'https://cip.brapci.inf.br' . $file;
                 } else {
                     return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
                 }
