@@ -346,7 +346,7 @@ class RDFmetadata extends Model
             foreach ($auth as $ida => $linenm) {
                 $name = ascii($linenm->name);
                 $name = nbr_author($name, 2);
-                $name .= '/'.$linenm->ID;
+                $name .= ';'.$linenm->ID;
                 array_push($netwa, $name);
                 if (!isset($neta[$name]))
                     {
