@@ -177,12 +177,14 @@ class RDFmetadata extends Model
     function subjects(array $IDs = [])
     {
         $subjects = [];
+        $year_max = 0;
+        $year_min = 9999;
 
         $Elastic = new \App\Models\ElasticSearch\Search();
         $cp = 'KEYWORDS,YEAR';
         $dt = $Elastic
             ->select($cp)
-            ->whereIn('ID', $IDs)->findAll(10);
+            ->whereIn('ID', $IDs)->findAll();
         $resultado = [];
 
         foreach ($dt as $item) {
@@ -199,6 +201,12 @@ class RDFmetadata extends Model
                 if ($keyword == '') {
                     continue;
                 }
+                if ($ano > $year_max) {
+                    $year_max = $ano;
+                }
+                if ($ano < $year_min) {
+                    $year_min = $ano;
+                }
                 if (!isset($resultado[$ano][$keyword])) {
                     $resultado[$ano][$keyword] = 0;
                     if (!isset($subjects[$keyword])) {
@@ -210,7 +218,7 @@ class RDFmetadata extends Model
                 $resultado[$ano][$keyword]++;
             }
         }
-        return ['subject_year'=>$resultado,'subject'=>$subjects];
+        return ['subject_year'=>$resultado,'subject'=>$subjects,'year_max'=>$year_max, 'year_min'=>$year_min];
     }
 
     function metadataCorporateBody($dt)
