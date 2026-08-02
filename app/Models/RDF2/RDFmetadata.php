@@ -288,7 +288,7 @@ class RDFmetadata extends Model
         }
 
         /************************************** Photo */
-        $Photo = $RDFImage->getPhoto($dt);
+        $Photo = $RDFimage->getPhoto($dt);
 
         /************************************** Data */
         $dta = get("di");
