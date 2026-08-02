@@ -189,13 +189,14 @@ class RDFmetadata extends Model
             $prop = $line['Property'];
             if ($prop == 'hasLogotype') {
                 $logo = base_url($line['Caption']);
-                pre($line);
+                break;
             }
         }
         if ($logo != '')
             {
                 $dt['logo'] = $logo;
             }
+        pre($dr);
         return $dr;
     }
 
