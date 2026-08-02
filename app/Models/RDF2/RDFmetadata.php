@@ -196,6 +196,7 @@ class RDFmetadata extends Model
             {
                 $dt['logo'] = $logo;
             }
+        echo "=====".$logo;
         pre($dr);
         return $dr;
     }
