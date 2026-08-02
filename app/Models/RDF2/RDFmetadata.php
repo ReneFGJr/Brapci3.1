@@ -118,12 +118,11 @@ class RDFmetadata extends Model
         }
 
         $dd = [];
-        if (!isset($dt['concept']['c_class']))
-            {
-                $dc['message'] = 'Register canceled';
-                $dc['status'] = '404';
-                return $dc;
-            }
+        if (!isset($dt['concept']['c_class'])) {
+            $dc['message'] = 'Register canceled';
+            $dc['status'] = '404';
+            return $dc;
+        }
 
         $class = $dt['concept']['c_class'];
 
@@ -175,16 +174,43 @@ class RDFmetadata extends Model
         }
     }
 
-    function subjects(array $IDs=[])
-        {
-            $Elastic = new \App\Models\ElasticSearch\Search();
-            $cp = 'KEYWORDS,YEAR';
-            $dt = $Elastic
-                ->select($cp)
-                ->whereIn('ID',$IDs)->findAll(10);
-            pre($dt);
-            pre($IDs);
+    function subjects(array $IDs = [])
+    {
+        $Elastic = new \App\Models\ElasticSearch\Search();
+        $cp = 'KEYWORDS,YEAR';
+        $dt = $Elastic
+            ->select($cp)
+            ->whereIn('ID', $IDs)->findAll(10);
+        $resultado = [];
+
+        foreach ($dt as $item) {
+
+            $ano = (int)$item['YEAR'];
+
+            if (trim($item['KEYWORDS']) == '') {
+                continue;
+            }
+
+            $keywords = explode(';', $item['KEYWORDS']);
+
+            foreach ($keywords as $keyword) {
+
+                $keyword = trim($keyword);
+
+                if ($keyword == '') {
+                    continue;
+                }
+
+                if (!isset($resultado[$ano][$keyword])) {
+                    $resultado[$ano][$keyword] = 0;
+                }
+
+                $resultado[$ano][$keyword]++;
+            }
         }
+
+        print_r($resultado);
+    }
 
     function metadataCorporateBody($dt)
     {
@@ -204,10 +230,9 @@ class RDFmetadata extends Model
                 break;
             }
         }
-        if ($logo != '')
-            {
-                $dr['logo'] = $logo;
-            }
+        if ($logo != '') {
+            $dr['logo'] = $logo;
+        }
         return $dr;
     }
 
@@ -223,7 +248,7 @@ class RDFmetadata extends Model
 
         $dr = [];
         $dr['name'] = $dt['concept']['n_name'];
-        $dr['name_abnt'] = nbr_author(ascii($dt['concept']['n_name']),2);
+        $dr['name_abnt'] = nbr_author(ascii($dt['concept']['n_name']), 2);
 
         $ID1 = $dt['concept']['id_cc'];
         $ID2 = $dt['concept']['cc_use'];
@@ -244,13 +269,11 @@ class RDFmetadata extends Model
         $dx = $dataset->findAll($limit);
 
         /************** Remove Duplicatas */
-        foreach($dx as $id=>$dy)
-            {
-                if ($dy['use'] != 0)
-                    {
-                        unset($dx[$id]);
-                    }
+        foreach ($dx as $id => $dy) {
+            if ($dy['use'] != 0) {
+                unset($dx[$id]);
             }
+        }
 
         $works = [];
         $coauthors = [];
@@ -266,12 +289,11 @@ class RDFmetadata extends Model
         $node = [];
         $IDs = [];
         $Photo = [];
-        $netCenter = ['name'=> nbr_author($dr['name'],2),'ID'=>$dr['ID'],'color'=>'#FFFFFF','marker'=>['radius'=>10]];
+        $netCenter = ['name' => nbr_author($dr['name'], 2), 'ID' => $dr['ID'], 'color' => '#FFFFFF', 'marker' => ['radius' => 10]];
         $affiliations = [];
 
         /************************************** DT */
-        foreach($dt['data'] as $id=>$line)
-            {
+        foreach ($dt['data'] as $id => $line) {
             $propertiesMap = [
                 'hasLattes' => 'lattes',
                 'hasOrcID' => 'orcid',
@@ -291,7 +313,7 @@ class RDFmetadata extends Model
                 ];
             }
 
-                foreach ($propertiesMap as $property => $key) {
+            foreach ($propertiesMap as $property => $key) {
 
                 if ($line['Property'] === $property) {
                     $IDs[] = [$key => $line['Caption']];
@@ -352,7 +374,7 @@ class RDFmetadata extends Model
 
             /************************************** Producao */
             $year = $line['YEAR'] - $dta;
-            array_push($worksID,$line['ID']);
+            array_push($worksID, $line['ID']);
             if ($year >= 0) {
                 if (isset($ds[$type][$year])) {
                     $ds[$type][$year] = $ds[$type][$year] + 1;
@@ -373,14 +395,13 @@ class RDFmetadata extends Model
             foreach ($auth as $ida => $linenm) {
                 $name = ascii($linenm->name);
                 $name = nbr_author($name, 2);
-                $name .= ';'.$linenm->ID;
+                $name .= ';' . $linenm->ID;
                 array_push($netwa, $name);
-                if (!isset($neta[$name]))
-                    {
-                        $neta[$name] = 1;
-                    } else {
-                        $neta[$name] = $neta[$name] + 1;
-                    }
+                if (!isset($neta[$name])) {
+                    $neta[$name] = 1;
+                } else {
+                    $neta[$name] = $neta[$name] + 1;
+                }
             }
             /************************************** */
 
@@ -405,17 +426,15 @@ class RDFmetadata extends Model
             }
             /*****************************************/
             $netd = [];
-            foreach($netw as $n1=>$n2)
-                {
-                    foreach($n2 as $nm2=>$tot)
-                        {
-                            $dd = [];
-                            $dd['from'] = substr($n1, 0, strpos($n1, ';'));
-                            $dd['to'] = substr($nm2, 0, strpos($nm2, ';'));
-                            $dd['width'] = $tot;
-                            array_push($netd,$dd);
-                        }
+            foreach ($netw as $n1 => $n2) {
+                foreach ($n2 as $nm2 => $tot) {
+                    $dd = [];
+                    $dd['from'] = substr($n1, 0, strpos($n1, ';'));
+                    $dd['to'] = substr($nm2, 0, strpos($nm2, ';'));
+                    $dd['width'] = $tot;
+                    array_push($netd, $dd);
                 }
+            }
 
             /******************** Coauthors */
             foreach ($auth as $ida => $linenm) {
@@ -482,24 +501,21 @@ class RDFmetadata extends Model
         }
 
         /************ Network - Node */
-        foreach($neta as $name=>$tot)
-            {
-                $color = '#000088';
-                if ($tot > 10)
-                    {
-                        $color = '#0000FF';
-                    }
-                if ($name == $dr['name_abnt'])
-                    {
-                        $color = '#FF0000';
-                    }
-                //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
-                $tot = round(log($tot))*4+1;
-                $name = explode(';',$name);
-
-                $dn = ['name' => $name[0],'ID'=>$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
-                array_push($node,$dn);
+        foreach ($neta as $name => $tot) {
+            $color = '#000088';
+            if ($tot > 10) {
+                $color = '#0000FF';
             }
+            if ($name == $dr['name_abnt']) {
+                $color = '#FF0000';
+            }
+            //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
+            $tot = round(log($tot)) * 4 + 1;
+            $name = explode(';', $name);
+
+            $dn = ['name' => $name[0], 'ID' => $name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
+            array_push($node, $dn);
+        }
 
         if ($outros > 0) {
             array_push($graph['labels'], 'Outros');
@@ -671,20 +687,19 @@ class RDFmetadata extends Model
         $dti = $Issues
             ->join('source_source', 'id_jnl = is_source', 'left')
             ->join('geo_cidade', 'id_gc = jnl_cidade', 'left')
-            ->where('is_source',$IDjnl)
+            ->where('is_source', $IDjnl)
             ->orderBy('is_vol desc, is_nr desc')
             ->findAll();
 
-        foreach ($dti as $idi=>$linei) {
-            $dti = $Issues->getMetada(0,$linei);
+        foreach ($dti as $idi => $linei) {
+            $dti = $Issues->getMetada(0, $linei);
             $ANO = $dti['YEAR'];
             if (!isset($YEARS[$ANO])) {
                 $YEARS[$ANO] = $ANO;
             }
-            if ($dti['totalWorks'] > 0)
-                {
-                    array_push($ISSUE, $dti);
-                }
+            if ($dti['totalWorks'] > 0) {
+                array_push($ISSUE, $dti);
+            }
         }
         krsort($YEARS);
         $sYEARS = [];
@@ -736,81 +751,75 @@ class RDFmetadata extends Model
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
                 $cites = $Cited->total_cited($line['ID']);
-                array_push($worksID,$line['ID']);
-                if ($cites > 0)
-                    {
-                        $ref .= '<sup class="p-1 text-blue">('.$cites. ' cites)</sup>';
-                    }
+                array_push($worksID, $line['ID']);
+                if ($cites > 0) {
+                    $ref .= '<sup class="p-1 text-blue">(' . $cites . ' cites)</sup>';
+                }
 
                 array_push($works, $ref);
             }
             $this->worksID = $worksID;
-            if (!$simple)
-                {
-                    $dr['works'] = $works;
-                }
+            if (!$simple) {
+                $dr['works'] = $works;
+            }
         }
         return $dr;
     }
 
     function metadataSummary($dt)
-        {
-            $RDF = new \App\Models\RDF2\RDF();
-            $RSP = [];
-            $IDS = [];
-            foreach($dt['data'] as $line)
-                {
-                    $prop = $line['Property'];
-                    if ($prop == 'hasBookChapter') {
-                        $ID = $line['ID'];
-                        array_push($IDS,$ID);
-                        /**************************** DOCS */
-                        $dt = $RDF->le($ID);
-                        $meta = $this->metadataChapter($dt);
-                        array_push($RSP,[$ID,$meta]);
-                    }
-                }
-            return $RSP;
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RSP = [];
+        $IDS = [];
+        foreach ($dt['data'] as $line) {
+            $prop = $line['Property'];
+            if ($prop == 'hasBookChapter') {
+                $ID = $line['ID'];
+                array_push($IDS, $ID);
+                /**************************** DOCS */
+                $dt = $RDF->le($ID);
+                $meta = $this->metadataChapter($dt);
+                array_push($RSP, [$ID, $meta]);
+            }
         }
+        return $RSP;
+    }
 
     function metadataChapter($dt)
-        {
-            $title = '';
-            $author = '';
-            $pagF = '';
-            $pagI = '';
-            $titleALT = '';
+    {
+        $title = '';
+        $author = '';
+        $pagF = '';
+        $pagI = '';
+        $titleALT = '';
 
-            foreach($dt['data'] as $id=>$line)
-                {
-                    $prop = $line['Property'];
-                    $lang = $line['Lang'];
+        foreach ($dt['data'] as $id => $line) {
+            $prop = $line['Property'];
+            $lang = $line['Lang'];
 
-                    if ($prop == 'hasAuthor')
-                        {
-                            $author .= $line['Caption'].'. ';
-                        }
-                    if (($prop == 'hasTitle') and ($lang == 'pt')) {
-                        $title = $line['Caption'];
-                    }
-                    if (($prop == 'hasTitle') and ($lang != 'pt')) {
-                        $titleALT = $line['Caption'];
-                    }
-                    if ($prop == 'hasPageStart') {
-                        $pagI = $line['Caption'];
-                    }
-                    if ($prop == 'hasPageEnd') {
-                        $pagF = $line['Caption'];
-                    }
-                }
-            if ($title == '')
-                {
-                    $title = $titleALT;
-                }
-            $author = trim($author);
-            $ref = '<b>'.$title. '</b> (p '.$pagI.'-'.$pagF.')<br><i>'.$author.'</i><br>';
-            return $ref;
+            if ($prop == 'hasAuthor') {
+                $author .= $line['Caption'] . '. ';
+            }
+            if (($prop == 'hasTitle') and ($lang == 'pt')) {
+                $title = $line['Caption'];
+            }
+            if (($prop == 'hasTitle') and ($lang != 'pt')) {
+                $titleALT = $line['Caption'];
+            }
+            if ($prop == 'hasPageStart') {
+                $pagI = $line['Caption'];
+            }
+            if ($prop == 'hasPageEnd') {
+                $pagF = $line['Caption'];
+            }
         }
+        if ($title == '') {
+            $title = $titleALT;
+        }
+        $author = trim($author);
+        $ref = '<b>' . $title . '</b> (p ' . $pagI . '-' . $pagF . ')<br><i>' . $author . '</i><br>';
+        return $ref;
+    }
 
     function metadataWork($dt, $simple = false)
     {
@@ -848,11 +857,10 @@ class RDFmetadata extends Model
         }
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
-        $langs = ['pt','en','es','fr'];
-        foreach($langs as $lang)
-            {
-                $dr['subject'][$lang] = $this->arrayExtractLangage($dd, 'hasSubject', $lang);
-            }
+        $langs = ['pt', 'en', 'es', 'fr'];
+        foreach ($langs as $lang) {
+            $dr['subject'][$lang] = $this->arrayExtractLangage($dd, 'hasSubject', $lang);
+        }
 
         $dr['bookID'] = $this->simpleExtractID($dd, 'hasBookChapter');
 
@@ -870,15 +878,14 @@ class RDFmetadata extends Model
             $simpleIssue = true;
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
             $dr['Issue'] = $dtIssue;
-            if (isset($dtIssue['is_year']))
-            {
-            $dr['year'] = $dtIssue['is_year'];
-            if (isset($dtIssue['Publication'])) {
-                $dr['publisher'] = $dtIssue['Publication'];
-            } else {
-                $dr['publisher'] = ':: Not informed Yet ::';
-            }
-            $dr['legend'] = $LEGEND->show($dtIssue);
+            if (isset($dtIssue['is_year'])) {
+                $dr['year'] = $dtIssue['is_year'];
+                if (isset($dtIssue['Publication'])) {
+                    $dr['publisher'] = $dtIssue['Publication'];
+                } else {
+                    $dr['publisher'] = ':: Not informed Yet ::';
+                }
+                $dr['legend'] = $LEGEND->show($dtIssue);
             } else {
                 $dr['legend'] = '###ERRO###';
                 $dr['publisher'] = ':: Not informed Yet ::';
@@ -1005,96 +1012,89 @@ class RDFmetadata extends Model
     }
 
     function markdown($ID)
-        {
-            $id = str_pad((string)$ID, 8, '0', STR_PAD_LEFT);
-            $p1 = substr($id, 0, 2);
-            $p2 = substr($id, 2, 2);
-            $p3 = substr($id, 4, 2);
-            $p4 = substr($id, 6, 2);
+    {
+        $id = str_pad((string)$ID, 8, '0', STR_PAD_LEFT);
+        $p1 = substr($id, 0, 2);
+        $p2 = substr($id, 2, 2);
+        $p3 = substr($id, 4, 2);
+        $p4 = substr($id, 6, 2);
 
-            $file = '';
+        $file = '';
 
-            for ($n=0; $n < 500; $n++) {
-                $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#'. str_pad((string)$n, 5, '0', STR_PAD_LEFT).'.md';
-                if (file_exists($file)) {
-                    return file_get_contents($file);
-                }
+        for ($n = 0; $n < 500; $n++) {
+            $file = FCPATH . '_repository/' . $p1 . '/' . $p2 . '/' . $p3 . '/' . $p4 . '/work_' . $id . '#' . str_pad((string)$n, 5, '0', STR_PAD_LEFT) . '.md';
+            if (file_exists($file)) {
+                return file_get_contents($file);
             }
-           return "File not found ".$file;
         }
+        return "File not found " . $file;
+    }
 
     function metadataHeader($m)
-        {
-            $RSP = [];
+    {
+        $RSP = [];
 
 
-        foreach($m as $key=>$value)
-            {
+        foreach ($m as $key => $value) {
 
-                switch($key)
-                    {
-                        /*************** DC.Creator.PersonalName */
-                        case 'creator_author':
-                            foreach($value as $ida=>$linea)
-                                {
-                                    $dd = [];
-                                    $dd['name'] = 'DC.Creator.PersonalName';
-                                    $dd['content'] = $linea['name'];
-                                    Array_push($RSP,$dd);
-                                    $dd['name'] = 'citation_author';
-                                    $dd['content'] = $linea['name'];
-                                    Array_push($RSP, $dd);
+            switch ($key) {
+                /*************** DC.Creator.PersonalName */
+                case 'creator_author':
+                    foreach ($value as $ida => $linea) {
+                        $dd = [];
+                        $dd['name'] = 'DC.Creator.PersonalName';
+                        $dd['content'] = $linea['name'];
+                        Array_push($RSP, $dd);
+                        $dd['name'] = 'citation_author';
+                        $dd['content'] = $linea['name'];
+                        Array_push($RSP, $dd);
+                    }
+                    break;
 
-                                }
-                            break;
-
-                         /**************** DC.Subject */
-                        case 'subject':
-                        if (isset($value[0]))
-                            {
-                                foreach ($value as $ida => $linea) {
-                                    $dd = [];
-                                    $dd['name'] = 'DC.Subject';
-                                    $dd['content'] = $linea['name'];
-                                    Array_push($RSP, $dd);
-                                }
-                            } else {
-                                if (isset($value['pt']) or (isset($value['en'])))
-                                    {
-                                        foreach ($value as $idioma => $lineb) {
-                                            foreach ($lineb as $ida => $linea) {
-                                                $dd = [];
-                                                $dd['name'] = 'DC.Subject';
-                                                $dd['content'] = $linea['name'];
-                                                Array_push($RSP, $dd);
-                                            }
-                                        }
-                                    }
-                            }
-                            break;
-
-                        /**************** DC.Title */
-                        case 'title':
-                              $dd = [];
-                              $dd['name'] = 'DC.Title';
-                              $dd['content'] = $value;
-                              Array_push($RSP, $dd);
-                            break;
-
-                    /**************** DC.Subject */
-                    case 'subject':
+                /**************** DC.Subject */
+                case 'subject':
+                    if (isset($value[0])) {
                         foreach ($value as $ida => $linea) {
                             $dd = [];
                             $dd['name'] = 'DC.Subject';
                             $dd['content'] = $linea['name'];
                             Array_push($RSP, $dd);
                         }
-                        break;
-
+                    } else {
+                        if (isset($value['pt']) or (isset($value['en']))) {
+                            foreach ($value as $idioma => $lineb) {
+                                foreach ($lineb as $ida => $linea) {
+                                    $dd = [];
+                                    $dd['name'] = 'DC.Subject';
+                                    $dd['content'] = $linea['name'];
+                                    Array_push($RSP, $dd);
+                                }
+                            }
+                        }
                     }
+                    break;
+
+                /**************** DC.Title */
+                case 'title':
+                    $dd = [];
+                    $dd['name'] = 'DC.Title';
+                    $dd['content'] = $value;
+                    Array_push($RSP, $dd);
+                    break;
+
+                /**************** DC.Subject */
+                case 'subject':
+                    foreach ($value as $ida => $linea) {
+                        $dd = [];
+                        $dd['name'] = 'DC.Subject';
+                        $dd['content'] = $linea['name'];
+                        Array_push($RSP, $dd);
+                    }
+                    break;
             }
-            return $RSP;
         }
+        return $RSP;
+    }
 
     function arrayExtract($dt, $class, $suf = '')
     {
@@ -1121,17 +1121,17 @@ class RDFmetadata extends Model
         $RSP = [];
         if (isset($dt[$class])) {
             $data = $dt[$class];
-            foreach ($data as $lg=>$dataLg) {
+            foreach ($data as $lg => $dataLg) {
                 if ($lg == $lang) {
-                foreach ($dataLg as $id => $line) {
-                    $name = [];
-                    $name['name'] = trim(key($line));
-                    $name['ID'] = $line[key($line)];
-                    if ($lang != '') {
-                        $name['complement'] = $lang;
+                    foreach ($dataLg as $id => $line) {
+                        $name = [];
+                        $name['name'] = trim(key($line));
+                        $name['ID'] = $line[key($line)];
+                        if ($lang != '') {
+                            $name['complement'] = $lang;
+                        }
+                        array_push($RSP, $name);
                     }
-                    array_push($RSP, $name);
-                }
                 }
             }
         }
