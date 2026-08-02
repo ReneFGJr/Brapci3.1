@@ -153,8 +153,7 @@ class RDFmetadata extends Model
                 $RSP = $this->metadataSource($dt);
                 $Elastic = new \App\Models\ElasticSearch\Index();
                 $RSP['worksID'] = $Elastic->workdIDjournal($RSP['id_jnl']);
-                pre($dt);
-                $RSP['subject'] = $this->subjects($dt['ID']);
+                $RSP['subject'] = $this->subjects($RSP['worksID']);
                 return $RSP;
                 break;
             case 'Subject':
@@ -176,9 +175,9 @@ class RDFmetadata extends Model
         }
     }
 
-    function subjects($ID)
+    function subjects(array $IDs=[])
         {
-            pre($ID);
+            pre($IDs);
         }
 
     function metadataCorporateBody($dt)
