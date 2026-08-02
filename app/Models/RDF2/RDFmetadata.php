@@ -252,6 +252,7 @@ class RDFmetadata extends Model
         $node = [];
         $IDs = [];
         $Photo = [];
+        $netCenter = ['name'=> $dr['name'],'ID'=>$dr['ID'],'color'=>'#FFFFFF','marker'=>['radius'=>10]];
 
         /************************************** DT */
         foreach($dt['data'] as $id=>$line)
@@ -478,6 +479,7 @@ class RDFmetadata extends Model
         }
         $dr['chart_coauthors'] = $graph;
 
+        $dr['network']['center'] = ($netCenter);
         $dr['network']['data'] = ($netd);
         $dr['network']['nodes'] = ($node);
 
