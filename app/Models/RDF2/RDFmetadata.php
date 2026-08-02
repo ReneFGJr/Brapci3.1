@@ -223,7 +223,7 @@ class RDFmetadata extends Model
         foreach ($resultado as $ano => $keywords) {
             $keywords = array_filter(
                 $keywords,
-                static fn ($frequencia) => $frequencia >= 2
+                static fn ($frequencia) => $frequencia >= 1
             );
 
             if ($keywords === []) {
