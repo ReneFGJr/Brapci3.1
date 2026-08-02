@@ -40,6 +40,7 @@ class RDFimage extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     function getPhoto($dt) {
         $RDF = new \App\Models\RDF2\RDF();
         $picture = base_url('/img/genre/no_image_she_he.jpg');
@@ -48,6 +49,23 @@ class RDFimage extends Model
 
         foreach($dt['data'] as $id => $line)
             {
+                /*********** Logo */
+
+                if ($line['Property'] == 'hasLogotype')
+                    {
+                        $ID = $line['ID'];
+                        $dtd = $RDF->le($ID);
+                        foreach ($dtd['data'] as $id => $line2)
+                            {
+                                if ($line2['Property'] == 'hasFileName')
+                                    {
+                                        $file = base_url($line2['Caption']);
+                                        return $file;
+                                    }
+                            }
+                    }
+
+                /*********** Photo */
                 if ($line['Property'] == 'hasPhoto')
                     {
                         $ID = $line['ID'];
