@@ -204,6 +204,8 @@ class RDFmetadata extends Model
         $limit = 1000;
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFimage = new \App\Models\RDF2\RDFimage();
 
         $worksID = [];
 
@@ -253,6 +255,7 @@ class RDFmetadata extends Model
         $IDs = [];
         $Photo = [];
         $netCenter = ['name'=> nbr_author($dr['name'],2),'ID'=>$dr['ID'],'color'=>'#FFFFFF','marker'=>['radius'=>10]];
+        $affiliations = [];
 
         /************************************** DT */
         foreach($dt['data'] as $id=>$line)
@@ -265,7 +268,19 @@ class RDFmetadata extends Model
                 'hasGoogleScholar' => 'GoogleScholar'
             ];
 
-            foreach ($propertiesMap as $property => $key) {
+            /** Afiliation */
+            if ($line['Property'] === 'hasAffiliation') {
+                $dt_affiliantion = $RDF->le($line['ID']);
+
+                $affiliations[] = [
+                    'name' => $line['Caption'],
+                    'logo' => $RDFimage->getPhoto($dt_affiliantion),
+                    'ID' => $line['ID']
+                ];
+            }
+
+                foreach ($propertiesMap as $property => $key) {
+
                 if ($line['Property'] === $property) {
                     $IDs[] = [$key => $line['Caption']];
                 }
@@ -273,7 +288,6 @@ class RDFmetadata extends Model
         }
 
         /************************************** Photo */
-        $RDFImage = new \App\Models\RDF2\RDFimage();
         $Photo = $RDFImage->getPhoto($dt);
 
         /************************************** Data */
@@ -425,6 +439,8 @@ class RDFmetadata extends Model
 
         $dr['IDs'] = $IDs;
         $dr['Photo'] = $Photo;
+
+        $dr['Affiliations'] = $affiliations;
 
         /************ Grafico Coautorias */
         arsort($coauthors);
