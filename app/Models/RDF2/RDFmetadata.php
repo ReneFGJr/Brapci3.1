@@ -252,7 +252,7 @@ class RDFmetadata extends Model
         $node = [];
         $IDs = [];
         $Photo = [];
-        $netCenter = ['name'=> $dr['name'],'ID'=>$dr['ID'],'color'=>'#FFFFFF','marker'=>['radius'=>10]];
+        $netCenter = ['name'=> nbr_author($dr['name'],2),'ID'=>$dr['ID'],'color'=>'#FFFFFF','marker'=>['radius'=>10]];
 
         /************************************** DT */
         foreach($dt['data'] as $id=>$line)
