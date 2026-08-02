@@ -182,6 +182,19 @@ class RDFmetadata extends Model
         $dr['ID'] = $dt['concept']['id_cc'];
         $dr['logo'] = $RDFimage->cover($dt['concept']['id_cc']);
         $dr['data'] = $dt['data'];
+
+        /*********************** */
+        $logo = '';
+        foreach ($dt['data'] as $id => $line) {
+            $prop = $line['Property'];
+            if ($prop == 'hasLogotype') {
+                $logo = base_url($line['Caption']);
+            }
+        }
+        if ($logo != '')
+            {
+                $dt['logo'] = $logo;
+            }
         return $dr;
     }
 
