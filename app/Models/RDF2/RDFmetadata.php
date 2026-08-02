@@ -383,8 +383,8 @@ class RDFmetadata extends Model
                     foreach($n2 as $nm2=>$tot)
                         {
                             $dd = [];
-                            $dd['from'] = $n1;
-                            $dd['to'] = $nm2;
+                            $dd['from'] = substr($n1, 0, strpos($n1, ';'));
+                            $dd['to'] = substr($nm2, 0, strpos($nm2, ';'));
                             $dd['width'] = $tot;
                             array_push($netd,$dd);
                         }
@@ -468,7 +468,7 @@ class RDFmetadata extends Model
                 $tot = round(log($tot))*4+1;
                 $name = explode(';',$name);
 
-                $dn = ['id' => $name[0],'IDc'=>$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
+                $dn = ['id' => $name[0],'ID'=>$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
 
