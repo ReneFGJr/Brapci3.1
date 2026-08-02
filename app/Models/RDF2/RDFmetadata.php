@@ -176,10 +176,11 @@ class RDFmetadata extends Model
 
     function metadataCorporateBody($dt)
     {
+        $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr = [];
         $dr['name'] = $dt['concept']['n_name'];
         $dr['ID'] = $dt['concept']['id_cc'];
-        $dr['logo'] = $this->simpleExtract($dt['data'], 'hasLogo');
+        $dr['logo'] = $RDFimage->cover($dt['concept']['id_cc']);
         $dr['data'] = $dt['data'];
         return $dr;
     }
