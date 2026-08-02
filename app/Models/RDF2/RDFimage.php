@@ -54,16 +54,8 @@ class RDFimage extends Model
                 if ($line['Property'] == 'hasLogotype')
                     {
                         $ID = $line['ID'];
-                        pre($line);
-                        $dtd = $RDF->le($ID);
-                        foreach ($dtd['data'] as $id => $line2)
-                            {
-                                if ($line2['Property'] == 'hasFileName')
-                                    {
-                                        $file = base_url($line2['Caption']);
-                                        return $file;
-                                    }
-                            }
+                        $file = base_url($line['Caption']);
+                        pre($file);
                     }
 
                 /*********** Photo */
