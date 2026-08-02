@@ -346,6 +346,7 @@ class RDFmetadata extends Model
             foreach ($auth as $ida => $linenm) {
                 $name = ascii($linenm->name);
                 $name = nbr_author($name, 2);
+                $name .= '/'.$linenm->ID;
                 array_push($netwa, $name);
                 if (!isset($neta[$name]))
                     {
@@ -465,8 +466,9 @@ class RDFmetadata extends Model
                     }
                 //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
                 $tot = round(log($tot))*4+1;
+                $name = explode(';',$name);
 
-                $dn = ['id' => $name, 'color' => $color, 'marker' => ['radius' => $tot]];
+                $dn = ['id' => $name[0].'ID='.$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
 
