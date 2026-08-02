@@ -165,10 +165,23 @@ class RDFmetadata extends Model
             case 'Person':
                 return $this->metadataPerson($dt);
                 break;
+            case 'CorporateBody':
+                return $this->metadataCorporateBody($dt);
+                break;
             default:
                 return $this->metadataGeral($dt);
                 exit;
         }
+    }
+
+    function metadataCorporateBody($dt)
+    {
+        $dr = [];
+        $dr['name'] = $dt['concept']['n_name'];
+        $dr['ID'] = $dt['concept']['id_cc'];
+        $dr['logo'] = $this->simpleExtract($dt['data'], 'hasLogo');
+        $dr['data'] = $dt['data'];
+        return $dr;
     }
 
     function metadataPerson($dt)
