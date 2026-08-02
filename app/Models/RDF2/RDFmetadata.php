@@ -468,7 +468,7 @@ class RDFmetadata extends Model
                 $tot = round(log($tot))*4+1;
                 $name = explode(';',$name);
 
-                $dn = ['id' => $name[0],'ID'=>$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
+                $dn = ['name' => $name[0],'ID'=>$name[1], 'color' => $color, 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
 
