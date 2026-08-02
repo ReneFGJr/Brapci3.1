@@ -176,6 +176,8 @@ class RDFmetadata extends Model
 
     function subjects(array $IDs = [])
     {
+        $subjects = [];
+
         $Elastic = new \App\Models\ElasticSearch\Search();
         $cp = 'KEYWORDS,YEAR';
         $dt = $Elastic
@@ -192,24 +194,23 @@ class RDFmetadata extends Model
             }
 
             $keywords = explode(';', $item['KEYWORDS']);
-
             foreach ($keywords as $keyword) {
-
                 $keyword = trim($keyword);
-
                 if ($keyword == '') {
                     continue;
                 }
-
                 if (!isset($resultado[$ano][$keyword])) {
                     $resultado[$ano][$keyword] = 0;
+                    if (!isset($subjects[$keyword])) {
+                        $subjects[$keyword] = 1;
+                    } else {
+                        $subjects[$keyword] += 1;
+                    }
                 }
-
                 $resultado[$ano][$keyword]++;
             }
         }
-
-        print_r($resultado);
+        return ['subject_year'=>$resultado,'subject'=>$subjects];
     }
 
     function metadataCorporateBody($dt)
