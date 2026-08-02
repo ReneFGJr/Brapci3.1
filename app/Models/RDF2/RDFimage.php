@@ -55,7 +55,7 @@ class RDFimage extends Model
                     {
                         $ID = $line['ID'];
                         $file = base_url($line['Caption']);
-                        pre($file);
+                        return $file;
                     }
 
                 /*********** Photo */
