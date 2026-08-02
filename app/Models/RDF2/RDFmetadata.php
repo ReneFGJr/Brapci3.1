@@ -218,6 +218,25 @@ class RDFmetadata extends Model
                 $resultado[$ano][$keyword]++;
             }
         }
+
+        ## Filtro +1
+        foreach ($resultado as $ano => $keywords) {
+            $keywords = array_filter(
+                $keywords,
+                static fn ($frequencia) => $frequencia >= 2
+            );
+
+            if ($keywords === []) {
+                unset($resultado[$ano]);
+                continue;
+            }
+
+            arsort($keywords);
+            $resultado[$ano] = $keywords;
+        }
+
+        krsort($resultado, SORT_NUMERIC);
+
         return ['subject_year'=>$resultado,'subject'=>$subjects,'year_max'=>$year_max, 'year_min'=>$year_min];
     }
 
