@@ -54,6 +54,7 @@ class RDFimage extends Model
                 if ($line['Property'] == 'hasLogotype')
                     {
                         $ID = $line['ID'];
+                        pre($line);
                         $dtd = $RDF->le($ID);
                         foreach ($dtd['data'] as $id => $line2)
                             {
