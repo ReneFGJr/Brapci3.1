@@ -178,7 +178,7 @@ class RDFmetadata extends Model
     function subjects(array $IDs=[])
         {
             $Elastic = new \App\Models\ElasticSearch\Search();
-            $cp = 'KEYWORDS,ID,YEAR';
+            $cp = 'KEYWORDS,YEAR';
             $dt = $Elastic
                 ->select($cp)
                 ->whereIn('ID',$IDs)->findAll(10);
