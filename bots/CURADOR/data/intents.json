@@ -148,6 +148,15 @@
             "tarega"
         ]
     },
+    "6300": {
+        "description": "Tasks do sistema",
+        "patterns": [
+            "source",
+            "fonte",
+            "sources",
+            "fontes"
+        ]
+    },
     "9001": {
         "description": "E-mail teste",
         "patterns": [
