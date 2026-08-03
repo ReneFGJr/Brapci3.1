@@ -139,6 +139,15 @@
             "dataset"
         ]
     },
+    "6200": {
+        "description": "Tasks do sistema",
+        "patterns": [
+            "task",
+            "tasks",
+            "tarefa",
+            "tarega"
+        ]
+    },
     "9001": {
         "description": "E-mail teste",
         "patterns": [
