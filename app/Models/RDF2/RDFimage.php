@@ -487,6 +487,10 @@ class RDFimage extends Model
                 if ($prop == 'hasFileDirectory') {
                     $dir = $line['Caption'];
                 }
+                if ($prop == 'hasCover') {
+                    $dir = $line['Caption'];
+                }
+
                 if ($prop == 'hasContentType') {
                     $type = $line['Caption'];
                 }
@@ -495,9 +499,6 @@ class RDFimage extends Model
                     $tumb = $line['Caption'];
                 }
 
-                if ($prop == 'hasCover') {
-                    $tumb = $line['Caption'];
-                }
             }
 
             if ($dir != '') {
