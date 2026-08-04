@@ -256,6 +256,7 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('viewVC/(:any)', 'BrapciLabAbs::index/viewVC/$1');
 
     $routes->group('authority', function ($routes) {
+        $routes->post('save/(:num)', 'BrapciLab::index_authority/save/$1');
         $routes->get('(:any)', 'BrapciLab::index_authority/$1');
         $routes->get('(:any)/(:any)', 'BrapciLab::index_authority/$1/$2');
         $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::index_authority/$1/$2/$3');

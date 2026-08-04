@@ -75,6 +75,9 @@ class BrapciLab extends BaseController
     {
         $Cited = new \App\Models\AI\Cited\Index();
         switch($act){
+            case 'new':
+                return $Cited->new_cited($id);
+                break;
             case 'edit':
                 $dt = $Cited->find($id);
                 return $Cited->edit_cited($id);
@@ -551,6 +554,67 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/sidebar');
 
         switch ($d1) {
+            case 'edit':
+                $authorId = (int) $d2;
+                $author = $ProjectAuthorModel->find($authorId);
+
+                if (! $author) {
+                    return redirect()
+                        ->to('/labs/project/authors')
+                        ->with('error', 'Autor nao encontrado.');
+                }
+
+                $projectId = $this->projectModel->getProjectsID();
+                $project = $projectId ? $this->projectModel->find($projectId) : null;
+
+                echo view('BrapciLabs/widget/authors/edit', [
+                    'author' => $author,
+                    'project' => $project,
+                ]);
+                break;
+            case 'save':
+                $authorId = (int) $d2;
+
+                if ($this->request->getMethod() !== 'POST') {
+                    return redirect()->to('/labs/authority/edit/' . $authorId);
+                }
+
+                $author = $ProjectAuthorModel->find($authorId);
+                if (! $author) {
+                    return redirect()
+                        ->to('/labs/project/authors')
+                        ->with('error', 'Autor nao encontrado.');
+                }
+
+                $nome = trim((string) $this->request->getPost('nome'));
+                $lattesId = trim((string) $this->request->getPost('lattes_id'));
+                $brapciIdRaw = trim((string) $this->request->getPost('brapci_id'));
+
+                if ($nome === '') {
+                    return redirect()
+                        ->to('/labs/authority/edit/' . $authorId)
+                        ->with('error', 'O nome do autor e obrigatorio.');
+                }
+
+                $brapciIdDigits = preg_replace('/\D+/', '', $brapciIdRaw);
+                $brapciId = ($brapciIdDigits === '') ? 0 : (int) $brapciIdDigits;
+
+                $ok = $ProjectAuthorModel->update($authorId, [
+                    'nome' => $nome,
+                    'lattes_id' => $lattesId,
+                    'brapci_id' => $brapciId,
+                ]);
+
+                if (! $ok) {
+                    return redirect()
+                        ->to('/labs/authority/edit/' . $authorId)
+                        ->with('error', 'Nao foi possivel salvar os dados do autor.');
+                }
+
+                return redirect()
+                    ->to('/labs/authority/edit/' . $authorId)
+                    ->with('success', 'Autor atualizado com sucesso.');
+                break;
             case 'update':
                 switch ($d2) {
                     case 'Brapci':

@@ -149,15 +149,29 @@
                                     </td>
 
                                     <td class="text-end">
+                                        <a href="<?= base_url('labs/authority/view/' . $a['id']) ?>"
+                                            class="btn btn-sm btn-outline-secondary d-inline"
+                                            title="Visualizar autor"
+                                            aria-label="Visualizar autor">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
+                                        <a href="<?= base_url('labs/authority/edit/' . $a['id']) ?>"
+                                            class="btn btn-sm btn-outline-primary d-inline ms-1"
+                                            title="Editar autor"
+                                            aria-label="Editar autor">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
                                         <form method="post"
                                             action="<?= base_url('labs/authority/delete/' . $a['id']) ?>"
                                             onsubmit="return confirm('Remover este autor do projeto?')"
-                                            class="d-inline">
+                                            class="d-inline ms-1">
 
                                             <?= csrf_field() ?>
 
-                                            <button class="btn btn-sm btn-outline-danger">
-                                                🗑️ Excluir
+                                            <button class="btn btn-sm btn-outline-danger" title="Excluir autor" aria-label="Excluir autor">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
                                     </td>

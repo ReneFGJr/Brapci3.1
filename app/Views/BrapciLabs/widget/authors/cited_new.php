@@ -7,8 +7,8 @@
 
             <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
                 <div>
-                    <h4 class="mb-0">Editar citação</h4>
-                    <div class="text-muted small">ca_rdf: <?= esc($dt['ca_rdf'] ?? '') ?></div>
+                    <h4 class="mb-0">Nova referencia</h4>
+                    <div class="text-muted small">ca_rdf: <?= esc($rdf ?? '') ?></div>
                 </div>
 
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.close();">
@@ -17,7 +17,7 @@
             </div>
 
             <?php if (!empty($message)): ?>
-                <div class="alert alert-success">
+                <div class="alert <?= !empty($saved) ? 'alert-success' : 'alert-warning' ?>">
                     <?= esc($message) ?>
                 </div>
             <?php endif; ?>
@@ -27,18 +27,8 @@
 
                 <div class="mb-3">
                     <label class="form-label">ca_text</label>
-                    <textarea name="ca_text" class="form-control" rows="8"><?= esc($dt['ca_text'] ?? '') ?></textarea>
-                </div>
-
-                <div class="mb-3" style="max-width: 220px;">
-                    <label class="form-label">ca_year</label>
-                    <input type="text" name="ca_year" class="form-control" value="<?= esc($dt['ca_year'] ?? '') ?>" maxlength="4" inputmode="numeric">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">view valor</label>
-                    <textarea name="view_valor" class="form-control" rows="8" placeholder="Digite um novo valor para incluir como nova referência"></textarea>
-                    <div class="form-text">Se preenchido, será criada uma nova referência com o mesmo ca_rdf.</div>
+                    <textarea name="ca_text" class="form-control" rows="8" placeholder="Digite a nova referencia"></textarea>
+                    <div class="form-text">Se houver quebra de linha (Enter), sera criada uma referencia por linha.</div>
                 </div>
 
                 <div class="d-flex gap-2">

@@ -36,13 +36,27 @@ if (!is_array($cited) or count($cited) == 0) {
 	} else {
 		foreach ($groups as $rdf => $refs) {
             $groupId = 'cited_group_' . preg_replace('/[^0-9A-Za-z_]/', '_', (string)$rdf);
+			$groupLocked = false;
+			foreach ($refs as $refItem) {
+				if (is_array($refItem) && (int)($refItem['ca_blocked'] ?? 0) === 1) {
+					$groupLocked = true;
+					break;
+				}
+			}
+			$btnClass = $groupLocked ? 'btn-outline-danger' : 'btn-outline-secondary';
+			$btnLocked = $groupLocked ? '1' : '0';
+			$btnIcon = $groupLocked ? 'bi-lock' : 'bi-unlock';
+			$groupClass = 'table-responsive cited-group' . ($groupLocked ? ' cited-group-locked cited-group-hidden' : '');
+			$urlNew = base_url('/labs/cited/new/' . $rdf);
+			$jsUrlNew = str_replace("'", "\\'", $urlNew);
             $href = '<a href="' . base_url('/v/' . $rdf) . '" target="_blank">';
             $hrefa = '</a>';
 			echo '<h5 class="mt-3 mb-1 d-flex align-items-center gap-2">';
 			echo '<span>ca_rdf: ' . $href . esc($rdf) . $hrefa . '</span>';
-			echo '<button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-target="' . esc($groupId) . '" data-rdf="' . esc($rdf) . '" data-locked="0" onclick="toggleCitedGroupLock(this)" title="Travar/Destravar registros" aria-label="Travar/Destravar registros"><i class="bi bi-unlock"></i></button>';
+			echo '<button type="button" class="btn ' . $btnClass . ' btn-sm py-0 px-2" data-target="' . esc($groupId) . '" data-rdf="' . esc($rdf) . '" data-locked="' . $btnLocked . '" onclick="toggleCitedGroupLock(this)" title="Travar/Destravar registros" aria-label="Travar/Destravar registros"><i class="bi ' . $btnIcon . '"></i></button>';
+			echo '<button type="button" class="btn btn-outline-success btn-sm py-0 px-2" onclick="const w = window.open(\'' . $jsUrlNew . '\',\'newwin\',\'scrollbars=no,resizable=yes,width=900,height=700,top=10,left=10\'); if (w) { w.focus(); } return false;" title="Nova referencia" aria-label="Nova referencia"><i class="bi bi-plus-circle"></i></button>';
 			echo '</h5>';
-			echo '<div id="' . esc($groupId) . '" class="table-responsive cited-group">';
+			echo '<div id="' . esc($groupId) . '" class="' . $groupClass . '">';
 			echo '<table class="table table-sm table-striped table-hover mb-3">';
 			echo '<thead><tr>';
 			echo '<th style="width: 60px;">#</th>';

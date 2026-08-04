@@ -650,17 +650,28 @@ class Index extends Model
         $message = '';
 
         if (count($_POST) > 0) {
-            $caText = trim(get('ca_text'));
+            $caText = trim((string)get('ca_text'));
+            $caYearRaw = trim((string)get('ca_year'));
             $viewValor = trim(get('view_valor'));
 
-            if (strlen($caText) > 0) {
-                $sql = "update " . $this->base . "cited_article set
-                            ca_text = '" . addslashes($caText) . "',
-                            ca_update_at = '" . date('Y-m-d') . "'
-                            where id_ca = " . round($id);
-                $this->db->query($sql);
-                $saved++;
+            if (strlen($caText) == 0) {
+                $caText = trim((string)($dt['ca_text'] ?? ''));
             }
+
+            $caYearDigits = preg_replace('/\D+/', '', $caYearRaw);
+            if (strlen($caYearDigits) == 0) {
+                $caYear = (int)($dt['ca_year'] ?? 0);
+            } else {
+                $caYear = (int)$caYearDigits;
+            }
+
+            $sql = "update " . $this->base . "cited_article set
+                        ca_text = '" . addslashes($caText) . "',
+                        ca_year = " . $caYear . ",
+                        ca_update_at = '" . date('Y-m-d') . "'
+                        where id_ca = " . round($id);
+            $this->db->query($sql);
+            $saved++;
 
             if (strlen($viewValor) > 0) {
                 $ordem = round(($dt['ca_ordem'] ?? 0)) + 1;
@@ -699,6 +710,62 @@ class Index extends Model
         ];
 
         return view('BrapciLabs/widget/authors/cited_edit', $data);
+    }
+
+    function new_cited($rdf)
+    {
+        $rdf = (int)$rdf;
+        $saved = 0;
+        $message = '';
+
+        if ($rdf <= 0) {
+            $data = [
+                'rdf' => 0,
+                'saved' => 0,
+                'message' => 'ca_rdf invalido.',
+                'actionUrl' => base_url('/labs/cited/new/0'),
+            ];
+            return view('BrapciLabs/widget/authors/cited_new', $data);
+        }
+
+        if (count($_POST) > 0) {
+            $caText = trim((string)get('ca_text'));
+
+            if (strlen($caText) > 0) {
+                $sql = "select max(ca_ordem) as ordem from " . $this->base . "cited_article where ca_rdf = " . $rdf;
+                $ordem = 0;
+                $rlt = $this->db->query($sql)->getRowArray();
+                if (is_array($rlt) && isset($rlt['ordem'])) {
+                    $ordem = (int)$rlt['ordem'];
+                }
+
+                $linhas = preg_split('/\r\n|\r|\n/', $caText);
+                $linhas = array_filter(array_map('trim', $linhas), function ($ln) {
+                    return $ln !== '';
+                });
+
+                foreach ($linhas as $ln) {
+                    $ordem++;
+                    $this->cited_insert($rdf, addslashes($ln), $ordem);
+                    $saved++;
+                }
+
+                $message = ($saved > 1)
+                    ? 'Novas referencias incluidas com sucesso: ' . $saved
+                    : 'Nova referencia incluida com sucesso.';
+            } else {
+                $message = 'Informe o texto da referencia.';
+            }
+        }
+
+        $data = [
+            'rdf' => $rdf,
+            'saved' => $saved,
+            'message' => $message,
+            'actionUrl' => base_url('/labs/cited/new/' . $rdf),
+        ];
+
+        return view('BrapciLabs/widget/authors/cited_new', $data);
     }
 
     function cited_remove_blank()

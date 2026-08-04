@@ -157,6 +157,15 @@
             "fontes"
         ]
     },
+    "8000": {
+        "description": "Citações de periódicos cadastrados na BRAPCI",
+        "patterns": [
+            "cited",
+            "cites",
+            "citações",
+            "citações de periódicos",
+        ]
+    },
     "9001": {
         "description": "E-mail teste",
         "patterns": [
