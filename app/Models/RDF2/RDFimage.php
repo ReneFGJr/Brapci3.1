@@ -58,7 +58,13 @@ class RDFimage extends Model
                         return $file;
                     }
 
-                /*********** Photo */
+            if ($line['Property'] == 'hasCover') {
+                $ID = $line['ID'];
+                $file = base_url($line['Caption']);
+                return $file;
+            }
+
+            /*********** Photo */
                 if ($line['Property'] == 'hasPhoto')
                     {
                         $ID = $line['ID'];
