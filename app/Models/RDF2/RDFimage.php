@@ -494,6 +494,10 @@ class RDFimage extends Model
                 if ($prop == 'hasTumbNail') {
                     $tumb = $line['Caption'];
                 }
+
+                if ($prop == 'hasCover') {
+                    $tumb = $line['Caption'];
+                }
             }
 
             if ($dir != '') {
