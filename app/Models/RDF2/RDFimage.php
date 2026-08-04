@@ -489,7 +489,7 @@ class RDFimage extends Model
                 }
                 if ($prop == 'hasCover') {
                     $dir = $line['Caption'];
-                    return base_url($dir);
+                    return ($dir);
                 }
 
                 if ($prop == 'hasContentType') {
