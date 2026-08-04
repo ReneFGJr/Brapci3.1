@@ -60,8 +60,13 @@ class RDFimage extends Model
 
             if ($line['Property'] == 'hasCover') {
                 $ID = $line['ID'];
-                $file = base_url($line['Caption']);
-                return $file;
+                $http = trim($line['Caption']);
+                if (substr($http, 0, 4) == 'http') {
+                    return $http;
+                } else {
+                    $file = base_url($line['Caption']);
+                    return $file;
+                }
             }
 
             /*********** Photo */
