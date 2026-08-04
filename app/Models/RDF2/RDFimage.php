@@ -480,8 +480,6 @@ class RDFimage extends Model
         $tumb = '';
         $type = '';
 
-        pre($data);
-
         try {
 
             foreach ($data as $id => $line) {
@@ -491,6 +489,7 @@ class RDFimage extends Model
                 }
                 if ($prop == 'hasCover') {
                     $dir = $line['Caption'];
+                    return base_url($dir);
                 }
 
                 if ($prop == 'hasContentType') {
