@@ -480,6 +480,8 @@ class RDFimage extends Model
         $tumb = '';
         $type = '';
 
+        pre($data);
+
         try {
 
             foreach ($data as $id => $line) {
