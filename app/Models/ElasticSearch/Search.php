@@ -125,6 +125,23 @@ class Search extends Model
         ];
     }
 
+    function searchFull4()
+    {
+        $API = new \App\Models\ElasticSearch\API();
+
+        $dt = [];
+        $data = [];
+        $strategy = [];
+
+        $this->saveSearchToElastic(get("term"));
+
+        $logica = 1;
+        $Logic = new \App\Models\ElasticSearch\SearchLogical();
+        $query = $Logic->method_v1();
+        pre($query);
+        $this->curlQuery($query);
+    }
+
     function searchFull3()
     {
         $API = new \App\Models\ElasticSearch\API();
