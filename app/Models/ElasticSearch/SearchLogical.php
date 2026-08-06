@@ -258,6 +258,172 @@ class SearchLogical extends Model
         return $query;
     }
 
+    function method_v4()
+    {
+        $method = get("term");
+        if (strpos($method, ' OR ') !== false) {
+            $query = $this->method_v4OR();
+        } elseif (strpos($method, ' AND ') !== false) {
+            $query = $this->method_v4AND();
+        } else {
+            $query = $this->method_v4OR(); // Default to OR if no operator is found
+        }
+
+        // $query = $this->method_v4OR();
+
+        return $query;
+    }
+
+    function method_v4OR()
+        {
+            /************************************************************
+             * Paginação
+             ************************************************************/
+            $start  = (int) get('start');
+            $offset = (int) get('offset');
+
+            if ($offset <= 0) {
+                $offset = 10;
+            }
+
+            /************************************************************
+             * Query básica
+             ************************************************************/
+            $query = [];
+
+            $query['from'] = $start;
+            $query['size'] = $offset;
+
+            /************************************************************
+             * Estratégia de busca
+             *
+             * Exemplo:
+             * "Indexação automática" OR "Indexação manual"
+             ************************************************************/
+            $strategy = $this->make_search(get("term"));
+
+            /*
+     * make_search() retorna o conteúdo do bool.
+     */
+            $query['query']['bool'] = $strategy;
+
+            /*
+     * IMPORTANTE:
+     * Se existir SHOULD, pelo menos uma condição deve ser atendida.
+     */
+            if (
+                isset($query['query']['bool']['should']) &&
+                count($query['query']['bool']['should']) > 0
+            ) {
+                $query['query']['bool']['minimum_should_match'] = 1;
+            }
+
+            /************************************************************
+             * Cria FILTER
+             *
+             * Journal, Collection e Year não precisam participar
+             * do cálculo de relevância (_score).
+             ************************************************************/
+            if (!isset($query['query']['bool']['filter'])) {
+                $query['query']['bool']['filter'] = [];
+            }
+
+            /************************************************************
+             * Journal
+             ************************************************************/
+            $Journal = trim(
+                troca(
+                    get("journal"),
+                    ',',
+                    ' '
+                )
+            );
+
+            if (
+                ($Journal != 'JA JE EV BK') &&
+                ($Journal != '')
+            ) {
+
+                $filter = [
+                    'query_string' => [
+                        'default_field'    => 'journal',
+                        'query'            => $Journal,
+                        'default_operator' => 'AND'
+                    ]
+                ];
+
+                $query['query']['bool']['filter'][] = $filter;
+            }
+
+            /************************************************************
+             * Collection
+             ************************************************************/
+            $SOURCES = trim(
+                troca(
+                    get("collection"),
+                    ',',
+                    ' '
+                )
+            );
+
+            if (
+                ($SOURCES != 'JA JE EV BK') &&
+                ($SOURCES != '')
+            ) {
+
+                $filter = [
+                    'query_string' => [
+                        'default_field' => 'collection',
+                        'query'         => $SOURCES,
+                        'default_operator' => 'OR'
+                    ]
+                ];
+
+                $query['query']['bool']['filter'][] = $filter;
+            }
+
+            /************************************************************
+             * Intervalo de anos
+             ************************************************************/
+            $year_start = (int) trim(get("year_start"));
+            $year_end   = (int) trim(get("year_end"));
+
+            if ($year_start <= 0) {
+                $year_start = 1951;
+            }
+
+            if ($year_end <= 0) {
+                $year_end = (int) date("Y");
+            }
+
+            $range = [
+                'range' => [
+                    'year' => [
+                        'gte' => $year_start,
+                        'lte' => $year_end
+                    ]
+                ]
+            ];
+
+            $query['query']['bool']['filter'][] = $range;
+
+            /************************************************************
+             * Remove FILTER vazio
+             ************************************************************/
+            if (empty($query['query']['bool']['filter'])) {
+                unset($query['query']['bool']['filter']);
+            }
+
+            /************************************************************
+             * Teste / Debug
+             ************************************************************/
+            if (get("test") != "") {
+                pre($query);
+            }
+
+            return $query;
+        }
+
     function field()
     {
         $flds = get("field");
