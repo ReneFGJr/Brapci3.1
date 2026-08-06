@@ -261,15 +261,263 @@ class SearchLogical extends Model
     function method_v4()
     {
         $method = get("term");
-        if (strpos($method, ' OR ') !== false) {
+        if ((strpos($method, ' OR ') !== false) and (strpos($method, ' AND ') !== false)) {
             $query = $this->method_v4OR();
-        } elseif (strpos($method, ' AND ') !== false) {
+        } elseif ((strpos($method, ' AND ') !== false) and (strpos($method, ' OR ') === false)) {
             $query = $this->method_v4AND();
+        } elseif ((strpos($method, ' AND ') !== false) and (strpos($method, ' OR ') !== false)) {
+            $query = $this->method_v4query();
         } else {
-            $query = $this->method_v4OR(); // Default to OR if no operator is found
+            $query = $this->method_v4AND(); // Default to OR if no operator is found
         }
 
         // $query = $this->method_v4OR();
+
+        return $query;
+    }
+
+    function method_v4query()
+    {
+        /************************************************************
+         * Paginação
+         ************************************************************/
+        $start  = (int) get('start');
+        $offset = (int) get('offset');
+
+        if ($offset <= 0) {
+            $offset = 10;
+        }
+
+        /************************************************************
+         * Query básica
+         ************************************************************/
+        $query = [];
+
+        $query['from'] = $start;
+        $query['size'] = $offset;
+
+        /************************************************************
+         * Recupera estratégia
+         ************************************************************/
+        $term = trim(get("term"));
+
+        // Normaliza operadores booleanos
+        $term = preg_replace('/\s+AND\s+/i', ' AND ', $term);
+        $term = preg_replace('/\s+OR\s+/i',  ' OR ',  $term);
+
+        /************************************************************
+         * Remove parênteses externos, quando existirem
+         *
+         * Exemplo:
+         *
+         * ("A" OR "B") AND ("C" OR "D")
+         *
+         * será dividido inicialmente em:
+         *
+         * ("A" OR "B")
+         * ("C" OR "D")
+         ************************************************************/
+
+        $groups = preg_split(
+            '/\s+AND\s+/i',
+            $term
+        );
+
+        /************************************************************
+         * MUST principal
+         *
+         * Cada grupo separado por AND será obrigatório.
+         ************************************************************/
+        $must = [];
+
+        foreach ($groups as $group) {
+
+            $group = trim($group);
+
+            /******************************************************
+             * Remove parênteses externos
+             ******************************************************/
+            if (
+                substr($group, 0, 1) == '(' &&
+                substr($group, -1) == ')'
+            ) {
+                $group = substr($group, 1, -1);
+            }
+
+            $group = trim($group);
+
+            /******************************************************
+             * Verifica se dentro do grupo existe OR
+             ******************************************************/
+            $terms = preg_split(
+                '/\s+OR\s+/i',
+                $group
+            );
+
+            /******************************************************
+             * Mais de um termo = grupo OR
+             ******************************************************/
+            if (count($terms) > 1) {
+
+                $should = [];
+
+                foreach ($terms as $searchTerm) {
+
+                    $searchTerm = trim($searchTerm);
+
+                    if ($searchTerm == '') {
+                        continue;
+                    }
+
+                    /************************************************
+                     * Normalização utilizada pela BRAPCI
+                     ************************************************/
+                    $searchTerm = strtolower(
+                        ascii($searchTerm)
+                    );
+
+                    $should[] = [
+                        'query_string' => [
+                            'default_field' => 'full',
+                            'query'         => $searchTerm
+                        ]
+                    ];
+                }
+
+                if (count($should) > 0) {
+
+                    $must[] = [
+                        'bool' => [
+                            'should' => $should,
+                            'minimum_should_match' => 1
+                        ]
+                    ];
+                }
+            } else {
+
+                /**************************************************
+                 * Não existe OR dentro do grupo.
+                 *
+                 * Portanto é uma condição obrigatória.
+                 **************************************************/
+                $searchTerm = trim($group);
+
+                if ($searchTerm != '') {
+
+                    $searchTerm = strtolower(
+                        ascii($searchTerm)
+                    );
+
+                    $must[] = [
+                        'query_string' => [
+                            'default_field' => 'full',
+                            'query'         => $searchTerm
+                        ]
+                    ];
+                }
+            }
+        }
+
+        /************************************************************
+         * Monta BOOL principal
+         ************************************************************/
+        $query['query']['bool'] = [];
+
+        if (count($must) > 0) {
+            $query['query']['bool']['must'] = $must;
+        }
+
+        /************************************************************
+         * FILTER
+         ************************************************************/
+        $query['query']['bool']['filter'] = [];
+
+        /************************************************************
+         * Journal
+         ************************************************************/
+        $Journal = trim(
+            troca(
+                get("journal"),
+                ',',
+                ' '
+            )
+        );
+
+        if (
+            ($Journal != 'JA JE EV BK') &&
+            ($Journal != '')
+        ) {
+
+            $query['query']['bool']['filter'][] = [
+                'query_string' => [
+                    'default_field'    => 'journal',
+                    'query'            => $Journal,
+                    'default_operator' => 'AND'
+                ]
+            ];
+        }
+
+        /************************************************************
+         * Collection
+         ************************************************************/
+        $SOURCES = trim(
+            troca(
+                get("collection"),
+                ',',
+                ' '
+            )
+        );
+
+        if (
+            ($SOURCES != 'JA JE EV BK') &&
+            ($SOURCES != '')
+        ) {
+
+            $query['query']['bool']['filter'][] = [
+                'query_string' => [
+                    'default_field'    => 'collection',
+                    'query'            => $SOURCES,
+                    'default_operator' => 'OR'
+                ]
+            ];
+        }
+
+        /************************************************************
+         * Intervalo de anos
+         ************************************************************/
+        $year_start = (int) trim(get("year_start"));
+        $year_end   = (int) trim(get("year_end"));
+
+        if ($year_start <= 0) {
+            $year_start = 1951;
+        }
+
+        if ($year_end <= 0) {
+            $year_end = (int) date("Y");
+        }
+
+        $query['query']['bool']['filter'][] = [
+            'range' => [
+                'year' => [
+                    'gte' => $year_start,
+                    'lte' => $year_end
+                ]
+            ]
+        ];
+
+        /************************************************************
+         * Remove FILTER vazio
+         ************************************************************/
+        if (empty($query['query']['bool']['filter'])) {
+            unset($query['query']['bool']['filter']);
+        }
+
+        /************************************************************
+         * Debug
+         ************************************************************/
+        if (get("test") != "") {
+            pre($query);
+        }
 
         return $query;
     }
@@ -423,6 +671,168 @@ class SearchLogical extends Model
 
             return $query;
         }
+
+    function method_v4AND()
+    {
+        /************************************************************
+         * Paginação
+         ************************************************************/
+        $start  = (int) get('start');
+        $offset = (int) get('offset');
+
+        if ($offset <= 0) {
+            $offset = 10;
+        }
+
+        /************************************************************
+         * Query básica
+         ************************************************************/
+        $query = [];
+
+        $query['from'] = $start;
+        $query['size'] = $offset;
+
+        /************************************************************
+         * Estratégia de busca
+         *
+         * Exemplo:
+         * "Indexação automática" AND "Inteligência artificial"
+         ************************************************************/
+        $strategy = $this->make_search(get("term"));
+
+        /************************************************************
+         * Converte SHOULD para MUST
+         *
+         * OR:
+         * should => [
+         *     termo A,
+         *     termo B
+         * ]
+         *
+         * AND:
+         * must => [
+         *     termo A,
+         *     termo B
+         * ]
+         ************************************************************/
+        if (isset($strategy['should'])) {
+
+            if (!isset($strategy['must'])) {
+                $strategy['must'] = [];
+            }
+
+            foreach ($strategy['should'] as $condition) {
+                $strategy['must'][] = $condition;
+            }
+
+            unset($strategy['should']);
+            unset($strategy['minimum_should_match']);
+        }
+
+        $query['query']['bool'] = $strategy;
+
+        /************************************************************
+         * Cria FILTER
+         ************************************************************/
+        if (!isset($query['query']['bool']['filter'])) {
+            $query['query']['bool']['filter'] = [];
+        }
+
+        /************************************************************
+         * Journal
+         ************************************************************/
+        $Journal = trim(
+            troca(
+                get("journal"),
+                ',',
+                ' '
+            )
+        );
+
+        if (
+            ($Journal != 'JA JE EV BK') &&
+            ($Journal != '')
+        ) {
+
+            $filter = [
+                'query_string' => [
+                    'default_field'    => 'journal',
+                    'query'            => $Journal,
+                    'default_operator' => 'AND'
+                ]
+            ];
+
+            $query['query']['bool']['filter'][] = $filter;
+        }
+
+        /************************************************************
+         * Collection
+         ************************************************************/
+        $SOURCES = trim(
+            troca(
+                get("collection"),
+                ',',
+                ' '
+            )
+        );
+
+        if (
+            ($SOURCES != 'JA JE EV BK') &&
+            ($SOURCES != '')
+        ) {
+
+            $filter = [
+                'query_string' => [
+                    'default_field'    => 'collection',
+                    'query'            => $SOURCES,
+                    'default_operator' => 'OR'
+                ]
+            ];
+
+            $query['query']['bool']['filter'][] = $filter;
+        }
+
+        /************************************************************
+         * Intervalo de anos
+         ************************************************************/
+        $year_start = (int) trim(get("year_start"));
+        $year_end   = (int) trim(get("year_end"));
+
+        if ($year_start <= 0) {
+            $year_start = 1951;
+        }
+
+        if ($year_end <= 0) {
+            $year_end = (int) date("Y");
+        }
+
+        $range = [
+            'range' => [
+                'year' => [
+                    'gte' => $year_start,
+                    'lte' => $year_end
+                ]
+            ]
+        ];
+
+        $query['query']['bool']['filter'][] = $range;
+
+        /************************************************************
+         * Remove FILTER vazio
+         ************************************************************/
+        if (empty($query['query']['bool']['filter'])) {
+            unset($query['query']['bool']['filter']);
+        }
+
+        /************************************************************
+         * Teste / Debug
+         ************************************************************/
+        if (get("test") != "") {
+            pre($query);
+        }
+
+        return $query;
+    }
 
     function field()
     {
