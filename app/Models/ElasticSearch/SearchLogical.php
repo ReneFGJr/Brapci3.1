@@ -261,6 +261,10 @@ class SearchLogical extends Model
     function method_v4()
     {
         $method = get("term");
+        $method = troca($method, ' and ', ' AND ');
+        $method = troca($method, ' not ', ' NOT ');
+        $method = troca($method, ' or ', ' OR ');
+
         if ((strpos($method, ' OR ') !== false) and (strpos($method, ' AND ') !== false)) {
             $query = $this->method_v4OR();
         } elseif ((strpos($method, ' AND ') !== false) and (strpos($method, ' OR ') === false)) {
