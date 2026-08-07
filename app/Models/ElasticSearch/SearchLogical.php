@@ -260,6 +260,7 @@ class SearchLogical extends Model
 
     function method_v4()
     {
+        echo "1";
         $method = get("term");
         $method = troca($method, ' and ', ' AND ');
         $method = troca($method, ' not ', ' NOT ');
