@@ -260,17 +260,17 @@ class SearchLogical extends Model
 
     function method_v4()
     {
-        echo "1";
         $method = get("term");
         $method = troca($method, ' and ', ' AND ');
         $method = troca($method, ' not ', ' NOT ');
         $method = troca($method, ' or ', ' OR ');
 
-        pre($method);
 
         $OR = strpos($method, ' OR ');
         $AND = strpos($method, ' AND ');
 
+        print_r($OR,$AND);
+        exit;
         if ($OR and $AND === false) {
             echo "V40OR";
             $query = $this->method_v4OR();
