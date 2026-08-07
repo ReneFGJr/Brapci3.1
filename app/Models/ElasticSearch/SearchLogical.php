@@ -275,10 +275,8 @@ class SearchLogical extends Model
             $query = $this->method_v4AND();
         } elseif ($OR and $AND) {
             $query = $this->method_v4query();
-        } else {
-            echo "OPS ========= fullsearch sem operador booleano. Default para AND";
-            exit;
-            $query = $this->method_v4AND(); // Default to OR if no operator is found
+        } else ($AND == false and $OR === false) {
+            $query = $this->method_v4AND();
         }
         return $query;
     }
