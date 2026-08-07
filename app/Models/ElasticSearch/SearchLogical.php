@@ -281,11 +281,6 @@ class SearchLogical extends Model
             $query = $this->method_v4AND(); // Default to OR if no operator is found
         }
 
-        echo "--------------------OK----------------";
-        pre($query);
-
-        // $query = $this->method_v4OR();
-
         return $query;
     }
 
