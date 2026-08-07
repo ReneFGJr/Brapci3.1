@@ -265,6 +265,8 @@ class SearchLogical extends Model
         $method = troca($method, ' not ', ' NOT ');
         $method = troca($method, ' or ', ' OR ');
 
+        pre($method);
+
         $OR = strpos($method, ' OR ');
         $AND = strpos($method, ' AND ');
 
