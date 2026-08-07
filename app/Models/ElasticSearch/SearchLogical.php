@@ -146,6 +146,14 @@ class SearchLogical extends Model
         return $resultado;
     }
 
+    function padronizarTermoBusca($termo)
+    {
+        $termo = trim((string) $termo);
+        $termo = preg_replace('~[^\p{L}\p{N}\s]+~u', ' ', $termo);
+        $termo = preg_replace('~\s+~u', ' ', $termo);
+        return trim($termo);
+    }
+
     function method_a1($limit=1000)
         {
             $qr = get("q");
@@ -260,10 +268,10 @@ class SearchLogical extends Model
 
     function method_v4()
     {
-        $method = get("term");
-        $method = troca($method, ' and ', ' AND ');
-        $method = troca($method, ' not ', ' NOT ');
-        $method = troca($method, ' or ', ' OR ');
+        $method = $this->padronizarTermoBusca(get("term"));
+        $method = preg_replace('~\band\b~iu', ' AND ', $method);
+        $method = preg_replace('~\bnot\b~iu', ' NOT ', $method);
+        $method = preg_replace('~\bor\b~iu', ' OR ', $method);
 
 
         $OR = (strpos($method, ' OR ') !== false);
@@ -304,7 +312,7 @@ class SearchLogical extends Model
         /************************************************************
          * Recupera estratégia
          ************************************************************/
-        $term = trim(get("term"));
+        $term = $this->padronizarTermoBusca(get("term"));
 
         // Normaliza operadores booleanos
         $term = preg_replace('/\s+AND\s+/i', ' AND ', $term);
