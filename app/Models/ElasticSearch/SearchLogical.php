@@ -675,13 +675,6 @@ class SearchLogical extends Model
                 unset($query['query']['bool']['filter']);
             }
 
-            /************************************************************
-             * Teste / Debug
-             ************************************************************/
-            if (get("test") != "") {
-                pre($query);
-            }
-
             return $query;
         }
 
@@ -836,15 +829,6 @@ class SearchLogical extends Model
         if (empty($query['query']['bool']['filter'])) {
             unset($query['query']['bool']['filter']);
         }
-
-        /************************************************************
-         * Teste / Debug
-         ************************************************************/
-        if (get("test") != "") {
-            echo "OK";
-            pre($query);
-        }
-
         return $query;
     }
 
