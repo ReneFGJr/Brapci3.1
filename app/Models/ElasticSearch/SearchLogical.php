@@ -265,6 +265,9 @@ class SearchLogical extends Model
         $method = troca($method, ' not ', ' NOT ');
         $method = troca($method, ' or ', ' OR ');
 
+        echo $method;
+        exit;
+
         if ((strpos($method, ' OR ') !== false) and (strpos($method, ' AND ') !== false)) {
             $query = $this->method_v4OR();
         } elseif ((strpos($method, ' AND ') !== false) and (strpos($method, ' OR ') === false)) {
