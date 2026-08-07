@@ -15,6 +15,7 @@ def register(JNL,ISSUE,WORK):
         database.insert(qi)
 
 def checkIssueWork():
+    print("...Checking source_issue_work table")
     qr = """
         SELECT d1.d_r1, d1.d_r2, d2.d_r1, jnl_name, d2.d_p, id_jnl, d1.id_d
             FROM brapci_rdf.rdf_data as d1
