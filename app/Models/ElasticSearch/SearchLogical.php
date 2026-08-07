@@ -266,6 +266,7 @@ class SearchLogical extends Model
         $method = troca($method, ' or ', ' OR ');
 
         if ((strpos($method, ' OR ') !== false) and (strpos($method, ' AND ') !== false)) {
+            echo "V40OR";
             $query = $this->method_v4OR();
         } elseif ((strpos($method, ' AND ') !== false) and (strpos($method, ' OR ') === false)) {
             $query = $this->method_v4AND();
@@ -275,7 +276,7 @@ class SearchLogical extends Model
             $query = $this->method_v4AND(); // Default to OR if no operator is found
         }
 
-        echo "OK";
+        echo "--------------------OK----------------";
         pre($query);
 
         // $query = $this->method_v4OR();
