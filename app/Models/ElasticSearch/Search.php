@@ -139,7 +139,6 @@ class Search extends Model
 
         $query = $Logic->method_v4();
         $echoResult = true;
-        pre($query);
         $this->curlQuery($query, $echoResult, 'v4');
     }
 
