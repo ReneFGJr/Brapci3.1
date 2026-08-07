@@ -275,7 +275,7 @@ class SearchLogical extends Model
             $query = $this->method_v4AND();
         } elseif ($OR and $AND) {
             $query = $this->method_v4query();
-        } else ($AND == false and $OR === false) {
+        } elseif (($AND == false) and ($OR === false)) {
             $query = $this->method_v4AND();
         }
         return $query;
