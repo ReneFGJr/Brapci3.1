@@ -262,6 +262,7 @@ class SearchLogical extends Model
     {
         $method = get("term");
         $method = str_replace(['(',')','[',']','-','/','%','$','&'], ' ', $method);
+        pre($method);
         $method = troca($method, ' and ', ' AND ');
         $method = troca($method, ' not ', ' NOT ');
         $method = troca($method, ' or ', ' OR ');
