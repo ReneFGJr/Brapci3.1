@@ -134,6 +134,7 @@ class Search extends Model
         $strategy = [];
 
         $this->saveSearchToElastic(get("term"));
+        pre("OK");
 
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
