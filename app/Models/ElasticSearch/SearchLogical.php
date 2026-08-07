@@ -269,8 +269,6 @@ class SearchLogical extends Model
         $OR = (strpos($method, ' OR ') !== false);
         $AND = (strpos($method, ' AND ') !== false);
 
-        print_r([$OR, $AND, $method]);
-        exit;
         if ($OR and $AND === false) {
             echo "V40OR";
             $query = $this->method_v4OR();
@@ -279,7 +277,8 @@ class SearchLogical extends Model
         } elseif ($OR and $AND) {
             $query = $this->method_v4query();
         } else {
-            echo "V40AND";
+            echo "OPS ========= fullsearch sem operador booleano. Default para AND";
+            exit;
             $query = $this->method_v4AND(); // Default to OR if no operator is found
         }
 
