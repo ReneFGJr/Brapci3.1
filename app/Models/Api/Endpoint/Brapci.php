@@ -760,7 +760,6 @@ class Brapci extends Model
             /************************************ */
             $_POST['version'] = $version;
             $Elastic = new \App\Models\ElasticSearch\Search();
-            pre($version);
             switch($version)
                 {
                     case 'a1':
@@ -770,6 +769,7 @@ class Brapci extends Model
                         return $Elastic->searchFull3();
                         break;
                     case 'v4':
+                        pre("========V4========");
                         return $Elastic->searchFull4();
                         break;
                     default:
