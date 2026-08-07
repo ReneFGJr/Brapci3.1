@@ -262,7 +262,6 @@ class SearchLogical extends Model
     {
         $method = get("term");
         $method = str_replace(['(',')','[',']','-','/','%','$','&'], ' ', $method);
-        pre($method);
         $method = troca($method, ' and ', ' AND ');
         $method = troca($method, ' not ', ' NOT ');
         $method = troca($method, ' or ', ' OR ');
@@ -272,18 +271,18 @@ class SearchLogical extends Model
         $AND = (strpos($method, ' AND ') !== false);
 
         if ($OR and $AND === false) {
-            $query = $this->method_v4OR();
+            $query = $this->method_v4OR($method);
         } elseif ($AND and $OR === false) {
-            $query = $this->method_v4AND();
+            $query = $this->method_v4AND($method);
         } elseif ($OR and $AND) {
-            $query = $this->method_v4query();
+            $query = $this->method_v4query($method);
         } elseif (($AND == false) and ($OR === false)) {
-            $query = $this->method_v4AND();
+            $query = $this->method_v4AND($method);
         }
         return $query;
     }
 
-    function method_v4query()
+    function method_v4query($method)
     {
         /************************************************************
          * Paginação
@@ -306,7 +305,7 @@ class SearchLogical extends Model
         /************************************************************
          * Recupera estratégia
          ************************************************************/
-        $term = trim(get("term"));
+        $term = trim($method);
 
         // Normaliza operadores booleanos
         $term = preg_replace('/\s+AND\s+/i', ' AND ', $term);
@@ -529,7 +528,7 @@ class SearchLogical extends Model
         return $query;
     }
 
-    function method_v4OR()
+    function method_v4OR($method)
         {
             /************************************************************
              * Paginação
@@ -555,7 +554,7 @@ class SearchLogical extends Model
              * Exemplo:
              * "Indexação automática" OR "Indexação manual"
              ************************************************************/
-            $strategy = $this->make_search(get("term"));
+            $strategy = $this->make_search($method);
 
             /*
      * make_search() retorna o conteúdo do bool.
@@ -672,7 +671,7 @@ class SearchLogical extends Model
             return $query;
         }
 
-    function method_v4AND()
+    function method_v4AND($method)
     {
         /************************************************************
          * Paginação
@@ -698,7 +697,7 @@ class SearchLogical extends Model
          * Exemplo:
          * "Indexação automática" AND "Inteligência artificial"
          ************************************************************/
-        $strategy = $this->make_search(get("term"));
+        $strategy = $this->make_search($method);
 
         /************************************************************
          * Converte SHOULD para MUST
