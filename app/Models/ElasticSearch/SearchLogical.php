@@ -270,10 +270,8 @@ class SearchLogical extends Model
         $AND = (strpos($method, ' AND ') !== false);
 
         if ($OR and $AND === false) {
-            echo "V40OR";
             $query = $this->method_v4OR();
         } elseif ($AND and $OR === false) {
-            echo "V40AND";
             $query = $this->method_v4AND();
         } elseif ($OR and $AND) {
             $query = $this->method_v4query();
@@ -843,6 +841,7 @@ class SearchLogical extends Model
          * Teste / Debug
          ************************************************************/
         if (get("test") != "") {
+            echo "OK";
             pre($query);
         }
 
