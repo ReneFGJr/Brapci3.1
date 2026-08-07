@@ -21,7 +21,7 @@ def checkIssueWork():
             INNER JOIN brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc
             INNER JOIN brapci_rdf.rdf_class as cl1 ON c1.cc_class = cl1.id_c
             INNER join brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc and c2.cc_status <> 9
-            INNER join brapci_rdf.rdf_data as d2 ON d1.d_r2 = d2.d_r2
+            INNER join brapci_rdf.rdf_data as d2 ON ((d1.d_r2 = d2.d_r2) or (d1.d_r1 = d2.d_r2))
             INNER join brapci.source_source ON d2.d_r1 = source_source.jnl_frbr
             LEFT JOIN brapci.source_issue_work as siw ON siw_work_rdf = d1.d_r2
             where d1.d_p = 31 and cl1.c_class = 'Issue'
