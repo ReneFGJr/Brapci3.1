@@ -280,7 +280,6 @@ class SearchLogical extends Model
             exit;
             $query = $this->method_v4AND(); // Default to OR if no operator is found
         }
-
         return $query;
     }
 
