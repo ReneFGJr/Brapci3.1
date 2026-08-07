@@ -273,6 +273,7 @@ class SearchLogical extends Model
             echo "V40OR";
             $query = $this->method_v4OR();
         } elseif ($AND and $OR === false) {
+            echo "V40AND";
             $query = $this->method_v4AND();
         } elseif ($OR and $AND) {
             $query = $this->method_v4query();
