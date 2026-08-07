@@ -159,7 +159,7 @@ class Search extends Model
         $this->curlQuery($query);
     }
 
-    function curlQuery(string $query='', $echoResult = true, $version = '3')
+    function curlQuery($query = '', $echoResult = true, $version = '3')
     {
         /********************************************** Logica 2 */
         if ($_SERVER['HTTP_HOST'] == 'brapci')
@@ -174,11 +174,13 @@ class Search extends Model
         $ch = curl_init();
 
         // Configurações do cURL
+        $payload = is_array($query) || is_object($query) ? json_encode($query) : $query;
+
         curl_setopt_array($ch, [
             CURLOPT_URL => "$host/$index/_search", // Endpoint para pesquisa
             CURLOPT_RETURNTRANSFER => true,       // Retorna o resultado como string
             CURLOPT_CUSTOMREQUEST => 'POST',      // Método HTTP
-            CURLOPT_POSTFIELDS => json_encode($query), // Corpo da requisição em JSON
+            CURLOPT_POSTFIELDS => $payload, // Corpo da requisição em JSON
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json' // Cabeçalho indicando JSON
             ],
