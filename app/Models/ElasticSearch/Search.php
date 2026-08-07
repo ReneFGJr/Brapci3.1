@@ -138,7 +138,8 @@ class Search extends Model
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
         $query = $Logic->method_v4();
-        $this->curlQuery($query);
+        $echoResult = true;
+        $this->curlQuery($query, $echoResult, 'v4');
     }
 
     function searchFull3()
@@ -157,7 +158,7 @@ class Search extends Model
         $this->curlQuery($query);
     }
 
-    function curlQuery($query, $echoResult = true)
+    function curlQuery(string $query='', $echoResult = true, $version = '3')
     {
         /********************************************** Logica 2 */
         if ($_SERVER['HTTP_HOST'] == 'brapci')
@@ -247,6 +248,9 @@ class Search extends Model
         $type = '1';
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
         $SearchDB->register(json_encode($query), count($dt['works']), $type);
+
+        $dt['search']['version'] = $version;
+        $dt['search']['total'] = count($dt['works']);
 
         if ($echoResult) {
             echo (json_encode($dt));
