@@ -269,7 +269,7 @@ class SearchLogical extends Model
         $OR = strpos($method, ' OR ');
         $AND = strpos($method, ' AND ');
 
-        print_r($OR,$AND);
+        print_r([$OR, $AND, $method]);
         exit;
         if ($OR and $AND === false) {
             echo "V40OR";
