@@ -31,6 +31,7 @@ $routes->get('/screensaver', 'MainPages::screensaver');
 
 $routes->get('/api', 'Api::index');
 
+$routes->options('/api/(:any)', 'Api::index/$1');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
 $routes->put('/api/(:any)', 'Api::index/$1');
