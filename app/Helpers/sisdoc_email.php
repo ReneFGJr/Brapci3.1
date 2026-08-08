@@ -87,89 +87,73 @@ function email_smtp_test()
     return $sx;
 }
 
-function sendmail($to = array(), $subject = '', $body = '', $attachs = array(), $images = array())
+function sendmail($to = [], $subject = '', $body = '', $attachs = [], $images = [])
 {
     return sendemail($to, $subject, $body, $attachs, $images);
 }
-function sendemail($to = array(), $subject = '', $body = '', $attachs = array(), $images = array())
+function sendemail($to = [], $subject = '', $body = '', $attachs = [], $images = [])
 {
-    if (getenv("EMAIL_TYPE") == 'smtp') {
-        $email = \Config\Services::email();
+    $config = config(\Config\Email::class);
+    $email = \Config\Services::email($config, false);
+    $recipients = is_array($to) ? array_values(array_filter($to)) : trim((string) $to);
 
-        $config = array();
-        $config['protocol'] = 'smtp';
-        $config['wordWrap'] = true;
-        $config['SMTPHost'] = getenv('EMAIL_SMTP');
-        $config['SMTPUser'] = getenv('EMAIL_USER_AUTH');
-        $config['SMTPPass'] = getenv('EMAIL_PASSWORD');
-        $config['SMTPPort'] = (int)getenv('EMAIL_SMTP_PORT');
-        $cofngi['SMTPCrypto'] = '';
-        $config['fromEmail'] = getenv('EMAIL_FROM');
-        $config['fromName'] = getenv('EMAIL_FROM_NAME');
-
-        $config['UseTLS'] = false;
-        $config['FromLineOverride'] = true;
-        $config["smtp_crypto"] = "ssl";
-
-        $config['newline'] = chr(13) . chr(10);
-        $config['mailType'] = 'html';
-
-        $email->initialize($config);
-    } else {
-        $config['protocol'] = 'sendmail';
-        $config['mailPath'] = '/usr/sbin/sendmail';
-        $config['newline'] = "\r\n";
-
-        $config['newline'] = chr(13) . chr(10);
-        $config['mailType'] = 'html';
-
-        $email = \Config\Services::email();
-        $email->initialize($config);
-    }
-    /************************* Destinatarios */
-    $emails = '';
-    $email->setFrom(getenv('EMAIL_USER_AUTH'), getenv('EMAIL_FROM'));
-
-    $filename = 'img/email/bg-email-hL3a.jpg';
-    if (file_exists($filename)) {
-        $email->attach($filename);
-        $cid = $email->setAttachmentCID($filename);
-        $body = troca($body, '$image1', $cid);
-    } else {
-        echo "Logo not found";
+    if ($config->fromEmail === '' || $recipients === '' || $recipients === []) {
+        log_message('error', 'E-mail nao enviado: remetente ou destinatario nao configurado.');
+        return bsmessage('Erro ao enviar o e-mail: remetente ou destinatario nao configurado.', 3);
     }
 
-    if (is_array($to)) {
+    $email->setFrom(
+        $config->fromEmail,
+        $config->fromName !== '' ? $config->fromName : $config->fromEmail
+    );
+    $email->setTo($recipients);
+    $email->setSubject((string) $subject);
+
+    // Mantem compatibilidade com os templates que usam cid:$image1.
+    $defaultImage = FCPATH . 'img/email/bg-email-hL3a.jpg';
+    if (is_file($defaultImage)) {
+        $email->attach($defaultImage);
+        $body = str_replace('$image1', $email->setAttachmentCID($defaultImage), (string) $body);
     } else {
-        $email->setTo($to);
-        $emails = $to;
+        $body = str_replace('$image1', '', (string) $body);
     }
 
-    /********* Atachs */
-    foreach ($attachs as $fileID=>$file)
-        {
-            $email->attach($file);
+    // Em $images, a chave pode ser o marcador usado no corpo e o valor o arquivo.
+    foreach ((array) $images as $placeholder => $file) {
+        if (! is_file($file)) {
+            log_message('warning', 'Imagem de e-mail nao encontrada: {file}', ['file' => $file]);
+            continue;
         }
 
-    //$email->setCC('another@another-example.com');
-    //$email->setBCC('them@their-example.com');
-
-    $email->setSubject($subject);
-    $email->setMessage($body);
-
-    $sx = '';
-    $sx .= 'Enviando para: ' . $emails;
-    $sx .= '<br />';
-
-    $sent = $email->send(false);
-    if ($sent) {
-        $sx .= bsmessage('Email enviado com sucesso!', 1);
-    } else {
-        $sx .= bsmessage('Erro ao enviar o email:', 3);
+        $email->attach($file);
+        $cid = $email->setAttachmentCID($file);
+        if (is_string($placeholder)) {
+            $body = str_replace($placeholder, $cid, $body);
+        }
     }
 
-    $sx .= '<div class="mt-3"><h4>Log SMTP</h4><pre class="border p-3 bg-light">';
-    $sx .= htmlspecialchars($email->printDebugger(['headers', 'subject', 'body']));
-    $sx .= '</pre></div>';
-    return $sx;
+    foreach ((array) $attachs as $file) {
+        if (is_file($file)) {
+            $email->attach($file);
+        } else {
+            log_message('warning', 'Anexo de e-mail nao encontrado: {file}', ['file' => $file]);
+        }
+    }
+
+    $email->setMessage($body);
+
+    try {
+        if ($email->send(false)) {
+            return bsmessage('E-mail enviado com sucesso!', 1);
+        }
+
+        $debug = $email->printDebugger(['headers']);
+        log_message('error', 'Falha no envio de e-mail: {debug}', ['debug' => $debug]);
+        return bsmessage('Erro ao enviar o e-mail.', 3);
+    } catch (\Throwable $exception) {
+        log_message('error', 'Excecao no envio de e-mail: {message}', [
+            'message' => $exception->getMessage(),
+        ]);
+        return bsmessage('Erro ao enviar o e-mail.', 3);
+    }
 }
