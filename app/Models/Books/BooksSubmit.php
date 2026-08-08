@@ -891,13 +891,17 @@ class BooksSubmit extends Model
         return $sx;
     }
 
-    function sendEmail($id)
+    function sendEmail($id): bool
     {
         $dt = $this->where('id_bs', $id)->first();
+        if ($dt === null || empty($dt['bs_email'])) {
+            log_message('error', 'Livro {id}: registro ou destinatario de e-mail inexistente.', ['id' => $id]);
+            return false;
+        }
+
         $email = $dt['bs_email'];
         $subject = 'Submissão de livro';
         $name = 'Rene Faustino Gabriel Junior';
-        $to = [$email];
 
         $btn_concordancia = '<a href="https://brapci.inf.br/books/disclaimer/' . $id . '/' . md5($id . 'brapci_livros') . '" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>';
 
@@ -942,7 +946,48 @@ class BooksSubmit extends Model
         $subject = '[BRAPCI-LIVROS] ';
         $subject .= 'Termo de submissão';
 
-        sendemail($email, $subject, $txt);
+        $emailConfig = config(\Config\Email::class);
+        $mailer = \Config\Services::email($emailConfig, false);
+
+        if ($emailConfig->fromEmail === '') {
+            log_message('error', 'Livro {id}: EMAIL_FROM nao esta configurado.', ['id' => $id]);
+            return false;
+        }
+
+        $mailer->setFrom(
+            $emailConfig->fromEmail,
+            $emailConfig->fromName !== '' ? $emailConfig->fromName : $emailConfig->fromEmail
+        );
+        $mailer->setTo($email);
+        $mailer->setSubject($subject);
+
+        $image = FCPATH . 'img/email/bg-email-hL3a.jpg';
+        if (is_file($image)) {
+            $mailer->attach($image);
+            $txt = str_replace('$image1', $mailer->setAttachmentCID($image), $txt);
+        } else {
+            $txt = str_replace('$image1', '', $txt);
+        }
+
+        $mailer->setMessage($txt);
+
+        try {
+            if ($mailer->send(false)) {
+                return true;
+            }
+
+            log_message('error', 'Livro {id}: falha no envio do e-mail. {debug}', [
+                'id' => $id,
+                'debug' => $mailer->printDebugger(['headers']),
+            ]);
+        } catch (\Throwable $exception) {
+            log_message('error', 'Livro {id}: excecao no envio do e-mail: {message}', [
+                'id' => $id,
+                'message' => $exception->getMessage(),
+            ]);
+        }
+
+        return false;
     }
 
     function register()
