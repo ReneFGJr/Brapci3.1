@@ -179,6 +179,10 @@ class Index extends Model
                 {
                     return 'https://cip.brapci.inf.br' . $file;
                 } else {
+                    $RDFimage = new \App\Models\RDF2\RDFimage();
+                    $file = $RDFimage->directory($ID);
+                    pre($file);
+
                     if ($type == "P")
                         {
                             return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
