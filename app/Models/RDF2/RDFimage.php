@@ -50,8 +50,6 @@ class RDFimage extends Model
         foreach($dt['data'] as $id => $line)
             {
                 /*********** Logo */
-                echo $line['Property'].'<hr>';
-
                 if ($line['Property'] == 'hasLogotype')
                     {
                         $ID = $line['ID'];
@@ -75,6 +73,8 @@ class RDFimage extends Model
                     {
                         $ID = $line['ID'];
                         $dtd = $RDF->le($ID);
+                        pre($line,false);
+                        pre($dtd);
                         foreach ($dtd['data'] as $id => $line2)
                             {
                                 if ($line2['Property'] == 'hasFileName')
