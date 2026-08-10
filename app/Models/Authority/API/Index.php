@@ -93,17 +93,16 @@ class Index extends Model
         }
         $RSP = [];
 
-        $n = get("term").$n;
-        if (strlen($n) < 3)
-            {
-                $data = [];
-                $RSP['message'] = 'Minimal 3 chars to search';
-                $RSP['status'] = '500';
-            } else {
-                $data = $this->search_base($n);
-                $RSP['status'] = '200';
-                $RSP['message'] = 'OK';
-            }
+        $n = get("term") . $n;
+        if (strlen($n) < 3) {
+            $data = [];
+            $RSP['message'] = 'Minimal 3 chars to search';
+            $RSP['status'] = '500';
+        } else {
+            $data = $this->search_base($n);
+            $RSP['status'] = '200';
+            $RSP['message'] = 'OK';
+        }
 
         /********** Calculos */
         $total = count($data);
@@ -117,7 +116,7 @@ class Index extends Model
 
 
 
-        $dataC = $this->search_base($n,'CorporateBody');
+        $dataC = $this->search_base($n, 'CorporateBody');
         $RSP['corporate'] = $dataC;
 
         return $RSP;
@@ -135,64 +134,61 @@ class Index extends Model
 
         $class = $RDF->getClass($class);
         $prop = $RDF->getClass('prefLabel');
-        $name = nbr_author($dt['prefLabel'],7);
+        $name = nbr_author($dt['prefLabel'], 7);
 
         $idn = $AuthName->register($name);
         $idc = $AuthConcept->register($class, $idn);
 
-        if (isset($dt['prop']['acronym']))
-            {
-                $name = mb_strtoupper($dt['prop']['acronym']);
-                $ida = $AuthName->register($name);
-                $idac = $AuthConcept->register($class, $ida);
-                $AuthConcept->remissive($idac, $idc);
-            }
+        if (isset($dt['prop']['acronym'])) {
+            $name = mb_strtoupper($dt['prop']['acronym']);
+            $ida = $AuthName->register($name);
+            $idac = $AuthConcept->register($class, $ida);
+            $AuthConcept->remissive($idac, $idc);
+        }
 
         if ($dt['prop'] != '') {
-            foreach($dt['prop'] as $prop=>$vlr)
-                {
-                    if (is_array($vlr))
-                        {
-                            //echo $prop . '=>';
-                            //pre($vlr,false);
-                        } else {
-                            $prop = $RDF->getClass($prop);
-                            $AuthResource->register($idc, $prop, $vlr);
-                        }
+            foreach ($dt['prop'] as $prop => $vlr) {
+                if (is_array($vlr)) {
+                    //echo $prop . '=>';
+                    //pre($vlr,false);
+                } else {
+                    $prop = $RDF->getClass($prop);
+                    $AuthResource->register($idc, $prop, $vlr);
                 }
+            }
         }
         return $idc;
     }
 
-    function directory(int $ID, string $type="P")
-        {
-            $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
-            $file = '/_repository/' . substr($IDn,0,2) . '/' . substr($IDn,2,2) . '/' . substr($IDn,4,2) . '/' . substr($IDn,6,2) . '/photo_' . $IDn . '.jpg';
+    function directory(int $ID, string $type = "P")
+    {
+        $RDFimage = new \App\Models\RDF2\RDFimage();
+        $RDF = new \App\Models\RDF2\RDF();
+
+        $IDn = str_pad($ID, 8, "0", STR_PAD_LEFT);
+        $file = '/_repository/' . substr($IDn, 0, 2) . '/' . substr($IDn, 2, 2) . '/' . substr($IDn, 4, 2) . '/' . substr($IDn, 6, 2) . '/photo_' . $IDn . '.jpg';
+        $fileF = $_SERVER['DOCUMENT_ROOT'] . $file;
+        if (!file_exists($fileF)) {
+            $file = '/_repository/' . substr($IDn, 0, 2) . '/' . substr($IDn, 2, 2) . '/' . substr($IDn, 4, 2) . '/' . substr($IDn, 6, 2) . '/image.jpg';
             $fileF = $_SERVER['DOCUMENT_ROOT'] . $file;
-            if (!file_exists($fileF))
-            {
-                $file = '/_repository/' . substr($IDn, 0, 2) . '/' . substr($IDn, 2, 2) . '/' . substr($IDn, 4, 2) . '/' . substr($IDn, 6, 2) . '/image.jpg';
-                $fileF = $_SERVER['DOCUMENT_ROOT'] . $file;
-            }
-
-            if (file_exists($fileF))
-                {
-                    return 'https://cip.brapci.inf.br' . $file;
-                } else {
-                    $RDFimage = new \App\Models\RDF2\RDFimage();
-                    $file = $RDFimage->directory($ID);
-                    pre($file);
-
-                    if ($type == "P")
-                        {
-                            return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
-                        } else {
-                            return 'https://cip.brapci.inf.br/img/genre/no_image_co.svg';
-                        }
-                }
         }
 
-    function search_base($n,$class='Person')
+        if (file_exists($fileF)) {
+            return 'https://cip.brapci.inf.br' . $file;
+        } else {
+            $dt = $RDF->le($ID);
+            $file = $RDFimage->getPhoto($dt);
+            pre($file);
+
+            if ($type == "P") {
+                return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
+            } else {
+                return 'https://cip.brapci.inf.br/img/genre/no_image_co.svg';
+            }
+        }
+    }
+
+    function search_base($n, $class = 'Person')
     {
         /*************** Busca RDF */
         $RDF = new \App\Models\RDF2\RDF();
@@ -202,19 +198,17 @@ class Index extends Model
 
         $faceted = True;
         $idc = $RDFclass->getClass($class);
-        $row = $RDFconcept->searchTerm($name,$idc,$faceted);
+        $row = $RDFconcept->searchTerm($name, $idc, $faceted);
 
         /* Picture */
-        foreach($row as $k=>$r)
-            {
-                if ($r['ID'] == $r['use'])
-                    {
-                        $file = $this->directory($r['ID'],substr($class,0,1));
-                        $row[$k]['picture'] = $file;
-                    } else {
-                        unset($row[$k]);
-                    }
+        foreach ($row as $k => $r) {
+            if ($r['ID'] == $r['use']) {
+                $file = $this->directory($r['ID'], substr($class, 0, 1));
+                $row[$k]['picture'] = $file;
+            } else {
+                unset($row[$k]);
             }
+        }
         return $row;
     }
 
@@ -230,30 +224,30 @@ class Index extends Model
             ->where('auth_concept.id_c', $id)
             ->first();
 
-        if ($dt=='')
-            {
-                $RSP['status'] = '404';
-                $RSP['message'] = 'Registro não existe';
-                return $RSP;
-            }
+        if ($dt == '') {
+            $RSP['status'] = '404';
+            $RSP['message'] = 'Registro não existe';
+            return $RSP;
+        }
 
-        if ($dt['c_use'] != 0)
-            {
-                $idu = round($dt['c_use']);
-                $dt = $this->getid($idu);
-                $dt['remissive'] = $this->getRemissive($idu);
-            }
+        if ($dt['c_use'] != 0) {
+            $idu = round($dt['c_use']);
+            $dt = $this->getid($idu);
+            $dt['remissive'] = $this->getRemissive($idu);
+        }
         $RSP = array_merge($RSP, $dt);
         return $RSP;
     }
     function getRemissive($id)
-        {
-            if ($id == 0) { return []; }
-            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
-            $dt = $AuthConcept
-                ->join('auth_name','c_prefName = id_an')
-                ->where('c_use',$id)
-                ->findAll();
-            return $dt;
+    {
+        if ($id == 0) {
+            return [];
         }
+        $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+        $dt = $AuthConcept
+            ->join('auth_name', 'c_prefName = id_an')
+            ->where('c_use', $id)
+            ->findAll();
+        return $dt;
+    }
 }
