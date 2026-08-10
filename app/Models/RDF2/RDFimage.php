@@ -50,6 +50,7 @@ class RDFimage extends Model
         foreach($dt['data'] as $id => $line)
             {
                 /*********** Logo */
+                echo $line['Property'].'<hr>';
 
                 if ($line['Property'] == 'hasLogotype')
                     {

@@ -177,7 +177,6 @@ class Index extends Model
             return 'https://cip.brapci.inf.br' . $file;
         } else {
             $dt = $RDF->le($ID);
-            pre($dt);
             $file = $RDFimage->getPhoto($dt);
             if (file_exists($fileF)) {
                 if ($type == "P") {
