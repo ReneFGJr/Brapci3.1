@@ -179,7 +179,7 @@ class Index extends Model
             $dt = $RDF->le($ID);
             $file = $RDFimage->getPhoto($dt);
 
-            if (strpos($file, 'http')) {
+            if (strpos(' '.$file, 'http') > 0) {
                 return $file;
             } else {
                 if ($type == "P") {
