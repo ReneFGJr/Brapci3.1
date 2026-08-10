@@ -178,6 +178,7 @@ class Index extends Model
         } else {
             $dt = $RDF->le($ID);
             $file = $RDFimage->getPhoto($dt);
+            pre($file);
             if (file_exists($fileF)) {
                 if ($type == "P") {
                     return 'https://cip.brapci.inf.br/img/genre/no_image_he.jpg';
