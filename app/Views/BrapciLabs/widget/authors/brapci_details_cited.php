@@ -3,7 +3,6 @@
 $cited = $data['cited'] ?? array();
 $without = $data['withoutCited'] ?? array();
 
-pre($cited);
 if (count($without) > 0) {
 	echo '<div class="alert alert-warning" role="alert">';
 	echo '<strong>Total ' . count($without) . ' registros sem referência encontrada:</strong> ';
@@ -29,16 +28,17 @@ if (is_array($cited)) {
 		}
 
 		$exportRows[] = array(
-			'ca_text' => str_replace(array("\r\n", "\r", "\n"), '-', trim((string)($item['ca_text'] ?? ''))),
-			'ca_year' => trim((string)($item['ca_year'] ?? '')),
-			'ca_doi' => trim((string)($item['ca_doi'] ?? '')),
-			'id_ca' => (int)($item['id_ca'] ?? 0),
+			'REF' => str_replace(array("\r\n", "\r", "\n"), '-', trim((string)($item['ca_text'] ?? ''))),
+			'YEAR' => trim((string)($item['ca_year'] ?? '')),
+			'YEAR_ARTICLE' => trim((string)($item['ca_year_origem'] ?? '')),
+			'DOI' => trim((string)($item['ca_doi'] ?? '')),
+			'RDF' => (int)($item['ca_rdf'] ?? 0),
 		);
 	}
 }
 
 usort($exportRows, static function (array $left, array $right): int {
-	return strnatcasecmp($left['ca_text'], $right['ca_text']);
+	return strnatcasecmp($left['REF'], $right['REF']);
 });
 
 $exportCsvData = json_encode($exportRows, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
