@@ -3,6 +3,7 @@
 $cited = $data['cited'] ?? array();
 $without = $data['withoutCited'] ?? array();
 
+pre($cited);
 if (count($without) > 0) {
 	echo '<div class="alert alert-warning" role="alert">';
 	echo '<strong>Total ' . count($without) . ' registros sem referência encontrada:</strong> ';
