@@ -27,6 +27,8 @@ if (is_array($cited)) {
 			continue;
 		}
 
+		pre($item);
+
 		$exportRows[] = array(
 			'ca_text' => str_replace(array("\r\n", "\r", "\n"), '-', trim((string)($item['ca_text'] ?? ''))),
 			'ca_year' => trim((string)($item['ca_year'] ?? '')),
