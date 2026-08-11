@@ -28,7 +28,7 @@ if (is_array($cited)) {
 		}
 
 		$exportRows[] = array(
-			'ca_text' => trim((string)($item['ca_text'] ?? '')),
+			'ca_text' => str_replace(array("\r\n", "\r", "\n"), '-', trim((string)($item['ca_text'] ?? ''))),
 			'ca_year' => trim((string)($item['ca_year'] ?? '')),
 			'ca_doi' => trim((string)($item['ca_doi'] ?? '')),
 			'id_ca' => (int)($item['id_ca'] ?? 0),
@@ -169,7 +169,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '      citedCsvEscape(row.id_ca)';
 		echo '    ].join(";"));';
 		echo '  });';
-		echo '  const csv = "\ufeff" + lines.join("-");';
+		echo '  const csv = "\ufeff" + lines.join("\r\n");';
 		echo '  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });';
 		echo '  const url = URL.createObjectURL(blob);';
 		echo '  const link = document.createElement("a");';
