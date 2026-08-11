@@ -161,14 +161,15 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  return "\"" + text.replace(/\"/g, "\"\"") + "\"";';
 		echo '}';
 		echo 'function exportCitedCsv() {';
-		echo '  const header = ["ca_text", "ca_year", "ca_doi", "id_ca"];';
+		echo '  const header = ["ca_text", "ca_year", "ca_year_origem", "ca_doi", "ca_rdf"];';
 		echo '  const lines = [header.join(";")];';
 		echo '  citedCsvRows.forEach(row => {';
 		echo '    lines.push([';
 		echo '      citedCsvEscape(row.ca_text),';
 		echo '      citedCsvEscape(row.ca_year),';
+		echo '      citedCsvEscape(row.ca_year_origem),';
 		echo '      citedCsvEscape(row.ca_doi),';
-		echo '      citedCsvEscape(row.id_ca)';
+		echo '      citedCsvEscape(row.ca_rdf);';
 		echo '    ].join(";"));';
 		echo '  });';
 		echo '  const csv = "\ufeff" + lines.join("\r\n");';
