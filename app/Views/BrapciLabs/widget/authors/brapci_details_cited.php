@@ -169,7 +169,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '      citedCsvEscape(row.id_ca)';
 		echo '    ].join(";"));';
 		echo '  });';
-		echo '  const csv = "\ufeff" + lines.join("\r\n");';
+		echo '  const csv = "\ufeff" + lines.join("-");';
 		echo '  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });';
 		echo '  const url = URL.createObjectURL(blob);';
 		echo '  const link = document.createElement("a");';
