@@ -14,6 +14,34 @@ if (count($without) > 0) {
 	echo '</div>';
 }
 
+echo '<div class="d-flex justify-content-end mb-2">';
+echo '<button type="button" class="btn btn-outline-success btn-sm" onclick="exportCitedCsv()" title="Exportar citações para CSV" aria-label="Exportar citações para CSV">';
+echo '<i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV';
+echo '</button>';
+echo '</div>';
+
+$exportRows = array();
+if (is_array($cited)) {
+	foreach ($cited as $item) {
+		if (!is_array($item)) {
+			continue;
+		}
+
+		$exportRows[] = array(
+			'ca_text' => trim((string)($item['ca_text'] ?? '')),
+			'ca_year' => trim((string)($item['ca_year'] ?? '')),
+			'ca_doi' => trim((string)($item['ca_doi'] ?? '')),
+			'id_ca' => (int)($item['id_ca'] ?? 0),
+		);
+	}
+}
+
+usort($exportRows, static function (array $left, array $right): int {
+	return strnatcasecmp($left['ca_text'], $right['ca_text']);
+});
+
+$exportCsvData = json_encode($exportRows, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+
 
 if (!is_array($cited) or count($cited) == 0) {
 	echo '<p class="text-muted">Sem referências.</p>';
@@ -125,6 +153,33 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '</style>';
 
 		echo '<script>';
+		echo 'const citedCsvRows = ' . ($exportCsvData ?: '[]') . ';';
+		echo 'function citedCsvEscape(value) {';
+		echo '  const text = String(value ?? "");';
+		echo '  return "\"" + text.replace(/\"/g, "\"\"") + "\"";';
+		echo '}';
+		echo 'function exportCitedCsv() {';
+		echo '  const header = ["ca_text", "ca_year", "ca_doi", "id_ca"];';
+		echo '  const lines = [header.join(";")];';
+		echo '  citedCsvRows.forEach(row => {';
+		echo '    lines.push([';
+		echo '      citedCsvEscape(row.ca_text),';
+		echo '      citedCsvEscape(row.ca_year),';
+		echo '      citedCsvEscape(row.ca_doi),';
+		echo '      citedCsvEscape(row.id_ca)';
+		echo '    ].join(";"));';
+		echo '  });';
+		echo '  const csv = "\ufeff" + lines.join("\r\n");';
+		echo '  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });';
+		echo '  const url = URL.createObjectURL(blob);';
+		echo '  const link = document.createElement("a");';
+		echo '  link.href = url;';
+		echo '  link.download = "citas_brapci.csv";';
+		echo '  document.body.appendChild(link);';
+		echo '  link.click();';
+		echo '  link.remove();';
+		echo '  URL.revokeObjectURL(url);';
+		echo '}';
 		echo 'function toggleCitedGroupLock(btn) {';
 		echo '  const targetId = btn.getAttribute("data-target");';
 		echo '  const rdfId = btn.getAttribute("data-rdf");';
