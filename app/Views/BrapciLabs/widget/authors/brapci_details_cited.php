@@ -169,7 +169,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '      citedCsvEscape(row.ca_year),';
 		echo '      citedCsvEscape(row.ca_year_origem),';
 		echo '      citedCsvEscape(row.ca_doi),';
-		echo '      citedCsvEscape(row.ca_rdf);';
+		echo '      citedCsvEscape(row.ca_rdf),';
 		echo '    ].join(";"));';
 		echo '  });';
 		echo '  const csv = "\ufeff" + lines.join("\r\n");';
