@@ -27,7 +27,7 @@ if (is_array($cited)) {
 			continue;
 		}
 
-		pre($item);
+
 
 		$exportRows[] = array(
 			'ca_text' => str_replace(array("\r\n", "\r", "\n"), '-', trim((string)($item['ca_text'] ?? ''))),
@@ -36,6 +36,7 @@ if (is_array($cited)) {
 			'ca_doi' => trim((string)($item['ca_doi'] ?? '')),
 			'ca_rdf' => (int)($item['ca_rdf'] ?? 0),
 		);
+		pre($exportRows);
 	}
 }
 
