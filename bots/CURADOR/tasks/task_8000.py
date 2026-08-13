@@ -222,7 +222,7 @@ def check_02(silent=False):
                 SET
                     ca_text = TRIM(SUBSTRING(ca_text, 2)),
                     ca_year = 0
-                WHERE ca_text LIKE '-%';
+                WHERE ca_text LIKE '-%' or ca_text LIKE '–%' or ca_text LIKE '—%' or ca_text LIKE '|%';
                 """
             )
 
