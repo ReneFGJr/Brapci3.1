@@ -216,15 +216,13 @@ def check_02(silent=False):
             cur.execute("SELECT COUNT(*) AS total FROM cited_article")
             total = int(cur.fetchone().get("total", 0))
 
-            cur.execute(
-                """
+            cur.execute("""
                 UPDATE brapci_cited.cited_article
                 SET
                     ca_text = TRIM(SUBSTRING(ca_text, 2)),
                     ca_year = 0
-                WHERE ca_text LIKE '-%' or ca_text LIKE '–%' or ca_text LIKE '—%' or ca_text LIKE '|%';
-                """
-            )
+                WHERE ca_text LIKE '-%' or ca_text LIKE '–%' or ca_text LIKE '—%' or ca_text LIKE '|%' or ca_text LIKE '°%';
+                """)
 
             cur.execute("""
                 UPDATE brapci_cited.cited_article
