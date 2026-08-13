@@ -225,6 +225,15 @@ def check_02(silent=False):
                 WHERE ca_text LIKE '-%';
                 """
             )
+
+            cur.execute("""
+                UPDATE brapci_cited.cited_article
+                SET
+                    ca_text = TRIM(SUBSTRING(ca_text, 5)),
+                    ca_year = 0
+                WHERE ca_text LIKE '&lt;%';
+                """)
+
             changed = cur.rowcount
             conn.commit()
 
@@ -405,6 +414,7 @@ def check_04(silent=False):
         "total_rows": len(rows),
         "updated_rows": updated_rows,
         "rows": rows,
+        "message": "Ano recuperado de ca_text e atualizado em ca_year.",
     }
 
 if __name__ == "__main__":
