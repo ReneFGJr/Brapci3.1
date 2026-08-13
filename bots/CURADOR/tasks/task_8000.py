@@ -51,6 +51,64 @@ def get_connection(database=None):
     )
 
 
+import re
+
+
+def recuperar_ano(texto: str) -> int:
+    """
+    Recupera o ano de uma referência bibliográfica.
+
+    Retornos:
+        YYYY -> ano identificado
+        9999 -> nenhum ano identificado
+        -2   -> mais de um ano distinto identificado
+    """
+
+    if not texto:
+        return 9999
+
+    anos = set()
+
+    # ---------------------------------------------------------
+    # 1. Anos explícitos com quatro dígitos
+    #    Ex.: 1991, 2025
+    # ---------------------------------------------------------
+    encontrados = re.findall(r'\b(18\d{2}|19\d{2}|20\d{2}|21\d{2})\b', texto)
+
+    for ano in encontrados:
+        anos.add(int(ano))
+
+    # ---------------------------------------------------------
+    # 2. Datas no formato DD/MM/AA
+    #    Ex.: [15/05/98] -> 1998
+    # ---------------------------------------------------------
+    datas_abreviadas = re.findall(r'\b\d{1,2}/\d{1,2}/(\d{2})\b', texto)
+
+    for ano_curto in datas_abreviadas:
+        ano = int(ano_curto)
+
+        # Referências bibliográficas antigas:
+        # 00-29 -> 2000-2029
+        # 30-99 -> 1930-1999
+        if ano <= 29:
+            ano += 2000
+        else:
+            ano += 1900
+
+        anos.add(ano)
+
+    # ---------------------------------------------------------
+    # 3. Avaliação do resultado
+    # ---------------------------------------------------------
+
+    if len(anos) == 0:
+        return 9999
+
+    if len(anos) > 1:
+        return -2
+
+    return anos.pop()
+
 def run(parametros=None, chat=None, silent=False):
     if parametros is None:
         parametros = []
@@ -61,15 +119,12 @@ def run(parametros=None, chat=None, silent=False):
         result_01 = check_01(silent=silent)
         result_02 = check_02(silent=silent)
         result_03 = check_03(silent=silent)
+        result_04 = check_04(silent=silent)
 
-        result = []
-        result.append(result_01)
-        result.append(result_02)
-        result.append(result_03)
         if silent:
             return {
                 "success": False,
-                "checks": [result_01, result_02, result_03],
+                "checks": [result_01, result_02, result_03, result_04],
             }
         return result_02
 
@@ -295,6 +350,62 @@ def check_03(silent=False):
     finally:
         if conn is not None:
             conn.close()
+
+def check_04(silent=False):
+    conn = None
+    updated_rows = 0
+
+    try:
+        conn = get_connection("brapci_cited")
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id_ca, ca_text
+                FROM brapci_cited.cited_article
+                WHERE ca_year = 0
+                ORDER BY id_ca
+                """
+            )
+            rows = cur.fetchall()
+
+            for row in rows:
+                id_ca = row["id_ca"]
+                ca_text = row["ca_text"]
+                ano = recuperar_ano(ca_text)
+
+                cur.execute(
+                    """
+                    UPDATE brapci_cited.cited_article
+                    SET ca_year = %s
+                    WHERE id_ca = %s
+                    """,
+                    (ano, id_ca),
+                )
+                updated_rows += cur.rowcount
+
+            conn.commit()
+
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+
+        if silent:
+            return erro(str(e))
+
+        print("Erro no check_04:", e)
+        return False
+    finally:
+        if conn is not None:
+            conn.close()
+
+    return {
+        "success": True,
+        "table": "brapci_cited.cited_article",
+        "total_rows": len(rows),
+        "updated_rows": updated_rows,
+        "rows": rows,
+    }
 
 if __name__ == "__main__":
     run(parametros=sys.argv[2:], silent=False)
