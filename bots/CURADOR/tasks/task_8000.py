@@ -225,6 +225,7 @@ def check_03(silent=False):
         with conn.cursor() as cur:
             for row in rows:
                 current_id = int(row["id_ca"])
+                ca_text = row["ca_text"]
                 ids_to_delete.add(current_id)
 
                 cur.execute(
@@ -237,7 +238,15 @@ def check_03(silent=False):
                 )
                 previous = cur.fetchone()
                 if previous and previous.get("previous_id") is not None:
-                    ids_to_delete.add(int(previous["previous_id"]))
+                    print("Adicionando id_ca anterior:", previous)
+                    cur.execute(
+                        """
+                        UPDATE brapci_cited.cited_article
+                        SET ca_text = CONCAT(ca_text, ' ', %s)
+                        WHERE id_ca = %s
+                        """,
+                        (ca_text, previous["previous_id"],),
+                    )
 
             deleted_ids = sorted(ids_to_delete)
             if deleted_ids:
