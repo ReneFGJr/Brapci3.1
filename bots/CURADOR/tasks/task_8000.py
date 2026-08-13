@@ -58,7 +58,20 @@ def run(parametros=None, chat=None, silent=False):
     action = parametros[0].lower() if len(parametros) > 0 else "status"
     print(f"Acao: {action}")
     if action == "check":
-        return check_01(silent=silent)
+        result_01 = check_01(silent=silent)
+        result_02 = check_02(silent=silent)
+        result_03 = check_03(silent=silent)
+
+        result = []
+        result.append(result_01)
+        result.append(result_02)
+        result.append(result_03)
+        if silent:
+            return {
+                "success": False,
+                "checks": [result_01, result_02, result_03],
+            }
+        return result_02
 
     if silent:
         return erro("Acao invalida. Use CHECK.")
@@ -92,6 +105,17 @@ def check_01(silent=False):
                     "%/_%",
                 ),
             )
+
+            cur.execute(
+                """
+                UPDATE brapci_cited.cited_article
+                SET
+                    ca_text = REPLACE(ca_text,'-', '_'),
+                    ca_year = 0
+                WHERE ca_text LIKE '%---%';
+                """
+            )
+
             changed = cur.rowcount
             conn.commit()
 
@@ -119,6 +143,101 @@ def check_01(silent=False):
             return erro(str(e))
 
         print("Erro no check_01:", e)
+        return False
+
+    finally:
+        if conn is not None:
+            conn.close()
+
+def check_02(silent=False):
+    conn = None
+    total = 0
+    changed = 0
+
+    try:
+        conn = get_connection("brapci_cited")
+
+        with conn.cursor() as cur:
+            cur.execute("SELECT COUNT(*) AS total FROM cited_article")
+            total = int(cur.fetchone().get("total", 0))
+
+            cur.execute(
+                """
+                UPDATE brapci_cited.cited_article
+                SET
+                    ca_text = TRIM(SUBSTRING(ca_text, 2)),
+                    ca_year = 0
+                WHERE ca_text LIKE '-%';
+                """
+            )
+            changed = cur.rowcount
+            conn.commit()
+
+        result = {
+            "success": True,
+            "table": "brapci_cited.cited_article",
+            "total_rows": total,
+            "updated_rows": int(changed),
+            "message": "Hifen inicial removido de ca_text e ca_year definido como 0",
+        }
+
+        if silent:
+            return result
+
+        print("Check 02")
+        print(f"Total de registros: {total}")
+        print(f"Registros atualizados: {changed}")
+        return None
+
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+
+        if silent:
+            return erro(str(e))
+
+        print("Erro no check_02:", e)
+        return False
+
+    finally:
+        if conn is not None:
+            conn.close()
+
+def check_03(silent=False):
+    conn = None
+
+    try:
+        conn = get_connection("brapci_cited")
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE cited_article
+                SET ca_text = TRIM(SUBSTRING(ca_text, 2)),
+                    ca_year = 0
+                WHERE ca_text LIKE 'http%'
+                """
+            )
+            changed = cur.rowcount
+            conn.commit()
+
+        result = {
+            "success": True,
+            "table": "brapci_cited.cited_article",
+            "updated_rows": int(changed),
+            "message": "Hífen inicial removido das referências iniciadas por URL.",
+        }
+
+        return result if silent else None
+
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+
+        if silent:
+            return erro(str(e))
+
+        print("Erro no check_03:", e)
         return False
 
     finally:
