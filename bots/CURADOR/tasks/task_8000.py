@@ -212,23 +212,33 @@ def check_03(silent=False):
         with conn.cursor() as cur:
             cur.execute(
                 """
-                UPDATE cited_article
-                SET ca_text = TRIM(SUBSTRING(ca_text, 2)),
-                    ca_year = 0
+                SELECT id_ca, ca_text
+                FROM brapci_cited.cited_article
                 WHERE ca_text LIKE 'http%'
+                ORDER BY id_ca
                 """
             )
-            changed = cur.rowcount
-            conn.commit()
+            rows = cur.fetchall()
+
+        ## Para cada id_ca encontrado, junto com o id_ca anterior mais proximo, e remova esses id_ca
+        ## Função aqui
 
         result = {
             "success": True,
             "table": "brapci_cited.cited_article",
-            "updated_rows": int(changed),
-            "message": "Hífen inicial removido das referências iniciadas por URL.",
+            "total_rows": len(rows),
+            "rows": rows,
+            "message": "Referencias iniciadas por http identificadas.",
         }
 
-        return result if silent else None
+        if silent:
+            return result
+
+        print("Check 03")
+        print(f"Total de registros encontrados: {len(rows)}")
+        for row in rows:
+            print(f"{row['id_ca']}: {row['ca_text']}")
+        return None
 
     except Exception as e:
         if conn is not None:
