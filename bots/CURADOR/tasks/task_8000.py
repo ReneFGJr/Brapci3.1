@@ -220,15 +220,46 @@ def check_03(silent=False):
             )
             rows = cur.fetchall()
 
-        ## Para cada id_ca encontrado, junto com o id_ca anterior mais proximo, e remova esses id_ca
-        ## Função aqui
+        # Para cada URL encontrada, inclui também o id_ca anterior mais próximo.
+        ids_to_delete = set()
+        with conn.cursor() as cur:
+            for row in rows:
+                current_id = int(row["id_ca"])
+                ids_to_delete.add(current_id)
+
+                cur.execute(
+                    """
+                    SELECT MAX(id_ca) AS previous_id
+                    FROM brapci_cited.cited_article
+                    WHERE id_ca < %s
+                    """,
+                    (current_id,),
+                )
+                previous = cur.fetchone()
+                if previous and previous.get("previous_id") is not None:
+                    ids_to_delete.add(int(previous["previous_id"]))
+
+            deleted_ids = sorted(ids_to_delete)
+            if deleted_ids:
+                placeholders = ", ".join(["%s"] * len(deleted_ids))
+                cur.execute(
+                    f"DELETE FROM brapci_cited.cited_article WHERE id_ca IN ({placeholders})",
+                    tuple(deleted_ids),
+                )
+                deleted_rows = cur.rowcount
+            else:
+                deleted_rows = 0
+
+        conn.commit()
 
         result = {
             "success": True,
             "table": "brapci_cited.cited_article",
             "total_rows": len(rows),
             "rows": rows,
-            "message": "Referencias iniciadas por http identificadas.",
+            "deleted_ids": deleted_ids,
+            "deleted_rows": int(deleted_rows),
+            "message": "Referencias iniciadas por http e seus registros anteriores removidos.",
         }
 
         if silent:
@@ -238,6 +269,8 @@ def check_03(silent=False):
         print(f"Total de registros encontrados: {len(rows)}")
         for row in rows:
             print(f"{row['id_ca']}: {row['ca_text']}")
+        print(f"IDs removidos: {deleted_ids}")
+        print(f"Total de registros removidos: {deleted_rows}")
         return None
 
     except Exception as e:
