@@ -229,6 +229,17 @@ def check_02(silent=False):
             cur.execute("""
                 UPDATE brapci_cited.cited_article
                 SET
+                    ca_text = TRIM(SUBSTRING(ca_text, 2)),
+                    ca_year = 0
+                    WHERE ca_text LIKE '1%'
+                    or ca_text LIKE '2%' or ca_text LIKE '3%' or ca_text LIKE '4%'
+                    or ca_text LIKE '5%' or ca_text LIKE '6%' or ca_text LIKE '7%'
+                    or ca_text LIKE '8%' or ca_text LIKE '9%' or ca_text LIKE '0%';
+                """)
+
+            cur.execute("""
+                UPDATE brapci_cited.cited_article
+                SET
                     ca_text = TRIM(SUBSTRING(ca_text, 5)),
                     ca_year = 0
                 WHERE ca_text LIKE '&lt;%';
