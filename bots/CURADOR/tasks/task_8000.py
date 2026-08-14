@@ -159,6 +159,14 @@ def exportCited(collection, year, method):
             )
             ids = [row["ID"] for row in cur.fetchall()]
 
+        process_path = Path("/tmp/process")
+        with process_path.open("w", encoding="utf-8") as process_file:
+            for dataset_id in ids:
+                process_file.write(
+                    "/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py all "
+                    f"{dataset_id}\n"
+                )
+
         for dataset_id in ids:
             print(dataset_id)
 
