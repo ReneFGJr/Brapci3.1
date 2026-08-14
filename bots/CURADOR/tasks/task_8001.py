@@ -255,6 +255,9 @@ def run(parametros=None, chat=None, silent=False):
     action = parametros[0].lower() if len(parametros) > 0 else "status"
     print(f"Acao: {action}")
 
+    if action == 'made':
+        createDOIfile()
+
     if action == "check":
         check_doi()
 

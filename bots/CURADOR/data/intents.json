@@ -166,6 +166,12 @@
             "citações de periódicos"
         ]
     },
+    "8001": {
+        "description": "DOIs nas citações de periódicos cadastrados na BRAPCI",
+        "patterns": [
+            "doi_check"
+        ]
+    },
     "9001": {
         "description": "E-mail teste",
         "patterns": [
