@@ -135,12 +135,56 @@ def recuperar_ano(texto: str) -> int:
 
     return anos.pop()
 
+def exportCited(collection, year, method):
+    conn = None
+
+    try:
+        conn = get_connection("brapci_elastic")
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT dataset.ID
+                FROM brapci_elastic.dataset AS dataset
+                WHERE dataset.COLLECTION = %s
+                  AND dataset.YEAR = %s
+                  AND NOT EXISTS (
+                      SELECT 1
+                      FROM brapci_cited.cited_article AS cited
+                      WHERE cited.ca_rdf = dataset.ID
+                  )
+                ORDER BY dataset.ID
+                """,
+                (collection, year),
+            )
+            ids = [row["ID"] for row in cur.fetchall()]
+
+        for dataset_id in ids:
+            print(dataset_id)
+
+        return ids
+
+    except Exception as e:
+        print("Erro no exportCited:", e)
+        return erro(str(e))
+
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 def run(parametros=None, chat=None, silent=False):
     if parametros is None:
         parametros = []
 
     action = parametros[0].lower() if len(parametros) > 0 else "status"
     print(f"Acao: {action}")
+    if action == 'export':
+        COLLECTION="JA"
+        YEAR = "2025"
+        METHOD = "without"
+        result = exportCited(COLLECTION, YEAR, METHOD)
+
     if action == "check":
         result_01 = check_01(silent=silent)
         result_02 = check_02(silent=silent)
