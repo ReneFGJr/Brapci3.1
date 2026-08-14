@@ -52,6 +52,32 @@ def get_connection(database=None):
 
 
 import re
+from html import unescape
+from urllib.parse import unquote
+
+
+DOI_PATTERN = re.compile(r"10\.\d{4,9}/[^\s<>\"']+", re.IGNORECASE)
+
+
+def recuperar_doi(texto: str) -> str:
+    """Recupera e normaliza o primeiro DOI presente em uma referencia."""
+    if not texto:
+        return ""
+
+    texto = unquote(unescape(str(texto))).replace("/ ", "/")
+    encontrado = DOI_PATTERN.search(texto)
+    if not encontrado:
+        return ""
+
+    doi = encontrado.group(0).rstrip(".,;:!?")
+
+    # Remove apenas delimitadores finais sem o respectivo delimitador de abertura.
+    pares = ((")", "("), ("]", "["), ("}", "{"))
+    for fechamento, abertura in pares:
+        while doi.endswith(fechamento) and doi.count(fechamento) > doi.count(abertura):
+            doi = doi[:-1]
+
+    return doi
 
 
 def recuperar_ano(texto: str) -> int:
@@ -120,13 +146,17 @@ def run(parametros=None, chat=None, silent=False):
         result_02 = check_02(silent=silent)
         result_03 = check_03(silent=silent)
         result_04 = check_04(silent=silent)
+        result_05 = check_05(silent=silent)
 
         if silent:
             return {
-                "success": False,
-                "checks": [result_01, result_02, result_03, result_04],
+                "success": all(
+                    result.get("success", False)
+                    for result in (result_01, result_02, result_03, result_04, result_05)
+                ),
+                "checks": [result_01, result_02, result_03, result_04, result_05],
             }
-        return result_02
+        return result_05
 
     if silent:
         return erro("Acao invalida. Use CHECK.")
@@ -425,6 +455,78 @@ def check_04(silent=False):
         "rows": rows,
         "message": "Ano recuperado de ca_text e atualizado em ca_year.",
     }
+
+def check_05(silent=False):
+    conn = None
+    updated_rows = 0
+
+    try:
+        conn = get_connection("brapci_cited")
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id_ca, ca_text
+                FROM brapci_cited.cited_article
+                WHERE (ca_doi IS NULL OR TRIM(ca_doi) = '')
+                  AND ca_text LIKE '%10.%'
+                ORDER BY id_ca
+                """
+            )
+            rows = cur.fetchall()
+
+            found_rows = []
+            for row in rows:
+                doi = recuperar_doi(row.get("ca_text"))
+                if not doi:
+                    continue
+
+                cur.execute(
+                    """
+                    UPDATE brapci_cited.cited_article
+                    SET ca_doi = %s
+                    WHERE id_ca = %s
+                      AND (ca_doi IS NULL OR TRIM(ca_doi) = '')
+                    """,
+                    (doi, row["id_ca"]),
+                )
+                updated_rows += cur.rowcount
+                found_rows.append({"id_ca": row["id_ca"], "ca_doi": doi})
+
+            conn.commit()
+
+        result = {
+            "success": True,
+            "table": "brapci_cited.cited_article",
+            "total_rows": len(rows),
+            "dois_found": len(found_rows),
+            "updated_rows": updated_rows,
+            "rows": found_rows,
+            "message": "DOIs recuperados de ca_text e gravados em ca_doi.",
+        }
+
+        if silent:
+            return result
+
+        print("Check 05")
+        print(f"Registros analisados: {len(rows)}")
+        print(f"DOIs encontrados: {len(found_rows)}")
+        print(f"Registros atualizados: {updated_rows}")
+        return result
+
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+
+        if silent:
+            return erro(str(e))
+
+        print("Erro no check_05:", e)
+        return False
+
+    finally:
+        if conn is not None:
+            conn.close()
 
 if __name__ == "__main__":
     run(parametros=sys.argv[2:], silent=False)
