@@ -172,7 +172,21 @@ def check_doi():
     with open(ARQUIVO_ENTRADA, "r", encoding="utf-8") as arquivo:
         dois = [limpar_doi(linha) for linha in arquivo if linha.strip()]
 
+    dois_consultados = set()
+    if os.path.exists(ARQUIVO_SAIDA):
+        with open(ARQUIVO_SAIDA, "r", newline="", encoding="utf-8-sig") as arquivo:
+            reader = csv.DictReader(arquivo, delimiter=";")
+            dois_consultados = {
+                limpar_doi(linha["doi"])
+                for linha in reader
+                if linha.get("doi")
+            }
+
+    dois_novos = [doi for doi in dois if doi not in dois_consultados]
+
     print(f"Total de DOIs: {len(dois)}")
+    print(f"DOIs ja consultados: {len(dois) - len(dois_novos)}")
+    print(f"DOIs pendentes: {len(dois_novos)}")
 
     # --------------------------------------------------
     # Verificar
@@ -180,9 +194,9 @@ def check_doi():
 
     resultados = []
 
-    for numero, doi in enumerate(dois, start=1):
+    for numero, doi in enumerate(dois_novos, start=1):
 
-        print(f"[{numero}/{len(dois)}] Verificando {doi}", end=" ... ")
+        print(f"[{numero}/{len(dois_novos)}] Verificando {doi}", end=" ... ")
 
         resultado = verificar_doi(doi)
 
@@ -197,13 +211,15 @@ def check_doi():
     # Salvar CSV
     # --------------------------------------------------
 
-    with open(ARQUIVO_SAIDA, "w", newline="", encoding="utf-8-sig") as arquivo:
+    arquivo_existe = os.path.exists(ARQUIVO_SAIDA)
+    with open(ARQUIVO_SAIDA, "a", newline="", encoding="utf-8-sig") as arquivo:
 
         campos = ["doi", "registrado", "agencia", "titulo", "publisher"]
 
         writer = csv.DictWriter(arquivo, fieldnames=campos, delimiter=";")
 
-        writer.writeheader()
+        if not arquivo_existe:
+            writer.writeheader()
         writer.writerows(resultados)
 
 print()
@@ -256,7 +272,7 @@ def run(parametros=None, chat=None, silent=False):
     print(f"Acao: {action}")
 
     if action == 'made':
-        createDOIfile()
+        return createDOIfile()
 
     if action == "check":
         check_doi()
