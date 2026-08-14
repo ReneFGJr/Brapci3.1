@@ -247,6 +247,10 @@ $routes->group('events', function ($routes) {
 $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
+    $routes->get('dois', 'BrapciLab::dois');
+    $routes->get('journals', 'BrapciLab::journals');
+    $routes->get('journals/', 'BrapciLab::journals');
+    $routes->get('journals/(:num)', 'BrapciLab::journal/$1');
 
     /********* Compat cited VC (public) */
     $routes->get('cited/', 'BrapciLab::cited2');
@@ -301,6 +305,7 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
 
     $routes->get('importRIS', 'BrapciLab::uploadRIS');
     $routes->post('importRIS', 'BrapciLab::importRIS');
+    $routes->post('importIDs', 'BrapciLab::importIDs');
 
     $routes->group('api-library', function ($routes) {
         $routes->get('/', 'BrapciLabsApiLibrary::index');

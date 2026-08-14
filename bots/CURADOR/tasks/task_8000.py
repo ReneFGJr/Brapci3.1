@@ -147,16 +147,31 @@ def run(parametros=None, chat=None, silent=False):
         result_03 = check_03(silent=silent)
         result_04 = check_04(silent=silent)
         result_05 = check_05(silent=silent)
+        result_06 = check_06(silent=silent)
 
         if silent:
             return {
                 "success": all(
                     result.get("success", False)
-                    for result in (result_01, result_02, result_03, result_04, result_05)
+                    for result in (
+                        result_01,
+                        result_02,
+                        result_03,
+                        result_04,
+                        result_05,
+                        result_06,
+                    )
                 ),
-                "checks": [result_01, result_02, result_03, result_04, result_05],
+                "checks": [
+                    result_01,
+                    result_02,
+                    result_03,
+                    result_04,
+                    result_05,
+                    result_06,
+                ],
             }
-        return result_05
+        return result_06
 
     if silent:
         return erro("Acao invalida. Use CHECK.")
@@ -522,6 +537,74 @@ def check_05(silent=False):
             return erro(str(e))
 
         print("Erro no check_05:", e)
+        return False
+
+    finally:
+        if conn is not None:
+            conn.close()
+
+def check_06(silent=False):
+    conn = None
+
+    try:
+        conn = get_connection("brapci_cited")
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT COUNT(*) AS total
+                FROM brapci_cited.cited_article AS cited
+                INNER JOIN brapci_elastic.dataset AS dataset
+                    ON dataset.ID = cited.ca_rdf
+                WHERE (cited.ca_year_origem IS NULL OR cited.ca_year_origem = 0)
+                  AND dataset.YEAR IS NOT NULL
+                  AND dataset.YEAR <> 0
+                """
+            )
+            matched_rows = int(cur.fetchone().get("total", 0))
+
+            cur.execute(
+                """
+                UPDATE brapci_cited.cited_article AS cited
+                INNER JOIN brapci_elastic.dataset AS dataset
+                    ON dataset.ID = cited.ca_rdf
+                SET cited.ca_year_origem = dataset.YEAR
+                WHERE (cited.ca_year_origem IS NULL OR cited.ca_year_origem = 0)
+                  AND dataset.YEAR IS NOT NULL
+                  AND dataset.YEAR <> 0
+                """
+            )
+            updated_rows = int(cur.rowcount)
+            conn.commit()
+
+        result = {
+            "success": True,
+            "table": "brapci_cited.cited_article",
+            "source_table": "brapci_elastic.dataset",
+            "matched_rows": matched_rows,
+            "updated_rows": updated_rows,
+            "message": (
+                "YEAR recuperado por dataset.ID = cited_article.ca_rdf "
+                "e gravado em ca_year_origem."
+            ),
+        }
+
+        if silent:
+            return result
+
+        print("Check 06")
+        print(f"Registros correspondentes: {matched_rows}")
+        print(f"Registros atualizados: {updated_rows}")
+        return result
+
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+
+        if silent:
+            return erro(str(e))
+
+        print("Erro no check_06:", e)
         return False
 
     finally:

@@ -73,13 +73,24 @@
                 : 'sem colaboradores'
         ]) ?>
 
+        <div class="col-md-4">
+            <a href="<?= base_url('labs/journals/') ?>" class="text-decoration-none text-reset">
+                <div class="card card-dashboard p-3">
+                    <h6>Revistas</h6>
+                    <h4><?= esc($journalsCount) ?></h4>
+                    <small class="text-muted">revistas distintas</small>
+                </div>
+            </a>
+        </div>
 
         <div class="col-md-4">
-            <div class="card card-dashboard p-3">
-                <h6>Sales</h6>
-                <h4>$5678</h4>
-                <small class="text-muted">Chart preview</small>
-            </div>
+            <a href="<?= base_url('labs/dois') ?>" class="text-decoration-none text-reset">
+                <div class="card card-dashboard p-3">
+                    <h6>DOIs</h6>
+                    <h4>$5678</h4>
+                    <small class="text-muted">Chart preview</small>
+                </div>
+            </a>
         </div>
 
     </div>

@@ -65,9 +65,70 @@ class BrapciLab extends BaseController
         $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
         $data['worksCount'] = $this->risModel->countByProject($projectId); // implementar contagem de obras
+        $data['journalsCount'] = $this->risModel->countJournalsByProject($projectId);
         $data['collaboratorsCount'] = $this->collaborators->countByProject($projectId); // implementar contagem de colaboradores
         $data['projectID'] = $projectId;
         return view('BrapciLabs/home', $data);
+    }
+
+    public function dois()
+    {
+        $data = [
+            'title' => 'DOIs',
+        ];
+
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/dois', $data);
+        echo view('BrapciLabs/layout/footer');
+    }
+
+    public function journals()
+    {
+        $projectId = (int) session('project_id');
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $data = [
+            'title' => 'Revistas',
+            'journals' => $this->risModel->journalsByProject($projectId),
+            'journalsCount' => $this->risModel->countJournalsByProject($projectId),
+        ];
+
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/journals', $data);
+        echo view('BrapciLabs/layout/footer');
+    }
+
+    public function journal(int $id)
+    {
+        $projectId = (int) session('project_id');
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $journal = $this->risModel->journalById($id, $projectId);
+        if ($journal === null) {
+            return redirect()
+                ->to('/labs/journals/')
+                ->with('error', 'Revista não encontrada neste projeto.');
+        }
+
+        $data = [
+            'title' => $journal['journal'],
+            'journal' => $journal,
+        ];
+
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/journal', $data);
+        echo view('BrapciLabs/layout/footer');
     }
 
     /****** Cited */
@@ -542,6 +603,94 @@ class BrapciLab extends BaseController
             'success',
             "Importação concluída. Inseridos: {$inserted} | Ignorados (duplicados): {$ignored}"
         );
+    }
+
+    public function importIDs()
+    {
+        $projectId = (int) session('project_id');
+
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $input = trim((string) $this->request->getPost('brapci_ids'));
+        if ($input === '') {
+            return redirect()->back()->with('error', 'Informe ao menos um ID da BRAPCI.');
+        }
+
+        preg_match_all('/\d+/', $input, $matches);
+        $ids = array_values(array_unique(array_filter(
+            array_map('intval', $matches[0] ?? []),
+            static fn (int $id): bool => $id > 0
+        )));
+
+        if ($ids === []) {
+            return redirect()->back()->with('error', 'Nenhum ID válido foi informado.');
+        }
+
+        if (count($ids) > 1000) {
+            return redirect()->back()->with('error', 'Informe no máximo 1.000 IDs por importação.');
+        }
+
+        $model = new RisModel();
+        $records = [];
+
+        foreach (array_chunk($ids, 500) as $idChunk) {
+            foreach ($model->findDatasetByIds($idChunk) as $record) {
+                $records[(int) $record['brapci_id']] = $record;
+            }
+        }
+
+        $inserted = 0;
+        $ignored = 0;
+
+        foreach ($records as $record) {
+            $title = $record['title'] ?: null;
+            $authors = $record['authors'] ?: null;
+            $journal = $record['publication'] ?: ($record['journal'] ?: null);
+            $year = $record['year'] !== null && $record['year'] !== ''
+                ? (int) $record['year']
+                : null;
+            $doi = $record['doi'] ?: null;
+
+            $hash = hash(
+                'sha256',
+                json_encode([$projectId, $title, $authors, $journal, $year, $doi])
+            );
+
+            if ($model->existsHash($hash, $projectId)) {
+                $ignored++;
+                continue;
+            }
+
+            $model->insert([
+                'project_id' => $projectId,
+                'ris_type'   => $record['class'] ?: null,
+                'title'      => $title,
+                'authors'    => $authors,
+                'journal'    => $journal,
+                'url'        => $record['url'] ?: null,
+                'year'       => $year,
+                'doi'        => $doi,
+                'abstract'   => $record['abstracts'] ?: null,
+                'keywords'   => $record['keywords'] ?: null,
+                'raw_hash'   => $hash,
+            ]);
+
+            $inserted++;
+        }
+
+        $notFound = array_values(array_diff($ids, array_keys($records)));
+        $message = "Importação por ID concluída. Inseridos: {$inserted} | "
+            . "Ignorados (duplicados): {$ignored} | Não encontrados: " . count($notFound);
+
+        if ($notFound !== []) {
+            $message .= '. IDs não encontrados: ' . implode(', ', $notFound);
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     /**** Authority */
