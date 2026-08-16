@@ -31,6 +31,19 @@ $routes->get('/screensaver', 'MainPages::screensaver');
 
 $routes->get('/api', 'Api::index');
 
+$routes->group('api/ai', ['filter' => 'aiApiAuth'], static function ($routes) {
+    $routes->get('models', 'Ai\\ModelController::index');
+    $routes->resource('projects', ['controller' => 'Ai\\ProjectController', 'except' => 'new,edit']);
+    $routes->get('chats', 'Ai\\ChatController::index');
+    $routes->post('chats', 'Ai\\ChatController::create');
+    $routes->get('chats/(:num)', 'Ai\\ChatController::show/$1');
+    $routes->put('chats/(:num)', 'Ai\\ChatController::update/$1');
+    $routes->delete('chats/(:num)', 'Ai\\ChatController::delete/$1');
+    $routes->get('chats/(:num)/messages', 'Ai\\ChatController::messages/$1');
+    $routes->post('chats/(:num)/message', 'Ai\\ChatController::message/$1');
+    $routes->post('chats/(:num)/regenerate', 'Ai\\ChatController::regenerate/$1');
+});
+
 $routes->options('/api/(:any)', 'Api::index/$1');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');

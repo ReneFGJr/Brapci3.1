@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Unit\\Ai\\ContextBuilderServiceTest::testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder":7},"times":{"Tests\\Unit\\Ai\\ContextBuilderServiceTest::testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder":0.003,"Tests\\Unit\\Ai\\ContextBuilderServiceTest::testBuildLimitsHistoryWithoutRemovingCurrentMessage":0}}

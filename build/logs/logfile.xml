@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Unit\Ai\ContextBuilderServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.017608">
+    <testcase name="testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="10" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.016652"/>
+    <testcase name="testBuildLimitsHistoryWithoutRemovingCurrentMessage" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="34" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000956"/>
+  </testsuite>
+</testsuites>
