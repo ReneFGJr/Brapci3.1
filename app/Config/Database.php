@@ -98,6 +98,9 @@ class Database extends Config
     public array $simori = [];
     public array $ojs_import = [];
     public array $oai_server = [];
+    public array $oaiserver = [];
+    public array $tools = [];
+    public array $bookmarks = [];
 
 
 
@@ -211,11 +214,10 @@ class Database extends Config
     */
 
         foreach ($db as $base => $database) {
-            $a = '$this->' . $base . ' = $this->default;' . cr();
-            $a .= '$this->' . $base . '[\'database\'] = \'' . $database . '\';' . cr();
-            $a .= '$this->' . $base . '[\'username\'] = getenv(\'database.default.username\');' . cr();
-            $a .= '$this->' . $base . '[\'password\'] = getenv(\'database.default.password\');' . cr();
-            eval($a);
+            $this->{$base} = $this->default;
+            $this->{$base}['database'] = $database;
+            $this->{$base}['username'] = getenv('database.default.username');
+            $this->{$base}['password'] = getenv('database.default.password');
         }
     }
 }
