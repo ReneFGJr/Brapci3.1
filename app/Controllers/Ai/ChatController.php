@@ -3,6 +3,7 @@
 namespace App\Controllers\Ai;
 
 use App\Services\Ai\ChatService;
+use CodeIgniter\HTTP\Cors;
 use Throwable;
 
 class ChatController extends ApiController
@@ -97,8 +98,11 @@ class ChatController extends ApiController
         }
 
         $this->response->setHeader('Content-Type', 'text/event-stream');
-        $this->response->setHeader('Cache-Control', 'no-cache, no-transform');
+        $this->response->setHeader('Cache-Control', 'no-cache, no-transform, no-store');
         $this->response->setHeader('X-Accel-Buffering', 'no');
+        Cors::factory()->addResponseHeaders($this->request, $this->response);
+        $this->response->sendHeaders();
+
         $emit = static function (array $event): void {
             echo 'event: ' . ($event['type'] ?? 'message') . "\n";
             echo 'data: ' . json_encode($event, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n\n";

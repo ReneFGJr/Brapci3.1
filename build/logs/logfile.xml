@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CLI Arguments" tests="6" assertions="15" errors="0" failures="0" skipped="0" time="0.029688">
-    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="4" assertions="13" errors="0" failures="0" skipped="0" time="0.028267">
-      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.018136"/>
-      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.008728"/>
-      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.000806"/>
-      <testcase name="testAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.000597"/>
+  <testsuite name="CLI Arguments" tests="6" assertions="15" errors="0" failures="0" skipped="0" time="0.030814">
+    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="4" assertions="13" errors="0" failures="0" skipped="0" time="0.029530">
+      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.019185"/>
+      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.008920"/>
+      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.000836"/>
+      <testcase name="testAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.000589"/>
     </testsuite>
-    <testsuite name="Tests\Unit\Ai\ContextBuilderServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.001421">
-      <testcase name="testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="10" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000835"/>
-      <testcase name="testBuildLimitsHistoryWithoutRemovingCurrentMessage" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="34" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000586"/>
+    <testsuite name="Tests\Unit\Ai\ContextBuilderServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.001284">
+      <testcase name="testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="10" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000730"/>
+      <testcase name="testBuildLimitsHistoryWithoutRemovingCurrentMessage" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="34" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000554"/>
     </testsuite>
   </testsuite>
 </testsuites>
