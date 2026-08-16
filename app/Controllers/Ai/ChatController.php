@@ -133,8 +133,28 @@ class ChatController extends ApiController
                 $regenerate,
             );
         } catch (Throwable $exception) {
-            log_message('error', '[AI stream] {message}', ['message' => $exception->getMessage()]);
-            $emit(['type' => 'error', 'message' => $exception->getCode() >= 500 ? 'Ollama indisponivel ou falha durante a geracao.' : $exception->getMessage()]);
+            $errorId = bin2hex(random_bytes(6));
+            $technicalMessage = sprintf(
+                '[AI stream:%s] %s(%s): %s',
+                $errorId,
+                $exception::class,
+                (string) $exception->getCode(),
+                $exception->getMessage(),
+            );
+            log_message('error', $technicalMessage);
+            error_log($technicalMessage);
+
+            $event = [
+                'type' => 'error',
+                'error_id' => $errorId,
+                'message' => $exception->getCode() >= 500
+                    ? 'Falha interna durante a geracao.'
+                    : $exception->getMessage(),
+            ];
+            if (ENVIRONMENT === 'development') {
+                $event['detail'] = $exception::class . ': ' . $exception->getMessage();
+            }
+            $emit($event);
         }
         return $this->response;
     }
