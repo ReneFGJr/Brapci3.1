@@ -70,6 +70,7 @@ class Cors extends BaseConfig
          */
         'allowedHeaders' => [
             'Accept',
+            'APIKEY',
             'Authorization',
             'Content-Type',
             'Origin',

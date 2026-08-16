@@ -1,3 +1,8 @@
+Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)
+ [x] Rejects request when session has no api key
+ [x] Rejects api key that does not match session
+ [x] Accepts api key that matches authenticated session
+
 Context Builder Service (Tests\Unit\Ai\ContextBuilderService)
  [x] Build keeps prompts context history and current message in order
  [x] Build limits history without removing current message
