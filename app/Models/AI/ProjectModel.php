@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class ProjectModel extends Model
 {
+    protected $DBGroup = 'brapci_ai';
     protected $table = 'ai_projects';
     protected $primaryKey = 'id';
     protected $returnType = 'array';

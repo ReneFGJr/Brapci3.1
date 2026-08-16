@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class UserSettingModel extends Model
 {
+    protected $DBGroup = 'brapci_ai';
     protected $table = 'ai_user_settings';
     protected $primaryKey = 'user_id';
     protected $useAutoIncrement = false;

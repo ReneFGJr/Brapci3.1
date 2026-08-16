@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class MessageModel extends Model
 {
+    protected $DBGroup = 'brapci_ai';
     protected $table = 'ai_messages';
     protected $primaryKey = 'id';
     protected $returnType = 'array';

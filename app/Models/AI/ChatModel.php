@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class ChatModel extends Model
 {
+    protected $DBGroup = 'brapci_ai';
     protected $table = 'ai_chats';
     protected $primaryKey = 'id';
     protected $returnType = 'array';

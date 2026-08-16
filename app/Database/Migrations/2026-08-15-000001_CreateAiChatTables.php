@@ -6,6 +6,8 @@ use CodeIgniter\Database\Migration;
 
 class CreateAiChatTables extends Migration
 {
+    protected $DBGroup = 'brapci_ai';
+
     public function up()
     {
         $this->forge->addField([
@@ -20,7 +22,6 @@ class CreateAiChatTables extends Migration
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true)->addKey('user_id');
-        $this->forge->addForeignKey('user_id', 'users', 'id_us', 'CASCADE', 'CASCADE');
         $this->forge->createTable('ai_projects', true);
 
         $this->forge->addField([
@@ -35,7 +36,6 @@ class CreateAiChatTables extends Migration
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true)->addKey('user_id')->addKey('project_id')->addKey('updated_at');
-        $this->forge->addForeignKey('user_id', 'users', 'id_us', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('project_id', 'ai_projects', 'id', 'SET NULL', 'CASCADE');
         $this->forge->createTable('ai_chats', true);
 
@@ -66,7 +66,6 @@ class CreateAiChatTables extends Migration
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('user_id', true);
-        $this->forge->addForeignKey('user_id', 'users', 'id_us', 'CASCADE', 'CASCADE');
         $this->forge->createTable('ai_user_settings', true);
     }
 
