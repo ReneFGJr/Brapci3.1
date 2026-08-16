@@ -90,7 +90,8 @@ class Index extends Model
 				'use_gpu' => true,
 				//'model' => 'gemma2',
 				//'model' => 'llama3.1',
-				'prompt' => $message
+				'prompt' => $message,
+				'options' => ['temperature' => 0]
 			);
 
 			// Inicializa o cURL

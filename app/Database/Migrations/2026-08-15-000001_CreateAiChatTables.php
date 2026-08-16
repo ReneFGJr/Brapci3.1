@@ -60,7 +60,7 @@ class CreateAiChatTables extends Migration
         $this->forge->addField([
             'user_id' => ['type' => 'INT', 'constraint' => 5, 'unsigned' => true],
             'default_model' => ['type' => 'VARCHAR', 'constraint' => 150, 'null' => true],
-            'temperature' => ['type' => 'DECIMAL', 'constraint' => '3,2', 'default' => 0.70],
+            'temperature' => ['type' => 'DECIMAL', 'constraint' => '3,2', 'default' => 0.00],
             'num_ctx' => ['type' => 'INT', 'unsigned' => true, 'default' => 8192],
             'stream' => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],

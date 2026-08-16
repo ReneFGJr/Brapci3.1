@@ -125,7 +125,7 @@ class ChatService
         $full = '';
         $started = microtime(true);
         $result = $this->ollama->streamChat($chat['model'], $prompt, [
-            'temperature' => (float) ($setting['temperature'] ?? 0.7),
+            'temperature' => 0,
             'num_ctx' => (int) ($setting['num_ctx'] ?? 8192),
         ], static function (array $event) use (&$full, $emit): void {
             $piece = (string) ($event['message']['content'] ?? '');

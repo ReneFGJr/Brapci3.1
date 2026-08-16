@@ -42,6 +42,7 @@ class OllamaService
         if (! function_exists('curl_init')) {
             throw new OllamaException('A extensao cURL do PHP e obrigatoria.', 500);
         }
+        $options['temperature'] = 0;
         $result = [];
         $buffer = '';
         $ch = curl_init($this->baseUrl . '/api/chat');

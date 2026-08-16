@@ -578,15 +578,3 @@ php spark migrate -g brapci_ai
 8. Consolidar a mensagem ao receber `done`.
 9. Exibir falhas recebidas pelo evento `error`.
 10. Cancelar a requisicao com `AbortController` quando solicitado pelo usuario.
-
-
-curl.exe -N -X POST `
-  -H "Content-Type: application/json" `
-  -H "Accept: text/event-stream" `
-  --data-raw '{"content":"Olá, responda apenas: conexão funcionando.","request_id":"teste-chat-5-003"}' `
-  "https://cip.brapci.inf.br/api/ai/chats/5/message?APIKEY=ff63a314d1ddd425517550f446e4175e"
-
-
-  curl "https://cip.brapci.inf.br/api/ai/chats/5?APIKEY=ff63a314d1ddd425517550f446e4175e"
-
-  curl "https://cip.brapci.inf.br/api/ai/chats/5?APIKEY=SUA_APIKEY"
