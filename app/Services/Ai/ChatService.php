@@ -122,7 +122,6 @@ class ChatService
         }
 
         $documentId = $this->repositoryDocuments->commandId($content);
-        $documentContext = null;
         if ($documentId !== null) {
             $documentContext = $this->repositoryDocuments->load($documentId);
             if ($documentContext === null) {
@@ -138,17 +137,24 @@ class ChatService
                 $this->repositoryDocuments->requestProcessing($documentId);
                 return;
             }
+
+            $contextMessage = [
+                'role' => 'tool',
+                'content' => "Documento BRAPCI {$documentId} carregado no contexto:\n" . $documentContext,
+            ];
+            $this->messages->insert([
+                'chat_id' => $chatId,
+                'role' => $contextMessage['role'],
+                'content' => $contextMessage['content'],
+                'status' => 'completed',
+            ]);
+            $history[] = $contextMessage;
+            $content = 'O documento solicitado já foi carregado no contexto desta conversa. Confirme brevemente que ele está disponível para as próximas perguntas.';
         }
 
         $project = $chat['project_id'] ? $this->projects->find($chat['project_id']) : null;
         $setting = $this->settings->find($userId) ?? [];
         $prompt = $this->contextBuilder->build($chat, $project, $history, $content);
-        if ($documentContext !== null) {
-            array_splice($prompt, max(0, count($prompt) - 1), 0, [[
-                'role' => 'system',
-                'content' => "Documento solicitado para o contexto da conversa:\n" . $documentContext,
-            ]]);
-        }
         $full = '';
         $started = microtime(true);
         $result = $this->ollama->streamChat($chat['model'], $prompt, [
