@@ -17,6 +17,7 @@ class ChatService
         private ?UserSettingModel $settings = null,
         private ?ContextBuilderService $contextBuilder = null,
         private ?OllamaService $ollama = null,
+        private ?RepositoryDocumentService $repositoryDocuments = null,
     ) {
         $this->chats ??= new ChatModel();
         $this->messages ??= new MessageModel();
@@ -24,6 +25,7 @@ class ChatService
         $this->settings ??= new UserSettingModel();
         $this->contextBuilder ??= new ContextBuilderService();
         $this->ollama ??= new OllamaService();
+        $this->repositoryDocuments ??= new RepositoryDocumentService();
     }
 
     public function list(int $userId, ?int $projectId = null, int $limit = 50, int $offset = 0): array
@@ -119,9 +121,34 @@ class ChatService
             $this->messages->insert(['chat_id' => $chatId, 'role' => 'user', 'content' => $content, 'request_id' => $requestId]);
         }
 
+        $documentId = $this->repositoryDocuments->commandId($content);
+        $documentContext = null;
+        if ($documentId !== null) {
+            $documentContext = $this->repositoryDocuments->load($documentId);
+            if ($documentContext === null) {
+                $reply = 'Este arquivo ainda não foi preparado para uso na IA, mas está na fila para processamento.';
+                $messageId = $this->messages->insert([
+                    'chat_id' => $chatId,
+                    'role' => 'assistant',
+                    'content' => $reply,
+                    'status' => 'completed',
+                ], true);
+                $emit(['type' => 'token', 'content' => $reply]);
+                $emit(['type' => 'done', 'message_id' => (int) $messageId, 'model' => null]);
+                $this->repositoryDocuments->requestProcessing($documentId);
+                return;
+            }
+        }
+
         $project = $chat['project_id'] ? $this->projects->find($chat['project_id']) : null;
         $setting = $this->settings->find($userId) ?? [];
         $prompt = $this->contextBuilder->build($chat, $project, $history, $content);
+        if ($documentContext !== null) {
+            array_splice($prompt, max(0, count($prompt) - 1), 0, [[
+                'role' => 'system',
+                'content' => "Documento solicitado para o contexto da conversa:\n" . $documentContext,
+            ]]);
+        }
         $full = '';
         $started = microtime(true);
         $result = $this->ollama->streamChat($chat['model'], $prompt, [
