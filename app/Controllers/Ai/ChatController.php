@@ -90,6 +90,17 @@ class ChatController extends ApiController
         return $this->stream((int) $id, true);
     }
 
+    public function streamMethodNotAllowed($id = null)
+    {
+        return $this->response
+            ->setStatusCode(405)
+            ->setHeader('Allow', 'POST')
+            ->setJSON([
+                'error' => 'method_not_allowed',
+                'message' => 'Use POST com corpo JSON para este endpoint de streaming.',
+            ]);
+    }
+
     private function stream(int $chatId, bool $regenerate)
     {
         $data = $this->input();

@@ -40,6 +40,8 @@ $routes->group('api/ai', ['filter' => 'aiApiAuth'], static function ($routes) {
     $routes->put('chats/(:num)', 'Ai\\ChatController::update/$1');
     $routes->delete('chats/(:num)', 'Ai\\ChatController::delete/$1');
     $routes->get('chats/(:num)/messages', 'Ai\\ChatController::messages/$1');
+    $routes->get('chats/(:num)/message', 'Ai\\ChatController::streamMethodNotAllowed/$1');
+    $routes->get('chats/(:num)/regenerate', 'Ai\\ChatController::streamMethodNotAllowed/$1');
     $routes->post('chats/(:num)/message', 'Ai\\ChatController::message/$1');
     $routes->post('chats/(:num)/regenerate', 'Ai\\ChatController::regenerate/$1');
 });
