@@ -15,7 +15,7 @@ STATISTICS_URL = "https://cip.brapci.inf.br/api/brapci/statistics"
 SCRIPT_DIR = Path(__file__).resolve().parent
 MODEL_TEMPLATE = SCRIPT_DIR / "Modelfile.model"
 MODELFILE = SCRIPT_DIR / "Modelfile"
-OLLAMA_MODEL = "brapcibotia"
+OLLAMA_MODEL = "brapci-ia"
 
 
 def fetch_statistics(url: str = STATISTICS_URL, timeout: int = 30) -> str:
