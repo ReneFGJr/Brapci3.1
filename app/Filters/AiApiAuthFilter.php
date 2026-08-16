@@ -2,30 +2,44 @@
 
 namespace App\Filters;
 
+use App\Services\Ai\ApiKeyAuthenticator;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class AiApiAuthFilter implements FilterInterface
 {
+    public function __construct(private ?ApiKeyAuthenticator $authenticator = null)
+    {
+        $this->authenticator ??= new ApiKeyAuthenticator();
+    }
+
     public function before(RequestInterface $request, $arguments = null)
     {
-        $sessionApiKey = trim((string) session()->get('apikey'));
         $headerApiKey = trim($request->getHeaderLine('APIKEY'));
 
-        if (! session()->get('user') || ! session()->get('user_id') || $sessionApiKey === '') {
+        if ($headerApiKey === '') {
             return service('response')->setStatusCode(401)->setJSON([
                 'error' => 'authentication_required',
-                'message' => 'Sua sessao expirou. Entre novamente.',
+                'message' => 'APIKEY nao informada.',
             ]);
         }
 
-        if ($headerApiKey === '' || ! hash_equals($sessionApiKey, $headerApiKey)) {
+        $user = $this->authenticator->findActiveUser($headerApiKey);
+        if ($user === null) {
             return service('response')->setStatusCode(401)->setJSON([
                 'error' => 'invalid_apikey',
-                'message' => 'APIKEY ausente ou invalida.',
+                'message' => 'APIKEY invalida ou inativa.',
             ]);
         }
+
+        session()->set([
+            'id' => $user['id_us'],
+            'user_id' => $user['id_us'],
+            'user' => $user['us_nome'],
+            'email' => $user['us_email'],
+            'apikey' => $user['us_apikey'],
+        ]);
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

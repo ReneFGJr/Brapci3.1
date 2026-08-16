@@ -53,9 +53,9 @@
     <body>
         <h2>Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)</h2>
         <ul>
-            <li class="success">Rejects request when session has no api key</li>
-            <li class="success">Rejects api key that does not match session</li>
-            <li class="success">Accepts api key that matches authenticated session</li>
+            <li class="success">Rejects request without api key header</li>
+            <li class="success">Rejects invalid api key</li>
+            <li class="success">Accepts active api key and creates authenticated session</li>
         </ul>
         <h2>Context Builder Service (Tests\Unit\Ai\ContextBuilderService)</h2>
         <ul>

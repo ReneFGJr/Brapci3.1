@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CLI Arguments" tests="5" assertions="8" errors="0" failures="0" skipped="0" time="0.291861">
-    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="3" assertions="6" errors="0" failures="0" skipped="0" time="0.290200">
-      <testcase name="testRejectsRequestWhenSessionHasNoApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="17" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.222438"/>
-      <testcase name="testRejectsApiKeyThatDoesNotMatchSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="29" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="2" time="0.000811"/>
-      <testcase name="testAcceptsApiKeyThatMatchesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="40" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="1" time="0.066950"/>
+  <testsuite name="CLI Arguments" tests="5" assertions="12" errors="0" failures="0" skipped="0" time="0.315166">
+    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="3" assertions="10" errors="0" failures="0" skipped="0" time="0.313764">
+      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.020553"/>
+      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.292263"/>
+      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.000947"/>
     </testsuite>
-    <testsuite name="Tests\Unit\Ai\ContextBuilderServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.001662">
-      <testcase name="testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="10" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.001040"/>
-      <testcase name="testBuildLimitsHistoryWithoutRemovingCurrentMessage" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="34" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000622"/>
+    <testsuite name="Tests\Unit\Ai\ContextBuilderServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.001402">
+      <testcase name="testBuildKeepsPromptsContextHistoryAndCurrentMessageInOrder" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="10" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000812"/>
+      <testcase name="testBuildLimitsHistoryWithoutRemovingCurrentMessage" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ContextBuilderServiceTest.php" line="34" class="Tests\Unit\Ai\ContextBuilderServiceTest" classname="Tests.Unit.Ai.ContextBuilderServiceTest" assertions="1" time="0.000590"/>
     </testsuite>
   </testsuite>
 </testsuites>

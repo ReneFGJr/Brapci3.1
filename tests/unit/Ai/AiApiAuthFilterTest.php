@@ -3,6 +3,7 @@
 namespace Tests\Unit\Ai;
 
 use App\Filters\AiApiAuthFilter;
+use App\Services\Ai\ApiKeyAuthenticator;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Test\CIUnitTestCase;
 
@@ -14,11 +15,8 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         parent::tearDown();
     }
 
-    public function testRejectsRequestWhenSessionHasNoApiKey(): void
+    public function testRejectsRequestWithoutApiKeyHeader(): void
     {
-        session()->set(['user' => 'Teste', 'user_id' => 10]);
-        service('request')->setHeader('APIKEY', 'abc');
-
         $response = (new AiApiAuthFilter())->before(service('request'));
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
@@ -26,22 +24,31 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         $this->assertStringContainsString('authentication_required', $response->getBody());
     }
 
-    public function testRejectsApiKeyThatDoesNotMatchSession(): void
+    public function testRejectsInvalidApiKey(): void
     {
-        session()->set(['user' => 'Teste', 'user_id' => 10, 'apikey' => 'correta']);
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('incorreta')->willReturn(null);
         service('request')->setHeader('APIKEY', 'incorreta');
 
-        $response = (new AiApiAuthFilter())->before(service('request'));
+        $response = (new AiApiAuthFilter($authenticator))->before(service('request'));
 
         $this->assertSame(401, $response->getStatusCode());
         $this->assertStringContainsString('invalid_apikey', $response->getBody());
     }
 
-    public function testAcceptsApiKeyThatMatchesAuthenticatedSession(): void
+    public function testAcceptsActiveApiKeyAndCreatesAuthenticatedSession(): void
     {
-        session()->set(['user' => 'Teste', 'user_id' => 10, 'apikey' => 'correta']);
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('correta')->willReturn([
+            'id_us' => 10,
+            'us_nome' => 'Teste',
+            'us_email' => 'teste@example.com',
+            'us_apikey' => 'correta',
+        ]);
         service('request')->setHeader('APIKEY', 'correta');
 
-        $this->assertNull((new AiApiAuthFilter())->before(service('request')));
+        $this->assertNull((new AiApiAuthFilter($authenticator))->before(service('request')));
+        $this->assertSame(10, session()->get('user_id'));
+        $this->assertSame('correta', session()->get('apikey'));
     }
 }
