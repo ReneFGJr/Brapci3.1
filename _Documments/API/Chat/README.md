@@ -578,3 +578,7 @@ php spark migrate -g brapci_ai
 8. Consolidar a mensagem ao receber `done`.
 9. Exibir falhas recebidas pelo evento `error`.
 10. Cancelar a requisicao com `AbortController` quando solicitado pelo usuario.
+
+# ChatBOT
+
+ollama create brapcibotia -f Modelfile
