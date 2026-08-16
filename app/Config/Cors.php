@@ -34,7 +34,12 @@ class Cors extends BaseConfig
          *   - ['http://localhost:8080']
          *   - ['https://www.example.com']
          */
-        'allowedOrigins' => ['*'],
+        'allowedOrigins' => [
+            'http://localhost:4200',
+            'http://127.0.0.1:4200',
+            'https://brapci.inf.br',
+            'https://cip.brapci.inf.br',
+        ],
 
         /**
          * Origin regex patterns for the `Access-Control-Allow-Origin` header.
@@ -57,7 +62,7 @@ class Cors extends BaseConfig
          *
          * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
          */
-        'supportsCredentials' => false,
+        'supportsCredentials' => true,
 
         /**
          * Set headers to allow.

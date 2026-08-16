@@ -21,7 +21,7 @@ class AiApiAuthFilter implements FilterInterface
         if ($headerApiKey === '') {
             return service('response')->setStatusCode(401)->setJSON([
                 'error' => 'authentication_required',
-                'message' => 'APIKEY nao informada.',
+                'message' => 'APIKEY nao informada - API/AI.',
             ]);
         }
 
