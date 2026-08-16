@@ -148,8 +148,23 @@ class ChatService
                 'content' => $contextMessage['content'],
                 'status' => 'completed',
             ]);
-            $history[] = $contextMessage;
-            $content = 'O documento solicitado já foi carregado no contexto desta conversa. Confirme brevemente que ele está disponível para as próximas perguntas.';
+
+            $metadata = $this->repositoryDocuments->metadata($documentId);
+            $reply = "O artigo foi carregado no contexto da conversa.\n\n"
+                . "Título: {$metadata['title']}\n"
+                . 'Autor(es): ' . implode('; ', $metadata['authors']) . "\n"
+                . "Ano de publicação: {$metadata['year']}\n"
+                . "Publicado em: {$metadata['publication']}\n\n"
+                . 'Você pode fazer perguntas sobre o artigo.';
+            $messageId = $this->messages->insert([
+                'chat_id' => $chatId,
+                'role' => 'assistant',
+                'content' => $reply,
+                'status' => 'completed',
+            ], true);
+            $emit(['type' => 'token', 'content' => $reply]);
+            $emit(['type' => 'done', 'message_id' => (int) $messageId, 'model' => null]);
+            return;
         }
 
         $project = $chat['project_id'] ? $this->projects->find($chat['project_id']) : null;

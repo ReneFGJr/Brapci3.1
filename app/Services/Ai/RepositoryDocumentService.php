@@ -3,6 +3,8 @@
 namespace App\Services\Ai;
 
 use App\Models\RDF2\RDFdata;
+use App\Models\RDF2\RDF;
+use App\Models\RDF2\RDFmetadata;
 
 class RepositoryDocumentService
 {
@@ -59,6 +61,24 @@ class RepositoryDocumentService
         if ($error !== '') {
             log_message('warning', '[AI repository] Falha ao solicitar o processamento do documento ' . $requestedId . ': ' . $error);
         }
+    }
+
+    public function metadata(int $requestedId): array
+    {
+        $workId = $this->workId($requestedId);
+        $rdf = new RDF();
+        $record = (new RDFmetadata())->metadataWork($rdf->le($workId), true);
+        $authors = array_values(array_filter(array_map(
+            static fn (array $author): string => trim((string) ($author['name'] ?? '')),
+            $record['creator_author'] ?? [],
+        )));
+
+        return [
+            'title' => trim((string) ($record['title'] ?? 'Título não informado')) ?: 'Título não informado',
+            'authors' => $authors ?: ['Autoria não informada'],
+            'year' => trim((string) ($record['year'] ?? 'Ano não informado')) ?: 'Ano não informado',
+            'publication' => trim((string) ($record['publisher'] ?? 'Local de publicação não informado')) ?: 'Local de publicação não informado',
+        ];
     }
 
     private function workId(int $requestedId): int
