@@ -17,15 +17,17 @@ class AiApiAuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $headerApiKey = trim($request->getHeaderLine('APIKEY'));
+        $queryApiKey = trim((string) $request->getGet('APIKEY'));
+        $apiKey = $headerApiKey !== '' ? $headerApiKey : $queryApiKey;
 
-        if ($headerApiKey === '') {
+        if ($apiKey === '') {
             return service('response')->setStatusCode(401)->setJSON([
                 'error' => 'authentication_required',
                 'message' => 'APIKEY nao informada - API/AI.',
             ]);
         }
 
-        $user = $this->authenticator->findActiveUser($headerApiKey);
+        $user = $this->authenticator->findActiveUser($apiKey);
         if ($user === null) {
             return service('response')->setStatusCode(401)->setJSON([
                 'error' => 'invalid_apikey',

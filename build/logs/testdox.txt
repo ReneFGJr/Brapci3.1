@@ -2,8 +2,5 @@ Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)
  [x] Rejects request without api key header
  [x] Rejects invalid api key
  [x] Accepts active api key and creates authenticated session
-
-Context Builder Service (Tests\Unit\Ai\ContextBuilderService)
- [x] Build keeps prompts context history and current message in order
- [x] Build limits history without removing current message
+ [x] Accepts api key from query string
 

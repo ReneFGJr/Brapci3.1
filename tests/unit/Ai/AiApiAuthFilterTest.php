@@ -51,4 +51,20 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         $this->assertSame(10, session()->get('user_id'));
         $this->assertSame('correta', session()->get('apikey'));
     }
+
+    public function testAcceptsApiKeyFromQueryString(): void
+    {
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('pela-query')->willReturn([
+            'id_us' => 11,
+            'us_nome' => 'Query',
+            'us_email' => 'query@example.com',
+            'us_apikey' => 'pela-query',
+        ]);
+        service('request')->removeHeader('APIKEY');
+        service('request')->setGlobal('get', ['APIKEY' => 'pela-query']);
+
+        $this->assertNull((new AiApiAuthFilter($authenticator))->before(service('request')));
+        $this->assertSame(11, session()->get('user_id'));
+    }
 }
