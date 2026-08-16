@@ -3,8 +3,7 @@
 namespace App\Services\Ai;
 
 use App\Models\RDF2\RDFdata;
-use App\Models\RDF2\RDF;
-use App\Models\RDF2\RDFmetadata;
+use App\Models\Base\Issues;
 
 class RepositoryDocumentService
 {
@@ -66,18 +65,55 @@ class RepositoryDocumentService
     public function metadata(int $requestedId): array
     {
         $workId = $this->workId($requestedId);
-        $rdf = new RDF();
-        $record = (new RDFmetadata())->metadataWork($rdf->le($workId), true);
-        $authors = array_values(array_filter(array_map(
-            static fn (array $author): string => trim((string) ($author['name'] ?? '')),
-            $record['creator_author'] ?? [],
-        )));
+        $data = (new RDFdata())->le($workId);
+        $titles = [];
+        $authors = [];
+        $year = '';
+        $publication = '';
+        $issueId = 0;
+
+        foreach ($data as $relation) {
+            $property = (string) ($relation['Property'] ?? '');
+            $caption = trim((string) ($relation['Caption'] ?? ''));
+            if ($caption === '') {
+                continue;
+            }
+
+            if ($property === 'hasTitle') {
+                $language = (string) ($relation['Lang'] ?? '');
+                $titles[$language === 'pt' ? 0 : 1] ??= $caption;
+            } elseif (in_array($property, ['hasAuthor', 'hasOrganizator'], true)) {
+                $authors[] = $caption;
+            } elseif ($property === 'wasPublicationInDate') {
+                $year = $caption;
+            } elseif ($property === 'isPartOfSource') {
+                $publication = $caption;
+            } elseif ($property === 'hasIssueOf') {
+                $issueId = (int) ($relation['ID'] ?? 0);
+            }
+        }
+
+        if ($issueId > 0 && ($year === '' || $publication === '')) {
+            $issue = (new Issues())
+                ->select('is_year, jnl_name')
+                ->join('source_source', 'id_jnl = is_source')
+                ->where('is_source_issue', $issueId)
+                ->first();
+            if ($issue) {
+                $year = $year !== '' ? $year : trim((string) ($issue['is_year'] ?? ''));
+                $publication = $publication !== '' ? $publication : trim((string) ($issue['jnl_name'] ?? ''));
+            }
+        }
+
+        ksort($titles);
+        $title = reset($titles);
+        $authors = array_values(array_unique($authors));
 
         return [
-            'title' => trim((string) ($record['title'] ?? 'Título não informado')) ?: 'Título não informado',
+            'title' => $title !== false ? $title : 'Título não informado',
             'authors' => $authors ?: ['Autoria não informada'],
-            'year' => trim((string) ($record['year'] ?? 'Ano não informado')) ?: 'Ano não informado',
-            'publication' => trim((string) ($record['publisher'] ?? 'Local de publicação não informado')) ?: 'Local de publicação não informado',
+            'year' => $year !== '' ? $year : 'Ano não informado',
+            'publication' => $publication !== '' ? $publication : 'Local de publicação não informado',
         ];
     }
 
