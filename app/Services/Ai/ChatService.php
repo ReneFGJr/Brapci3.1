@@ -138,9 +138,17 @@ class ChatService
                 return;
             }
 
+            $metadata = $this->repositoryDocuments->metadata($documentId);
             $contextMessage = [
                 'role' => 'tool',
-                'content' => "Documento BRAPCI {$documentId} carregado no contexto:\n" . $documentContext,
+                'content' => "Documento BRAPCI {$documentId} carregado no contexto.\n\n"
+                    . "Metadados:\n"
+                    . "Título: {$metadata['title']}\n"
+                    . 'Autor(es): ' . implode('; ', $metadata['authors']) . "\n"
+                    . "Ano de publicação: {$metadata['year']}\n"
+                    . "Publicado em: {$metadata['publication']}\n\n"
+                    . "Conteúdo integral do Markdown:\n\n"
+                    . $documentContext,
             ];
             $this->messages->insert([
                 'chat_id' => $chatId,
@@ -149,7 +157,6 @@ class ChatService
                 'status' => 'completed',
             ]);
 
-            $metadata = $this->repositoryDocuments->metadata($documentId);
             $reply = "O artigo foi carregado no contexto da conversa.\n\n"
                 . "Título: {$metadata['title']}\n"
                 . 'Autor(es): ' . implode('; ', $metadata['authors']) . "\n"
