@@ -18,12 +18,31 @@ VERSION_THESA = "v2.2026.03.04"
 
 BASE_DIR = Path(__file__).resolve().parent
 
+
+def resolve_resource_path(resource_path: str | Path) -> Path:
+    """Resolve recursos do Thesa sem depender do diretório de execução."""
+    path = Path(resource_path)
+    if path.is_absolute():
+        return path
+
+    module_path = BASE_DIR / path
+    if module_path.exists():
+        return module_path
+
+    data_path = BASE_DIR / "data" / path
+    if data_path.exists():
+        return data_path
+
+    # Mantém um destino previsível para mensagens de erro.
+    return module_path
+
 # ========= Recursos de debug =========
 def load_thesaurus(json_path):
     """
     Converte o JSON do tesauro em:
     {conceito_canonico: [lista_variacoes]}
     """
+    json_path = resolve_resource_path(json_path)
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -133,7 +152,7 @@ def split_terms_preserving_quotes(question: str):
 
 # ========= Carregar vocabulário =========
 def load_authorized_terms(json_path: str):
-    json_file = BASE_DIR / json_path
+    json_file = resolve_resource_path(json_path)
 
     # 🔎 Verifica se existe
     if not json_file.exists():
@@ -191,7 +210,7 @@ def load_all_variants(terms_json_path: str) -> dict:
         ]
     }
     """
-    json_file = BASE_DIR / terms_json_path
+    json_file = resolve_resource_path(terms_json_path)
     variantes = {}
 
     try:
@@ -951,8 +970,9 @@ def process_smartretriavel_py(data, thesaurus):
 # ========= Função principal RAG =========
 def rag_query_v2(question: str, json_path: str):
     useIA = 1
-    json_terms = json_path.replace('.json', '_terms.json')
-    net_terms = json_path.replace('.json', '.net')
+    json_path = resolve_resource_path(json_path)
+    json_terms = json_path.with_name(json_path.stem + '_terms.json')
+    net_terms = json_path.with_suffix('.net')
 
     # 🔹 NOVO: Carrega TODAS as variantes do JSON em um array
     variantes = load_all_variants(json_terms)
@@ -995,6 +1015,11 @@ def rag_query_v2(question: str, json_path: str):
     base_result.update(expanded)
 
     return base_result
+
+
+def rag_query(question: str, json_path: str):
+    """Alias compatível com os chamadores da versão anterior."""
+    return rag_query_v2(question, json_path)
 
 # ========= Download Library ======
 def download(url: str, output_file: str) -> None:
@@ -1052,36 +1077,22 @@ def download_json(url: str, output_file: str) -> None:
 
 # ========= Thesa =========
 def getThesa(id):
-    import os
-    from pathlib import Path
-
-    dir = os.getcwd()
-    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel")
-
-    if dir.endswith(("/", "\\")):
-        dir = dir.rstrip("/\\")  # remove ambos
-    caminho = Path(dir)
-
-    if not caminho.exists() and caminho.is_dir():
-        return ""
-
-
     url = "https://www.ufrgs.br/thesa/api/ai_rag2_json/"+str(id)+"/por"
-    arquivo_saida = dir + "/data/thesa_"+str(id)+".json"
+    arquivo_saida = BASE_DIR / "data" / f"thesa_{id}.json"
     download_json(url, arquivo_saida)
 
     url = "https://www.ufrgs.br/thesa/api/ai_terms_json/"+str(id)+"/por"
-    arquivo_saida = dir + "/data/thesa_"+str(id)+"_terms.json"
+    arquivo_saida = BASE_DIR / "data" / f"thesa_{id}_terms.json"
     download_json(url, arquivo_saida)
 
     url = "https://www.ufrgs.br/thesa/api/ai_pajek/"+str(id)+"/net"
-    arquivo_saida = dir + "/data/thesa_"+str(id)+".net"
+    arquivo_saida = BASE_DIR / "data" / f"thesa_{id}.net"
     download(url, arquivo_saida)
 
 
 # ========= Execução =========
 if __name__ == "__main__":
-    pergunta = "Como a IAG é utilizada na catalogação de livros?"
-    source = 'thesa_25.json'
+    pergunta = "Inteligência artificial aplicada à catalogação de livros e metadados"
+    source = BASE_DIR / 'data' / 'thesa_25.json'
     resultado = rag_query_v2(pergunta, source)
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
