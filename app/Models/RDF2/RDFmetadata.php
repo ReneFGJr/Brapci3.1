@@ -210,7 +210,7 @@ class RDFmetadata extends Model
             )
             ->findAll();
 
-            pre($Publication->getLastQuery());
+            pre($PublicationRanking->getLastQuery());
         return $dt;
     }
 
