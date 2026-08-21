@@ -191,8 +191,8 @@ class RDFmetadata extends Model
             ->select($fields)
             ->join('brapci_journals.publication_rankings', 'publications.id_publication = publication_rankings.id_publication', 'left')
             ->join('brapci_journals.ranking_sources', 'ranking_sources.id_ranking_source = publication_rankings.id_ranking_source', 'left')
-
             ->where('rdf_id',$rdf)
+            ->orderby("name, evaluation_area, period_start desc")
             ->findAll();
 
         return $dt;
