@@ -54,214 +54,219 @@ class Brapci extends Model
 
     function index($d1, $d2, $d3)
     {
-
         header('Access-Control-Allow-Origin: *');
-        if ((get("test") == '') and (get("header") == '')) {
-            header("Content-Type: application/json");
+        if (get('test') == '' && get('header') == '') {
+            header('Content-Type: application/json');
         }
 
-        $RSP = [];
-        $RSP['status'] = '200';
-        if ($d1 == 'keywords') { $d1 = 'keyword'; }
+        $RSP = ['status' => '200'];
+
+        if ($d1 == 'keywords') {
+            $d1 = 'keyword';
+        }
 
         switch ($d1) {
             case 'avaliations':
                 $RSP = $this->avaliations($d2, $d3);
                 break;
+
             case 'cited-search':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $RSP = [];
-                $q = get("q");
-                if ($q == '') {
-                    $RSP['status'] = '400';
-                    $RSP['status_message'] = 'Parâmetro de busca "q" é obrigatório';
-                    echo json_encode($RSP);
-                    exit;
-                }
-                $RSP['works'] = $Cited->search($q);
+                $q = get('q');
 
-                $RSP['status'] = '200';
-                $RSP['status_message'] = 'Busca realizada com sucesso';
-                echo json_encode($RSP);
-                exit;
-                break;
-            case 'citedLock':
-                $Cited = new \App\Models\AI\Cited\Index();
-                $dd['ca_blocked'] = 1;
-                $Cited->set($dd)->where('ca_rdf', get("idz"))->update();
+                if ($q == '') {
+                    $RSP = [
+                        'status' => '400',
+                        'status_message' => 'Parâmetro de busca "q" é obrigatório',
+                    ];
+                    break;
+                }
+
                 $RSP = [
                     'status' => '200',
-                    'message' => 'Citações bloqueadas com sucesso'
+                    'status_message' => 'Busca realizada com sucesso',
+                    'works' => $Cited->search($q),
                 ];
-                echo json_encode($RSP);
-                exit;
                 break;
+
+            case 'citedLock':
             case 'citedUnLock':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $dd['ca_blocked'] = 0;
-                $Cited->set($dd)->where('ca_rdf', get("idz"))->update();
+                $blocked = $d1 == 'citedLock' ? 1 : 0;
+                $Cited
+                    ->set(['ca_blocked' => $blocked])
+                    ->where('ca_rdf', get('idz'))
+                    ->update();
+
                 $RSP = [
                     'status' => '200',
-                    'message' => 'Citações desbloqueadas com sucesso'
+                    'message' => $blocked
+                        ? 'Citações bloqueadas com sucesso'
+                        : 'Citações desbloqueadas com sucesso',
                 ];
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'citedDelete':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $caId = sonumero(get("idz"));
+                $caId = sonumero(get('idz'));
+
                 if ($caId > 0) {
                     $Cited->delete($caId);
                     $RSP = [
                         'status' => '200',
-                        'message' => 'Referência deletada com sucesso'
+                        'message' => 'Referência deletada com sucesso',
                     ];
                 } else {
                     $RSP = [
                         'status' => '400',
-                        'message' => 'ID inválido'
+                        'message' => 'ID inválido',
                     ];
                 }
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'keyword':
                 $Keywords = new \App\Models\keywords\Index();
-                $caID = trim(get("idz"));
-                if (($caID == 0) or ($caID == '')) {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Invalid IDs, put in idz parameter';
-                    echo json_encode($RSP);
-                    exit;
+                $caID = trim(get('idz'));
+
+                if ($caID == 0 || $caID == '') {
+                    $RSP = [
+                        'status' => '500',
+                        'message' => 'Invalid IDs, put in idz parameter',
+                    ];
+                    break;
                 }
-                $RSP = $Keywords->index($d2,$caID);
-                echo json_encode($RSP);
-                exit;
+
+                $RSP = $Keywords->index($d2, $caID);
                 break;
+
             case 'cited':
                 $Cited = new \App\Models\AI\Cited\Index();
-                $d1 = get("idz");
-                $d2 = get("ida");
-                $RSP = $Cited->joinCited($d1, $d2);
-                echo json_encode($RSP);
-                exit;
+                $RSP = $Cited->joinCited(get('idz'), get('ida'));
                 break;
+
             case 'setTermLang':
                 $Terms = new \App\Models\RDF2\RDFliteral();
                 $RSP = $Terms->setTermLang($d2, $d3);
-                echo json_encode($RSP);
+                break;
+
             case 'analysis':
                 $Analysis = new \App\Models\Base\Analysis();
                 $RSP = $Analysis->analysis($d2);
                 break;
+
             case 'statistics':
                 $RSP['statistics'] = $this->statistics();
                 break;
+
             case 'activities':
                 $View = new \App\Models\Functions\Views();
                 $View->getActivities($d2);
                 break;
+
             case 'bug':
                 $Bug = new \App\Models\Functions\Bugs();
-                $id = get("id");
-                $bugs = get("bugs");
-                $RSP = $Bug->register($id,$bugs);
-                echo json_encode($RSP);
-                exit;
+                $RSP = $Bug->register(get('id'), get('bugs'));
                 break;
+
             case 'getText':
                 $Download = new \App\Models\Base\Download();
                 $RSP = $Download->getText($d2);
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'timeline':
                 $Sources = new \App\Models\Base\Sources();
                 $RSP = $Sources->timeline($d2);
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'counter':
                 $Counter = new \App\Models\Tools\Counter();
                 $RSP = $Counter->counter($d2);
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'export':
                 $Basket = new \App\Models\ElasticSearch\Index();
                 $Basket->export($d2);
                 exit;
-                break;
+
             case 'setCookie':
-                $dd['status'] = '200';
-                if (isset($_SERVER['HTTP_COOKIE'])) {
-                    $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
-                } else {
-                    $dd['cookie'] = md5(date("YmdHis"));
-                }
-                echo json_encode($dd);
-                exit;
+                $cookie = $_SERVER['HTTP_COOKIE'] ?? date('YmdHis');
+                $RSP = [
+                    'status' => '200',
+                    'cookie' => md5($cookie),
+                ];
                 break;
+
             case 'news':
                 $News = new \App\Models\Base\News();
                 $RSP = $News->news($d2, $d3);
-                echo json_encode($RSP);
-                exit;
                 break;
+
             case 'indexs':
                 $RSP = $this->indexs($d2, $d3);
                 break;
+
             case 'page':
                 $WP = new \App\Models\WP\Index();
                 $RSP = $WP->api($d2);
                 break;
+
             case 'basket':
-                $RSP = $this->basket(get("row") . get("q"));
+                $RSP = $this->basket(get('row') . get('q'));
                 break;
+
             case 'book':
                 $Book = new \App\Models\Base\Book();
-                if ($d2 == '')
-                    {
-                        $RSP = $Book->vitrine(get("row") . get("q"));
-                    } else {
-                        $RSP = $Book->index($d2,$d3);
-                    }
+                $RSP = $d2 == ''
+                    ? $Book->vitrine(get('row') . get('q'))
+                    : $Book->index($d2, $d3);
                 break;
+
             case 'data':
                 $RSP['result'] = $this->getData($d2);
                 break;
+
             case 'get':
                 $RSP['result'] = $this->get($d2, $d3);
                 break;
+
             case 'issue':
                 $RSP = $this->issue($d2, $d3);
                 break;
+
             case 'issueV2':
                 $RSP = $this->issueV2($d2, $d3);
                 break;
+
             case 'oai':
                 $RSP = $this->oai($d2, $d3);
                 break;
+
             case 'rdf':
                 $RSP = $this->rdf($d2, $d3);
                 break;
+
             case 'resume':
                 $RSP = $this->resume();
                 break;
+
             case 'search':
                 $RSP = $this->search($d2);
                 break;
+
             case 'source':
                 $RSP['source'] = $this->source($d2, $d3);
                 break;
+
             case 'upload':
                 $this->upload();
                 break;
+
             default:
                 $RSP = $this->services($RSP);
                 $RSP['verb'] = $d1;
                 break;
         }
+
         echo json_encode($RSP);
         exit;
     }
