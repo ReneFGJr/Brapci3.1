@@ -34,6 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 ARQUIVO_PATH = "../../../_Documments/Qualis"
+ARQUIVO_PATH_SJR = "../../../_Documments/sjr"
 
 HEADERS = {"User-Agent": "Journals-Checker/1.0"}
 
@@ -118,6 +119,57 @@ def parse_period(period):
     return None, None
 
 
+def parse_sjr_value(value):
+    """
+    Converte SJR textual (ex.: 1,245) para float.
+    """
+
+    if value is None:
+        return None
+
+    text = str(value).strip().replace(" ", "")
+
+    if not text:
+        return None
+
+    text = text.replace(".", "").replace(",", ".")
+
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def extract_issns(issn_raw):
+    """
+    Extrai todos os ISSNs válidos da célula SJR.
+    """
+
+    if not issn_raw:
+        return []
+
+    issns = []
+
+    for chunk in str(issn_raw).split(","):
+        normalized = normalize_issn(chunk)
+        if normalized and normalized not in issns:
+            issns.append(normalized)
+
+    return issns
+
+
+def extract_year_from_filename(filename):
+    """
+    Recupera o ano no nome do arquivo scimagojr.
+    """
+
+    years = re.findall(r"\b(19\d{2}|20\d{2})\b", filename)
+    if not years:
+        return None
+
+    return int(years[-1])
+
+
 # ============================================================
 # RANKING SOURCE
 # ============================================================
@@ -163,6 +215,45 @@ def get_or_create_qualis(cursor):
     return cursor.lastrowid
 
 
+def get_or_create_sjr(cursor):
+    """
+    Recupera ou cria a base de ranking SJR (Scopus).
+    """
+
+    sql = """
+        SELECT id_ranking_source
+        FROM ranking_sources
+        WHERE name = %s
+        LIMIT 1
+    """
+
+    cursor.execute(sql, ("SJR Scopus", ))
+    row = cursor.fetchone()
+
+    if row:
+        return row["id_ranking_source"]
+
+    sql = """
+        INSERT INTO ranking_sources
+        (
+            name,
+            acronym,
+            institution,
+            metric_type,
+            description
+        )
+        VALUES (%s, %s, %s, %s, %s)
+    """
+
+    cursor.execute(sql, (
+        "SJR Scopus", "SJR", "Scopus / SCImago",
+        "score",
+        "SCImago Journal Rank (SJR) da base Scopus."
+    ))
+
+    return cursor.lastrowid
+
+
 # ============================================================
 # PUBLICATION
 # ============================================================
@@ -191,21 +282,19 @@ def find_publication_by_issn(cursor, issn):
 
 def create_publication(cursor, issn, title):
     """
-    Cria uma publicação ainda sem ISSN-L confirmado.
-
-    O ISSN existente no arquivo Qualis NÃO é automaticamente
-    considerado ISSN-L.
+    Cria uma publicação com ISSN-L originado do ISSN informado.
     """
 
     sql = """
         INSERT INTO publications
         (
+            issn_l,
             title
         )
-        VALUES (%s)
+        VALUES (%s, %s)
     """
 
-    cursor.execute(sql, (title, ))
+    cursor.execute(sql, (issn, title))
     id_publication = cursor.lastrowid
 
     sql = """
@@ -270,6 +359,37 @@ def save_qualis(cursor, id_publication, id_ranking_source, stratum, area,
 
     cursor.execute(sql, (id_publication, id_ranking_source, period_start,
                          period_end, stratum, area))
+
+
+def save_sjr(cursor, id_publication, id_ranking_source, year, quartile,
+             sjr_value, area, notes):
+    """
+    Insere ou atualiza SJR na publication_rankings.
+    """
+
+    sql = """
+        INSERT INTO publication_rankings
+        (
+            id_publication,
+            id_ranking_source,
+            period_start,
+            period_end,
+            stratum,
+            numeric_value,
+            evaluation_area,
+            notes
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+
+        ON DUPLICATE KEY UPDATE
+            stratum = VALUES(stratum),
+            numeric_value = VALUES(numeric_value),
+            notes = VALUES(notes),
+            updated_at = CURRENT_TIMESTAMP
+    """
+
+    cursor.execute(sql, (id_publication, id_ranking_source, year, year,
+                         quartile, sjr_value, area, notes))
 
 
 # ============================================================
@@ -400,6 +520,91 @@ def import_qualis_file(cursor, filename, id_ranking_source):
     return total, created, rankings, errors
 
 
+def import_sjr_file(cursor, filename, id_ranking_source):
+    """
+    Importa um arquivo SJR (Scopus).
+    """
+
+    total = 0
+    created = 0
+    rankings = 0
+    errors = 0
+
+    year = extract_year_from_filename(filename.name)
+    if not year:
+        log(f"[IGNORADO] arquivo sem ano no nome: {filename.name}")
+        return 0, 0, 0, 1
+
+    log()
+    log("=" * 70)
+    log(f"Arquivo: {filename.name}")
+    log("=" * 70)
+
+    with open(filename, "r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f, delimiter=";")
+
+        for row in reader:
+            total += 1
+
+            try:
+                title = (row.get("Title") or "").strip().strip('"')
+                quartile = (row.get("SJR Quartile") or "").strip()
+                sjr_value = parse_sjr_value(row.get("SJR"))
+                sourceid = (row.get("Sourceid") or "").strip()
+                coverage = (row.get("Coverage") or "").strip()
+                area = "Library and Information Sciences"
+
+                issns = extract_issns(row.get("Issn"))
+
+                if not issns:
+                    log(f"[IGNORADO] Linha {total + 1}: ISSN inválido")
+                    errors += 1
+                    continue
+
+                if not title:
+                    log(f"[IGNORADO] {issns[0]}: título vazio")
+                    errors += 1
+                    continue
+
+                if sjr_value is None:
+                    log(f"[IGNORADO] {issns[0]}: SJR inválido")
+                    errors += 1
+                    continue
+
+                publication = None
+                matched_issn = None
+
+                for issn in issns:
+                    publication = find_publication_by_issn(cursor, issn)
+                    if publication:
+                        matched_issn = issn
+                        break
+
+                if not publication:
+                    matched_issn = issns[0]
+                    id_publication = create_publication(cursor, matched_issn,
+                                                        title)
+                    created += 1
+                else:
+                    id_publication = publication["id_publication"]
+
+                notes = f"sourceid={sourceid}; coverage={coverage}"
+
+                save_sjr(cursor, id_publication, id_ranking_source, year,
+                         quartile, sjr_value, area, notes)
+
+                rankings += 1
+
+                log(f"[OK] {matched_issn} | {year} | {quartile} | "
+                    f"SJR={sjr_value:.4f} | {title}")
+
+            except Exception as e:
+                errors += 1
+                log(f"[ERRO] Linha {total + 1}: {e}")
+
+    return total, created, rankings, errors
+
+
 # ============================================================
 # IMPORTAÇÃO QUALIS
 # ============================================================
@@ -507,7 +712,111 @@ def qualisImport():
                 "errors": errors_all,
             }
 
-    except Error as e:
+    except pymysql.MySQLError as e:
+
+        if connection:
+            connection.rollback()
+
+        return erro(str(e))
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+        return erro(str(e))
+
+    finally:
+
+        if connection:
+            connection.close()
+
+
+def sjrImport():
+
+    path = (Path(__file__).resolve().parent / ARQUIVO_PATH_SJR).resolve()
+
+    log()
+    log("Importação SJR Scopus")
+    log(f"Diretório: {path}")
+    log()
+
+    if not path.exists():
+        return erro(f"Diretório não encontrado: {path}")
+
+    files = sorted(path.glob("*.csv"))
+
+    if not files:
+        return erro(f"Nenhum arquivo encontrado em {path}")
+
+    connection = None
+
+    try:
+
+        connection = get_connection("brapci_journals")
+
+        with connection.cursor() as cursor:
+
+            id_ranking_source = get_or_create_sjr(cursor)
+            connection.commit()
+
+            log("SJR Scopus: "
+                f"id={id_ranking_source}")
+
+            log(f"Arquivos encontrados: {len(files)}")
+
+            total_all = 0
+            created_all = 0
+            rankings_all = 0
+            errors_all = 0
+
+            for filename in files:
+
+                try:
+
+                    total, created, rankings, errors = \
+                        import_sjr_file(
+                            cursor,
+                            filename,
+                            id_ranking_source
+                        )
+
+                    connection.commit()
+
+                    total_all += total
+                    created_all += created
+                    rankings_all += rankings
+                    errors_all += errors
+
+                except Exception as e:
+
+                    connection.rollback()
+
+                    log(f"[ERRO ARQUIVO] "
+                        f"{filename.name}: {e}")
+
+                    errors_all += 1
+
+            log()
+            log("=" * 70)
+            log("RESUMO")
+            log("=" * 70)
+
+            log(f"Registros lidos:       {total_all}")
+            log(f"Publicações criadas:   {created_all}")
+            log(f"Avaliações importadas: {rankings_all}")
+            log(f"Erros/ignorados:       {errors_all}")
+
+            return {
+                "success": True,
+                "files": len(files),
+                "records": total_all,
+                "publications_created": created_all,
+                "rankings": rankings_all,
+                "errors": errors_all,
+            }
+
+    except pymysql.MySQLError as e:
 
         if connection:
             connection.rollback()
@@ -546,6 +855,9 @@ def run(parametros=None, chat=None, silent=False):
 
     if action == "qualis":
         return qualisImport()
+
+    if action == "sjr":
+        return sjrImport()
 
     if action == "status":
         return {"success": True, "task": TASK["name"], "status": "ready"}
