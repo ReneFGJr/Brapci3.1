@@ -153,6 +153,7 @@ class RDFmetadata extends Model
                 $Elastic = new \App\Models\ElasticSearch\Index();
                 $RSP['worksID'] = $Elastic->workdIDjournal($RSP['id_jnl']);
                 $RSP['subject'] = $this->subjects($RSP['worksID']);
+                $RSP['avaliations'] = $this->avaliationsISSN($RSP['jnl_frbr']);
                 return $RSP;
                 break;
             case 'Subject':
@@ -173,6 +174,13 @@ class RDFmetadata extends Model
                 exit;
         }
     }
+
+    function avaliationsISSN($rdf=0)
+        {
+                $Source = new \App\Models\Base\Sources();
+                $dt = $Source->where('jnl_frbr', $rdf)->first();
+                pre($dt);
+        }
 
     function subjects(array $IDs = [])
     {
