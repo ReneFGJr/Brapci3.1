@@ -37,6 +37,14 @@ ARQUIVO_PATH = "../../../_Documments/Qualis"
 
 HEADERS = {"User-Agent": "Journals-Checker/1.0"}
 
+SILENT = False
+
+
+def log(*args, **kwargs):
+    if not SILENT:
+        print(*args, **kwargs)
+
+
 # ============================================================
 # FUNÇÕES BÁSICAS
 # ============================================================
@@ -279,10 +287,10 @@ def import_qualis_file(cursor, filename, id_ranking_source):
     rankings = 0
     errors = 0
 
-    print()
-    print("=" * 70)
-    print(f"Arquivo: {filename.name}")
-    print("=" * 70)
+    log()
+    log("=" * 70)
+    log(f"Arquivo: {filename.name}")
+    log("=" * 70)
 
     # Tenta primeiro UTF-8 com BOM.
     # Caso os arquivos antigos estejam em latin-1,
@@ -307,7 +315,7 @@ def import_qualis_file(cursor, filename, id_ranking_source):
             file_handle = None
 
     if file_handle is None:
-        print(f"ERRO: não foi possível ler {filename}")
+        log(f"ERRO: não foi possível ler {filename}")
         return 0, 0, 0, 1
 
     with file_handle as f:
@@ -336,22 +344,22 @@ def import_qualis_file(cursor, filename, id_ranking_source):
                 # --------------------------------------------
 
                 if not issn:
-                    print(f"[IGNORADO] Linha {total + 1}: "
-                          f"ISSN inválido")
+                    log(f"[IGNORADO] Linha {total + 1}: "
+                        f"ISSN inválido")
                     errors += 1
                     continue
 
                 if not title:
-                    print(f"[IGNORADO] {issn}: "
-                          f"título vazio")
+                    log(f"[IGNORADO] {issn}: "
+                        f"título vazio")
                     errors += 1
                     continue
 
                 period_start, period_end = parse_period(period)
 
                 if not period_start:
-                    print(f"[IGNORADO] {issn}: "
-                          f"período inválido ({period})")
+                    log(f"[IGNORADO] {issn}: "
+                        f"período inválido ({period})")
                     errors += 1
                     continue
 
@@ -378,16 +386,16 @@ def import_qualis_file(cursor, filename, id_ranking_source):
 
                 rankings += 1
 
-                print(f"[OK] {issn} | "
-                      f"{stratum} | "
-                      f"{period_start}-{period_end} | "
-                      f"{title}")
+                log(f"[OK] {issn} | "
+                    f"{stratum} | "
+                    f"{period_start}-{period_end} | "
+                    f"{title}")
 
             except Exception as e:
 
                 errors += 1
 
-                print(f"[ERRO] Linha {total + 1}: {e}")
+                log(f"[ERRO] Linha {total + 1}: {e}")
 
     return total, created, rankings, errors
 
@@ -401,10 +409,10 @@ def qualisImport():
 
     path = (Path(__file__).resolve().parent / ARQUIVO_PATH).resolve()
 
-    print()
-    print("Importação Qualis CAPES")
-    print(f"Diretório: {path}")
-    print()
+    log()
+    log("Importação Qualis CAPES")
+    log(f"Diretório: {path}")
+    log()
 
     if not path.exists():
         return erro(f"Diretório não encontrado: {path}")
@@ -432,10 +440,10 @@ def qualisImport():
 
             connection.commit()
 
-            print("Qualis CAPES: "
-                  f"id={id_ranking_source}")
+            log("Qualis CAPES: "
+                f"id={id_ranking_source}")
 
-            print(f"Arquivos encontrados: {len(files)}")
+            log(f"Arquivos encontrados: {len(files)}")
 
             total_all = 0
             created_all = 0
@@ -468,8 +476,8 @@ def qualisImport():
 
                     connection.rollback()
 
-                    print(f"[ERRO ARQUIVO] "
-                          f"{filename.name}: {e}")
+                    log(f"[ERRO ARQUIVO] "
+                        f"{filename.name}: {e}")
 
                     errors_all += 1
 
@@ -477,18 +485,18 @@ def qualisImport():
             # RESULTADO
             # --------------------------------------------
 
-            print()
-            print("=" * 70)
-            print("RESUMO")
-            print("=" * 70)
+            log()
+            log("=" * 70)
+            log("RESUMO")
+            log("=" * 70)
 
-            print(f"Registros lidos:       {total_all}")
+            log(f"Registros lidos:       {total_all}")
 
-            print(f"Publicações criadas:   {created_all}")
+            log(f"Publicações criadas:   {created_all}")
 
-            print(f"Avaliações importadas: {rankings_all}")
+            log(f"Avaliações importadas: {rankings_all}")
 
-            print(f"Erros/ignorados:       {errors_all}")
+            log(f"Erros/ignorados:       {errors_all}")
 
             return {
                 "success": True,
@@ -526,12 +534,15 @@ def qualisImport():
 
 def run(parametros=None, chat=None, silent=False):
 
+    global SILENT
+    SILENT = silent
+
     if parametros is None:
         parametros = []
 
     action = (parametros[0].lower() if len(parametros) > 0 else "status")
 
-    print(f"Acao: {action}")
+    log(f"Acao: {action}")
 
     if action == "qualis":
         return qualisImport()
