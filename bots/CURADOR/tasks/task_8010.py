@@ -35,6 +35,8 @@ load_dotenv(BASE_DIR / ".env")
 
 ARQUIVO_PATH = "../../../_Documments/Qualis"
 ARQUIVO_PATH_SJR = "../../../_Documments/sjr"
+ARQUIVO_PATH_ISSNL = \
+    "../../../_Documments/ISSN/issnltables/20260820.ISSN-to-ISSN-L.txt"
 
 HEADERS = {"User-Agent": "Journals-Checker/1.0"}
 
@@ -168,6 +170,18 @@ def extract_year_from_filename(filename):
         return None
 
     return int(years[-1])
+
+
+def parse_issnl_type(value):
+    """
+    Normaliza o campo type (char(2)) da tabela issn_l.
+    """
+
+    text = (value or "").strip().lower()
+    if not text:
+        return "ta"
+
+    return text[:2]
 
 
 # ============================================================
@@ -844,6 +858,121 @@ def sjrImport():
             connection.close()
 
 
+def issnLImport():
+    """
+    Importa a tabela de equivalência ISSN -> ISSN-L.
+    """
+
+    path = (Path(__file__).resolve().parent / ARQUIVO_PATH_ISSNL).resolve()
+
+    log()
+    log("Importação ISSN-L")
+    log(f"Arquivo: {path}")
+    log()
+
+    if not path.exists():
+        return erro(f"Arquivo não encontrado: {path}")
+
+    connection = None
+
+    try:
+        connection = get_connection("brapci_journals")
+
+        with connection.cursor() as cursor:
+            cursor.execute("TRUNCATE TABLE issn_l")
+
+            sql = """
+                INSERT INTO issn_l
+                (
+                    issn,
+                    issn_l,
+                    type
+                )
+                VALUES (%s, %s, %s)
+            """
+
+            total = 0
+            imported = 0
+            errors = 0
+            ignored_same = 0
+
+            with open(path, "r", encoding="utf-8-sig", newline="") as f:
+                for line_num, raw_line in enumerate(f, start=1):
+                    line = raw_line.strip()
+
+                    if not line:
+                        continue
+
+                    if line_num == 1 and "ISSN" in line.upper():
+                        continue
+
+                    total += 1
+
+                    try:
+                        parts = raw_line.rstrip("\r\n").split("\t")
+
+                        if len(parts) < 2:
+                            errors += 1
+                            log(f"[IGNORADO] Linha {line_num}: formato inválido")
+                            continue
+
+                        issn = normalize_issn(parts[0])
+                        issn_l = normalize_issn(parts[1])
+                        type_value = parse_issnl_type(parts[2] if len(parts) > 2
+                                                      else "ta")
+
+                        if not issn or not issn_l:
+                            errors += 1
+                            log(f"[IGNORADO] Linha {line_num}: ISSN inválido")
+                            continue
+
+                        if issn == issn_l:
+                            ignored_same += 1
+                            continue
+
+                        cursor.execute(sql, (issn, issn_l, type_value))
+                        imported += 1
+
+                    except Exception as e:
+                        errors += 1
+                        log(f"[ERRO] Linha {line_num}: {e}")
+
+            connection.commit()
+
+            log("Importação ISSN-L concluída")
+            log(f"Registros lidos:      {total}")
+            log(f"Registros importados: {imported}")
+            log(f"Ignorados (ISSN=ISSN-L): {ignored_same}")
+            log(f"Erros/ignorados:      {errors}")
+
+            return {
+                "success": True,
+                "records": total,
+                "imported": imported,
+                "ignored_same": ignored_same,
+                "errors": errors,
+            }
+
+    except pymysql.MySQLError as e:
+
+        if connection:
+            connection.rollback()
+
+        return erro(str(e))
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+        return erro(str(e))
+
+    finally:
+
+        if connection:
+            connection.close()
+
+
 def truncate_publication_tables():
     """
     Zera as tabelas relacionadas às publicações.
@@ -853,7 +982,7 @@ def truncate_publication_tables():
 
     tables = [
         "publication_rankings", "publication_publishers", "publication_issns",
-        "publications",
+        "publications","issn_l"
     ]
 
     connection = None
@@ -924,6 +1053,9 @@ def run(parametros=None, chat=None, silent=False):
 
     if action == "sjr":
         return sjrImport()
+
+    if action == "issn-l":
+        return issnLImport()
 
     if action == "zera":
         return truncate_publication_tables()
