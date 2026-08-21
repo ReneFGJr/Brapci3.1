@@ -36,7 +36,6 @@ load_dotenv(BASE_DIR / ".env")
 ARQUIVO_PATH = "../../../_Documments/Qualis"
 ARQUIVO_PATH_SJR = "../../../_Documments/sjr"
 ARQUIVO_PATH_JCR = "../../../_Documments/JCR"
-ARQUIVO_JCR_PREFERENCIAL = "JCR2026.csv"
 ARQUIVO_PATH_ISSNL = \
     "../../../_Documments/ISSN/issnltables/20260820.ISSN-to-ISSN-L.txt"
 
@@ -765,6 +764,13 @@ def import_jcr_file(cursor, filename, id_ranking_source):
     rankings = 0
     errors = 0
 
+    year_match = re.search(r"(?:19|20)\d{2}", filename.stem)
+    if not year_match:
+        log(f"[IGNORADO] arquivo sem ano no nome: {filename.name}")
+        return 0, 0, 0, 1
+
+    year = int(year_match.group())
+
     log()
     log("=" * 70)
     log(f"Arquivo: {filename.name}")
@@ -787,12 +793,15 @@ def import_jcr_file(cursor, filename, id_ranking_source):
              if re.fullmatch(r"\d{4}\s+JIF", field.strip())),
             None,
         )
+        jci_field = next(
+            (field for field in header
+             if re.fullmatch(r"\d{4}\s+JCI", field.strip())),
+            None,
+        )
 
         if not jif_field:
             log("[ERRO] Coluna anual JIF não encontrada")
             return 0, 0, 0, 1
-
-        year = int(re.search(r"\d{4}", jif_field).group())
 
         for row in reader:
             total += 1
@@ -851,7 +860,7 @@ def import_jcr_file(cursor, filename, id_ranking_source):
                     f"publisher={row.get('Publisher') or ''}; "
                     f"edition={row.get('Edition') or ''}; "
                     f"total_citations={row.get('Total Citations') or ''}; "
-                    f"jci={row.get(f'{year} JCI') or ''}; "
+                    f"jci={(row.get(jci_field) if jci_field else '') or ''}; "
                     f"citable_oa={row.get('% of Citable OA') or ''}"
                 )
 
@@ -1111,34 +1120,29 @@ def sjrImport():
 
 def jcrImport():
     """
-    Importa o Journal Impact Factor do arquivo JCR configurado.
+    Importa o Journal Impact Factor de todos os arquivos JCR.
     """
 
     directory = (Path(__file__).resolve().parent / ARQUIVO_PATH_JCR).resolve()
-    preferred_path = directory / ARQUIVO_JCR_PREFERENCIAL
-
-    if preferred_path.exists():
-        path = preferred_path
-    else:
-        files = sorted(
-            directory.glob("JCR*.csv"),
-            key=lambda item: (
-                int(re.search(r"\d{4}", item.stem).group())
-                if re.search(r"\d{4}", item.stem) else 0
-            ),
-            reverse=True,
-        ) if directory.exists() else []
-        path = files[0] if files else preferred_path
 
     log()
     log("Importação Journal Citation Reports")
-    log(f"Arquivo: {path}")
+    log(f"Diretório: {directory}")
     log()
 
-    if not path.exists():
-        return erro(
-            f"Nenhum arquivo JCR*.csv encontrado no diretório: {directory}"
-        )
+    if not directory.exists():
+        return erro(f"Diretório não encontrado: {directory}")
+
+    files = sorted(
+        (
+            item for item in directory.glob("JCR*.csv")
+            if re.fullmatch(r"JCR(?:19|20)\d{2}", item.stem, re.IGNORECASE)
+        ),
+        key=lambda item: int(re.search(r"\d{4}", item.stem).group()),
+    )
+
+    if not files:
+        return erro(f"Nenhum arquivo JCRAAAA.csv encontrado em: {directory}")
 
     connection = None
 
@@ -1150,30 +1154,48 @@ def jcrImport():
             connection.commit()
 
             log(f"JCR: id={id_ranking_source}")
+            log(f"Arquivos encontrados: {len(files)}")
 
-            total, created, rankings, errors = import_jcr_file(
-                cursor,
-                path,
-                id_ranking_source,
-            )
-            connection.commit()
+            total_all = 0
+            created_all = 0
+            rankings_all = 0
+            errors_all = 0
+
+            for filename in files:
+                try:
+                    total, created, rankings, errors = import_jcr_file(
+                        cursor,
+                        filename,
+                        id_ranking_source,
+                    )
+                    connection.commit()
+
+                    total_all += total
+                    created_all += created
+                    rankings_all += rankings
+                    errors_all += errors
+
+                except Exception as e:
+                    connection.rollback()
+                    log(f"[ERRO ARQUIVO] {filename.name}: {e}")
+                    errors_all += 1
 
             log()
             log("=" * 70)
             log("RESUMO")
             log("=" * 70)
-            log(f"Registros lidos:       {total}")
-            log(f"Publicações criadas:   {created}")
-            log(f"Avaliações importadas: {rankings}")
-            log(f"Erros/ignorados:       {errors}")
+            log(f"Registros lidos:       {total_all}")
+            log(f"Publicações criadas:   {created_all}")
+            log(f"Avaliações importadas: {rankings_all}")
+            log(f"Erros/ignorados:       {errors_all}")
 
             return {
                 "success": True,
-                "file": path.name,
-                "records": total,
-                "publications_created": created,
-                "rankings": rankings,
-                "errors": errors,
+                "files": len(files),
+                "records": total_all,
+                "publications_created": created_all,
+                "rankings": rankings_all,
+                "errors": errors_all,
             }
 
     except pymysql.MySQLError as e:
