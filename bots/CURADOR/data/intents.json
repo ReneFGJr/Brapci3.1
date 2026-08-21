@@ -172,6 +172,12 @@
             "doi_check"
         ]
     },
+    "8010": {
+        "description": "Journals cadastrados na BRAPCI",
+        "patterns": [
+            "journals"
+        ]
+    },
     "9001": {
         "description": "E-mail teste",
         "patterns": [
