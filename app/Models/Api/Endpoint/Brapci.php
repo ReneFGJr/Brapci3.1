@@ -65,6 +65,9 @@ class Brapci extends Model
         if ($d1 == 'keywords') { $d1 = 'keyword'; }
 
         switch ($d1) {
+            case 'avaliations':
+                $RSP = $this->avaliations($d2, $d3);
+                break;
             case 'cited-search':
                 $Cited = new \App\Models\AI\Cited\Index();
                 $RSP = [];
@@ -261,6 +264,21 @@ class Brapci extends Model
         }
         echo json_encode($RSP);
         exit;
+    }
+
+    function avaliations()
+    {
+        $RSP = [];
+        $RSP['status'] = '200';
+        $RSP['message'] = 'Avaliations endpoint is under construction';
+
+        $Journal = new \App\Models\Journals\Publication();
+        $type = [];
+
+        $dt = $Journal->where('rdf_id IS NOT NULL')->findAll();
+
+        pre($dt);
+        return $RSP;
     }
 
     /******************************** indexs */
