@@ -185,16 +185,7 @@ class RDFmetadata extends Model
         }
 
         $PublicationRanking = new \App\Models\Journals\PublicationRanking();
-        $fields = [
-            'publication_rankings.id_publication_ranking',
-            'publication_rankings.evaluation_area',
-            'publication_rankings.period_start',
-            'publication_rankings.period_end',
-            'publication_rankings.stratum AS ranking',
-            'publication_rankings.numeric_value',
-            'ranking_sources.name AS ranking_source',
-            'ranking_sources.acronym AS ranking_source_acronym',
-        ];
+        $fields = '*';
 
         $dt = $PublicationRanking
             ->select($fields)
