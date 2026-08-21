@@ -196,7 +196,7 @@ class RDFmetadata extends Model
             'ranking_sources.acronym AS ranking_source_acronym',
         ];
 
-        return $PublicationRanking
+        $dt = $PublicationRanking
             ->select($fields)
             ->join(
                 'ranking_sources',
@@ -209,6 +209,9 @@ class RDFmetadata extends Model
                 $publication['id_publication']
             )
             ->findAll();
+
+            pre($Publication->getLastQuery());
+        return $dt;
     }
 
     function subjects(array $IDs = [])
