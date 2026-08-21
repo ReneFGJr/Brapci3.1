@@ -35,6 +35,7 @@ load_dotenv(BASE_DIR / ".env")
 
 ARQUIVO_PATH = "../../../_Documments/Qualis"
 ARQUIVO_PATH_SJR = "../../../_Documments/sjr"
+ARQUIVO_PATH_JCR = "../../../_Documments/JCR/JCR2026.csv"
 ARQUIVO_PATH_ISSNL = \
     "../../../_Documments/ISSN/issnltables/20260820.ISSN-to-ISSN-L.txt"
 
@@ -135,6 +136,24 @@ def parse_sjr_value(value):
         return None
 
     text = text.replace(".", "").replace(",", ".")
+
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def parse_jcr_value(value):
+    """
+    Converte o JIF textual do JCR (ex.: 10.8) para float.
+    """
+
+    if value is None:
+        return None
+
+    text = str(value).strip().replace(",", "")
+    if not text:
+        return None
 
     try:
         return float(text)
@@ -263,6 +282,47 @@ def get_or_create_sjr(cursor):
         "SJR Scopus", "SJR", "Scopus / SCImago",
         "score",
         "SCImago Journal Rank (SJR) da base Scopus."
+    ))
+
+    return cursor.lastrowid
+
+
+def get_or_create_jcr(cursor):
+    """
+    Recupera ou cria a base de ranking JCR da Clarivate.
+    """
+
+    sql = """
+        SELECT id_ranking_source
+        FROM ranking_sources
+        WHERE name = %s
+        LIMIT 1
+    """
+
+    cursor.execute(sql, ("Journal Citation Reports", ))
+    row = cursor.fetchone()
+
+    if row:
+        return row["id_ranking_source"]
+
+    sql = """
+        INSERT INTO ranking_sources
+        (
+            name,
+            acronym,
+            institution,
+            metric_type,
+            description
+        )
+        VALUES (%s, %s, %s, %s, %s)
+    """
+
+    cursor.execute(sql, (
+        "Journal Citation Reports",
+        "JCR",
+        "Clarivate",
+        "score",
+        "Journal Impact Factor (JIF) do Journal Citation Reports.",
     ))
 
     return cursor.lastrowid
@@ -435,6 +495,38 @@ def save_sjr(cursor, id_publication, id_ranking_source, year, quartile,
 
     cursor.execute(sql, (id_publication, id_ranking_source, year, year,
                          quartile, sjr_value, area, notes))
+
+
+def save_jcr(cursor, id_publication, id_ranking_source, year, quartile,
+             jif_value, area, notes):
+    """
+    Insere ou atualiza o JIF do JCR na publication_rankings.
+    """
+
+    sql = """
+        INSERT INTO publication_rankings
+        (
+            id_publication,
+            id_ranking_source,
+            period_start,
+            period_end,
+            stratum,
+            numeric_value,
+            evaluation_area,
+            notes
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+
+        ON DUPLICATE KEY UPDATE
+            stratum = VALUES(stratum),
+            numeric_value = VALUES(numeric_value),
+            evaluation_area = VALUES(evaluation_area),
+            notes = VALUES(notes),
+            updated_at = CURRENT_TIMESTAMP
+    """
+
+    cursor.execute(sql, (id_publication, id_ranking_source, year, year,
+                         quartile, jif_value, area, notes))
 
 
 # ============================================================
@@ -654,6 +746,120 @@ def import_sjr_file(cursor, filename, id_ranking_source):
 
                 log(f"[OK] {matched_issn} | {year} | {quartile} | "
                     f"SJR={sjr_value:.4f} | {title}")
+
+            except Exception as e:
+                errors += 1
+                log(f"[ERRO] Linha {total + 1}: {e}")
+
+    return total, created, rankings, errors
+
+
+def import_jcr_file(cursor, filename, id_ranking_source):
+    """
+    Importa um arquivo do Journal Citation Reports (JCR).
+    """
+
+    total = 0
+    created = 0
+    rankings = 0
+    errors = 0
+
+    log()
+    log("=" * 70)
+    log(f"Arquivo: {filename.name}")
+    log("=" * 70)
+
+    with open(filename, "r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        jif_field = next(
+            (field for field in (reader.fieldnames or [])
+             if re.fullmatch(r"\d{4}\s+JIF", field.strip())),
+            None,
+        )
+
+        if not jif_field:
+            log("[ERRO] Coluna anual JIF não encontrada")
+            return 0, 0, 0, 1
+
+        year = int(re.search(r"\d{4}", jif_field).group())
+
+        for row in reader:
+            total += 1
+
+            try:
+                title = (row.get("Journal name") or "").strip()
+                quartile = (row.get("JIF Quartile") or "").strip()
+                jif_value = parse_jcr_value(row.get(jif_field))
+                area = (row.get("Category") or "").strip()
+
+                issns = []
+                for field in ("ISSN", "eISSN"):
+                    issn = normalize_issn(row.get(field))
+                    if issn:
+                        issn_l = resolve_issn_l(cursor, issn)
+                        if issn_l not in issns:
+                            issns.append(issn_l)
+
+                if not issns:
+                    log(f"[IGNORADO] Linha {total + 1}: ISSN inválido")
+                    errors += 1
+                    continue
+
+                if not title:
+                    log(f"[IGNORADO] {issns[0]}: título vazio")
+                    errors += 1
+                    continue
+
+                if jif_value is None:
+                    log(f"[IGNORADO] {issns[0]}: JIF inválido")
+                    errors += 1
+                    continue
+
+                publication = None
+                matched_issn = None
+
+                for issn in issns:
+                    publication = find_publication_by_issn(cursor, issn)
+                    if publication:
+                        matched_issn = issn
+                        break
+
+                if publication:
+                    id_publication = publication["id_publication"]
+                else:
+                    matched_issn = issns[0]
+                    id_publication = create_publication(
+                        cursor,
+                        matched_issn,
+                        title,
+                    )
+                    created += 1
+
+                notes = (
+                    f"abbreviation={row.get('JCR Abbreviation') or ''}; "
+                    f"publisher={row.get('Publisher') or ''}; "
+                    f"edition={row.get('Edition') or ''}; "
+                    f"total_citations={row.get('Total Citations') or ''}; "
+                    f"jci={row.get(f'{year} JCI') or ''}; "
+                    f"citable_oa={row.get('% of Citable OA') or ''}"
+                )
+
+                save_jcr(
+                    cursor,
+                    id_publication,
+                    id_ranking_source,
+                    year,
+                    quartile,
+                    jif_value,
+                    area,
+                    notes,
+                )
+                rankings += 1
+
+                log(
+                    f"[OK] {matched_issn} | {year} | {quartile} | "
+                    f"JIF={jif_value:.4f} | {title}"
+                )
 
             except Exception as e:
                 errors += 1
@@ -888,6 +1094,72 @@ def sjrImport():
 
     finally:
 
+        if connection:
+            connection.close()
+
+
+def jcrImport():
+    """
+    Importa o Journal Impact Factor do arquivo JCR configurado.
+    """
+
+    path = (Path(__file__).resolve().parent / ARQUIVO_PATH_JCR).resolve()
+
+    log()
+    log("Importação Journal Citation Reports")
+    log(f"Arquivo: {path}")
+    log()
+
+    if not path.exists():
+        return erro(f"Arquivo não encontrado: {path}")
+
+    connection = None
+
+    try:
+        connection = get_connection("brapci_journals")
+
+        with connection.cursor() as cursor:
+            id_ranking_source = get_or_create_jcr(cursor)
+            connection.commit()
+
+            log(f"JCR: id={id_ranking_source}")
+
+            total, created, rankings, errors = import_jcr_file(
+                cursor,
+                path,
+                id_ranking_source,
+            )
+            connection.commit()
+
+            log()
+            log("=" * 70)
+            log("RESUMO")
+            log("=" * 70)
+            log(f"Registros lidos:       {total}")
+            log(f"Publicações criadas:   {created}")
+            log(f"Avaliações importadas: {rankings}")
+            log(f"Erros/ignorados:       {errors}")
+
+            return {
+                "success": True,
+                "file": path.name,
+                "records": total,
+                "publications_created": created,
+                "rankings": rankings,
+                "errors": errors,
+            }
+
+    except pymysql.MySQLError as e:
+        if connection:
+            connection.rollback()
+        return erro(str(e))
+
+    except Exception as e:
+        if connection:
+            connection.rollback()
+        return erro(str(e))
+
+    finally:
         if connection:
             connection.close()
 
@@ -1223,6 +1495,9 @@ def run(parametros=None, chat=None, silent=False):
 
     if action == "sjr":
         return sjrImport()
+
+    if action == "jcr":
+        return jcrImport()
 
     if action == "issn-l":
         return issnLImport()
