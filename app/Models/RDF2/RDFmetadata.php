@@ -179,7 +179,14 @@ class RDFmetadata extends Model
         {
                 $Source = new \App\Models\Base\Sources();
                 $dt = $Source->where('jnl_frbr', $rdf)->first();
-                pre($dt);
+
+                $Publication = new \App\Models\Journals\Publication();
+                $PublicationRanking = new \App\Models\Journals\PublicationRanking();
+
+                $dts = $PublicationRanking
+                    ->where('id_publication', $dt['jnl_frbr'])->findAll();
+
+                pre($dts);
         }
 
     function subjects(array $IDs = [])
