@@ -282,19 +282,20 @@ def find_publication_by_issn(cursor, issn):
 
 def create_publication(cursor, issn, title):
     """
-    Cria uma publicação com ISSN-L originado do ISSN informado.
+    Cria uma publicação com ISSN-L igual ao ISSN informado.
     """
 
     sql = """
         INSERT INTO publications
         (
+            issn,
             issn_l,
             title
         )
-        VALUES (%s, %s)
+        VALUES (%s, %s, %s)
     """
 
-    cursor.execute(sql, (issn, title))
+    cursor.execute(sql, (issn, issn, title))
     id_publication = cursor.lastrowid
 
     sql = """
@@ -322,6 +323,14 @@ def get_or_create_publication(cursor, issn, title):
     publication = find_publication_by_issn(cursor, issn)
 
     if publication:
+        if not publication.get("issn_l"):
+            sql = """
+                UPDATE publications
+                SET issn_l = %s, issn = %s
+                WHERE id_publication = %s
+                  AND (issn_l IS NULL OR issn_l = '')
+            """
+            cursor.execute(sql, (issn, issn, publication["id_publication"]))
         return publication["id_publication"], False
 
     id_publication = create_publication(cursor, issn, title)
@@ -731,7 +740,6 @@ def qualisImport():
         if connection:
             connection.close()
 
-
 def sjrImport():
 
     path = (Path(__file__).resolve().parent / ARQUIVO_PATH_SJR).resolve()
@@ -836,6 +844,64 @@ def sjrImport():
             connection.close()
 
 
+def truncate_publication_tables():
+    """
+    Zera as tabelas relacionadas às publicações.
+
+    Remove todos os registros e reinicia os AUTO_INCREMENT.
+    """
+
+    tables = [
+        "publication_rankings", "publication_publishers", "publication_issns",
+        "publications",
+    ]
+
+    connection = None
+
+    try:
+        connection = get_connection("brapci_journals")
+
+        with connection.cursor() as cursor:
+
+            # Desabilita temporariamente as verificações de FK
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+            for table in tables:
+                log(f"Zerando tabela: {table}")
+                cursor.execute(f"TRUNCATE TABLE `{table}`")
+
+            # Reabilita as verificações de FK
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+
+        connection.commit()
+
+        log("Tabelas zeradas com sucesso.")
+
+        return {
+            "success": True,
+            "tables": tables,
+            "message": "Tabelas zeradas com sucesso."
+        }
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+            # Garante que FOREIGN_KEY_CHECKS seja reativado
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+            except Exception:
+                pass
+
+        return erro(str(e))
+
+    finally:
+
+        if connection:
+            connection.close()
+
 # ============================================================
 # RUN
 # ============================================================
@@ -858,6 +924,9 @@ def run(parametros=None, chat=None, silent=False):
 
     if action == "sjr":
         return sjrImport()
+
+    if action == "zera":
+        return truncate_publication_tables()
 
     if action == "status":
         return {"success": True, "task": TASK["name"], "status": "ready"}
