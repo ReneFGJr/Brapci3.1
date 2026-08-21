@@ -287,9 +287,13 @@ class Brapci extends Model
             ->orderBy('evaluation_area', 'ASC')
             ->findAll();
 
-            echo $Publication->getLastQuery();
-
-        pre($dt);
+        $source = [];
+        foreach ($dt as $id => $line) {
+            $name = $line['name'];
+            $area = $line['evaluation_area'];
+            $source[$name][$area][] = $line;
+        }
+        $RSP['data'] = $source;
         return $RSP;
     }
 
