@@ -276,7 +276,7 @@ class Brapci extends Model
         $type = [];
 
         $dt = $Journal->where('rdf_id IS NOT NULL')
-                ->join('publication_rankings', 'publication_rankings.pr_publication = publications.id_publication', 'left')
+                ->join('publication_rankings', 'publication_rankings.id_publication = publications.id_publication', 'left')
                 ->join('ranking_sources', 'ranking_sources.id_ranking_source = publication_rankings.id_ranking_source', 'left')
         ->findAll();
 
