@@ -35,7 +35,8 @@ load_dotenv(BASE_DIR / ".env")
 
 ARQUIVO_PATH = "../../../_Documments/Qualis"
 ARQUIVO_PATH_SJR = "../../../_Documments/sjr"
-ARQUIVO_PATH_JCR = "../../../_Documments/JCR/JCR2026.csv"
+ARQUIVO_PATH_JCR = "../../../_Documments/JCR"
+ARQUIVO_JCR_PREFERENCIAL = "JCR2026.csv"
 ARQUIVO_PATH_ISSNL = \
     "../../../_Documments/ISSN/issnltables/20260820.ISSN-to-ISSN-L.txt"
 
@@ -770,9 +771,19 @@ def import_jcr_file(cursor, filename, id_ranking_source):
     log("=" * 70)
 
     with open(filename, "r", encoding="utf-8-sig", newline="") as f:
-        reader = csv.DictReader(f)
+        header = None
+        for raw_line in f:
+            if raw_line.lstrip().startswith("Journal name,"):
+                header = next(csv.reader([raw_line]))
+                break
+
+        if not header:
+            log("[ERRO] Cabeçalho JCR não encontrado")
+            return 0, 0, 0, 1
+
+        reader = csv.DictReader(f, fieldnames=header)
         jif_field = next(
-            (field for field in (reader.fieldnames or [])
+            (field for field in header
              if re.fullmatch(r"\d{4}\s+JIF", field.strip())),
             None,
         )
@@ -1103,7 +1114,21 @@ def jcrImport():
     Importa o Journal Impact Factor do arquivo JCR configurado.
     """
 
-    path = (Path(__file__).resolve().parent / ARQUIVO_PATH_JCR).resolve()
+    directory = (Path(__file__).resolve().parent / ARQUIVO_PATH_JCR).resolve()
+    preferred_path = directory / ARQUIVO_JCR_PREFERENCIAL
+
+    if preferred_path.exists():
+        path = preferred_path
+    else:
+        files = sorted(
+            directory.glob("JCR*.csv"),
+            key=lambda item: (
+                int(re.search(r"\d{4}", item.stem).group())
+                if re.search(r"\d{4}", item.stem) else 0
+            ),
+            reverse=True,
+        ) if directory.exists() else []
+        path = files[0] if files else preferred_path
 
     log()
     log("Importação Journal Citation Reports")
@@ -1111,7 +1136,9 @@ def jcrImport():
     log()
 
     if not path.exists():
-        return erro(f"Arquivo não encontrado: {path}")
+        return erro(
+            f"Nenhum arquivo JCR*.csv encontrado no diretório: {directory}"
+        )
 
     connection = None
 
