@@ -175,24 +175,41 @@ class RDFmetadata extends Model
         }
     }
 
-    function avaliationsISSN($rdf=0)
-        {
-                $Source = new \App\Models\Base\Sources();
-                $dt = $Source->where('jnl_frbr', $rdf)->first();
+    function avaliationsISSN($rdf = 0)
+    {
+        $Publication = new \App\Models\Journals\Publication();
+        $publication = $Publication->where('rdf_id', $rdf)->first();
 
-                $Publication = new \App\Models\Journals\Publication();
-                $publication_rankings = new \App\Models\Journals\PublicationRanking();
-
-                $cp = '*';
-                $cp = 'evaluation_area, periodo_start, periodo_end, ranking, id_publication_ranking';
-
-                $dts = $publication_rankings
-                    ->select($cp)
-                    ->join('ranking_sources', 'id_publication_ranking = ranking_sources.id_ranking_source', 'left')
-                    ->where('id_publication', $dt['jnl_frbr'])->findAll();
-
-                pre($dts);
+        if (!$publication) {
+            return [];
         }
+
+        $PublicationRanking = new \App\Models\Journals\PublicationRanking();
+        $fields = [
+            'publication_rankings.id_publication_ranking',
+            'publication_rankings.evaluation_area',
+            'publication_rankings.period_start',
+            'publication_rankings.period_end',
+            'publication_rankings.stratum AS ranking',
+            'publication_rankings.numeric_value',
+            'ranking_sources.name AS ranking_source',
+            'ranking_sources.acronym AS ranking_source_acronym',
+        ];
+
+        return $PublicationRanking
+            ->select($fields)
+            ->join(
+                'ranking_sources',
+                'publication_rankings.id_ranking_source = '
+                    . 'ranking_sources.id_ranking_source',
+                'left'
+            )
+            ->where(
+                'publication_rankings.id_publication',
+                $publication['id_publication']
+            )
+            ->findAll();
+    }
 
     function subjects(array $IDs = [])
     {
