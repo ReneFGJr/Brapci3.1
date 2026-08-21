@@ -181,11 +181,12 @@ class RDFmetadata extends Model
                 $dt = $Source->where('jnl_frbr', $rdf)->first();
 
                 $Publication = new \App\Models\Journals\Publication();
-                $PublicationRanking = new \App\Models\Journals\PublicationRanking();
+                $publication_rankings = new \App\Models\Journals\PublicationRanking();
 
                 $cp = '*';
+                $cp = 'evaluation_area, ';
 
-                $dts = $PublicationRanking
+                $dts = $publication_rankings
                     ->select($cp)
                     ->join('ranking_sources', 'id_publication_ranking = ranking_sources.id_ranking_source', 'left')
                     ->where('id_publication', $dt['jnl_frbr'])->findAll();
