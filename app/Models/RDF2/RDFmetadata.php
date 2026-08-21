@@ -185,21 +185,23 @@ class RDFmetadata extends Model
         }
 
         $PublicationRanking = new \App\Models\Journals\PublicationRanking();
-        $fields = '*';
+        $fields = 'name, evaluation_area, stratum, period_start, period_end';
 
-        $dt = $PublicationRanking
+        $dt = $Publication
             ->select($fields)
-            ->join(
-                'ranking_sources',
-                'publication_rankings.id_ranking_source = '
-                    . 'ranking_sources.id_ranking_source',
-                'left'
-            )
-            ->where(
-                'publication_rankings.id_publication',
-                $publication['id_publication']
-            )
+            ->join('brapci_journals.publication_rankings', 'publications.id_publication = publication_rankings.id_publication', 'left')
+            ->join('brapci_journals.ranking_sources', 'ranking_sources.id_ranking_source = publication_rankings.id_ranking_source', 'left')
+
+            ->where('rdf_id',$rdf)
             ->findAll();
+
+        pre($dt);
+
+
+        /*
+        SELECT  FROM `publications` INNER JOIN brapci_journals.publication_rankings ON p
+        LEFT JOIN brapci_journals.ranking_sources ON ranking_sources.id_ranking_source = publication_rankings.id_ranking_source WHERE `rdf_id` = 442 order by name, period_start;
+        */
 
             pre($PublicationRanking->getLastQuery());
         return $dt;
