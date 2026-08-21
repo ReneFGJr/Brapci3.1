@@ -275,6 +275,7 @@ class Brapci extends Model
         $Publication = new \App\Models\Journals\Publication();
         $type = [];
         $fields = '*';
+        $fields = 'period_start, period_end, name, evaluation_area, rdf_id, stratum, numeric_value';
 
         $dt = $Publication
             ->select($fields)
