@@ -273,6 +273,28 @@ def get_or_create_sjr(cursor):
 # ============================================================
 
 
+def resolve_issn_l(cursor, issn):
+    """
+    Retorna o ISSN-L associado ao ISSN ou o próprio ISSN quando não
+    houver correspondência na tabela de equivalência.
+    """
+
+    sql = """
+        SELECT issn_l
+        FROM issn_l
+        WHERE issn = %s
+        LIMIT 1
+    """
+
+    cursor.execute(sql, (issn, ))
+    row = cursor.fetchone()
+
+    if not row:
+        return issn
+
+    return normalize_issn(row.get("issn_l")) or issn
+
+
 def find_publication_by_issn(cursor, issn):
     """
     Procura primeiro o ISSN em publication_issns.
@@ -492,6 +514,8 @@ def import_qualis_file(cursor, filename, id_ranking_source):
                     errors += 1
                     continue
 
+                issn = resolve_issn_l(cursor, issn)
+
                 if not title:
                     log(f"[IGNORADO] {issn}: "
                         f"título vazio")
@@ -583,6 +607,16 @@ def import_sjr_file(cursor, filename, id_ranking_source):
                     log(f"[IGNORADO] Linha {total + 1}: ISSN inválido")
                     errors += 1
                     continue
+
+                # A tabela de rankings e o cadastro da publicação devem
+                # usar o identificador canônico. Mais de um ISSN da mesma
+                # linha pode apontar para o mesmo ISSN-L.
+                issns_l = []
+                for issn in issns:
+                    issn_l = resolve_issn_l(cursor, issn)
+                    if issn_l not in issns_l:
+                        issns_l.append(issn_l)
+                issns = issns_l
 
                 if not title:
                     log(f"[IGNORADO] {issns[0]}: título vazio")
