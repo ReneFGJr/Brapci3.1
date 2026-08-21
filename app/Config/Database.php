@@ -82,6 +82,7 @@ class Database extends Config
     public array $guide = [];
     public array $software = [];
     public array $handle = [];
+    public array $journals = [];
 
     public array $openaire = [];
     public array $wordpress = [];
@@ -181,6 +182,7 @@ class Database extends Config
             'lattes'=> 'brapci_lattes',
             'liked' => 'brapci_like',
             'search' => 'brapci_search',
+            'journals' => 'brapci_journals',
             'g3vent'=> 'gev3nt',
             'patent'=> 'brapci_patent',
             'rdf' => 'brapci_rdf',
