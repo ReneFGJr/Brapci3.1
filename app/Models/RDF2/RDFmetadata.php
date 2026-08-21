@@ -187,7 +187,7 @@ class RDFmetadata extends Model
 
                 $dts = $PublicationRanking
                     ->select($cp)
-                    ->join('journals_publication', 'id_publication_ranking = ranking_sources', 'left')
+                    ->join('ranking_sources', 'id_publication_ranking = ranking_sources', 'left')
                     ->where('id_publication', $dt['jnl_frbr'])->findAll();
 
                 pre($dts);
