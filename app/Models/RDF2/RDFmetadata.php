@@ -184,7 +184,7 @@ class RDFmetadata extends Model
                 $publication_rankings = new \App\Models\Journals\PublicationRanking();
 
                 $cp = '*';
-                $cp = 'evaluation_area, ';
+                $cp = 'evaluation_area, periodo_start, periodo_end, ranking, id_publication_ranking';
 
                 $dts = $publication_rankings
                     ->select($cp)
