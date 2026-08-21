@@ -1007,6 +1007,142 @@ def issnLImport():
             connection.close()
 
 
+def checkJournalRDF():
+    """
+    Relaciona os periódicos da base BRAPCI às publicações pelo ISSN-L
+    e grava o identificador RDF da fonte em publications.rdf_id.
+    """
+
+    connection = None
+
+    try:
+        connection = get_connection("brapci_journals")
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT id_jnl, jnl_name, jnl_issn, jnl_eissn, jnl_frbr
+                FROM brapci.source_source
+            """)
+            sources = cursor.fetchall()
+
+            cursor.execute("SELECT issn, issn_l FROM issn_l")
+            issn_l_map = {}
+            for row in cursor.fetchall():
+                issn = normalize_issn(row.get("issn"))
+                issn_l = normalize_issn(row.get("issn_l"))
+                if issn and issn_l:
+                    issn_l_map[issn] = issn_l
+
+            cursor.execute("""
+                SELECT id_publication, issn_l, rdf_id
+                FROM publications
+            """)
+            publications_by_issn_l = {}
+            for row in cursor.fetchall():
+                issn_l = normalize_issn(row.get("issn_l"))
+                if issn_l:
+                    publications_by_issn_l.setdefault(issn_l, []).append(row)
+
+            matched = 0
+            updated = 0
+            unchanged = 0
+            without_issn = 0
+            without_rdf = 0
+            not_found = []
+
+            update_sql = """
+                UPDATE publications
+                SET rdf_id = %s
+                WHERE id_publication = %s
+            """
+
+            for source in sources:
+                rdf_id = source.get("jnl_frbr")
+                if rdf_id is None or str(rdf_id).strip() in ("", "0"):
+                    without_rdf += 1
+                    continue
+
+                source_issns = []
+                for field in ("jnl_issn", "jnl_eissn"):
+                    issn = normalize_issn(source.get(field))
+                    if issn:
+                        issn_l = issn_l_map.get(issn, issn)
+                        if issn_l not in source_issns:
+                            source_issns.append(issn_l)
+
+                if not source_issns:
+                    without_issn += 1
+                    continue
+
+                publications = {}
+                for issn_l in source_issns:
+                    for publication in publications_by_issn_l.get(issn_l, []):
+                        publications[publication["id_publication"]] = publication
+
+                if not publications:
+                    item = {
+                        "id_jnl": source.get("id_jnl"),
+                        "journal": source.get("jnl_name"),
+                        "jnl_issn": source.get("jnl_issn"),
+                        "jnl_eissn": source.get("jnl_eissn"),
+                        "issn_l": source_issns,
+                        "jnl_frbr": rdf_id,
+                        "status": "not_found",
+                    }
+                    not_found.append(item)
+                    log(
+                        f"[NOT FOUND] id_jnl={item['id_jnl']} | "
+                        f"ISSN-L={', '.join(source_issns)} | "
+                        f"RDF={rdf_id} | {item['journal'] or ''}"
+                    )
+                    continue
+
+                for publication in publications.values():
+                    matched += 1
+                    if str(publication.get("rdf_id") or "") == str(rdf_id):
+                        unchanged += 1
+                        continue
+
+                    cursor.execute(update_sql, (
+                        rdf_id,
+                        publication["id_publication"],
+                    ))
+                    publication["rdf_id"] = rdf_id
+                    updated += 1
+
+            connection.commit()
+
+            log("Vinculação RDF dos periódicos concluída")
+            log(f"Fontes lidas:            {len(sources)}")
+            log(f"Publicações localizadas: {matched}")
+            log(f"Publicações atualizadas: {updated}")
+            log(f"Já atualizadas:          {unchanged}")
+            log(f"Sem ISSN válido:         {without_issn}")
+            log(f"Sem RDF:                 {without_rdf}")
+            log(f"Sem correspondência:     {len(not_found)}")
+
+            return {
+                "success": True,
+                "sources": len(sources),
+                "matched": matched,
+                "updated": updated,
+                "unchanged": unchanged,
+                "without_issn": without_issn,
+                "without_rdf": without_rdf,
+                "not_found_count": len(not_found),
+                "not_found": not_found,
+            }
+
+    except Exception as e:
+        if connection:
+            connection.rollback()
+        return erro(str(e))
+
+    finally:
+        if connection:
+            connection.close()
+
+
 def truncate_publication_tables():
     """
     Zera as tabelas relacionadas às publicações.
@@ -1093,6 +1229,10 @@ def run(parametros=None, chat=None, silent=False):
 
     if action == "zera":
         return truncate_publication_tables()
+
+    if action == "check":
+        return checkJournalRDF()
+
 
     if action == "status":
         return {"success": True, "task": TASK["name"], "status": "ready"}
