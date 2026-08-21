@@ -272,13 +272,20 @@ class Brapci extends Model
         $RSP['status'] = '200';
         $RSP['message'] = 'Avaliations endpoint is under construction';
 
-        $Journal = new \App\Models\Journals\Publication();
+        $Publication = new \App\Models\Journals\Publication();
         $type = [];
+        $fields = '*';
 
-        $dt = $Journal->where('rdf_id IS NOT NULL')
-                ->join('publication_rankings', 'publication_rankings.id_publication = publications.id_publication', 'left')
-                ->join('ranking_sources', 'ranking_sources.id_ranking_source = publication_rankings.id_ranking_source', 'left')
-        ->findAll();
+        $dt = $Publication
+            ->select($fields)
+            ->join('brapci_journals.publication_rankings', 'publications.id_publication = publication_rankings.id_publication', 'left')
+            ->join('brapci_journals.ranking_sources', 'ranking_sources.id_ranking_source = publication_rankings.id_ranking_source', 'left')
+            ->where('rdf_id IS NOT NULL')
+            ->orderBy('period_start', 'DESC')
+            ->orderBy('period_end', 'DESC')
+            ->orderBy('name', 'ASC')
+            ->orderBy('evaluation_area', 'ASC')
+            ->findAll();
 
         pre($dt);
         return $RSP;
