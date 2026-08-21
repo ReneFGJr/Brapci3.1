@@ -287,6 +287,8 @@ class Brapci extends Model
             ->orderBy('evaluation_area', 'ASC')
             ->findAll();
 
+            echo $Publication->getLastQuery();
+
         pre($dt);
         return $RSP;
     }
