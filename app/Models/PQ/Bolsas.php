@@ -94,7 +94,7 @@ class Bolsas extends Model
 						$BOLSA['history'] = $dt;
 					}
 				}
-			return $dt;
+			return $BOLSA;
 /*
 
 
