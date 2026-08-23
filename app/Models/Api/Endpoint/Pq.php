@@ -58,6 +58,9 @@ class Pq extends Model
 
         switch($d2)
             {
+                case 'actives':
+                    $RSP = $Bolsas->activesPQ();
+                    break;
                 case 'bolsa_ano':
                     $RSP = $Bolsas->bolsa_ano();
                     break;
@@ -65,10 +68,17 @@ class Pq extends Model
                     $RSP =  $Bolsas->bolsa_ano_tipo();
                     break;
                 case 'vigente':
-                    return $this->collections($d2, $d3);
+                    return $Bolsas->collections($d2, $d3);
                     break;
                 default:
-                    return $this->all();
+                    $bolsasData = $Bolsas->activesPQ();
+                    $RSP = [];
+                    $RSP['status'] = '200';
+                    $RSP['message'] = 'Resume';
+                    $RSP['actives'] = count($bolsasData);
+                    $RSP['institutions'] = count($Bolsas->institutionsData($bolsasData));
+                    $RSP['data'] = $bolsasData;
+                    break;
             }
 
             echo json_encode($RSP);

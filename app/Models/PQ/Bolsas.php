@@ -54,6 +54,31 @@ class Bolsas extends Model
 	public $path = '';
 	public $path_back = '';
 
+	function resume()
+	{
+		$dt = $this
+			->join('brapci_pq.bolsistas', 'id_bs = bb_person')
+			->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
+			->orderBy('bs_start, bs_nome')
+			->findAll();
+		return $dt;
+	}
+
+	function institutionsData($dt)
+		{
+			$institutions = [];
+			foreach($dt as $id=>$line)
+				{
+					$IES = trim($line['BS_IES']);
+					if (!isset($institutions[$IES]))
+						{
+							$institutions[$IES] = 0;
+						}
+					$institutions[$IES]++;
+				}
+			return $institutions;
+		}
+
 	function download()
 		{
 			$dt = $this
@@ -265,13 +290,27 @@ class Bolsas extends Model
 		return $sx;
 	}
 
-	function resume()
+	function activesPQ()
 	{
-		helper('highchart');
-		$dt = (array)$this->resume_data();
+		$dt = $this
+			->join('bolsistas', 'id_bs = bb_person')
+			->join('modalidades', 'id_mod = bs_tipo')
+			->where("bs_finish >= '" . date("Y-m-d") . "'")
+			->findAll();
+		return $dt;
+	}
 
-		$year = (array)$dt['year'];
-		$sx = bs(bsc($this->resume_graph_bolsa_ano($year), 12));
+	function resumeAPI()
+	{
+		$data = date("Y-m-y");
+		$tp = 1;
+		$this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
+			->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person');
+		if ($tp == 1) {
+			$this->where("bs_finish >= '" . $data . "'");
+		}
+		$dt = $this->findAll();
+		pre($dt);
 		return $sx;
 	}
 
