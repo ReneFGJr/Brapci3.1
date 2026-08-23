@@ -54,16 +54,6 @@ class Bolsas extends Model
 	public $path = '';
 	public $path_back = '';
 
-	function resume()
-	{
-		$dt = $this
-			->join('brapci_pq.bolsistas', 'id_bs = bb_person')
-			->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
-			->orderBy('bs_start, bs_nome')
-			->findAll();
-		return $dt;
-	}
-
 	function institutionsData($dt)
 		{
 			$institutions = [];
@@ -310,8 +300,7 @@ class Bolsas extends Model
 			$this->where("bs_finish >= '" . $data . "'");
 		}
 		$dt = $this->findAll();
-		pre($dt);
-		return $sx;
+		return $dt;
 	}
 
 	function year_summary($tp = 0)
@@ -533,6 +522,17 @@ class Bolsas extends Model
 		$sx .= '</table>';
 		return $sx;
 	}
+
+	function resume()
+	{
+		helper('highchart');
+		$dt = (array)$this->resume_data();
+
+		$year = (array)$dt['year'];
+		$sx = bs(bsc($this->resume_graph_bolsa_ano($year), 12));
+		return $sx;
+	}
+
 
 	function resume_graph_bolsa_ano($dt)
 	{
