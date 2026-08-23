@@ -298,6 +298,7 @@ class Bolsas extends Model
 			->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person');
 		if ($tp == 1) {
 			$this->where("bs_finish >= '" . $data . "'");
+			$this->where("bs_start <= '" . $data . "'");
 		}
 		$dt = $this->findAll();
 		return $dt;
@@ -590,6 +591,7 @@ class Bolsas extends Model
 
 	function year_distribuition($dt)
 	{
+		pre($dt);
 		$RSP = [];
 		$RSP['label'] = [];
 		$RSP['data'] = [];
