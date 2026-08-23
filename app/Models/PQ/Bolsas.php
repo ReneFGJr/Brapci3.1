@@ -587,6 +587,19 @@ class Bolsas extends Model
 
 		return ($sx);
 	}
+
+	function year_distribuition($dt)
+	{
+		$RSP = [];
+		$RSP['label'] = [];
+		$RSP['data'] = [];
+		ksort($dt);
+		foreach ($dt as $year => $data) {
+			array_push($RSP['label'], $year);
+			array_push($RSP['data'], $data);
+		}
+		return $RSP;
+	}
 	function resume_data($force = 0)
 	{
 		$file = '../.tmp/pq/bolsas.json';
