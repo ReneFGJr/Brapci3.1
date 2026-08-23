@@ -75,8 +75,8 @@ class Bolsas extends Model
 				->join('brapci_pq.bolsistas', 'id_bs = bb_person')
 				->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
 				->where('bs_rdf_id', $ID)
-			->findAll(1);
-			echo $this->getlastquery();
+				->orderby('bs_start DESC')
+			->findAll();
 			pre($dt);
 			return $dt;
 /*
