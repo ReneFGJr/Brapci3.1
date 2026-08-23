@@ -91,7 +91,7 @@ class Bolsas extends Model
 						$BOLSA['CNPq']['mod'] = $line['mod_sigla'];
 						$BOLSA['CNPq']['start'] = $line['bs_start'];
 						$BOLSA['CNPq']['finish'] = $line['bs_finish'];
-						$BOLSA['history'] = $dt;
+						$BOLSA['CNPq']['history'] = $dt;
 					}
 				}
 			return $BOLSA;
