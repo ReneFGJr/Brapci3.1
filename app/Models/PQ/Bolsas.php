@@ -599,6 +599,133 @@ class Bolsas extends Model
 		return ($sx);
 	}
 
+	function applications($dados=[], int $toleranciaDias = 1)
+	{
+		/**
+		 * Analisa concessões de bolsas por ano.
+		 *
+		 * Classificação:
+		 * - nova: primeira bolsa do pesquisador;
+		 * - reconcedida: bolsa anterior terminou imediatamente antes
+		 *   da nova ou há sobreposição entre os períodos;
+		 * - nova_apos_interrupcao: pesquisador já teve bolsa,
+		 *   mas houve interrupção antes da nova concessão.
+		 *
+		 * @param array $dados
+		 * @param int $toleranciaDias Dias permitidos entre bolsas para considerar continuidade.
+		 * @return array
+		 */
+
+			// Ordena primeiro pelo pesquisador e depois pela data de início.
+			usort($dados, function ($a, $b) {
+				$pessoaA = (int)($a['bb_person'] ?? 0);
+				$pessoaB = (int)($b['bb_person'] ?? 0);
+
+				if ($pessoaA !== $pessoaB) {
+					return $pessoaA <=> $pessoaB;
+				}
+
+				return strcmp(
+					$a['bs_start'] ?? '',
+					$b['bs_start'] ?? ''
+				);
+			});
+
+			$resultado = [];
+			$historico = [];
+
+			foreach ($dados as $bolsa) {
+
+				if (
+					empty($bolsa['bb_person']) ||
+					empty($bolsa['bs_start']) ||
+					empty($bolsa['bs_finish'])
+				) {
+					continue;
+				}
+
+				$pessoa = (int)$bolsa['bb_person'];
+
+				$inicio = new \DateTimeImmutable($bolsa['bs_start']);
+				$fim    = new \DateTimeImmutable($bolsa['bs_finish']);
+
+				$ano = (int)$inicio->format('Y');
+
+				// Inicializa o ano.
+				if (!isset($resultado[$ano])) {
+					$resultado[$ano] = [
+						'novas' => 0,
+						'reconcedidas' => 0,
+						'novas_apos_interrupcao' => 0,
+						'total' => 0
+					];
+				}
+
+				/*
+         * Primeira ocorrência do pesquisador.
+         */
+				if (!isset($historico[$pessoa])) {
+
+					$tipo = 'nova';
+				} else {
+
+					$fimAnterior = $historico[$pessoa]['fim'];
+
+					/*
+             * Limite para considerar continuidade.
+             *
+             * Exemplo:
+             * bolsa anterior: 2019-03-01 até 2022-02-28
+             * nova bolsa:     2022-03-01
+             *
+             * É reconcessão.
+             */
+					$limiteContinuidade = $fimAnterior->modify(
+						'+' . $toleranciaDias . ' days'
+					);
+
+					if ($inicio <= $limiteContinuidade) {
+						$tipo = 'reconcedida';
+					} else {
+						$tipo = 'nova_apos_interrupcao';
+					}
+				}
+
+				// Contabiliza.
+				switch ($tipo) {
+
+					case 'nova':
+						$resultado[$ano]['novas']++;
+						break;
+
+					case 'reconcedida':
+						$resultado[$ano]['reconcedidas']++;
+						break;
+
+					case 'nova_apos_interrupcao':
+						$resultado[$ano]['novas_apos_interrupcao']++;
+						break;
+				}
+
+				$resultado[$ano]['total']++;
+
+				/*
+         * Guarda a bolsa atual como última bolsa conhecida
+         * daquele pesquisador.
+         */
+				$historico[$pessoa] = [
+					'fim' => $fim,
+					'inicio' => $inicio,
+					'nivel' => $bolsa['bs_nivel'] ?? null,
+					'nome' => $bolsa['bs_nome'] ?? null,
+					'id_bb' => $bolsa['id_bb'] ?? null
+				];
+			}
+
+			ksort($resultado);
+			return $resultado;
+		}
+
 	function year_distribuition($dt)
 	{
 		$YEAR = [];

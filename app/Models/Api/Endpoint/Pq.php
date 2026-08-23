@@ -72,13 +72,15 @@ class Pq extends Model
                     break;
                 default:
                     $bolsasData = $Bolsas->activesPQ();
+                    $bolsasAll = $Bolsas->allPQ();
                     $RSP = [];
                     $RSP['status'] = '200';
                     $RSP['message'] = 'Resume';
                     $RSP['actives'] = count($bolsasData);
                     $RSP['institutions'] = count($Bolsas->institutionsData($bolsasData));
                     $RSP['data'] = $bolsasData;
-                    $RSP['actives_by_year'] = $Bolsas->year_distribuition($Bolsas->allPQ());
+                    $RSP['actives_by_year'] = $Bolsas->year_distribuition($bolsasAll);
+                    $RSP['applications'] = $Bolsas->applications($bolsasAll);
                     break;
             }
 
