@@ -76,6 +76,7 @@ class Bolsas extends Model
 				->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
 				->where('bs_rdf_id', $ID)
 			->findAll(1);
+			echo $this->getlastquery();
 			pre($dt);
 			return $dt;
 /*
