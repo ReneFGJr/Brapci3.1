@@ -280,6 +280,16 @@ class Bolsas extends Model
 		return $sx;
 	}
 
+	function allPQ()
+	{
+		$dt = $this
+			->join('bolsistas', 'id_bs = bb_person')
+			->join('modalidades', 'id_mod = bs_tipo')
+			->where("bs_start < '" . date("Y-m-d") . "'")
+			->findAll();
+		return $dt;
+	}
+
 	function activesPQ()
 	{
 		$dt = $this
@@ -591,16 +601,22 @@ class Bolsas extends Model
 
 	function year_distribuition($dt)
 	{
-		pre($dt);
+		$YEAR = [];
 		$RSP = [];
-		$RSP['label'] = [];
-		$RSP['data'] = [];
-		ksort($dt);
-		foreach ($dt as $year => $data) {
-			array_push($RSP['label'], $year);
-			array_push($RSP['data'], $data);
+		foreach ($dt as $id => $data) {
+			$year = substr($data['bs_start'], 0, 4);
+			$modalidade = $data['mod_sigla'] . $data['bs_nivel'];
+
+			if (!isset($YEAR[$year])) {
+				$YEAR[$year] = [];
+			}
+			if (!isset($YEAR[$year][$modalidade])) {
+				$YEAR[$year][$modalidade] = 0;
+			}
+			$YEAR[$year][$modalidade]++;
 		}
-		return $RSP;
+		ksort($YEAR);
+		return $YEAR;
 	}
 	function resume_data($force = 0)
 	{
