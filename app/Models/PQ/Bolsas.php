@@ -84,12 +84,15 @@ class Bolsas extends Model
 			if (count($dt) > 0)
 				{
 					$line = $dt[0];
-					$BOLSA['nivel'] = trim($line['bs_nivel']);
-					$BOLSA['ies'] = $line['BS_IES'];
-					$BOLSA['mod'] = $line['mod_sigla'];
-					$BOLSA['start'] = $line['bs_start'];
-					$BOLSA['finish'] = $line['bs_finish'];
-					$BOLSA['history'] = $dt;
+					if ($line['bs_start'] <= date("Y-m-d") and $line['bs_finish'] >= date("Y-m-d"))
+					{
+						$BOLSA['CNPq']['nivel'] = trim($line['bs_nivel']);
+						$BOLSA['CNPq']['ies'] = $line['BS_IES'];
+						$BOLSA['CNPq']['mod'] = $line['mod_sigla'];
+						$BOLSA['CNPq']['start'] = $line['bs_start'];
+						$BOLSA['CNPq']['finish'] = $line['bs_finish'];
+						$BOLSA['history'] = $dt;
+					}
 				}
 			return $dt;
 /*
