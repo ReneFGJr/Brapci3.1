@@ -78,6 +78,7 @@ class Pq extends Model
                     $RSP['actives'] = count($bolsasData);
                     $RSP['institutions'] = count($Bolsas->institutionsData($bolsasData));
                     $RSP['data'] = $bolsasData;
+                    $RSP['actives_by_year'] = $Bolsas->resume_data();
                     break;
             }
 
