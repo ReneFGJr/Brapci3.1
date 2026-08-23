@@ -79,7 +79,18 @@ class Bolsas extends Model
 				->where('bs_rdf_id', $ID)
 				->orderby('bs_start DESC')
 			->findAll();
-			pre($dt);
+
+			$BOLSA = [];
+			if (count($dt) > 0)
+				{
+					$line = $dt[0];
+					$BOLSA['nivel'] = trim($line['bs_nivel']);
+					$BOLSA['ies'] = $line['BS_IES'];
+					$BOLSA['mod'] = $line['mod_sigla'];
+					$BOLSA['start'] = $line['bs_start'];
+					$BOLSA['finish'] = $line['bs_finish'];
+					$BOLSA['history'] = $dt;
+				}
 			return $dt;
 /*
 
