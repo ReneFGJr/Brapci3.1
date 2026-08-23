@@ -71,7 +71,9 @@ class Bolsas extends Model
 
 	function bolsista($ID=0)
 		{
+			$cp = 'bs_start, bs_finish, BS_IES, mod_sigla, bs_nivel';
 			$dt = $this
+				->select($cp)
 				->join('brapci_pq.bolsistas', 'id_bs = bb_person')
 				->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
 				->where('bs_rdf_id', $ID)
