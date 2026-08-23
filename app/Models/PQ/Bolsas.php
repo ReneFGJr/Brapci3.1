@@ -72,8 +72,8 @@ class Bolsas extends Model
 	function bolsista($ID=0)
 		{
 			$dt = $this
-				->where('bs_rdf_id', $ID)
-				->findAll();
+				//->where('bs_rdf_id', $ID)
+				->findAll(1);
 			pre($dt);
 			return $dt;
 		}
