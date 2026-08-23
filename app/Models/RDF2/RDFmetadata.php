@@ -615,7 +615,6 @@ class RDFmetadata extends Model
         /****************************** Bolsista PQ */
         $dt['bolsista'] = [];
         $Bolsas = new \App\Models\PQ\Bolsas();
-        pre($dr);
         $dt['bolsista'] = $Bolsas->bolsista($dr['ID']);
         pre($dt);
 
