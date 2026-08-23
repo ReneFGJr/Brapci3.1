@@ -601,129 +601,155 @@ class Bolsas extends Model
 
 	function applications($dados=[], int $toleranciaDias = 1)
 	{
-		/**
-		 * Analisa concessões de bolsas por ano.
-		 *
-		 * Classificação:
-		 * - nova: primeira bolsa do pesquisador;
-		 * - reconcedida: bolsa anterior terminou imediatamente antes
-		 *   da nova ou há sobreposição entre os períodos;
-		 * - nova_apos_interrupcao: pesquisador já teve bolsa,
-		 *   mas houve interrupção antes da nova concessão.
-		 *
-		 * @param array $dados
-		 * @param int $toleranciaDias Dias permitidos entre bolsas para considerar continuidade.
-		 * @return array
-		 */
+		// Ordena pelo pesquisador e pela data de início
+		usort($dados, function ($a, $b) {
 
-			// Ordena primeiro pelo pesquisador e depois pela data de início.
-			usort($dados, function ($a, $b) {
-				$pessoaA = (int)($a['bb_person'] ?? 0);
-				$pessoaB = (int)($b['bb_person'] ?? 0);
+			$pessoaA = (int)($a['bb_person'] ?? 0);
+			$pessoaB = (int)($b['bb_person'] ?? 0);
 
-				if ($pessoaA !== $pessoaB) {
-					return $pessoaA <=> $pessoaB;
-				}
+			if ($pessoaA !== $pessoaB) {
+				return $pessoaA <=> $pessoaB;
+			}
 
-				return strcmp(
-					$a['bs_start'] ?? '',
-					$b['bs_start'] ?? ''
-				);
-			});
+			return strcmp(
+				$a['bs_start'] ?? '',
+				$b['bs_start'] ?? ''
+			);
+		});
 
-			$resultado = [];
-			$historico = [];
+		$resultado = [];
+		$historico = [];
 
-			foreach ($dados as $bolsa) {
+		foreach ($dados as $bolsa) {
 
-				if (
-					empty($bolsa['bb_person']) ||
-					empty($bolsa['bs_start']) ||
-					empty($bolsa['bs_finish'])
-				) {
-					continue;
-				}
+			// Ignora registros incompletos
+			if (
+				empty($bolsa['bb_person']) ||
+				empty($bolsa['bs_start']) ||
+				empty($bolsa['bs_finish'])
+			) {
+				continue;
+			}
 
-				$pessoa = (int)$bolsa['bb_person'];
+			$pessoa = (int)$bolsa['bb_person'];
 
-				$inicio = new \DateTimeImmutable($bolsa['bs_start']);
-				$fim    = new \DateTimeImmutable($bolsa['bs_finish']);
+			$inicio = new \DateTimeImmutable($bolsa['bs_start']);
+			$fim    = new \DateTimeImmutable($bolsa['bs_finish']);
 
-				$ano = (int)$inicio->format('Y');
+			$ano = (int)$inicio->format('Y');
 
-				// Inicializa o ano.
-				if (!isset($resultado[$ano])) {
-					$resultado[$ano] = [
-						'novas' => 0,
-						'reconcedidas' => 0,
-						'novas_apos_interrupcao' => 0,
-						'total' => 0
-					];
-				}
-
-				/*
-         * Primeira ocorrência do pesquisador.
+			/*
+         * Inicializa o ano
          */
-				if (!isset($historico[$pessoa])) {
-
-					$tipo = 'nova';
-				} else {
-
-					$fimAnterior = $historico[$pessoa]['fim'];
-
-					/*
-             * Limite para considerar continuidade.
-             *
-             * Exemplo:
-             * bolsa anterior: 2019-03-01 até 2022-02-28
-             * nova bolsa:     2022-03-01
-             *
-             * É reconcessão.
-             */
-					$limiteContinuidade = $fimAnterior->modify(
-						'+' . $toleranciaDias . ' days'
-					);
-
-					if ($inicio <= $limiteContinuidade) {
-						$tipo = 'reconcedida';
-					} else {
-						$tipo = 'nova_apos_interrupcao';
-					}
-				}
-
-				// Contabiliza.
-				switch ($tipo) {
-
-					case 'nova':
-						$resultado[$ano]['novas']++;
-						break;
-
-					case 'reconcedida':
-						$resultado[$ano]['reconcedidas']++;
-						break;
-
-					case 'nova_apos_interrupcao':
-						$resultado[$ano]['novas_apos_interrupcao']++;
-						break;
-				}
-
-				$resultado[$ano]['total']++;
-
-				/*
-         * Guarda a bolsa atual como última bolsa conhecida
-         * daquele pesquisador.
-         */
-				$historico[$pessoa] = [
-					'fim' => $fim,
-					'inicio' => $inicio,
-					'nivel' => $bolsa['bs_nivel'] ?? null,
-					'nome' => $bolsa['bs_nome'] ?? null,
-					'id_bb' => $bolsa['id_bb'] ?? null
+			if (!isset($resultado[$ano])) {
+				$resultado[$ano] = [
+					'novas' => [],
+					'reconcedidas' => [],
+					'novas_apos_interrupcao' => []
 				];
 			}
 
-			ksort($resultado);
-			return $resultado;
+			/*
+         * Dados básicos da concessão atual
+         */
+			$registro = [
+				'id_bb'      => $bolsa['bs_rdf_id'] ?? null,
+				'nome'       => $bolsa['bs_nome'] ?? null,
+				'nivel'      => trim($bolsa['bs_nivel'] ?? ''),
+				'ies'        => $bolsa['BS_IES'] ?? null,
+				'inicio'     => $bolsa['bs_start'],
+				'fim'        => $bolsa['bs_finish']
+			];
+
+			/*
+         * PRIMEIRA BOLSA DO PESQUISADOR
+         */
+			if (!isset($historico[$pessoa])) {
+
+				$registro['tipo'] = 'nova';
+
+				$resultado[$ano]['novas'][] = $registro;
+			} else {
+
+				/*
+             * Recupera a concessão anterior
+             */
+				$anterior = $historico[$pessoa];
+
+				$fimAnterior = $anterior['fim_obj'];
+
+				/*
+             * Até quantos dias depois do término
+             * ainda consideramos continuidade.
+             */
+				$limiteContinuidade = $fimAnterior->modify(
+					'+' . $toleranciaDias . ' days'
+				);
+
+				/*
+             * Informações da bolsa anterior
+             */
+				$registro['bolsa_anterior'] = [
+					'id_bb'  => $anterior['id_bb'],
+					'nivel'  => $anterior['nivel'],
+					'inicio' => $anterior['inicio'],
+					'fim'    => $anterior['fim']
+				];
+
+				/*
+             * Calcula intervalo em dias.
+             */
+				if ($inicio > $fimAnterior) {
+
+					$intervalo = $fimAnterior->diff($inicio);
+
+					$registro['dias_interrupcao'] = (int)$intervalo->days - 1;
+				} else {
+
+					// Sobreposição de períodos
+					$registro['dias_interrupcao'] = 0;
+				}
+
+				/*
+             * RECONCESSÃO
+             */
+				if ($inicio <= $limiteContinuidade) {
+
+					$registro['tipo'] = 'reconcedida';
+
+					$resultado[$ano]['reconcedidas'][] = $registro;
+
+					/*
+             * NOVA APÓS INTERRUPÇÃO
+             */
+				} else {
+
+					$registro['tipo'] = 'nova_apos_interrupcao';
+
+					$resultado[$ano]['novas_apos_interrupcao'][] = $registro;
+				}
+			}
+
+			/*
+         * Atualiza a última concessão conhecida
+         * daquele pesquisador.
+         */
+			$historico[$pessoa] = [
+				'id_bb'   => $bolsa['id_bb'] ?? null,
+				'inicio'  => $bolsa['bs_start'],
+				'fim'     => $bolsa['bs_finish'],
+				'fim_obj' => $fim,
+				'nivel'   => trim($bolsa['bs_nivel'] ?? ''),
+				'nome'    => $bolsa['bs_nome'] ?? null
+			];
+		}
+
+		/*
+     * Ordena cronologicamente
+     */
+		ksort($resultado);
+
+		return $resultado;
 		}
 
 	function year_distribuition($dt)
