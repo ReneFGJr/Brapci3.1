@@ -743,6 +743,7 @@ class Brapci extends Model
                 break;
             default:
                 $RSP = $RDFmetadata->metadata($id);
+                pre($RSP);
                 break;
         }
 
