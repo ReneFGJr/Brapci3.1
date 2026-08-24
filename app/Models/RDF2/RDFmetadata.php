@@ -611,12 +611,12 @@ class RDFmetadata extends Model
         /****************************** worksID ****/
         $dr['worksID'] = $worksID;
 
-        pre("OK2");
-
         /****************************** Bolsista PQ */
         $dt['bolsista'] = [];
         $Bolsas = new \App\Models\PQ\Bolsas();
         $dr['bolsista'] = $Bolsas->bolsista($dr['ID']);
+
+        pre($dr);
 
         return $dr;
     }
