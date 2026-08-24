@@ -436,7 +436,6 @@ class RDFmetadata extends Model
                 }
             }
 
-            pre("OK");
             $ref = $ABNT->short($JSON, False);
             if (!isset($works[$type])) {
                 $works[$type] = [];
@@ -611,6 +610,8 @@ class RDFmetadata extends Model
 
         /****************************** worksID ****/
         $dr['worksID'] = $worksID;
+
+        pre("OK2");
 
         /****************************** Bolsista PQ */
         $dt['bolsista'] = [];
