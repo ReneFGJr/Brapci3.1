@@ -164,7 +164,9 @@ class RDFmetadata extends Model
                 return $this->metadataGeral($dt);
                 break;
             case 'Person':
-                return $this->metadataPerson($dt);
+                $rst =  $this->metadataPerson($dt);
+                echo "OK";
+                pre($rst);
                 break;
             case 'CorporateBody':
                 return $this->metadataCorporateBody($dt);
