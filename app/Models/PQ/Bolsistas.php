@@ -50,9 +50,34 @@ class Bolsistas extends Model
 	var $path = '';
 	var $path_back = '';
 
+	function check()
+	{
+		$sql = "SELECT bolsistas.id_bs, bolsistas.bs_rdf_id, rdf_concept.cc_use
+			FROM bolsistas
+			INNER JOIN brapci_rdf.rdf_concept
+				ON bolsistas.bs_rdf_id = rdf_concept.id_cc
+			WHERE bolsistas.bs_rdf_id <> rdf_concept.cc_use";
+
+		$bolsistas = $this->db->query($sql)->getResultArray();
+		$updated = 0;
+
+		foreach ($bolsistas as $bolsista) {
+			$success = $this->db->table($this->table)
+				->where($this->primaryKey, $bolsista['id_bs'])
+				->update(['bs_rdf_id' => $bolsista['cc_use']]);
+
+			if ($success) {
+				$updated++;
+			}
+		}
+
+		return $updated;
+	}
+
 
 	function edit($id)
 	{
+		$this->check();
 		$this->id = $id;
 		$this->path = PATH . '/popup/pq_bolsista_edit?id=' . $id . '&';
 		$this->path_back = 'wclose';
