@@ -774,8 +774,6 @@ class Brapci extends Model
             $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['Class'], 0, 1));
         }
         echo json_encode($RSP);
-        echo "====FIM";
-        pre($RSP);
         exit;
     }
 
