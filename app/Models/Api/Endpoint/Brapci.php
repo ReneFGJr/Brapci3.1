@@ -773,8 +773,9 @@ class Brapci extends Model
             $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['Class'], 0, 1));
             $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['Class'], 0, 1));
         }
-        pre($RSP);
         echo json_encode($RSP);
+        echo "====FIM";
+        pre($RSP);
         exit;
     }
 
