@@ -346,6 +346,10 @@ class RDFimage extends Model
                 //$RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED ' . $ID . '-' . $idc;
                 break;
+            case 'facephoto':
+                $RSP = $this->saveImage($ID);
+                $RDFdata->register($ID, 'hasPhoto', $RSP['IDC'], 0);
+                break;
             case 'image':
                 $RSP = $this->saveImage($ID);
                 $RSP['id'] = $ID;
@@ -409,12 +413,8 @@ class RDFimage extends Model
                     exit;
             }
 
-
-
             $dest = $dire . 'image' . $ext;
             move_uploaded_file($tmp, $dest);
-
-
 
             /********************************************** */
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
