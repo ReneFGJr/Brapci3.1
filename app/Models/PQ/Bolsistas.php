@@ -77,7 +77,7 @@ class Bolsistas extends Model
 
 	function edit($id)
 	{
-		$this->check();
+		//$this->check();
 		$this->id = $id;
 		$this->path = PATH . '/popup/pq_bolsista_edit?id=' . $id . '&';
 		$this->path_back = 'wclose';

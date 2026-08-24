@@ -293,6 +293,7 @@ class RDFmetadata extends Model
 
     function metadataPerson($dt)
     {
+        pre($dt);
         $limit = 1000;
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
