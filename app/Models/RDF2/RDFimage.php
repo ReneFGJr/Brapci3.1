@@ -347,7 +347,7 @@ class RDFimage extends Model
                 $status = 'SAVED ' . $ID . '-' . $idc;
                 break;
             case 'facephoto':
-                $RSP = $this->saveImage($ID);
+                $RSP = $this->saveImageClass($ID, 'Photo', 'hasPhoto', $_FILES['file']['tmp_name']);
                 $RDFdata->register($ID, 'hasPhoto', $RSP['IDC'], 0);
                 break;
             case 'image':
