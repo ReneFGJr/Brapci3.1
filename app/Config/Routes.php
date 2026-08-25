@@ -232,7 +232,24 @@ $routes->get('/admin', 'Admin::index');
 /********* OJS */
 $routes->group('ojs', function($routes) {
     $routes->get('/', 'Ojs::index');
+    $routes->get('journals', 'Ojs::journals');
+    $routes->get('journals/new', 'Ojs::journalNew');
+    $routes->get('journals/view/(:num)', 'Ojs::journalView/$1');
+    $routes->post('journals', 'Ojs::journalCreate', ['filter' => 'csrf']);
+    $routes->get('journals/edit/(:num)', 'Ojs::journalEdit/$1');
+    $routes->post('journals/select/(:num)', 'Ojs::journalSelect/$1', ['filter' => 'csrf']);
+    $routes->post('journals/(:num)', 'Ojs::journalUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('journals/delete/(:num)', 'Ojs::journalDelete/$1', ['filter' => 'csrf']);
     $routes->get('submissoes', 'Ojs::submissoes');
+    $routes->get('issues', 'Ojs::issues');
+    $routes->get('articles_to_submit', 'Ojs::articlesToSubmit');
+    $routes->get('articles_submied', 'Ojs::articlesSubmied');
+    $routes->get('articles_submied/view/(:num)', 'Ojs::submittedArticleView/$1');
+    $routes->post('articles_submied/update_ojs/(:num)', 'Ojs::updateSubmittedArticleOjs/$1', ['filter' => 'csrf']);
+    $routes->post('articles_submied/update_article/(:num)', 'Ojs::updateSubmittedArticleLocal/$1', ['filter' => 'csrf']);
+    $routes->post('submit', 'Ojs::submit', ['filter' => 'csrf']);
+    $routes->get('submit/edit/(:num)', 'Ojs::editSubmittedArticle/$1');
+    $routes->post('submit/edit/(:num)', 'Ojs::saveSubmittedArticle/$1', ['filter' => 'csrf']);
     $routes->get('nova', 'Ojs::nova');
     $routes->match(['get', 'post'], 'send', 'Ojs::send');
     $routes->match(['get', 'post'], 'send/0', 'Ojs::send0');
