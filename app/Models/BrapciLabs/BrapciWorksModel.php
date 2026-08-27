@@ -731,6 +731,36 @@ class BrapciWorksModel extends Model
         return 0; // Retorna um ID fixo para demonstração
     }
 
+    function edit_cited_work($id)
+    {
+        $id = (int) $id;
+        $RisModel = new \App\Models\BrapciLabs\RisModel();
+        $work = $RisModel->find($id);
+
+        if (!$work) {
+            return view('BrapciLabs/ref/cited_edit', [
+                'work_id' => $id,
+                'work' => null,
+                'data' => ['cited' => [], 'withoutCited' => []],
+            ]);
+        }
+
+        $rdf = $RisModel->brapciID((string) ($work['url'] ?? ''));
+        $Cited = new \App\Models\AI\Cited\Index();
+        $cited = $rdf > 0
+            ? $Cited->where('ca_rdf', $rdf)->orderBy('ca_ordem', 'ASC')->findAll()
+            : [];
+
+        return view('BrapciLabs/ref/cited_edit', [
+            'work_id' => $id,
+            'work' => $work,
+            'rdf' => $rdf,
+            'data' => [
+                'cited' => $cited,
+                'withoutCited' => [],
+            ],
+        ]);
+    }
     /**
      * Retorna citações agrupadas por autor
      */

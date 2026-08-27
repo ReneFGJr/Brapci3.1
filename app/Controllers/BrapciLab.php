@@ -842,6 +842,9 @@ class BrapciLab extends BaseController
             case 'view':
                 echo $BrapciWorksModel->show_cited_work($d2);
                 break;
+            case 'cited_edit':
+                echo $BrapciWorksModel->edit_cited_work($d2);
+                break;
             default:
                 echo '<center>';
                 echo $d1;
