@@ -110,6 +110,14 @@ class ArticleModel extends Model
             ->where('journal_submit_id IS NOT NULL', null, false)
             ->update($updates);
     }
+    public function markArticleAsSubmitted(int $journalId, int $articleId): bool
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->update(['status' => 2]);
+    }
     public function getSubmittedArticle(int $journalId, int $articleId): ?array
     {
         return $this->dbOjsImport->table('article')
@@ -139,12 +147,21 @@ class ArticleModel extends Model
             throw new \RuntimeException('A publicação atual da submissão não foi encontrada no OJS.');
         }
 
+        $year = trim((string) ($article['Year'] ?? ''));
+        $authors = trim((string) ($article['Authors'] ?? ''));
+        $volume = trim((string) ($article['Vol'] ?? ''));
         $payload = [
             'title' => ['pt_BR' => trim((string) ($article['Title'] ?? ''))],
             'fullTitle' => ['pt_BR' => trim((string) ($article['Title'] ?? ''))],
+            'abstract' => [
+                'pt_BR' => 'Artigo da Revista publicado em ' . $year . ' por ' . $authors . ' na ' . $volume,
+            ],
         ];
         if (preg_match('/^\d{4}$/', (string) ($article['Year'] ?? ''))) {
             $payload['copyrightYear'] = (int) $article['Year'];
+        }
+        if ($volume !== '') {
+            $payload['keywords'] = ['pt_BR' => [$volume]];
         }
 
         $response = $this->curl(
@@ -170,7 +187,6 @@ class ArticleModel extends Model
         if ($metadataSuccess && !$authorsResult['success']) {
             $error = implode(' ', $authorsResult['errors']);
         }
-
         return [
             'success' => $metadataSuccess && $authorsResult['success'],
             'http_code' => $httpCode,
@@ -372,7 +388,8 @@ class ArticleModel extends Model
     {
         $builder = $this->dbOjsImport->table('article')
             ->where('journal_id', $journalId)
-            ->where('journal_submit_id IS NOT NULL', null, false);
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->where('status <', 2);
 
         if ($year !== null) {
             $builder->where('Year', $year);
@@ -911,35 +928,55 @@ class ArticleModel extends Model
 
     public function uploadPDFToSubmission($submissionId, $filePath, $locale = 'pt_BR')
     {
-        $url = $this->apiUrl . "/submissions/{$submissionId}/files?apiToken=" . urlencode($this->apiToken);
+        $url = $this->apiUrl . "/submissions/{$submissionId}/files";
 
-        $file = new \CURLFile($filePath, 'application/pdf', basename($filePath));
+        if (!file_exists($filePath)) {
+            return [
+                "status" => 400,
+                "error" => "Arquivo não encontrado localmente."
+            ];
+        }
+
+        $file = new \CURLFile(
+            $filePath,
+            'application/pdf',
+            basename($filePath)
+        );
 
         $postFields = [
             'file' => $file,
             'name[' . $locale . ']' => basename($filePath),
-            'genreId' => 1, // ID do gênero (ajuste conforme necessário)
-            'fileStage' => 2 // 🔥 corrigido
+            'genreId' => '1',
+            'fileStage' => '2'
         ];
 
-        $ch = curl_init($url);
+        $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $postFields,
 
-        // DEBUG
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Authorization: Bearer ' . $this->apiToken
+            ],
+
+            CURLOPT_USERAGENT => 'Brapci-OJS-Client/1.0',
+
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+
+            CURLOPT_VERBOSE => true
+        ]);
+
         $verbose = fopen('php://temp', 'w+');
         curl_setopt($ch, CURLOPT_STDERR, $verbose);
 
-        // SSL
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlError = curl_error($ch);
 
         rewind($verbose);
@@ -947,15 +984,13 @@ class ArticleModel extends Model
 
         curl_close($ch);
 
-        $RSP = [
+        return [
             "status" => $httpCode,
             "raw" => $response,
-            "decoded" => json_decode($response),
+            "decoded" => json_decode($response, true),
             "curl_error" => $curlError,
             "debug" => $debug
         ];
-        pre($RSP);
-        return $RSP;
     }
 
     /**
@@ -985,27 +1020,70 @@ class ArticleModel extends Model
     /**
      * 4 - Upload de arquivo
      */
-    public function uploadFileOJS($submitId, $filePath)
+    public function uploadFileOJS($submitId, $filePath, int $fileStage = 2)
     {
-        // Exemplo de upload de arquivo via cURL (ajuste conforme a API do OJS)
-        $url = $this->apiUrl . '/submissions/' . $submitId . '/files?apiToken=' . urlencode($this->apiToken);
-        $cfile = new \CURLFile($filePath, 'application/pdf');
-        $post = [
-            'file' => $cfile,
-            'fileStage' => 2, // 2 = Submissão
-             'genreId' => 1, // ID do gênero (ajuste conforme necessário)
-             'name[pt_BR]' => basename($filePath) // Nome do arquivo com locale
+        $url = $this->apiUrl . "/submissions/{$submitId}/files";
+
+        if (!file_exists($filePath)) {
+            return [
+                "status" => 400,
+                "error" => "Arquivo não encontrado localmente."
             ];
+        }
+
+        $file = new \CURLFile(
+            $filePath,
+            'application/pdf',
+            basename($filePath)
+        );
+
+        $postFields = [
+            'file' => $file,
+            'name[' . 'pt_BR' . ']' => basename($filePath),
+            'genreId' => '1',
+            'fileStage' => '2'
+        ];
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $postFields,
+
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Authorization: Bearer ' . $this->apiToken
+            ],
+
+            CURLOPT_USERAGENT => 'Brapci-OJS-Client/1.0',
+
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+
+            CURLOPT_VERBOSE => true
+        ]);
+
+        $verbose = fopen('php://temp', 'w+');
+        curl_setopt($ch, CURLOPT_STDERR, $verbose);
+
         $response = curl_exec($ch);
+
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+
+        rewind($verbose);
+        $debug = stream_get_contents($verbose);
+
         curl_close($ch);
-        return ['httpCode' => $httpCode, 'response' => json_decode($response)];
+
+        return [
+            "status" => $httpCode,
+            "raw" => $response,
+            "decoded" => json_decode($response, true),
+            "curl_error" => $curlError,
+            "debug" => $debug
+        ];
     }
 }

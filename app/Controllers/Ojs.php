@@ -426,10 +426,22 @@ class Ojs extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
         }
 
+
         try {
             $result = $model->updateOjsSubmissionFromArticle((int) $journal['id'], $article);
             if (!$result['success']) {
-                throw new \RuntimeException($result['error'] ?: 'O OJS recusou a atualização (HTTP ' . $result['http_code'] . ').');
+                $ojsResponse = [
+                    'httpCode' => $result['file']['http_code'] ?? $result['http_code'] ?? 0,
+                    'fileStage' => $result['file']['file_stage'] ?? null,
+                    'response' => array_key_exists('file', $result)
+                        ? ($result['file']['response'] ?? null)
+                        : ($result['response'] ?? null),
+                    'raw' => $result['file']['raw'] ?? null,
+                    'curlError' => $result['file']['curl_error'] ?? null,
+                ];
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', $result['error'] ?: 'O OJS recusou a atualização (HTTP ' . $result['http_code'] . ').')
+                    ->with('ojs_response', json_encode($ojsResponse, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
             }
             $authorCount = (int) ($result['authors']['processed'] ?? 0);
             return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
@@ -440,6 +452,121 @@ class Ojs extends Controller
         }
     }
 
+    public function uploadSubmittedArticlePdf(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/journals'))->with('error', 'Selecione uma revista.');
+        }
+
+        $model = new \App\Models\OJS\ArticleModel();
+        $article = $model->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
+        }
+
+        $articlePdf = $this->findSubmittedArticlePdf($article);
+        if ($articlePdf['path'] === null) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', 'O PDF do artigo não foi encontrado: ' . $articlePdf['expected']);
+        }
+
+        try {
+            $submission = $model->getSubmissionDetails(
+                (int) $journal['id'],
+                (int) $article['journal_submit_id']
+            );
+            if ((int) ($submission['status'] ?? 0) !== 1) {
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'O arquivo só pode ser enviado quando a submissão estiver em fluxo editorial.');
+            }
+
+            $result = $model->uploadFileOJS(
+                (int) $article['journal_submit_id'],
+                $articlePdf['path'],
+                2
+            );
+            $httpCode = (int) ($result['httpCode'] ?? 0);
+            if (!in_array($httpCode, [200, 201], true)) {
+                $ojsResponse = [
+                    'httpCode' => $httpCode,
+                    'fileStage' => 2,
+                    'response' => $result['response'] ?? null,
+                    'raw' => $result['raw'] ?? null,
+                    'curlError' => $result['curl_error'] ?? null,
+                ];
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'O OJS recusou o arquivo PDF (HTTP ' . $httpCode . ').')
+                    ->with('ojs_response', json_encode($ojsResponse, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+            }
+
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('success', 'Arquivo enviado ao OJS com sucesso: ' . $articlePdf['name'] . '.');
+        } catch (\RuntimeException $exception) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', $exception->getMessage());
+        }
+    }
+    public function finalizeSubmittedArticle(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/journals'))->with('error', 'Selecione uma revista.');
+        }
+
+        $model = new \App\Models\OJS\ArticleModel();
+        $article = $model->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
+        }
+
+        try {
+            $submission = $model->getSubmissionDetails(
+                (int) $journal['id'],
+                (int) $article['journal_submit_id']
+            );
+            if ((int) ($submission['status'] ?? 0) !== 1) {
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'A submissão só pode ser finalizada quando estiver em fluxo editorial.');
+            }
+
+            $result = $model->submitWithoutEmail((int) $article['journal_submit_id']);
+            $httpCode = (int) ($result['httpCode'] ?? 0);
+            if (!in_array($httpCode, [200, 201], true)) {
+                $details = $result['response']['errorMessage']
+                    ?? $result['response']['error']
+                    ?? $result['row']
+                    ?? null;
+                if (is_array($details)) {
+                    $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+                throw new \RuntimeException(
+                    'O OJS recusou a finalização (HTTP ' . $httpCode . ').'
+                    . ($details ? ' ' . trim((string) $details) : '')
+                );
+            }
+
+            if (!$model->markArticleAsSubmitted((int) $journal['id'], $articleId)) {
+                throw new \RuntimeException(
+                    'A submissão foi finalizada no OJS, mas não foi possível alterar o status local do Article para 2.'
+                );
+            }
+
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('success', 'Submissão finalizada no OJS e status do Article alterado para 2.');
+        } catch (\RuntimeException $exception) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', $exception->getMessage());
+        }
+    }
     public function updateSubmittedArticleLocal(int $articleId)
     {
         if (!$this->hasJournalAccess()) {
@@ -495,14 +622,102 @@ class Ojs extends Controller
             $apiError = $exception->getMessage();
         }
 
+        $articlePdf = $this->findSubmittedArticlePdf($article);
+
         return $this->renderOjsPage('OJS/submitted_article_view', [
             'page_title' => 'Visualizar submissão',
             'journal' => $journal,
             'article' => $article,
             'submission' => $submission,
             'apiError' => $apiError,
+            'articlePdf' => $articlePdf,
         ]);
     }
+
+    public function submittedArticlePdf(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return $this->response->setStatusCode(403);
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $articleModel = new \App\Models\OJS\ArticleModel();
+        $article = $articleModel->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $articlePdf = $this->findSubmittedArticlePdf($article);
+        if ($articlePdf['path'] === null) {
+            return $this->response->setStatusCode(404);
+        }
+
+        return $this->response
+            ->download($articlePdf['path'], null, true)
+            ->setFileName(basename($articlePdf['path']))
+            ->inline();
+    }
+
+    private function findSubmittedArticlePdf(array $article): array
+    {
+        $year = trim((string) ($article['Year'] ?? ''));
+        $endPage = trim((string) ($article['PagEND'] ?? ''));
+        if (preg_match('/^\d$/', $endPage)) {
+            $endPage = str_pad($endPage, 2, '0', STR_PAD_LEFT);
+        }
+        $pageToken = $endPage !== '' ? $endPage : '{PAG_FINAL}';
+        $filePatterns = ['*_' . $pageToken . '_o.pdf', '*_' . $pageToken . '.pdf'];
+        $filePattern = implode(' ou ', $filePatterns);
+        $relativePattern = ($year !== '' ? $year : '{YEAR}') . '/' . $filePattern;
+
+        $configuredPath = trim((string) getenv('INMA_DATA_PATH'));
+        $rootCandidates = array_filter([$configuredPath, '/INMA/data', 'D:/INMA/data']);
+        $dataRoot = null;
+        foreach ($rootCandidates as $candidate) {
+            if (is_dir($candidate)) {
+                $dataRoot = rtrim(str_replace('\\', '/', $candidate), '/');
+                break;
+            }
+        }
+
+        $result = [
+            'path' => null,
+            'name' => $filePattern,
+            'expected' => '/INMA/data/' . $relativePattern,
+        ];
+
+        if ($dataRoot === null || !preg_match('/^\d{4}$/', $year) || !preg_match('/^[A-Za-z0-9.-]+$/', $endPage)) {
+            return $result;
+        }
+
+        $yearDirectory = $dataRoot . '/' . $year;
+        if (!is_dir($yearDirectory)) {
+            return $result;
+        }
+
+        $files = scandir($yearDirectory) ?: [];
+        natcasesort($files);
+        $fileNamePattern = '/^.{2,}_' . preg_quote($endPage, '/') . '(?:_o)?\.pdf$/i';
+        foreach ($files as $fileName) {
+            if (!preg_match($fileNamePattern, $fileName)) {
+                continue;
+            }
+
+            $realPath = realpath($yearDirectory . '/' . $fileName);
+            if ($realPath !== false && is_file($realPath)) {
+                $result['path'] = $realPath;
+                $result['name'] = basename($realPath);
+                break;
+            }
+        }
+
+        return $result;
+    }
+
     public function articlesSubmied()
     {
         if (!$this->hasJournalAccess()) {

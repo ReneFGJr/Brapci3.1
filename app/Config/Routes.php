@@ -245,7 +245,10 @@ $routes->group('ojs', function($routes) {
     $routes->get('articles_to_submit', 'Ojs::articlesToSubmit');
     $routes->get('articles_submied', 'Ojs::articlesSubmied');
     $routes->get('articles_submied/view/(:num)', 'Ojs::submittedArticleView/$1');
+    $routes->get('articles_submied/pdf/(:num)', 'Ojs::submittedArticlePdf/$1');
     $routes->post('articles_submied/update_ojs/(:num)', 'Ojs::updateSubmittedArticleOjs/$1', ['filter' => 'csrf']);
+    $routes->post('articles_submied/finalize/(:num)', 'Ojs::finalizeSubmittedArticle/$1', ['filter' => 'csrf']);
+    $routes->post('articles_submied/send_pdf/(:num)', 'Ojs::uploadSubmittedArticlePdf/$1', ['filter' => 'csrf']);
     $routes->post('articles_submied/update_article/(:num)', 'Ojs::updateSubmittedArticleLocal/$1', ['filter' => 'csrf']);
     $routes->post('submit', 'Ojs::submit', ['filter' => 'csrf']);
     $routes->get('submit/edit/(:num)', 'Ojs::editSubmittedArticle/$1');

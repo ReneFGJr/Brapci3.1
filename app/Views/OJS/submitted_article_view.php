@@ -1,8 +1,49 @@
 <?php
-$title = $submission['publications'][0]['fullTitle']['pt_BR']
-    ?? $submission['publications'][0]['title']['pt_BR']
-    ?? $article['Title']
-    ?? '-';
+$titleCandidates = [
+    $submission['publications'][0]['fullTitle']['pt_BR'] ?? null,
+    $submission['publications'][0]['title']['pt_BR'] ?? null,
+    $article['Title'] ?? null,
+];
+$title = '-';
+foreach ($titleCandidates as $titleCandidate) {
+    if (trim((string) $titleCandidate) !== '') {
+        $title = trim((string) $titleCandidate);
+        break;
+    }
+}
+
+$articleStatus = (int) ($article['status'] ?? 0);
+$ojsSubmissionUrl = rtrim((string) ($journal['base_url'] ?? ''), '/')
+    . '/index.php/' . trim((string) ($journal['context_path'] ?? ''), '/')
+    . '/dashboard/editorial?submissionId=' . (int) ($article['journal_submit_id'] ?? 0);
+$submissionStatus = (int) ($submission['status'] ?? 0);
+$submissionStage = (int) ($submission['stageId'] ?? 0);
+$statusLabels = [
+    1 => 'Em fluxo editorial',
+    3 => 'Publicado',
+    4 => 'Recusado',
+    5 => 'Agendado',
+];
+$stageLabels = [
+    1 => 'Submissão',
+    2 => 'Avaliação interna',
+    3 => 'Avaliação',
+    4 => 'Editoração',
+    5 => 'Produção',
+];
+$statusClasses = [
+    1 => 'btn-warning',
+    3 => 'btn-success',
+    4 => 'btn-danger',
+    5 => 'btn-info',
+];
+$statusLabel = $apiError !== null
+    ? 'Status OJS indisponível'
+    : ($statusLabels[$submissionStatus] ?? 'Status OJS ' . ($submissionStatus ?: 'desconhecido'));
+if ($apiError === null && isset($stageLabels[$submissionStage]) && $submissionStatus === 1) {
+    $statusLabel .= ' — ' . $stageLabels[$submissionStage];
+}
+$statusClass = $apiError !== null ? 'btn-outline-danger' : ($statusClasses[$submissionStatus] ?? 'btn-outline-secondary');
 ?>
 <main class="bg-light pt-5">
     <div class="container-fluid px-3 px-lg-5 py-5">
@@ -26,19 +67,61 @@ $title = $submission['publications'][0]['fullTitle']['pt_BR']
                 <div class="alert alert-danger" role="alert"><?= esc(session()->getFlashdata('error')) ?></div>
             <?php endif; ?>
 
+
             <div class="d-flex flex-wrap gap-2 mb-4">
+                <?php if ($articleStatus !== 2): ?>
                 <form method="post" action="<?= base_url('ojs/articles_submied/update_ojs/' . $article['idR']) ?>" onsubmit="return confirm('Atualizar os dados desta submissão no OJS?');">
                     <?= csrf_field() ?>
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="submit" title="Atualizar metadados e autores no OJS">
                         <i class="bi bi-cloud-arrow-up me-1"></i>Atualizar dados da submissão
                     </button>
                 </form>
                 <a class="btn btn-success" href="<?= base_url('ojs/submit/edit/' . $article['idR']) ?>">
                     <i class="bi bi-pencil-square me-1"></i>Editar
                 </a>
+                <?php if ($apiError === null && $submissionStatus === 1): ?>
+                    <form method="post" action="<?= base_url('ojs/articles_submied/send_pdf/' . $article['idR']) ?>" onsubmit="return confirm('Enviar o arquivo <?= esc($articlePdf['name']) ?> ao OJS?');">
+                        <?= csrf_field() ?>
+                        <button
+                            class="btn btn-outline-primary"
+                            type="submit"
+                            <?= $articlePdf['path'] === null ? 'disabled' : '' ?>
+                            title="<?= esc($articlePdf['path'] === null ? 'O PDF não foi localizado.' : 'Enviar o PDF como Texto do artigo.') ?>"
+                        >
+                            <i class="bi bi-file-earmark-arrow-up me-1"></i>Enviar arquivo
+                        </button>
+                    </form>
+                    <form method="post" action="<?= base_url('ojs/articles_submied/finalize/' . $article['idR']) ?>" onsubmit="return confirm('Finalizar esta submissão no OJS?');">
+                        <?= csrf_field() ?>
+                        <button class="btn btn-dark" type="submit">
+                            <i class="bi bi-check-circle me-1"></i>Finalizar submissão
+                        </button>
+                    </form>
+                <?php endif; ?>
+                <?php else: ?>
+                    <a
+                        class="btn btn-primary"
+                        href="<?= esc($ojsSubmissionUrl, 'attr') ?>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Abrir a submissão no OJS para selecionar a edição"
+                    >
+                        <i class="bi bi-calendar-check me-1"></i>Agendar para publicação
+                    </a>
+                <?php endif; ?>
+                <span
+                    class="btn <?= esc($statusClass) ?> disabled"
+                    role="status"
+                    aria-label="<?= esc($statusLabel) ?>"
+                    title="Status consultado na API do OJS ao carregar a página"
+                >
+                    <i class="bi bi-info-circle me-1"></i><?= esc($statusLabel) ?>
+                </span>
             </div>
 
-            <div class="card mb-4">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="card h-100">
                 <div class="card-header bg-dark text-white">Artigo</div>
                 <div class="card-body">
                     <dl class="row mb-0">
@@ -47,8 +130,36 @@ $title = $submission['publications'][0]['fullTitle']['pt_BR']
                         <dt class="col-sm-3">Título</dt><dd class="col-sm-9"><?= esc($title) ?></dd>
                         <dt class="col-sm-3">Autores</dt><dd class="col-sm-9"><?= esc($article['Authors'] ?? '-') ?></dd>
                         <dt class="col-sm-3">Ano</dt><dd class="col-sm-9"><?= esc($article['Year'] ?? '-') ?></dd>
+                        <dt class="col-sm-3">Volume</dt><dd class="col-sm-9"><?= esc($article['Vol'] ?: '-') ?></dd>
+                        <dt class="col-sm-3">Número</dt><dd class="col-sm-9"><?= esc($article['Num'] ?: '-') ?></dd>
+                        <dt class="col-sm-3">Página inicial</dt><dd class="col-sm-9"><?= esc($article['PagINI'] ?: '-') ?></dd>
+                        <dt class="col-sm-3">Página final</dt><dd class="col-sm-9"><?= esc($article['PagEND'] ?: '-') ?></dd>
                         <dt class="col-sm-3">Enviado em</dt><dd class="col-sm-9"><?= esc($article['submit_data'] ?? '-') ?></dd>
                     </dl>
+                </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-secondary text-white">PDF do artigo</div>
+                        <div class="card-body">
+                            <?php if ($articlePdf['path'] !== null): ?>
+                                <p class="small text-muted mb-2"><?= esc($articlePdf['name']) ?></p>
+                                <iframe
+                                    src="<?= base_url('ojs/articles_submied/pdf/' . $article['idR']) ?>"
+                                    title="PDF do artigo"
+                                    class="w-100 border rounded"
+                                    style="height: 650px;"
+                                ></iframe>
+                            <?php else: ?>
+                                <div class="alert alert-warning mb-0" role="alert">
+                                    <strong>Arquivo não encontrado.</strong>
+                                    <div class="mt-2">Arquivo esperado:</div>
+                                    <code class="text-break"><?= esc($articlePdf['expected']) ?></code>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
 
