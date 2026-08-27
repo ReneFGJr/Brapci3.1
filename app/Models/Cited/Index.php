@@ -320,6 +320,7 @@ class Index extends Model
                     order by ca_ordem';
         $dt =
             $this
+            ->join("cited_type", "cited_type.id_ct = " . $this->table . ".ca_tipo", "left")
             ->where("ca_rdf", round($id))
             ->where("ca_status < 9")
             ->orderBy('ca_ordem')
