@@ -1,49 +1,64 @@
 import os
-import time
 from datetime import datetime
 
 
 def limpar_sessoes_antigas(diretorio, limite=20000):
     """
-    Remove até 'limite' arquivos do diretório especificado que começam com 'ci_session'
-    e que não foram criados na data atual.
-    Ao final, exibe quantos arquivos ainda restam para remoção.
+    Remove até ``limite`` arquivos de sessão que não foram modificados
+    na data atual.
+
+    Em Linux, ``getctime()`` informa a última alteração dos metadados do
+    arquivo, e não sua criação. Por isso a expiração usa ``mtime``, que
+    representa a última gravação da sessão.
     """
     hoje = datetime.now().date()
     arquivos_removidos = 0
-    arquivos_faltantes = 0
+    arquivos_elegiveis = 0
+    erros = 0
 
     try:
-        # Lista todos os arquivos que começam com 'ci_session'
-        arquivos = [
-            f for f in os.listdir(diretorio) if f.startswith("ci_session")
-        ]
-        arquivos_restantes = 0
+        if limite < 0:
+            raise ValueError("O limite não pode ser negativo")
 
-        for arquivo in arquivos:
-            if arquivos_removidos < limite:
+        with os.scandir(diretorio) as entradas:
+            for entrada in entradas:
+                if not entrada.name.startswith("ci_session"):
+                    continue
 
-                caminho_completo = os.path.join(diretorio, arquivo)
+                try:
+                    if not entrada.is_file(follow_symlinks=False):
+                        continue
 
-                if os.path.isfile(caminho_completo):
-                    # Obtém a data de criação do arquivo
-                    timestamp_criacao = os.path.getctime(caminho_completo)
-                    data_criacao = datetime.fromtimestamp(
-                        timestamp_criacao).date()
+                    data_modificacao = datetime.fromtimestamp(
+                        entrada.stat(follow_symlinks=False).st_mtime
+                    ).date()
 
-                    # Remove se não foi criado hoje
-                    if data_criacao != hoje:
-                        os.remove(caminho_completo)
-                        arquivos_removidos += 1
-                        print(
-                            f"Removido ({arquivos_removidos}/{limite}): {arquivo}"
-                        )
-            else:
-                arquivos_faltantes = arquivos_faltantes + 1
+                    if data_modificacao >= hoje:
+                        continue
 
+                    arquivos_elegiveis += 1
+                    if arquivos_removidos >= limite:
+                        continue
+
+                    os.remove(entrada.path)
+                    arquivos_removidos += 1
+                    print(
+                        f"Removido ({arquivos_removidos}/{limite}): "
+                        f"{entrada.name}"
+                    )
+                except OSError as erro:
+                    erros += 1
+                    print(f"Erro ao remover {entrada.name}: {erro}")
+
+        arquivos_pendentes = arquivos_elegiveis - arquivos_removidos
         print(
-            f"Limpeza concluída. Total de arquivos removidos: {arquivos_removidos} / {arquivos_faltantes}"
+            "Limpeza concluída. "
+            f"Elegíveis: {arquivos_elegiveis}; "
+            f"removidos: {arquivos_removidos}; "
+            f"pendentes: {arquivos_pendentes}; erros: {erros}."
         )
+        return arquivos_removidos, arquivos_pendentes, erros
 
-    except Exception as e:
-        print(f"Erro ao limpar sessões: {e}")
+    except (OSError, ValueError) as erro:
+        print(f"Erro ao limpar sessões em {diretorio}: {erro}")
+        return 0, 0, 1

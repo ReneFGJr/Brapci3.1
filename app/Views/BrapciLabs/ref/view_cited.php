@@ -8,12 +8,20 @@
 
 <div class="container my-4">
 
-    <h4 class="mb-3">
-        Referências Citadas
-        <span class="badge bg-secondary">
-            <?= count($data_cited) ?>
-        </span>
-    </h4>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <h4 class="mb-0">
+            Referências Citadas
+            <span class="badge bg-secondary">
+                <?= count($data_cited) ?>
+            </span>
+        </h4>
+        <a href="<?= base_url('labs/works/cited_edit/' . (int) $work_id) ?>"
+            class="btn btn-outline-primary btn-sm"
+            title="Editar citações"
+            aria-label="Editar citações">
+            <i class="bi bi-pencil-square"></i>
+        </a>
+    </div>
 
     <?php if (empty($data_cited)): ?>
         <div class="alert alert-warning">

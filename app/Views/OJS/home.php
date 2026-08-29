@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <title>OJS - Submissões</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-light">
-    <a href="<?= base_url('ojs/') ?>">Home</a>
-    <a href="<?= base_url('ojs/submissoes') ?>">Submissões Ativas
-
-        <div class="container py-5">
+<main class="bg-light pt-5">
+        <div class="container-fluid px-3 px-lg-5 py-5">
+            <?= view('OJS/partials/selected_journal', ['journal' => $journal]) ?>
             <div class="card shadow-lg p-4 mb-4">
                 <h2 class="mb-4">OJS - Gerenciamento de Submissões</h2>
                 <nav class="nav nav-pills flex-column flex-sm-row mb-4">
@@ -19,15 +8,17 @@
                     <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/submissoes') ?>">Ver Submissões Ativas</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/csv') ?>">Importar Submissões</a>
                     <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/nova') ?>">Enviar Nova Submissão</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" href="<?= base_url('ojs/journals') ?>">Gerenciar Revistas</a>
                 </nav>
                 <div class="mt-4">
                     <h5>Bem-vindo ao sistema de submissões OJS!</h5>
                     <p>Utilize o menu acima para navegar entre as opções disponíveis.</p>
+                    <?php if ($journal !== null): ?>
+                        <a class="btn btn-primary btn-lg mt-2" href="<?= base_url('ojs/articles_to_submit') ?>">
+                            <i class="bi bi-file-earmark-arrow-up me-2"></i>Artigos para Submeter
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-</body>
-
-
-
-</html>
+</main>

@@ -23,6 +23,398 @@ class ArticleModel extends Model
         $this->dbOjsImport = \Config\Database::connect('ojs_import');
     }
 
+    public function createDraftSubmission(int $journalId, array $article): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+        if (trim((string) ($journal['api_key'] ?? '')) === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $journal['api_key'];
+        $payload = [
+            'sectionId' => 1,
+            'locale' => 'pt_BR',
+            'language' => 'pt_BR',
+            'title' => ['pt_BR' => trim((string) ($article['Title'] ?? ''))],
+            'authors' => trim((string) ($article['Authors'] ?? '')),
+            'affiliation' => trim((string) ($article['Affiliation'] ?? '')),
+            'year' => trim((string) ($article['Year'] ?? '')),
+            'section' => trim((string) ($article['Vol'] ?? '')),
+        ];
+
+        // Cria somente o rascunho. Não chama /submissions/{id}/submit.
+        $apiResponse = $this->curl(
+            $this->apiUrl . '/submissions?apiToken=' . urlencode($this->apiToken),
+            'POST',
+            $payload
+        );
+        $httpCode = (int) ($apiResponse['httpCode'] ?? 0);
+        $responseData = is_array($apiResponse['response'] ?? null) ? $apiResponse['response'] : [];
+        $submissionId = isset($responseData['id']) ? (int) $responseData['id'] : null;
+        $success = in_array($httpCode, [200, 201], true) && $submissionId !== null;
+
+        if ($success) {
+            $this->dbOjsImport->table('article')
+                ->where('idR', (int) $article['idR'])
+                ->where('journal_id', $journalId)
+                ->where('journal_submit_id', null)
+                ->update([
+                    'journal_submit_id' => $submissionId,
+                    'submit_id' => $submissionId,
+                    'submit_data' => date('Y-m-d H:i:s'),
+                ]);
+        }
+
+        return [
+            'article_id' => (int) $article['idR'],
+            'title' => (string) ($article['Title'] ?? ''),
+            'payload' => $payload,
+            'http_code' => $httpCode,
+            'success' => $success,
+            'submission_id' => $submissionId,
+            'response' => $responseData,
+            'error' => $apiResponse['curl_error'] ?: ($responseData['errorMessage'] ?? $responseData['error'] ?? null),
+        ];
+    }
+    public function getArticlesForSubmission(int $journalId, array $articleIds): array
+    {
+        $articleIds = array_values(array_unique(array_filter(array_map('intval', $articleIds), static fn (int $id): bool => $id > 0)));
+        if ($articleIds === []) {
+            return [];
+        }
+
+        return $this->dbOjsImport->table('article')
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id', null)
+            ->whereIn('idR', $articleIds)
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
+    public function updateSubmittedArticle(int $journalId, int $articleId, array $data): bool
+    {
+        $allowed = ['Title', 'Authors', 'Affiliation', 'Year', 'Vol', 'Num', 'PagINI', 'PagEND', 'Keywords'];
+        $updates = array_intersect_key($data, array_flip($allowed));
+        if ($updates === []) {
+            return false;
+        }
+
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->update($updates);
+    }
+    public function markArticleAsSubmitted(int $journalId, int $articleId): bool
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->update(['status' => 2]);
+    }
+    public function getSubmittedArticle(int $journalId, int $articleId): ?array
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->get()
+            ->getRowArray();
+    }
+
+    public function updateOjsSubmissionFromArticle(int $journalId, array $article): array
+    {
+        $submissionId = (int) ($article['journal_submit_id'] ?? 0);
+        $submission = $this->getSubmissionDetails($journalId, $submissionId);
+        $publications = $submission['publications'] ?? [];
+        $currentPublicationId = (int) ($submission['currentPublicationId'] ?? 0);
+        $publication = null;
+
+        foreach ($publications as $candidate) {
+            if ($currentPublicationId === 0 || (int) ($candidate['id'] ?? 0) === $currentPublicationId) {
+                $publication = $candidate;
+                break;
+            }
+        }
+
+        if ($publication === null || empty($publication['id'])) {
+            throw new \RuntimeException('A publicação atual da submissão não foi encontrada no OJS.');
+        }
+
+        $year = trim((string) ($article['Year'] ?? ''));
+        $authors = trim((string) ($article['Authors'] ?? ''));
+        $volume = trim((string) ($article['Vol'] ?? ''));
+        $payload = [
+            'title' => ['pt_BR' => trim((string) ($article['Title'] ?? ''))],
+            'fullTitle' => ['pt_BR' => trim((string) ($article['Title'] ?? ''))],
+            'abstract' => [
+                'pt_BR' => 'Artigo da Revista publicado em ' . $year . ' por ' . $authors . ' na ' . $volume,
+            ],
+        ];
+        if (preg_match('/^\d{4}$/', (string) ($article['Year'] ?? ''))) {
+            $payload['copyrightYear'] = (int) $article['Year'];
+        }
+        if ($volume !== '') {
+            $payload['keywords'] = ['pt_BR' => [$volume]];
+        }
+
+        $response = $this->curl(
+            $this->apiUrl . '/submissions/' . $submissionId . '/publications/' . (int) $publication['id']
+                . '?apiToken=' . urlencode($this->apiToken),
+            'PUT',
+            $payload
+        );
+        $httpCode = (int) ($response['httpCode'] ?? 0);
+        $responseData = is_array($response['response'] ?? null) ? $response['response'] : [];
+
+        $metadataSuccess = in_array($httpCode, [200, 201], true);
+        $authorsResult = $metadataSuccess
+            ? $this->syncOjsContributors(
+                $submissionId,
+                (int) $publication['id'],
+                (string) ($article['Authors'] ?? ''),
+                (string) ($article['Affiliation'] ?? '')
+            )
+            : ['success' => false, 'processed' => 0, 'errors' => ['Metadados da publicação não foram atualizados.']];
+
+        $error = $response['curl_error'] ?: ($responseData['errorMessage'] ?? $responseData['error'] ?? null);
+        if ($metadataSuccess && !$authorsResult['success']) {
+            $error = implode(' ', $authorsResult['errors']);
+        }
+        return [
+            'success' => $metadataSuccess && $authorsResult['success'],
+            'http_code' => $httpCode,
+            'payload' => $payload,
+            'response' => $responseData,
+            'authors' => $authorsResult,
+            'error' => $error,
+        ];
+    }
+
+    private function syncOjsContributors(int $submissionId, int $publicationId, string $authors, string $affiliation): array
+    {
+        $authors = trim($authors);
+        if ($authors === '') {
+            return ['success' => true, 'processed' => 0, 'errors' => []];
+        }
+
+        $names = str_contains($authors, ';')
+            ? preg_split('/\s*;\s*/', $authors, -1, PREG_SPLIT_NO_EMPTY)
+            : preg_split('/\s*,\s*/', $authors, -1, PREG_SPLIT_NO_EMPTY);
+        $baseUrl = $this->apiUrl . '/submissions/' . $submissionId . '/publications/' . $publicationId . '/contributors';
+        $currentResponse = $this->curl($baseUrl . '?apiToken=' . urlencode($this->apiToken), 'GET');
+        $currentData = is_array($currentResponse['response'] ?? null) ? $currentResponse['response'] : [];
+        $current = $currentData['items'] ?? $currentData;
+        if (!is_array($current)) {
+            $current = [];
+        }
+
+        $errors = [];
+        $processed = 0;
+        foreach ($names as $index => $fullName) {
+            $parts = preg_split('/\s+/', trim($fullName), -1, PREG_SPLIT_NO_EMPTY);
+            if ($parts === []) {
+                continue;
+            }
+            $familyName = array_shift($parts);
+            $givenName = trim(implode(' ', $parts));
+            if ($givenName === '') {
+                $givenName = $familyName;
+                $familyName = '';
+            }
+
+            $existing = $current[$index] ?? [];
+            $contributorId = (int) ($existing['id'] ?? 0);
+            $existingEmail = trim((string) ($existing['email'] ?? ''));
+            $email = $existingEmail !== '' && !preg_match('/^ojs-import\+.*@brapci\.inf\.br$/i', $existingEmail)
+                ? $existingEmail
+                : 'boletim@inma.gov.br';
+            $payload = [
+                'givenName' => ['pt_BR' => $givenName],
+                'familyName' => ['pt_BR' => $familyName],
+                'email' => $email,
+                'country' => $existing['country'] ?? 'BR',
+                'primaryContact' => $index === 0,
+                'userGroupId' => (int) ($existing['userGroupId'] ?? 14),
+            ];
+
+            if ($contributorId > 0) {
+                $payload['affiliations'] = [[
+                    'authorId' => $contributorId,
+                    'name' => ['pt_BR' => 'Instituto Nacional da Mata Atlântica'],
+                    'ror' => 'https://ror.org/0395f2d85',
+                ]];
+            }
+
+            $url = $baseUrl . ($contributorId > 0 ? '/' . $contributorId : '')
+                . '?apiToken=' . urlencode($this->apiToken);
+            $result = $this->curl($url, $contributorId > 0 ? 'PUT' : 'POST', $payload);
+            $status = (int) ($result['httpCode'] ?? 0);
+            if (!in_array($status, [200, 201], true)) {
+                $errors[] = $this->formatContributorError($index, $status, $result);
+                continue;
+            }
+
+            // Para novos autores, o vínculo institucional só pode ser salvo após obter o authorId.
+            if ($contributorId === 0) {
+                $created = is_array($result['response'] ?? null) ? $result['response'] : [];
+                $contributorId = (int) ($created['id'] ?? 0);
+                if ($contributorId === 0) {
+                    $errors[] = 'Autor ' . ($index + 1) . ': o OJS criou o colaborador sem retornar o authorId.';
+                    continue;
+                }
+
+                $payload['affiliations'] = [[
+                    'authorId' => $contributorId,
+                    'name' => ['pt_BR' => 'Instituto Nacional da Mata Atlântica'],
+                    'ror' => 'https://ror.org/0395f2d85',
+                ]];
+                $affiliationResult = $this->curl(
+                    $baseUrl . '/' . $contributorId . '?apiToken=' . urlencode($this->apiToken),
+                    'PUT',
+                    $payload
+                );
+                $affiliationStatus = (int) ($affiliationResult['httpCode'] ?? 0);
+                if (!in_array($affiliationStatus, [200, 201], true)) {
+                    $errors[] = $this->formatContributorError($index, $affiliationStatus, $affiliationResult);
+                    continue;
+                }
+            }
+
+            $processed++;
+        }
+
+        return ['success' => $errors === [], 'processed' => $processed, 'errors' => $errors];
+    }
+    private function formatContributorError(int $index, int $status, array $result): string
+    {
+        $data = is_array($result['response'] ?? null) ? $result['response'] : [];
+        $details = $data['errors'] ?? $data['errorMessage'] ?? $data['error'] ?? null;
+        if (is_array($details)) {
+            $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+        $message = trim((string) ($details ?: ($result['curl_error'] ?? '') ?: ($result['row'] ?? '')));
+        if ($message === '') {
+            $message = 'O OJS não informou o campo inválido.';
+        }
+
+        return 'Autor ' . ($index + 1) . ': HTTP ' . $status . ' — ' . $message;
+    }
+    public function updateArticleFromOjs(int $journalId, array $article): array
+    {
+        $submission = $this->getSubmissionDetails($journalId, (int) $article['journal_submit_id']);
+        $publications = $submission['publications'] ?? [];
+        $currentPublicationId = (int) ($submission['currentPublicationId'] ?? 0);
+        $publication = null;
+
+        foreach ($publications as $candidate) {
+            if ($currentPublicationId === 0 || (int) ($candidate['id'] ?? 0) === $currentPublicationId) {
+                $publication = $candidate;
+                break;
+            }
+        }
+        if ($publication === null) {
+            throw new \RuntimeException('A publicação atual da submissão não foi encontrada no OJS.');
+        }
+
+        $localized = static function ($value): string {
+            if (is_string($value)) {
+                return $value;
+            }
+            if (!is_array($value)) {
+                return '';
+            }
+            return (string) ($value['pt_BR'] ?? $value['en_US'] ?? $value['en'] ?? reset($value) ?: '');
+        };
+
+        $updates = [];
+        $title = $localized($publication['fullTitle'] ?? $publication['title'] ?? '');
+        if ($title !== '') {
+            $updates['Title'] = $title;
+        }
+        if (!empty($publication['authorsString'])) {
+            $updates['Authors'] = (string) $publication['authorsString'];
+        }
+        $year = $publication['copyrightYear'] ?? null;
+        if ($year === null && !empty($publication['datePublished'])) {
+            $year = substr((string) $publication['datePublished'], 0, 4);
+        }
+        if (preg_match('/^\d{4}$/', (string) $year)) {
+            $updates['Year'] = (string) $year;
+        }
+
+        if ($updates === []) {
+            throw new \RuntimeException('O OJS não retornou metadados compatíveis para atualizar a tabela Article.');
+        }
+
+        $this->dbOjsImport->table('article')
+            ->where('idR', (int) $article['idR'])
+            ->where('journal_id', $journalId)
+            ->update($updates);
+
+        return $updates;
+    }
+    public function getSubmissionDetails(int $journalId, int $submissionId): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+        if (trim((string) ($journal['api_key'] ?? '')) === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $journal['api_key'];
+        $apiResponse = $this->curl(
+            $this->apiUrl . '/submissions/' . $submissionId . '?apiToken=' . urlencode($this->apiToken),
+            'GET'
+        );
+
+        if ((int) ($apiResponse['httpCode'] ?? 0) !== 200) {
+            throw new \RuntimeException('Não foi possível consultar a submissão no OJS (HTTP ' . (int) ($apiResponse['httpCode'] ?? 0) . ').');
+        }
+
+        return is_array($apiResponse['response'] ?? null) ? $apiResponse['response'] : [];
+    }
+    public function getSubmittedArticles(int $journalId, ?string $year = null): array
+    {
+        $builder = $this->dbOjsImport->table('article')
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id IS NOT NULL', null, false)
+            ->where('status <', 2);
+
+        if ($year !== null) {
+            $builder->where('Year', $year);
+        }
+
+        return $builder->orderBy('Year', 'DESC')
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
+    public function getArticlesToSubmit(int $journalId, ?string $year = null): array
+    {
+        $builder = $this->dbOjsImport->table('article')
+            ->where('journal_id', $journalId)
+            ->where('journal_submit_id', null);
+
+        if ($year !== null) {
+            $builder->where('Year', $year);
+        }
+
+        return $builder->orderBy('Year', 'DESC')
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
     /**
      * Busca todos os registros da tabela inma no banco ojs_import
      */
@@ -222,17 +614,97 @@ class ArticleModel extends Model
      * Busca todas as submissões ativas no OJS via API
      * @return array|null
      */
-    public function getActiveSubmissions()
+    public function getActiveSubmissions(int $journalId): array
     {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)
+            ->where('active', 1)
+            ->first();
+
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+
+        if (trim((string) ($journal['api_key'] ?? '')) === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $journal['api_key'];
+
         $endPoint = $this->apiUrl . '/submissions?status[]=1&apiToken=' . urlencode($this->apiToken);
         $rsp = $this->curl($endPoint, 'GET');
-        // O JSON retorna 'items', não 'submissions'
-        if ($rsp['httpCode'] == 200 && isset($rsp['response']->items)) {
-            return $rsp['response']->items;
-        }
-        return null;
-    }
 
+        if ($rsp['httpCode'] !== 200) {
+            throw new \RuntimeException('Não foi possível consultar as submissões no OJS selecionado (HTTP ' . $rsp['httpCode'] . ').');
+        }
+
+        $items = $rsp['response']['items'] ?? [];
+        if (!is_array($items)) {
+            return [];
+        }
+
+        // Mantém o formato de objetos esperado pela view, inclusive nos níveis internos.
+        return json_decode(json_encode($items, JSON_UNESCAPED_UNICODE)) ?? [];
+    }
+    public function getIssues(int $journalId, bool $isPublished): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)
+            ->where('active', 1)
+            ->first();
+
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+
+        if (trim((string) ($journal['api_key'] ?? '')) === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $journal['api_key'];
+
+        $pageSize = 100;
+        $offset = 0;
+        $page = 0;
+        $allItems = [];
+        $seenIds = [];
+
+        do {
+            $endPoint = $this->apiUrl . '/issues?isPublished=' . ($isPublished ? '1' : '0')
+                . '&count=' . $pageSize
+                . '&offset=' . $offset
+                . '&apiToken=' . urlencode($this->apiToken);
+            $rsp = $this->curl($endPoint, 'GET');
+
+            if ($rsp['httpCode'] !== 200) {
+                throw new \RuntimeException('Não foi possível consultar as edições no OJS selecionado (HTTP ' . $rsp['httpCode'] . ').');
+            }
+
+            $response = $rsp['response'];
+            $items = $response['items'] ?? $response ?? [];
+            if (!is_array($items)) {
+                break;
+            }
+
+            foreach ($items as $item) {
+                $itemId = is_array($item) ? ($item['id'] ?? null) : null;
+                $key = $itemId !== null ? (string) $itemId : md5(json_encode($item));
+                if (!isset($seenIds[$key])) {
+                    $seenIds[$key] = true;
+                    $allItems[] = $item;
+                }
+            }
+
+            $returned = count($items);
+            $offset += $returned;
+            $itemsMax = isset($response['itemsMax']) ? (int) $response['itemsMax'] : $offset;
+            $page++;
+        } while ($returned > 0 && $offset < $itemsMax && $page < 100);
+
+        return json_decode(json_encode($allItems, JSON_UNESCAPED_UNICODE)) ?? [];
+    }
     function insertAuthor($submissionId = 28, $publicationId = 28)
     {
         // === 2️⃣ Adicionar um autor (contributor) ===
@@ -456,35 +928,55 @@ class ArticleModel extends Model
 
     public function uploadPDFToSubmission($submissionId, $filePath, $locale = 'pt_BR')
     {
-        $url = $this->apiUrl . "/submissions/{$submissionId}/files?apiToken=" . urlencode($this->apiToken);
+        $url = $this->apiUrl . "/submissions/{$submissionId}/files";
 
-        $file = new \CURLFile($filePath, 'application/pdf', basename($filePath));
+        if (!file_exists($filePath)) {
+            return [
+                "status" => 400,
+                "error" => "Arquivo não encontrado localmente."
+            ];
+        }
+
+        $file = new \CURLFile(
+            $filePath,
+            'application/pdf',
+            basename($filePath)
+        );
 
         $postFields = [
             'file' => $file,
             'name[' . $locale . ']' => basename($filePath),
-            'genreId' => 1, // ID do gênero (ajuste conforme necessário)
-            'fileStage' => 2 // 🔥 corrigido
+            'genreId' => '1',
+            'fileStage' => '2'
         ];
 
-        $ch = curl_init($url);
+        $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $postFields,
 
-        // DEBUG
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Authorization: Bearer ' . $this->apiToken
+            ],
+
+            CURLOPT_USERAGENT => 'Brapci-OJS-Client/1.0',
+
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+
+            CURLOPT_VERBOSE => true
+        ]);
+
         $verbose = fopen('php://temp', 'w+');
         curl_setopt($ch, CURLOPT_STDERR, $verbose);
 
-        // SSL
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlError = curl_error($ch);
 
         rewind($verbose);
@@ -492,15 +984,13 @@ class ArticleModel extends Model
 
         curl_close($ch);
 
-        $RSP = [
+        return [
             "status" => $httpCode,
             "raw" => $response,
-            "decoded" => json_decode($response),
+            "decoded" => json_decode($response, true),
             "curl_error" => $curlError,
             "debug" => $debug
         ];
-        pre($RSP);
-        return $RSP;
     }
 
     /**
@@ -530,27 +1020,70 @@ class ArticleModel extends Model
     /**
      * 4 - Upload de arquivo
      */
-    public function uploadFileOJS($submitId, $filePath)
+    public function uploadFileOJS($submitId, $filePath, int $fileStage = 2)
     {
-        // Exemplo de upload de arquivo via cURL (ajuste conforme a API do OJS)
-        $url = $this->apiUrl . '/submissions/' . $submitId . '/files?apiToken=' . urlencode($this->apiToken);
-        $cfile = new \CURLFile($filePath, 'application/pdf');
-        $post = [
-            'file' => $cfile,
-            'fileStage' => 2, // 2 = Submissão
-             'genreId' => 1, // ID do gênero (ajuste conforme necessário)
-             'name[pt_BR]' => basename($filePath) // Nome do arquivo com locale
+        $url = $this->apiUrl . "/submissions/{$submitId}/files";
+
+        if (!file_exists($filePath)) {
+            return [
+                "status" => 400,
+                "error" => "Arquivo não encontrado localmente."
             ];
+        }
+
+        $file = new \CURLFile(
+            $filePath,
+            'application/pdf',
+            basename($filePath)
+        );
+
+        $postFields = [
+            'file' => $file,
+            'name[' . 'pt_BR' . ']' => basename($filePath),
+            'genreId' => '1',
+            'fileStage' => '2'
+        ];
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $postFields,
+
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Authorization: Bearer ' . $this->apiToken
+            ],
+
+            CURLOPT_USERAGENT => 'Brapci-OJS-Client/1.0',
+
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+
+            CURLOPT_VERBOSE => true
+        ]);
+
+        $verbose = fopen('php://temp', 'w+');
+        curl_setopt($ch, CURLOPT_STDERR, $verbose);
+
         $response = curl_exec($ch);
+
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+
+        rewind($verbose);
+        $debug = stream_get_contents($verbose);
+
         curl_close($ch);
-        return ['httpCode' => $httpCode, 'response' => json_decode($response)];
+
+        return [
+            "status" => $httpCode,
+            "raw" => $response,
+            "decoded" => json_decode($response, true),
+            "curl_error" => $curlError,
+            "debug" => $debug
+        ];
     }
 }
