@@ -573,7 +573,8 @@ class Index extends Model
 		$dir = '.tmp/export';
 		dircheck($dir);
 
-		$fileName = 'brapci_' . date("Ymd-His") . '.' . $type;
+		$fileExtension = ($type === 'net_authors') ? 'txt' : $type;
+		$fileName = 'brapci_' . date("Ymd-His") . '.' . $fileExtension;
 		$dir .= '/'.$fileName;
 		if (($type == 'xls') or ($type == 'ris'))
 			{

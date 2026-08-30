@@ -6,54 +6,41 @@ use CodeIgniter\Model;
 
 class NET extends Model
 {
-    protected $DBGroup = 'elastic';
-    protected $table = 'dataset';
-    protected $primaryKey = 'id';
-    protected $returnType = 'array';
-
     /**
-     * Gera uma rede de coautoria no formato Pajek a partir dos IDs informados.
+     * Gera uma rede de coautoria no formato Pajek.
      *
-     * @param array<int, int|string> $ids
+     * Cada item pode ser uma string de autores separados por ponto e vírgula
+     * ou um registro que possua o campo AUTHORS.
+     *
+     * @param array<int, string|array<string, mixed>> $dt
      */
     public function net_authors(array $dt): string
     {
         $authors = [];
-        foreach ($dt as $id=>$line) {
-            $authors[] = $line['AUTHORS'];
-        }
-        pre($authors);
-
-        $ids = array_values(array_unique(array_filter(
-            $ids,
-            static fn ($id): bool => is_scalar($id) && trim((string) $id) !== ''
-        )));
-
-        if ($ids === []) {
-            return $this->emptyNetwork();
-        }
-
-        $records = $this->select('ID, json')
-            ->whereIn('ID', $ids)
-            ->findAll();
-
-        $authors = [];
         $edges = [];
 
-        foreach ($records as $record) {
-            $metadata = json_decode((string) ($record['json'] ?? ''), true);
-            if (! is_array($metadata)) {
+        foreach ($dt as $line) {
+            $authorLine = is_array($line) ? ($line['AUTHORS'] ?? '') : $line;
+            if (! is_scalar($authorLine)) {
                 continue;
             }
 
-            $documentAuthors = $this->extractAuthors($metadata['Authors'] ?? []);
+            $documentAuthors = [];
+            foreach (explode(';', (string) $authorLine) as $authorName) {
+                $name = trim(preg_replace('/\s+/u', ' ', $authorName) ?? '');
+                if ($name === '') {
+                    continue;
+                }
+
+                $key = mb_strtolower($name, 'UTF-8');
+                $documentAuthors[$key] = $name;
+            }
 
             foreach ($documentAuthors as $key => $name) {
                 if (! isset($authors[$key])) {
-                    $authors[$key] = ['name' => $name, 'documents' => 0];
+                    $authors[$key] = ['name' => $name, 'frequency' => 0];
                 }
-
-                $authors[$key]['documents']++;
+                $authors[$key]['frequency']++;
             }
 
             $keys = array_keys($documentAuthors);
@@ -66,14 +53,18 @@ class NET extends Model
                     if (! isset($edges[$edgeKey])) {
                         $edges[$edgeKey] = ['from' => $pair[0], 'to' => $pair[1], 'weight' => 0];
                     }
-
                     $edges[$edgeKey]['weight']++;
                 }
             }
         }
 
+        if ($authors === []) {
+            return "*Vertices 0\r\n*Edges\r\n";
+        }
+
         uasort($authors, static fn (array $a, array $b): int => strnatcasecmp($a['name'], $b['name']));
 
+        $maximumFrequency = max(array_column($authors, 'frequency'));
         $vertexIds = [];
         $lines = ['*Vertices ' . count($authors)];
         $vertex = 1;
@@ -81,7 +72,9 @@ class NET extends Model
         foreach ($authors as $key => $author) {
             $vertexIds[$key] = $vertex;
             $label = str_replace(['\\', '"'], ['\\\\', '\\"'], $author['name']);
-            $lines[] = $vertex . ' "' . $label . '"';
+            $size = number_format(1 + (9 * $author['frequency'] / $maximumFrequency), 2, '.', '');
+            $lines[] = $vertex . ' "' . $label . '" ellipse'
+                . ' x_fact ' . $size . ' y_fact ' . $size;
             $vertex++;
         }
 
@@ -98,40 +91,5 @@ class NET extends Model
         }
 
         return implode("\r\n", $lines) . "\r\n";
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function extractAuthors(mixed $value): array
-    {
-        $authors = [];
-
-        if (is_array($value)) {
-            foreach ($value as $item) {
-                $authors += $this->extractAuthors($item);
-            }
-
-            return $authors;
-        }
-
-        if (! is_scalar($value)) {
-            return $authors;
-        }
-
-        $name = trim(preg_replace('/\s+/u', ' ', (string) $value) ?? '');
-        if ($name === '') {
-            return $authors;
-        }
-
-        $key = mb_strtolower($name, 'UTF-8');
-        $authors[$key] = $name;
-
-        return $authors;
-    }
-
-    private function emptyNetwork(): string
-    {
-        return "*Vertices 0\r\n*Edges\r\n";
     }
 }
