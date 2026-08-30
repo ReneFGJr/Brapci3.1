@@ -30,13 +30,13 @@ def get_statistics():
 
     #******************************* Sourcers
     qr = "SELECT count(*) as total, concat('ITEM_collections','_',jnl_collection) as c_class, jnl_collection as id_c "
-    qr += "FROM `brapci.source_source` WHERE 1 "
+    qr += "FROM brapci.source_source WHERE 1 "
     qr += "group by `jnl_collection`; "
     row3 = database.query(qr)
 
     #******************************* Sourcers
     qr = "SELECT count(*) as total, concat('ITEM_collections','_',jnl_collection) as c_class, jnl_collection as id_c "
-    qr += "FROM `brapci.source_source` WHERE jnl_historic = 1 "
+    qr += "FROM brapci.source_source WHERE jnl_historic = 1 "
     qr += "group by `jnl_collection`; "
     row4 = database.query(qr)
 
