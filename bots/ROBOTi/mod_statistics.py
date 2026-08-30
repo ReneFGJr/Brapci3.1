@@ -27,7 +27,20 @@ def get_statistics():
     qr += " group by c_class, id_c "
     qr += " ORDER BY id_c, c_class ASC "
     row2 = database.query(qr)
-    rows_to_insert = row + row2
+
+    #******************************* Sourcers
+    qr = "SELECT count(*) as total, concat('ITEM_collections','_',jnl_collection) as c_class, jnl_collection as id_c "
+    qr += "FROM `source_source` WHERE 1 "
+    qr += "group by `jnl_collection`; "
+    row3 = database.query(qr)
+
+    #******************************* Sourcers
+    qr = "SELECT count(*) as total, concat('ITEM_collections','_',jnl_collection) as c_class, jnl_collection as id_c "
+    qr += "FROM `source_source` WHERE jnl_historic = 1 "
+    qr += "group by `jnl_collection`; "
+    row4 = database.query(qr)
+
+    rows_to_insert = row + row2 + row3 + row4
 
     # Inserir novas estatísticas
     for ln in rows_to_insert:
