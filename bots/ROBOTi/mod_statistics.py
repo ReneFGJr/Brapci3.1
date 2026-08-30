@@ -40,7 +40,7 @@ def get_statistics():
     qr += "group by `jnl_collection`; "
     row4 = database.query(qr)
 
-    rows_to_insert = row + row2 + row3 + row4
+    rows_to_insert = row3 + row4 + row + row2
 
     # Inserir novas estatísticas
     for ln in rows_to_insert:
