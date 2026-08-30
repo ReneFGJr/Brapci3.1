@@ -214,7 +214,8 @@ return [
         'ITEM_collection_EV' => 'Evendos indexados',
         'ITEM_collection_JA' => 'Revistas brasileiras indexadas',
         'ITEM_collection_JE' => 'Revistas estrangeiras indexadas',
-        'ITEM_historic_JA' => 'Revistas históricas indexadas',
+        'ITEM_historic_JA' => 'Revistas brasileitas históricas',
+        'ITEM_historic_JE' => 'Revistas estrangeiras históricas',
         '' => '',
         'book_hasvestings_publisher' => 'Livros submetidos por editoras',
 ];
