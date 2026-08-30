@@ -81,6 +81,37 @@ STATISTICS_QUERIES = (
     """,
 )
 
+def show_statistics():
+    """Exibe as estatisticas ITEM_* em uma transacao."""
+    connection = None
+
+    try:
+        connection = get_connection("brapci")
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT ind_name, ind_total FROM brapci.statistics WHERE ind_name LIKE %s",
+                ("ITEM_%",),
+            )
+            rows = cursor.fetchall()
+
+            if not rows:
+                return erro("Nenhuma estatistica encontrada.")
+
+            result = {
+                "success": True,
+                "statistics": {row["ind_name"]: row["ind_total"] for row in rows},
+            }
+
+            return result
+
+    except Exception as exception:
+        return erro(str(exception))
+
+    finally:
+        if connection is not None:
+            connection.close()
+
 
 def get_statistics(silent=False):
     """Calcula e substitui as estatisticas ITEM_* em uma transacao."""
@@ -145,10 +176,13 @@ def get_statistics(silent=False):
 
 def run(parametros=None, chat=None, silent=False):
     parametros = parametros or []
-    action = parametros[0].lower() if parametros else "update"
+    action = parametros[0].lower() if parametros else "show"
 
     if action in ("update", "atualizar", "make"):
         return get_statistics(silent=silent)
+
+    if action in ("show", "status", "ver"):
+        return show_statistics(silent=True)
 
     if action == "status" or action == '':
         return {
