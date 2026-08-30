@@ -34,7 +34,7 @@ class NET extends Model
 
                 $key = mb_strtolower($name, 'UTF-8');
                 $key = nbr_author($key,2);
-                $documentAuthors[$key] = $name;
+                $documentAuthors[$key] = $key;
             }
 
             foreach ($documentAuthors as $key => $name) {
