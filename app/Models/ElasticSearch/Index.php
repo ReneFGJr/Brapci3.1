@@ -427,8 +427,10 @@ class Index extends Model
 				$tp = 'cited';
 				break;
 			case 'net_authors':
+				$tp = 'net_authors';
 				break;
 			case 'net_subjects':
+				$tp = 'net_subjects';
 				break;
 		}
 
