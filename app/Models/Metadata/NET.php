@@ -33,9 +33,7 @@ class NET extends Model
                 }
 
                 $key = mb_strtolower($name, 'UTF-8');
-                pre($key,false);
                 $key = nbr_author($key,2);
-                pre($key);
                 $documentAuthors[$key] = $name;
             }
 
