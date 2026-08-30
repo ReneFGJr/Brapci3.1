@@ -428,9 +428,11 @@ class Index extends Model
 				break;
 			case 'net_authors':
 				$tp = 'net_authors';
+				$type = 'net';
 				break;
 			case 'net_subjects':
 				$tp = 'net_subjects';
+				$type = 'net';
 				break;
 		}
 
@@ -573,7 +575,7 @@ class Index extends Model
 		$dir = '.tmp/export';
 		dircheck($dir);
 
-		$fileExtension = ($type === 'net_authors') ? 'txt' : $type;
+		$fileExtension = $type;
 		$fileName = 'brapci_' . date("Ymd-His") . '.' . $fileExtension;
 		$dir .= '/'.$fileName;
 		if (($type == 'xls') or ($type == 'ris'))
