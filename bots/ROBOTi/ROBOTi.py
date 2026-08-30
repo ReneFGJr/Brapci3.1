@@ -264,7 +264,7 @@ def run(parm):
         mod_literal.check_double_literal('hasAbstract')
 
         mod_pdf.harvestingPDF()
-        mod_simori.simori_main()
+        #mod_simori.simori_main()
 
         # Modulos de Correção
         mod_data.removeDouble()
