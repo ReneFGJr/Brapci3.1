@@ -444,8 +444,6 @@ class Index extends Model
 		$dd['post'] = $_POST;
 		$dd['get'] = $_GET;
 
-		pre($row);
-
 		$cp = '*';
 		$Register->select($cp);
 		foreach ($row as $id => $line) {
