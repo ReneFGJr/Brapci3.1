@@ -16,8 +16,13 @@ class NET extends Model
      *
      * @param array<int, int|string> $ids
      */
-    public function net_authors(array $ids): string
+    public function net_authors(array $dt): string
     {
+        $authors = [];
+        foreach ($dt as $id=>$line) {
+            pre($line);
+            $authors[] = trim((string) $id);
+        }
         $ids = array_values(array_unique(array_filter(
             $ids,
             static fn ($id): bool => is_scalar($id) && trim((string) $id) !== ''

@@ -460,7 +460,6 @@ class Index extends Model
 		switch ($tp) {
 			case 'net_authors':
 				$NET = new \App\Models\Metadata\NET();
-				pre($dt);
 				$sx = $NET->net_authors($dt);
 				break;
 			case 'net_subjects':
