@@ -20,10 +20,10 @@ class NET extends Model
     {
         $authors = [];
         foreach ($dt as $id=>$line) {
-            pre($line['AUTHORS'],false);
-            $authors[] = trim((string) $id);
+            $authors[] = $line['AUTHORS'];
         }
-exit;
+        pre($authors);
+
         $ids = array_values(array_unique(array_filter(
             $ids,
             static fn ($id): bool => is_scalar($id) && trim((string) $id) !== ''
