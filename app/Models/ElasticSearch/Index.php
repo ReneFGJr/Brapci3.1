@@ -426,6 +426,10 @@ class Index extends Model
 			case 'cited':
 				$tp = 'cited';
 				break;
+			case 'net_authors':
+				break;
+			case 'net_subjects':
+				break;
 		}
 
 		$Register = new \App\Models\ElasticSearch\Register();
@@ -452,6 +456,14 @@ class Index extends Model
 		$sx = '';
 
 		switch ($tp) {
+			case 'net_authors':
+				$NET = new \App\Models\Metadata\NET();
+				$sx = $NET->net_authors($dt);
+				break;
+			case 'net_subjects':
+				$NET = new \App\Models\Metadata\NET();
+				$sx = $NET->subjects($dt);
+				break;
 			case 'ris':
 				$RIS = new \App\Models\Metadata\RIS();
 				foreach ($dt as $id => $line) {
