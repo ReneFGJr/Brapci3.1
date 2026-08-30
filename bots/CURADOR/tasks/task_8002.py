@@ -81,7 +81,7 @@ STATISTICS_QUERIES = (
     """,
 )
 
-def show_statistics():
+def show_statistics(silent=False):
     """Exibe as estatisticas ITEM_* em uma transacao."""
     connection = None
 
@@ -182,7 +182,7 @@ def run(parametros=None, chat=None, silent=False):
         return get_statistics(silent=silent)
 
     if action in ("show", "status", "ver"):
-        return show_statistics(silent=True)
+        return show_statistics(silent=silent)
 
     if action == "status" or action == '':
         return {
