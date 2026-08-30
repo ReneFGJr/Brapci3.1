@@ -211,5 +211,10 @@ return [
         'ITEM_FileStorage' => 'Total de arquivos',
         'ITEM_Person' => 'Total de autores',
         'ITEM_Journals' => 'Total de fontes',
+        'collection_EV' => 'Evendos indexados',
+        'collection_JA' => 'Revistas brasileiras indexadas',
+        'collection_JE' => 'Revistas estrangeiras indexadas',
+        'historic_JA' => 'Revistas históricas indexadas',
+        '' => '',
         'book_hasvestings_publisher' => 'Livros submetidos por editoras',
 ];
