@@ -172,6 +172,16 @@
             "doi_check"
         ]
     },
+    "8002": {
+        "description": "Statisticas da base",
+        "patterns": [
+            "statiscs",
+            "statistic",
+            "estatísticas",
+            "estatisticas",
+            "estatística",
+            "estatistica"        ]
+    },
     "8010": {
         "description": "Journals cadastrados na BRAPCI",
         "patterns": [
