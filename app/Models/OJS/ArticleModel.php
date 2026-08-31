@@ -30,12 +30,15 @@ class ArticleModel extends Model
         if ($journal === null) {
             throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
         }
-        if (trim((string) ($journal['api_key'] ?? '')) === '') {
-            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        $apiKeyField = $useEditorApiKey ? 'api_key_editor' : 'api_key';
+        $apiKeyLabel = $useEditorApiKey ? 'APIKEY editorial' : 'APIKEY';
+        $apiKey = trim((string) ($journal[$apiKeyField] ?? ''));
+        if ($apiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui ' . $apiKeyLabel . ' configurada.');
         }
 
         $this->apiUrl = $journalModel->getApiUrl($journal);
-        $this->apiToken = $journal['api_key'];
+        $this->apiToken = $apiKey;
         $payload = [
             'sectionId' => 1,
             'locale' => 'pt_BR',
@@ -118,12 +121,53 @@ class ArticleModel extends Model
             ->where('journal_submit_id IS NOT NULL', null, false)
             ->update(['status' => 2]);
     }
-    public function getSubmittedArticle(int $journalId, int $articleId): ?array
+    public function markArticleAsInEvaluation(int $journalId, int $articleId): bool
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->groupStart()
+                ->where('journal_submit_id IS NOT NULL', null, false)
+                ->orWhere('submit_id IS NOT NULL', null, false)
+            ->groupEnd()
+            ->whereIn('status', [2, 3])
+            ->update(['status' => 3]);
+    }
+    public function markArticleAsSentToCopyediting(int $journalId, int $articleId): bool
     {
         return $this->dbOjsImport->table('article')
             ->where('idR', $articleId)
             ->where('journal_id', $journalId)
             ->where('journal_submit_id IS NOT NULL', null, false)
+            ->where('status', 3)
+            ->update(['status' => 4]);
+    }
+    public function markArticleAsInProduction(int $journalId, int $articleId): bool
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('status', 4)
+            ->update(['status' => 5]);
+    }
+    public function markArticleAsScheduled(int $journalId, int $articleId): bool
+    {
+        return $this->dbOjsImport->table('article')
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->where('status', 5)
+            ->update(['status' => 6]);
+    }
+    public function getSubmittedArticle(int $journalId, int $articleId): ?array
+    {
+        return $this->dbOjsImport->table('article')
+            ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
+            ->where('idR', $articleId)
+            ->where('journal_id', $journalId)
+            ->groupStart()
+                ->where('journal_submit_id IS NOT NULL', null, false)
+                ->orWhere('submit_id IS NOT NULL', null, false)
+            ->groupEnd()
             ->get()
             ->getRowArray();
     }
@@ -360,19 +404,22 @@ class ArticleModel extends Model
 
         return $updates;
     }
-    public function getSubmissionDetails(int $journalId, int $submissionId): array
+    public function getSubmissionDetails(int $journalId, int $submissionId, bool $useEditorApiKey = false): array
     {
         $journalModel = new JournalModel();
         $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
         if ($journal === null) {
             throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
         }
-        if (trim((string) ($journal['api_key'] ?? '')) === '') {
-            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        $apiKeyField = $useEditorApiKey ? 'api_key_editor' : 'api_key';
+        $apiKeyLabel = $useEditorApiKey ? 'APIKEY editorial' : 'APIKEY';
+        $apiKey = trim((string) ($journal[$apiKeyField] ?? ''));
+        if ($apiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui ' . $apiKeyLabel . ' configurada.');
         }
 
         $this->apiUrl = $journalModel->getApiUrl($journal);
-        $this->apiToken = $journal['api_key'];
+        $this->apiToken = $apiKey;
         $apiResponse = $this->curl(
             $this->apiUrl . '/submissions/' . $submissionId . '?apiToken=' . urlencode($this->apiToken),
             'GET'
@@ -384,12 +431,50 @@ class ArticleModel extends Model
 
         return is_array($apiResponse['response'] ?? null) ? $apiResponse['response'] : [];
     }
+    public function getArticlesForStatusSummary(int $journalId): array
+    {
+        return $this->dbOjsImport->table('article')
+            ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
+            ->where('journal_id', $journalId)
+            ->orderBy('status', 'ASC')
+            ->orderBy('Year', 'DESC')
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
+    public function getArticlesForStatus(int $journalId, int $status): array
+    {
+        return $this->dbOjsImport->table('article')
+            ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
+            ->where('journal_id', $journalId)
+            ->where('status', $status)
+            ->orderBy('Year', 'DESC')
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
     public function getSubmittedArticles(int $journalId, ?string $year = null): array
     {
         $builder = $this->dbOjsImport->table('article')
+            ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
             ->where('journal_id', $journalId)
-            ->where('journal_submit_id IS NOT NULL', null, false)
-            ->where('status <', 2);
+            ->where('status', 2);
+
+        if ($year !== null) {
+            $builder->where('Year', $year);
+        }
+
+        return $builder->orderBy('Year', 'DESC')
+            ->orderBy('idR', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
+    public function getArticlesInEvaluation(int $journalId, ?string $year = null): array
+    {
+        $builder = $this->dbOjsImport->table('article')
+            ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
+            ->where('journal_id', $journalId)
+            ->where('status', 3);
 
         if ($year !== null) {
             $builder->where('Year', $year);
@@ -564,6 +649,179 @@ class ArticleModel extends Model
         return $RST;
     }
 
+    public function sendToReview(int $journalId, int $submissionId): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+        $editorApiKey = trim((string) ($journal['api_key_editor'] ?? ''));
+        if ($editorApiKey === '') {
+            throw new \RuntimeException(
+                'A revista selecionada não possui APIKEY editorial configurada.'
+            );
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $editorApiKey;
+
+        // OJS 3.4+: EXTERNAL_REVIEW = 3. submissionId e stageId são
+        // obtidos pelo OJS a partir da URL e do tipo da decisão.
+        return $this->curl(
+            $this->apiUrl . "/submissions/{$submissionId}/decisions",
+            'POST',
+            [
+                'decision' => 3,
+                'actions' => [],
+            ]
+        );
+    }
+
+    public function getLatestExternalReviewRoundId(array $submission): int
+    {
+        $reviewRounds = $submission['reviewRounds'] ?? [];
+        if (!is_array($reviewRounds)) {
+            return 0;
+        }
+
+        $candidates = array_filter($reviewRounds, static function ($reviewRound): bool {
+            if (!is_array($reviewRound)) {
+                return false;
+            }
+
+            $stageId = (int) ($reviewRound['stageId'] ?? 0);
+            return $stageId === 0 || $stageId === 3;
+        });
+
+        usort($candidates, static function (array $left, array $right): int {
+            $leftRound = (int) ($left['round'] ?? 0);
+            $rightRound = (int) ($right['round'] ?? 0);
+            if ($leftRound !== $rightRound) {
+                return $rightRound <=> $leftRound;
+            }
+
+            $leftId = (int) ($left['id'] ?? $left['reviewRoundId'] ?? 0);
+            $rightId = (int) ($right['id'] ?? $right['reviewRoundId'] ?? 0);
+            return $rightId <=> $leftId;
+        });
+
+        $latest = reset($candidates);
+        return is_array($latest)
+            ? (int) ($latest['id'] ?? $latest['reviewRoundId'] ?? 0)
+            : 0;
+    }
+    public function acceptSubmission(int $journalId, int $submissionId, int $reviewRoundId): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+
+        $editorApiKey = trim((string) ($journal['api_key_editor'] ?? ''));
+        if ($editorApiKey === '') {
+            throw new \RuntimeException(
+                'A revista selecionada não possui APIKEY editorial configurada.'
+            );
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $editorApiKey;
+
+        // OJS 3.4+: ACCEPT = 2. A decisão aceita a submissão em avaliação
+        // e a encaminha para a etapa de Edição de Texto.
+        return $this->curl(
+            $this->apiUrl . "/submissions/{$submissionId}/decisions?decision=2&reviewRoundId=" . urlencode((string) $reviewRoundId),
+            'POST',
+            [
+                'decision' => 2,
+                'reviewRoundId' => $reviewRoundId,
+                'actions' => [],
+            ]
+        );
+    }
+
+    public function sendToProduction(int $journalId, int $submissionId): array
+    {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+
+        $editorApiKey = trim((string) ($journal['api_key_editor'] ?? ''));
+        if ($editorApiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY editorial configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $editorApiKey;
+
+        return $this->curl(
+            $this->apiUrl . "/submissions/{$submissionId}/decisions?decision=7",
+            'POST',
+            [
+                'decision' => 7,
+                'actions' => [],
+            ]
+        );
+    }
+    public function createFinalComposition(int $submissionId, int $publicationId, string $filePath): array
+    {
+        $upload = $this->uploadFileOJS($submissionId, $filePath, 10, 'PDF');
+        $upload['steps'] = [
+            'uploadFinalComposition' => [
+                'httpCode' => $upload['httpCode'] ?? null,
+                'response' => $upload['response'] ?? null,
+                'fileStage' => 10,
+                'name' => 'PDF',
+                'publicationId' => $publicationId,
+            ],
+        ];
+
+        return $upload;
+    }
+    public function schedulePublication(
+        int $journalId,
+        int $submissionId,
+        int $publicationId,
+        int $issueId
+    ): array {
+        $journalModel = new JournalModel();
+        $journal = $journalModel->where('id', $journalId)->where('active', 1)->first();
+        if ($journal === null) {
+            throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
+        }
+
+        $editorApiKey = trim((string) ($journal['api_key_editor'] ?? ''));
+        if ($editorApiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui APIKEY editorial configurada.');
+        }
+
+        $this->apiUrl = $journalModel->getApiUrl($journal);
+        $this->apiToken = $editorApiKey;
+        $publicationUrl = $this->apiUrl . "/submissions/{$submissionId}/publications/{$publicationId}";
+
+        $assignment = $this->curl($publicationUrl, 'PUT', ['issueId' => $issueId]);
+        if (!in_array((int) ($assignment['httpCode'] ?? 0), [200, 201], true)) {
+            return $assignment;
+        }
+
+        $publish = $this->curl($publicationUrl . '/publish', 'PUT');
+        $publish['steps'] = [
+            'assignIssue' => [
+                'httpCode' => $assignment['httpCode'] ?? null,
+                'response' => $assignment['response'] ?? null,
+                'payload' => ['issueId' => $issueId],
+            ],
+            'publish' => [
+                'httpCode' => $publish['httpCode'] ?? null,
+                'response' => $publish['response'] ?? null,
+            ],
+        ];
+        return $publish;
+    }
     function submitWithoutEmail($submissionId)
     {
         $url = $this->apiUrl . "/submissions/{$submissionId}/submit";
@@ -625,12 +883,15 @@ class ArticleModel extends Model
             throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
         }
 
-        if (trim((string) ($journal['api_key'] ?? '')) === '') {
-            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        $apiKeyField = $useEditorApiKey ? 'api_key_editor' : 'api_key';
+        $apiKeyLabel = $useEditorApiKey ? 'APIKEY editorial' : 'APIKEY';
+        $apiKey = trim((string) ($journal[$apiKeyField] ?? ''));
+        if ($apiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui ' . $apiKeyLabel . ' configurada.');
         }
 
         $this->apiUrl = $journalModel->getApiUrl($journal);
-        $this->apiToken = $journal['api_key'];
+        $this->apiToken = $apiKey;
 
         $endPoint = $this->apiUrl . '/submissions?status[]=1&apiToken=' . urlencode($this->apiToken);
         $rsp = $this->curl($endPoint, 'GET');
@@ -647,7 +908,7 @@ class ArticleModel extends Model
         // Mantém o formato de objetos esperado pela view, inclusive nos níveis internos.
         return json_decode(json_encode($items, JSON_UNESCAPED_UNICODE)) ?? [];
     }
-    public function getIssues(int $journalId, bool $isPublished): array
+    public function getIssues(int $journalId, bool $isPublished, bool $useEditorApiKey = false): array
     {
         $journalModel = new JournalModel();
         $journal = $journalModel->where('id', $journalId)
@@ -658,12 +919,15 @@ class ArticleModel extends Model
             throw new \RuntimeException('A revista selecionada não existe ou está inativa.');
         }
 
-        if (trim((string) ($journal['api_key'] ?? '')) === '') {
-            throw new \RuntimeException('A revista selecionada não possui APIKEY configurada.');
+        $apiKeyField = $useEditorApiKey ? 'api_key_editor' : 'api_key';
+        $apiKeyLabel = $useEditorApiKey ? 'APIKEY editorial' : 'APIKEY';
+        $apiKey = trim((string) ($journal[$apiKeyField] ?? ''));
+        if ($apiKey === '') {
+            throw new \RuntimeException('A revista selecionada não possui ' . $apiKeyLabel . ' configurada.');
         }
 
         $this->apiUrl = $journalModel->getApiUrl($journal);
-        $this->apiToken = $journal['api_key'];
+        $this->apiToken = $apiKey;
 
         $pageSize = 100;
         $offset = 0;
@@ -986,6 +1250,8 @@ class ArticleModel extends Model
 
         return [
             "status" => $httpCode,
+            "httpCode" => $httpCode,
+            "response" => json_decode($response, true),
             "raw" => $response,
             "decoded" => json_decode($response, true),
             "curl_error" => $curlError,
@@ -1020,7 +1286,7 @@ class ArticleModel extends Model
     /**
      * 4 - Upload de arquivo
      */
-    public function uploadFileOJS($submitId, $filePath, int $fileStage = 2)
+    public function uploadFileOJS($submitId, $filePath, int $fileStage = 2, ?string $displayName = null)
     {
         $url = $this->apiUrl . "/submissions/{$submitId}/files";
 
@@ -1039,9 +1305,9 @@ class ArticleModel extends Model
 
         $postFields = [
             'file' => $file,
-            'name[' . 'pt_BR' . ']' => basename($filePath),
+            'name[' . 'pt_BR' . ']' => $displayName ?: basename($filePath),
             'genreId' => '1',
-            'fileStage' => '2'
+            'fileStage' => (string) $fileStage
         ];
 
         $ch = curl_init();
@@ -1080,6 +1346,8 @@ class ArticleModel extends Model
 
         return [
             "status" => $httpCode,
+            "httpCode" => $httpCode,
+            "response" => json_decode($response, true),
             "raw" => $response,
             "decoded" => json_decode($response, true),
             "curl_error" => $curlError,

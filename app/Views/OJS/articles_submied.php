@@ -1,12 +1,25 @@
+<?php
+$isEvaluationList = !empty($isEvaluationList);
+$listUrl = $isEvaluationList ? 'ojs/avaliation_in' : 'ojs/articles_submied';
+$listTitle = $isEvaluationList ? 'Artigos em avaliação' : 'Artigos submetidos';
+$listDescription = $isEvaluationList
+    ? 'Registros com status local 3, atualmente no fluxo de avaliação.'
+    : 'Registros que já possuem uma submissão vinculada no OJS.';
+$countLabel = $isEvaluationList ? 'artigo(s) em avaliação' : 'artigo(s) submetido(s)';
+$emptyLabel = $isEvaluationList ? 'Nenhum artigo em avaliação encontrado.' : 'Nenhum artigo submetido encontrado.';
+?>
 <main class="bg-light pt-5">
     <div class="container-fluid px-3 px-lg-5 py-5">
         <div class="card shadow-lg p-4 mb-4">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
                 <div>
-                    <h1 class="h2 mb-1">Artigos submetidos</h1>
-                    <p class="text-muted mb-0">Registros que já possuem uma submissão vinculada no OJS.</p>
+                    <h1 class="h2 mb-1"><?= esc($listTitle) ?></h1>
+                    <p class="text-muted mb-0"><?= esc($listDescription) ?></p>
                 </div>
                 <div class="d-flex gap-2">
+                    <a class="btn <?= $isEvaluationList ? 'btn-primary disabled' : 'btn-outline-primary' ?>" href="<?= base_url('ojs/avaliation_in') ?>" <?= $isEvaluationList ? 'aria-current="page"' : '' ?>>
+                        <i class="bi bi-clipboard-check"></i> Em avaliação
+                    </a>
                     <a class="btn btn-outline-primary" href="<?= base_url('ojs/articles_to_submit') ?>">
                         <i class="bi bi-hourglass-split"></i> Aguardando submissão
                     </a>
@@ -17,8 +30,14 @@
             </div>
 
             <?= view('OJS/partials/selected_journal', ['journal' => $journal]) ?>
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success" role="alert"><?= esc(session()->getFlashdata('success')) ?></div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger" role="alert"><?= esc(session()->getFlashdata('error')) ?></div>
+            <?php endif; ?>
 
-            <form class="card card-body bg-light mb-4" method="get" action="<?= base_url('ojs/articles_submied') ?>">
+            <form class="card card-body bg-light mb-4" method="get" action="<?= base_url($listUrl) ?>">
                 <div class="row g-3 align-items-end">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="year">Filtrar por ano</label>
@@ -30,7 +49,7 @@
                     </div>
                     <?php if ($selectedYear !== ''): ?>
                         <div class="col-auto">
-                            <a class="btn btn-outline-secondary" href="<?= base_url('ojs/articles_submied') ?>">Limpar filtro</a>
+                            <a class="btn btn-outline-secondary" href="<?= base_url($listUrl) ?>">Limpar filtro</a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -40,7 +59,7 @@
                 <div class="alert alert-warning" role="alert"><?= esc($error) ?></div>
             <?php else: ?>
                 <div class="d-flex justify-content-end mb-3">
-                    <span class="badge bg-success fs-6"><?= count($articles) ?> artigo(s) submetido(s)</span>
+                    <span class="badge bg-success fs-6"><?= count($articles) ?> <?= esc($countLabel) ?></span>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered align-middle">
@@ -54,7 +73,7 @@
                         </thead>
                         <tbody>
                             <?php if ($articles === []): ?>
-                                <tr><td colspan="10" class="text-center text-muted py-5">Nenhum artigo submetido encontrado.</td></tr>
+                                <tr><td colspan="10" class="text-center text-muted py-5"><?= esc($emptyLabel) ?></td></tr>
                             <?php endif; ?>
                             <?php foreach ($articles as $article): ?>
                                 <tr>
@@ -68,6 +87,14 @@
                                     <td><?= esc($article['Num'] ?? '-') ?></td>
                                     <td><?= esc($article['submit_data'] ?? '-') ?></td>
                                     <td class="text-end">
+                                        <?php if ($isEvaluationList): ?>
+                                            <form class="d-inline" method="post" action="<?= base_url('ojs/articles_submied/send_review/' . $article['idR']) ?>" onsubmit="return confirm('Reenviar esta submissão para avaliação?');">
+                                                <?= csrf_field() ?>
+                                                <button class="btn btn-sm btn-warning" type="submit">
+                                                    <i class="bi bi-arrow-repeat me-1"></i>Reenviar para avaliação
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
                                         <a class="btn btn-sm btn-outline-primary" href="<?= base_url('ojs/articles_submied/view/' . $article['idR']) ?>" title="Visualizar submissão" aria-label="Visualizar submissão">
                                             <i class="bi bi-eye" aria-hidden="true"></i>
                                         </a>

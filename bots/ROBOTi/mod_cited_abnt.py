@@ -18,7 +18,7 @@ def converter_para_abnt(referencia):
     ]
 
     for regex in regexes:
-        match = re.match(regex, referencia)
+        match = re.fullmatch(regex, referencia.strip())
         if match:
             # Extraindo os componentes comuns
             autor = match.group("autor")
@@ -28,7 +28,9 @@ def converter_para_abnt(referencia):
             # Componentes específicos com controle de existência
             local = match.group("local") if "local" in match.groupdict() else None
             editora = match.group("editora") if "editora" in match.groupdict() else None
+            fonte = match.group("fonte") if "fonte" in match.groupdict() else None
             volume = match.group("volume") if "volume" in match.groupdict() else None
+            volume_paginas = match.group("volume_paginas") if "volume_paginas" in match.groupdict() else None
             numero = match.group("numero") if "numero" in match.groupdict() else None
             paginas = match.group("paginas") if "paginas" in match.groupdict() else None
             doi = match.group("doi") if "doi" in match.groupdict() else None
@@ -45,8 +47,17 @@ def converter_para_abnt(referencia):
                 referencia_abnt += f" {local}: {editora}"
 
             # Adicionando volume, número e páginas, se disponíveis
-            if volume and numero and paginas:
-                referencia_abnt += f", v. {volume}, n. {numero}, p. {paginas}"
+            if fonte:
+                referencia_abnt += f" {fonte.strip()}"
+
+            if volume:
+                referencia_abnt += f", v. {volume}"
+            if numero:
+                referencia_abnt += f", n. {numero}"
+            if paginas:
+                referencia_abnt += f", p. {paginas}"
+            elif volume_paginas:
+                referencia_abnt += f", {volume_paginas.strip()}"
 
             # Adicionando ano e DOI, se disponível
             referencia_abnt += f", {ano}."

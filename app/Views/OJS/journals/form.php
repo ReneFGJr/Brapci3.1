@@ -49,6 +49,13 @@ $value = static function (string $field, string $default = '') use ($journal): s
                                     <?= $isEdit ? 'Deixe em branco para manter a chave atual.' : 'A chave será armazenada no banco e não será exibida após o cadastro.' ?>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <label class="form-label" for="api_key_editor">APIKEY do Editor</label>
+                                <input class="form-control" type="password" id="api_key_editor" name="api_key_editor" autocomplete="new-password" <?= $isEdit ? '' : 'required' ?>>
+                                <div class="form-text">
+                                    <?= $isEdit ? 'Deixe em branco para manter a chave editorial atual.' : 'Use a chave de um usuário OJS com papel de Editor ou Gerente da Revista.' ?>
+                                </div>
+                            </div>
                             <div class="col-12 d-flex gap-4">
                                 <div class="form-check form-switch">
                                     <input type="hidden" name="active" value="0">

@@ -30,6 +30,9 @@
 
                             <dt class="col-sm-4">APIKEY</dt>
                             <dd class="col-sm-8"><span class="text-muted">••••••••</span></dd>
+                            <dt class="col-sm-4">APIKEY do Editor</dt>
+                            <dd class="col-sm-8"><span class="text-muted">••••••••</span></dd>
+
 
                             <dt class="col-sm-4">Revista padrão</dt>
                             <dd class="col-sm-8"><?= !empty($journal['is_default']) ? 'Sim' : 'Não' ?></dd>

@@ -208,7 +208,7 @@ class Ojs extends Controller
     public function nova()
     {
         // Redireciona para o formulário de nova submissão
-        return view('OJS/form_upload');
+        return view('Authority/form_upload');
     }
 
     public function send5()
@@ -452,6 +452,158 @@ class Ojs extends Controller
         }
     }
 
+    public function sendSubmittedArticleToReview(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/journals'))->with('error', 'Selecione uma revista.');
+        }
+
+        $model = new \App\Models\OJS\ArticleModel();
+        $article = $model->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
+        }
+
+        if (!in_array((int) ($article['status'] ?? 0), [2, 3], true)) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', 'Somente artigos submetidos ou em avaliação podem ser enviados para Avaliação.');
+        }
+
+        try {
+            $submissionId = (int) $article['journal_submit_id'];
+            $submission = $model->getSubmissionDetails((int) $journal['id'], $submissionId);
+            if ((int) ($submission['status'] ?? 0) !== 1) {
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'A submissão precisa estar em fluxo editorial no OJS.');
+            }
+
+            if ((int) ($submission['stageId'] ?? 0) === 3) {
+                if (!$model->markArticleAsInEvaluation((int) $journal['id'], $articleId)) {
+                    throw new \RuntimeException('Não foi possível confirmar o status local 3 para o artigo.');
+                }
+
+                return redirect()->to(base_url('ojs/avaliation_in'))
+                    ->with('success', 'A submissão já está na etapa de Avaliação no OJS.');
+            }
+
+            if ((int) ($submission['stageId'] ?? 0) !== 1) {
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'A submissão precisa estar na etapa de Submissão para ser enviada à Avaliação.');
+            }
+
+            $result = $model->sendToReview((int) $journal['id'], $submissionId);
+            $httpCode = (int) ($result['httpCode'] ?? 0);
+            if (!in_array($httpCode, [200, 201], true)) {
+                $details = $result['response']['errorMessage']
+                    ?? $result['response']['error']
+                    ?? $result['row']
+                    ?? $result['curl_error']
+                    ?? null;
+                if (is_array($details)) {
+                    $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+                throw new \RuntimeException(
+                    'O OJS recusou o envio para Avaliação (HTTP ' . $httpCode . ').'
+                    . ($details ? ' ' . trim((string) $details) : '')
+                );
+            }
+
+            $updatedSubmission = $model->getSubmissionDetails((int) $journal['id'], $submissionId);
+            if ((int) ($updatedSubmission['stageId'] ?? 0) !== 3) {
+                throw new \RuntimeException(
+                    'O OJS respondeu com sucesso, mas a submissão permaneceu fora da etapa de Avaliação.'
+                );
+            }
+
+            if (!$model->markArticleAsInEvaluation((int) $journal['id'], $articleId)) {
+                throw new \RuntimeException(
+                    'A submissão foi enviada para Avaliação no OJS, mas não foi possível alterar o status local para 3.'
+                );
+            }
+
+            return redirect()->to(base_url('ojs/avaliation_in'))
+                ->with('success', 'Submissão enviada para a etapa de Avaliação no OJS.');
+        } catch (\RuntimeException $exception) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', $exception->getMessage());
+        }
+    }
+    public function sendSubmittedArticleToCopyediting(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/journals'))->with('error', 'Selecione uma revista.');
+        }
+
+        $model = new \App\Models\OJS\ArticleModel();
+        $article = $model->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
+        }
+
+        if ((int) ($article['status'] ?? 0) !== 3) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', 'Somente artigos com status 3 podem ser enviados para Edição de Texto.');
+        }
+
+        try {
+            $submissionId = (int) $article['journal_submit_id'];
+            $submission = $model->getSubmissionDetails((int) $journal['id'], $submissionId, true);
+            if ((int) ($submission['status'] ?? 0) !== 1 || (int) ($submission['stageId'] ?? 0) !== 3) {
+                return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                    ->with('error', 'A submissão precisa estar na etapa de Avaliação do fluxo editorial do OJS.');
+            }
+
+            $reviewRoundId = $model->getLatestExternalReviewRoundId($submission);
+            if ($reviewRoundId <= 0) {
+                throw new \RuntimeException('O OJS não retornou uma rodada de avaliação válida para esta submissão.');
+            }
+
+            $result = $model->acceptSubmission((int) $journal['id'], $submissionId, $reviewRoundId);
+            $httpCode = (int) ($result['httpCode'] ?? 0);
+            if (!in_array($httpCode, [200, 201], true)) {
+                $details = $result['response']['errorMessage']
+                    ?? $result['response']['error']
+                    ?? $result['row']
+                    ?? $result['curl_error']
+                    ?? null;
+                if (is_array($details)) {
+                    $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+                throw new \RuntimeException(
+                    'O OJS recusou a aceitação da submissão (HTTP ' . $httpCode . ').'
+                    . ($details ? ' ' . trim((string) $details) : '')
+                );
+            }
+
+            $updatedSubmission = $model->getSubmissionDetails((int) $journal['id'], $submissionId, true);
+            if ((int) ($updatedSubmission['stageId'] ?? 0) !== 4) {
+                throw new \RuntimeException(
+                    'O OJS respondeu com sucesso, mas a submissão não avançou para Edição de Texto.'
+                );
+            }
+            if (!$model->markArticleAsSentToCopyediting((int) $journal['id'], $articleId)) {
+                throw new \RuntimeException(
+                    'A submissão foi aceita no OJS, mas não foi possível alterar o status local para 4.'
+                );
+            }
+
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('success', 'Submissão aceita no OJS e enviada para Edição de Texto. Status local alterado para 4.');
+        } catch (\RuntimeException $exception) {
+            return redirect()->to(base_url('ojs/articles_submied/view/' . $articleId))
+                ->with('error', $exception->getMessage());
+        }
+    }
     public function uploadSubmittedArticlePdf(int $articleId)
     {
         if (!$this->hasJournalAccess()) {
@@ -593,6 +745,191 @@ class Ojs extends Controller
                 ->with('error', $exception->getMessage());
         }
     }
+    public function submissionAction(int $articleId, int $targetStatus)
+    {
+        return $this->renderSubmissionActionPage($articleId, $targetStatus);
+    }
+
+    public function executeSubmissionAction(int $articleId, int $targetStatus)
+    {
+        return $this->renderSubmissionActionPage($articleId, $targetStatus, true);
+    }
+
+    private function renderSubmissionActionPage(int $articleId, int $targetStatus, bool $execute = false)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/journals'))->with('error', 'Selecione uma revista.');
+        }
+
+        $model = new \App\Models\OJS\ArticleModel();
+        $article = $model->getSubmittedArticle((int) $journal['id'], $articleId);
+        if ($article === null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo não encontrado.');
+        }
+
+        $flow = [
+            2 => ['label' => 'Submetido', 'stageId' => 1, 'action' => 'Enviar para avaliação'],
+            3 => ['label' => 'Em avaliação', 'stageId' => 3, 'action' => 'Aceitar submissão'],
+            4 => ['label' => 'Edição de texto', 'stageId' => 4, 'action' => 'Enviar para Editoração'],
+            5 => ['label' => 'Produção', 'stageId' => 5, 'action' => 'Agendar para publicação'],
+            6 => ['label' => 'Agendado para publicação', 'stageId' => 5, 'action' => null],
+        ];
+        $result = null;
+        $error = null;
+        $submissionBefore = [];
+        $submissionAfter = [];
+        $openIssues = [];
+        $selectedIssueId = (int) $this->request->getPost('issue_id');
+        $articlePdf = ['path' => null, 'name' => null, 'expected' => null];
+        $uploadPublicationOnly = $targetStatus === 6 && (int) ($article['status'] ?? 0) === 6;
+
+        try {
+            if (!isset($flow[$targetStatus]) || !in_array($targetStatus, [3, 4, 5, 6], true)) {
+                throw new \RuntimeException('A ação solicitada não está disponível no fluxo do OJS.');
+            }
+
+            $submissionId = (int) ($article['journal_submit_id'] ?? 0);
+            if ($submissionId <= 0) {
+                throw new \RuntimeException('O artigo não possui uma submissão vinculada no OJS.');
+            }
+
+            $submissionBefore = $model->getSubmissionDetails((int) $journal['id'], $submissionId, true);
+            if ($targetStatus === 6) {
+                $articlePdf = $this->findSubmittedArticlePdf($article);
+                if (!$uploadPublicationOnly) {
+                    $articleYear = trim((string) ($article['Year'] ?? ''));
+                    if (!preg_match('/^\\d{4}$/', $articleYear)) {
+                        throw new \RuntimeException('O artigo não possui um ano válido para selecionar a edição.');
+                    }
+
+                    $openIssues = array_values(array_filter(
+                        $model->getIssues((int) $journal['id'], false, true),
+                        static function ($issue) use ($articleYear): bool {
+                            $issueYear = is_object($issue)
+                                ? trim((string) ($issue->year ?? ''))
+                                : trim((string) ($issue['year'] ?? ''));
+                            return $issueYear === $articleYear;
+                        }
+                    ));
+                }
+            }
+
+            if ($execute) {
+                $currentStatus = (int) ($article['status'] ?? 0);
+                if ($currentStatus !== $targetStatus - 1 && !$uploadPublicationOnly) {
+                    throw new \RuntimeException('Transição inválida para o status atual ' . $currentStatus . '.');
+                }
+
+                $expectedCurrentStage = (int) ($flow[$currentStatus]['stageId'] ?? 0);
+                if ((int) ($submissionBefore['stageId'] ?? 0) !== $expectedCurrentStage) {
+                    throw new \RuntimeException('A etapa atual do OJS não corresponde ao status local.');
+                }
+
+                if ($targetStatus === 3) {
+                    $result = $model->sendToReview((int) $journal['id'], $submissionId);
+                } elseif ($targetStatus === 4) {
+                    $reviewRoundId = $model->getLatestExternalReviewRoundId($submissionBefore);
+                    if ($reviewRoundId <= 0) {
+                        throw new \RuntimeException('O OJS não retornou uma rodada de avaliação válida.');
+                    }
+                    $result = $model->acceptSubmission((int) $journal['id'], $submissionId, $reviewRoundId);
+                } elseif ($targetStatus === 5) {
+                    $result = $model->sendToProduction((int) $journal['id'], $submissionId);
+                } else {
+                    $publicationId = (int) ($submissionBefore['currentPublicationId'] ?? 0);
+                    if ($publicationId <= 0) {
+                        throw new \RuntimeException('O OJS não retornou a publicação atual da submissão.');
+                    }
+                    if ($articlePdf['path'] === null) {
+                        throw new \RuntimeException('O PDF do artigo não foi encontrado: ' . ($articlePdf['expected'] ?? 'arquivo desconhecido'));
+                    }
+
+                    $composition = $model->createFinalComposition($submissionId, $publicationId, $articlePdf['path']);
+                    $compositionHttpCode = (int) ($composition['httpCode'] ?? 0);
+                    if (!in_array($compositionHttpCode, [200, 201], true)) {
+                        $compositionDetails = $composition['response'] ?? $composition['raw'] ?? $composition['curl_error'] ?? null;
+                        if (is_array($compositionDetails)) {
+                            $compositionDetails = json_encode($compositionDetails, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                        }
+                        throw new \RuntimeException('O OJS recusou a Composição Final PDF (HTTP ' . $compositionHttpCode . ').' . ($compositionDetails ? ' ' . $compositionDetails : ''));
+                    }
+
+                    if ($uploadPublicationOnly) {
+                        $result = $composition;
+                    } else {
+                        $validIssue = false;
+                        foreach ($openIssues as $issue) {
+                            $issueId = is_object($issue) ? (int) ($issue->id ?? 0) : (int) ($issue['id'] ?? 0);
+                            if ($issueId === $selectedIssueId) {
+                                $validIssue = true;
+                                break;
+                            }
+                        }
+                        if (!$validIssue) {
+                            throw new \RuntimeException('Selecione uma edição aberta válida para agendar a publicação.');
+                        }
+                        $result = $model->schedulePublication((int) $journal['id'], $submissionId, $publicationId, $selectedIssueId);
+                        $result['steps'] = array_merge($composition['steps'] ?? [], $result['steps'] ?? []);
+                    }
+                }
+
+                $httpCode = (int) ($result['httpCode'] ?? 0);
+                if (!in_array($httpCode, [200, 201], true)) {
+                    $details = $result['response'] ?? $result['row'] ?? $result['curl_error'] ?? null;
+                    if (is_array($details)) {
+                        $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    }
+                    throw new \RuntimeException('O OJS recusou a ação (HTTP ' . $httpCode . ').' . ($details ? ' ' . $details : ''));
+                }
+
+                $submissionAfter = $model->getSubmissionDetails((int) $journal['id'], $submissionId, true);
+                if ((int) ($submissionAfter['stageId'] ?? 0) !== (int) $flow[$targetStatus]['stageId']) {
+                    throw new \RuntimeException('O OJS respondeu com sucesso, mas não avançou para a etapa esperada.');
+                }
+
+                if (!$uploadPublicationOnly) {
+                    $articleYear = trim((string) ($article['Year'] ?? ''));
+                    if (!preg_match('/^\\d{4}$/', $articleYear)) {
+                        throw new \RuntimeException('O artigo não possui um ano válido para selecionar a edição.');
+                    }
+
+                    $openIssues = array_values(array_filter(
+                        $model->getIssues((int) $journal['id'], false, true),
+                        static function ($issue) use ($articleYear): bool {
+                            $issueYear = is_object($issue)
+                                ? trim((string) ($issue->year ?? ''))
+                                : trim((string) ($issue['year'] ?? ''));
+                            return $issueYear === $articleYear;
+                        }
+                    ));
+                }
+            }
+        } catch (\RuntimeException $exception) {
+            $error = $exception->getMessage();
+        }
+
+        return $this->renderOjsPage('OJS/submission_action', [
+            'page_title' => 'Ação da submissão',
+            'journal' => $journal,
+            'article' => $article,
+            'targetStatus' => $targetStatus,
+            'flow' => $flow,
+            'result' => $result,
+            'error' => $error,
+            'executed' => $execute,
+            'submissionBefore' => $submissionBefore,
+            'submissionAfter' => $submissionAfter,
+            'openIssues' => $openIssues,
+            'selectedIssueId' => $selectedIssueId,
+            'articlePdf' => $articlePdf,
+            'uploadPublicationOnly' => $uploadPublicationOnly,
+        ]);
+    }
     public function submittedArticleView(int $articleId)
     {
         if (!$this->hasJournalAccess()) {
@@ -718,6 +1055,65 @@ class Ojs extends Controller
         return $result;
     }
 
+    public function submissionSummary()
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        $articlesByStatus = [];
+        $totalArticles = 0;
+        $error = null;
+
+        if ($journal === null) {
+            $error = 'Nenhuma revista ativa está selecionada. Selecione uma revista para visualizar o resumo.';
+        } else {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $articles = $articleModel->getArticlesForStatusSummary((int) $journal['id']);
+            $totalArticles = count($articles);
+
+            foreach ($articles as $article) {
+                $status = (int) ($article['status'] ?? 0);
+                $articlesByStatus[$status][] = $article;
+            }
+
+            ksort($articlesByStatus, SORT_NUMERIC);
+        }
+
+        return $this->renderOjsPage('OJS/submission_summary', [
+            'page_title' => 'Resumo das submissões',
+            'journal' => $journal,
+            'articlesByStatus' => $articlesByStatus,
+            'totalArticles' => $totalArticles,
+            'error' => $error,
+        ]);
+    }
+    public function submissionSummaryByStatus(int $status)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        $articles = [];
+        $error = null;
+
+        if ($journal === null) {
+            $error = 'Nenhuma revista ativa está selecionada. Selecione uma revista para visualizar os artigos.';
+        } else {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $articles = $articleModel->getArticlesForStatus((int) $journal['id'], $status);
+        }
+
+        return $this->renderOjsPage('OJS/submission_status', [
+            'page_title' => 'Artigos por status',
+            'journal' => $journal,
+            'articles' => $articles,
+            'status' => $status,
+            'error' => $error,
+        ]);
+    }
     public function articlesSubmied()
     {
         if (!$this->hasJournalAccess()) {
@@ -745,6 +1141,36 @@ class Ojs extends Controller
             'articles' => $articles,
             'error' => $error,
             'selectedYear' => $yearInput,
+        ]);
+    }
+    public function evaluationIn()
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        $articles = [];
+        $error = null;
+        $yearInput = trim((string) $this->request->getGet('year'));
+        $selectedYear = preg_match('/^\d{4}$/', $yearInput) ? $yearInput : null;
+
+        if ($yearInput !== '' && $selectedYear === null) {
+            $error = 'Informe um ano válido com quatro dígitos.';
+        } elseif ($journal === null) {
+            $error = 'Nenhuma revista ativa está selecionada. Selecione uma revista para listar os artigos em avaliação.';
+        } else {
+            $articleModel = new \App\Models\OJS\ArticleModel();
+            $articles = $articleModel->getArticlesInEvaluation((int) $journal['id'], $selectedYear);
+        }
+
+        return $this->renderOjsPage('OJS/articles_submied', [
+            'page_title' => 'Artigos em avaliação',
+            'journal' => $journal,
+            'articles' => $articles,
+            'error' => $error,
+            'selectedYear' => $yearInput,
+            'isEvaluationList' => true,
         ]);
     }
     public function articlesToSubmit()
@@ -883,7 +1309,7 @@ class Ojs extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Revista OJS não encontrada.');
         }
 
-        unset($journal['api_key']);
+        unset($journal['api_key'], $journal['api_key_editor']);
 
         return $this->renderOjsPage('OJS/journals/view', [
             'page_title' => 'Revista OJS',
@@ -931,7 +1357,7 @@ class Ojs extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Revista OJS não encontrada.');
         }
 
-        unset($journal['api_key']);
+        unset($journal['api_key'], $journal['api_key_editor']);
 
         return $this->renderOjsPage('OJS/journals/form', [
             'page_title' => 'Editar revista OJS',
@@ -1003,6 +1429,7 @@ class Ojs extends Controller
     private function journalPostData(bool $requireApiKey): array
     {
         $apiKey = trim((string) $this->request->getPost('api_key'));
+        $editorApiKey = trim((string) $this->request->getPost('api_key_editor'));
         $data = [
             'name' => trim((string) $this->request->getPost('name')),
             'acronym' => trim((string) $this->request->getPost('acronym')),
@@ -1014,6 +1441,9 @@ class Ojs extends Controller
 
         if ($requireApiKey || $apiKey !== '') {
             $data['api_key'] = $apiKey;
+        }
+        if ($requireApiKey || $editorApiKey !== '') {
+            $data['api_key_editor'] = $editorApiKey;
         }
 
         return $data;
@@ -1035,7 +1465,7 @@ class Ojs extends Controller
             return null;
         }
 
-        unset($journal['api_key']);
+        unset($journal['api_key'], $journal['api_key_editor']);
         return $journal;
     }
     private function hasJournalAccess(): bool

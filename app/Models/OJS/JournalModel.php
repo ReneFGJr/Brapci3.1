@@ -19,6 +19,7 @@ class JournalModel extends Model
         'base_url' => 'required|valid_url_strict|max_length[255]',
         'context_path' => 'required|alpha_dash|max_length[100]',
         'api_key' => 'required',
+        'api_key_editor' => 'required',
         'is_default' => 'permit_empty|in_list[0,1]',
         'active' => 'permit_empty|in_list[0,1]',
     ];
@@ -33,6 +34,7 @@ class JournalModel extends Model
             'alpha_dash' => 'O caminho pode conter somente letras, números, hífen e sublinhado.',
         ],
         'api_key' => ['required' => 'Informe a APIKEY da revista.'],
+        'api_key_editor' => ['required' => 'Informe a APIKEY editorial da revista.'],
     ];
     protected $allowedFields = [
         'name',
@@ -40,6 +42,7 @@ class JournalModel extends Model
         'base_url',
         'context_path',
         'api_key',
+        'api_key_editor',
         'is_default',
         'active',
     ];

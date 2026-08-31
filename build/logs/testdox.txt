@@ -1,8 +1,0 @@
-Context Builder Service (Tests\Unit\Ai\ContextBuilderService)
- [x] Build keeps prompts context history and current message in order
- [x] Build limits history without removing current message
-
-Repository Document Service (Tests\Unit\Ai\RepositoryDocumentService)
- [x] Recognizes load command ignoring case and whitespace
- [x] Rejects text that is not an exact load command
-

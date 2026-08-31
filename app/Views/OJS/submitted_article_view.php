@@ -53,7 +53,7 @@ $statusClass = $apiError !== null ? 'btn-outline-danger' : ($statusClasses[$subm
                     <h1 class="h2 mb-1">Visualizar submissão</h1>
                     <p class="text-muted mb-0">Dados locais e informações atuais consultadas na API do OJS.</p>
                 </div>
-                <a class="btn btn-outline-secondary" href="<?= base_url('ojs/articles_submied') ?>">
+                <a class="btn btn-outline-secondary" href="<?= base_url('ojs/submit') ?>">
                     <i class="bi bi-arrow-left"></i> Voltar aos submetidos
                 </a>
             </div>
@@ -69,7 +69,7 @@ $statusClass = $apiError !== null ? 'btn-outline-danger' : ($statusClasses[$subm
 
 
             <div class="d-flex flex-wrap gap-2 mb-4">
-                <?php if ($articleStatus !== 2): ?>
+                <?php if ($articleStatus < 2): ?>
                 <form method="post" action="<?= base_url('ojs/articles_submied/update_ojs/' . $article['idR']) ?>" onsubmit="return confirm('Atualizar os dados desta submissão no OJS?');">
                     <?= csrf_field() ?>
                     <button class="btn btn-primary" type="submit" title="Atualizar metadados e autores no OJS">
@@ -99,15 +99,35 @@ $statusClass = $apiError !== null ? 'btn-outline-danger' : ($statusClasses[$subm
                     </form>
                 <?php endif; ?>
                 <?php else: ?>
-                    <a
-                        class="btn btn-primary"
-                        href="<?= esc($ojsSubmissionUrl, 'attr') ?>"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Abrir a submissão no OJS para selecionar a edição"
-                    >
-                        <i class="bi bi-calendar-check me-1"></i>Agendar para publicação
-                    </a>
+                    <?php if ($articleStatus === 4): ?>
+                        <a class="btn btn-info" href="<?= base_url('ojs/action/' . $article['idR'] . '/5') ?>">
+                            <i class="bi bi-arrow-right-square me-1"></i>Enviar para Editoração
+                        </a>
+                    <?php endif; ?>                    <?php if ($articleStatus === 3 && $apiError === null && $submissionStatus === 1 && $submissionStage === 3): ?>
+                        <form method="post" action="<?= base_url('ojs/articles_submied/accept_submission/' . $article['idR']) ?>" onsubmit="return confirm('Aceitar esta submissão e enviá-la para Edição de Texto no OJS?');">
+                            <?= csrf_field() ?>
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-check-circle me-1"></i>Aceitar Submissão
+                            </button>
+                        </form>
+                    <?php elseif ($apiError === null && $submissionStatus === 1 && $submissionStage === 1): ?>
+                        <form method="post" action="<?= base_url('ojs/articles_submied/send_review/' . $article['idR']) ?>" onsubmit="return confirm('Enviar esta submissão para a etapa de Avaliação no OJS?');">
+                            <?= csrf_field() ?>
+                            <button class="btn btn-warning" type="submit">
+                                <i class="bi bi-arrow-right-circle me-1"></i><?= $articleStatus === 3 ? 'Reenviar para avaliação' : 'Enviar para Avaliação' ?>
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                    <?php if ($articleStatus === 5): ?>
+                        <a class="btn btn-primary" href="<?= base_url('ojs/action/' . $article['idR'] . '/6') ?>">
+                            <i class="bi bi-calendar-check me-1"></i>Agendar para Publicação
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($articleStatus === 6): ?>
+                        <a class="btn btn-primary" href="<?= base_url('ojs/action/' . $article['idR'] . '/6') ?>">
+                            <i class="bi bi-file-earmark-arrow-up me-1"></i>Enviar arquivo de publicação
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <span
                     class="btn <?= esc($statusClass) ?> disabled"

@@ -17,7 +17,9 @@
                         <a class="btn btn-primary btn-lg mt-2" href="<?= base_url('ojs/articles_to_submit') ?>">
                             <i class="bi bi-file-earmark-arrow-up me-2"></i>Artigos para Submeter
                         </a>
-                    <?php endif; ?>
+                        <a class="btn btn-outline-primary btn-lg mt-2" href="<?= base_url('ojs/submit') ?>">
+                            <i class="bi bi-journal-text me-2"></i>Artigos
+                        </a>                    <?php endif; ?>
                 </div>
             </div>
         </div>
