@@ -74,6 +74,10 @@ class Analysis extends Model
             $RSP['PUBLICATIONS'] = $this->analysis_meta($dt, 'PUBLICATION');
             $RSP['TYPES'] = $this->analysis_meta($dt, 'CLASS');
             $RSP['COLLECTION'] = $this->analysis_meta($dt, 'COLLECTION');
+
+            /***** Indicadores de rede */
+            $NET = new \App\Models\Metadata\NET();
+            $RSP['NETWORK'] = $NET->net_indicatores($dt);
             return $RSP;
         }
 
