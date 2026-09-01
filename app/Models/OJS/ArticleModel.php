@@ -442,12 +442,18 @@ class ArticleModel extends Model
             ->get()
             ->getResultArray();
     }
-    public function getArticlesForStatus(int $journalId, int $status): array
+    public function getArticlesForStatus(int $journalId, int $status, ?string $year = null): array
     {
-        return $this->dbOjsImport->table('article')
+        $builder = $this->dbOjsImport->table('article')
             ->select('article.*, COALESCE(journal_submit_id, submit_id) AS journal_submit_id', false)
             ->where('journal_id', $journalId)
-            ->where('status', $status)
+            ->where('status', $status);
+
+        if ($year !== null) {
+            $builder->where('Year', $year);
+        }
+
+        return $builder
             ->orderBy('Year', 'DESC')
             ->orderBy('idR', 'ASC')
             ->get()

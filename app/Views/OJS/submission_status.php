@@ -14,6 +14,23 @@ $statusLabel = $statusLabels[$status] ?? 'Status ' . $status;
             </div>
 
             <?= view('OJS/partials/selected_journal', ['journal' => $journal]) ?>
+            <form class="card card-body bg-light mb-4" method="get" action="<?= base_url('ojs/submit/' . $status) ?>">
+                <div class="row g-3 align-items-end">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="year">Filtrar por ano</label>
+                        <input class="form-control" type="number" id="year" name="year" min="1000" max="9999"
+                            placeholder="Ex.: 2025" value="<?= esc($selectedYear, 'attr') ?>">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-funnel me-1"></i>Filtrar</button>
+                    </div>
+                    <?php if ($selectedYear !== ''): ?>
+                        <div class="col-auto">
+                            <a class="btn btn-outline-secondary" href="<?= base_url('ojs/submit/' . $status) ?>">Limpar filtro</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </form>
 
             <?php if ($error !== null): ?>
                 <div class="alert alert-warning" role="alert"><?= esc($error) ?></div>

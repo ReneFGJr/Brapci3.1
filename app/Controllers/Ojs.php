@@ -1098,12 +1098,16 @@ class Ojs extends Controller
         $journal = $this->getSelectedJournal();
         $articles = [];
         $error = null;
+        $yearInput = trim((string) $this->request->getGet('year'));
+        $selectedYear = preg_match('/^\d{4}$/', $yearInput) ? $yearInput : null;
 
-        if ($journal === null) {
+        if ($yearInput !== '' && $selectedYear === null) {
+            $error = 'Informe um ano válido com quatro dígitos.';
+        } elseif ($journal === null) {
             $error = 'Nenhuma revista ativa está selecionada. Selecione uma revista para visualizar os artigos.';
         } else {
             $articleModel = new \App\Models\OJS\ArticleModel();
-            $articles = $articleModel->getArticlesForStatus((int) $journal['id'], $status);
+            $articles = $articleModel->getArticlesForStatus((int) $journal['id'], $status, $selectedYear);
         }
 
         return $this->renderOjsPage('OJS/submission_status', [
@@ -1112,6 +1116,7 @@ class Ojs extends Controller
             'articles' => $articles,
             'status' => $status,
             'error' => $error,
+            'selectedYear' => $yearInput,
         ]);
     }
     public function articlesSubmied()
