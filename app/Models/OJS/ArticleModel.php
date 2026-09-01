@@ -775,12 +775,13 @@ class ArticleModel extends Model
     }
     public function createFinalComposition(int $submissionId, int $publicationId, string $filePath): array
     {
-        $upload = $this->uploadFileOJS($submissionId, $filePath, 10, 'PDF');
+        $fileStage = 10;
+        $upload = $this->uploadFileOJS($submissionId, $filePath, $fileStage, 'PDF-3');
         $upload['steps'] = [
             'uploadFinalComposition' => [
                 'httpCode' => $upload['httpCode'] ?? null,
                 'response' => $upload['response'] ?? null,
-                'fileStage' => 10,
+                'fileStage' => $fileStage,
                 'name' => 'PDF',
                 'publicationId' => $publicationId,
             ],
