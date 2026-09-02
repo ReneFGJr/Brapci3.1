@@ -46,8 +46,9 @@ class Auth extends Controller
     /***************************************************** |INDEX API| */
     public function index(string $provider)
     {
-        pre("OK");
+        print_r("OK");
         exit;
+
         $corsResponse = $this->applySigninCorsHeaders();
         if ($corsResponse !== null) {
             return $corsResponse;
