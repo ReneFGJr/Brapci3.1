@@ -19,6 +19,7 @@ class Api extends BaseController
     {
         $sx = '';
         $API = new \App\Models\Api\Index();
+        pre("OK");
         $sx = $API->index($d1, $d2, $d3, $d4, $d5, $d6);
         return $sx;
     }
