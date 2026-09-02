@@ -1390,6 +1390,7 @@ class Socials extends Model
 		$sx = '';
 		$user = get("user");
 		$pwd = get("pwd");
+		echo "OK";
 		$dt = $this->user_exists($user);
 
 		if (trim($pwd) == '') {
