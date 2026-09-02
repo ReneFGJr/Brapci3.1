@@ -258,6 +258,7 @@ $routes->group('ojs', function($routes) {
     $routes->post('articles_submied/send_pdf/(:num)', 'Ojs::uploadSubmittedArticlePdf/$1', ['filter' => 'csrf']);
     $routes->post('articles_submied/update_article/(:num)', 'Ojs::updateSubmittedArticleLocal/$1', ['filter' => 'csrf']);
     $routes->get('submit', 'Ojs::submissionSummary');
+    $routes->get('submit/export/xml/(:num)', 'Ojs::exportArticleXml/$1');
     $routes->get('submit/(:num)', 'Ojs::submissionSummaryByStatus/$1');
     $routes->post('submit', 'Ojs::submit', ['filter' => 'csrf']);
     $routes->get('submit/edit/(:num)', 'Ojs::editSubmittedArticle/$1');

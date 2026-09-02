@@ -852,7 +852,11 @@ class Ojs extends Controller
                     $composition = $model->createFinalComposition($submissionId, $publicationId, $articlePdf['path']);
                     $compositionHttpCode = (int) ($composition['httpCode'] ?? 0);
                     if (!in_array($compositionHttpCode, [200, 201], true)) {
-                        $compositionDetails = $composition['response'] ?? $composition['raw'] ?? $composition['curl_error'] ?? null;
+                        $compositionDetails = $composition['response']
+                            ?? $composition['curl_error']
+                            ?? $composition['error']
+                            ?? $composition['raw']
+                            ?? null;
                         if (is_array($compositionDetails)) {
                             $compositionDetails = json_encode($compositionDetails, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                         }
@@ -943,16 +947,36 @@ class Ojs extends Controller
         }
 
         $articleModel = new \App\Models\OJS\ArticleModel();
-        $article = $articleModel->getSubmittedArticle((int) $journal['id'], $articleId);
+        $journalId = (int) $journal['id'];
+        $article = $articleModel->getArticleForJournal($journalId, $articleId);
         if ($article === null) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo submetido não encontrado.');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Artigo não encontrado.');
+        }
+
+        if ((int) ($article['journal_submit_id'] ?? 0) <= 0) {
+            $creation = $articleModel->createDraftSubmission($journalId, $article);
+            if (!($creation['success'] ?? false)) {
+                $details = $creation['error'] ?? $creation['response'] ?? null;
+                if (is_array($details)) {
+                    $details = json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+                return redirect()->to(base_url('ojs/submission_status'))
+                    ->with('error', 'Não foi possível gerar a submissão no OJS (HTTP '
+                        . (int) ($creation['http_code'] ?? 0) . ').'
+                        . ($details ? ' ' . trim((string) $details) : ''));
+            }
+
+            $article = $articleModel->getSubmittedArticle($journalId, $articleId);
+            if ($article === null) {
+                throw new \RuntimeException('A submissão foi criada no OJS, mas o vínculo local não foi salvo.');
+            }
         }
 
         $submission = [];
         $apiError = null;
         try {
             $submission = $articleModel->getSubmissionDetails(
-                (int) $journal['id'],
+                $journalId,
                 (int) $article['journal_submit_id']
             );
         } catch (\RuntimeException $exception) {
@@ -970,7 +994,6 @@ class Ojs extends Controller
             'articlePdf' => $articlePdf,
         ]);
     }
-
     public function submittedArticlePdf(int $articleId)
     {
         if (!$this->hasJournalAccess()) {
@@ -1118,6 +1141,31 @@ class Ojs extends Controller
             'error' => $error,
             'selectedYear' => $yearInput,
         ]);
+    }
+    public function exportArticleXml(int $articleId)
+    {
+        if (!$this->hasJournalAccess()) {
+            return view('Brapci/Headers/deny');
+        }
+
+        $journal = $this->getSelectedJournal();
+        if ($journal === null) {
+            return redirect()->to(base_url('ojs/submit'))
+                ->with('error', 'Selecione uma revista antes de exportar o artigo.');
+        }
+
+        try {
+            $exportModel = new \App\Models\OJS\ExportOJS();
+            $xml = $exportModel->exportArticle($articleId, (int) $journal['id']);
+        } catch (\RuntimeException $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->setHeader('Content-Disposition', 'attachment; filename="article-' . $articleId . '.xml"')
+            ->setHeader('X-Content-Type-Options', 'nosniff')
+            ->setBody($xml);
     }
     public function articlesSubmied()
     {

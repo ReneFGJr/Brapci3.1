@@ -32,6 +32,9 @@ $statusLabel = $statusLabels[$status] ?? 'Status ' . $status;
                 </div>
             </form>
 
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger" role="alert"><?= esc(session()->getFlashdata('error')) ?></div>
+            <?php endif; ?>
             <?php if ($error !== null): ?>
                 <div class="alert alert-warning" role="alert"><?= esc($error) ?></div>
             <?php else: ?>
@@ -51,8 +54,11 @@ $statusLabel = $statusLabels[$status] ?? 'Status ' . $status;
                                     <td><?= esc($article['Vol'] ?? '-') ?></td>
                                     <td><?= esc($article['Num'] ?? '-') ?></td>
                                     <td class="text-end">
-                                        <a class="btn btn-sm btn-outline-primary" href="<?= !empty($article['journal_submit_id']) ? base_url('ojs/articles_submied/view/' . $article['idR']) : base_url('ojs/submit/edit/' . $article['idR']) ?>">
-                                            <i class="bi <?= !empty($article['journal_submit_id']) ? 'bi-eye' : 'bi-pencil-square' ?>"></i>
+                                        <a class="btn btn-sm btn-outline-success" href="<?= base_url('ojs/submit/export/xml/' . $article['idR']) ?>" title="Exportar XML">
+                                            <i class="bi bi-filetype-xml me-1"></i>Exportar XML
+                                        </a>
+                                        <a class="btn btn-sm btn-outline-primary" href="<?= base_url('ojs/articles_submied/view/' . $article['idR']) ?>">
+                                            <i class="bi bi-eye"></i>
                                         </a>
                                     </td>
                                 </tr>
