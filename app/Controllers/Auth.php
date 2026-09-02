@@ -46,9 +46,6 @@ class Auth extends Controller
     /***************************************************** |INDEX API| */
     public function index(string $provider)
     {
-        print_r($provider);
-        exit;
-
         $corsResponse = $this->applySigninCorsHeaders();
         if ($corsResponse !== null) {
             return $corsResponse;
@@ -354,7 +351,10 @@ class Auth extends Controller
     /************************************************************* SIGNIN */
     public function signin()
     {
+        echo "1";
         $this->applySigninCorsHeaders();
+        echo "2";
+        exit;
 
         if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
             return $this->response->setStatusCode(204);
