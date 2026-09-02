@@ -359,8 +359,12 @@ class Auth extends Controller
                 'message' => 'No Content',
             ];
             echo json_encode($RSP);
+            exit;
             return $this->response->setStatusCode(204);
         }
+
+        echo "OK";
+        exit;
 
         $username = trim((string) $this->request->getVar('username'));
         if ($username === '') {
