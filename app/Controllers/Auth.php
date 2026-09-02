@@ -354,17 +354,9 @@ class Auth extends Controller
         $this->applySigninCorsHeaders();
 
         if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
-            $RSP = [
-                'status'  => '204',
-                'message' => 'No Content',
-            ];
-            echo json_encode($RSP);
-            exit;
             return $this->response->setStatusCode(204);
         }
 
-        echo "OK";
-        exit;
 
         $username = trim((string) $this->request->getVar('username'));
         if ($username === '') {
@@ -386,8 +378,13 @@ class Auth extends Controller
 
         if ($username === '' || $password === '') {
             $rsp['message'] = 'Username or password is empty';
+            echo json_encode($rsp);
+            exit;
             return $this->response->setJSON($rsp);
         }
+
+        echo "OK";
+        exit;
 
         $Socials = new Socials();
         $user = $Socials
