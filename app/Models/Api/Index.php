@@ -172,6 +172,7 @@ class Index extends Model
             case 'socials':
                 //$Oauth = new \App\Models\Api\Endpoint\Oauth();
                 $Oauth = new \App\Models\Socials();
+                pre("OK");
                 $sx = $Oauth->index($d2, $d3, $d4);
                 break;
             case 'isbn':
