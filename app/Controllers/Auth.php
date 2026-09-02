@@ -354,6 +354,11 @@ class Auth extends Controller
         $this->applySigninCorsHeaders();
 
         if (strtoupper((string) $this->request->getMethod()) === 'OPTIONS') {
+            $RSP = [
+                'status'  => '204',
+                'message' => 'No Content',
+            ];
+            echo json_encode($RSP);
             return $this->response->setStatusCode(204);
         }
 
