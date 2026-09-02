@@ -1395,11 +1395,11 @@ class Socials extends Model
 		if (trim($pwd) == '') {
 			$RSP['status'] = '500';
 			$RSP['message'] = 'Password is empty!';
+			pre($RSP);
 			return $RSP;
 		}
 
 		if (isset($dt)) {
-			pre($dt);
 			if ($dt['us_password'] == md5($pwd)) {
 				if (($dt['us_apikey'] == '') or ($dt['us_apikey'] == null)) {
 					$apikey = md5($dt['us_password'] . $dt['us_email']);
