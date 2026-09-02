@@ -383,9 +383,6 @@ class Auth extends Controller
             return $this->response->setJSON($rsp);
         }
 
-        echo "OK";
-        exit;
-
         $Socials = new Socials();
         $user = $Socials
             ->groupStart()
