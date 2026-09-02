@@ -21,6 +21,7 @@ class Auth extends Controller
             'https://brapci.inf.br',
             'https://cip.brapci.inf.br',
             'http://localhost:4200',
+            'http://localhost',
         ];
 
         if (in_array($origin, $allowed, true)) {
