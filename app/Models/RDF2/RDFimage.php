@@ -120,6 +120,29 @@ class RDFimage extends Model
             case 'image/gif':
                 $ext = '.gif';
                 break;
+            case 'image/webp':
+                $ext = '.webp';
+                break;
+            case 'image/avif':
+                $ext = '.avif';
+                break;
+            case 'image/bmp':
+            case 'image/x-ms-bmp':
+                $ext = '.bmp';
+                break;
+            case 'image/tiff':
+                $ext = '.tiff';
+                break;
+            case 'image/x-icon':
+            case 'image/vnd.microsoft.icon':
+                $ext = '.ico';
+                break;
+            case 'image/heic':
+                $ext = '.heic';
+                break;
+            case 'image/heif':
+                $ext = '.heif';
+                break;
             case 'text/plain':
                 $ext = '.txt';
                 break;
@@ -184,7 +207,10 @@ class RDFimage extends Model
                 $ext = '.ott';
                 break;
             case 'application/rtf':
-                $ext = '.rdf';
+                $ext = '.rtf';
+                break;
+            case 'image/svg+xml':
+                $ext = '.svg';
                 break;
             default:
                 $ext = '.xxx';
