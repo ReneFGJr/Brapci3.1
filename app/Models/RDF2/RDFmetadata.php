@@ -316,12 +316,11 @@ class RDFmetadata extends Model
 
         //$dr['data'] = $dt['data'];
 
+        $ids = array_column($dt['data'], 'ID');
+
         $dataset->select('*');
         $dataset->join('brapci_rdf.rdf_concept', 'brapci_rdf.rdf_concept.id_cc = brapci_elastic.dataset.ID');
-        foreach ($dt['data'] as $id => $line) {
-            $ID = $line['ID'];
-            $dataset->orwhere('ID', $ID);
-        }
+        $dataset->whereIn('ID', $ids);
         $dataset->where('cc_status !=', 9);
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
@@ -332,8 +331,6 @@ class RDFmetadata extends Model
                 unset($dx[$id]);
             }
         }
-
-        pre($dx);
 
         $works = [];
         $coauthors = [];
