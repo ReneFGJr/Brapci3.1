@@ -314,7 +314,7 @@ class RDFmetadata extends Model
             $dr['ID'] = $ID1;
         }
 
-        $ids = array_column($dx, 'ID');
+        $ids = array_column($dt, 'ID');
 
         $dx = $dataset
             ->select('*')
