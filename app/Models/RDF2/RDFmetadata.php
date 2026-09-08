@@ -314,10 +314,19 @@ class RDFmetadata extends Model
             $dr['ID'] = $ID1;
         }
 
-        $ids = array_column($dt, 'ID');
+        //$dr['data'] = $dt['data'];
 
-        pre($dt);
+        $dataset->select('*');
+        foreach ($dt['data'] as $id => $line) {
+            $ID = $line['ID'];
+            $dataset->orwhere('ID', $ID);
+        }
+        $dataset->where('cc_status !=', 9);
+        $dataset->orderBy('CLASS, YEAR desc');
+        $dx = $dataset->findAll($limit);
 
+        $ids = array_column($dt['data'], 'ID');
+        pre($ids);
         $dx = $dataset
             ->select('*')
             ->whereIn('ID', $ids)
