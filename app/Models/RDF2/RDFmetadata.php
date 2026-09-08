@@ -333,6 +333,8 @@ class RDFmetadata extends Model
             }
         }
 
+        pre($dx);
+
         $works = [];
         $coauthors = [];
         $coath = [];
