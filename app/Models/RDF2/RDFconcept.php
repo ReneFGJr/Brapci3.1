@@ -54,6 +54,7 @@ class RDFconcept extends Model
             ->join('rdf_class', 'id_c = cc_class')
             ->join('rdf_prefix', 'id_prefix = c_prefix')
             ->where('id_cc', $id)
+            ->where('cc_status !=', 9)
             ->first();
 
         /* Data */
