@@ -326,16 +326,6 @@ class RDFmetadata extends Model
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
 
-        $ids = array_column($dt['data'], 'ID');
-        pre($ids);
-        $dx = $dataset
-            ->select('*')
-            ->join('brapci_rdf.rdf_concept', 'brapci_rdf.rdf_concept.id_cc = brapci_elastic.ID')
-            ->whereIn('ID', $ids)
-            ->orderBy('CLASS', 'ASC')
-            ->orderBy('YEAR', 'DESC')
-            ->findAll($limit);
-        pre($dx);
         /************** Remove Duplicatas */
         foreach ($dx as $id => $dy) {
             if ($dy['use'] != 0) {
