@@ -329,6 +329,7 @@ class RDFmetadata extends Model
         pre($ids);
         $dx = $dataset
             ->select('*')
+            ->join('brapci_rdf.rdf_concept', 'brapci_rdf.rdf_concept.id_cc = brapci_elastic.ID')
             ->whereIn('ID', $ids)
             ->where('cc_status !=', 9)
             ->orderBy('CLASS', 'ASC')
