@@ -317,6 +317,7 @@ class RDFmetadata extends Model
         //$dr['data'] = $dt['data'];
 
         $dataset->select('*');
+        $dataset->join('brapci_rdf.rdf_concept', 'brapci_rdf.rdf_concept.id_cc = brapci_elastic.ID');
         foreach ($dt['data'] as $id => $line) {
             $ID = $line['ID'];
             $dataset->orwhere('ID', $ID);
