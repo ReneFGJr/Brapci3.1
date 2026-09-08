@@ -314,15 +314,15 @@ class RDFmetadata extends Model
             $dr['ID'] = $ID1;
         }
 
-        //$dr['data'] = $dt['data'];
+        $ids = array_column($dx, 'ID');
 
-        $dataset->select('*');
-        foreach ($dt['data'] as $id => $line) {
-            $ID = $line['ID'];
-            $dataset->orwhere('ID', $ID);
-        }
-        $dataset->orderBy('CLASS, YEAR desc');
-        $dx = $dataset->findAll($limit);
+        $dx = $dataset
+            ->select('*')
+            ->whereIn('ID', $ids)
+            ->where('cc_status !=', 9)
+            ->orderBy('CLASS', 'ASC')
+            ->orderBy('YEAR', 'DESC')
+            ->findAll($limit);
 
         /************** Remove Duplicatas */
         foreach ($dx as $id => $dy) {
