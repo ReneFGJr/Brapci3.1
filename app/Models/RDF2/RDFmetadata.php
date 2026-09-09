@@ -1276,7 +1276,7 @@ class RDFmetadata extends Model
 
     function summaryCount($dt)
     {
-        $Dataset = new \App\Models\ElasticSearch\Index();
+        $Dataset = new \App\Models\ElasticSearch\Search();
         $dd = $Dataset->whereIn('ID', $dt)->findAll();
         pre($dd);
         return $count;
