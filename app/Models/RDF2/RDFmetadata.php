@@ -1299,6 +1299,8 @@ class RDFmetadata extends Model
                 }
             }
         }
+        ksort($years);
+        ksort($authors);
         $count = ['years' => $years, 'authors' => $authors];
         return $count;
     }
