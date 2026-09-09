@@ -1277,8 +1277,29 @@ class RDFmetadata extends Model
     function summaryCount($dt)
     {
         $Dataset = new \App\Models\ElasticSearch\Search();
+        $years = [];
+        $authors = [];
         $dd = $Dataset->whereIn('ID', $dt)->findAll();
-        pre($dd);
+        foreach ($dd as $line) {
+            $year = $line['YEAR'];
+            if (isset($years[$year])) {
+                $years[$year]++;
+            } else {
+                $years[$year] = 1;
+            }
+
+            $auth = $line['AUTHORS'];
+            $au = explode(';',$auth);
+
+            foreach ($au as $a) {
+                if (isset($authors[$a])) {
+                    $authors[$a]++;
+                } else {
+                    $authors[$a] = 1;
+                }
+            }
+        }
+        $count = ['years' => $years, 'authors' => $authors];
         return $count;
     }
 }
