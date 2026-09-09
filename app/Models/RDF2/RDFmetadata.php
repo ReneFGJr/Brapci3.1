@@ -1289,6 +1289,7 @@ class RDFmetadata extends Model
             }
 
             $auth = $line['AUTHORS'];
+            $auth = str_replace('; ', ';', $auth);
             $au = explode(';',$auth);
 
             foreach ($au as $a) {
