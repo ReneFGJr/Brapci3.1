@@ -154,8 +154,9 @@ class RDFmetadata extends Model
                 $RSP['worksID'] = $Elastic->workdIDjournal($RSP['id_jnl']);
                 $RSP['subject'] = $this->subjects($RSP['worksID']);
                 $RSP['avaliations'] = $this->avaliationsISSN($RSP['jnl_frbr']);
-                $RSP['authors'] = $this->authorsCount($dt);
-                $RSP['years'] = $this->yearsCount($dt);
+                $data2 = $this->summaryCount($RSP['worksID']);
+                $RSP['authors'] = $data2['authors'];
+                $RSP['years'] = $data2['years'];;
                 return $RSP;
                 break;
             case 'Subject':
@@ -1273,7 +1274,7 @@ class RDFmetadata extends Model
         return '';
     }
 
-    function authorsCount($dt)
+    function summaryCount($dt)
     {
         $count = 0;
         if (isset($dt['data'])) {
