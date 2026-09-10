@@ -260,6 +260,8 @@ class SearchLogical extends Model
 
     function method_v4()
     {
+        $field = $this->field(); // Define o campo padrão para a busca
+
         $method = get("term");
         $method = str_replace(['(',')','[',']','-','/','%','$','&'], ' ', $method);
         $method = troca($method, ' and ', ' AND ');
@@ -275,14 +277,14 @@ class SearchLogical extends Model
         } elseif ($AND and $OR === false) {
             $query = $this->method_v4AND($method);
         } elseif ($OR and $AND) {
-            $query = $this->method_v4query($method);
+            $query = $this->method_v4query($method, $field);
         } elseif (($AND == false) and ($OR === false)) {
             $query = $this->method_v4AND($method);
         }
         return $query;
     }
 
-    function method_v4query($method)
+    function method_v4query($method, $field)
     {
         /************************************************************
          * Paginação
@@ -384,7 +386,7 @@ class SearchLogical extends Model
 
                     $should[] = [
                         'query_string' => [
-                            'default_field' => 'full',
+                            'default_field' => $field,
                             'query'         => $searchTerm
                         ]
                     ];
@@ -400,7 +402,6 @@ class SearchLogical extends Model
                     ];
                 }
             } else {
-
                 /**************************************************
                  * Não existe OR dentro do grupo.
                  *
@@ -416,7 +417,7 @@ class SearchLogical extends Model
 
                     $must[] = [
                         'query_string' => [
-                            'default_field' => 'full',
+                            'default_field' => $field,
                             'query'         => $searchTerm
                         ]
                     ];
