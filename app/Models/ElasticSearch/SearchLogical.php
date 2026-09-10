@@ -260,28 +260,7 @@ class SearchLogical extends Model
 
     function method_v4()
     {
-        $field = $this->field(); // Define o campo padrão para a busca
-
-        $method = get("term");
-        $method = str_replace(['(',')','[',']','-','/','%','$','&'], ' ', $method);
-        $method = troca($method, ' and ', ' AND ');
-        $method = troca($method, ' not ', ' NOT ');
-        $method = troca($method, ' or ', ' OR ');
-
-
-        $OR = (strpos($method, ' OR ') !== false);
-        $AND = (strpos($method, ' AND ') !== false);
-
-        if ($OR and $AND === false) {
-            $query = $this->method_v4OR($method);
-        } elseif ($AND and $OR === false) {
-            $query = $this->method_v4AND($method);
-        } elseif ($OR and $AND) {
-            $query = $this->method_v4query($method, $field);
-        } elseif (($AND == false) and ($OR === false)) {
-            $query = $this->method_v4AND($method);
-        }
-        return $query;
+        return $this->method_v4query(get("term"), $this->field());
     }
 
     function method_v4query($method, $field)
@@ -307,136 +286,29 @@ class SearchLogical extends Model
         /************************************************************
          * Recupera estratégia
          ************************************************************/
-        $term = trim($method);
+        $term = strtolower(ascii(trim($method)));
 
-        // Normaliza operadores booleanos
-        $term = preg_replace('/\s+AND\s+/i', ' AND ', $term);
-        $term = preg_replace('/\s+OR\s+/i',  ' OR ',  $term);
-
-        /************************************************************
-         * Remove parênteses externos, quando existirem
-         *
-         * Exemplo:
-         *
-         * ("A" OR "B") AND ("C" OR "D")
-         *
-         * será dividido inicialmente em:
-         *
-         * ("A" OR "B")
-         * ("C" OR "D")
-         ************************************************************/
-
-        $groups = preg_split(
-            '/\s+AND\s+/i',
+        // Preserve quoted phrases; normalize only standalone boolean operators.
+        $term = preg_replace_callback(
+            '/"(?:\\\\.|[^"\\\\])*"(*SKIP)(*F)|(?<![\\w-])(AND|OR|NOT)(?![\\w-])/i',
+            static function ($match) {
+                return strtoupper($match[0]);
+            },
             $term
         );
 
-        /************************************************************
-         * MUST principal
-         *
-         * Cada grupo separado por AND será obrigatório.
-         ************************************************************/
-        $must = [];
-
-        foreach ($groups as $group) {
-
-            $group = trim($group);
-
-            /******************************************************
-             * Remove parênteses externos
-             ******************************************************/
-            if (
-                substr($group, 0, 1) == '(' &&
-                substr($group, -1) == ')'
-            ) {
-                $group = substr($group, 1, -1);
-            }
-
-            $group = trim($group);
-
-            /******************************************************
-             * Verifica se dentro do grupo existe OR
-             ******************************************************/
-            $terms = preg_split(
-                '/\s+OR\s+/i',
-                $group
-            );
-
-            /******************************************************
-             * Mais de um termo = grupo OR
-             ******************************************************/
-            if (count($terms) > 1) {
-
-                $should = [];
-
-                foreach ($terms as $searchTerm) {
-
-                    $searchTerm = trim($searchTerm);
-
-                    if ($searchTerm == '') {
-                        continue;
-                    }
-
-                    /************************************************
-                     * Normalização utilizada pela BRAPCI
-                     ************************************************/
-                    $searchTerm = strtolower(
-                        ascii($searchTerm)
-                    );
-
-                    $should[] = [
-                        'query_string' => [
-                            'default_field' => $field,
-                            'query'         => $searchTerm
-                        ]
-                    ];
-                }
-
-                if (count($should) > 0) {
-
-                    $must[] = [
-                        'bool' => [
-                            'should' => $should,
-                            'minimum_should_match' => 1
-                        ]
-                    ];
-                }
-            } else {
-                /**************************************************
-                 * Não existe OR dentro do grupo.
-                 *
-                 * Portanto é uma condição obrigatória.
-                 **************************************************/
-                $searchTerm = trim($group);
-
-                if ($searchTerm != '') {
-
-                    $searchTerm = strtolower(
-                        ascii($searchTerm)
-                    );
-
-                    $must[] = [
-                        'query_string' => [
-                            'default_field' => $field,
-                            'query'         => $searchTerm
-                        ]
-                    ];
-                }
-            }
-        }
-
-        /************************************************************
-         * Monta BOOL principal
-         ************************************************************/
+        // Let Elasticsearch parse the complete expression, including nested groups.
         $query['query']['bool'] = [];
-
-        if (count($must) > 0) {
-            $query['query']['bool']['must'] = $must;
+        if ($term !== '') {
+            $query['query']['bool']['must'][] = [
+                'query_string' => [
+                    'default_field' => $this->normalizeField($field),
+                    'query' => $term,
+                    'default_operator' => 'AND',
+                ],
+            ];
         }
 
-        /************************************************************
-         * FILTER
-         ************************************************************/
         $query['query']['bool']['filter'] = [];
 
         /************************************************************
@@ -828,24 +700,28 @@ class SearchLogical extends Model
 
     function field()
     {
-        $flds = get("field");
-        switch ($flds) {
+        return $this->normalizeField(get("field"));
+    }
+
+    private function normalizeField($field)
+    {
+        switch (strtoupper(trim((string) $field))) {
             case 'AU':
-                $field = 'authors';
-                break;
+            case 'AUTHOR':
+            case 'AUTHORS':
+                return 'authors';
             case 'AB':
-                $field = 'abstract';
-                break;
+            case 'ABSTRACT':
+                return 'abstract';
             case 'KW':
-                $field = 'keyword';
-                break;
+            case 'KEYWORD':
+            case 'KEYWORDS':
+                return 'keyword';
             case 'TI':
-                $field = 'title';
-                break;
+            case 'TITLE':
+                return 'title';
             default:
-                $field = 'full';
-                break;
+                return 'full';
         }
-        return $field;
     }
 }
