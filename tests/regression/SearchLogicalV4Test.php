@@ -5,10 +5,11 @@ namespace CodeIgniter {
 }
 namespace App\Models\ElasticSearch {
     function get($key) { return $GLOBALS['searchInput'][$key] ?? ''; }
-    function ascii($value) { return iconv('UTF-8', 'ASCII//TRANSLIT', $value); }
+    function ascii($value) { return \ascii($value); }
     function troca($value, $from, $to) { return str_replace($from, $to, $value); }
 }
 namespace {
+    require __DIR__ . '/../../app/Helpers/sisdoc_forms_helper.php';
     require __DIR__ . '/../../app/Models/ElasticSearch/SearchLogical.php';
     function check($expected, $actual) {
         if ($expected !== $actual) {
@@ -53,6 +54,17 @@ namespace {
             check(['gte' => 2000, 'lte' => 2025], $query['query']['bool']['filter'][2]['range']['year']);
         }
     }
+    $expression = '("Segurança da Informação" OR "Segurança de dados") AND bibliotecas';
+    $GLOBALS['searchInput'] = ['term' => $expression];
+    $expected = $logic->method_v4();
+    check('("seguranca da informacao" OR "seguranca de dados") AND bibliotecas',
+        $expected['query']['bool']['must'][0]['query_string']['query']);
+    $GLOBALS['searchInput'] = ['q' => $expression];
+    check($expected, $logic->method_v4());
+    $GLOBALS['searchInput'] = ['q' => $expression, 'term' => 'ignored'];
+    check($expected, $logic->method_v4());
+    $GLOBALS['searchInput'] = ['q' => '', 'term' => $expression];
+    check($expected, $logic->method_v4());
     $GLOBALS['searchInput'] = [];
     $query = $logic->method_v4query('alpha OR beta', 'KW');
     check('keyword', $query['query']['bool']['must'][0]['query_string']['default_field']);
