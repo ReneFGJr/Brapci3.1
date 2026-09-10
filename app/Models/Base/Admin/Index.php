@@ -325,14 +325,27 @@ class Index extends Model
             ->orderBy('n_name')
             ->findAll(1000);
 
+        foreach ($dt as &$line) {
+            $line['similarity'] = $this->aliasSimilarity($name, $line['n_name']);
+        }
+        unset($line);
+        usort($dt, static function ($left, $right) {
+            return ($right['similarity'] <=> $left['similarity'])
+                ?: strcmp($left['n_name'], $right['n_name'])
+                ?: ($left['id_cc'] <=> $right['id_cc']);
+        });
+
         $sa = form_open();
         $sb = '';
-        foreach ($dt as $id => $line) {
-            $nn = $line['n_name'];
-            foreach ($txt as $l) {
-                $nn = troca($nn, $l, '<b>' . $l . '</b>');
-            }
-            $sa .= form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn . '<br>';
+        foreach ($dt as $line) {
+            $similarity = $line['similarity'];
+            $color = $similarity == 100 ? '#0d6efd' : ($similarity >= 90 ? '#198754' : '#6c757d');
+            // Truncate so a near match is never displayed as 100%.
+            $percent = number_format(floor($similarity * 10) / 10, 1, ',', '');
+            $nn = htmlspecialchars($line['n_name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $sa .= '<label style="color: ' . $color . '">'
+                . form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn
+                . ' <span>(' . $percent . '%)</span></label><br>';
         }
 
         $sa .= form_submit('action', 'Join');
@@ -342,6 +355,36 @@ class Index extends Model
         $sx .= bsc($sb, 6);
         $sx = bs($sx);
         return $sx;
+    }
+
+    private function aliasSimilarity(string $reference, string $candidate): float
+    {
+        $normalize = static function (string $name): array {
+            $name = mb_strtolower($name, 'UTF-8');
+            $name = trim(preg_replace('/\s+/u', ' ', $name));
+            return preg_split('//u', $name, -1, PREG_SPLIT_NO_EMPTY);
+        };
+        $left = $normalize($reference);
+        $right = $normalize($candidate);
+        $length = max(count($left), count($right));
+        if ($length === 0 || $left === $right) {
+            return 100.0;
+        }
+
+        // Levenshtein over Unicode characters, rather than UTF-8 bytes.
+        $previous = range(0, count($right));
+        foreach ($left as $i => $character) {
+            $current = [$i + 1];
+            foreach ($right as $j => $other) {
+                $current[$j + 1] = min(
+                    $current[$j] + 1,
+                    $previous[$j + 1] + 1,
+                    $previous[$j] + ($character === $other ? 0 : 1)
+                );
+            }
+            $previous = $current;
+        }
+        return 100.0 * (1 - $previous[count($right)] / $length);
     }
 
     function alias_rdf($d1,$idx,$d3,$d4)
