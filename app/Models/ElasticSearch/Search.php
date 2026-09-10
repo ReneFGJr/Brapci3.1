@@ -48,7 +48,7 @@ class Search extends Model
     {
         // Verifica se a requisição é do tipo POST
         $data = get("q");
-        $limit = 100;
+        $limit = 5000;
         $user = get("user");
         if ($user != '') {
             $limit = 10000;

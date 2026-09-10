@@ -146,7 +146,7 @@ class SearchLogical extends Model
         return $resultado;
     }
 
-    function method_a1($limit=1000)
+    function method_a1($limit=5000)
         {
             $qr = get("q");
             $qr = ascii($qr);
