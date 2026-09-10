@@ -42,6 +42,7 @@ class Search extends Model
     protected $afterDelete    = [];
 
     public $filters = [];
+    public $strategy = [];
 
     function searchAdvancedFull()
     {
@@ -138,6 +139,7 @@ class Search extends Model
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
 
         $query = $Logic->method_v4();
+        $this->strategy = $query;
         $echoResult = true;
         $this->curlQuery($query, $echoResult, 'v4');
     }
