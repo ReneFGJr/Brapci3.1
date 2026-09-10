@@ -24,6 +24,7 @@ namespace {
         '' => 'full', 'All fields' => 'full',
     ];
     $expressions = [
+        '(“Segurança da Informação” OR “Segurança de dados”) AND bibliotecas' => '(' . strtolower(\App\Models\ElasticSearch\ascii('"Segurança da Informação"')) . ' OR ' . strtolower(\App\Models\ElasticSearch\ascii('"Segurança de dados"')) . ') AND bibliotecas',
         '(alpha or beta) and (gamma or delta)' => '(alpha OR beta) AND (gamma OR delta)',
         'alpha OR (beta AND (gamma OR delta))' => 'alpha OR (beta AND (gamma OR delta))',
         'alpha and not beta' => 'alpha AND NOT beta',
@@ -57,5 +58,5 @@ namespace {
     check('keyword', $query['query']['bool']['must'][0]['query_string']['default_field']);
     check(10, $query['size']);
     check(false, isset($logic->method_v4()['query']['bool']['must']));
-    echo "OK: 90 expression/field combinations, filters, pagination and empty input.\n";
+    echo "OK: 100 expression/field combinations, filters, pagination and empty input.\n";
 }

@@ -286,6 +286,7 @@ class SearchLogical extends Model
         /************************************************************
          * Recupera estratégia
          ************************************************************/
+        $method = str_replace(["\u{201C}", "\u{201D}"], '"', $method);
         $term = strtolower(ascii(trim($method)));
 
         // Preserve quoted phrases; normalize only standalone boolean operators.
