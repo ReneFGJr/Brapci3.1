@@ -704,6 +704,7 @@ class SearchLogical extends Model
         if ($term === '') {
             $term = $this->normalizeField(get("fields"));
         }
+
         return $term;
     }
 

@@ -255,6 +255,7 @@ class Search extends Model
 
         $dt['search']['version'] = $version;
         $dt['search']['total'] = count($dt['works']);
+        $dt['search']['field'] = $this->field();
 
         if ($echoResult) {
             echo (json_encode($dt));
