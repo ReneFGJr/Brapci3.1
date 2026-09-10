@@ -154,6 +154,9 @@ class RDFmetadata extends Model
                 $RSP['worksID'] = $Elastic->workdIDjournal($RSP['id_jnl']);
                 $RSP['subject'] = $this->subjects($RSP['worksID']);
                 $RSP['avaliations'] = $this->avaliationsISSN($RSP['jnl_frbr']);
+                $data2 = $this->summaryCount($RSP['worksID']);
+                $RSP['authors'] = $data2['authors'];
+                $RSP['years'] = $data2['years'];;
                 return $RSP;
                 break;
             case 'Subject':
@@ -316,11 +319,12 @@ class RDFmetadata extends Model
 
         //$dr['data'] = $dt['data'];
 
+        $ids = array_column($dt['data'], 'ID');
+
         $dataset->select('*');
-        foreach ($dt['data'] as $id => $line) {
-            $ID = $line['ID'];
-            $dataset->orwhere('ID', $ID);
-        }
+        $dataset->join('brapci_rdf.rdf_concept', 'brapci_rdf.rdf_concept.id_cc = brapci_elastic.dataset.ID');
+        $dataset->whereIn('ID', $ids);
+        $dataset->where('cc_status !=', 9);
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
 
@@ -1268,5 +1272,37 @@ class RDFmetadata extends Model
             }
         }
         return '';
+    }
+
+    function summaryCount($dt)
+    {
+        $Dataset = new \App\Models\ElasticSearch\Search();
+        $years = [];
+        $authors = [];
+        $dd = $Dataset->whereIn('ID', $dt)->findAll();
+        foreach ($dd as $line) {
+            $year = $line['YEAR'];
+            if (isset($years[$year])) {
+                $years[$year]++;
+            } else {
+                $years[$year] = 1;
+            }
+
+            $auth = $line['AUTHORS'];
+            $auth = troca($auth,'; ',';');
+            $au = explode(';',$auth);
+
+            foreach ($au as $a) {
+                if (isset($authors[$a])) {
+                    $authors[$a]++;
+                } else {
+                    $authors[$a] = 1;
+                }
+            }
+        }
+        ksort($years);
+        ksort($authors);
+        $count = ['years' => $years, 'authors' => $authors];
+        return $count;
     }
 }

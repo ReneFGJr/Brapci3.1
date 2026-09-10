@@ -377,13 +377,16 @@ class RDF extends Model
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $d = [];
         $d['concept'] = $RDFconcept->le($id);
-        $d['data'] = $RDFdata->le($id);
-
-        /************************* Remover */
-        if ($d['data'] == []) {
-            $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
-            $RDFtoolsImport->importRDF($id);
+        if ($d['concept']['cc_status'] != 9) {
             $d['data'] = $RDFdata->le($id);
+            /************************* Remover */
+            if ($d['data'] == []) {
+                $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
+                $RDFtoolsImport->importRDF($id);
+                $d['data'] = $RDFdata->le($id);
+            }
+        } else {
+            $d['data'] = [];
         }
         return $d;
     }
