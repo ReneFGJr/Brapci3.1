@@ -167,8 +167,8 @@ def run(parm):
         mod_issue.checkDuplicateIssue()
 
     if (act == 'pdfupload'):
-        if (parm[2] != ''):
-            if (parm[3] != ''):
+        if (len(parm) > 2 and parm[2] != ''):
+            if (len(parm) > 3 and parm[3] != ''):
                 print("ID",parm[2])
                 print("URL",parm[3])
                 mod_pdf.uploadPDF(parm[2],parm[3])
@@ -181,15 +181,17 @@ def run(parm):
 
 
     if (act == 'pdf'):
-        if (parm[2] != ''):
+        if (len(parm) > 2 and parm[2] != ''):
             print("PDF",parm[2])
             mod_pdf.getPDF(parm[2])
         else:
-            print("PDF")
-            sys.exit()
+            print("PDF harvesting")
             mod_pdf.harvestingPDF()
     if (act == 'getpdf'):
-        mod_pdf.getPDF(parm[2])
+        if (len(parm) > 2 and parm[2] != ''):
+            mod_pdf.getPDF(parm[2])
+        else:
+            print("PDF ID not found")
     if (act == 'pdfv'):
         mod_pdf.validaPDF()
         mod_especial_rules.rule01()
@@ -381,9 +383,12 @@ def run(parm):
 
 
     if (act == 'lattesK'):
-        file = parm[2]
-        hd = parm[3]
-        lp = mod_lattes.import_file(file,hd)
+        if (len(parm) > 3 and parm[2] != '' and parm[3] != ''):
+            file = parm[2]
+            hd = parm[3]
+            lp = mod_lattes.import_file(file,hd)
+        else:
+            print("File or HD not found")
 
     #********************** Clear
     elif (act == 'clear'):
