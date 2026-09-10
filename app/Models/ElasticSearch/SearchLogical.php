@@ -700,7 +700,11 @@ class SearchLogical extends Model
 
     function field()
     {
-        return $this->normalizeField(get("field"));
+        $term = $this->normalizeField(get("field"));
+        if ($term === '') {
+            $term = $this->normalizeField(get("fields"));
+        }
+        return $term;
     }
 
     private function normalizeField($field)
