@@ -47,6 +47,7 @@ $routes->group('api/ai', ['filter' => 'aiApiAuth'], static function ($routes) {
 });
 
 $routes->options('/api/(:any)', 'Api::index/$1');
+$routes->post('/api/cite/halflive', 'Api::index/cite/halflive');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
 $routes->put('/api/(:any)', 'Api::index/$1');

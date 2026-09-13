@@ -107,6 +107,24 @@ class Index extends Model
                 $RSP = $Cited->resumo_cited();
                 echo json_encode($RSP);
                 exit;
+            case 'cite':
+                if ($d2 === 'halflive') {
+                    $request = service('request');
+                    $json = $request->getJSON(true);
+                    $text = is_array($json) ? (string)($json['text'] ?? '') : '';
+                    if ($text === '') {
+                        $text = (string)$request->getPost('text');
+                    }
+
+                    $analyzer = new \App\Services\CitationHalfLifeAnalyzer();
+                    echo json_encode([
+                        'status' => 200,
+                        'message' => 'Processado',
+                        'data' => $analyzer->analyze($text),
+                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    exit;
+                }
+                break;
             case 'ai':
                 $AI = new \App\Models\AI\Index();
                 $RSP = [];

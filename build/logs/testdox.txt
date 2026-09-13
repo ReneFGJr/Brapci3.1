@@ -1,0 +1,4 @@
+Citation Half Life Analyzer (Tests\Unit\CitationHalfLifeAnalyzer)
+ [x] Calculates half life and groups typologies
+ [x] Returns null half life when no valid year exists
+

@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites/>
+<testsuites>
+  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="2" assertions="16" errors="0" failures="0" skipped="0" time="0.125231">
+    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="13" time="0.117109"/>
+    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="40" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.008122"/>
+  </testsuite>
+</testsuites>
