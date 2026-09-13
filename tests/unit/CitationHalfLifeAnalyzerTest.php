@@ -23,18 +23,18 @@ final class CitationHalfLifeAnalyzerTest extends CIUnitTestCase
         $data = (new CitationHalfLifeAnalyzer())->analyze($text, 2026);
 
         $this->assertSame(8, $data['total_referencias']);
-        $this->assertSame(7, $data['referencias_com_ano']);
-        $this->assertSame(1, $data['referencias_sem_ano']);
-        $this->assertSame(2016.0, $data['ano_mediano']);
-        $this->assertSame(10.0, $data['meia_vida']);
+        $this->assertSame(6, $data['referencias_com_ano']);
+        $this->assertSame(2, $data['referencias_sem_ano']);
+        $this->assertSame(2015.0, $data['ano_mediano']);
+        $this->assertSame(11.0, $data['meia_vida']);
         $this->assertSame(1, $data['tipologias']['artigos']['quantidade']);
         $this->assertSame(1, $data['tipologias']['eventos']['quantidade']);
         $this->assertSame(1, $data['tipologias']['livros']['quantidade']);
         $this->assertSame(1, $data['tipologias']['capitulos_de_livros']['quantidade']);
-        $this->assertSame(1, $data['tipologias']['sites']['quantidade']);
+        $this->assertSame(0, $data['tipologias']['sites']['quantidade']);
         $this->assertSame(1, $data['tipologias']['teses']['quantidade']);
         $this->assertSame(1, $data['tipologias']['dissertacoes']['quantidade']);
-        $this->assertSame(1, $data['tipologias']['outras_tipologias']['quantidade']);
+        $this->assertSame(2, $data['tipologias']['outras_tipologias']['quantidade']);
         $this->assertArrayHasKey('portugues', $data['idiomas']);
         $this->assertArrayHasKey('ingles', $data['idiomas']);
         $this->assertArrayHasKey('espanhol', $data['idiomas']);
@@ -66,5 +66,21 @@ final class CitationHalfLifeAnalyzerTest extends CIUnitTestCase
         $this->assertNull($data['ano_mediano']);
         $this->assertNull($data['meia_vida']);
         $this->assertSame(2, $data['referencias_sem_ano']);
+    }
+
+    public function testUsesPublicationYearAndIgnoresAvailabilityData(): void
+    {
+        $reference = 'CANDELA, L. et al. Data journals: A survey. Journal of the Association for '
+            . 'Information Science and Technology, v. 66, n. 9, p. 1747-1762, 2015. '
+            . 'Disponível em: https://example.org/doi/23358. Acesso em: 28 jul. 2026';
+
+        $data = (new CitationHalfLifeAnalyzer())->analyze($reference, 2026);
+
+        $this->assertSame(2015, $data['referencias'][0]['ano']);
+        $this->assertSame(11, $data['referencias'][0]['idade']);
+        $this->assertSame(11.0, $data['meia_vida']);
+        $this->assertStringNotContainsString('Disponível em', $data['referencias'][0]['referencia']);
+        $this->assertStringNotContainsString('2026', $data['referencias'][0]['referencia']);
+        $this->assertSame('ingles', $data['referencias'][0]['idioma']);
     }
 }

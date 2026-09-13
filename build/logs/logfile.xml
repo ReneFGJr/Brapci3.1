@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="3" assertions="25" errors="0" failures="0" skipped="0" time="0.030298">
-    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="18" time="0.025775"/>
-    <testcase name="testIdentifiesFourSupportedLanguages" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="45" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="4" time="0.001956"/>
-    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="62" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.002567"/>
+  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="4" assertions="31" errors="0" failures="0" skipped="0" time="0.029745">
+    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="18" time="0.022970"/>
+    <testcase name="testIdentifiesFourSupportedLanguages" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="45" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="4" time="0.002443"/>
+    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="62" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.001943"/>
+    <testcase name="testUsesPublicationYearAndIgnoresAvailabilityData" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="71" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="6" time="0.002390"/>
   </testsuite>
 </testsuites>

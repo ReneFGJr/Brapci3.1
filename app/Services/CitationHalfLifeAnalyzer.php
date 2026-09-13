@@ -37,11 +37,12 @@ class CitationHalfLifeAnalyzer
         $withoutYear = 0;
 
         foreach ($lines as $line) {
-            $year = $this->extractYear($line, $currentYear);
-            $type = $this->identifyType($line);
-            $language = $this->identifyLanguage($line);
+            $analysisLine = $this->beforeAvailability($line);
+            $year = $this->extractYear($analysisLine, $currentYear);
+            $type = $this->identifyType($analysisLine);
+            $language = $this->identifyLanguage($analysisLine);
             $item = [
-                'referencia' => $line,
+                'referencia' => $analysisLine,
                 'ano' => $year,
                 'idade' => $year === null ? null : $currentYear - $year,
                 'tipologia' => $type,
@@ -50,9 +51,9 @@ class CitationHalfLifeAnalyzer
 
             $references[] = $item;
             $typologies[$type]['quantidade']++;
-            $typologies[$type]['referencias'][] = $line;
+            $typologies[$type]['referencias'][] = $analysisLine;
             $languages[$language]['quantidade']++;
-            $languages[$language]['referencias'][] = $line;
+            $languages[$language]['referencias'][] = $analysisLine;
 
             if ($year === null) {
                 $withoutYear++;
@@ -99,14 +100,21 @@ class CitationHalfLifeAnalyzer
     private function extractYear(string $reference, int $currentYear): ?int
     {
         preg_match_all('/(?<!\d)(1[5-9]\d{2}|20\d{2})(?!\d)/u', $reference, $matches);
+        $validYears = [];
         foreach ($matches[1] ?? [] as $year) {
             $year = (int)$year;
             if ($year <= $currentYear) {
-                return $year;
+                $validYears[] = $year;
             }
         }
 
-        return null;
+        return $validYears === [] ? null : $validYears[array_key_last($validYears)];
+    }
+
+    private function beforeAvailability(string $reference): string
+    {
+        $parts = preg_split('/\bdispon[ií]vel\s+em\s*:?/iu', $reference, 2);
+        return trim($parts[0] ?? $reference);
     }
 
     private function identifyType(string $reference): string
@@ -156,7 +164,7 @@ class CitationHalfLifeAnalyzer
             'portugues' => [
                 ' disponivel em:', ' acesso em:', ' edicao', ' revista ', ' universidade ',
                 ' dissertacao', ' mestrado', ' doutorado', ' capitulo', ' livro ', ' anais ',
-                ' traducao', ' organizacao', ' numero ', ' paginas ',
+                ' artigo ', ' traducao', ' organizacao', ' numero ', ' paginas ',
             ],
             'ingles' => [
                 ' available at:', ' accessed ', ' edition', ' journal ', ' university ',
