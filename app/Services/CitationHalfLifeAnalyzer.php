@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\AI\NLP\Language;
+
 class CitationHalfLifeAnalyzer
 {
     private const TYPES = [
@@ -16,6 +18,8 @@ class CitationHalfLifeAnalyzer
     ];
 
     private const LANGUAGES = ['portugues', 'ingles', 'espanhol', 'frances', 'nao_identificado'];
+
+    private ?Language $languageDetector = null;
 
     public function analyze(string $text, ?int $currentYear = null): array
     {
@@ -159,56 +163,17 @@ class CitationHalfLifeAnalyzer
 
     private function identifyLanguage(string $reference): string
     {
-        $normalized = ' ' . $this->normalize($reference) . ' ';
-        $markers = [
-            'portugues' => [
-                ' disponivel em:', ' acesso em:', ' edicao', ' revista ', ' universidade ',
-                ' dissertacao', ' mestrado', ' doutorado', ' capitulo', ' livro ', ' anais ',
-                ' artigo ', ' traducao', ' organizacao', ' numero ', ' paginas ',
-            ],
-            'ingles' => [
-                ' available at:', ' accessed ', ' edition', ' journal ', ' university ',
-                ' dissertation', ' master', ' doctoral', ' chapter', ' book ', ' proceedings',
-                ' translation', ' volume ', ' issue ', ' pages ',
-            ],
-            'espanhol' => [
-                ' disponible en:', ' consultado ', ' edicion', ' revista ', ' universidad ',
-                ' tesis', ' maestria', ' doctorado', ' capitulo', ' libro ', ' congreso',
-                ' traduccion', ' numero ', ' paginas ',
-            ],
-            'frances' => [
-                ' disponible sur:', ' consulte ', ' edition', ' revue ', ' universite ',
-                ' these', ' memoire', ' doctorat', ' chapitre', ' livre ', ' actes ',
-                ' traduction', ' numero ', ' pages ',
-            ],
-        ];
+        helper('sisdoc_forms');
+        $this->languageDetector ??= new Language();
+        $language = $this->languageDetector->getTextLanguage($reference);
 
-        $scores = array_fill_keys(array_keys($markers), 0);
-        foreach ($markers as $language => $terms) {
-            foreach ($terms as $term) {
-                if (str_contains($normalized, $term)) {
-                    $scores[$language]++;
-                }
-            }
-        }
-
-        $original = mb_strtolower($reference, 'UTF-8');
-        if (preg_match('/[ãõ]|ção|ções/u', $original)) {
-            $scores['portugues']++;
-        }
-        if (preg_match('/[ñ¿¡]/u', $original)) {
-            $scores['espanhol'] += 2;
-        }
-        if (preg_match('/[àèùëïÿœæ]/u', $original)) {
-            $scores['frances'] += 2;
-        }
-
-        $highest = max($scores);
-        if ($highest === 0 || count(array_keys($scores, $highest, true)) > 1) {
-            return 'nao_identificado';
-        }
-
-        return (string)array_search($highest, $scores, true);
+        return match ($language) {
+            'pt' => 'portugues',
+            'en' => 'ingles',
+            'es' => 'espanhol',
+            'fr' => 'frances',
+            default => 'nao_identificado',
+        };
     }
 
     private function normalize(string $text): string

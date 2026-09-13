@@ -129,20 +129,8 @@ class Language extends Model
 		$text = troca($text, '!', ' ');
 		$text = troca($text, '?', ' ');
 
-		$w = explode(' ', $text);
-		$rst = array();
-		foreach ($w as $word) {
-			$this->getTextLanguage_process($text);
-
-			$fda = $this->statistic;
-			foreach ($fda as $lang => $total) {
-				if (!isset($rst[$lang])) {
-					$rst[$lang] = 0;
-				}
-				$rst[$lang] = $rst[$lang] + $total;
-			}
-		}
-		return $this->decision($rst);
+		$this->getTextLanguage_process($text);
+		return $this->decision($this->statistic);
 	}
 
 	function train()
@@ -261,6 +249,7 @@ class Language extends Model
 			'de',
 			'es',
 			'pt',
+			'fr',
 		);
 	}
 
@@ -316,7 +305,9 @@ class Language extends Model
 			'la', 'he', 'che', 'rche', 'ue', 'en', 'st', 'est', 'ne', 'le', 'et',
 			'es', 'les', 'de', 'on', 'ion', 'tion', 'un', 'ur', 'ce', 'à', 'des',
 			'ues', 'ques', 'rs', 'ts', 'nts', 'ents', 'ns', 'our', 'pour', 'ux', 'aux',
-			'urs', 'eurs', 'é', 'té', 'nt', 'ent',
+			'urs', 'eurs', 'é', 'té', 'nt', 'ent', 'dans', 'sur', 'du', 'au', 'avec',
+			'cette', 'sont', 'article', 'scientifique', 'disponible', 'revue', 'francaise',
+			'recherche', 'science', 'ouverte', 'communication', 'bibliotheques', 'universitaires',
 		);
 
 
