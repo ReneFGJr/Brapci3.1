@@ -1,4 +1,5 @@
 Citation Half Life Analyzer (Tests\Unit\CitationHalfLifeAnalyzer)
  [x] Calculates half life and groups typologies
+ [x] Identifies four supported languages
  [x] Returns null half life when no valid year exists
 

@@ -35,6 +35,28 @@ final class CitationHalfLifeAnalyzerTest extends CIUnitTestCase
         $this->assertSame(1, $data['tipologias']['teses']['quantidade']);
         $this->assertSame(1, $data['tipologias']['dissertacoes']['quantidade']);
         $this->assertSame(1, $data['tipologias']['outras_tipologias']['quantidade']);
+        $this->assertArrayHasKey('portugues', $data['idiomas']);
+        $this->assertArrayHasKey('ingles', $data['idiomas']);
+        $this->assertArrayHasKey('espanhol', $data['idiomas']);
+        $this->assertArrayHasKey('frances', $data['idiomas']);
+        $this->assertSame(8, array_sum(array_column($data['idiomas'], 'quantidade')));
+    }
+
+    public function testIdentifiesFourSupportedLanguages(): void
+    {
+        $text = implode("\n", [
+            'Artigo em português. Disponível em: exemplo. Acesso em: 2020.',
+            'Research article. Available at: example. Accessed 2021.',
+            'Artículo de investigación. Disponible en: ejemplo. Universidad, 2022.',
+            'Article scientifique. Disponible sur: exemple. Revue française, 2023.',
+        ]);
+
+        $data = (new CitationHalfLifeAnalyzer())->analyze($text, 2026);
+
+        $this->assertSame(1, $data['idiomas']['portugues']['quantidade']);
+        $this->assertSame(1, $data['idiomas']['ingles']['quantidade']);
+        $this->assertSame(1, $data['idiomas']['espanhol']['quantidade']);
+        $this->assertSame(1, $data['idiomas']['frances']['quantidade']);
     }
 
     public function testReturnsNullHalfLifeWhenNoValidYearExists(): void

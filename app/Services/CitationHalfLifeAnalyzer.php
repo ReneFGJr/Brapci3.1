@@ -15,6 +15,8 @@ class CitationHalfLifeAnalyzer
         'outras_tipologias',
     ];
 
+    private const LANGUAGES = ['portugues', 'ingles', 'espanhol', 'frances', 'nao_identificado'];
+
     public function analyze(string $text, ?int $currentYear = null): array
     {
         $currentYear ??= (int)date('Y');
@@ -25,6 +27,10 @@ class CitationHalfLifeAnalyzer
         foreach (self::TYPES as $type) {
             $typologies[$type] = ['quantidade' => 0, 'percentual' => 0.0, 'referencias' => []];
         }
+        $languages = [];
+        foreach (self::LANGUAGES as $language) {
+            $languages[$language] = ['quantidade' => 0, 'percentual' => 0.0, 'referencias' => []];
+        }
 
         $references = [];
         $years = [];
@@ -33,16 +39,20 @@ class CitationHalfLifeAnalyzer
         foreach ($lines as $line) {
             $year = $this->extractYear($line, $currentYear);
             $type = $this->identifyType($line);
+            $language = $this->identifyLanguage($line);
             $item = [
                 'referencia' => $line,
                 'ano' => $year,
                 'idade' => $year === null ? null : $currentYear - $year,
                 'tipologia' => $type,
+                'idioma' => $language,
             ];
 
             $references[] = $item;
             $typologies[$type]['quantidade']++;
             $typologies[$type]['referencias'][] = $line;
+            $languages[$language]['quantidade']++;
+            $languages[$language]['referencias'][] = $line;
 
             if ($year === null) {
                 $withoutYear++;
@@ -58,6 +68,12 @@ class CitationHalfLifeAnalyzer
                 : 0.0;
         }
         unset($typology);
+        foreach ($languages as &$language) {
+            $language['percentual'] = $total > 0
+                ? round(($language['quantidade'] / $total) * 100, 2)
+                : 0.0;
+        }
+        unset($language);
 
         sort($years, SORT_NUMERIC);
         $medianYear = $this->median($years);
@@ -75,6 +91,7 @@ class CitationHalfLifeAnalyzer
             'ano_mais_recente' => $years === [] ? null : max($years),
             'distribuicao_por_ano' => $distribution,
             'tipologias' => $typologies,
+            'idiomas' => $languages,
             'referencias' => $references,
         ];
     }
@@ -130,6 +147,60 @@ class CitationHalfLifeAnalyzer
         }
 
         return 'outras_tipologias';
+    }
+
+    private function identifyLanguage(string $reference): string
+    {
+        $normalized = ' ' . $this->normalize($reference) . ' ';
+        $markers = [
+            'portugues' => [
+                ' disponivel em:', ' acesso em:', ' edicao', ' revista ', ' universidade ',
+                ' dissertacao', ' mestrado', ' doutorado', ' capitulo', ' livro ', ' anais ',
+                ' traducao', ' organizacao', ' numero ', ' paginas ',
+            ],
+            'ingles' => [
+                ' available at:', ' accessed ', ' edition', ' journal ', ' university ',
+                ' dissertation', ' master', ' doctoral', ' chapter', ' book ', ' proceedings',
+                ' translation', ' volume ', ' issue ', ' pages ',
+            ],
+            'espanhol' => [
+                ' disponible en:', ' consultado ', ' edicion', ' revista ', ' universidad ',
+                ' tesis', ' maestria', ' doctorado', ' capitulo', ' libro ', ' congreso',
+                ' traduccion', ' numero ', ' paginas ',
+            ],
+            'frances' => [
+                ' disponible sur:', ' consulte ', ' edition', ' revue ', ' universite ',
+                ' these', ' memoire', ' doctorat', ' chapitre', ' livre ', ' actes ',
+                ' traduction', ' numero ', ' pages ',
+            ],
+        ];
+
+        $scores = array_fill_keys(array_keys($markers), 0);
+        foreach ($markers as $language => $terms) {
+            foreach ($terms as $term) {
+                if (str_contains($normalized, $term)) {
+                    $scores[$language]++;
+                }
+            }
+        }
+
+        $original = mb_strtolower($reference, 'UTF-8');
+        if (preg_match('/[ãõ]|ção|ções/u', $original)) {
+            $scores['portugues']++;
+        }
+        if (preg_match('/[ñ¿¡]/u', $original)) {
+            $scores['espanhol'] += 2;
+        }
+        if (preg_match('/[àèùëïÿœæ]/u', $original)) {
+            $scores['frances'] += 2;
+        }
+
+        $highest = max($scores);
+        if ($highest === 0 || count(array_keys($scores, $highest, true)) > 1) {
+            return 'nao_identificado';
+        }
+
+        return (string)array_search($highest, $scores, true);
     }
 
     private function normalize(string $text): string
