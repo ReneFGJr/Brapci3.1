@@ -362,14 +362,15 @@ class Search extends Model
         $this->strategy = $query;
         $echoResult = false;
         $dt = $this->curlQuery($query, $echoResult, 'v4');
-        pre($dt, false);
-        $dt2 = rerankByAuthorProductivity(
+
+        $dt2 = $this->rerankByAuthorProductivity(
             $dt,
             alpha: 0.30,
             minProduction: 2
         );
 
-        pre($dt2, true);
+        echo json_encode($dt2, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+        exit;
     }
 
     function searchFull4()
