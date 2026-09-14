@@ -159,7 +159,7 @@ class Search extends Model
         $maximumProduction = 0;
 
         foreach ($result['filters']['authors'] as $author) {
-            $name = ($author['name'] ?? '');
+            $name = $this->normalizeAuthorName($author['name'] ?? '');
             $total = (int) ($author['total'] ?? 0);
 
             if ($name === '') {
@@ -200,14 +200,14 @@ class Search extends Model
             $elasticScore = (float) ($work['score'] ?? 0);
             $authorsText = $work['data']['AUTHORS'] ?? '';
 
-            $authors = splitAuthors($authorsText);
+            $authors = $this->splitAuthors($authorsText);
 
             $bestAuthorWeight = 0;
             $bestAuthorTotal = 0;
             $bestAuthorName = null;
 
             foreach ($authors as $authorName) {
-                $normalizedName = normalizeAuthorName($authorName);
+                $normalizedName = $this->normalizeAuthorName($authorName);
 
                 $production = $authorProductivity[$normalizedName] ?? 0;
 
