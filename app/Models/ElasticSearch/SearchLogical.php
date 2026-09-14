@@ -267,16 +267,6 @@ class SearchLogical extends Model
         return $this->method_v4query($term, $this->field());
     }
 
-    function method_v5()
-    {
-        $term = get("q");
-        if (trim($term) === '') {
-            $term = get("term");
-        }
-        $dt = $this->method_v4query($term, $this->field());
-        pre($dt);
-        return $dt;
-    }
 
     function method_v4query($method, $field)
     {
