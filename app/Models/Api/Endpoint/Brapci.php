@@ -815,6 +815,9 @@ class Brapci extends Model
                     case 'v4':
                         return $Elastic->searchFull4();
                         break;
+                    case 'v5':
+                        return $Elastic->searchFull5();
+                        break;
                     default:
                         return $Elastic->searchFull($term);
                         break;
