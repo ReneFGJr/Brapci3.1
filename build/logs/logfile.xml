@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="4" assertions="30" errors="0" failures="1" skipped="0" time="0.068402">
-    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="18" time="0.042155"/>
-    <testcase name="testIdentifiesFourSupportedLanguages" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="45" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.015815">
-      <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Unit\CitationHalfLifeAnalyzerTest::testIdentifiesFourSupportedLanguages&#13;
-Failed asserting that 2 is identical to 1.
-&#13;
-D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php:58</failure>
-    </testcase>
-    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="62" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.005164"/>
-    <testcase name="testUsesPublicationYearAndIgnoresAvailabilityData" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="71" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="6" time="0.005268"/>
+  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="4" assertions="31" errors="0" failures="0" skipped="0" time="0.063536">
+    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="18" time="0.045807"/>
+    <testcase name="testIdentifiesFourSupportedLanguages" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="45" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="4" time="0.008080"/>
+    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="62" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.005321"/>
+    <testcase name="testUsesPublicationYearAndIgnoresAvailabilityData" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="71" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="6" time="0.004327"/>
   </testsuite>
 </testsuites>

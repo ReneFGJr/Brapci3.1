@@ -556,7 +556,7 @@ class Language extends Model
 			$terms = $wordList[$language];
 			for ($r = 0; $r < count($terms); $r++) {
 				$total = substr_count($text, ' ' . $terms[$r] . ' ');
-				$counter[$language] = $counter[$language] + $total * 5;
+				$counter[$language] = $counter[$language] + $total * 10;
 			}
 
 			$terms = $end[$language];
