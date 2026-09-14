@@ -78,9 +78,9 @@ class Search extends Model
     {
         return [];
         $queryTerm = normalizarTexto($queryTerm);
-        $queryTerm = troca($queryTerm,' and ',' ');
-        $queryTerm = troca($queryTerm,' or ',' ');
-        $queryTerm = troca($queryTerm,' not ',' ');
+        $queryTerm = troca($queryTerm, ' and ', ' ');
+        $queryTerm = troca($queryTerm, ' or ', ' ');
+        $queryTerm = troca($queryTerm, ' not ', ' ');
         // === 1. Cliente Elasticsearch ===
         $client = ClientBuilder::create()
             ->setHosts(['http://localhost:9200'])
@@ -126,67 +126,172 @@ class Search extends Model
         ];
     }
 
-<?php
 
-/**
- * Reranqueia os trabalhos considerando:
- * 1. score original do Elasticsearch;
- * 2. produtividade temática dos autores.
- *
- * @param array $result Resposta já convertida em array.
- * @param float $alpha Intensidade do peso autoral, entre 0 e 1.
- * @param int $minProduction Produção mínima para receber bônus.
- *
- * @return array
- */
-function rerankByAuthorProductivity(
-    array $result,
-    float $alpha = 0.30,
-    int $minProduction = 2
-): array {
-    if (
-        empty($result['works']) ||
-        empty($result['filters']['authors'])
-    ) {
-        return $result;
-    }
+    /**
+     * Reranqueia os trabalhos considerando:
+     * 1. score original do Elasticsearch;
+     * 2. produtividade temática dos autores.
+     *
+     * @param array $result Resposta já convertida em array.
+     * @param float $alpha Intensidade do peso autoral, entre 0 e 1.
+     * @param int $minProduction Produção mínima para receber bônus.
+     *
+     * @return array
+     */
+    function rerankByAuthorProductivity(
+        array $result,
+        float $alpha = 0.30,
+        int $minProduction = 2
+    ): array {
+        if (
+            empty($result['works']) ||
+            empty($result['filters']['authors'])
+        ) {
+            return $result;
+        }
 
-    /*
+        /*
      * 1. Monta mapa:
      *
      * nome normalizado => total de trabalhos na temática
      */
-    $authorProductivity = [];
-    $maximumProduction = 0;
+        $authorProductivity = [];
+        $maximumProduction = 0;
 
-    foreach ($result['filters']['authors'] as $author) {
-        $name = normalizeAuthorName($author['name'] ?? '');
-        $total = (int) ($author['total'] ?? 0);
+        foreach ($result['filters']['authors'] as $author) {
+            $name = normalizeAuthorName($author['name'] ?? '');
+            $total = (int) ($author['total'] ?? 0);
 
-        if ($name === '') {
-            continue;
-        }
+            if ($name === '') {
+                continue;
+            }
 
-        /*
+            /*
          * Evita sobrescrever uma contagem maior caso existam
          * autores repetidos nos filtros.
          */
-        $authorProductivity[$name] = max(
-            $authorProductivity[$name] ?? 0,
-            $total
-        );
+            $authorProductivity[$name] = max(
+                $authorProductivity[$name] ?? 0,
+                $total
+            );
 
-        $maximumProduction = max($maximumProduction, $total);
-    }
+            $maximumProduction = max($maximumProduction, $total);
+        }
 
-    /*
+        /*
      * Se nenhum autor tiver a produção mínima, não há bônus.
      */
-    if ($maximumProduction < $minProduction) {
+        if ($maximumProduction < $minProduction) {
+            foreach ($result['works'] as &$work) {
+                $work['original_score'] = (float) ($work['score'] ?? 0);
+                $work['author_score'] = 0;
+                $work['final_score'] = $work['original_score'];
+            }
+
+            unset($work);
+
+            return $result;
+        }
+
+        /*
+     * 2. Calcula o peso autoral de cada documento.
+     */
+        foreach ($result['works'] as $position => &$work) {
+            $elasticScore = (float) ($work['score'] ?? 0);
+            $authorsText = $work['data']['AUTHORS'] ?? '';
+
+            $authors = splitAuthors($authorsText);
+
+            $bestAuthorWeight = 0;
+            $bestAuthorTotal = 0;
+            $bestAuthorName = null;
+
+            foreach ($authors as $authorName) {
+                $normalizedName = normalizeAuthorName($authorName);
+
+                $production = $authorProductivity[$normalizedName] ?? 0;
+
+                if ($production < $minProduction) {
+                    continue;
+                }
+
+                /*
+             * Normalização logarítmica:
+             *
+             * log(1 + produção do autor)
+             * --------------------------------
+             * log(1 + maior produção encontrada)
+             */
+                $authorWeight =
+                    log(1 + $production) /
+                    log(1 + $maximumProduction);
+
+                /*
+             * Considera apenas o autor com maior produtividade.
+             * Isso evita favorecer artigos com muitos coautores.
+             */
+                if ($authorWeight > $bestAuthorWeight) {
+                    $bestAuthorWeight = $authorWeight;
+                    $bestAuthorTotal = $production;
+                    $bestAuthorName = $authorName;
+                }
+            }
+
+            /*
+         * O bônus é multiplicativo.
+         *
+         * alpha = 0.30:
+         * um autor com peso 1 pode acrescentar até 30%.
+         */
+            $finalScore = $elasticScore * (
+                1 + ($alpha * $bestAuthorWeight)
+            );
+
+            /*
+         * Preserva o score original e acrescenta dados
+         * explicativos ao resultado.
+         */
+            $work['original_score'] = $elasticScore;
+            $work['author_score'] = round($bestAuthorWeight, 6);
+            $work['author_productivity'] = $bestAuthorTotal;
+            $work['productive_author'] = $bestAuthorName;
+            $work['final_score'] = round($finalScore, 6);
+            $work['_original_position'] = $position;
+        }
+
+        unset($work);
+
+        /*
+     * 3. Ordena pelo score final.
+     *
+     * Em caso de empate, mantém a ordem original do Elasticsearch.
+     */
+        usort(
+            $result['works'],
+            static function (array $a, array $b): int {
+                $comparison = ($b['final_score'] ?? 0)
+                    <=> ($a['final_score'] ?? 0);
+
+                if ($comparison !== 0) {
+                    return $comparison;
+                }
+
+                return ($a['_original_position'] ?? 0)
+                    <=> ($b['_original_position'] ?? 0);
+            }
+        );
+
+        /*
+     * 4. Remove o campo auxiliar.
+     */
         foreach ($result['works'] as &$work) {
-            $work['original_score'] = (float) ($work['score'] ?? 0);
-            $work['author_score'] = 0;
-            $work['final_score'] = $work['original_score'];
+            unset($work['_original_position']);
+
+            /*
+         * Opcional: substitui score pelo score final.
+         * Comente esta linha se quiser preservar score.
+         */
+            $work['score'] = $work['final_score'];
         }
 
         unset($work);
@@ -194,115 +299,9 @@ function rerankByAuthorProductivity(
         return $result;
     }
 
-    /*
-     * 2. Calcula o peso autoral de cada documento.
-     */
-    foreach ($result['works'] as $position => &$work) {
-        $elasticScore = (float) ($work['score'] ?? 0);
-        $authorsText = $work['data']['AUTHORS'] ?? '';
-
-        $authors = splitAuthors($authorsText);
-
-        $bestAuthorWeight = 0;
-        $bestAuthorTotal = 0;
-        $bestAuthorName = null;
-
-        foreach ($authors as $authorName) {
-            $normalizedName = normalizeAuthorName($authorName);
-
-            $production = $authorProductivity[$normalizedName] ?? 0;
-
-            if ($production < $minProduction) {
-                continue;
-            }
-
-            /*
-             * Normalização logarítmica:
-             *
-             * log(1 + produção do autor)
-             * --------------------------------
-             * log(1 + maior produção encontrada)
-             */
-            $authorWeight =
-                log(1 + $production) /
-                log(1 + $maximumProduction);
-
-            /*
-             * Considera apenas o autor com maior produtividade.
-             * Isso evita favorecer artigos com muitos coautores.
-             */
-            if ($authorWeight > $bestAuthorWeight) {
-                $bestAuthorWeight = $authorWeight;
-                $bestAuthorTotal = $production;
-                $bestAuthorName = $authorName;
-            }
-        }
-
-        /*
-         * O bônus é multiplicativo.
-         *
-         * alpha = 0.30:
-         * um autor com peso 1 pode acrescentar até 30%.
-         */
-        $finalScore = $elasticScore * (
-            1 + ($alpha * $bestAuthorWeight)
-        );
-
-        /*
-         * Preserva o score original e acrescenta dados
-         * explicativos ao resultado.
-         */
-        $work['original_score'] = $elasticScore;
-        $work['author_score'] = round($bestAuthorWeight, 6);
-        $work['author_productivity'] = $bestAuthorTotal;
-        $work['productive_author'] = $bestAuthorName;
-        $work['final_score'] = round($finalScore, 6);
-        $work['_original_position'] = $position;
-    }
-
-    unset($work);
-
-    /*
-     * 3. Ordena pelo score final.
-     *
-     * Em caso de empate, mantém a ordem original do Elasticsearch.
-     */
-    usort(
-        $result['works'],
-        static function (array $a, array $b): int {
-            $comparison = ($b['final_score'] ?? 0)
-                <=> ($a['final_score'] ?? 0);
-
-            if ($comparison !== 0) {
-                return $comparison;
-            }
-
-            return ($a['_original_position'] ?? 0)
-                <=> ($b['_original_position'] ?? 0);
-        }
-    );
-
-    /*
-     * 4. Remove o campo auxiliar.
-     */
-    foreach ($result['works'] as &$work) {
-        unset($work['_original_position']);
-
-        /*
-         * Opcional: substitui score pelo score final.
-         * Comente esta linha se quiser preservar score.
-         */
-        $work['score'] = $work['final_score'];
-    }
-
-    unset($work);
-
-    return $result;
-}
-
     /**
-    * Normaliza o nome para comparação.
-    */
+     * Normaliza o nome para comparação.
+     */
     function normalizeAuthorName(string $name): string
     {
         $name = html_entity_decode(
@@ -322,10 +321,10 @@ function rerankByAuthorProductivity(
     }
 
     /**
-    * Separa os autores.
-    *
-    * Ajuste os delimitadores conforme o padrão adotado pela Brapci.
-    */
+     * Separa os autores.
+     *
+     * Ajuste os delimitadores conforme o padrão adotado pela Brapci.
+     */
     function splitAuthors(string $authors): array
     {
         if (trim($authors) === '') {
@@ -370,7 +369,7 @@ function rerankByAuthorProductivity(
             minProduction: 2
         );
 
-        pre($dt2,true);
+        pre($dt2, true);
     }
 
     function searchFull4()
@@ -410,8 +409,7 @@ function rerankByAuthorProductivity(
     function curlQuery($query = '', $echoResult = true, $version = '3')
     {
         /********************************************** Logica 2 */
-        if ($_SERVER['HTTP_HOST'] == 'brapci')
-        {
+        if ($_SERVER['HTTP_HOST'] == 'brapci') {
             $host = 'http://143.54.112.91:9200'; // URL do Elasticsearch
         } else {
             $host = 'http://localhost:9200'; // URL do Elasticsearch
