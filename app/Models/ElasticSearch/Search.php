@@ -138,6 +138,8 @@ class Search extends Model
 
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
 
+        pre("OI");
+
         $query = $Logic->method_v4();
         $this->strategy = $query;
         $echoResult = true;
