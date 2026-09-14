@@ -159,7 +159,7 @@ class Search extends Model
         $maximumProduction = 0;
 
         foreach ($result['filters']['authors'] as $author) {
-            $name = normalizeAuthorName($author['name'] ?? '');
+            $name = ($author['name'] ?? '');
             $total = (int) ($author['total'] ?? 0);
 
             if ($name === '') {
