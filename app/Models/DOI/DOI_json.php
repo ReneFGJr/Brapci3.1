@@ -17,6 +17,7 @@ class DOI_json extends Model
         'doi_ID',
         'doi_content',
         'doi_status',
+        'doi_ref',
         'doi_created_at',
     ];
 
@@ -100,13 +101,13 @@ class DOI_json extends Model
             case 10:
                 $registros = $this->where('doi_status', $status)->orderBy('id_doi')->findAll(10);
                 foreach ($registros as $registro) {
-                    $resultado = ['doi' => $registro['doi_ID'], 'sucesso' => false, 'status' => 2];
+                    $resultado = ['doi' => $registro['doi_ID'], 'sucesso' => false, 'status' => ($status === 2 ? 3 : 2)];
                     try {
-                        $rst = $this->getDoiCrossref($registro['doi_ID']);
+                        $rst = $status === 2 ? $this->getDoiDataCite($registro['doi_ID']) : $this->getDoiCrossref($registro['doi_ID']);
                         $resultado['sucesso'] = !empty($rst);
-                        $resultado['status'] = $resultado['sucesso'] ? 10 : 2;
+                        $resultado['status'] = $resultado['sucesso'] ? 10 : ($status === 2 ? 3 : 2);
                         $resultado['mensagem'] = $resultado['sucesso']
-                            ? 'Processado com sucesso.' : 'A Crossref nao retornou um resultado.';
+                            ? 'Processado com sucesso.' : 'A coleta nao retornou um resultado.';
                     } catch (\Throwable $error) {
                         $resultado['mensagem'] = $error->getMessage();
                     }
@@ -158,6 +159,58 @@ class DOI_json extends Model
                 throw new \RuntimeException('Resposta invalida da Crossref.');
             }
         }
+        return $this->saveCollectedWork($doi, $body, $work, 1);
+    }
+
+    public function getDoiDataCite(string $doi): array
+    {
+        $doi = strtolower(trim(preg_replace('~^(?:https?://(?:dx\.)?doi\.org/|doi:\s*)~i', '', trim($doi))));
+        if (!preg_match('~^10\.\d{4,9}/\S+$~', $doi) || strlen($doi) > 100) {
+            throw new \InvalidArgumentException('DOI invalido ou maior que 100 caracteres.');
+        }
+        $cached = $this->where('doi_ID', $doi)->first();
+        $body = (string) ($cached['doi_content'] ?? '');
+        $payload = json_decode($body, true);
+        $attributes = $payload['data']['attributes'] ?? null;
+        if (!is_array($attributes) || !is_string($attributes['doi'] ?? null)
+            || strcasecmp($attributes['doi'], $doi) !== 0) {
+            $response = \Config\Services::curlrequest()->get('https://api.datacite.org/dois/' . rawurlencode($doi), [
+                'headers' => ['Accept' => 'application/json', 'User-Agent' => 'Brapci/3.1 (https://brapci.inf.br)'],
+                'timeout' => 30, 'connect_timeout' => 10, 'http_errors' => false, 'verify' => false,
+            ]);
+            if ($response->getStatusCode() !== 200) {
+                throw new \RuntimeException('DataCite retornou HTTP ' . $response->getStatusCode());
+            }
+            $body = $response->getBody();
+            $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+            $attributes = $payload['data']['attributes'] ?? null;
+            if (!is_array($attributes) || !is_string($attributes['doi'] ?? null)
+                || strcasecmp($attributes['doi'], $doi) !== 0) {
+                throw new \RuntimeException('Resposta invalida da DataCite.');
+            }
+        }
+        $container = $attributes['container'] ?? [];
+        $work = [
+            'DOI' => $doi,
+            'title' => array_column($attributes['titles'] ?? [], 'title'),
+            'author' => array_map(static function ($creator) {
+                return ['given' => $creator['givenName'] ?? '', 'family' => $creator['familyName'] ?? '',
+                    'name' => $creator['name'] ?? ''];
+            }, $attributes['creators'] ?? []),
+            'published' => ['date-parts' => [[$attributes['publicationYear'] ?? null]]],
+            'container-title' => [$container['title'] ?? ''],
+            'ISSN' => strtolower($container['identifierType'] ?? '') === 'issn' ? [$container['identifier']] : [],
+            'volume' => $container['volume'] ?? null,
+            'issue' => $container['issue'] ?? null,
+            'page' => isset($container['firstPage']) ? $container['firstPage']
+                . (!empty($container['lastPage']) ? '-' . $container['lastPage'] : '') : null,
+            'URL' => $attributes['url'] ?? 'https://doi.org/' . $doi,
+        ];
+        return $this->saveCollectedWork($doi, $body, $work, 2);
+    }
+
+    protected function saveCollectedWork(string $doi, string $body, array $work, int $source): array
+    {
         $authors = [];
         foreach ($work['author'] ?? [] as $author) {
             $name = trim(($author['given'] ?? '') . ' ' . ($author['family'] ?? ''));
@@ -179,7 +232,12 @@ class DOI_json extends Model
             $normalized = new Cited_Normalize($this->db);
             $existing = $normalized->where('ca_doi', $doi)->first();
             if ($existing && (int) $existing['ca_locked'] !== 0) {
-                $this->db->transRollback();
+                $cached = $this->where('doi_ID', $doi)->first();
+                $cache = ['doi_ID' => $doi, 'doi_content' => $body, 'doi_status' => 10, 'doi_ref' => $source];
+                $saved = $cached ? $this->update($cached['id_doi'], $cache) : $this->insert($cache);
+                if ($saved === false || !$this->db->transStatus() || !$this->db->transCommit()) {
+                    throw new \RuntimeException('Falha ao salvar a coleta.');
+                }
                 return $existing;
             }
             $journal = (new Cited_Journals($this->db))->getOrCreateFromCrossref($work);
@@ -200,7 +258,7 @@ class DOI_json extends Model
                 throw new \RuntimeException('Falha ao salvar metadados normalizados.');
             }
             $cached = $this->where('doi_ID', $doi)->first();
-            $cache = ['doi_ID' => $doi, 'doi_content' => $body, 'doi_status' => 1];
+            $cache = ['doi_ID' => $doi, 'doi_content' => $body, 'doi_status' => 10, 'doi_ref' => $source];
             $saved = $cached ? $this->update($cached['id_doi'], $cache) : $this->insert($cache);
             if ($saved === false || !$this->db->transStatus()) {
                 throw new \RuntimeException('Falha ao salvar resposta da Crossref.');
