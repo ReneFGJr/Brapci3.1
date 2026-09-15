@@ -293,6 +293,9 @@ $routes->group('events', function ($routes) {
 $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
+    $routes->get('view/(:num)', 'BrapciLab::doi_view/$1');
+    $routes->post('view/(:num)/save', 'BrapciLab::doi_save/$1', ['filter' => 'csrf']);
+    $routes->post('view/(:num)/delete/(:num)', 'BrapciLab::doi_delete/$1/$2', ['filter' => 'csrf']);
     $routes->get('cited_process', 'BrapciLab::cited_process');
     $routes->post('cited_process/importar_dois', 'BrapciLab::cited_import_dois');
     $routes->post('cited_process/reprocessar', 'BrapciLab::cited_reprocess');

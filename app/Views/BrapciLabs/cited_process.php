@@ -38,6 +38,9 @@
                                 <td class="text-end"><?= number_format((int) $status['total'], 0, ',', '.') ?></td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="<?= site_url('labs/cited_process/' . (int) $status['doi_status']) ?>">Processar</a>
+                                    <?php if ((int) $status['doi_status'] === 10): ?>
+                                        <a href="<?= site_url('labs/view/10') ?>" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye" aria-hidden="true"></i> Visualizar</a>
+                                    <?php endif; ?>
                                     <?php if ((int) $status['doi_status'] === 2): ?>
                                         <form method="post" action="<?= site_url('labs/cited_process/reprocessar') ?>" class="d-inline">
                                             <?= csrf_field() ?>

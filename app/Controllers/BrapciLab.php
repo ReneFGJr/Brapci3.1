@@ -71,6 +71,88 @@ class BrapciLab extends BaseController
         return view('BrapciLabs/home', $data);
     }
 
+    public function doi_view(int $status)
+    {
+        $model = new \App\Models\DOI\DOI_json();
+        $q = trim((string) $this->request->getGet('q'));
+        $model->where('doi_status', $status);
+        if ($q !== '') {
+            $model->groupStart()->like('doi_ID', $q)->orLike('doi_content', $q)->groupEnd();
+        }
+        $rows = $model->orderBy('id_doi', 'DESC')->paginate(20);
+        $data = ['title' => 'DOIs cadastrados', 'status' => $status, 'q' => $q,
+            'rows' => $rows, 'pager' => $model->pager, 'record' => null];
+        if ($this->request->getGet('new') === '1') {
+            $data['record'] = ['id_doi' => '', 'doi_ID' => '', 'doi_content' => '',
+                'doi_status' => $status, 'doi_created_at' => ''];
+        } elseif ($id = (int) $this->request->getGet('edit')) {
+            $data['record'] = $model->find($id);
+            if (!$data['record']) {
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            }
+        }
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/doi_crud', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function doi_save(int $status)
+    {
+        $model = new \App\Models\DOI\DOI_json();
+        $id = (int) $this->request->getPost('id_doi');
+        if ($id && !$model->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $doi = strtolower(trim(preg_replace('~^(?:https?://(?:dx\.)?doi\.org/|doi:\s*)~i', '', trim((string) $this->request->getPost('doi_ID')))));
+        $content = (string) $this->request->getPost('doi_content');
+        $newStatus = filter_var($this->request->getPost('doi_status'), FILTER_VALIDATE_INT);
+        $error = null;
+        if (!preg_match('~^10\.\d{4,9}/\S+$~', $doi) || strlen($doi) > 100) {
+            $error = 'Informe um DOI válido com até 100 caracteres.';
+        } elseif ($newStatus === false || $newStatus < 0 || $newStatus > 2147483647) {
+            $error = 'Informe um status inteiro válido.';
+        } elseif (trim($content) !== '' && (json_decode($content) === null && json_last_error() !== JSON_ERROR_NONE)) {
+            $error = 'O conteúdo deve ser um JSON válido ou ficar vazio.';
+        }
+        $back = site_url('labs/view/' . $status) . ($id ? '?edit=' . $id : '?new=1');
+        if ($error) {
+            return redirect()->to($back)->withInput()->with('error', $error);
+        }
+        $db = \Config\Database::connect('brapci_cited');
+        $lock = 'brapci_cited.crossref_import';
+        $acquired = $db->query('SELECT GET_LOCK(?, 30) AS acquired', [$lock])->getRowArray();
+        if ((int) $acquired['acquired'] !== 1) {
+            return redirect()->to($back)->withInput()->with('error', 'Tente salvar novamente. Há uma importação em andamento.');
+        }
+        try {
+            if ($model->where('doi_ID', $doi)->where('id_doi !=', $id)->first()) {
+                return redirect()->to($back)->withInput()->with('error', 'Este DOI já está cadastrado.');
+            }
+            $data = ['doi_ID' => $doi, 'doi_content' => $content, 'doi_status' => $newStatus];
+            $saved = $id ? $model->update($id, $data) : $model->insert($data);
+            if ($saved === false) {
+                throw new \RuntimeException('Falha ao salvar DOI.');
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'DOI CRUD: {message}', ['message' => $e->getMessage()]);
+            return redirect()->to($back)->withInput()->with('error', 'Não foi possível salvar o registro.');
+        } finally {
+            $db->query('SELECT RELEASE_LOCK(?)', [$lock]);
+        }
+        return redirect()->to(site_url('labs/view/' . $newStatus))->with('success', 'Registro salvo.');
+    }
+
+    public function doi_delete(int $status, int $id)
+    {
+        $model = new \App\Models\DOI\DOI_json();
+        if (!$model->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $saved = $model->delete($id);
+        return redirect()->to(site_url('labs/view/' . $status))
+            ->with($saved ? 'success' : 'error', $saved ? 'Registro excluído.' : 'Não foi possível excluir o registro.');
+    }
     public function cited_process()
     {
         $model = new \App\Models\DOI\DOI_json();
