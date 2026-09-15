@@ -4,7 +4,7 @@
         <a href="<?= site_url('labs/cited_process') ?>" class="btn btn-outline-primary">Voltar</a>
     </div>
     <div class="card card-dashboard p-4">
-        <p>Processamento síncrono de até 10 DOIs por lote.</p>
+        <p>Processamento síncrono de até 10 DOIs por lote. Total a processar no início deste lote: <strong><?= number_format((int) ($totalProcessar ?? 0), 0, ',', '.') ?></strong> DOI(s).</p>
         <?php if ($mensagem !== ''): ?>
             <p class="mb-0"><?= esc($mensagem) ?></p>
         <?php endif; ?>
@@ -19,4 +19,16 @@
             <p class="mb-0">Lote concluído: <?= count($resultados) ?> DOI(s).</p>
         <?php endif; ?>
     </div>
+<?php if ($status === 0): ?>
+    <?php if ($recarregar ?? false): ?>
+        <p class="mt-3" role="status">Restam <?= (int) $pendentes ?> DOI(s) pendentes. O próximo lote começa em 3 segundos.</p>
+        <script>
+            window.setTimeout(function () {
+                window.location.reload();
+            }, 3000);
+        </script>
+    <?php elseif (($pendentes ?? 0) === 0): ?>
+        <p class="mt-3" role="status">Processamento finalizado: nenhum DOI com status 0.</p>
+    <?php endif; ?>
+<?php endif; ?>
 </main>

@@ -121,6 +121,7 @@ class BrapciLab extends BaseController
             case 2:
             case 10:
                 $model = new \App\Models\DOI\DOI_json();
+                $data['totalProcessar'] = $model->where('doi_status', $status)->countAllResults();
                 $data['resultados'] = $model->processar($status);
                 if ($status === 0) {
                     $data['pendentes'] = $model->where('doi_status', 0)->countAllResults();
