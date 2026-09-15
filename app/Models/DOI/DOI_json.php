@@ -249,8 +249,8 @@ class DOI_json extends Model
                 'ca_text' => html_entity_decode(implode(' ', $work['title'] ?? []), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
                 'ca_authors' => json_encode($authors, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
                 'ca_pages' => $work['page'] ?? null,
-                'ca_vol' => $work['volume'] ?? null,
-                'ca_nr' => $work['issue'] ?? $work['journal-issue']['issue'] ?? null,
+                'ca_vol' => (string) ($work['volume'] ?? ''),
+                'ca_nr' => (string) ($work['issue'] ?? $work['journal-issue']['issue'] ?? ''),
                 'ca_url' => $work['URL'] ?? 'https://doi.org/' . $doi,
             ];
             $id = $existing ? $existing['id_ca'] : $normalized->insert($data);
