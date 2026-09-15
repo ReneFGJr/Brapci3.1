@@ -93,15 +93,16 @@
             </a>
         </div>
 
-    </div>
-
-    <div class="card card-dashboard p-4 mb-4">
-        <h5 class="mb-3">Referências</h5>
-        <div>
-            <a href="<?= site_url('labs/cited_process') ?>" class="btn btn-primary">
-                Consultar status das referências
+        <div class="col-md-4">
+            <a href="<?= site_url('labs/cited_process') ?>" class="text-decoration-none text-reset">
+                <div class="card card-dashboard p-3">
+                    <h6>Referências</h6>
+                    <h4>Consultar status</h4>
+                    <small class="text-muted">Processamento das referências</small>
+                </div>
             </a>
         </div>
+
     </div>
 
     <!-- Mensagens -->

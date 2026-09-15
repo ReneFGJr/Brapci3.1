@@ -12,10 +12,13 @@
             <div class="alert alert-<?= esc($color) ?>"><?= esc($message) ?></div>
         <?php endif; ?>
     <?php endforeach; ?>
-    <form method="post" action="<?= site_url('labs/cited_process/importar_dois') ?>" class="mb-4">
-        <?= csrf_field() ?>
-        <button type="submit" class="btn btn-primary">Importar DOIs das referências</button>
-    </form>
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post" action="<?= site_url('labs/cited_process/importar_dois') ?>">
+            <?= csrf_field() ?>
+            <button type="submit" class="btn btn-primary">Importar DOIs das referências</button>
+        </form>
+        <a href="<?= site_url('labs/import') ?>" class="btn btn-primary">Inportar Referencias</a>
+    </div>
     <section class="card card-dashboard p-4">
         <h2 class="h5 mb-3">Status das referências</h2>
         <?php if (empty($statuses)): ?>

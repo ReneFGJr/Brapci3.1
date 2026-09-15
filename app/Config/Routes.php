@@ -300,6 +300,8 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->post('cited_process/importar_dois', 'BrapciLab::cited_import_dois');
     $routes->post('cited_process/reprocessar', 'BrapciLab::cited_reprocess');
     $routes->get('cited_process/(:num)', 'BrapciLab::cited_process_status/$1');
+    $routes->get('import', 'BrapciLab::cited_import');
+    $routes->post('import', 'BrapciLab::cited_import_save', ['filter' => 'csrf']);
     $routes->get('dois', 'BrapciLab::dois');
     $routes->get('journals', 'BrapciLab::journals');
     $routes->get('journals/', 'BrapciLab::journals');

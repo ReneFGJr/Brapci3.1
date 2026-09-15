@@ -182,6 +182,51 @@ class BrapciLab extends BaseController
                 ->with('error', 'Não foi possível importar os DOIs. Tente novamente.');
         }
     }
+
+    public function cited_import()
+    {
+        return $this->renderCitedImport();
+    }
+
+    public function cited_import_save()
+    {
+        $referencias = (string) $this->request->getPost('referencias');
+        if (trim($referencias) === '') {
+            return redirect()->to(site_url('labs/import'))->withInput()
+                ->with('error', 'Informe ao menos uma referência.');
+        }
+
+        try {
+            $counts = (new \App\Models\DOI\Cited_tmp())->importar($referencias);
+
+            return $this->renderCitedImport([
+                'result' => $counts,
+                'success' => sprintf(
+                    'Importadas: %d. Não importadas por similaridade: %d. DOIs completados: %d. Linhas vazias: %d.',
+                    $counts['importadas'], $counts['existentes'],
+                    $counts['dois_completados'], $counts['vazias']
+                ),
+            ]);
+        } catch (\Throwable $error) {
+            log_message('error', 'Importação de referências temporárias: {message}', [
+                'message' => $error->getMessage(),
+            ]);
+
+            return redirect()->to(site_url('labs/import'))->withInput()
+                ->with('error', 'Não foi possível importar as referências. Tente novamente.');
+        }
+    }
+
+    private function renderCitedImport(array $data = [])
+    {
+        $data['title'] = 'Importar referências';
+
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/cited_import', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
     public function cited_reprocess()
     {
         $model = new \App\Models\DOI\DOI_json();
