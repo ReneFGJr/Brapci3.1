@@ -13,6 +13,6 @@ class Cited_Normalize extends Model
     protected $useTimestamps = false;
     protected $allowedFields = [
         'ca_doi', 'ca_journal', 'ca_year', 'ca_text', 'ca_authors',
-        'ca_pages', 'ca_url', 'ca_status', 'ca_locked',
+        'ca_pages', 'ca_vol', 'ca_nr', 'ca_url', 'ca_status', 'ca_locked',
     ];
 }
