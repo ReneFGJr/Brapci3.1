@@ -134,20 +134,29 @@ class DOI_json extends Model
         if (!preg_match('~^10\.\d{4,9}/\S+$~', $doi) || strlen($doi) > 100) {
             throw new \InvalidArgumentException('DOI invalido ou maior que 100 caracteres.');
         }
-        $response = \Config\Services::curlrequest()->get('https://api.crossref.org/works/' . rawurlencode($doi), [
-            'headers' => ['Accept' => 'application/json', 'User-Agent' => 'Brapci/3.1 (https://brapci.inf.br)'],
-            'timeout' => 30, 'connect_timeout' => 10, 'http_errors' => false,
-            'verify' => false,
-        ]);
-        if ($response->getStatusCode() !== 200) {
-            throw new \RuntimeException('Crossref retornou HTTP ' . $response->getStatusCode());
-        }
-        $body = $response->getBody();
-        $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
-        $work = $payload['message'] ?? null;
-        if (($payload['status'] ?? '') !== 'ok' || !is_array($work)
-            || strcasecmp($work['DOI'] ?? '', $doi) !== 0) {
-            throw new \RuntimeException('Resposta invalida da Crossref.');
+        $cached = $this->where('doi_ID', $doi)->first();
+        $body = (string) ($cached['doi_content'] ?? '');
+        $payload = json_decode($body, true);
+        $work = is_array($payload) ? ($payload['message'] ?? null) : null;
+        $validCache = is_array($work) && ($payload['status'] ?? '') === 'ok'
+            && is_string($work['DOI'] ?? null) && strcasecmp($work['DOI'], $doi) === 0;
+
+        if (!$validCache) {
+            $response = \Config\Services::curlrequest()->get('https://api.crossref.org/works/' . rawurlencode($doi), [
+                'headers' => ['Accept' => 'application/json', 'User-Agent' => 'Brapci/3.1 (https://brapci.inf.br)'],
+                'timeout' => 30, 'connect_timeout' => 10, 'http_errors' => false,
+                'verify' => false,
+            ]);
+            if ($response->getStatusCode() !== 200) {
+                throw new \RuntimeException('Crossref retornou HTTP ' . $response->getStatusCode());
+            }
+            $body = $response->getBody();
+            $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+            $work = is_array($payload) ? ($payload['message'] ?? null) : null;
+            if (!is_array($work) || ($payload['status'] ?? '') !== 'ok'
+                || !is_string($work['DOI'] ?? null) || strcasecmp($work['DOI'], $doi) !== 0) {
+                throw new \RuntimeException('Resposta invalida da Crossref.');
+            }
         }
         $authors = [];
         foreach ($work['author'] ?? [] as $author) {
