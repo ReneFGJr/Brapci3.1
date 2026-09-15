@@ -71,6 +71,70 @@ class BrapciLab extends BaseController
         return view('BrapciLabs/home', $data);
     }
 
+    public function cited_process()
+    {
+        $model = new \App\Models\DOI\DOI_json();
+        $data = [
+            'title' => 'Referências',
+            'statuses' => $model->countByStatus(),
+            'statusLabels' => [0 => 'Pendente', 1 => 'Importado da Crossref', 2 => 'Falha no processamento', 10 => 'Processado com sucesso'],
+        ];
+
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/cited_process', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function cited_import_dois()
+    {
+        try {
+            $counts = (new \App\Models\DOI\DOI_json())->importarCitedArticle();
+            return redirect()->to(site_url('labs/cited_process'))->with('success', sprintf(
+                'Importados: %d. Já cadastrados ou repetidos: %d. Valores inválidos ou maiores que 100 caracteres: %d.',
+                $counts['importados'], $counts['existentes'], $counts['invalidos']
+            ));
+        } catch (\Throwable $error) {
+            log_message('error', 'Importacao de DOIs: {message}', ['message' => $error->getMessage()]);
+            return redirect()->to(site_url('labs/cited_process'))
+                ->with('error', 'Não foi possível importar os DOIs. Tente novamente.');
+        }
+    }
+    public function cited_reprocess()
+    {
+        $model = new \App\Models\DOI\DOI_json();
+        $saved = $model->where('doi_status', 2)->set(['doi_status' => 0])->update();
+
+        return redirect()->to(site_url('labs/cited_process'))->with(
+            $saved ? 'success' : 'error',
+            $saved ? 'Os registros com status 2 foram alterados para status 0.'
+                : 'Não foi possível alterar os status.'
+        );
+    }
+    public function cited_process_status(int $status)
+    {
+        $data = ['title' => 'Processamento de referências', 'status' => $status,
+            'resultados' => [], 'mensagem' => ''];
+        switch ($status) {
+            case 0:
+            case 1:
+            case 2:
+            case 10:
+                $model = new \App\Models\DOI\DOI_json();
+                $data['resultados'] = $model->processar($status);
+                if (empty($data['resultados'])) {
+                    $data['mensagem'] = 'Nenhum DOI encontrado para este status.';
+                }
+                break;
+            default:
+                $data['mensagem'] = 'Não há processamento definido para este status.';
+                break;
+        }
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/cited_process_results', $data)
+            . view('BrapciLabs/layout/footer');
+    }
     public function dois()
     {
         $data = [

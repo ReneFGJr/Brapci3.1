@@ -293,6 +293,10 @@ $routes->group('events', function ($routes) {
 $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
+    $routes->get('cited_process', 'BrapciLab::cited_process');
+    $routes->post('cited_process/importar_dois', 'BrapciLab::cited_import_dois');
+    $routes->post('cited_process/reprocessar', 'BrapciLab::cited_reprocess');
+    $routes->get('cited_process/(:num)', 'BrapciLab::cited_process_status/$1');
     $routes->get('dois', 'BrapciLab::dois');
     $routes->get('journals', 'BrapciLab::journals');
     $routes->get('journals/', 'BrapciLab::journals');

@@ -95,6 +95,15 @@
 
     </div>
 
+    <div class="card card-dashboard p-4 mb-4">
+        <h5 class="mb-3">Referências</h5>
+        <div>
+            <a href="<?= site_url('labs/cited_process') ?>" class="btn btn-primary">
+                Consultar status das referências
+            </a>
+        </div>
+    </div>
+
     <!-- Mensagens -->
     <div class="card card-dashboard p-4">
         <h5 class="mb-3">Recent Messages</h5>
