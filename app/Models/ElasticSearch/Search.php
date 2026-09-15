@@ -365,8 +365,8 @@ class Search extends Model
 
         $dt2 = $this->rerankByAuthorProductivity(
             $dt,
-            alpha: 0.30,
-            minProduction: 2
+            alpha: 0.40,
+            minProduction: 3
         );
 
         echo json_encode($dt2, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
