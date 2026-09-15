@@ -255,7 +255,12 @@ class DOI_json extends Model
             ];
             $id = $existing ? $existing['id_ca'] : $normalized->insert($data);
             if ($id === false || ($existing && !$normalized->update($id, $data))) {
-                throw new \RuntimeException('Falha ao salvar metadados normalizados.');
+                $dbError = $this->db->error();
+                $details = implode('; ', $normalized->errors());
+                if (!empty($dbError['message'])) {
+                    $details = 'MySQL ' . $dbError['code'] . ': ' . $dbError['message'];
+                }
+                throw new \RuntimeException('Falha ao salvar metadados normalizados. ' . $details);
             }
             $cached = $this->where('doi_ID', $doi)->first();
             $cache = ['doi_ID' => $doi, 'doi_content' => $body, 'doi_status' => 10, 'doi_ref' => $source];
