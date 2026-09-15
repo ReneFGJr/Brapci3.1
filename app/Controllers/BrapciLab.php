@@ -122,6 +122,10 @@ class BrapciLab extends BaseController
             case 10:
                 $model = new \App\Models\DOI\DOI_json();
                 $data['resultados'] = $model->processar($status);
+                if ($status === 0) {
+                    $data['pendentes'] = $model->where('doi_status', 0)->countAllResults();
+                    $data['recarregar'] = !empty($data['resultados']) && $data['pendentes'] > 0;
+                }
                 if (empty($data['resultados'])) {
                     $data['mensagem'] = 'Nenhum DOI encontrado para este status.';
                 }
