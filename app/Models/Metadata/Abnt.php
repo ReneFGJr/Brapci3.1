@@ -293,6 +293,7 @@ class Abnt extends Model
 
 		if (isset($dt['Issue']))
 				{
+					pre($dt);
 					$vol = trim($dt['Issue']['is_vol']);
 					$nr = trim($dt['Issue']['is_nr']);
 					$year = trim($dt['Issue']['is_year']);
