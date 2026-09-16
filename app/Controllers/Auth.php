@@ -442,6 +442,8 @@ class Auth extends Controller
             'message' => 'Success',
             'user'    => $user['us_nome'],
             'ID'      => $user['id_us'],
+            'id'      => $user['id_us'],
+            'admin'   => (int)$Socials->isAdmin($user['id_us']),
             'email'   => $user['us_email'],
             'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
             'token'  => $apikey,
