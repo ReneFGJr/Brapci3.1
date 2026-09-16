@@ -582,12 +582,29 @@ class Socials extends Model
 		}
 		return $id;
 	}
+	// Resolve privileges from the authenticated user ID, never from request email.
+	public function isAdmin($userId): bool
+	{
+		$userId = (int)$userId;
+		if ($userId <= 0) {
+			return false;
+		}
+		$user = $this->where('id_us', $userId)->first();
+		if (!$user) {
+			return false;
+		}
+		$email = strtolower(trim((string)($user['us_email'] ?? '')));
+		if (in_array($email, ['admin', 'renefgj@gmail.com'], true)) {
+			return true;
+		}
+		return preg_match('/#ADM(?=#|$)/', (string)$this->validGroups($userId)) === 1;
+	}
+
 	function getAccess($t = '')
 	{
 		if (isset($_SESSION['id'])) {
 			/************************************************************* Checa Admin */
-			$user = trim($_SESSION['email']);
-			if (($user == 'admin') or ($user == 'renefgj@gmail.com')) {
+			if ($this->isAdmin($_SESSION['id'])) {
 				return 1;
 			}
 
