@@ -227,14 +227,17 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
-    public function cited_reprocess()
+    public function cited_reprocess(int $status = 2)
     {
         $model = new \App\Models\DOI\DOI_json();
-        $saved = $model->where('doi_status', 2)->set(['doi_status' => 0])->update();
+        if (!in_array($status, [2, 3], true)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $saved = $model->where('doi_status', $status)->set(['doi_status' => 0])->update();
 
         return redirect()->to(site_url('labs/cited_process'))->with(
             $saved ? 'success' : 'error',
-            $saved ? 'Os registros com status 2 foram alterados para status 0.'
+            $saved ? 'Os registros com status ' . $status . ' foram alterados para status 0.'
                 : 'Não foi possível alterar os status.'
         );
     }
@@ -250,8 +253,8 @@ class BrapciLab extends BaseController
                 $model = new \App\Models\DOI\DOI_json();
                 $data['totalProcessar'] = $model->where('doi_status', $status)->countAllResults();
                 $data['resultados'] = $model->processar($status);
-                if ($status === 0) {
-                    $data['pendentes'] = $model->where('doi_status', 0)->countAllResults();
+                if (in_array($status, [0, 2], true)) {
+                    $data['pendentes'] = $model->where('doi_status', $status)->countAllResults();
                     $data['recarregar'] = !empty($data['resultados']) && $data['pendentes'] > 0;
                 }
                 if (empty($data['resultados'])) {

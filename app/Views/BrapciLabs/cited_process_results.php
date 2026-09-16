@@ -19,7 +19,7 @@
             <p class="mb-0">Lote concluído: <?= count($resultados) ?> DOI(s).</p>
         <?php endif; ?>
     </div>
-<?php if ($status === 0): ?>
+<?php if (in_array($status, [0, 2], true)): ?>
     <?php if ($recarregar ?? false): ?>
         <p class="mt-3" role="status">Restam <?= (int) $pendentes ?> DOI(s) pendentes. O próximo lote começa em 3 segundos.</p>
         <script>
@@ -28,7 +28,7 @@
             }, 3000);
         </script>
     <?php elseif (($pendentes ?? 0) === 0): ?>
-        <p class="mt-3" role="status">Processamento finalizado: nenhum DOI com status 0.</p>
+        <p class="mt-3" role="status">Processamento finalizado: nenhum DOI com status <?= esc($status) ?>.</p>
     <?php endif; ?>
 <?php endif; ?>
 </main>
