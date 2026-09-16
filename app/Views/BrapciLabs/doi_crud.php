@@ -72,7 +72,13 @@
                     <?php foreach ($rows as $row): ?>
                         <tr>
                             <td><?= esc($row['id_doi']) ?></td>
-                            <td><?= esc($row['doi_ID']) ?></td>
+                            <td>
+                                <?php if ((int) $status === 3): ?>
+                                    <a href="<?= esc('https://doi.org/' . str_replace('%2F', '/', rawurlencode(trim($row['doi_ID']))), 'attr') ?>" target="_blank" rel="noopener noreferrer"><?= esc($row['doi_ID']) ?></a>
+                                <?php else: ?>
+                                    <?= esc($row['doi_ID']) ?>
+                                <?php endif; ?>
+                            </td>
                             <td><?= esc($row['doi_status']) ?></td>
                             <td><?= esc($row['doi_created_at']) ?></td>
                             <td>
