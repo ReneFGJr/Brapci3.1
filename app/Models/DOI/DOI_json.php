@@ -84,6 +84,23 @@ class DOI_json extends Model
             $this->db->query('SELECT RELEASE_LOCK(?)', [$lock]);
         }
     }
+    /** Totais por origem no status selecionado, considerando a busca atual. */
+    public function countBySource(int $status, string $search = ''): array
+    {
+        $builder = $this->db->table('doi_json d')
+            ->select('d.doi_ref, COUNT(*) AS total')
+            ->where('d.doi_status', $status);
+        if ($search !== '') {
+            $builder->groupStart()->like('d.doi_ID', $search)
+                ->orLike('d.doi_content', $search)->groupEnd();
+        }
+        $counts = $builder->groupBy('d.doi_ref')->getCompiledSelect();
+        if (!$this->db->tableExists('source_doi')) {
+            return $this->db->query($counts . ' ORDER BY d.doi_ref')->getResultArray();
+        }
+        return $this->db->query('SELECT s.*, totals.doi_ref, totals.total FROM (' . $counts . ') totals '
+            . 'LEFT JOIN source_doi s ON s.id_source = totals.doi_ref ORDER BY totals.doi_ref')->getResultArray();
+    }
     public function countByStatus(): array
     {
         return $this->select('doi_status, COUNT(*) AS total')

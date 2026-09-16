@@ -6,6 +6,25 @@
             <a class="btn btn-outline-primary" href="<?= site_url('labs/cited_process') ?>">Voltar</a>
         </div>
     </div>
+    <section class="card card-dashboard p-3 mb-4">
+        <h2 class="h5">Resumo por origem</h2>
+        <p class="text-muted">Totais do status <?= esc($status) ?><?= $q !== '' ? ', considerando a busca atual' : '' ?>.</p>
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead><tr><th scope="col">Origem (doi_ref)</th><th scope="col">ID da origem</th><th scope="col" class="text-end">Quantidade</th></tr></thead>
+                <tbody>
+                    <?php foreach ($sourceStats as $source): ?>
+                        <tr>
+                            <td><?= esc($source['doi_ref'] ?? 'Não informado') ?></td>
+                            <td><?= esc($source['id_source'] ?? 'Sem correspondência') ?></td>
+                            <td class="text-end"><?= number_format((int) $source['total'], 0, ',', '.') ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if (!$sourceStats): ?><tr><td colspan="3">Nenhum registro encontrado.</td></tr><?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
     <?php foreach (['success' => 'success', 'error' => 'danger'] as $key => $color): ?>
         <?php if ($message = session()->getFlashdata($key)): ?>
             <div class="alert alert-<?= esc($color) ?>"><?= esc($message) ?></div>

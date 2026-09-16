@@ -81,7 +81,8 @@ class BrapciLab extends BaseController
         }
         $rows = $model->orderBy('id_doi', 'DESC')->paginate(20);
         $data = ['title' => 'DOIs cadastrados', 'status' => $status, 'q' => $q,
-            'rows' => $rows, 'pager' => $model->pager, 'record' => null];
+            'rows' => $rows, 'pager' => $model->pager, 'record' => null,
+            'sourceStats' => $model->countBySource($status, $q)];
         if ($this->request->getGet('new') === '1') {
             $data['record'] = ['id_doi' => '', 'doi_ID' => '', 'doi_content' => '',
                 'doi_status' => $status, 'doi_created_at' => ''];
@@ -159,7 +160,7 @@ class BrapciLab extends BaseController
         $data = [
             'title' => 'Referências',
             'statuses' => $model->countByStatus(),
-            'statusLabels' => [0 => 'Pendente', 1 => 'Importado da Crossref', 2 => 'Pendente de coleta na DataCite', 3 => 'Falha na DataCite', 10 => 'Processado com sucesso'],
+            'statusLabels' => [0 => 'Pendente', 1 => 'Importado da Crossref', 2 => 'Pendente de coleta na DataCite', 3 => 'DOI não identificado', 10 => 'Processado com sucesso'],
         ];
 
         return view('BrapciLabs/layout/header', $data)
