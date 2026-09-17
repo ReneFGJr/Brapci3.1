@@ -91,6 +91,20 @@ class Brapci extends Model
 
             case 'citedLock':
             case 'citedUnLock':
+                $userAPIKEY = get('userAPIKEY');
+                $authenticatedUser = null;
+                if (is_string($userAPIKEY) && trim($userAPIKEY) !== '') {
+                    $Socials = new \App\Models\Socials();
+                    $authenticatedUser = $Socials->where('us_apikey', $userAPIKEY)->first();
+                }
+                if (!$authenticatedUser || (int)($authenticatedUser['us_apikey_active'] ?? 0) !== 1) {
+                    http_response_code(401);
+                    $RSP = [
+                        'status' => '401',
+                        'message' => 'userAPIKEY ausente, invalida ou inativa',
+                    ];
+                    break;
+                }
                 $Cited = new \App\Models\AI\Cited\Index();
                 $blocked = $d1 == 'citedLock' ? 1 : 0;
                 $Cited
@@ -107,6 +121,20 @@ class Brapci extends Model
                 break;
 
             case 'citedDelete':
+                $userAPIKEY = get('userAPIKEY');
+                $authenticatedUser = null;
+                if (is_string($userAPIKEY) && trim($userAPIKEY) !== '') {
+                    $Socials = new \App\Models\Socials();
+                    $authenticatedUser = $Socials->where('us_apikey', $userAPIKEY)->first();
+                }
+                if (!$authenticatedUser || (int)($authenticatedUser['us_apikey_active'] ?? 0) !== 1) {
+                    http_response_code(401);
+                    $RSP = [
+                        'status' => '401',
+                        'message' => 'userAPIKEY ausente, invalida ou inativa',
+                    ];
+                    break;
+                }
                 $Cited = new \App\Models\AI\Cited\Index();
                 $caId = sonumero(get('idz'));
 
