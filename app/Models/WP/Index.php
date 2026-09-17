@@ -69,7 +69,11 @@ class Index extends Model
             $ln = [];
             foreach($dt as $idx=>$line)
                 {
-                    $lnl = ['row'=>$line['a_texto'],'lang'=>$line['a_lang']];
+                    $text = $line['a_texto'];
+                    if ($page === 'team' && $line['a_lang'] === 'pt') {
+                        $text = str_replace('Idealizado do projeto', 'Idealizadora do projeto', $text);
+                    }
+                    $lnl = ['row'=>$text,'lang'=>$line['a_lang']];
                     array_push($ln,$lnl);
                 }
             return $ln;
