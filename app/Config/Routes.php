@@ -19,6 +19,8 @@ $routes->match(['get', 'post', 'options'], '/social/login', 'Auth::index/login')
 $routes->match(['get', 'post', 'options'], '/auth/callback', 'Auth::callback');
 
 
+// Browser session validation uses the API token, independent of the PHP session cookie.
+$routes->match(['post', 'options'], '/api/socials/oauth2', 'Auth::index/oauth2');
 $routes->match(['get', 'post', 'options'], '/api/socials/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/auth/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/api/socials/signup', 'Auth::signup');

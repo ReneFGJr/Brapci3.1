@@ -79,9 +79,12 @@ class Index extends Model
                 $Brapci = new \App\Models\Api\Endpoint\Brapci();
                 $sx = $Brapci->index($d2, $d3, $d4);
                 break;
+            case 'getLike':
+            case 'disliked':
             case 'like':
                 $Like = new \App\Models\Api\Endpoint\Like();
-                $RSP = $Like->index($d2, $d3);
+                $action = $d1 === 'like' ? (ctype_digit((string)$d2) ? 'liked' : $d2) : $d1;
+                $RSP = $Like->index($action, $d2, $d3);
                 echo json_encode($RSP);
                 exit;
                 break;

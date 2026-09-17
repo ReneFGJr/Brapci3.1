@@ -20,6 +20,7 @@ class Auth extends Controller
         $allowed = [
             'https://brapci.inf.br',
             'https://cip.brapci.inf.br',
+            'https://app.brapci.inf.br',
             'http://localhost:4200',
             'http://localhost',
         ];
@@ -36,7 +37,7 @@ class Auth extends Controller
             'Origin, X-Requested-With, Content-Type, Accept, Authorization'
         );
 
-        if ($this->request->getMethod() === 'OPTIONS') {
+        if (strtoupper((string)$this->request->getMethod()) === 'OPTIONS') {
             return $this->response->setStatusCode(204);
         }
 
@@ -68,6 +69,8 @@ class Auth extends Controller
             case 'status':
                 $RSP = $this->status();
                 break;
+            case 'oauth2':
+                return $this->validateApiSession();
             case 'signin':
                 $RSP = $this->signin();
                 break;
@@ -87,6 +90,28 @@ class Auth extends Controller
                 break;
         }
         return $this->response->setJSON($RSP);
+    }
+
+    public function validateApiSession()
+    {
+        $this->response->setHeader('Cache-Control', 'no-store');
+        $token = $this->request->getPost('token');
+        if (!is_string($token) || trim($token) === '') {
+            return $this->response->setStatusCode(401)->setJSON(['status' => '401', 'user' => null]);
+        }
+        $Socials = new Socials();
+        $user = $Socials->where('us_apikey', $token)->first();
+        if (!$user || (int)($user['us_apikey_active'] ?? 0) !== 1) {
+            return $this->response->setStatusCode(401)->setJSON(['status' => '401', 'user' => null]);
+        }
+        return $this->response->setJSON([
+            'status' => '200',
+            'id' => $user['id_us'],
+            'email' => $user['us_email'],
+            'displayName' => $user['us_nome'],
+            'admin' => (int)$Socials->isAdmin($user['id_us']),
+            'token' => $token,
+        ]);
     }
 
     public function email()
@@ -413,8 +438,9 @@ class Auth extends Controller
         }
 
         $apikey = (string) ($user['us_apikey'] ?? '');
-        if ($apikey === '') {
-            $apikey = md5($storedPassword . ($user['us_email'] ?? ''));
+        if ($apikey === '' || (int)($user['us_apikey_active'] ?? 0) !== 1) {
+            // Password was verified above. Replace inactive keys rather than reviving them.
+            $apikey = bin2hex(random_bytes(16));
             $Socials->set([
                 'us_apikey' => $apikey,
                 'us_apikey_active' => 1,
