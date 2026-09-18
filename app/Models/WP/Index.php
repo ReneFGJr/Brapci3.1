@@ -67,15 +67,20 @@ class Index extends Model
                 ->orderby('a_order')
                 ->findAll();
             $ln = [];
+            $menu = [];
             foreach($dt as $idx=>$line)
                 {
                     $text = $line['a_texto'];
+                    $menu[] = $line['a_section'];
                     if ($page === 'team' && $line['a_lang'] === 'pt') {
                         $text = str_replace('Idealizado do projeto', 'Idealizadora do projeto', $text);
                     }
-                    $lnl = ['row'=>$text,'lang'=>$line['a_lang'],'ordem'=>(int)$line['a_order']];
+                    $lnl = ['row'=>$text,'lang'=>$line['a_lang'],'ordem'=>(int)$line['a_order'],'section'=>$line['a_section']];
                     array_push($ln,$lnl);
                 }
+            $rsp = [];
+            $rsp['content'] = $ln;
+            $rsp['menu'] = $menu;
             return $ln;
         }
 
