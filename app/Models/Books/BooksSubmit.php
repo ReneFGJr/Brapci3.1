@@ -946,46 +946,20 @@ class BooksSubmit extends Model
         $subject = '[BRAPCI-LIVROS] ';
         $subject .= 'Termo de submissão';
 
-        $emailConfig = config(\Config\Email::class);
-        $mailer = \Config\Services::email($emailConfig, false);
+        // Centraliza o SMTP no mesmo modelo usado pelos demais fluxos da
+        // aplicacao. Esse modelo le as credenciais EMAIL_* do arquivo .env.
+        $emailService = new \App\Models\Functions\Email();
+        $result = $emailService->sendmail($email, $subject, $txt);
 
-        if ($emailConfig->fromEmail === '') {
-            log_message('error', 'Livro {id}: EMAIL_FROM nao esta configurado.', ['id' => $id]);
-            return false;
+        if (($result['success'] ?? false) === true) {
+            return true;
         }
 
-        $mailer->setFrom(
-            $emailConfig->fromEmail,
-            $emailConfig->fromName !== '' ? $emailConfig->fromName : $emailConfig->fromEmail
-        );
-        $mailer->setTo($email);
-        $mailer->setSubject($subject);
-
-        $image = FCPATH . 'img/email/bg-email-hL3a.jpg';
-        if (is_file($image)) {
-            $mailer->attach($image);
-            $txt = str_replace('$image1', $mailer->setAttachmentCID($image), $txt);
-        } else {
-            $txt = str_replace('$image1', '', $txt);
-        }
-
-        $mailer->setMessage($txt);
-
-        try {
-            if ($mailer->send(false)) {
-                return true;
-            }
-
-            log_message('error', 'Livro {id}: falha no envio do e-mail. {debug}', [
-                'id' => $id,
-                'debug' => $mailer->printDebugger(['headers']),
-            ]);
-        } catch (\Throwable $exception) {
-            log_message('error', 'Livro {id}: excecao no envio do e-mail: {message}', [
-                'id' => $id,
-                'message' => $exception->getMessage(),
-            ]);
-        }
+        log_message('error', 'Livro {id}: falha no envio do e-mail: {message}. {debug}', [
+            'id' => $id,
+            'message' => $result['message'] ?? 'Erro SMTP nao informado.',
+            'debug' => $result['debug'] ?? '',
+        ]);
 
         return false;
     }
@@ -1012,7 +986,10 @@ class BooksSubmit extends Model
                 $RSP['message'] = 'Registro já existe na base de dados';
                 $dt['id_b'] = $dt['id_bs'];
             }
-            $this->sendEmail($dt['id_b']);
+            if (! $this->sendEmail($dt['id_b'])) {
+                $RSP['status'] = '502';
+                $RSP['message'] = 'A submissao foi registrada, mas o e-mail de confirmacao nao pode ser enviado.';
+            }
         } else {
             $RSP['status'] = '500';
             $RSP['message'] = 'Arquivo vazio';
