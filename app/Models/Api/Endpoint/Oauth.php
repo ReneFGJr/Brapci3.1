@@ -103,7 +103,9 @@ class Oauth extends Model
             case 'oauth2':
                 $token = get("token");
                 $Socials = new \App\Models\Socials();
-                $dt = $Socials->where('us_apikey',$token)->first();
+                $dt = is_string($token) && trim($token) !== ''
+                    ? $Socials->where('us_apikey', $token)->first()
+                    : null;
                 $RSP = [];
 
                 if ($dt == [])
@@ -129,7 +131,7 @@ class Oauth extends Model
                         $RSP['givenName'] = $givenName;
                         $RSP['token'] = $token;
                         $RSP['persistentId'] = '';
-                        $RSP['admin'] = '';
+                        $RSP['admin'] = (int)$Socials->isAdmin($dt['id_us']);
                     }
                 echo json_encode($RSP);
                 exit;
@@ -305,13 +307,7 @@ class Oauth extends Model
                 $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
 
                 /********************************** */
-                $adminX = 0;
-                $ddp = (string)$Socials->validGroups($dd['id']);
-                if (strpos(' '. $ddp,'#ADM') > 0)
-                    {
-                        $adminX = 1;
-                    }
-                $dd['admin'] = $adminX;
+                $dd['admin'] = (int)$Socials->isAdmin($dd['id']);
             }
         return $dd;
     }

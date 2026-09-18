@@ -526,6 +526,7 @@ def check_04(silent=False):
 def check_05(silent=False):
     conn = None
     updated_rows = 0
+    doi = None
 
     try:
         conn = get_connection("brapci_cited")
@@ -585,10 +586,11 @@ def check_05(silent=False):
         if conn is not None:
             conn.rollback()
 
+        error_message = f"{e} | DOI: {doi!r}"
         if silent:
-            return erro(str(e))
+            return erro(error_message)
 
-        print("Erro no check_05:", e)
+        print("Erro no check_05:", error_message)
         return False
 
     finally:

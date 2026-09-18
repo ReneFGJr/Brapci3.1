@@ -51,6 +51,47 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function getUserLiked($userKey)
+    {
+        if (!is_string($userKey) || trim($userKey) === '') {
+            http_response_code(401);
+            return ['status' => '401', 'message' => 'Invalid userKey'];
+        }
+        $social = new \App\Models\Socials();
+        $user = $social->where('us_apikey', $userKey)->first();
+        if (!$user || (int)($user['us_apikey_active'] ?? 0) !== 1) {
+            http_response_code(401);
+            return ['status' => '401', 'message' => 'Invalid userKey'];
+        }
+        $likes = $this->select('lk_id, lk_update')->where('lk_user', $user['id_us'])
+            ->where('lk_status', 1)->orderBy('lk_update', 'DESC')->orderBy('id_lk', 'DESC')->findAll();
+        $ids = array_values(array_unique(array_column($likes, 'lk_id')));
+        $records = [];
+        foreach (array_chunk($ids, 500) as $batch) {
+            $search = new \App\Models\ElasticSearch\Search();
+            foreach ($search->select('ID, TITLE, AUTHORS, YEAR, PUBLICATION')->whereIn('ID', $batch)->findAll() as $record) {
+                $records[(string)$record['ID']] = $record;
+            }
+        }
+        $works = [];
+        $seen = [];
+        foreach ($likes as $like) {
+            $id = (string)$like['lk_id'];
+            if (isset($seen[$id])) continue;
+            $seen[$id] = true;
+            $record = $records[$id] ?? [];
+            $works[] = [
+                'id' => $id,
+                'title' => $record['TITLE'] ?? ('Registro ' . $id),
+                'authors' => $record['AUTHORS'] ?? '',
+                'year' => $record['YEAR'] ?? '',
+                'publication' => $record['PUBLICATION'] ?? '',
+                'likedAt' => $like['lk_update'],
+            ];
+        }
+        return ['status' => '200', 'total' => count($works), 'works' => $works];
+    }
+
     function getLike($id, $user)
     {
         $RSP = [];

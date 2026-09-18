@@ -65,6 +65,11 @@ class Like extends Model
         $RSP['ID'] = $id;
 
         switch ($d1) {
+            case 'getUserLiked':
+                header('Content-Type: application/json; charset=utf-8');
+                header('Cache-Control: no-store');
+                $RSP = $Like->getUserLiked(get('userKey'));
+                break;
             case 'liked':
                 $RSP = $Like->setID($id,$user);
                 break;

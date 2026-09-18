@@ -19,6 +19,8 @@ $routes->match(['get', 'post', 'options'], '/social/login', 'Auth::index/login')
 $routes->match(['get', 'post', 'options'], '/auth/callback', 'Auth::callback');
 
 
+// Browser session validation uses the API token, independent of the PHP session cookie.
+$routes->match(['post', 'options'], '/api/socials/oauth2', 'Auth::index/oauth2');
 $routes->match(['get', 'post', 'options'], '/api/socials/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/auth/(:any)', 'Auth::index/$1');
 $routes->match(['get', 'post', 'options'], '/api/socials/signup', 'Auth::signup');
@@ -299,6 +301,7 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('cited_process', 'BrapciLab::cited_process');
     $routes->post('cited_process/importar_dois', 'BrapciLab::cited_import_dois');
     $routes->post('cited_process/reprocessar', 'BrapciLab::cited_reprocess');
+    $routes->post('cited_process/reprocessar/(:num)', 'BrapciLab::cited_reprocess/$1', ['filter' => 'csrf']);
     $routes->get('cited_process/(:num)', 'BrapciLab::cited_process_status/$1');
     $routes->get('import', 'BrapciLab::cited_import');
     $routes->post('import', 'BrapciLab::cited_import_save', ['filter' => 'csrf']);
