@@ -81,7 +81,7 @@ class Index extends Model
             $rsp = [];
             $rsp['content'] = $ln;
             $rsp['menu'] = $menu;
-            return $ln;
+            return $rsp;
         }
 
     function edit($d2, $d3)
