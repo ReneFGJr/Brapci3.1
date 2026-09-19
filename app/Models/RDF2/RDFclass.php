@@ -206,13 +206,14 @@ class RDFclass extends Model
     public function crudForm(int $id = 0): string
     {
         $request = service('request');
+        $requestMethod = strtoupper((string) $request->getMethod());
         $record = $id > 0 ? $this->find($id) : null;
         if ($id > 0 && $record === null) {
             return $this->crudTable('Classe não encontrada.', 'danger');
         }
 
         $error = '';
-        if ($request->getMethod() === 'post') {
+        if ($requestMethod === 'POST') {
             $name = trim((string) $request->getPost('c_class'));
             $prefix = (int) $request->getPost('c_prefix');
             if ($name === '' || $prefix <= 0) {
@@ -251,7 +252,7 @@ class RDFclass extends Model
 
         $values = $record ?? [];
         foreach (['c_class', 'c_prefix', 'c_description', 'c_url'] as $field) {
-            if ($request->getMethod() === 'post') {
+            if ($requestMethod === 'POST') {
                 $values[$field] = $request->getPost($field);
             }
         }
@@ -277,7 +278,7 @@ class RDFclass extends Model
 
     public function crudDelete(int $id): string
     {
-        if (service('request')->getMethod() !== 'post') {
+        if (strtoupper((string) service('request')->getMethod()) !== 'POST') {
             return $this->crudTable('Método não permitido para exclusão.', 'danger');
         }
         $record = $this->find($id);
