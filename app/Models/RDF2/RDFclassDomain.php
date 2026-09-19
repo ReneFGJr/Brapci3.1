@@ -145,7 +145,7 @@ class RDFclassDomain extends Model
                         $existingForm = $formTable->where('rf_class', $values['cd_property'])->get()->getRowArray();
                         $formData = ['rf_class' => $values['cd_property'], 'rf_group' => $values['rf_group'], 'rf_order' => $values['rf_order']];
                         if ($existingForm !== null) {
-                            $formTable->where('id_f', $existingForm['id_f'])->update($formData);
+                            $formTable->where('rf_class', $values['cd_property'])->update($formData);
                         } else {
                             $formTable->insert($formData);
                         }
