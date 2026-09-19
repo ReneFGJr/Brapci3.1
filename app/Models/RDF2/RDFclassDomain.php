@@ -49,7 +49,7 @@ class RDFclassDomain extends Model
             }
 
             $rules = $this
-                ->select('id_cd, C1.c_class as domain, C2.c_class as prop, C3.c_class as range, COALESCE(rf_group, "Sem grupo") as form_group, COALESCE(rf_order, 0) as form_order')
+                ->select("id_cd, C1.c_class as domain, C2.c_class as prop, C3.c_class as range, COALESCE(rf_group, 'Sem grupo') as form_group, COALESCE(rf_order, 0) as form_order")
                 ->join('brapci_rdf.rdf_class as C1', 'C1.id_c = cd_domain', 'left')
                 ->join('brapci_rdf.rdf_class as C2', 'C2.id_c = cd_property', 'left')
                 ->join('brapci_rdf.rdf_class as C3', 'C3.id_c = cd_range', 'left')
@@ -63,29 +63,43 @@ class RDFclassDomain extends Model
                 $formGroup = trim((string) ($rule['form_group'] ?? '')) ?: 'Sem grupo';
                 $groups[$domain][$formGroup][] = $rule;
             }
+            $availableGroups = [];
+            foreach ($groups as $formGroups) {
+                foreach (array_keys($formGroups) as $formGroup) {
+                    $availableGroups[$formGroup] = $formGroup;
+                }
+            }
+            natcasesort($availableGroups);
 
             $sx = '<div class="d-flex justify-content-between align-items-center mb-4">';
             $sx .= '<div><h1 class="mb-1">Regras da ontologia</h1><p class="text-muted mb-0">Relatório agrupado por domínio.</p></div>';
             $sx .= '<div><a class="btn btn-outline-secondary me-2" href="' . PATH . '/rdf">Voltar ao RDF</a><a class="btn btn-primary" href="' . PATH . '/rdf/rules/create">Nova regra</a></div></div>';
             $sx .= '<div class="alert alert-light border">' . count($rules) . ' regra(s) em ' . count($groups) . ' domínio(s).</div>';
+            $sx .= '<div class="mb-4"><label class="form-label" for="rdf-rule-group-filter">Filtrar por grupo</label>';
+            $sx .= '<select class="form-select" id="rdf-rule-group-filter"><option value="">Todos os grupos</option>';
+            foreach ($availableGroups as $formGroup) {
+                $sx .= '<option value="' . esc($formGroup, 'attr') . '">' . esc($formGroup) . '</option>';
+            }
+            $sx .= '</select></div><div id="rdf-rule-filter-empty" class="alert alert-info d-none">Nenhuma regra encontrada neste grupo.</div>';
             foreach ($groups as $domain => $formGroups) {
                 $domainTotal = array_sum(array_map('count', $formGroups));
-                $sx .= '<section class="card mb-4 shadow-sm"><div class="card-header bg-dark text-white d-flex justify-content-between"><strong>' . esc($domain) . '</strong>';
+                $sx .= '<section class="card mb-4 shadow-sm rdf-rule-domain"><div class="card-header bg-dark text-white d-flex justify-content-between"><strong>' . esc($domain) . '</strong>';
                 $sx .= '<span class="badge bg-light text-dark">' . $domainTotal . ' regra(s)</span></div><div class="card-body">';
                 foreach ($formGroups as $formGroup => $domainRules) {
-                    $sx .= '<h2 class="h5 mt-2 mb-2 text-primary">Grupo: ' . esc($formGroup) . '</h2>';
+                    $sx .= '<div class="rdf-rule-group" data-group="' . esc($formGroup, 'attr') . '"><h2 class="h5 mt-2 mb-2 text-primary">Grupo: ' . esc($formGroup) . '</h2>';
                     $sx .= '<div class="table-responsive mb-3"><table class="table table-striped table-hover mb-0"><thead><tr><th style="width:10%">Ordem</th><th>Propriedade</th><th>Alcance</th><th class="text-end">Ações</th></tr></thead><tbody>';
                     foreach ($domainRules as $rule) {
                         $sx .= '<tr><td>' . (int) $rule['form_order'] . '</td><td>' . esc((string) ($rule['prop'] ?? '')) . '</td><td>' . esc((string) ($rule['range'] ?? '')) . '</td>';
                         $sx .= '<td class="text-end"><a class="btn btn-sm btn-outline-primary" href="' . PATH . '/rdf/rules/edit/' . (int) $rule['id_cd'] . '">Editar</a></td></tr>';
                     }
-                    $sx .= '</tbody></table></div>';
+                    $sx .= '</tbody></table></div></div>';
                 }
                 $sx .= '</div></section>';
             }
             if ($groups === []) {
                 $sx .= '<div class="alert alert-info">Nenhuma regra cadastrada.</div>';
             }
+            $sx .= '<script>(function(){const filter=document.getElementById("rdf-rule-group-filter");if(!filter)return;const domains=Array.from(document.querySelectorAll(".rdf-rule-domain"));const empty=document.getElementById("rdf-rule-filter-empty");filter.addEventListener("change",function(){const selected=this.value;let visibleDomains=0;domains.forEach(function(domain){let visibleGroups=0;domain.querySelectorAll(".rdf-rule-group").forEach(function(group){const show=!selected||group.dataset.group===selected;group.classList.toggle("d-none",!show);if(show)visibleGroups++;});domain.classList.toggle("d-none",visibleGroups===0);if(visibleGroups>0)visibleDomains++;});empty.classList.toggle("d-none",visibleDomains!==0);});})();</script>';
             return bs(bsc($sx, 12));
         }
 
