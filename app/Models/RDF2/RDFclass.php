@@ -166,18 +166,23 @@ class RDFclass extends Model
         }
 
     /** CRUD used by /rdf/Class. */
-    public function crudTable(string $message = '', string $messageType = 'success'): string
+    public function crudTable(string $message = '', string $messageType = 'success', string $type = 'C'): string
     {
+        $type = $type === 'P' ? 'P' : 'C';
+        $isProperty = $type === 'P';
+        $basePath = PATH . '/rdf/' . ($isProperty ? 'Property' : 'Class');
+        $singular = $isProperty ? 'propriedade' : 'classe';
         $rows = $this
             ->select('id_c, c_class, c_description, c_url, prefix_ref')
             ->join('rdf_prefix', 'id_prefix = c_prefix', 'left')
-            ->where('c_type', 'C')
+            ->where('c_type', $type)
             ->orderBy('c_class')
             ->findAll();
 
         $sx = '<div class="d-flex justify-content-between align-items-center mb-3">';
-        $sx .= '<h2 class="mb-0">Classes RDF</h2>';
-        $sx .= '<a class="btn btn-primary" href="' . PATH . '/rdf/Class/create">Nova classe</a></div>';
+        $sx .= '<h2 class="mb-0">' . ($isProperty ? 'Propriedades RDF' : 'Classes RDF') . '</h2>';
+        $sx .= '<div><a class="btn btn-outline-secondary me-2" href="' . PATH . '/rdf">Voltar ao RDF</a>';
+        $sx .= '<a class="btn btn-primary" href="' . $basePath . '/create">Nova ' . $singular . '</a></div></div>';
         if ($message !== '') {
             $sx .= '<div class="alert alert-' . esc($messageType, 'attr') . '">' . esc($message) . '</div>';
         }
@@ -194,7 +199,12 @@ class RDFclass extends Model
             $safeUrl = preg_match('~^https?://~i', $url) ? '<a href="' . esc($url, 'attr') . '" target="_blank" rel="noopener noreferrer">' . esc($url) . '</a>' : esc($url);
             $sx .= '<td>' . $safeUrl . '</td>';
             $sx .= '<td class="text-end text-nowrap"><a class="btn btn-sm btn-outline-secondary me-1" href="' . esc($detailUrl, 'attr') . '">Visualizar</a>';
-            $sx .= '<a class="btn btn-sm btn-outline-primary" href="' . PATH . '/rdf/Class/edit/' . $id . '">Editar</a></td></tr>';
+            $sx .= '<a class="btn btn-sm btn-outline-primary' . ($isProperty ? ' me-1' : '') . '" href="' . $basePath . '/edit/' . $id . '">Editar</a>';
+            if ($isProperty) {
+                $sx .= '<form class="d-inline" method="post" action="' . $basePath . '/delete/' . $id . '" onsubmit="return confirm(\'Confirma a exclusão desta propriedade?\');">';
+                $sx .= csrf_field() . '<button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button></form>';
+            }
+            $sx .= '</td></tr>';
         }
         if ($rows === []) {
             $sx .= '<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma classe cadastrada.</td></tr>';
@@ -203,13 +213,17 @@ class RDFclass extends Model
         return $sx;
     }
 
-    public function crudForm(int $id = 0): string
+    public function crudForm(int $id = 0, string $type = 'C'): string
     {
+        $type = $type === 'P' ? 'P' : 'C';
+        $isProperty = $type === 'P';
+        $basePath = PATH . '/rdf/' . ($isProperty ? 'Property' : 'Class');
+        $singular = $isProperty ? 'propriedade' : 'classe';
         $request = service('request');
         $requestMethod = strtoupper((string) $request->getMethod());
         $record = $id > 0 ? $this->find($id) : null;
         if ($id > 0 && $record === null) {
-            return $this->crudTable('Classe não encontrada.', 'danger');
+            return $this->crudTable(ucfirst($singular) . ' não encontrada.', 'danger', $type);
         }
 
         $error = '';
@@ -217,7 +231,7 @@ class RDFclass extends Model
             $name = trim((string) $request->getPost('c_class'));
             $prefix = (int) $request->getPost('c_prefix');
             if ($name === '' || $prefix <= 0) {
-                $error = 'Informe o nome e o prefixo da classe.';
+                $error = 'Informe o nome e o prefixo da ' . $singular . '.';
             } elseif (!preg_match('/^[A-Za-z_][A-Za-z0-9_.-]*$/', $name)) {
                 $error = 'O nome deve começar com letra ou sublinhado e não pode conter espaços.';
             } elseif (trim((string) $request->getPost('c_url')) !== '' && !filter_var(trim((string) $request->getPost('c_url')), FILTER_VALIDATE_URL)) {
@@ -228,24 +242,24 @@ class RDFclass extends Model
                     $duplicate->where('id_c !=', $id);
                 }
                 if ($duplicate->first() !== null) {
-                    $error = 'Já existe uma classe com esse nome e prefixo.';
+                    $error = 'Já existe uma ' . $singular . ' com esse nome e prefixo.';
                 } else {
                     $data = [
                         'c_class' => $name,
                         'c_prefix' => $prefix,
-                        'c_type' => 'C',
+                        'c_type' => $type,
                         'c_description' => trim((string) $request->getPost('c_description')),
                         'c_url' => trim((string) $request->getPost('c_url')),
                         'c_url_update' => date('Y-m-d'),
                     ];
                     if ($id > 0) {
                         $this->update($id, $data);
-                        return $this->crudTable('Classe atualizada com sucesso.');
+                        return $this->crudTable(ucfirst($singular) . ' atualizada com sucesso.', 'success', $type);
                     }
                     $data['c_equivalent'] = 0;
                     $data['c_class_main'] = 0;
                     $this->insert($data);
-                    return $this->crudTable('Classe criada com sucesso.');
+                    return $this->crudTable(ucfirst($singular) . ' criada com sucesso.', 'success', $type);
                 }
             }
         }
@@ -257,13 +271,14 @@ class RDFclass extends Model
             }
         }
         $prefixes = (new RDFprefix())->orderBy('prefix_ref')->findAll();
-        $action = $id > 0 ? PATH . '/rdf/Class/edit/' . $id : PATH . '/rdf/Class/create';
-        $sx = '<h2>' . ($id > 0 ? 'Editar classe RDF' : 'Nova classe RDF') . '</h2>';
+        $action = $id > 0 ? $basePath . '/edit/' . $id : $basePath . '/create';
+        $sx = '<div class="d-flex justify-content-between align-items-center mb-3"><h2 class="mb-0">' . ($id > 0 ? 'Editar ' . $singular . ' RDF' : 'Nova ' . $singular . ' RDF') . '</h2>';
+        $sx .= '<a class="btn btn-outline-secondary" href="' . PATH . '/rdf">Voltar ao RDF</a></div>';
         if ($error !== '') {
             $sx .= '<div class="alert alert-danger">' . esc($error) . '</div>';
         }
         $sx .= '<form method="post" action="' . esc($action, 'attr') . '">' . csrf_field();
-        $sx .= '<div class="mb-3"><label class="form-label" for="c_class">Nome da classe</label><input required class="form-control" id="c_class" name="c_class" maxlength="255" value="' . esc((string) ($values['c_class'] ?? ''), 'attr') . '"></div>';
+        $sx .= '<div class="mb-3"><label class="form-label" for="c_class">Nome da ' . $singular . '</label><input required class="form-control" id="c_class" name="c_class" maxlength="255" value="' . esc((string) ($values['c_class'] ?? ''), 'attr') . '"></div>';
         $sx .= '<div class="mb-3"><label class="form-label" for="c_prefix">Prefixo</label><select required class="form-select" id="c_prefix" name="c_prefix"><option value="">Selecione</option>';
         foreach ($prefixes as $prefix) {
             $selected = (int) ($values['c_prefix'] ?? 0) === (int) $prefix['id_prefix'] ? ' selected' : '';
@@ -272,18 +287,19 @@ class RDFclass extends Model
         $sx .= '</select></div>';
         $sx .= '<div class="mb-3"><label class="form-label" for="c_description">Descrição</label><textarea class="form-control" id="c_description" name="c_description" rows="3">' . esc((string) ($values['c_description'] ?? '')) . '</textarea></div>';
         $sx .= '<div class="mb-3"><label class="form-label" for="c_url">URL</label><input type="url" class="form-control" id="c_url" name="c_url" value="' . esc((string) ($values['c_url'] ?? ''), 'attr') . '"></div>';
-        $sx .= '<button class="btn btn-primary me-2" type="submit">Salvar</button><a class="btn btn-outline-secondary" href="' . PATH . '/rdf/Class">Cancelar</a></form>';
+        $sx .= '<button class="btn btn-primary me-2" type="submit">Salvar</button><a class="btn btn-outline-secondary" href="' . $basePath . '">Cancelar</a></form>';
         return $sx;
     }
 
-    public function crudDelete(int $id): string
+    public function crudDelete(int $id, string $type = 'C'): string
     {
+        $type = $type === 'P' ? 'P' : 'C';
         if (strtoupper((string) service('request')->getMethod()) !== 'POST') {
-            return $this->crudTable('Método não permitido para exclusão.', 'danger');
+            return $this->crudTable('Método não permitido para exclusão.', 'danger', $type);
         }
         $record = $this->find($id);
         if ($record === null) {
-            return $this->crudTable('Classe não encontrada.', 'danger');
+            return $this->crudTable('Registro não encontrado.', 'danger', $type);
         }
 
         $db = db_connect('rdf2');
@@ -291,9 +307,9 @@ class RDFclass extends Model
         $dependencies += $db->table('rdf_class_domain')->groupStart()->where('cd_domain', $id)->orWhere('cd_property', $id)->orWhere('cd_range', $id)->groupEnd()->countAllResults();
         $dependencies += $this->groupStart()->where('c_equivalent', $id)->orWhere('c_class_main', $id)->groupEnd()->countAllResults();
         if ($dependencies > 0) {
-            return $this->crudTable('A classe não pode ser excluída porque possui vínculos com conceitos ou regras da ontologia.', 'warning');
+            return $this->crudTable('O registro não pode ser excluído porque possui vínculos com conceitos ou regras da ontologia.', 'warning', $type);
         }
         $this->delete($id);
-        return $this->crudTable('Classe excluída com sucesso.');
+        return $this->crudTable('Registro excluído com sucesso.', 'success', $type);
     }
 }

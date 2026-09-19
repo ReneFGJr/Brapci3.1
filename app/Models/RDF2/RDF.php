@@ -165,6 +165,19 @@ class RDF extends Model
                 }
                 return bs(bsc($sx));
                 break;
+            case 'Property':
+                $RDFclass = new \App\Models\RDF2\RDFclass();
+                if ($d2 === 'create') {
+                    $sx = $RDFclass->crudForm(0, 'P');
+                } elseif ($d2 === 'edit') {
+                    $sx = $RDFclass->crudForm((int) $d3, 'P');
+                } elseif ($d2 === 'delete') {
+                    $sx = $RDFclass->crudDelete((int) $d3, 'P');
+                } else {
+                    $sx = $RDFclass->crudTable('', 'success', 'P');
+                }
+                return bs(bsc($sx));
+                break;
             default:
                 return bs(bsc($this->menu(), 12));
                 break;
@@ -176,14 +189,23 @@ class RDF extends Model
 
     function menu()
     {
-        $menu = [];
-        $menu[PATH . '/rdf/Class'] = "Classes";
-        $menu[PATH . '/rdf/withoutClass/-1'] = "WithOutClasses (-1)";
-        $menu[PATH . '/rdf/withoutClass/0'] = "WithOutClasses (0)";
-        $menu[PATH . '/rdf/withoutClass/1'] = "WithOutClasses (1)";
-        $menu[PATH . '/rdf/resume'] = "Resume";
-        $menu[PATH . '/rdf/rules'] = "Ontology (Rules)";
-        return menu($menu);
+        $items = [
+            [PATH . '/rdf/Class', 'Classes', 'Cadastre e organize as classes RDF.', 'primary'],
+            [PATH . '/rdf/Property', 'Propriedades', 'Gerencie as propriedades da ontologia.', 'success'],
+            [PATH . '/rdf/rules', 'Regras da ontologia', 'Consulte domínios, propriedades e alcances.', 'info'],
+            [PATH . '/rdf/resume', 'Resumo', 'Veja os totais de registros por classe.', 'secondary'],
+            [PATH . '/rdf/withoutClass/-1', 'Sem classe (-1)', 'Registros com classificação inválida.', 'warning'],
+            [PATH . '/rdf/withoutClass/0', 'Sem classe (0)', 'Registros ainda não classificados.', 'warning'],
+            [PATH . '/rdf/withoutClass/1', 'Sem classe (1)', 'Registros para conferência de classe.', 'warning'],
+        ];
+        $sx = '<div class="mb-4"><h1 class="mb-1">Editor RDF</h1><p class="text-muted">Administração da estrutura e dos registros da ontologia.</p></div>';
+        $sx .= '<div class="row g-3">';
+        foreach ($items as $item) {
+            $sx .= '<div class="col-12 col-md-6 col-xl-4"><a class="card h-100 text-decoration-none border-' . $item[3] . '" href="' . esc($item[0], 'attr') . '">';
+            $sx .= '<div class="card-body"><h3 class="h5 text-' . $item[3] . '">' . esc($item[1]) . '</h3><p class="card-text text-body mb-0">' . esc($item[2]) . '</p></div></a></div>';
+        }
+        $sx .= '</div>';
+        return $sx;
     }
 
     function view($id)
