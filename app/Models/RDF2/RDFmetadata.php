@@ -157,7 +157,7 @@ class RDFmetadata extends Model
                 $data2 = $this->summaryCount($RSP['worksID']);
                 $RSP['authors'] = $data2['authors'];
                 $RSP['years'] = $data2['years'];
-                $RSP['banner'] = '';
+                $RSP['banner'] = $this->recoverBanner($RSP);
                 return $RSP;
                 break;
             case 'Subject':
@@ -204,6 +204,34 @@ class RDFmetadata extends Model
             ->findAll();
 
         return $dt;
+    }
+
+    /**
+     * Recupera a imagem de banner vinculada ao periódico.
+     * Prioriza hasBanner e utiliza hasCover como imagem alternativa.
+     */
+    private function recoverBanner(array $metadata): string
+    {
+        $RDFimage = new \App\Models\RDF2\RDFimage();
+
+        foreach (($metadata['data'] ?? []) as $line) {
+            if (($line['Property'] ?? '') !== 'hasBanner') {
+                continue;
+            }
+
+            $imageId = (int) ($line['ID'] ?? 0);
+            if ($imageId > 0) {
+                return $RDFimage->cover($imageId);
+            }
+
+            $caption = trim((string) ($line['URL'] ?? $line['Caption'] ?? ''));
+            if ($caption !== '') {
+                return $caption;
+            }
+        }
+
+        $conceptId = (int) ($metadata['ID'] ?? $metadata['jnl_frbr'] ?? 0);
+        return $conceptId > 0 ? $RDFimage->cover($conceptId) : '';
     }
 
     function subjects(array $IDs = [])
