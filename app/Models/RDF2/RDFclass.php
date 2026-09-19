@@ -211,7 +211,7 @@ class RDFclass extends Model
             $sx .= '</td></tr>';
         }
         if ($rows === []) {
-            $sx .= '<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma classe cadastrada.</td></tr>';
+            $sx .= '<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma ' . $singular . ' cadastrada.</td></tr>';
         }
         $sx .= '<tr id="' . $tableBodyId . '-empty" class="d-none"><td colspan="6" class="text-center text-muted py-4">Nenhum resultado encontrado.</td></tr>';
         $sx .= '</tbody></table></div>';

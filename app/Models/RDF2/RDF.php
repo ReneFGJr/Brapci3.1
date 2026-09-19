@@ -64,7 +64,7 @@ class RDF extends Model
                 break;
             case 'rules':
                 $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
-                $sx .= $RDFclassDomain->rules($d2);
+                $sx .= $RDFclassDomain->rules($d2, (int) $d3);
                 return $sx;
                 break;
             case 'v':

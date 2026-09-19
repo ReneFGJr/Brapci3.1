@@ -209,6 +209,7 @@ $routes->post('/rdf/Class/delete/(:num)', 'Rdf::index/Class/delete/$1');
 $routes->match(['get', 'post'], '/rdf/Property/create', 'Rdf::index/Property/create');
 $routes->match(['get', 'post'], '/rdf/Property/edit/(:num)', 'Rdf::index/Property/edit/$1');
 $routes->post('/rdf/Property/delete/(:num)', 'Rdf::index/Property/delete/$1');
+$routes->match(['get', 'post'], '/rdf/rules/edit/(:num)', 'Rdf::index/rules/edit/$1');
 $routes->get('/rdf/(:any)', 'Rdf::index/$1');
 $routes->get('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
 $routes->post('/rdf/(:any)', 'Rdf::index/$1');

@@ -42,37 +42,98 @@ class RDFclassDomain extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function rules()
+    function rules(string $action = '', int $id = 0)
         {
-            $cp = '*';
-            $cp = 'C1.c_class as domain';
-            $cp .= ', C2.c_class as prop';
-            $cp .= ', C3.c_class as range';
-            $dt = $this
-                ->select($cp)
-                ->join('brapci_rdf.rdf_class as C1','C1.id_c = cd_domain', 'left')
-                ->join('brapci_rdf.rdf_class as C2', 'C2.id_c = cd_property','left')
-                ->join('brapci_rdf.rdf_class as C3','C3.id_c = cd_range', 'left')
-                ->orderBy('C1.c_class,C2.c_class,C3.c_class')
+            if ($action === 'create' || $action === 'edit') {
+                return $this->ruleForm($action === 'edit' ? $id : 0);
+            }
+
+            $rules = $this
+                ->select('id_cd, C1.c_class as domain, C2.c_class as prop, C3.c_class as range')
+                ->join('brapci_rdf.rdf_class as C1', 'C1.id_c = cd_domain', 'left')
+                ->join('brapci_rdf.rdf_class as C2', 'C2.id_c = cd_property', 'left')
+                ->join('brapci_rdf.rdf_class as C3', 'C3.id_c = cd_range', 'left')
+                ->orderBy('C1.c_class, C2.c_class, C3.c_class')
                 ->findAll();
 
-            $sx = '<table class="table full">';
-            $sx .= '<tr>
-                    <th witth="33%">Domain</th>
-                    <th witth="33%">Propriety</th>
-                    <th witth="33%">Range</th>
-                    </tr>
-                    ';
-            foreach($dt as $id=>$line)
-                {
-                    $sx .= '<tr>';
-                    $sx .= '<td>'.$line['domain'].'</td>';
-                    $sx .= '<td>' . $line['prop'] . '</td>';
-                    $sx .= '<td>' . $line['range'] . '</td>';
-                    $sx .= '</tr>';
+            $groups = [];
+            foreach ($rules as $rule) {
+                $groups[(string) ($rule['domain'] ?? 'Sem domínio')][] = $rule;
+            }
+
+            $sx = '<div class="d-flex justify-content-between align-items-center mb-4">';
+            $sx .= '<div><h1 class="mb-1">Regras da ontologia</h1><p class="text-muted mb-0">Relatório agrupado por domínio.</p></div>';
+            $sx .= '<div><a class="btn btn-outline-secondary me-2" href="' . PATH . '/rdf">Voltar ao RDF</a><a class="btn btn-primary" href="' . PATH . '/rdf/rules/create">Nova regra</a></div></div>';
+            $sx .= '<div class="alert alert-light border">' . count($rules) . ' regra(s) em ' . count($groups) . ' domínio(s).</div>';
+            foreach ($groups as $domain => $domainRules) {
+                $sx .= '<section class="card mb-4 shadow-sm"><div class="card-header bg-dark text-white d-flex justify-content-between"><strong>' . esc($domain) . '</strong>';
+                $sx .= '<span class="badge bg-light text-dark">' . count($domainRules) . ' regra(s)</span></div>';
+                $sx .= '<div class="table-responsive"><table class="table table-striped table-hover mb-0"><thead><tr><th>Propriedade</th><th>Alcance</th><th class="text-end">Ações</th></tr></thead><tbody>';
+                foreach ($domainRules as $rule) {
+                    $sx .= '<tr><td>' . esc((string) ($rule['prop'] ?? '')) . '</td><td>' . esc((string) ($rule['range'] ?? '')) . '</td>';
+                    $sx .= '<td class="text-end"><a class="btn btn-sm btn-outline-primary" href="' . PATH . '/rdf/rules/edit/' . (int) $rule['id_cd'] . '">Editar</a></td></tr>';
                 }
-            $sx .= '</table>';
-            return bs(bsc($sx,12));
+                $sx .= '</tbody></table></div></section>';
+            }
+            if ($groups === []) {
+                $sx .= '<div class="alert alert-info">Nenhuma regra cadastrada.</div>';
+            }
+            return bs(bsc($sx, 12));
+        }
+
+    private function ruleForm(int $id = 0): string
+        {
+            $request = service('request');
+            $record = $id > 0 ? $this->find($id) : null;
+            if ($id > 0 && $record === null) {
+                return bs(bsc('<div class="alert alert-danger">Regra não encontrada.</div>', 12));
+            }
+            $values = $record ?? ['cd_domain' => '', 'cd_property' => '', 'cd_range' => ''];
+            $error = '';
+            if (strtoupper((string) $request->getMethod()) === 'POST') {
+                foreach (['cd_domain', 'cd_property', 'cd_range'] as $field) {
+                    $values[$field] = (int) $request->getPost($field);
+                }
+                if (min($values) <= 0) {
+                    $error = 'Selecione o domínio, a propriedade e o alcance.';
+                } else {
+                    $duplicate = $this->where('cd_domain', $values['cd_domain'])->where('cd_property', $values['cd_property'])->where('cd_range', $values['cd_range']);
+                    if ($id > 0) {
+                        $duplicate->where('id_cd !=', $id);
+                    }
+                    if ($duplicate->first() !== null) {
+                        $error = 'Esta regra já está cadastrada.';
+                    } else {
+                        $id > 0 ? $this->update($id, $values) : $this->insert($values);
+                        return $this->rules();
+                    }
+                }
+            }
+
+            $classModel = new \App\Models\RDF2\RDFclass();
+            $classes = $classModel->select('id_c, c_class')->where('c_type', 'C')->orderBy('c_class')->findAll();
+            $properties = (new \App\Models\RDF2\RDFclass())->select('id_c, c_class')->where('c_type', 'P')->orderBy('c_class')->findAll();
+            $formAction = $id > 0 ? PATH . '/rdf/rules/edit/' . $id : PATH . '/rdf/rules/create';
+            $sx = '<div class="d-flex justify-content-between align-items-center mb-4"><h1 class="mb-0">' . ($id > 0 ? 'Editar regra' : 'Nova regra') . '</h1><a class="btn btn-outline-secondary" href="' . PATH . '/rdf/rules">Voltar ao relatório</a></div>';
+            if ($error !== '') {
+                $sx .= '<div class="alert alert-danger">' . esc($error) . '</div>';
+            }
+            $sx .= '<form method="post" action="' . esc($formAction, 'attr') . '">' . csrf_field();
+            $sx .= $this->ruleSelect('cd_domain', 'Domínio', $classes, (int) $values['cd_domain']);
+            $sx .= $this->ruleSelect('cd_property', 'Propriedade', $properties, (int) $values['cd_property']);
+            $sx .= $this->ruleSelect('cd_range', 'Alcance', $classes, (int) $values['cd_range']);
+            $sx .= '<button class="btn btn-primary me-2" type="submit">Salvar regra</button><a class="btn btn-outline-secondary" href="' . PATH . '/rdf/rules">Cancelar</a></form>';
+            return bs(bsc($sx, 12));
+        }
+
+    private function ruleSelect(string $name, string $label, array $options, int $selected): string
+        {
+            $sx = '<div class="mb-3"><label class="form-label" for="' . $name . '">' . $label . '</label><select class="form-select" required id="' . $name . '" name="' . $name . '"><option value="">Selecione</option>';
+            foreach ($options as $option) {
+                $selectedAttribute = (int) $option['id_c'] === $selected ? ' selected' : '';
+                $sx .= '<option value="' . (int) $option['id_c'] . '"' . $selectedAttribute . '>' . esc((string) $option['c_class']) . '</option>';
+            }
+            return $sx . '</select></div>';
         }
 
     function getForm($class = '')
