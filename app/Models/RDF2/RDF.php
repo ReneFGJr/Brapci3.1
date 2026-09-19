@@ -102,16 +102,13 @@ class RDF extends Model
                 $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
 
                 if ($d2 == '') {
-                    $Class = $RDFclass->getClasses();
-                    $sx = '<div style="column-count: 3;">';
-                    $sx .= '<ul>';
-                    foreach ($Class as $id => $line) {
-                        $link = '<a href="' . PATH . '/rdf/Class/' . $line['Class'] . '">';
-                        $linka = '</a>';
-                        $sx .= '<li>' . $link . $line['Class'] . $linka . '</li>' . cr();
-                    }
-                    $sx .= '</ul>';
-                    $sx .= '</div>';
+                    $sx = $RDFclass->crudTable();
+                } elseif ($d2 === 'create') {
+                    $sx = $RDFclass->crudForm();
+                } elseif ($d2 === 'edit') {
+                    $sx = $RDFclass->crudForm((int) $d3);
+                } elseif ($d2 === 'delete') {
+                    $sx = $RDFclass->crudDelete((int) $d3);
                 } else {
                     $dt =  $RDFclass->get($d2);
                     $sx .= h("Class", 6);

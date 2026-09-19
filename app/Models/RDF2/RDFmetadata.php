@@ -156,7 +156,8 @@ class RDFmetadata extends Model
                 $RSP['avaliations'] = $this->avaliationsISSN($RSP['jnl_frbr']);
                 $data2 = $this->summaryCount($RSP['worksID']);
                 $RSP['authors'] = $data2['authors'];
-                $RSP['years'] = $data2['years'];;
+                $RSP['years'] = $data2['years'];
+                $RSP['banner'] = '';
                 return $RSP;
                 break;
             case 'Subject':

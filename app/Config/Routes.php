@@ -203,6 +203,9 @@ $routes->post('/notepad/(:segment)', 'Notepad::save/$1');
 /********* TOOLS */
 //$routes->get('/rdf', 'Rdf::index');
 $routes->get('/rdf/', 'Rdf::index/');
+$routes->match(['get', 'post'], '/rdf/Class/create', 'Rdf::index/Class/create');
+$routes->match(['get', 'post'], '/rdf/Class/edit/(:num)', 'Rdf::index/Class/edit/$1');
+$routes->post('/rdf/Class/delete/(:num)', 'Rdf::index/Class/delete/$1');
 $routes->get('/rdf/(:any)', 'Rdf::index/$1');
 $routes->get('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
 $routes->post('/rdf/(:any)', 'Rdf::index/$1');
