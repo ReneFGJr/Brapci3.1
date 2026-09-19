@@ -221,7 +221,8 @@ class RDFmetadata extends Model
 
             $imageId = (int) ($line['ID'] ?? 0);
             if ($imageId > 0) {
-                return $RDFimage->cover($imageId);
+                $banner = $RDFimage->cover($imageId);
+                return is_string($banner) && stripos($banner, 'no_cover.png') === false ? $banner : '';
             }
 
             $caption = trim((string) ($line['URL'] ?? $line['Caption'] ?? ''));
@@ -231,7 +232,12 @@ class RDFmetadata extends Model
         }
 
         $conceptId = (int) ($metadata['ID'] ?? $metadata['jnl_frbr'] ?? 0);
-        return $conceptId > 0 ? $RDFimage->cover($conceptId) : '';
+        if ($conceptId <= 0) {
+            return '';
+        }
+
+        $banner = $RDFimage->cover($conceptId);
+        return is_string($banner) && stripos($banner, 'no_cover.png') === false ? $banner : '';
     }
 
     function subjects(array $IDs = [])
