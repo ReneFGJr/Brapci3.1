@@ -186,13 +186,17 @@ class RDFclass extends Model
         if ($message !== '') {
             $sx .= '<div class="alert alert-' . esc($messageType, 'attr') . '">' . esc($message) . '</div>';
         }
+        $filterId = $isProperty ? 'rdf-property-filter' : 'rdf-class-filter';
+        $tableBodyId = $isProperty ? 'rdf-property-rows' : 'rdf-class-rows';
+        $sx .= '<div class="mb-3"><label class="form-label" for="' . $filterId . '">Buscar</label>';
+        $sx .= '<input class="form-control" type="search" id="' . $filterId . '" placeholder="Digite um ID, prefixo, nome, descrição ou URL" autocomplete="off"></div>';
         $sx .= '<div class="table-responsive"><table class="table table-striped table-hover align-middle">';
-        $sx .= '<thead class="table-dark"><tr><th>ID</th><th>Prefixo</th><th>Classe</th><th>Descrição</th><th>URL</th><th class="text-end">Ações</th></tr></thead><tbody>';
+        $sx .= '<thead class="table-dark"><tr><th>ID</th><th>Prefixo</th><th>' . ($isProperty ? 'Propriedade' : 'Classe') . '</th><th>Descrição</th><th>URL</th><th class="text-end">Ações</th></tr></thead><tbody id="' . $tableBodyId . '">';
         foreach ($rows as $line) {
             $id = (int) $line['id_c'];
             $name = esc((string) $line['c_class']);
             $detailUrl = PATH . '/rdf/Class/' . rawurlencode((string) $line['c_class']);
-            $sx .= '<tr><td>' . $id . '</td><td>' . esc((string) ($line['prefix_ref'] ?? '')) . '</td>';
+            $sx .= '<tr class="rdf-filter-row"><td>' . $id . '</td><td>' . esc((string) ($line['prefix_ref'] ?? '')) . '</td>';
             $sx .= '<td><a href="' . esc($detailUrl, 'attr') . '">' . $name . '</a></td>';
             $sx .= '<td>' . esc((string) ($line['c_description'] ?? '')) . '</td>';
             $url = trim((string) ($line['c_url'] ?? ''));
@@ -209,7 +213,9 @@ class RDFclass extends Model
         if ($rows === []) {
             $sx .= '<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma classe cadastrada.</td></tr>';
         }
+        $sx .= '<tr id="' . $tableBodyId . '-empty" class="d-none"><td colspan="6" class="text-center text-muted py-4">Nenhum resultado encontrado.</td></tr>';
         $sx .= '</tbody></table></div>';
+        $sx .= '<script>(function(){const input=document.getElementById(' . json_encode($filterId) . ');const body=document.getElementById(' . json_encode($tableBodyId) . ');if(!input||!body)return;const rows=Array.from(body.querySelectorAll(".rdf-filter-row"));const empty=document.getElementById(' . json_encode($tableBodyId . '-empty') . ');input.addEventListener("input",function(){const query=this.value.trim().toLocaleLowerCase();let visible=0;rows.forEach(function(row){const show=!query||row.textContent.toLocaleLowerCase().includes(query);row.classList.toggle("d-none",!show);if(show)visible++;});empty.classList.toggle("d-none",visible!==0);});})();</script>';
         return $sx;
     }
 
