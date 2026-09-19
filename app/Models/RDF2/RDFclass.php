@@ -194,9 +194,7 @@ class RDFclass extends Model
             $safeUrl = preg_match('~^https?://~i', $url) ? '<a href="' . esc($url, 'attr') . '" target="_blank" rel="noopener noreferrer">' . esc($url) . '</a>' : esc($url);
             $sx .= '<td>' . $safeUrl . '</td>';
             $sx .= '<td class="text-end text-nowrap"><a class="btn btn-sm btn-outline-secondary me-1" href="' . esc($detailUrl, 'attr') . '">Visualizar</a>';
-            $sx .= '<a class="btn btn-sm btn-outline-primary me-1" href="' . PATH . '/rdf/Class/edit/' . $id . '">Editar</a>';
-            $sx .= '<form class="d-inline" method="post" action="' . PATH . '/rdf/Class/delete/' . $id . '" onsubmit="return confirm(\'Confirma a exclusão desta classe?\');">';
-            $sx .= csrf_field() . '<button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button></form></td></tr>';
+            $sx .= '<a class="btn btn-sm btn-outline-primary" href="' . PATH . '/rdf/Class/edit/' . $id . '">Editar</a></td></tr>';
         }
         if ($rows === []) {
             $sx .= '<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma classe cadastrada.</td></tr>';
