@@ -80,7 +80,7 @@
                                         <?php endif; ?>
                                         <tr>
                                             <td class="text-center">
-                                                <input class="form-check-input reference-checkbox" type="checkbox" name="references[]"
+                                                <input class="form-check-input reference-checkbox border border-dark border-2" type="checkbox" name="references[]"
                                                     value="<?= (int) $reference['id_ca'] ?>"
                                                     data-group="<?= $reference['similarity_group'] === null ? '' : (int) $reference['similarity_group'] ?>"
                                                     aria-label="Selecionar referência <?= (int) $reference['id_ca'] ?>">
