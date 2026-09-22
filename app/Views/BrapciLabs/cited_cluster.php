@@ -48,7 +48,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php $currentGroupKey = null; ?>
                                     <?php foreach ($references as $reference): ?>
+                                        <?php
+                                            $groupKey = $reference['similarity_group'] === null
+                                                ? 'isolated'
+                                                : 'group-' . $reference['similarity_group'];
+                                        ?>
+                                        <?php if ($groupKey !== $currentGroupKey): ?>
+                                            <?php $currentGroupKey = $groupKey; ?>
+                                            <tr class="table-dark">
+                                                <th colspan="6">
+                                                    <?php if ($reference['similarity_group'] === null): ?>
+                                                        Sem grupo — aproximação inferior a 70%
+                                                    <?php else: ?>
+                                                        Grupo <?= (int) $reference['similarity_group'] ?>
+                                                        — <?= (int) $reference['similarity_group_size'] ?> referências similares
+                                                    <?php endif; ?>
+                                                </th>
+                                            </tr>
+                                        <?php endif; ?>
                                         <tr>
                                             <td class="text-center">
                                                 <input class="form-check-input reference-checkbox" type="checkbox" name="references[]"
@@ -90,7 +109,7 @@
                     <?php else: ?>
                         <?php foreach ($normalizedCandidates as $candidate): ?>
                             <div class="form-check border rounded p-3 ps-5 mb-2">
-                                <input class="form-check-input" type="radio" name="normalized_id"
+                                <input class="form-check-input border border-dark border-2" type="radio" name="normalized_id"
                                     id="normalized-<?= (int) $candidate['id_ca'] ?>"
                                     value="<?= (int) $candidate['id_ca'] ?>">
                                 <label class="form-check-label" for="normalized-<?= (int) $candidate['id_ca'] ?>">
@@ -102,7 +121,7 @@
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <div class="form-check mt-2">
-                        <input class="form-check-input" type="radio" name="normalized_id" id="create-normalized"
+                        <input class="form-check-input border border-dark border-2" type="radio" name="normalized_id" id="create-normalized"
                             value="0" <?= empty($normalizedCandidates) ? 'checked' : '' ?>>
                         <label class="form-check-label" for="create-normalized">Criar um novo registro normalizado</label>
                     </div>
@@ -113,7 +132,7 @@
                     <p class="text-muted">Escolha o texto que será usado caso um novo registro normalizado precise ser criado.</p>
                     <?php foreach ($selectedReferences as $reference): ?>
                         <div class="form-check border rounded p-3 ps-5 mb-2">
-                            <input class="form-check-input" type="radio" name="standard_id"
+                            <input class="form-check-input border border-dark border-2" type="radio" name="standard_id"
                                 id="standard-<?= (int) $reference['id_ca'] ?>"
                                 value="<?= (int) $reference['id_ca'] ?>">
                             <label class="form-check-label" for="standard-<?= (int) $reference['id_ca'] ?>">
