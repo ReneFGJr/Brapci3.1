@@ -62,8 +62,18 @@
                                                     <?php if ($reference['similarity_group'] === null): ?>
                                                         Sem grupo — aproximação inferior a 70%
                                                     <?php else: ?>
-                                                        Grupo <?= (int) $reference['similarity_group'] ?>
-                                                        — <?= (int) $reference['similarity_group_size'] ?> referências similares
+                                                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                                            <span>
+                                                                Grupo <?= (int) $reference['similarity_group'] ?>
+                                                                — <?= (int) $reference['similarity_group_size'] ?> referências similares
+                                                            </span>
+                                                            <span class="d-flex gap-2">
+                                                                <button type="button" class="btn btn-light btn-sm select-similarity-group"
+                                                                    data-group="<?= (int) $reference['similarity_group'] ?>">Selecionar todos do grupo</button>
+                                                                <button type="button" class="btn btn-primary btn-sm submit-similarity-group"
+                                                                    data-group="<?= (int) $reference['similarity_group'] ?>">Agrupar</button>
+                                                            </span>
+                                                        </div>
                                                     <?php endif; ?>
                                                 </th>
                                             </tr>
@@ -72,6 +82,7 @@
                                             <td class="text-center">
                                                 <input class="form-check-input reference-checkbox" type="checkbox" name="references[]"
                                                     value="<?= (int) $reference['id_ca'] ?>"
+                                                    data-group="<?= $reference['similarity_group'] === null ? '' : (int) $reference['similarity_group'] ?>"
                                                     aria-label="Selecionar referência <?= (int) $reference['id_ca'] ?>">
                                             </td>
                                             <td><?= (int) $reference['id_ca'] ?></td>
@@ -153,8 +164,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('select-all-references');
+    const checkboxes = Array.from(document.querySelectorAll('.reference-checkbox'));
     if (button) {
-        const checkboxes = Array.from(document.querySelectorAll('.reference-checkbox'));
         const updateButton = function () {
             const allSelected = checkboxes.length > 0 && checkboxes.every(checkbox => checkbox.checked);
             button.textContent = allSelected ? 'Desmarcar todos' : 'Selecionar todos';
@@ -169,6 +180,22 @@ document.addEventListener('DOMContentLoaded', function () {
         checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateButton));
     }
 
+    document.querySelectorAll('.select-similarity-group').forEach(function (groupButton) {
+        groupButton.addEventListener('click', function () {
+            const groupCheckboxes = checkboxes.filter(checkbox => checkbox.dataset.group === groupButton.dataset.group);
+            const selectAll = !groupCheckboxes.every(checkbox => checkbox.checked);
+            groupCheckboxes.forEach(checkbox => checkbox.checked = selectAll);
+            groupButton.textContent = selectAll ? 'Desmarcar todos do grupo' : 'Selecionar todos do grupo';
+        });
+    });
+
+    document.querySelectorAll('.submit-similarity-group').forEach(function (groupButton) {
+        groupButton.addEventListener('click', function () {
+            checkboxes.forEach(checkbox => checkbox.checked = checkbox.dataset.group === groupButton.dataset.group);
+            const form = groupButton.closest('form');
+            if (form) form.requestSubmit();
+        });
+    });
     const standardRadios = Array.from(document.querySelectorAll('input[name="standard_id"]'));
     const normalizedRadios = Array.from(document.querySelectorAll('input[name="normalized_id"][data-doi]'));
     const createNormalized = document.getElementById('create-normalized');
