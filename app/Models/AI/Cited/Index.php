@@ -96,9 +96,58 @@ class Index extends Model
             $builder->like('ca_text', $term);
         }
 
-        return $builder->orderBy('ca_text')
+        $references = $builder->orderBy('ca_text')
             ->limit(100)
             ->findAll();
+
+        return $this->calculateApproximations($references);
+    }
+
+    private function calculateApproximations(array $references): array
+    {
+        foreach ($references as &$reference) {
+            $prefix = mb_substr((string) ($reference['ca_text'] ?? ''), 0, 100);
+            $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $prefix);
+            $reference['_comparison_text'] = trim((string) preg_replace('/[^a-z0-9]+/', ' ', strtolower($ascii !== false ? $ascii : $prefix)));
+            $reference['approximation'] = 0.0;
+            $reference['closest_reference_id'] = null;
+        }
+        unset($reference);
+
+        $total = count($references);
+        for ($left = 0; $left < $total; $left++) {
+            for ($right = $left + 1; $right < $total; $right++) {
+                if ($references[$left]['_comparison_text'] === '' || $references[$right]['_comparison_text'] === '') {
+                    continue;
+                }
+                similar_text(
+                    $references[$left]['_comparison_text'],
+                    $references[$right]['_comparison_text'],
+                    $percentage
+                );
+                if ($percentage > $references[$left]['approximation']) {
+                    $references[$left]['approximation'] = $percentage;
+                    $references[$left]['closest_reference_id'] = (int) $references[$right]['id_ca'];
+                }
+                if ($percentage > $references[$right]['approximation']) {
+                    $references[$right]['approximation'] = $percentage;
+                    $references[$right]['closest_reference_id'] = (int) $references[$left]['id_ca'];
+                }
+            }
+        }
+
+        foreach ($references as &$reference) {
+            unset($reference['_comparison_text']);
+            $reference['approximation'] = round($reference['approximation'], 1);
+        }
+        unset($reference);
+
+        usort($references, static function (array $left, array $right): int {
+            return $right['approximation'] <=> $left['approximation']
+                ?: strcmp((string) $left['ca_text'], (string) $right['ca_text']);
+        });
+
+        return $references;
     }
 
     public function getReferencesByIds(array $ids): array

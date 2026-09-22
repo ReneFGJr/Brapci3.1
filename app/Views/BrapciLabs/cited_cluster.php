@@ -44,6 +44,7 @@
                                         <th scope="col">Referência</th>
                                         <th scope="col">Ano</th>
                                         <th scope="col">DOI</th>
+                                        <th scope="col">Aproximação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +59,12 @@
                                             <td><?= esc($reference['ca_text'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_year'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_doi'] ?? '') ?></td>
+                                            <td class="text-nowrap">
+                                                <strong><?= number_format((float) ($reference['approximation'] ?? 0), 1, ',', '.') ?>%</strong>
+                                                <?php if (!empty($reference['closest_reference_id'])): ?>
+                                                    <small class="d-block text-muted">com #<?= (int) $reference['closest_reference_id'] ?></small>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
