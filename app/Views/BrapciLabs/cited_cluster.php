@@ -111,7 +111,7 @@
                             <div class="form-check border rounded p-3 ps-5 mb-2">
                                 <input class="form-check-input border border-dark border-2" type="radio" name="normalized_id"
                                     id="normalized-<?= (int) $candidate['id_ca'] ?>"
-                                    value="<?= (int) $candidate['id_ca'] ?>">
+                                    value="<?= (int) $candidate['id_ca'] ?>" data-doi="<?= esc($candidate['ca_doi_normalized'] ?? '', 'attr') ?>">
                                 <label class="form-check-label" for="normalized-<?= (int) $candidate['id_ca'] ?>">
                                     <strong>#<?= (int) $candidate['id_ca'] ?> — <?= esc($candidate['match_reason']) ?></strong><br>
                                     <?= esc($candidate['ca_text'] ?? '') ?><br>
@@ -130,11 +130,12 @@
                 <section class="mb-4">
                     <h3 class="h6">Referência padrão</h3>
                     <p class="text-muted">Escolha o texto que será usado caso um novo registro normalizado precise ser criado.</p>
+                    <div id="doi-check-result" class="alert d-none" role="status"></div>
                     <?php foreach ($selectedReferences as $reference): ?>
                         <div class="form-check border rounded p-3 ps-5 mb-2">
                             <input class="form-check-input border border-dark border-2" type="radio" name="standard_id"
                                 id="standard-<?= (int) $reference['id_ca'] ?>"
-                                value="<?= (int) $reference['id_ca'] ?>">
+                                value="<?= (int) $reference['id_ca'] ?>" data-doi="<?= esc($reference['ca_doi_normalized'] ?? '', 'attr') ?>">
                             <label class="form-check-label" for="standard-<?= (int) $reference['id_ca'] ?>">
                                 <strong>#<?= (int) $reference['id_ca'] ?></strong> — <?= esc($reference['ca_text'] ?? '') ?><br>
                                 <small class="text-muted">DOI: <?= esc($reference['ca_doi'] ?? 'não informado') ?></small>
@@ -152,20 +153,47 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('select-all-references');
-    if (!button) return;
+    if (button) {
+        const checkboxes = Array.from(document.querySelectorAll('.reference-checkbox'));
+        const updateButton = function () {
+            const allSelected = checkboxes.length > 0 && checkboxes.every(checkbox => checkbox.checked);
+            button.textContent = allSelected ? 'Desmarcar todos' : 'Selecionar todos';
+        };
 
-    const checkboxes = Array.from(document.querySelectorAll('.reference-checkbox'));
-    const updateButton = function () {
-        const allSelected = checkboxes.length > 0 && checkboxes.every(checkbox => checkbox.checked);
-        button.textContent = allSelected ? 'Desmarcar todos' : 'Selecionar todos';
-    };
+        button.addEventListener('click', function () {
+            const selectAll = !checkboxes.every(checkbox => checkbox.checked);
+            checkboxes.forEach(checkbox => checkbox.checked = selectAll);
+            updateButton();
+        });
 
-    button.addEventListener('click', function () {
-        const selectAll = !checkboxes.every(checkbox => checkbox.checked);
-        checkboxes.forEach(checkbox => checkbox.checked = selectAll);
-        updateButton();
+        checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateButton));
+    }
+
+    const standardRadios = Array.from(document.querySelectorAll('input[name="standard_id"]'));
+    const normalizedRadios = Array.from(document.querySelectorAll('input[name="normalized_id"][data-doi]'));
+    const createNormalized = document.getElementById('create-normalized');
+    const doiResult = document.getElementById('doi-check-result');
+
+    standardRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            if (!doiResult || !createNormalized) return;
+
+            const doi = radio.dataset.doi || '';
+            const existing = normalizedRadios.find(candidate => candidate.dataset.doi === doi && doi !== '');
+            doiResult.className = 'alert';
+
+            if (existing) {
+                existing.checked = true;
+                doiResult.classList.add('alert-success');
+                doiResult.textContent = 'O DOI ' + doi + ' já está cadastrado em cited_normalize (#' + existing.value + '). Esse registro foi selecionado automaticamente.';
+            } else {
+                createNormalized.checked = true;
+                doiResult.classList.add(doi === '' ? 'alert-warning' : 'alert-info');
+                doiResult.textContent = doi === ''
+                    ? 'A referência padrão selecionada não possui DOI. Será criado um novo registro normalizado.'
+                    : 'O DOI ' + doi + ' ainda não está cadastrado. Será criado um novo registro normalizado.';
+            }
+        });
     });
-
-    checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateButton));
 });
 </script>

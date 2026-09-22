@@ -366,6 +366,7 @@ class BrapciLab extends BaseController
         $references = (new \App\Models\AI\Cited\Index())->getReferencesByIds($ids);
         foreach ($references as &$reference) {
             $reference['ca_text'] = \App\Models\DOI\Cited_Normalize::cleanReferenceText((string) ($reference['ca_text'] ?? ''));
+            $reference['ca_doi_normalized'] = \App\Models\DOI\Cited_Normalize::normalizeDoi((string) ($reference['ca_doi'] ?? ''));
         }
         unset($reference);
         if (count($references) < 2) {
@@ -373,12 +374,18 @@ class BrapciLab extends BaseController
                 ->with('error', 'Selecione pelo menos duas referências para agrupar.');
         }
 
+        $normalizedCandidates = (new \App\Models\DOI\Cited_Normalize())->findCandidates($references, $query);
+        foreach ($normalizedCandidates as &$candidate) {
+            $candidate['ca_doi_normalized'] = \App\Models\DOI\Cited_Normalize::normalizeDoi((string) ($candidate['ca_doi'] ?? ''));
+        }
+        unset($candidate);
+
         $data = [
             'title' => 'Clusterização das referências',
             'query' => $query,
             'references' => [],
             'selectedReferences' => $references,
-            'normalizedCandidates' => (new \App\Models\DOI\Cited_Normalize())->findCandidates($references, $query),
+            'normalizedCandidates' => $normalizedCandidates,
         ];
         return view('BrapciLabs/layout/header', $data)
             . view('BrapciLabs/layout/sidebar')
