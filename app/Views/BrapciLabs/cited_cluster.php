@@ -30,7 +30,7 @@
                 <?php if (empty($references)): ?>
                     <p class="text-muted mb-0">Nenhuma referência encontrada.</p>
                 <?php else: ?>
-                    <form method="post" action="<?= site_url('labs/cited/cluter/prepare') ?>">
+                    <form method="post" action="<?= site_url('labs/cited/cluter/prepare') ?>" target="_blank">
                         <?= csrf_field() ?>
                         <input type="hidden" name="q" value="<?= esc($query) ?>">
                         <p class="text-muted">Selecione pelo menos duas referências. São exibidos até 100 registros.</p>
