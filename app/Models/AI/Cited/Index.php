@@ -105,6 +105,7 @@ class Index extends Model
 
     private function calculateApproximations(array $references): array
     {
+        $threshold = 70.0;
         foreach ($references as &$reference) {
             $prefix = mb_substr((string) ($reference['ca_text'] ?? ''), 0, 100);
             $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $prefix);
@@ -115,6 +116,15 @@ class Index extends Model
         unset($reference);
 
         $total = count($references);
+        $parents = range(0, max(0, $total - 1));
+        $findRoot = static function (int $index) use (&$parents): int {
+            while ($parents[$index] !== $index) {
+                $parents[$index] = $parents[$parents[$index]];
+                $index = $parents[$index];
+            }
+            return $index;
+        };
+
         for ($left = 0; $left < $total; $left++) {
             for ($right = $left + 1; $right < $total; $right++) {
                 if ($references[$left]['_comparison_text'] === '' || $references[$right]['_comparison_text'] === '') {
@@ -133,23 +143,48 @@ class Index extends Model
                     $references[$right]['approximation'] = $percentage;
                     $references[$right]['closest_reference_id'] = (int) $references[$left]['id_ca'];
                 }
+                if ($percentage >= $threshold) {
+                    $leftRoot = $findRoot($left);
+                    $rightRoot = $findRoot($right);
+                    if ($leftRoot !== $rightRoot) {
+                        $parents[$rightRoot] = $leftRoot;
+                    }
+                }
             }
         }
 
-        foreach ($references as &$reference) {
+        $sizes = [];
+        for ($index = 0; $index < $total; $index++) {
+            $root = $findRoot($index);
+            $sizes[$root] = ($sizes[$root] ?? 0) + 1;
+        }
+        $groupNumbers = [];
+        $nextGroup = 1;
+        foreach ($references as $index => &$reference) {
+            $root = $findRoot($index);
+            if (($sizes[$root] ?? 0) > 1) {
+                $groupNumbers[$root] ??= $nextGroup++;
+                $reference['similarity_group'] = $groupNumbers[$root];
+                $reference['similarity_group_size'] = $sizes[$root];
+            } else {
+                $reference['similarity_group'] = null;
+                $reference['similarity_group_size'] = 1;
+            }
             unset($reference['_comparison_text']);
             $reference['approximation'] = round($reference['approximation'], 1);
         }
         unset($reference);
 
         usort($references, static function (array $left, array $right): int {
-            return $right['approximation'] <=> $left['approximation']
+            $leftGroup = $left['similarity_group'] ?? PHP_INT_MAX;
+            $rightGroup = $right['similarity_group'] ?? PHP_INT_MAX;
+            return $leftGroup <=> $rightGroup
+                ?: $right['approximation'] <=> $left['approximation']
                 ?: strcmp((string) $left['ca_text'], (string) $right['ca_text']);
         });
 
         return $references;
     }
-
     public function getReferencesByIds(array $ids): array
     {
         $ids = array_values(array_unique(array_filter(array_map('intval', $ids), static fn ($id) => $id > 0)));
