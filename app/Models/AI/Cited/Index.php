@@ -30,6 +30,7 @@ class Index extends Model
         'ca_ai',
         'ca_text',
         'ca_blocked',
+        'ca_normalized',
     ];
 
     // Dates
@@ -82,6 +83,92 @@ class Index extends Model
             return ($rlt);
         }
 
+    public function searchForClustering(string $query): array
+    {
+        $terms = preg_split('/\s+/u', trim($query), -1, PREG_SPLIT_NO_EMPTY);
+        $builder = $this->select('id_ca, ca_text, ca_doi, ca_year')
+            ->groupStart()
+                ->where('ca_normalized', 0)
+                ->orWhere('ca_normalized IS NULL', null, false)
+            ->groupEnd();
+
+        foreach ($terms as $term) {
+            $builder->like('ca_text', $term);
+        }
+
+        return $builder->orderBy('ca_text')
+            ->limit(100)
+            ->findAll();
+    }
+
+    public function getReferencesByIds(array $ids): array
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids), static fn ($id) => $id > 0)));
+        if ($ids === []) {
+            return [];
+        }
+
+        return $this->whereIn('id_ca', $ids)->orderBy('ca_text')->findAll();
+    }
+
+    public function groupReferences(array $ids, int $normalizedId, int $standardId): int
+    {
+        $references = $this->getReferencesByIds($ids);
+        if ($references === [] || count($references) !== count(array_unique(array_map('intval', $ids)))) {
+            throw new \InvalidArgumentException('Uma ou mais referências selecionadas não foram encontradas.');
+        }
+
+        $normalized = new \App\Models\DOI\Cited_Normalize($this->db);
+        $this->db->transBegin();
+        try {
+            if ($normalizedId > 0) {
+                if (!$normalized->find($normalizedId)) {
+                    throw new \InvalidArgumentException('A referência normalizada selecionada não existe.');
+                }
+            } else {
+                $standards = array_values(array_filter($references, static fn ($row) => (int) $row['id_ca'] === $standardId));
+                if ($standards === []) {
+                    throw new \InvalidArgumentException('Selecione qual referência será o padrão.');
+                }
+                $standard = $standards[0];
+                $doi = \App\Models\DOI\Cited_Normalize::normalizeDoi((string) ($standard['ca_doi'] ?? ''));
+                if ($doi !== '') {
+                    foreach ($normalized->like('ca_doi', $doi)->limit(20)->findAll() as $existing) {
+                        if (\App\Models\DOI\Cited_Normalize::normalizeDoi((string) $existing['ca_doi']) === $doi) {
+                            $normalizedId = (int) $existing['id_ca'];
+                            break;
+                        }
+                    }
+                }
+                if ($normalizedId === 0) {
+                    $normalizedId = (int) $normalized->insert([
+                        'ca_doi' => $doi,
+                        'ca_journal' => (int) ($standard['ca_journal'] ?? 0),
+                        'ca_year' => (int) ($standard['ca_year'] ?? 0),
+                        'ca_text' => \App\Models\DOI\Cited_Normalize::cleanReferenceText((string) ($standard['ca_text'] ?? '')),
+                        'ca_pages' => (string) ($standard['ca_pag'] ?? ''),
+                        'ca_vol' => (string) ($standard['ca_vol'] ?? ''),
+                        'ca_nr' => (string) ($standard['ca_nr'] ?? ''),
+                    ], true);
+                    if ($normalizedId === 0) {
+                        throw new \RuntimeException('Não foi possível criar a referência normalizada.');
+                    }
+                }
+            }
+
+            if ($this->whereIn('id_ca', array_column($references, 'id_ca'))
+                ->set(['ca_normalized' => $normalizedId])->update() === false) {
+                throw new \RuntimeException('Não foi possível atualizar as referências selecionadas.');
+            }
+            if (!$this->db->transStatus() || !$this->db->transCommit()) {
+                throw new \RuntimeException('Não foi possível concluir o agrupamento.');
+            }
+            return $normalizedId;
+        } catch (\Throwable $error) {
+            $this->db->transRollback();
+            throw $error;
+        }
+    }
     function joinCited($d1,$d2)
         {
             $txt1 = $this->find($d1);

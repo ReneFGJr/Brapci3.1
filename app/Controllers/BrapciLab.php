@@ -343,12 +343,64 @@ class BrapciLab extends BaseController
                 $dt = $Cited->find($id);
                 return $Cited->edit_cited($id);
                 break;
+            case 'cluter':
+                $query = trim((string) $this->request->getGet('q'));
+                $data = [
+                    'title' => 'Clusterização das referências',
+                    'query' => $query,
+                    'references' => $query !== '' ? $Cited->searchForClustering($query) : [],
+                ];
+                return view('BrapciLabs/layout/header', $data)
+                    . view('BrapciLabs/layout/sidebar')
+                    . view('BrapciLabs/cited_cluster')
+                    . view('BrapciLabs/layout/footer');
             default:
-                return $Cited->list_cited($id);
-                break;
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 
+    public function cited_cluster_prepare()
+    {
+        $query = trim((string) $this->request->getPost('q'));
+        $ids = (array) $this->request->getPost('references');
+        $references = (new \App\Models\AI\Cited\Index())->getReferencesByIds($ids);
+        foreach ($references as &$reference) {
+            $reference['ca_text'] = \App\Models\DOI\Cited_Normalize::cleanReferenceText((string) ($reference['ca_text'] ?? ''));
+        }
+        unset($reference);
+        if (count($references) < 2) {
+            return redirect()->to(site_url('labs/cited/cluter') . '?q=' . rawurlencode($query))
+                ->with('error', 'Selecione pelo menos duas referências para agrupar.');
+        }
+
+        $data = [
+            'title' => 'Clusterização das referências',
+            'query' => $query,
+            'references' => [],
+            'selectedReferences' => $references,
+            'normalizedCandidates' => (new \App\Models\DOI\Cited_Normalize())->findCandidates($references, $query),
+        ];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/cited_cluster', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function cited_cluster_group()
+    {
+        $query = trim((string) $this->request->getPost('q'));
+        $ids = (array) $this->request->getPost('references');
+        $normalizedId = (int) $this->request->getPost('normalized_id');
+        $standardId = (int) $this->request->getPost('standard_id');
+        try {
+            $id = (new \App\Models\AI\Cited\Index())->groupReferences($ids, $normalizedId, $standardId);
+            return redirect()->to(site_url('labs/cited/cluter') . '?q=' . rawurlencode($query))
+                ->with('success', count($ids) . ' referências agrupadas no registro normalizado #' . $id . '.');
+        } catch (\Throwable $error) {
+            return redirect()->to(site_url('labs/cited/cluter') . '?q=' . rawurlencode($query))
+                ->with('error', $error->getMessage());
+        }
+    }
     /**** Authors */
     public function authors()
     {

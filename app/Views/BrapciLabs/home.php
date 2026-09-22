@@ -103,42 +103,15 @@
             </a>
         </div>
 
-    </div>
-
-    <!-- Mensagens -->
-    <div class="card card-dashboard p-4">
-        <h5 class="mb-3">Recent Messages</h5>
-
-        <div class="d-flex align-items-center mb-3">
-            <div class="message-avatar me-3"></div>
-            <div class="flex-grow-1">
-                <strong>Leslie Alexander</strong><br>
-                <small>How can I return package</small>
-            </div>
-            <span class="badge bg-success">Answered</span>
-            <small class="ms-3 text-muted">12:45pm</small>
+        <div class="col-md-4">
+            <a href="<?= site_url('labs/cited/cluter') ?>" class="text-decoration-none text-reset">
+                <div class="card card-dashboard p-3">
+                    <h6>Referências</h6>
+                    <h4>Clusterização</h4>
+                    <small class="text-muted">Clusterização das referências</small>
+                </div>
+            </a>
         </div>
-
-        <div class="d-flex align-items-center mb-3">
-            <div class="message-avatar me-3"></div>
-            <div class="flex-grow-1">
-                <strong>Robert Foxeriest</strong><br>
-                <small>Question about the product</small>
-            </div>
-            <span class="badge bg-warning">Pending</span>
-            <small class="ms-3 text-muted">3:45pm</small>
-        </div>
-
-        <div class="d-flex align-items-center">
-            <div class="message-avatar me-3"></div>
-            <div class="flex-grow-1">
-                <strong>Brooklyn Simmons</strong><br>
-                <small>Discount Code</small>
-            </div>
-            <span class="badge bg-warning">Pending</span>
-            <small class="ms-3 text-muted">Yesterday</small>
-        </div>
-
     </div>
 
 </div>

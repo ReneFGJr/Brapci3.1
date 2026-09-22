@@ -318,6 +318,9 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('journals/(:num)', 'BrapciLab::journal/$1');
 
     /********* Compat cited VC (public) */
+    $routes->get('cited/cluter', 'BrapciLab::cited/cluter', ['filter' => 'csrf']);
+    $routes->post('cited/cluter/prepare', 'BrapciLab::cited_cluster_prepare', ['filter' => 'csrf']);
+    $routes->post('cited/cluter/group', 'BrapciLab::cited_cluster_group', ['filter' => 'csrf']);
     $routes->get('cited/', 'BrapciLab::cited2');
     $routes->get('cited/(:any)', 'BrapciLab::cited/$1');
     $routes->match(['get', 'post'], 'cited/(:any)/(:any)', 'BrapciLab::cited/$1/$2');
