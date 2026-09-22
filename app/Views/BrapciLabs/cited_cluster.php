@@ -57,7 +57,7 @@
                                         ?>
                                         <?php if ($groupKey !== $currentGroupKey): ?>
                                             <?php $currentGroupKey = $groupKey; ?>
-                                            <tr class="table-dark">
+                                            <tr class="table-dark similarity-group-header" data-group="<?= $reference['similarity_group'] === null ? '' : (int) $reference['similarity_group'] ?>">
                                                 <th colspan="6">
                                                     <?php if ($reference['similarity_group'] === null): ?>
                                                         Sem grupo — aproximação inferior a 70%
@@ -78,7 +78,7 @@
                                                 </th>
                                             </tr>
                                         <?php endif; ?>
-                                        <tr>
+                                        <tr class="reference-row">
                                             <td class="text-center">
                                                 <input class="form-check-input reference-checkbox border border-dark border-2" type="checkbox" name="references[]"
                                                     value="<?= (int) $reference['id_ca'] ?>"
@@ -165,24 +165,56 @@
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('select-all-references');
     const checkboxes = Array.from(document.querySelectorAll('.reference-checkbox'));
+    const visibleCheckboxes = function () {
+        return checkboxes.filter(function (checkbox) {
+            const row = checkbox.closest('.reference-row');
+            return row && !row.classList.contains('d-none');
+        });
+    };
     if (button) {
         const updateButton = function () {
-            const allSelected = checkboxes.length > 0 && checkboxes.every(checkbox => checkbox.checked);
+            const available = visibleCheckboxes();
+            const allSelected = available.length > 0 && available.every(checkbox => checkbox.checked);
             button.textContent = allSelected ? 'Desmarcar todos' : 'Selecionar todos';
         };
 
         button.addEventListener('click', function () {
-            const selectAll = !checkboxes.every(checkbox => checkbox.checked);
-            checkboxes.forEach(checkbox => checkbox.checked = selectAll);
+            const available = visibleCheckboxes();
+            const selectAll = !available.every(checkbox => checkbox.checked);
+            available.forEach(checkbox => checkbox.checked = selectAll);
             updateButton();
         });
 
         checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateButton));
     }
 
+    const groupingForm = document.querySelector('form[action$="/labs/cited/cluter/prepare"]');
+    if (groupingForm) {
+        groupingForm.addEventListener('submit', function () {
+            const submittedCheckboxes = checkboxes.filter(checkbox => checkbox.checked);
+            window.setTimeout(function () {
+                submittedCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = false;
+                    const row = checkbox.closest('.reference-row');
+                    if (row) row.classList.add('d-none');
+                });
+
+                document.querySelectorAll('.similarity-group-header').forEach(function (header) {
+                    const group = header.dataset.group;
+                    const hasVisibleReferences = checkboxes.some(function (checkbox) {
+                        const row = checkbox.closest('.reference-row');
+                        return checkbox.dataset.group === group && row && !row.classList.contains('d-none');
+                    });
+                    if (!hasVisibleReferences) header.classList.add('d-none');
+                });
+
+                if (button) button.textContent = 'Selecionar todos';
+            }, 0);
+        });
+    }
     document.querySelectorAll('.select-similarity-group').forEach(function (groupButton) {
         groupButton.addEventListener('click', function () {
-            const groupCheckboxes = checkboxes.filter(checkbox => checkbox.dataset.group === groupButton.dataset.group);
+            const groupCheckboxes = visibleCheckboxes().filter(checkbox => checkbox.dataset.group === groupButton.dataset.group);
             const selectAll = !groupCheckboxes.every(checkbox => checkbox.checked);
             groupCheckboxes.forEach(checkbox => checkbox.checked = selectAll);
             groupButton.textContent = selectAll ? 'Desmarcar todos do grupo' : 'Selecionar todos do grupo';
@@ -191,7 +223,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.submit-similarity-group').forEach(function (groupButton) {
         groupButton.addEventListener('click', function () {
-            checkboxes.forEach(checkbox => checkbox.checked = checkbox.dataset.group === groupButton.dataset.group);
+            checkboxes.forEach(function (checkbox) {
+                const row = checkbox.closest('.reference-row');
+                checkbox.checked = checkbox.dataset.group === groupButton.dataset.group
+                    && row && !row.classList.contains('d-none');
+            });
             const form = groupButton.closest('form');
             if (form) form.requestSubmit();
         });
