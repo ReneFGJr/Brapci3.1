@@ -223,11 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.submit-similarity-group').forEach(function (groupButton) {
         groupButton.addEventListener('click', function () {
-            checkboxes.forEach(function (checkbox) {
-                const row = checkbox.closest('.reference-row');
-                checkbox.checked = checkbox.dataset.group === groupButton.dataset.group
-                    && row && !row.classList.contains('d-none');
-            });
             const form = groupButton.closest('form');
             if (form) form.requestSubmit();
         });

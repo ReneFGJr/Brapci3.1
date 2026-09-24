@@ -15,6 +15,9 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="citations-tab" data-bs-toggle="tab" data-bs-target="#citations" type="button" role="tab" aria-controls="citations" aria-selected="false">Citações</button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="citation-analysis-tab" data-bs-toggle="tab" data-bs-target="#citation-analysis" type="button" role="tab" aria-controls="citation-analysis" aria-selected="false">Análise de Citação</button>
+    </li>
 </ul>
 
 <!-- Tab panes -->
@@ -34,6 +37,9 @@
     </div>
     <div class="tab-pane p-3" id="citations" role="tabpanel" aria-labelledby="citations-tab" tabindex="0">
         <?= view('BrapciLabs/widget/authors/brapci_details_cited') ?>
+    </div>
+    <div class="tab-pane p-3" id="citation-analysis" role="tabpanel" aria-labelledby="citation-analysis-tab" tabindex="0">
+        <?= view('BrapciLabs/widget/authors/brapci_citation_analysis') ?>
     </div>
 </div>
 
