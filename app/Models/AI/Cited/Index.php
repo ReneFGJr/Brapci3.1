@@ -86,7 +86,7 @@ class Index extends Model
     public function searchForClustering(string $query): array
     {
         $terms = preg_split('/\s+/u', trim($query), -1, PREG_SPLIT_NO_EMPTY);
-        $builder = $this->select('id_ca, ca_text, ca_doi, ca_year')
+        $builder = $this->select('id_ca, ca_rdf, ca_text, ca_doi, ca_year')
             ->groupStart()
                 ->where('ca_normalized', 0)
                 ->orWhere('ca_normalized IS NULL', null, false)

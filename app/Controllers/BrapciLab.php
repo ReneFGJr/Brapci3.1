@@ -354,6 +354,23 @@ class BrapciLab extends BaseController
                     . view('BrapciLabs/layout/sidebar')
                     . view('BrapciLabs/cited_cluster')
                     . view('BrapciLabs/layout/footer');
+            case 'work':
+                $rdf = (int) $id;
+                $references = $rdf > 0
+                    ? $Cited->where('ca_rdf', $rdf)->orderBy('ca_ordem', 'ASC')->findAll()
+                    : [];
+                $data = [
+                    'title' => 'Referências do registro #' . $rdf,
+                    'rdf' => $rdf,
+                    'data' => [
+                        'cited' => $references,
+                        'withoutCited' => [],
+                    ],
+                ];
+                return view('BrapciLabs/layout/header', $data)
+                    . view('BrapciLabs/layout/sidebar')
+                    . view('BrapciLabs/ref/cited_by_work', $data)
+                    . view('BrapciLabs/layout/footer');
             default:
                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
