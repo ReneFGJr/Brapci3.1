@@ -84,14 +84,27 @@
                                                     data-group="<?= $reference['similarity_group'] === null ? '' : (int) $reference['similarity_group'] ?>"
                                                     aria-label="Selecionar referência <?= (int) $reference['id_ca'] ?>">
                                             </td>
-                                            <td><?= (int) $reference['id_ca'] ?></td>
+                                            <td>
+                                                <a href="<?= site_url('labs/cited/edit/' . (int) $reference['id_ca']) ?>"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    title="Editar referência #<?= (int) $reference['id_ca'] ?>">
+                                                    <?= (int) $reference['id_ca'] ?>
+                                                </a>
+                                            </td>
                                             <td><?= esc($reference['ca_text'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_year'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_doi'] ?? '') ?></td>
                                             <td class="text-nowrap">
                                                 <strong><?= number_format((float) ($reference['approximation'] ?? 0), 1, ',', '.') ?>%</strong>
                                                 <?php if (!empty($reference['closest_reference_id'])): ?>
-                                                    <small class="d-block text-muted">com #<?= (int) $reference['closest_reference_id'] ?></small>
+                                                    <small class="d-block text-muted">
+                                                        com
+                                                        <a href="<?= site_url('labs/cited/edit/' . (int) $reference['closest_reference_id']) ?>"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            title="Editar referência #<?= (int) $reference['closest_reference_id'] ?>">
+                                                            #<?= (int) $reference['closest_reference_id'] ?>
+                                                        </a>
+                                                    </small>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -147,7 +160,13 @@
                                 id="standard-<?= (int) $reference['id_ca'] ?>"
                                 value="<?= (int) $reference['id_ca'] ?>" data-doi="<?= esc($reference['ca_doi_normalized'] ?? '', 'attr') ?>">
                             <label class="form-check-label" for="standard-<?= (int) $reference['id_ca'] ?>">
-                                <strong>#<?= (int) $reference['id_ca'] ?></strong> — <?= esc($reference['ca_text'] ?? '') ?><br>
+                                <strong>
+                                    <a href="<?= site_url('labs/cited/edit/' . (int) $reference['id_ca']) ?>"
+                                        target="_blank" rel="noopener noreferrer"
+                                        title="Editar referência #<?= (int) $reference['id_ca'] ?>">
+                                        #<?= (int) $reference['id_ca'] ?>
+                                    </a>
+                                </strong> — <?= esc($reference['ca_text'] ?? '') ?><br>
                                 <small class="text-muted">DOI: <?= esc($reference['ca_doi'] ?? 'não informado') ?></small>
                             </label>
                         </div>
