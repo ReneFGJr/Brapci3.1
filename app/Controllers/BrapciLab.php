@@ -425,6 +425,34 @@ class BrapciLab extends BaseController
                 ->with('error', $error->getMessage());
         }
     }
+
+    public function cited_reference_delete(int $rdf, int $id)
+    {
+        $Cited = new \App\Models\AI\Cited\Index();
+        $reference = $Cited->find($id);
+
+        if (!$reference || (int) ($reference['ca_rdf'] ?? 0) !== $rdf) {
+            return $this->response->setStatusCode(404)->setJSON([
+                'status' => 'error',
+                'message' => 'Referência não encontrada neste registro.',
+                'csrfHash' => csrf_hash(),
+            ]);
+        }
+
+        if (!$Cited->delete($id)) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'status' => 'error',
+                'message' => 'Não foi possível excluir a referência.',
+                'csrfHash' => csrf_hash(),
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Referência excluída com sucesso.',
+            'csrfHash' => csrf_hash(),
+        ]);
+    }
     /**** Authors */
     public function authors()
     {

@@ -321,6 +321,7 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('cited/cluter', 'BrapciLab::cited/cluter', ['filter' => 'csrf']);
     $routes->post('cited/cluter/prepare', 'BrapciLab::cited_cluster_prepare', ['filter' => 'csrf']);
     $routes->post('cited/cluter/group', 'BrapciLab::cited_cluster_group', ['filter' => 'csrf']);
+    $routes->post('cited/work/(:num)/delete/(:num)', 'BrapciLab::cited_reference_delete/$1/$2', ['filter' => 'csrf']);
     $routes->get('cited/', 'BrapciLab::cited2');
     $routes->get('cited/(:any)', 'BrapciLab::cited/$1');
     $routes->match(['get', 'post'], 'cited/(:any)/(:any)', 'BrapciLab::cited/$1/$2');

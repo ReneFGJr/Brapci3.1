@@ -121,7 +121,7 @@ if (!is_array($cited) or count($cited) == 0) {
 						$urlJoin = base_url('api/brapci/cited/join');
 
 						$action = '<nobr>';
-                        $action .= '<button type="button" class="btn btn-outline-danger btn-sm" data-id="' . $idCa . '" onclick="deleteCitedRecord(this)" title="Deletar" aria-label="Deletar">&#128465;</button>';
+						$action .= '<button type="button" class="btn btn-outline-danger btn-sm" data-id="' . $idCa . '" data-rdf="' . esc($rdf) . '" onclick="deleteCitedRecord(this)" title="Deletar" aria-label="Deletar">&#128465;</button>';
 						$action .= '<button type="button" class="btn btn-outline-primary btn-sm" onclick="const w = window.open(\'' . $jsUrlEdit . '\',\'newwin\',\'scrollbars=no,resizable=yes,width=800,height=600,top=10,left=10\'); if (w) { w.focus(); } return false;" title="Editar" aria-label="Editar">&#9998;</button> ';
                         if ($ida > 0) {
 							$action .= '<button type="button" class="btn btn-outline-secondary btn-sm" data-id="' . $idCa . '" data-prev-id="' . $ida . '" data-url="' . esc($urlJoin) . '" onclick="joinCitedRecord(this)" title="JOIN com anterior" aria-label="JOIN com anterior">&#128279;</button> ';
@@ -153,6 +153,8 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '</style>';
 
 		echo '<script>';
+		echo 'let citedCsrfHash = ' . json_encode(csrf_hash()) . ';';
+		echo 'const citedCsrfToken = ' . json_encode(csrf_token()) . ';';
 		echo 'const citedCsvRows = ' . ($exportCsvData ?: '[]') . ';';
 		echo 'function citedCsvEscape(value) {';
 		echo '  const text = String(value ?? "");';
@@ -214,12 +216,16 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo 'function deleteCitedRecord(btn) {';
 		echo '  if (!confirm("Confirma exclusão desta referência " + btn.getAttribute("data-id") + "?")) { return; }';
 		echo '  const recordId = btn.getAttribute("data-id");';
+		echo '  const rdfId = btn.getAttribute("data-rdf");';
 		echo '  btn.disabled = true;';
-		echo '  url = "'.base_url('/api/brapci/citedDelete?idz=') . '" + recordId;';
-		echo '  fetch(url, { method: "GET" })';
+		echo '  const url = "'.base_url('/labs/cited/work/') . '" + encodeURIComponent(rdfId) + "/delete/" + encodeURIComponent(recordId);';
+		echo '  const body = new FormData();';
+		echo '  body.append(citedCsrfToken, citedCsrfHash);';
+		echo '  fetch(url, { method: "POST", body: body })';
 		echo '    .then(response => response.json())';
 		echo '    .then(data => {';
-		echo '      if (data.status === "200") {';
+		echo '      if (data.csrfHash) citedCsrfHash = data.csrfHash;';
+		echo '      if (data.status === "success") {';
 		echo '        const row = btn.closest("tr");';
 		echo '        if (row) {';
 		echo '          row.style.transition = "opacity 0.3s ease";';
