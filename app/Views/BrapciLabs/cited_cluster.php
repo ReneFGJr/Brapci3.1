@@ -70,8 +70,7 @@
                                                             <span class="d-flex gap-2">
                                                                 <button type="button" class="btn btn-light btn-sm select-similarity-group"
                                                                     data-group="<?= (int) $reference['similarity_group'] ?>">Selecionar todos do grupo</button>
-                                                                <button type="button" class="btn btn-primary btn-sm submit-similarity-group"
-                                                                    data-group="<?= (int) $reference['similarity_group'] ?>">Agrupar</button>
+                                                                <button type="submit" class="btn btn-primary btn-sm">Agrupar</button>
                                                             </span>
                                                         </div>
                                                     <?php endif; ?>
@@ -192,6 +191,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (groupingForm) {
         groupingForm.addEventListener('submit', function () {
             const submittedCheckboxes = checkboxes.filter(checkbox => checkbox.checked);
+            checkboxes
+                .filter(checkbox => !checkbox.checked)
+                .forEach(checkbox => checkbox.disabled = true);
+
             window.setTimeout(function () {
                 submittedCheckboxes.forEach(function (checkbox) {
                     checkbox.checked = false;
@@ -221,12 +224,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelectorAll('.submit-similarity-group').forEach(function (groupButton) {
-        groupButton.addEventListener('click', function () {
-            const form = groupButton.closest('form');
-            if (form) form.requestSubmit();
-        });
-    });
     const standardRadios = Array.from(document.querySelectorAll('input[name="standard_id"]'));
     const normalizedRadios = Array.from(document.querySelectorAll('input[name="normalized_id"][data-doi]'));
     const createNormalized = document.getElementById('create-normalized');
