@@ -369,9 +369,9 @@ class BrapciLab extends BaseController
             $reference['ca_doi_normalized'] = \App\Models\DOI\Cited_Normalize::normalizeDoi((string) ($reference['ca_doi'] ?? ''));
         }
         unset($reference);
-        if (count($references) < 2) {
+        if ($references === []) {
             return redirect()->to(site_url('labs/cited/cluter') . '?q=' . rawurlencode($query))
-                ->with('error', 'Selecione pelo menos duas referências para agrupar.');
+                ->with('error', 'Selecione pelo menos uma referência para agrupar.');
         }
 
         $normalizedCandidates = (new \App\Models\DOI\Cited_Normalize())->findCandidates($references, $query);

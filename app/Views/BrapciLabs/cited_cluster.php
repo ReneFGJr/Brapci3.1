@@ -33,7 +33,7 @@
                     <form method="post" action="<?= site_url('labs/cited/cluter/prepare') ?>">
                         <?= csrf_field() ?>
                         <input type="hidden" name="q" value="<?= esc($query) ?>">
-                        <p class="text-muted">Selecione pelo menos duas referências. São exibidos até 100 registros.</p>
+                        <p class="text-muted">Selecione uma ou mais referências. São exibidos até 100 registros.</p>
                         <button type="button" id="select-all-references" class="btn btn-outline-primary btn-sm mb-3">Selecionar todos</button>
                         <div class="table-responsive">
                             <table class="table table-striped align-middle">
