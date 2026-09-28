@@ -208,10 +208,20 @@ class WikiImport
             if ($date) { $data[$key] = $this->formatDate($date); }
         }
         $places = [];
+        $countries = [];
         foreach ($this->values($entity, 'P19') as $place) {
-            if (isset($place['id'])) { $places[] = $this->label($this->entity($place['id'])); }
+            if (!isset($place['id'])) { continue; }
+            $location = $this->entity($place['id']);
+            $places[] = $this->label($location);
+            // O país vem do local de nascimento, não da cidadania do pensador.
+            foreach ($this->values($location, 'P17') as $country) {
+                if (isset($country['id'])) {
+                    $countries[$country['id']] = $this->label($this->entity($country['id']));
+                }
+            }
         }
         $data['local_nascimento'] = implode('; ', array_unique($places));
+        $data['pais_nascimento'] = implode('; ', array_unique($countries));
         $institutions = [];
         foreach (['P108', 'P1416'] as $property) {
             foreach ($this->values($entity, $property) as $institution) {

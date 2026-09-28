@@ -16,6 +16,13 @@ class FixtureWikiImport extends \App\Models\Pensador\WikiImport
         if (($params['action'] ?? '') === 'wbgetentities') {
             $id = $params['ids'];
             $entity = ['id' => $id, 'labels' => ['pt' => ['value' => $id === 'Q1' ? 'Nome completo' : 'Instituição / local']]];
+            if ($id === 'Q2') {
+                $entity['claims']['P17'] = [
+                    ['rank' => 'normal', 'mainsnak' => ['datavalue' => ['value' => ['id' => 'Q4']]]],
+                    ['rank' => 'normal', 'mainsnak' => ['datavalue' => ['value' => ['id' => 'Q4']]]],
+                ];
+            }
+            if ($id === 'Q4') { $entity['labels']['pt']['value'] = 'Brasil'; }
             if ($id === 'Q1') {
                 $values = [
                     'P569' => [['time' => '+1900-00-00T00:00:00Z', 'precision' => 9]],
@@ -65,6 +72,7 @@ try {
     check($data['dados']['data_nascimento'] === '1900', 'Preservar precisão de ano');
     check($data['dados']['data_falecimento'] === '03/02/1980', 'Data completa');
     check(count($data['dados']['instituicoes']) === 1, 'Deduplicar instituições');
+    check($data['dados']['pais_nascimento'] === 'Brasil', 'País obtido do local de nascimento, sem duplicação');
     check(count($data['fotos']) === 2, 'Todas as fotos');
     foreach ([1, 2] as $number) {
         $file = $service->directory(1) . sprintf('thinker_1_%02d.jpg', $number);

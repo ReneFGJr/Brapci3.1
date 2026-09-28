@@ -33,7 +33,7 @@ $id = (int) $pensador['id'];
                     <dd><?= esc($details['nome_completo'] ?? $pensador['nome']) ?></dd>
                     <dt>Nome de citação</dt>
                     <dd><?= esc($pensador['nome_citacao']) ?></dd>
-                    <?php foreach (['data_nascimento' => 'Data de nascimento', 'data_falecimento' => 'Data de falecimento', 'local_nascimento' => 'Local de nascimento'] as $field => $label): ?>
+                    <?php foreach (['data_nascimento' => 'Data de nascimento', 'data_falecimento' => 'Data de falecimento', 'local_nascimento' => 'Local de nascimento', 'pais_nascimento' => 'País de nascimento'] as $field => $label): ?>
                         <dt><?= esc($label) ?></dt>
                         <dd><?= esc($details[$field] ?? 'Não informado') ?></dd>
                     <?php endforeach; ?>
