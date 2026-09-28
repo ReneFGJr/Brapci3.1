@@ -71,6 +71,141 @@ class BrapciLab extends BaseController
         return view('BrapciLabs/home', $data);
     }
 
+    public function thinkers()
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        $data = [
+            'title' => 'Pensadores',
+            'pensadores' => $model->orderBy('nome', 'ASC')->paginate(20),
+            'pager' => $model->pager,
+        ];
+
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/thinkers', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_new()
+    {
+        $data = ['title' => 'Novo pensador'];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/thinkers_form', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_view(int $id)
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        $pensador = $model->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $wiki = new \App\Models\Pensador\WikiImport();
+        $data = ['title' => 'Visualizar pensador', 'pensador' => $pensador, 'wiki' => $wiki->read($id)];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/thinkers_view', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_import(int $id, string $source)
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        $pensador = $model->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        try {
+            $import = new \App\Models\Pensador\WikiImport();
+            $warnings = $import->update($pensador, $source);
+            $response = redirect()->to(site_url('labs/thinkers/' . $id))
+                ->with('success', 'Dados atualizados com sucesso.');
+            if ($warnings) {
+                $response->with('warning', implode(' ', $warnings));
+            }
+            return $response;
+        } catch (\RuntimeException $e) {
+            return redirect()->to(site_url('labs/thinkers/' . $id))->with('error', $e->getMessage());
+        }
+    }
+
+    public function thinkers_delete(int $id)
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        if (!$model->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        if ($model->delete($id) === false) {
+            return redirect()->to(site_url('labs/thinkers'))
+                ->with('error', 'Não foi possível excluir o pensador.');
+        }
+
+        return redirect()->to(site_url('labs/thinkers'))
+            ->with('success', 'Pensador excluído com sucesso.');
+    }
+
+    public function thinkers_edit(int $id)
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        $pensador = $model->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $data = ['title' => 'Editar pensador', 'pensador' => $pensador];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/thinkers_form', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_update(int $id)
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        if (!$model->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $data = [];
+        foreach (['nome', 'nome_citacao', 'link_wikipedia', 'link_wikidata'] as $field) {
+            $value = $this->request->getPost($field);
+            $data[$field] = is_string($value) ? trim($value) : '';
+        }
+
+        if ($model->update($id, $data) === false) {
+            return redirect()->to(site_url('labs/thinkers/' . $id . '/edit'))
+                ->withInput()
+                ->with('errors', $model->errors() ?: ['Não foi possível atualizar o pensador.']);
+        }
+
+        return redirect()->to(site_url('labs/thinkers'))
+            ->with('success', 'Pensador atualizado com sucesso.');
+    }
+
+    public function thinkers_store()
+    {
+        $model = new \App\Models\Pensador\Pensador();
+        $data = [];
+        foreach (['nome', 'nome_citacao', 'link_wikipedia', 'link_wikidata'] as $field) {
+            $value = $this->request->getPost($field);
+            $data[$field] = is_string($value) ? trim($value) : '';
+        }
+
+        if ($model->insert($data) === false) {
+            return redirect()->to(site_url('labs/thinkers/new'))
+                ->withInput()
+                ->with('errors', $model->errors() ?: ['Não foi possível cadastrar o pensador.']);
+        }
+
+        return redirect()->to(site_url('labs/thinkers'))
+            ->with('success', 'Pensador cadastrado com sucesso.');
+    }
+
     public function doi_view(int $status)
     {
         $model = new \App\Models\DOI\DOI_json();

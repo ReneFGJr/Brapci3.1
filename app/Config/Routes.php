@@ -302,6 +302,15 @@ $routes->group('events', function ($routes) {
 $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('profile', 'BrapciLab::profile');
+    $routes->get('thinkers', 'BrapciLab::thinkers');
+    $routes->get('thinkers/new', 'BrapciLab::thinkers_new');
+    $routes->get('thinkers/(:num)', 'BrapciLab::thinkers_view/$1');
+    $routes->post('thinkers/(:num)/wiki/wikidata', 'BrapciLab::thinkers_import/$1/wikidata', ['filter' => 'csrf']);
+    $routes->post('thinkers/(:num)/wiki/wikipedia', 'BrapciLab::thinkers_import/$1/wikipedia', ['filter' => 'csrf']);
+    $routes->post('thinkers/(:num)/delete', 'BrapciLab::thinkers_delete/$1', ['filter' => 'csrf']);
+    $routes->get('thinkers/(:num)/edit', 'BrapciLab::thinkers_edit/$1');
+    $routes->post('thinkers/(:num)/update', 'BrapciLab::thinkers_update/$1', ['filter' => 'csrf']);
+    $routes->post('thinkers', 'BrapciLab::thinkers_store', ['filter' => 'csrf']);
     $routes->get('view/(:num)', 'BrapciLab::doi_view/$1');
     $routes->post('view/(:num)/save', 'BrapciLab::doi_save/$1', ['filter' => 'csrf']);
     $routes->post('view/(:num)/delete/(:num)', 'BrapciLab::doi_delete/$1/$2', ['filter' => 'csrf']);
