@@ -10,12 +10,15 @@ class CitedPensador extends Model
     protected $table = 'cited_pensador';
     protected $allowedFields = ['pensador_id', 'cited_normalize_id'];
     protected $useTimestamps = false;
+    protected string $datasetTable = 'brapci_elastic.dataset';
 
     public function linkedWorks(int $pensadorId): array
     {
+        $ids = array_column($this->db->table('cited_pensador')->select('cited_normalize_id')->where('pensador_id', $pensadorId)->get()->getResultArray(), 'cited_normalize_id');
+        $this->refreshCitationCounts($ids);
         return $this->db->table('cited_pensador p')
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
-            ->select('(SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0) AS cited_by', false)
+            ->select('n.ca_cited AS cited_by')
             ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
             ->where('p.pensador_id', $pensadorId)
             ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')
@@ -24,15 +27,42 @@ class CitedPensador extends Model
 
     public function citingWorks(int $normalizedId): array
     {
-        return $this->db->table('cited_article a')
+        $this->refreshCitationCounts([$normalizedId]);
+        $works = $this->db->table('cited_article a')
             ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
             ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
             ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
             ->groupBy('a.ca_rdf')
             ->orderBy('year IS NULL', 'ASC', false)->orderBy('year', 'ASC')->orderBy('a.ca_rdf', 'ASC')
             ->get()->getResultArray();
+        $metadata = [];
+        foreach (array_chunk(array_column($works, 'ca_rdf'), 500) as $ids) {
+            $rows = $this->db->table($this->datasetTable)
+                ->select('ID, MAX(TITLE) AS title, MAX(AUTHORS) AS authors, MIN(NULLIF(YEAR, 0)) AS year', false)
+                ->whereIn('ID', $ids)->groupBy('ID')->get()->getResultArray();
+            foreach ($rows as $row) { $metadata[$row['ID']] = $row; }
+        }
+        foreach ($works as &$work) {
+            $record = $metadata[$work['ca_rdf']] ?? [];
+            $work['title'] = $record['title'] ?? null;
+            $work['authors'] = $record['authors'] ?? null;
+            $work['year'] = $record['year'] ?? $work['year'];
+        }
+        unset($work);
+        usort($works, static fn ($a, $b) => (($a['year'] ?? PHP_INT_MAX) <=> ($b['year'] ?? PHP_INT_MAX)) ?: ($a['ca_rdf'] <=> $b['ca_rdf']));
+        return $works;
     }
 
+    public function refreshCitationCounts(array $ids): void
+    {
+        foreach (array_chunk(array_unique(array_map('intval', $ids)), 500) as $chunk) {
+            $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+            $this->db->query('UPDATE cited_normalize n SET ca_cited = (
+                SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a
+                WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0
+            ) WHERE n.id_ca IN (' . $placeholders . ')', $chunk);
+        }
+    }
     public static function surname(array $pensador): string
     {
         $citation = trim((string) ($pensador['nome_citacao'] ?? ''));

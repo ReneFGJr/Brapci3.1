@@ -17,7 +17,10 @@
                 <div class="col-12">
                     <article class="card card-dashboard p-4">
                         <span class="small text-muted mb-2"><?= esc($work['year'] ?? 'Ano não informado') ?></span>
-                        <h3 class="h5"><a href="<?= base_url('v/' . (int) $work['ca_rdf']) ?>" target="_blank" rel="noopener noreferrer"><?= esc($titles[$work['ca_rdf']] ?? ('Registro #' . $work['ca_rdf'])) ?></a></h3>
+                        <h3 class="h5"><a href="<?= base_url('v/' . (int) $work['ca_rdf']) ?>" target="_blank" rel="noopener noreferrer"><?= esc($work['title'] ?:  ('Registro #' . $work['ca_rdf'])) ?></a></h3>
+                        <?php if (!empty($work['authors'])): ?>
+                            <p class="text-muted"><?= esc($work['authors']) ?></p>
+                        <?php endif; ?>
                         <a href="<?= site_url('labs/cited/work/' . (int) $work['ca_rdf']) ?>" class="align-self-start">Ver referências deste trabalho</a>
                     </article>
                 </div>

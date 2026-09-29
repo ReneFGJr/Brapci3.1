@@ -22,7 +22,7 @@ function verifyLink(bool $condition, string $message): void
     if (!$condition) { throw new RuntimeException($message); }
 }
 try {
-    $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120))');
+    $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120), ca_cited INT UNSIGNED NOT NULL DEFAULT 0)');
     $db->query('CREATE TEMPORARY TABLE cited_pensador (pensador_id INT UNSIGNED, cited_normalize_id BIGINT UNSIGNED, PRIMARY KEY (pensador_id, cited_normalize_id)) ENGINE=InnoDB');
     $db->query('CREATE TEMPORARY TABLE cited_article (ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT)');
     $db->table('cited_article')->insertBatch([
@@ -43,12 +43,25 @@ try {
         ['pensador_id' => 10, 'cited_normalize_id' => 4],
         ['pensador_id' => 20, 'cited_normalize_id' => 1],
     ]);
-    $model = new App\Models\Pensador\CitedPensador($db);
+    $db->query('CREATE TEMPORARY TABLE test_citing_dataset (ID INT, TITLE TEXT, AUTHORS TEXT, YEAR INT)');
+    $db->table('test_citing_dataset')->insertBatch([
+        ['ID' => 100, 'TITLE' => 'Título do dataset', 'AUTHORS' => 'Autor dataset', 'YEAR' => 2000],
+        ['ID' => 100, 'TITLE' => 'Título do dataset', 'AUTHORS' => 'Autor dataset', 'YEAR' => 2000],
+        ['ID' => 200, 'TITLE' => 'Segundo trabalho', 'AUTHORS' => 'Outro autor', 'YEAR' => 2010],
+    ]);
+    $model = new class($db) extends App\Models\Pensador\CitedPensador {
+        protected string $datasetTable = 'test_citing_dataset';
+    };
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
     verifyLink($model->linkedWorks(999) === [], 'Pensador sem obras');
     verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 3, 'Contagem de trabalhos distintos');
-    verifyLink(array_column($model->citingWorks(4), 'ca_rdf') == [200, 100, 300], 'Ordem cronológica, sem duplicação, sem ano ao final');
+    verifyLink(array_column($model->citingWorks(4), 'ca_rdf') == [100, 200, 300], 'Ordem cronológica, sem duplicação, sem ano ao final');
     verifyLink($model->citingWorks(2) === [], 'Obra sem citações');
+    verifyLink((int) $db->table('cited_normalize')->where('id_ca', 4)->get()->getRowArray()['ca_cited'] === 3, 'Contagem persistida');
+    verifyLink($model->citingWorks(4)[0]['title'] === 'Título do dataset', 'Metadados pelo ID do dataset');
+    $db->table('cited_article')->where('ca_rdf', 100)->delete();
+    $model->refreshCitationCounts([4]);
+    verifyLink((int) $db->table('cited_normalize')->where('id_ca', 4)->get()->getRowArray()['ca_cited'] === 2, 'Recontagem após exclusão');
     $person = ['id' => 10, 'nome' => 'João da Silva', 'nome_citacao' => 'SILVA, João'];
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
@@ -65,6 +78,7 @@ try {
     } catch (InvalidArgumentException $expected) {}
     echo "OK: sobrenome, candidatos, isolamento por pensador, vínculos, duplicação e seleção inválida.\n";
 } finally {
+    $db->query('DROP TEMPORARY TABLE IF EXISTS test_citing_dataset');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_article');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_pensador');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_normalize');
