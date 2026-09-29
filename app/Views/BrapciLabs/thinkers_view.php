@@ -14,6 +14,10 @@ $id = (int) $pensador['id'];
         <?php endif; ?>
     <?php endforeach; ?>
     <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/recalculate') ?>" onsubmit="this.querySelector('button').disabled = true; this.querySelector('button').textContent = 'Recalculando…';">
+            <?= csrf_field() ?>
+            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Recalcular citações</button>
+        </form>
         <a href="<?= site_url('labs/thinkers/' . $id . '/select') ?>" class="btn btn-outline-success"><i class="bi bi-check2-square" aria-hidden="true"></i> Check</a>
         <?php foreach (['wikidata' => 'Wikidata', 'wikipedia' => 'Wikipédia'] as $source => $label): ?>
             <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/wiki/' . $source) ?>" class="thinker-import">
@@ -42,7 +46,7 @@ $id = (int) $pensador['id'];
                                 <div class="d-flex justify-content-between gap-2 mb-2">
                                     <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
                                     <div class="d-flex align-items-center gap-2">
-                                        <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= (int) $work['cited_by'] ?></a>
+                                        <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= $work['cited_by'] === null ? '—' : (int) $work['cited_by'] ?></a>
                                         <?php if (!empty($work['ca_year'])): ?>
                                             <span class="badge bg-secondary"><?= esc($work['ca_year']) ?></span>
                                         <?php endif; ?>

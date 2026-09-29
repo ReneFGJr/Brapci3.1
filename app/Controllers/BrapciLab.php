@@ -130,6 +130,20 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
+    public function thinkers_recalculate(int $id)
+    {
+        if (!(new \App\Models\Pensador\Pensador())->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $redirect = redirect()->to(site_url('labs/thinkers/' . $id));
+        try {
+            (new \App\Models\Pensador\CitedPensador())->recalculateForThinker($id);
+            return $redirect->with('success', 'Citações recalculadas com sucesso.');
+        } catch (\RuntimeException $e) {
+            return $redirect->with('error', $e->getMessage());
+        }
+    }
+
     public function thinkers_select(int $id)
     {
         $pensador = (new \App\Models\Pensador\Pensador())->find($id);

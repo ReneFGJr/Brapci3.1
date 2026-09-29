@@ -54,6 +54,10 @@ try {
     };
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
     verifyLink($model->linkedWorks(999) === [], 'Pensador sem obras');
+    verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 0, 'Leitura não recalcula');
+    $model->citingWorks(4);
+    verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 0, 'Citantes não recalculam');
+    $model->recalculateForThinker(10);
     verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 3, 'Contagem de trabalhos distintos');
     verifyLink(array_column($model->citingWorks(4), 'ca_rdf') == [100, 200, 300], 'Ordem cronológica, sem duplicação, sem ano ao final');
     verifyLink($model->citingWorks(2) === [], 'Obra sem citações');
@@ -75,7 +79,7 @@ try {
     $db->query('ALTER TABLE cited_normalize DROP COLUMN ca_cited');
     unset($db->dataCache['field_names']['cited_normalize']);
     $model->refreshCitationCounts([4]);
-    verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 2, 'Contagem sem coluna ca_cited');
+    verifyLink($model->linkedWorks(10)[0]['cited_by'] === null, 'Sem coluna não calcula no carregamento');
     verifyLink(count($model->citingWorks(4)) === 2, 'Página de citações sem coluna ca_cited');
     try {
         $model->linkSelected($person, [['1']]);

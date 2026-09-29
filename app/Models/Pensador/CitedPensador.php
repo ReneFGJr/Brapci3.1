@@ -14,13 +14,11 @@ class CitedPensador extends Model
 
     public function linkedWorks(int $pensadorId): array
     {
-        $ids = array_column($this->db->table('cited_pensador')->select('cited_normalize_id')->where('pensador_id', $pensadorId)->get()->getResultArray(), 'cited_normalize_id');
-        $this->refreshCitationCounts($ids);
         return $this->db->table('cited_pensador p')
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
             ->select($this->db->fieldExists('ca_cited', 'cited_normalize')
                 ? 'n.ca_cited AS cited_by'
-                : '(SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0) AS cited_by', false)
+                : 'NULL AS cited_by', false)
             ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
             ->where('p.pensador_id', $pensadorId)
             ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')
@@ -29,7 +27,7 @@ class CitedPensador extends Model
 
     public function citingWorks(int $normalizedId): array
     {
-        $this->refreshCitationCounts([$normalizedId]);
+
         $works = $this->db->table('cited_article a')
             ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
             ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
@@ -54,6 +52,16 @@ class CitedPensador extends Model
         // Ordena após combinar o ano do dataset com o ano de origem da citação.
         usort($works, static fn ($a, $b) => (($a['year'] ?? PHP_INT_MAX) <=> ($b['year'] ?? PHP_INT_MAX)) ?: ($a['ca_rdf'] <=> $b['ca_rdf']));
         return $works;
+    }
+
+    public function recalculateForThinker(int $id): void
+    {
+        if (!$this->db->fieldExists('ca_cited', 'cited_normalize')) {
+            throw new \RuntimeException('A coluna ca_cited ainda não existe. Aplique a migration de citações antes de recalcular.');
+        }
+        $ids = array_column($this->db->table('cited_pensador')->select('cited_normalize_id')
+            ->where('pensador_id', $id)->get()->getResultArray(), 'cited_normalize_id');
+        $this->refreshCitationCounts($ids);
     }
 
     public function refreshCitationCounts(array $ids): void
