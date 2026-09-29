@@ -24,6 +24,15 @@ function verifyLink(bool $condition, string $message): void
 try {
     $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120))');
     $db->query('CREATE TEMPORARY TABLE cited_pensador (pensador_id INT UNSIGNED, cited_normalize_id BIGINT UNSIGNED, PRIMARY KEY (pensador_id, cited_normalize_id)) ENGINE=InnoDB');
+    $db->query('CREATE TEMPORARY TABLE cited_article (ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT)');
+    $db->table('cited_article')->insertBatch([
+        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
+        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
+        ['ca_normalized' => 4, 'ca_rdf' => 200, 'ca_year_origem' => 2010],
+        ['ca_normalized' => 4, 'ca_rdf' => 300, 'ca_year_origem' => 0],
+        ['ca_normalized' => 4, 'ca_rdf' => 0, 'ca_year_origem' => 1990],
+        ['ca_normalized' => 3, 'ca_rdf' => 400, 'ca_year_origem' => 2005],
+    ]);
     $db->table('cited_normalize')->insertBatch([
         ['id_ca' => 1, 'ca_text' => 'SILVA. Obra A', 'ca_authors' => '', 'ca_year' => 2000],
         ['id_ca' => 2, 'ca_text' => 'Obra B', 'ca_authors' => 'Silva, João', 'ca_year' => 2001],
@@ -37,6 +46,9 @@ try {
     $model = new App\Models\Pensador\CitedPensador($db);
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
     verifyLink($model->linkedWorks(999) === [], 'Pensador sem obras');
+    verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 3, 'Contagem de trabalhos distintos');
+    verifyLink(array_column($model->citingWorks(4), 'ca_rdf') == [200, 100, 300], 'Ordem cronológica, sem duplicação, sem ano ao final');
+    verifyLink($model->citingWorks(2) === [], 'Obra sem citações');
     $person = ['id' => 10, 'nome' => 'João da Silva', 'nome_citacao' => 'SILVA, João'];
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
@@ -53,6 +65,7 @@ try {
     } catch (InvalidArgumentException $expected) {}
     echo "OK: sobrenome, candidatos, isolamento por pensador, vínculos, duplicação e seleção inválida.\n";
 } finally {
+    $db->query('DROP TEMPORARY TABLE IF EXISTS cited_article');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_pensador');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_normalize');
     $db->close();

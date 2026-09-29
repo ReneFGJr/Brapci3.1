@@ -116,6 +116,30 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
+    public function cite_work(int $id)
+    {
+        $reference = (new \App\Models\DOI\Cited_Normalize())->find($id);
+        if (!$reference) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $works = (new \App\Models\Pensador\CitedPensador())->citingWorks($id);
+        $titles = [];
+        if ($works) {
+            $rdf = \Config\Database::connect('rdf');
+            foreach (array_chunk(array_column($works, 'ca_rdf'), 500) as $ids) {
+                $rows = $rdf->table('rdf_concept c')->select('c.id_cc, n.n_name')
+                    ->join('rdf_name n', 'n.id_n = c.cc_pref_term', 'left')
+                    ->whereIn('c.id_cc', $ids)->get()->getResultArray();
+                foreach ($rows as $row) { $titles[$row['id_cc']] = $row['n_name']; }
+            }
+        }
+        $data = ['title' => 'Trabalhos citantes', 'reference' => $reference, 'works' => $works, 'titles' => $titles];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/cite_work', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
     public function thinkers_select(int $id)
     {
         $pensador = (new \App\Models\Pensador\Pensador())->find($id);

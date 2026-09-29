@@ -15,9 +15,21 @@ class CitedPensador extends Model
     {
         return $this->db->table('cited_pensador p')
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
+            ->select('(SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0) AS cited_by', false)
             ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
             ->where('p.pensador_id', $pensadorId)
             ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')
+            ->get()->getResultArray();
+    }
+
+    public function citingWorks(int $normalizedId): array
+    {
+        return $this->db->table('cited_article a')
+            ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
+            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
+            ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
+            ->groupBy('a.ca_rdf')
+            ->orderBy('year IS NULL', 'ASC', false)->orderBy('year', 'ASC')->orderBy('a.ca_rdf', 'ASC')
             ->get()->getResultArray();
     }
 

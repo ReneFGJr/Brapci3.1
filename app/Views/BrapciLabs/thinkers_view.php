@@ -41,9 +41,12 @@ $id = (int) $pensador['id'];
                             <article class="card card-dashboard h-100 p-4 text-break">
                                 <div class="d-flex justify-content-between gap-2 mb-2">
                                     <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
-                                    <?php if (!empty($work['ca_year'])): ?>
-                                        <span class="badge bg-secondary align-self-start"><?= esc($work['ca_year']) ?></span>
-                                    <?php endif; ?>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= (int) $work['cited_by'] ?></a>
+                                        <?php if (!empty($work['ca_year'])): ?>
+                                            <span class="badge bg-secondary"><?= esc($work['ca_year']) ?></span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                                 <p class="mb-2"><?= esc($work['ca_text'] ?: 'Referência sem texto cadastrado.') ?></p>
                                 <?php if (!empty($work['ca_authors'])): ?>
