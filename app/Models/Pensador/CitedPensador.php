@@ -18,7 +18,9 @@ class CitedPensador extends Model
         $this->refreshCitationCounts($ids);
         return $this->db->table('cited_pensador p')
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
-            ->select('n.ca_cited AS cited_by')
+            ->select($this->db->fieldExists('ca_cited', 'cited_normalize')
+                ? 'n.ca_cited AS cited_by'
+                : '(SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0) AS cited_by', false)
             ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
             ->where('p.pensador_id', $pensadorId)
             ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')
@@ -33,7 +35,7 @@ class CitedPensador extends Model
             ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
             ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
             ->groupBy('a.ca_rdf')
-            ->orderBy('year IS NULL', 'ASC', false)->orderBy('year', 'ASC')->orderBy('a.ca_rdf', 'ASC')
+            ->orderBy('a.ca_rdf', 'ASC')
             ->get()->getResultArray();
         $metadata = [];
         foreach (array_chunk(array_column($works, 'ca_rdf'), 500) as $ids) {
@@ -49,12 +51,17 @@ class CitedPensador extends Model
             $work['year'] = $record['year'] ?? $work['year'];
         }
         unset($work);
+        // Ordena após combinar o ano do dataset com o ano de origem da citação.
         usort($works, static fn ($a, $b) => (($a['year'] ?? PHP_INT_MAX) <=> ($b['year'] ?? PHP_INT_MAX)) ?: ($a['ca_rdf'] <=> $b['ca_rdf']));
         return $works;
     }
 
     public function refreshCitationCounts(array $ids): void
     {
+        // Compatibilidade com bases nas quais a migration ainda não foi aplicada.
+        if ($ids === [] || !$this->db->fieldExists('ca_cited', 'cited_normalize')) {
+            return;
+        }
         foreach (array_chunk(array_unique(array_map('intval', $ids)), 500) as $chunk) {
             $placeholders = implode(',', array_fill(0, count($chunk), '?'));
             $this->db->query('UPDATE cited_normalize n SET ca_cited = (

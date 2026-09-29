@@ -9,9 +9,11 @@ class AddCaCitedToCitedNormalize extends Migration
 
     public function up()
     {
-        $this->forge->addColumn('cited_normalize', [
-            'ca_cited' => ['type' => 'INT', 'unsigned' => true, 'default' => 0],
-        ]);
+        if (!$this->db->fieldExists('ca_cited', 'cited_normalize')) {
+            $this->forge->addColumn('cited_normalize', [
+                'ca_cited' => ['type' => 'INT', 'unsigned' => true, 'default' => 0],
+            ]);
+        }
         $this->db->query('UPDATE cited_normalize n LEFT JOIN (
             SELECT ca_normalized, COUNT(DISTINCT ca_rdf) AS total
             FROM cited_article WHERE ca_rdf > 0 GROUP BY ca_normalized

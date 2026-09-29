@@ -72,6 +72,11 @@ try {
     verifyLink($model->linkSelected($person, ['2']) === 1, 'Vincular correspondência por autores');
     verifyLink($model->candidates($person) === [], 'Estado vazio');
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4, 2, 1], 'Obras vinculadas ordenadas por ano');
+    $db->query('ALTER TABLE cited_normalize DROP COLUMN ca_cited');
+    unset($db->dataCache['field_names']['cited_normalize']);
+    $model->refreshCitationCounts([4]);
+    verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 2, 'Contagem sem coluna ca_cited');
+    verifyLink(count($model->citingWorks(4)) === 2, 'Página de citações sem coluna ca_cited');
     try {
         $model->linkSelected($person, [['1']]);
         throw new LogicException('Seleção inválida aceita');
