@@ -111,6 +111,47 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
+    public function thinkers_select(int $id)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $links = new \App\Models\Pensador\CitedPensador();
+        $data = [
+            'title' => 'Selecionar referências',
+            'pensador' => $pensador,
+            'surname' => $links::surname($pensador),
+            'references' => $links->candidates($pensador),
+        ];
+        return view('BrapciLabs/layout/header', $data)
+            . view('BrapciLabs/layout/sidebar')
+            . view('BrapciLabs/thinkers_select', $data)
+            . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_link(int $id)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $ids = $this->request->getPost('references');
+        $redirect = redirect()->to(site_url('labs/thinkers/' . $id . '/select'));
+        if (!is_array($ids) || $ids === []) {
+            return $redirect->with('error', 'Selecione pelo menos uma referência.');
+        }
+        try {
+            $count = (new \App\Models\Pensador\CitedPensador())->linkSelected($pensador, $ids);
+            return $redirect->with('success', $count . ' referência(s) vinculada(s) ao pensador.');
+        } catch (\InvalidArgumentException $e) {
+            return $redirect->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            log_message('error', 'Falha ao vincular referências ao pensador: {message}', ['message' => $e->getMessage()]);
+            return $redirect->with('error', 'Não foi possível salvar os vínculos. Tente novamente.');
+        }
+    }
+
     public function thinkers_import(int $id, string $source)
     {
         $model = new \App\Models\Pensador\Pensador();

@@ -14,6 +14,7 @@ $id = (int) $pensador['id'];
         <?php endif; ?>
     <?php endforeach; ?>
     <div class="d-flex flex-wrap gap-2 mb-4">
+        <a href="<?= site_url('labs/thinkers/' . $id . '/select') ?>" class="btn btn-outline-success"><i class="bi bi-check2-square" aria-hidden="true"></i> Check</a>
         <?php foreach (['wikidata' => 'Wikidata', 'wikipedia' => 'Wikipédia'] as $source => $label): ?>
             <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/wiki/' . $source) ?>" class="thinker-import">
                 <?= csrf_field() ?>

@@ -305,6 +305,8 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('thinkers', 'BrapciLab::thinkers');
     $routes->get('thinkers/new', 'BrapciLab::thinkers_new');
     $routes->get('thinkers/(:num)', 'BrapciLab::thinkers_view/$1');
+    $routes->get('thinkers/(:num)/select', 'BrapciLab::thinkers_select/$1');
+    $routes->post('thinkers/(:num)/select', 'BrapciLab::thinkers_link/$1', ['filter' => 'csrf']);
     $routes->post('thinkers/(:num)/wiki/wikidata', 'BrapciLab::thinkers_import/$1/wikidata', ['filter' => 'csrf']);
     $routes->post('thinkers/(:num)/wiki/wikipedia', 'BrapciLab::thinkers_import/$1/wikipedia', ['filter' => 'csrf']);
     $routes->post('thinkers/(:num)/delete', 'BrapciLab::thinkers_delete/$1', ['filter' => 'csrf']);
