@@ -24,7 +24,7 @@ function verifyLink(bool $condition, string $message): void
 try {
     $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120), ca_cited INT UNSIGNED NOT NULL DEFAULT 0)');
     $db->query('CREATE TEMPORARY TABLE cited_pensador (pensador_id INT UNSIGNED, cited_normalize_id BIGINT UNSIGNED, PRIMARY KEY (pensador_id, cited_normalize_id)) ENGINE=InnoDB');
-    $db->query('CREATE TEMPORARY TABLE cited_article (ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT)');
+    $db->query('CREATE TEMPORARY TABLE cited_article (ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT, ca_doi VARCHAR(120))');
     $db->table('cited_article')->insertBatch([
         ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
         ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
@@ -76,6 +76,16 @@ try {
     verifyLink($model->linkSelected($person, ['2']) === 1, 'Vincular correspondência por autores');
     verifyLink($model->candidates($person) === [], 'Estado vazio');
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4, 2, 1], 'Obras vinculadas ordenadas por ano');
+    $db->table('cited_normalize')->where('id_ca', 2)->update(['ca_doi' => '10.1234/test']);
+    $db->table('cited_article')->insertBatch([
+        ['ca_normalized' => null, 'ca_rdf' => 500, 'ca_year_origem' => 2024, 'ca_doi' => 'https://doi.org/10.1234/TEST'],
+        ['ca_normalized' => 0, 'ca_rdf' => 500, 'ca_year_origem' => 2024, 'ca_doi' => 'doi:10.1234/test'],
+        ['ca_normalized' => 0, 'ca_rdf' => 501, 'ca_year_origem' => 2025, 'ca_doi' => '10.1234/test'],
+        ['ca_normalized' => 3, 'ca_rdf' => 502, 'ca_year_origem' => 2025, 'ca_doi' => '10.1234/test'],
+    ]);
+    $model->refreshCitationCounts([2]);
+    verifyLink((int) $db->table('cited_normalize')->where('id_ca', 2)->get()->getRowArray()['ca_cited'] === 2, 'DOIs sem vínculo contados sem duplicar ou sobrescrever vínculo explícito');
+    verifyLink(array_column($model->citingWorks(2), 'ca_rdf') == [500, 501], 'Lista usa a mesma regra de DOI do recálculo');
     $db->query('ALTER TABLE cited_normalize DROP COLUMN ca_cited');
     unset($db->dataCache['field_names']['cited_normalize']);
     $model->refreshCitationCounts([4]);

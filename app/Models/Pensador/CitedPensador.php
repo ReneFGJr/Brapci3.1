@@ -30,7 +30,7 @@ class CitedPensador extends Model
 
         $works = $this->db->table('cited_article a')
             ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
-            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
+            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
             ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
             ->groupBy('a.ca_rdf')
             ->orderBy('a.ca_rdf', 'ASC')
@@ -74,10 +74,25 @@ class CitedPensador extends Model
             $placeholders = implode(',', array_fill(0, count($chunk), '?'));
             $this->db->query('UPDATE cited_normalize n SET ca_cited = (
                 SELECT COUNT(DISTINCT a.ca_rdf) FROM cited_article a
-                WHERE a.ca_normalized = n.id_ca AND a.ca_rdf > 0
+                WHERE ' . $this->citationMatch() . ' AND a.ca_rdf > 0
             ) WHERE n.id_ca IN (' . $placeholders . ')', $chunk);
         }
     }
+    private function citationMatch(): string
+    {
+        $doi = static function (string $field): string {
+            $sql = 'LOWER(TRIM(' . $field . '))';
+            foreach (['https://dx.doi.org/', 'http://dx.doi.org/', 'https://doi.org/', 'http://doi.org/', 'doi:'] as $prefix) {
+                $sql = "REPLACE($sql, '$prefix', '')";
+            }
+            return 'TRIM(' . $sql . ')';
+        };
+        $articleDoi = $doi('a.ca_doi');
+        $normalizedDoi = $doi('n.ca_doi');
+        return '(a.ca_normalized = n.id_ca OR ((a.ca_normalized IS NULL OR a.ca_normalized = 0) '
+            . "AND $normalizedDoi LIKE '10.%/%' AND $articleDoi = $normalizedDoi))";
+    }
+
     public static function surname(array $pensador): string
     {
         $citation = trim((string) ($pensador['nome_citacao'] ?? ''));
