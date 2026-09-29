@@ -35,6 +35,8 @@ try {
         ['pensador_id' => 20, 'cited_normalize_id' => 1],
     ]);
     $model = new App\Models\Pensador\CitedPensador($db);
+    verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
+    verifyLink($model->linkedWorks(999) === [], 'Pensador sem obras');
     $person = ['id' => 10, 'nome' => 'João da Silva', 'nome_citacao' => 'SILVA, João'];
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
@@ -44,6 +46,7 @@ try {
     verifyLink(count($model->candidates($person)) === 1, 'Remover vinculadas da seleção');
     verifyLink($model->linkSelected($person, ['2']) === 1, 'Vincular correspondência por autores');
     verifyLink($model->candidates($person) === [], 'Estado vazio');
+    verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4, 2, 1], 'Obras vinculadas ordenadas por ano');
     try {
         $model->linkSelected($person, [['1']]);
         throw new LogicException('Seleção inválida aceita');

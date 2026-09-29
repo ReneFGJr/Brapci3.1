@@ -28,7 +28,66 @@ $id = (int) $pensador['id'];
     <?php endif; ?>
     <div class="row g-4">
         <div class="col-lg-7">
-            <section class="card card-dashboard p-4">
+            <h2 class="h4 mb-3">Obras do autor <span class="badge bg-secondary"><?= count($works) ?></span></h2>
+            <?php if ($works === []): ?>
+                <div class="card card-dashboard p-4">
+                    <p class="text-muted">Nenhuma obra vinculada a este pensador.</p>
+                    <a href="<?= site_url('labs/thinkers/' . $id . '/select') ?>" class="btn btn-outline-success align-self-start">Check — vincular obras</a>
+                </div>
+            <?php else: ?>
+                <div class="row g-3">
+                    <?php foreach ($works as $work): ?>
+                        <div class="col-12">
+                            <article class="card card-dashboard h-100 p-4 text-break">
+                                <div class="d-flex justify-content-between gap-2 mb-2">
+                                    <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
+                                    <?php if (!empty($work['ca_year'])): ?>
+                                        <span class="badge bg-secondary align-self-start"><?= esc($work['ca_year']) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <p class="mb-2"><?= esc($work['ca_text'] ?: 'Referência sem texto cadastrado.') ?></p>
+                                <?php if (!empty($work['ca_authors'])): ?>
+                                    <p class="small text-muted mb-2"><strong>Autores:</strong> <?= esc($work['ca_authors']) ?></p>
+                                <?php endif; ?>
+                                <?php if (!empty($work['ca_doi'])): ?>
+                                    <p class="small mb-0"><strong>DOI:</strong> <?= esc($work['ca_doi']) ?></p>
+                                <?php endif; ?>
+                            </article>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="col-lg-5">
+            <section class="card card-dashboard p-3">
+                <h2 class="h5">Fotos do pensador</h2>
+                <?php if (!$photos): ?>
+                    <p class="text-muted mb-0">Nenhuma foto importada.</p>
+                <?php else: ?>
+                    <div id="thinkerPhotos" class="carousel slide carousel-dark" data-bs-interval="false" role="region" aria-label="Fotos do pensador">
+                        <div class="carousel-inner">
+                            <?php foreach ($photos as $index => $photo): ?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img src="<?= base_url('_repository/thinkers/' . $id . '/' . rawurlencode($photo['arquivo'])) ?>" class="d-block w-100" style="height: 400px; object-fit: contain;" alt="<?= esc($pensador['nome'], 'attr') ?> — foto <?= $index + 1 ?>">
+                                    <div class="text-center small mt-3 px-4">
+                                        <p class="mb-1">Foto <?= $index + 1 ?> de <?= count($photos) ?></p>
+                                        <p class="mb-1"><?= esc($photo['autor'] ?? '') ?></p>
+                                        <p class="mb-1"><?= esc($photo['licenca'] ?? '') ?></p>
+                                        <?php if (preg_match('~^https://(?:commons\.wikimedia\.org|[a-z-]+\.wikipedia\.org)/~', $photo['descricao_url'] ?? '')): ?>
+                                            <a href="<?= esc($photo['descricao_url'], 'attr') ?>" target="_blank" rel="noopener noreferrer">Fonte da imagem</a>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (count($photos) > 1): ?>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#thinkerPhotos" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Foto anterior</span></button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#thinkerPhotos" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Próxima foto</span></button>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+            <section class="card card-dashboard p-4 mt-4 text-break">
                 <dl class="mb-0">
                     <dt>Nome completo</dt>
                     <dd><?= esc($details['nome_completo'] ?? $pensador['nome']) ?></dd>
@@ -64,36 +123,6 @@ $id = (int) $pensador['id'];
                 <?php foreach ($wiki['fontes'] ?? [] as $source => $snapshot): ?>
                     <p class="small text-muted mb-1">Atualização <?= esc($source) ?>: <?= esc($snapshot['atualizado_em']) ?><?= !empty($snapshot['wikidata_id']) ? ' · Wikidata ' . esc($snapshot['wikidata_id']) : '' ?></p>
                 <?php endforeach; ?>
-            </section>
-        </div>
-        <div class="col-lg-5">
-            <section class="card card-dashboard p-3">
-                <h2 class="h5">Fotos do pensador</h2>
-                <?php if (!$photos): ?>
-                    <p class="text-muted mb-0">Nenhuma foto importada.</p>
-                <?php else: ?>
-                    <div id="thinkerPhotos" class="carousel slide carousel-dark" data-bs-interval="false" role="region" aria-label="Fotos do pensador">
-                        <div class="carousel-inner">
-                            <?php foreach ($photos as $index => $photo): ?>
-                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                    <img src="<?= base_url('_repository/thinkers/' . $id . '/' . rawurlencode($photo['arquivo'])) ?>" class="d-block w-100" style="height: 400px; object-fit: contain;" alt="<?= esc($pensador['nome'], 'attr') ?> — foto <?= $index + 1 ?>">
-                                    <div class="text-center small mt-3 px-4">
-                                        <p class="mb-1">Foto <?= $index + 1 ?> de <?= count($photos) ?></p>
-                                        <p class="mb-1"><?= esc($photo['autor'] ?? '') ?></p>
-                                        <p class="mb-1"><?= esc($photo['licenca'] ?? '') ?></p>
-                                        <?php if (preg_match('~^https://(?:commons\.wikimedia\.org|[a-z-]+\.wikipedia\.org)/~', $photo['descricao_url'] ?? '')): ?>
-                                            <a href="<?= esc($photo['descricao_url'], 'attr') ?>" target="_blank" rel="noopener noreferrer">Fonte da imagem</a>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php if (count($photos) > 1): ?>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#thinkerPhotos" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Foto anterior</span></button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#thinkerPhotos" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Próxima foto</span></button>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
             </section>
         </div>
     </div>

@@ -104,7 +104,12 @@ class BrapciLab extends BaseController
         }
 
         $wiki = new \App\Models\Pensador\WikiImport();
-        $data = ['title' => 'Visualizar pensador', 'pensador' => $pensador, 'wiki' => $wiki->read($id)];
+        $data = [
+            'title' => 'Visualizar pensador',
+            'pensador' => $pensador,
+            'wiki' => $wiki->read($id),
+            'works' => (new \App\Models\Pensador\CitedPensador())->linkedWorks($id),
+        ];
         return view('BrapciLabs/layout/header', $data)
             . view('BrapciLabs/layout/sidebar')
             . view('BrapciLabs/thinkers_view', $data)

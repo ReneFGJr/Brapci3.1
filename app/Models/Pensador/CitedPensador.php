@@ -11,6 +11,16 @@ class CitedPensador extends Model
     protected $allowedFields = ['pensador_id', 'cited_normalize_id'];
     protected $useTimestamps = false;
 
+    public function linkedWorks(int $pensadorId): array
+    {
+        return $this->db->table('cited_pensador p')
+            ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
+            ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
+            ->where('p.pensador_id', $pensadorId)
+            ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')
+            ->get()->getResultArray();
+    }
+
     public static function surname(array $pensador): string
     {
         $citation = trim((string) ($pensador['nome_citacao'] ?? ''));
