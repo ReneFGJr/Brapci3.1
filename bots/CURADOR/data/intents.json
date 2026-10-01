@@ -49,6 +49,16 @@
             "t"
         ]
     },
+    "2000": {
+        "description": "Exportar Elastic Search& Dataset",
+        "patterns": [
+            "elastic export",
+            "export elastic",
+            "export elasticsearch",
+            "elasticsearch",
+            "elastic"
+        ]
+    },
     "3000": {
         "description": "Normalizar autores",
         "patterns": [

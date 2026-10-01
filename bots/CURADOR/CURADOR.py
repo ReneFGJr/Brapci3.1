@@ -135,7 +135,7 @@ def main():
             json.dumps(
                 {
                     "success": False,
-                    "error": "Comando não reconhecido."
+                    "error": "Erro: o comando não existe."
                 },
                 indent=4,
                 ensure_ascii=False

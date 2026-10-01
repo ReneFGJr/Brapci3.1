@@ -3,15 +3,11 @@
 
 import shlex
 
-from lib.ai import perguntar
-from chat.memory import Conversation
 from chat.router import localizar
 from tasks.executor import executar
 
 
 def iniciar(first_message=None):
-
-    conversa = Conversation()
 
     print("\nDigite 'sair' para terminar.\n")
 
@@ -78,19 +74,7 @@ def iniciar(first_message=None):
             continue
 
         #
-        # Conversa com a IA
+        # Comando desconhecido
         #
 
-        conversa.user(pergunta)
-
-        resposta = perguntar(
-            conversa.prompt()
-        )
-
-        conversa.assistant(resposta)
-
-        print()
-        print(resposta)
-        print()
-
-    conversa.save()
+        print("\nErro: o comando não existe.\n")
