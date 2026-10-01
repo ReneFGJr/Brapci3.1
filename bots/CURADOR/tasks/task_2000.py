@@ -25,8 +25,29 @@ TASK = {
 }
 
 def excludeElastic():
-    """Reservado para implementação da exclusão no Elasticsearch."""
-    return {"success": False, "error": "O escopo da exclusão no Elasticsearch precisa ser definido."}
+    """Exclui o índice configurado, incluindo documentos e mapeamentos."""
+    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    server = (os.getenv("ElasticServer") or "").strip().rstrip("/")
+    index = (os.getenv("ElaseicSearchIndex") or "").strip().lower()
+    if not server or not index:
+        return {"success": False, "error": "Configure ElasticServer e ElaseicSearchIndex no .env do CURADOR."}
+    if index == "_all" or any(char in index for char in '*?,/\\#%'):
+        return {"success": False, "error": "Informe um único nome de índice em ElaseicSearchIndex."}
+
+    try:
+        response = requests.delete(
+            f"{server}/{index}",
+            timeout=int(os.getenv("TIMEOUT", 300)),
+        )
+        response.raise_for_status()
+        payload = response.json()
+        acknowledged = payload.get("acknowledged") is True
+        result = {"success": acknowledged, "index": index, "acknowledged": acknowledged}
+        if not acknowledged:
+            result["error"] = "O Elasticsearch não confirmou a exclusão do índice."
+        return result
+    except (requests.RequestException, ValueError) as error:
+        return {"success": False, "index": index, "error": str(error)}
 
 
 def _elastic_document(row):
