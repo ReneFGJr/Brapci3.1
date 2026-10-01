@@ -45,8 +45,25 @@ def excludeElastic():
         result = {"success": acknowledged, "index": index, "acknowledged": acknowledged}
         if not acknowledged:
             result["error"] = "O Elasticsearch não confirmou a exclusão do índice."
+            return result
+
+        conn = pymysql.connect(
+            host=os.getenv("DB_HOST", "localhost"),
+            port=int(os.getenv("DB_PORT", 3306)),
+            user=os.getenv("DB_USERNAME"),
+            password=os.getenv("DB_PASSWORD"),
+            database="brapci_elastic",
+            charset="utf8mb4",
+        )
+        try:
+            with conn.cursor() as cursor:
+                cursor.execute("UPDATE dataset SET `new` = 1")
+                result["updated"] = cursor.rowcount
+            conn.commit()
+        finally:
+            conn.close()
         return result
-    except (requests.RequestException, ValueError) as error:
+    except (requests.RequestException, pymysql.MySQLError, ValueError) as error:
         return {"success": False, "index": index, "error": str(error)}
 
 

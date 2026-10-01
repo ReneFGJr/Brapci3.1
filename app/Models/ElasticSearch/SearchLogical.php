@@ -368,6 +368,27 @@ class SearchLogical extends Model
         }
 
         /************************************************************
+         * Seção e subseção
+         ************************************************************/
+        $section = trim((string) get("section"));
+        if ($section !== '') {
+            $query['query']['bool']['filter'][] = [
+                'match_phrase' => [
+                    'section' => $section
+                ]
+            ];
+        }
+
+        $sectionType = trim((string) get("section_type"));
+        if ($sectionType !== '') {
+            $query['query']['bool']['filter'][] = [
+                'match_phrase' => [
+                    'section_type' => $sectionType
+                ]
+            ];
+        }
+
+        /************************************************************
          * Intervalo de anos
          ************************************************************/
         $year_start = (int) trim(get("year_start"));
