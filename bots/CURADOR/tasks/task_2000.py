@@ -181,47 +181,68 @@ def exportToElastic(journal=0):
                 result["success"] = result["success"] and source_result["success"]
             return result
 
-        with conn.cursor() as cursor, requests.Session() as session:
-            sql = "SELECT * FROM dataset"
-            if journal > 0:
-                cursor.execute(sql + " WHERE JOURNAL = %s ORDER BY ID", (journal,))
-            else:
-                cursor.execute(sql + " ORDER BY ID")
+        update_conn = pymysql.connect(
+            host=os.getenv("DB_HOST", "localhost"),
+            port=int(os.getenv("DB_PORT", 3306)),
+            user=os.getenv("DB_USERNAME"),
+            password=os.getenv("DB_PASSWORD"),
+            database="brapci_elastic",
+            charset="utf8mb4",
+        )
+        try:
+            with conn.cursor() as cursor, requests.Session() as session:
+                sql = "SELECT * FROM dataset"
+                if journal > 0:
+                    cursor.execute(sql + " WHERE JOURNAL = %s ORDER BY ID", (journal,))
+                else:
+                    cursor.execute(sql + " ORDER BY ID")
 
-            while True:
-                rows = cursor.fetchmany(500)
-                if not rows:
-                    break
+                while True:
+                    rows = cursor.fetchmany(500)
+                    if not rows:
+                        break
 
-                lines = []
-                for row in rows:
-                    lines.append(json.dumps({"index": {"_index": index, "_id": str(row["ID"])}}))
-                    lines.append(json.dumps(_elastic_document(row), ensure_ascii=False, allow_nan=False))
+                    lines = []
+                    for row in rows:
+                        lines.append(json.dumps({"index": {"_index": index, "_id": str(row["ID"])}}))
+                        lines.append(json.dumps(_elastic_document(row), ensure_ascii=False, allow_nan=False))
 
-                response = session.post(
-                    f"{server}/_bulk",
-                    data=("\n".join(lines) + "\n").encode("utf-8"),
-                    headers={"Content-Type": "application/x-ndjson"},
-                    timeout=int(os.getenv("TIMEOUT", 300)),
-                )
-                response.raise_for_status()
-                payload = response.json()
-                items = payload.get("items", [])
-                if len(items) != len(rows):
-                    raise RuntimeError("Resposta incompleta do Elasticsearch para o lote enviado.")
+                    response = session.post(
+                        f"{server}/_bulk",
+                        data=("\n".join(lines) + "\n").encode("utf-8"),
+                        headers={"Content-Type": "application/x-ndjson"},
+                        timeout=int(os.getenv("TIMEOUT", 300)),
+                    )
+                    response.raise_for_status()
+                    payload = response.json()
+                    items = payload.get("items", [])
+                    if len(items) != len(rows):
+                        raise RuntimeError("Resposta incompleta do Elasticsearch para o lote enviado.")
 
-                result["total"] += len(rows)
-                for item in items:
-                    operation = item["index"]
-                    if 200 <= operation.get("status", 0) < 300 and "error" not in operation:
-                        result["exported"] += 1
-                    else:
-                        result["failed"] += 1
-                        if len(result["errors"]) < 20:
-                            result["errors"].append({
-                                "ID": operation.get("_id"),
-                                "error": operation.get("error", "Falha ao indexar documento."),
-                            })
+                    result["total"] += len(rows)
+                    exported_ids = []
+                    for row, item in zip(rows, items):
+                        operation = item["index"]
+                        if 200 <= operation.get("status", 0) < 300 and "error" not in operation:
+                            result["exported"] += 1
+                            exported_ids.append(row["ID"])
+                        else:
+                            result["failed"] += 1
+                            if len(result["errors"]) < 20:
+                                result["errors"].append({
+                                    "ID": operation.get("_id"),
+                                    "error": operation.get("error", "Falha ao indexar documento."),
+                                })
+
+                    if exported_ids:
+                        with update_conn.cursor() as update_cursor:
+                            update_cursor.executemany(
+                                "UPDATE dataset SET `new` = 0 WHERE ID = %s",
+                                [(identifier,) for identifier in exported_ids],
+                            )
+                        update_conn.commit()
+        finally:
+            update_conn.close()
         result["success"] = result["failed"] == 0
         return result
     finally:
