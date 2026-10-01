@@ -93,6 +93,7 @@ def _elastic_document(row):
     abstracts = collect("Abstract", ["ABSTRACTS"])
     authors = collect("Authors", ["AUTHORS"], split=True, normalize=False)
     sections = collect("Sections", ["SESSION", "SESSION_SUB"], split=True)
+    section_types = collect("SECTIONSUB", ["SECTIONSUB", "SESSION_SUB"], split=True)
     languages = values(metadata.get("Idioma")) or values(row.get("LANGUAGE"))
     full = titles + keywords + abstracts
     for author in authors:
@@ -109,6 +110,7 @@ def _elastic_document(row):
         "year": str(row.get("YEAR") or ""),
         "type": row.get("CLASS") or "",
         "section": sections,
+        "section_type": section_types,
         "language": languages,
         "full": " ".join(full).strip(),
         "collection": row.get("COLLECTION") or "",
