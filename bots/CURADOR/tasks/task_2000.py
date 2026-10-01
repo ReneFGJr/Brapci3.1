@@ -13,6 +13,7 @@ TASK = {
     "description": "Exporta o Dataset para o Elasticsearch, com filtro opcional por JOURNAL.",
     "patterns": [
         "elastic export",
+        "elastic delete",
     ],
     "parameters": [
         {
@@ -25,6 +26,7 @@ TASK = {
 
 def excludeElastic():
     """Reservado para implementação da exclusão no Elasticsearch."""
+    return {"success": False, "error": "O escopo da exclusão no Elasticsearch precisa ser definido."}
 
 
 def _elastic_document(row):
@@ -95,7 +97,7 @@ def _elastic_document(row):
 
 def exportToElastic(journal=0):
     """Exporta todos os registros ou apenas os registros do JOURNAL informado."""
-    journal = int(journal)
+    journal = int(journal or 0)
     if journal < 0:
         raise ValueError("O ID do JOURNAL deve ser maior ou igual a zero.")
 
@@ -125,6 +127,20 @@ def exportToElastic(journal=0):
         cursorclass=pymysql.cursors.SSDictCursor,
     )
     try:
+        if journal == 0:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT id_jnl FROM brapci.source_source ORDER BY id_jnl")
+                source_ids = [int(row["id_jnl"]) for row in cursor.fetchall()]
+            for source_id in source_ids:
+                if source_id <= 0:
+                    raise ValueError("O ID da fonte deve ser maior que zero.")
+                source_result = exportToElastic(source_id)
+                for field in ("total", "exported", "failed"):
+                    result[field] += source_result[field]
+                result["errors"].extend(source_result["errors"][:20 - len(result["errors"])])
+                result["success"] = result["success"] and source_result["success"]
+            return result
+
         with conn.cursor() as cursor, requests.Session() as session:
             sql = "SELECT * FROM dataset"
             if journal > 0:
@@ -176,10 +192,21 @@ def exportToElastic(journal=0):
 def run(parametros=None,chat=None,silent=False):
 
     parametros = parametros or []
-    if len(parametros) > 1:
-        return {"success": False, "error": "Uso: 2000 [ID do JOURNAL]"}
+    if not parametros:
+        if not silent:
+            print("sem parametros")
+        return {"success": False, "error": "sem parametros"}
+    usage = "Uso: 2000 delete | 2000 export [ID do JOURNAL]"
     try:
-        journal = int(parametros[0]) if parametros else 0
+        action = str(parametros[0]).strip().lower() if parametros else "export"
+        arguments = parametros[1:] if action in ("delete", "export") else parametros
+        if action == "delete":
+            if arguments:
+                return {"success": False, "error": usage}
+            return excludeElastic()
+        if len(arguments) > 1:
+            return {"success": False, "error": usage}
+        journal = int(arguments[0] or 0) if arguments else 0
         if not silent:
             print("Iniciando exportação para o Elasticsearch...")
         return exportToElastic(journal)
