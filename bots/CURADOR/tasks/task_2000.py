@@ -198,8 +198,10 @@ def run(parametros=None,chat=None,silent=False):
         return {"success": False, "error": "sem parametros"}
     usage = "Uso: 2000 delete | 2000 export [ID do JOURNAL]"
     try:
-        action = str(parametros[0]).strip().lower() if parametros else "export"
-        arguments = parametros[1:] if action in ("delete", "export") else parametros
+        action = str(parametros[0]).strip().lower()
+        if action not in ("delete", "export"):
+            return {"success": False, "error": usage}
+        arguments = parametros[1:]
         if action == "delete":
             if arguments:
                 return {"success": False, "error": usage}
