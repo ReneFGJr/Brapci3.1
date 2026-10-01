@@ -157,6 +157,33 @@ def exportToElastic(journal=0):
         "errors": [],
     }
 
+    if journal == 0:
+        source_conn = pymysql.connect(
+            host=os.getenv("DB_HOST", "localhost"),
+            port=int(os.getenv("DB_PORT", 3306)),
+            user=os.getenv("DB_USERNAME"),
+            password=os.getenv("DB_PASSWORD"),
+            database="brapci_elastic",
+            charset="utf8mb4",
+            cursorclass=pymysql.cursors.DictCursor,
+        )
+        try:
+            with source_conn.cursor() as cursor:
+                cursor.execute("SELECT id_jnl FROM brapci.source_source ORDER BY id_jnl")
+                source_ids = [int(row["id_jnl"]) for row in cursor.fetchall()]
+        finally:
+            source_conn.close()
+
+        for source_id in source_ids:
+            if source_id <= 0:
+                raise ValueError("O ID da fonte deve ser maior que zero.")
+            source_result = exportToElastic(source_id)
+            for field in ("total", "exported", "failed"):
+                result[field] += source_result[field]
+            result["errors"].extend(source_result["errors"][:20 - len(result["errors"])])
+            result["success"] = result["success"] and source_result["success"]
+        return result
+
     conn = pymysql.connect(
         host=os.getenv("DB_HOST", "localhost"),
         port=int(os.getenv("DB_PORT", 3306)),
@@ -167,19 +194,6 @@ def exportToElastic(journal=0):
         cursorclass=pymysql.cursors.SSDictCursor,
     )
     try:
-        if journal == 0:
-            with conn.cursor() as cursor:
-                cursor.execute("SELECT id_jnl FROM brapci.source_source ORDER BY id_jnl")
-                source_ids = [int(row["id_jnl"]) for row in cursor.fetchall()]
-            for source_id in source_ids:
-                if source_id <= 0:
-                    raise ValueError("O ID da fonte deve ser maior que zero.")
-                source_result = exportToElastic(source_id)
-                for field in ("total", "exported", "failed"):
-                    result[field] += source_result[field]
-                result["errors"].extend(source_result["errors"][:20 - len(result["errors"])])
-                result["success"] = result["success"] and source_result["success"]
-            return result
 
         update_conn = pymysql.connect(
             host=os.getenv("DB_HOST", "localhost"),
