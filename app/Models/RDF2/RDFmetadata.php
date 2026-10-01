@@ -158,6 +158,8 @@ class RDFmetadata extends Model
                 $RSP['authors'] = $data2['authors'];
                 $RSP['years'] = $data2['years'];
                 $RSP['banner'] = $this->recoverBanner($RSP);
+                $RSP['sections'] = $data2['sections'];
+                $RSP['sectionsTypes'] = $data2['sectionsTypes'];
                 return $RSP;
                 break;
             case 'Subject':
@@ -1311,9 +1313,15 @@ class RDFmetadata extends Model
 
     function summaryCount($dt)
     {
-        $Dataset = new \App\Models\ElasticSearch\Search();
         $years = [];
         $authors = [];
+        $sections = [];
+        $sectionsType = [];
+        if (empty($dt)) {
+            return ['years' => $years, 'authors' => $authors, 'sections' => $sections, 'sectionTypes' => $sectionsType];
+        }
+
+        $Dataset = new \App\Models\ElasticSearch\Search();
         $dd = $Dataset->whereIn('ID', $dt)->findAll();
         foreach ($dd as $line) {
             $year = $line['YEAR'];
@@ -1323,21 +1331,42 @@ class RDFmetadata extends Model
                 $years[$year] = 1;
             }
 
-            $auth = $line['AUTHORS'];
-            $auth = troca($auth,'; ',';');
-            $au = explode(';',$auth);
+            $au = explode(';', $line['AUTHORS'] ?? '');
 
             foreach ($au as $a) {
+                $a = trim($a);
+                if ($a === '') {
+                    continue;
+                }
                 if (isset($authors[$a])) {
                     $authors[$a]++;
                 } else {
                     $authors[$a] = 1;
                 }
             }
+            $s = explode(';', $line['SESSION'] ?? '');
+            foreach ($s as $secN) {
+                $secN = trim($secN);
+                if ($secN === '') {
+                    continue;
+                }
+                $sections[$secN] = ($sections[$secN] ?? 0) + 1;
+            }
+
+            $s = explode(';', $line['SESSION_SUB'] ?? '');
+            foreach ($s as $secN) {
+                $secN = trim($secN);
+                if ($secN === '') {
+                    continue;
+                }
+                $sectionsType[$secN] = ($sectionsType[$secN] ?? 0) + 1;
+            }
         }
         ksort($years);
         ksort($authors);
-        $count = ['years' => $years, 'authors' => $authors];
+        ksort($sections);
+        ksort($sectionsType);
+        $count = ['years' => $years, 'authors' => $authors, 'sections'=>$sections, 'sectionsTypes'=> $sectionsType];
         return $count;
     }
 }
