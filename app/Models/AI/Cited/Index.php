@@ -93,7 +93,7 @@ class Index extends Model
             ->groupEnd();
 
         foreach ($terms as $term) {
-            $builder->like('ca_text', $term);
+            $builder->like('ca_text_start', $term);
         }
 
         $references = $builder->orderBy('ca_text')
