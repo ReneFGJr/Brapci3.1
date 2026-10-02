@@ -96,7 +96,7 @@ class Index extends Model
             $builder->like('ca_text_start', $term);
         }
 
-        $references = $builder->orderBy('ca_text')
+        $references = $builder->orderBy('ca_text_start')
             ->limit(100)
             ->findAll();
 
