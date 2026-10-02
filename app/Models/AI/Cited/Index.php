@@ -85,16 +85,17 @@ class Index extends Model
 
     public function searchForClustering(string $query): array
     {
-        $terms = preg_split('/\s+/u', trim($query), -1, PREG_SPLIT_NO_EMPTY);
+        $query = trim($query);
+        if ($query === '') {
+            return [];
+        }
         $builder = $this->select('id_ca, ca_rdf, ca_text, ca_doi, ca_year')
             ->groupStart()
                 ->where('ca_normalized', 0)
                 ->orWhere('ca_normalized IS NULL', null, false)
             ->groupEnd();
 
-        foreach ($terms as $term) {
-            $builder->like('ca_text_start', $term);
-        }
+        $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape($query) . ' IN BOOLEAN MODE)', null, false);
 
         $references = $builder->orderBy('ca_text_start')
             ->limit(100)

@@ -200,9 +200,6 @@ def run(parametros=None, chat=None, silent=False):
         result_04 = check_04(silent=silent)
         result_05 = check_05(silent=silent)
         result_06 = check_06(silent=silent)
-        result_07 = check_07(silent=silent)
-
-
 
         if silent:
             return {
@@ -215,7 +212,6 @@ def run(parametros=None, chat=None, silent=False):
                         result_04,
                         result_05,
                         result_06,
-                        result_07,
                     )
                 ),
                 "checks": [
@@ -225,10 +221,9 @@ def run(parametros=None, chat=None, silent=False):
                     result_04,
                     result_05,
                     result_06,
-                    result_07,
                 ],
             }
-        return result_07
+        return result
 
     if silent:
         return erro("Acao invalida. Use CHECK.")
@@ -664,52 +659,6 @@ def check_06(silent=False):
             return erro(str(e))
 
         print("Erro no check_06:", e)
-        return False
-
-    finally:
-        if conn is not None:
-            conn.close()
-
-
-def check_07(silent=False):
-    conn = None
-
-    try:
-        conn = get_connection("brapci_cited")
-
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                UPDATE cited_article
-                SET ca_text_start = LEFT(ca_text, 100)
-                WHERE ca_text_start IS NULL
-                """
-            )
-            updated_rows = int(cur.rowcount)
-            conn.commit()
-
-        result = {
-            "success": True,
-            "table": "brapci_cited.cited_article",
-            "updated_rows": updated_rows,
-            "message": "Os primeiros 100 caracteres de ca_text foram gravados em ca_text_start.",
-        }
-
-        if silent:
-            return result
-
-        print("Check 07")
-        print(f"Registros atualizados: {updated_rows}")
-        return result
-
-    except Exception as e:
-        if conn is not None:
-            conn.rollback()
-
-        if silent:
-            return erro(str(e))
-
-        print("Erro no check_07:", e)
         return False
 
     finally:
