@@ -17,7 +17,7 @@
                     <label for="reference-search" class="form-label">Buscar na descrição da referência</label>
                     <input type="search" id="reference-search" name="q" class="form-control"
                         value="<?= esc($query) ?>" placeholder="Digite parte da referência" required>
-                    <div class="form-text">Use aspas duplas para buscar uma frase, como "ciência da informação". Use + antes de um termo obrigatório e - antes de um termo a excluir.</div>
+                    <div class="form-text">Todos os termos devem aparecer na referência (AND). Use aspas duplas para buscar uma frase, como "ciência da informação", e - antes de um termo a excluir.</div>
                 </div>
                 <div class="col-md-2">
                     <label class="form-label invisible" aria-hidden="true">Buscar</label>

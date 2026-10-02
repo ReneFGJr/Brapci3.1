@@ -89,13 +89,17 @@ class Index extends Model
         if ($query === '') {
             return [];
         }
+        preg_match_all('/[+-]?"[^"]+"|\S+/u', $query, $matches);
+        $booleanQuery = implode(' ', array_map(static function (string $term): string {
+            return in_array($term[0], ['+', '-'], true) ? $term : '+' . $term;
+        }, $matches[0]));
         $builder = $this->select('id_ca, ca_rdf, ca_text, ca_doi, ca_year')
             ->groupStart()
                 ->where('ca_normalized', 0)
                 ->orWhere('ca_normalized IS NULL', null, false)
             ->groupEnd();
 
-        $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape($query) . ' IN BOOLEAN MODE)', null, false);
+        $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape($booleanQuery) . ' IN BOOLEAN MODE)', null, false);
 
         $references = $builder->orderBy('ca_text')
             ->findAll();
