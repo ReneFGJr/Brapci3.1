@@ -186,7 +186,7 @@ def run(parametros=None, chat=None, silent=False):
         parametros = []
 
     action = parametros[0].lower() if len(parametros) > 0 else "status"
-    print(f"Acao: {action}")
+    print(f"Acao: CITED - {action}")
     if action == 'export':
         COLLECTION="JA"
         YEAR = "2025"
@@ -200,6 +200,8 @@ def run(parametros=None, chat=None, silent=False):
         result_04 = check_04(silent=silent)
         result_05 = check_05(silent=silent)
         result_06 = check_06(silent=silent)
+
+
 
         if silent:
             return {
