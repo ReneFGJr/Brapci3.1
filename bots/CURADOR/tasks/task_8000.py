@@ -540,7 +540,7 @@ def check_05(silent=False):
                 SELECT id_ca, ca_text
                 FROM brapci_cited.cited_article
                 WHERE (ca_doi IS NULL OR TRIM(ca_doi) = '')
-                  AND ca_text LIKE '%10.%'
+                  AND MATCH(ca_text) AGAINST ('10.*' IN BOOLEAN MODE)
                 ORDER BY id_ca
                 """
             )
@@ -682,11 +682,11 @@ def check_07(silent=False):
                 SELECT id_ca, ca_text, ca_doi
                 FROM brapci_cited.cited_article
                 WHERE ((ca_doi IS NULL OR TRIM(ca_doi) = '')
-                       AND ca_text LIKE %s)
+                       AND MATCH(ca_text) AGAINST (%s IN BOOLEAN MODE))
                    OR ca_doi LIKE %s
                 ORDER BY id_ca
                 """,
-                ("%doi.org/%", "%doi.org/%"),
+                ('"doi.org"', "%doi.org/%"),
             )
             rows = cur.fetchall()
             for row in rows:
