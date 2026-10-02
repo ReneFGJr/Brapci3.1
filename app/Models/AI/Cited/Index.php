@@ -89,10 +89,18 @@ class Index extends Model
         if ($query === '') {
             return [];
         }
-        preg_match_all('/[+-]?"[^"]+"|\S+/u', $query, $matches);
+        $terms = preg_split('/\s+/u', $query, -1, PREG_SPLIT_NO_EMPTY);
+        $terms = array_filter(array_map(static function (string $term): string {
+            return (string) preg_replace('/[^\p{L}\p{N}_]+/u', '', $term);
+        }, $terms), static function (string $term): bool {
+            return $term !== '';
+        });
+        if ($terms === []) {
+            return [];
+        }
         $booleanQuery = implode(' ', array_map(static function (string $term): string {
-            return in_array($term[0], ['+', '-'], true) ? $term : '+' . $term;
-        }, $matches[0]));
+            return '+' . $term;
+        }, $terms));
         $builder = $this->select('id_ca, ca_rdf, ca_text, ca_doi, ca_year')
             ->groupStart()
                 ->where('ca_normalized', 0)
