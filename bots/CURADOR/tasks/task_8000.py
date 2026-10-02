@@ -200,6 +200,7 @@ def run(parametros=None, chat=None, silent=False):
         result_04 = check_04(silent=silent)
         result_05 = check_05(silent=silent)
         result_06 = check_06(silent=silent)
+        result_07 = check_07(silent=silent)
 
         if silent:
             return {
@@ -212,6 +213,7 @@ def run(parametros=None, chat=None, silent=False):
                         result_04,
                         result_05,
                         result_06,
+                        result_07,
                     )
                 ),
                 "checks": [
@@ -221,9 +223,10 @@ def run(parametros=None, chat=None, silent=False):
                     result_04,
                     result_05,
                     result_06,
+                    result_07,
                 ],
             }
-        return result
+        return result_07
 
     if silent:
         return erro("Acao invalida. Use CHECK.")
@@ -664,6 +667,75 @@ def check_06(silent=False):
     finally:
         if conn is not None:
             conn.close()
+
+def check_07(silent=False):
+    """Extrai DOIs de URLs doi.org e grava apenas o identificador em ca_doi."""
+    conn = None
+    updated_rows = 0
+    found_rows = []
+
+    try:
+        conn = get_connection("brapci_cited")
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id_ca, ca_text, ca_doi
+                FROM brapci_cited.cited_article
+                WHERE ((ca_doi IS NULL OR TRIM(ca_doi) = '')
+                       AND ca_text LIKE %s)
+                   OR ca_doi LIKE %s
+                ORDER BY id_ca
+                """,
+                ("%doi.org/%", "%doi.org/%"),
+            )
+            rows = cur.fetchall()
+            for row in rows:
+                source = row.get("ca_doi") or row.get("ca_text") or ""
+                if not str(source).strip():
+                    source = row.get("ca_text") or ""
+                match = re.search(r"doi\.org/\s*(10\.\d{4,9}/[^\s<>\"']+)",
+                                  unquote(unescape(str(source))), re.IGNORECASE)
+                doi = recuperar_doi(match.group(1)) if match else ""
+                if not doi:
+                    continue
+                cur.execute(
+                    """
+                    UPDATE brapci_cited.cited_article
+                    SET ca_doi = %s
+                    WHERE id_ca = %s
+                      AND (ca_doi IS NULL OR TRIM(ca_doi) = '' OR ca_doi LIKE %s)
+                    """,
+                    (doi, row["id_ca"], "%doi.org/%"),
+                )
+                updated_rows += cur.rowcount
+                found_rows.append({"id_ca": row["id_ca"], "ca_doi": doi})
+            conn.commit()
+
+        result = {
+            "success": True,
+            "table": "brapci_cited.cited_article",
+            "total_rows": len(rows),
+            "dois_found": len(found_rows),
+            "updated_rows": updated_rows,
+            "rows": found_rows,
+            "message": "DOIs de URLs doi.org gravados em ca_doi sem o prefixo da URL.",
+        }
+        if not silent:
+            print("Check 07")
+            print(f"Registros analisados: {len(rows)}")
+            print(f"Registros atualizados: {updated_rows}")
+        return result
+    except Exception as e:
+        if conn is not None:
+            conn.rollback()
+        if silent:
+            return erro(str(e))
+        print("Erro no check_07:", e)
+        return False
+    finally:
+        if conn is not None:
+            conn.close()
+
 
 if __name__ == "__main__":
     run(parametros=sys.argv[2:], silent=False)
