@@ -97,7 +97,7 @@ class Index extends Model
 
         $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape($query) . ' IN BOOLEAN MODE)', null, false);
 
-        $references = $builder->orderBy('ca_text_start')
+        $references = $builder->orderBy('ca_text')
             ->limit(100)
             ->findAll();
 
