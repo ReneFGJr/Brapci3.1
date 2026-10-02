@@ -681,12 +681,11 @@ def check_07(silent=False):
                 """
                 SELECT id_ca, ca_text, ca_doi
                 FROM brapci_cited.cited_article
-                WHERE ((ca_doi IS NULL OR TRIM(ca_doi) = '')
-                       AND MATCH(ca_text) AGAINST (%s IN BOOLEAN MODE))
-                   OR ca_doi LIKE %s
+                WHERE (ca_doi IS NULL OR TRIM(ca_doi) = '')
+                  AND MATCH(ca_text) AGAINST (%s IN BOOLEAN MODE)
                 ORDER BY id_ca
                 """,
-                ('"doi.org"', "%doi.org/%"),
+                ('"doi.org"',),
             )
             rows = cur.fetchall()
             for row in rows:
@@ -703,9 +702,9 @@ def check_07(silent=False):
                     UPDATE brapci_cited.cited_article
                     SET ca_doi = %s
                     WHERE id_ca = %s
-                      AND (ca_doi IS NULL OR TRIM(ca_doi) = '' OR ca_doi LIKE %s)
+                      AND (ca_doi IS NULL OR TRIM(ca_doi) = '')
                     """,
-                    (doi, row["id_ca"], "%doi.org/%"),
+                    (doi, row["id_ca"]),
                 )
                 updated_rows += cur.rowcount
                 found_rows.append({"id_ca": row["id_ca"], "ca_doi": doi})
