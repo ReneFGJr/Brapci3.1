@@ -98,16 +98,15 @@ class Index extends Model
         if ($terms === []) {
             return [];
         }
-        $booleanQuery = implode(' ', array_map(static function (string $term): string {
-            return '+' . $term;
-        }, $terms));
         $builder = $this->select('id_ca, ca_rdf, ca_text, ca_doi, ca_year')
             ->groupStart()
                 ->where('ca_normalized', 0)
                 ->orWhere('ca_normalized IS NULL', null, false)
             ->groupEnd();
 
-        $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape($booleanQuery) . ' IN BOOLEAN MODE)', null, false);
+        foreach ($terms as $term) {
+            $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape('"' . $term . '"') . ' IN BOOLEAN MODE)', null, false);
+        }
 
         $references = $builder->orderBy('ca_text')
             ->findAll();
