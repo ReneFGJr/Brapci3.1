@@ -17,7 +17,7 @@ class Bugs extends Model
     protected $allowedFields    = [
         'bug_name', 'bug_user', 'bug_problem',
         'bug_IP', 'bug_status', 'bug_v',
-        'bug_solution', 'bug_url', 'bug_description'
+        'bug_solution', 'bug_url', 'bug_description', 'updated_at'
     ];
 
     // Dates
@@ -52,8 +52,14 @@ class Bugs extends Model
             switch($d1)
                 {
                     case 'corrected':
-                        $d2 = round($d2);
-                        $this->corrected($d2);
+                        $request = service('request');
+                        if (strtoupper($request->getMethod()) === 'POST' && ctype_digit((string) $d2)) {
+                            service('security')->verify($request);
+                            $solution = $request->getPost('solution');
+                            if (is_string($solution) && mb_strlen(trim($solution)) <= 2000) {
+                                $this->corrected((int) $d2, trim($solution));
+                            }
+                        }
                         $sx .= $this->list();
                         break;
                     default:
@@ -80,12 +86,12 @@ class Bugs extends Model
             return $sx;
         }
 
-    function corrected($id)
+    function corrected($id, $solution = '')
         {
             $data['bug_status'] = 2;
             $data['updated_at'] = date("Y-m-d H:i:s");
-            $data['bug_solution'] = 'Fixed';
-            $this->set($data)->where('id_bug',$id)->update();
+            $data['bug_solution'] = $solution !== '' ? $solution : 'Fixed';
+            $this->set($data)->where('id_bug',$id)->where('bug_status', 1)->update();
             return "";
         }
 
@@ -128,36 +134,38 @@ class Bugs extends Model
         }
 
     function list()
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $sx = '';
-            $dt = $this
-                ->where('bug_status',1)
-                ->orderBy('bug_problem,bug_name,id_bug')
-                ->findAll();
-            $xt = '';
-            $sx .= '<ul>';
-            foreach($dt as $id=>$line)
-                {
-                    $t = $line['bug_problem'];
-                    if ($xt != $t)
-                        {
-                            $link = '<a href="'.PATH.'ai/authority/'.$t.'">';
-                            $linka = '</a>';
-                            $sx .= $link.h($t,4).$linka;
-                            $xt = $t;
-                        }
-                    $name = '<a href="'.PATH.'/v/'.$line['bug_v'].'" target="_blank">'.$line['bug_v'].'</a>';
-
-                    $chk_ok = '<a class="ms-3" title="'.lang('brapci.corrected').'" href="' . PATH . '/admin/bugs/corrected/'.$line['id_bug'].'">'.bsicone('to_check').'</a>';
-                    //$content = '<div style="font-size: 0.8em;">' . $RDF->c($line['bug_v']) .$chk_ok. '</div>';
-                    $content = $RDF->c($line['bug_v']).' '.$chk_ok;
-                    $sx .= '<li>'.$content.'</li>'.cr();
-                }
-            $sx .= '</ul>';
-            $sx = bs(bsc($sx,12));
-            return $sx;
+    {
+        $request = service('request');
+        $status = $request->getGet('status');
+        $status = in_array($status, ['1', '2', 'all'], true) ? $status : '1';
+        $problem = $request->getGet('problem');
+        $problem = is_string($problem) ? $problem : '';
+        $search = $request->getGet('q');
+        $search = is_string($search) ? mb_substr(trim($search), 0, 200) : '';
+        $page = max(1, (int) $request->getGet('page'));
+        $counts = (new self())->select('bug_status, COUNT(*) AS total')->groupBy('bug_status')->findAll();
+        $totals = [1 => 0, 2 => 0];
+        foreach ($counts as $count) {
+            $totals[(int) $count['bug_status']] = (int) $count['total'];
         }
+        $types = (new self())->select('bug_problem')->distinct()->orderBy('bug_problem')->findAll();
+        if ($status !== 'all') {
+            $this->where('bug_status', (int) $status);
+        }
+        if ($problem !== '') {
+            $this->where('bug_problem', $problem);
+        }
+        if ($search !== '') {
+            $this->groupStart()->like('bug_name', $search)->orLike('bug_problem', $search)
+                ->orLike('bug_v', $search)->orLike('id_bug', $search)->groupEnd();
+        }
+        $total = $this->countAllResults(false);
+        $pages = max(1, (int) ceil($total / 25));
+        $page = min($page, $pages);
+        $reports = $this->orderBy('id_bug', 'DESC')->findAll(25, ($page - 1) * 25);
+        helper('form');
+        return bs(bsc(view('Admin/bugs', compact('reports', 'totals', 'types', 'status', 'problem', 'search', 'page', 'pages', 'total')), 12));
+    }
 
     function recoverProblem($type)
         {
