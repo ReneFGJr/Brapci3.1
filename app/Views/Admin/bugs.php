@@ -9,6 +9,13 @@ $labels = [
 $pageUrl = static function ($number) use ($base, $status, $problem, $search) {
     return $base . '?' . http_build_query(['status' => $status, 'problem' => $problem, 'q' => $search, 'page' => $number]);
 };
+$formatDate = static function ($value) {
+    if (!is_string($value) || $value === '' || strpos($value, '0000-00-00') === 0) {
+        return 'Não informada';
+    }
+    $date = date_create($value);
+    return $date ? $date->format('d/m/Y H:i') : 'Não informada';
+};
 ?>
 <section class="py-4" aria-labelledby="bugs-title">
     <h1 id="bugs-title" class="h3">Tratamento de BUGs</h1>
@@ -55,15 +62,31 @@ $pageUrl = static function ($number) use ($base, $status, $problem, $search) {
     <?php if (!$reports): ?>
         <div class="alert alert-info" role="status">Nenhum relato encontrado para os filtros selecionados.</div>
     <?php endif ?>
+    <?php if ($reports): ?>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <caption class="visually-hidden">Relatos de problemas e andamento do tratamento</caption>
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">BUG</th>
+                    <th scope="col">Data do relato</th>
+                    <th scope="col">Registro</th>
+                    <th scope="col">Solicitante</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Última atualização</th>
+                    <th scope="col">Detalhes e tratamento</th>
+                </tr>
+            </thead>
+            <tbody>
     <?php foreach ($reports as $report): $pending = (int) $report['bug_status'] === 1; $id = (int) $report['id_bug']; ?>
-        <article class="card mb-3">
-            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <h2 class="h6 mb-0">#<?= $id ?> · <?= esc($labels[$report['bug_problem']] ?? $report['bug_problem']) ?></h2>
-                <span class="badge <?= $pending ? 'bg-warning text-dark' : 'bg-success' ?>"><?= $pending ? 'Pendente' : 'Resolvido' ?></span>
-            </div>
-            <div class="card-body">
-                <p><strong>Registro:</strong> <a href="<?= esc(rtrim(PATH, '/') . '/v/' . (int) $report['bug_v'], 'attr') ?>" target="_blank" rel="noopener">#<?= (int) $report['bug_v'] ?> (abrir)</a>
-                    <span class="ms-3"><strong>Solicitante:</strong> <?= esc($report['bug_name'] ?: 'Não informado') ?></span></p>
+                <tr>
+                    <th scope="row">#<?= $id ?><span class="d-block fw-normal"><?= esc($labels[$report['bug_problem']] ?? $report['bug_problem']) ?></span></th>
+                    <td class="text-nowrap"><?= esc($formatDate($report['created_at'] ?? null)) ?></td>
+                    <td><a href="<?= esc(rtrim(PATH, '/') . '/v/' . (int) $report['bug_v'], 'attr') ?>" target="_blank" rel="noopener">#<?= (int) $report['bug_v'] ?></a></td>
+                    <td><?= esc($report['bug_name'] ?: 'Não informado') ?></td>
+                    <td><span class="badge <?= $pending ? 'bg-warning text-dark' : 'bg-success' ?>"><?= $pending ? 'Pendente' : 'Resolvido' ?></span></td>
+                    <td class="text-nowrap"><?= esc($formatDate($report['updated_at'] ?? null)) ?></td>
+                    <td style="min-width: 280px;">
                 <?php if (!empty($report['bug_description'])): ?>
                     <p class="mb-1"><strong>Descrição</strong></p>
                     <div class="mb-3 text-break" style="white-space: pre-wrap"><?= esc($report['bug_description']) ?></div>
@@ -85,9 +108,13 @@ $pageUrl = static function ($number) use ($base, $status, $problem, $search) {
                     <p class="mb-1"><strong>Solução</strong></p>
                     <div class="text-break" style="white-space: pre-wrap"><?= esc($report['bug_solution']) ?></div>
                 <?php endif ?>
-            </div>
-        </article>
+                    </td>
+                </tr>
     <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif ?>
     <?php if ($pages > 1): ?>
         <nav aria-label="Paginação de relatos" class="d-flex gap-2 align-items-center">
             <?php if ($page > 1): ?><a class="btn btn-outline-primary" href="<?= esc($pageUrl($page - 1), 'attr') ?>">Anterior</a><?php endif ?>
