@@ -48,6 +48,7 @@ $routes->group('api/ai', ['filter' => 'aiApiAuth'], static function ($routes) {
     $routes->post('chats/(:num)/regenerate', 'Ai\\ChatController::regenerate/$1');
 });
 
+$routes->match(['get', 'post', 'options'], '/api/bugs/form', 'BugReport::form');
 $routes->options('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/cite/halflive', 'Api::index/cite/halflive');
 $routes->get('/api/(:any)', 'Api::index/$1');

@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Controller;
+use App\Models\Functions\Bugs;
+use App\Models\Socials;
+
+class BugReport extends Controller
+{
+    public function form()
+    {
+        helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
+        $this->response->setHeader('Cache-Control', 'no-store');
+        $method = strtoupper($this->request->getMethod());
+        if ($method === 'OPTIONS') {
+            return $this->response->setStatusCode(204);
+        }
+        $input = $this->request->getPost();
+        if (strpos($this->request->getHeaderLine('Content-Type'), 'application/json') !== false) {
+            $input = $this->request->getJSON(true) ?? [];
+        }
+        if (!is_array($input)) {
+            return $this->response->setStatusCode(422)->setJSON(['message' => 'Parâmetros inválidos.']);
+        }
+        $token = $input['token'] ?? preg_replace('/^Bearer\s+/i', '', $this->request->getHeaderLine('Authorization'));
+        $user = is_string($token) && $token !== '' ? (new Socials())->validToken($token) : [];
+        if ((string)($user['status'] ?? '') !== '200' || empty($user['ID'])) {
+            return $this->response->setStatusCode(401)->setJSON(['message' => 'Entre na sua conta para reportar problemas.', 'login' => '/signin']);
+        }
+        $problems = [
+            ['value' => 'pdfIncorrect', 'label' => 'PDF incorreto'],
+            ['value' => 'pdfInaccessible', 'label' => 'PDF inacessível'],
+            ['value' => 'other', 'label' => 'Outro'],
+            ['value' => 'authorincorrect', 'label' => 'Autor incorreto'],
+        ];
+        $action = $input['action'] ?? 'form';
+        if ($method === 'GET' || $action === 'form') {
+            return $this->response->setJSON([
+                'problems' => $problems,
+                'fields' => [
+                    ['name' => 'id', 'type' => 'integer', 'required' => true, 'min' => 1],
+                    ['name' => 'problem', 'type' => 'select', 'required' => true],
+                    ['name' => 'description', 'type' => 'textarea', 'requiredWhen' => ['problem' => 'other'], 'maxLength' => 2000],
+                ],
+            ]);
+        }
+        $id = filter_var($input['id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        $problem = $input['problem'] ?? '';
+        $description = is_string($input['description'] ?? '') ? trim($input['description'] ?? '') : '';
+        if ($action !== 'submit' || !$id || !is_string($problem) || !in_array($problem, array_column($problems, 'value'), true)
+            || ($problem === 'other' && $description === '') || mb_strlen($description) > 2000) {
+            return $this->response->setStatusCode(422)->setJSON(['message' => 'Informe um ID válido, o problema e a descrição para Outro (até 2000 caracteres).']);
+        }
+        // Use the existing brapci bugs model and its pending/resolved status convention.
+        $bugs = new Bugs();
+        if ($problem !== 'other' && $bugs->where('bug_v', $id)->where('bug_problem', $problem)->where('bug_status', 1)->first()) {
+            return $this->response->setStatusCode(202)->setJSON(['message' => 'Esse problema já foi registrado.']);
+        }
+        try {
+            $bugId = $bugs->insert([
+                'bug_name' => $user['user'], 'bug_user' => $user['ID'],
+                'bug_problem' => $problem, 'bug_IP' => $this->request->getIPAddress(),
+                'bug_status' => 1, 'bug_v' => $id,
+                // Preserve the existing schema: pending reports have no solution yet.
+                'bug_solution' => $problem === 'other' ? $description : '',
+            ]);
+            if (!$bugId) {
+                throw new \RuntimeException('Bug insert failed');
+            }
+        } catch (\Throwable $exception) {
+            log_message('error', 'Bug report persistence failed: {message}', ['message' => $exception->getMessage()]);
+            return $this->response->setStatusCode(500)->setJSON(['message' => 'Não foi possível registrar o problema.']);
+        }
+        return $this->response->setStatusCode(201)->setJSON(['message' => 'Problema registrado com sucesso.', 'id' => $bugId]);
+    }
+}
