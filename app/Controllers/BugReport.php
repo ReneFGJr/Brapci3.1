@@ -8,6 +8,20 @@ use App\Models\Socials;
 
 class BugReport extends Controller
 {
+    private function reportSchemaReady(): bool
+    {
+        $db = db_connect();
+        return $db->fieldExists('bug_url', 'bugs') && $db->fieldExists('bug_description', 'bugs');
+    }
+
+    private function schemaUnavailable()
+    {
+        log_message('error', 'Bug reports require migration 2026-10-05-120000_AddBugReportDetails.');
+        return $this->response->setStatusCode(503)->setJSON([
+            'message' => 'O serviço de relatos precisa de uma atualização no banco de dados. A equipe deve aplicar a migração AddBugReportDetails.',
+        ]);
+    }
+
     public function user($apikey = '')
     {
         helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
@@ -18,6 +32,9 @@ class BugReport extends Controller
         $user = $apikey !== '' ? (new Socials())->validToken($apikey) : [];
         if ((string)($user['status'] ?? '') !== '200' || empty($user['ID'])) {
             return $this->response->setStatusCode(401)->setJSON(['message' => 'APIKEY inválida.']);
+        }
+        if (!$this->reportSchemaReady()) {
+            return $this->schemaUnavailable();
         }
         $reports = (new Bugs())->select('id_bug, bug_v, bug_problem, bug_status, bug_solution, bug_url, bug_description')
             ->where('bug_user', (int)$user['ID'])->orderBy('id_bug', 'DESC')->findAll();
@@ -73,6 +90,9 @@ class BugReport extends Controller
         if (!is_string($url) || mb_strlen($url) > 4096 || ($url !== '' &&
             (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(strtolower(parse_url($url, PHP_URL_SCHEME) ?? ''), ['http', 'https'], true)))) {
             return $this->response->setStatusCode(422)->setJSON(['message' => 'URL inválida.']);
+        }
+        if (!$this->reportSchemaReady()) {
+            return $this->schemaUnavailable();
         }
         // Use the existing brapci bugs model and its pending/resolved status convention.
         $bugs = new Bugs();
