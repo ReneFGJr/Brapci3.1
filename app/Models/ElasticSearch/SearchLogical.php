@@ -264,6 +264,7 @@ class SearchLogical extends Model
         if (trim($term) === '') {
             $term = get("term");
         }
+        $term = str_replace([';', ',', ':', '\\', '/', ']', '[', '{', '}', '!', '@', '#', '$', '%', '&'], '', $term);
         return $this->method_v4query($term, $this->field());
     }
 

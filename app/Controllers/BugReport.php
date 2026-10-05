@@ -8,6 +8,22 @@ use App\Models\Socials;
 
 class BugReport extends Controller
 {
+    public function user($apikey = '')
+    {
+        helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
+        $this->response->setHeader('Cache-Control', 'no-store');
+        if (strtoupper($this->request->getMethod()) === 'OPTIONS') {
+            return $this->response->setStatusCode(204);
+        }
+        $user = $apikey !== '' ? (new Socials())->validToken($apikey) : [];
+        if ((string)($user['status'] ?? '') !== '200' || empty($user['ID'])) {
+            return $this->response->setStatusCode(401)->setJSON(['message' => 'APIKEY inválida.']);
+        }
+        $reports = (new Bugs())->select('id_bug, bug_v, bug_problem, bug_status, bug_solution, bug_url, bug_description')
+            ->where('bug_user', (int)$user['ID'])->orderBy('id_bug', 'DESC')->findAll();
+        return $this->response->setJSON(['bugs' => $reports]);
+    }
+
     public function form()
     {
         helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
@@ -41,6 +57,7 @@ class BugReport extends Controller
                 'fields' => [
                     ['name' => 'id', 'type' => 'integer', 'required' => true, 'min' => 1],
                     ['name' => 'problem', 'type' => 'select', 'required' => true],
+                    ['name' => 'url', 'type' => 'url', 'maxLength' => 4096],
                     ['name' => 'description', 'type' => 'textarea', 'requiredWhen' => ['problem' => 'other'], 'maxLength' => 2000],
                 ],
             ]);
@@ -52,9 +69,14 @@ class BugReport extends Controller
             || ($problem === 'other' && $description === '') || mb_strlen($description) > 2000) {
             return $this->response->setStatusCode(422)->setJSON(['message' => 'Informe um ID válido, o problema e a descrição para Outro (até 2000 caracteres).']);
         }
+        $url = $input['url'] ?? '';
+        if (!is_string($url) || mb_strlen($url) > 4096 || ($url !== '' &&
+            (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(strtolower(parse_url($url, PHP_URL_SCHEME) ?? ''), ['http', 'https'], true)))) {
+            return $this->response->setStatusCode(422)->setJSON(['message' => 'URL inválida.']);
+        }
         // Use the existing brapci bugs model and its pending/resolved status convention.
         $bugs = new Bugs();
-        if ($problem !== 'other' && $bugs->where('bug_v', $id)->where('bug_problem', $problem)->where('bug_status', 1)->first()) {
+        if ($problem !== 'other' && $bugs->where('bug_v', $id)->where('bug_problem', $problem)->where('bug_user', (int)$user['ID'])->where('bug_status', 1)->first()) {
             return $this->response->setStatusCode(202)->setJSON(['message' => 'Esse problema já foi registrado.']);
         }
         try {
@@ -62,8 +84,8 @@ class BugReport extends Controller
                 'bug_name' => $user['user'], 'bug_user' => $user['ID'],
                 'bug_problem' => $problem, 'bug_IP' => $this->request->getIPAddress(),
                 'bug_status' => 1, 'bug_v' => $id,
-                // Preserve the existing schema: pending reports have no solution yet.
-                'bug_solution' => $problem === 'other' ? $description : '',
+                // Keep the original description separate from the team's response.
+                'bug_solution' => '', 'bug_description' => $description, 'bug_url' => $url,
             ]);
             if (!$bugId) {
                 throw new \RuntimeException('Bug insert failed');

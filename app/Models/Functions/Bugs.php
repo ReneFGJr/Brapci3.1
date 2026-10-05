@@ -17,7 +17,7 @@ class Bugs extends Model
     protected $allowedFields    = [
         'bug_name', 'bug_user', 'bug_problem',
         'bug_IP', 'bug_status', 'bug_v',
-        'bug_solution'
+        'bug_solution', 'bug_url', 'bug_description'
     ];
 
     // Dates
