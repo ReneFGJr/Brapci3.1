@@ -50,6 +50,17 @@ class Bolsistas extends Model
 	var $path = '';
 	var $path_back = '';
 
+    public function saveMissingGender(int $id, string $gender): bool
+    {
+        if ($id <= 0 || !in_array($gender, ['M', 'F', 'X'], true)) {
+            return false;
+        }
+        return $this->db->table($this->table)
+            ->where('id_bs', $id)
+            ->where('bs_genero', null)
+            ->update(['bs_genero' => $gender]);
+    }
+
 	function check()
 	{
 		$sql = "SELECT bolsistas.id_bs, bolsistas.bs_rdf_id, rdf_concept.cc_use

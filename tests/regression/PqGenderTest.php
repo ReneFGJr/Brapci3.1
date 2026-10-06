@@ -21,6 +21,15 @@ namespace App\Models\AI\Person {
         }
     }
 }
+namespace App\Models\PQ {
+    class Bolsistas {
+        public static array $saved = [];
+        public function saveMissingGender(int $id, string $gender): bool {
+            self::$saved[] = [$id, $gender];
+            return true;
+        }
+    }
+}
 namespace {
     require __DIR__ . '/../../app/Models/Authority/Person.php';
     require __DIR__ . '/../../app/Models/Api/Endpoint/Pq.php';
@@ -42,7 +51,7 @@ namespace {
     $pq = new \App\Models\Api\Endpoint\Pq();
     $rows = [
         ['bs_rdf_id' => 1, 'bs_nome' => 'Test F', 'bs_genero' => ''],
-        ['bs_rdf_id' => 1, 'bs_nome' => 'Test F', 'bs_genero' => null],
+        ['id_bs' => 10, 'bs_rdf_id' => 1, 'bs_nome' => 'Test F', 'bs_genero' => null],
         ['bs_rdf_id' => 1, 'bs_nome' => 'Test F', 'bs_genero' => 'F'],
         ['bs_rdf_id' => 2, 'bs_nome' => 'Test F', 'bs_genero' => '  '],
     ];
@@ -50,6 +59,7 @@ namespace {
     $before = \App\Models\RDF2\RDFdata::$reads;
     $result = $pq->identifyMissingGenders($rows, $cache);
     verify(array_column($result, 'bs_genero') === ['M', 'M', 'F', 'F'], 'Missing values and preservation');
+    verify(\App\Models\PQ\Bolsistas::$saved === [[10, 'M']], 'Only NULL gender is persisted by scholar ID');
     $pq->identifyMissingGenders($rows, $cache);
     verify(\App\Models\RDF2\RDFdata::$reads - $before === 2, 'Shared per-request cache');
     $api = new \App\Models\Api\Endpoint\Genere();
@@ -59,5 +69,5 @@ namespace {
     $_GET = ['rdf' => '-1'];
     ob_start(); $api->index('gender', 'check_genere'); $output = ob_get_clean();
     verify(http_response_code() === 422 && json_decode($output, true)['status'] === '422', 'Invalid input');
-    echo "PASS: RDF votes, name fallback, preservation, caching, JSON and validation; no writes\n";
+    echo "PASS: RDF votes, name fallback, preservation, caching, JSON, validation and NULL persistence\n";
 }

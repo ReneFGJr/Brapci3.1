@@ -94,6 +94,8 @@ class Pq extends Model
     public function identifyMissingGenders(array $scholars, array &$genders): array
     {
         $person = null;
+        $bolsistas = null;
+        $saved = [];
         foreach ($scholars as &$scholar) {
             if (trim((string) ($scholar['bs_genero'] ?? '')) !== '') {
                 continue;
@@ -104,6 +106,15 @@ class Pq extends Model
             if (!isset($genders[$key])) {
                 $person ??= new \App\Models\Authority\Person();
                 $genders[$key] = $person->identifyGender($rdf, $name);
+            }
+            $id = (int) ($scholar['id_bs'] ?? 0);
+            if (array_key_exists('bs_genero', $scholar) && $scholar['bs_genero'] === null
+                && $id > 0 && !isset($saved[$id])) {
+                $bolsistas ??= new \App\Models\PQ\Bolsistas();
+                if (!$bolsistas->saveMissingGender($id, $genders[$key])) {
+                    throw new \RuntimeException('Não foi possível salvar o gênero do bolsista.');
+                }
+                $saved[$id] = true;
             }
             $scholar['bs_genero'] = $genders[$key];
         }
