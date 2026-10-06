@@ -205,6 +205,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  citedApiRequest(endpoint, { idz: rdfId })';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
+		echo '        if (!lockNow) { window.location.reload(); return; }';
 		echo '        btn.setAttribute("data-locked", lockNow ? "1" : "0");';
 		echo '        btn.innerHTML = lockNow ? "<i class=\"bi bi-lock\"></i>" : "<i class=\"bi bi-unlock\"></i>";';
 		echo '        btn.classList.toggle("btn-outline-danger", lockNow);';
