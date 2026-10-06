@@ -89,6 +89,21 @@ class RDFdata extends Model
         return $RSP;
     }
 
+    public function genderLabels(int $id): array
+    {
+        if ($id <= 0) {
+            return [];
+        }
+        return $this->select('P.c_class AS Property, COALESCE(L.n_name, G.n_name) AS Caption')
+            ->join('rdf_class AS P', 'd_p = P.id_c')
+            ->join('rdf_literal AS L', 'd_literal = L.id_n', 'left')
+            ->join('rdf_concept AS C', 'C.id_cc = CASE WHEN d_r1 = ' . $id . ' THEN d_r2 ELSE d_r1 END', 'left')
+            ->join('rdf_literal AS G', 'C.cc_pref_term = G.id_n', 'left')
+            ->where('P.c_class', 'hasGender')
+            ->groupStart()->where('d_r1', $id)->orWhere('d_r2', $id)->groupEnd()
+            ->findAll();
+    }
+
     function le($id)
     {
         $cp = '';

@@ -433,14 +433,23 @@ function check_genere($dt,$da, bool $returnCode = false)
 	{
 		$id = $da['id_a'] ?? 0;
 		$gt = 'X';
-		$RDF = new \App\Models\Rdf\RDF();
 		$dg = array('M'=>0,'F'=>0,'X'=>0);
-		$gn = isset($dt['concept']['id_cc']) && isset($dt['data']) && is_array($dt['data'])
-			? $RDF->recover($dt,'hasGender') : [];
+		$gn = [];
+		$RDF = null;
+		foreach (($dt['data'] ?? []) as $line) {
+			if (is_array($line) && ($line['Property'] ?? '') === 'hasGender') {
+				$gn[] = (string) ($line['Caption'] ?? '');
+			}
+		}
+		if ($gn === [] && isset($dt['concept']['id_cc']) && !empty($dt['data'])
+			&& !isset($dt['data'][0]['Property'])) {
+			$RDF = new \App\Models\Rdf\RDF();
+			$gn = $RDF->recover($dt, 'hasGender');
+		}
 		for ($r=0;$r < count($gn);$r++)
 			{
-				$t = $RDF->c($gn[$r]);
-				$g = substr($t,0,1);
+				$t = $RDF !== null ? $RDF->c($gn[$r]) : $gn[$r];
+				$g = strtoupper(substr(trim($t),0,1));
 				if ($g == '')
 					{
 						$g = 'X';
@@ -482,8 +491,8 @@ function check_genere($dt,$da, bool $returnCode = false)
     public function identifyGender(int $rdfId, string $name): string
     {
         if ($rdfId > 0) {
-            $RDF = new \App\Models\Rdf\RDF();
-            $gender = $this->check_genere($RDF->le($rdfId), [], true);
+            $data = (new \App\Models\RDF2\RDFdata())->genderLabels($rdfId);
+            $gender = $this->check_genere(['data' => $data], [], true);
             if ($gender !== 'X') {
                 return $gender;
             }
