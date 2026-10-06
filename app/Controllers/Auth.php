@@ -19,6 +19,7 @@ class Auth extends Controller
 
         $allowed = [
             'https://brapci.inf.br',
+            'https://www.brapci.inf.br',
             'https://cip.brapci.inf.br',
             'https://app.brapci.inf.br',
             'http://localhost:4200',

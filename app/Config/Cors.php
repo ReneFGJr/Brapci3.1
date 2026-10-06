@@ -38,6 +38,7 @@ class Cors extends BaseConfig
             'http://localhost:4200',
             'http://127.0.0.1:4200',
             'https://brapci.inf.br',
+            'https://www.brapci.inf.br',
             'https://cip.brapci.inf.br',
             'https://app.brapci.inf.br',
         ],
