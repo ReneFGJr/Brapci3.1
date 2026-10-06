@@ -404,9 +404,7 @@ class Auth extends Controller
 
         if ($username === '' || $password === '') {
             $rsp['message'] = 'Username or password is empty';
-            echo json_encode($rsp);
-            exit;
-            return $this->response->setJSON($rsp);
+            return $rsp;
         }
 
         $Socials = new Socials();
