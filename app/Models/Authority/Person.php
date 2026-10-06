@@ -429,19 +429,20 @@ function check_duplicate_rdf($dt,$da)
 		return $sx;
 	}
 
-function check_genere($dt,$da)
+function check_genere($dt,$da, bool $returnCode = false)
 	{
-		$id = $da['id_a'];
+		$id = $da['id_a'] ?? 0;
+		$gt = 'X';
+		$RDF = new \App\Models\Rdf\RDF();
 		$dg = array('M'=>0,'F'=>0,'X'=>0);
-		$gn = $this->RDF->recover($dt,'hasGender');
+		$gn = isset($dt['concept']['id_cc']) && isset($dt['data']) && is_array($dt['data'])
+			? $RDF->recover($dt,'hasGender') : [];
 		for ($r=0;$r < count($gn);$r++)
 			{
-				$t = $this->RDF->c($gn[$r]);;
+				$t = $RDF->c($gn[$r]);
 				$g = substr($t,0,1);
 				if ($g == '')
 					{
-						print_r($gn[$r]);
-						exit;
 						$g = 'X';
 					}
 				if (isset($dg[$g]))
@@ -450,11 +451,6 @@ function check_genere($dt,$da)
 				}
 			}
 
-		if ($dg['M']+$dg['F']+$dg['X'] == 0)
-			{
-				echo "OPS";
-				exit;
-			}
 
 		if (($dg['M'] > $dg['F']) and ($dg['M'] > $dg['X']))
 			{
@@ -468,6 +464,9 @@ function check_genere($dt,$da)
 			{
 				$gt = 'X';
 			}
+		if ($returnCode) {
+			return $gt;
+		}
 		$sx = lang('brapci.check').' '.lang('brapci.genere');
 		if ($da['a_genere'] != $gt)
 			{
@@ -479,6 +478,22 @@ function check_genere($dt,$da)
 			}
 		return $sx;
 	}
+
+    public function identifyGender(int $rdfId, string $name): string
+    {
+        if ($rdfId > 0) {
+            $RDF = new \App\Models\Rdf\RDF();
+            $gender = $this->check_genere($RDF->le($rdfId), [], true);
+            if ($gender !== 'X') {
+                return $gender;
+            }
+        }
+        if (trim($name) === '') {
+            return 'X';
+        }
+        $gender = (new \App\Models\AI\Person\Genere())->getGenere($name, false);
+        return ['masculino' => 'M', 'feminino' => 'F'][$gender] ?? 'X';
+    }
 
 
 }

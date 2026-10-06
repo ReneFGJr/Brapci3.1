@@ -60,9 +60,9 @@ class Genere extends Model
             return $t;
         }
 
-    function getGenere($name)
+    function getGenere($name, bool $allowDebug = true)
     {
-        $debug = get("debug");
+        $debug = $allowDebug ? get("debug") : '';
         $name = ASCII($name);
         $name = troca($name, '-', ' ');
         $name = trim(nbr_author($name, 7));
@@ -85,14 +85,17 @@ class Genere extends Model
                 $table = ['genre', 'genre_sp'];
                 foreach ($table as $idt => $tb) {
                     if ($abs == 0) {
-                        $sql = "select * from " . $tb . " where gn_first_name = '$n' ";
+                        $sql = "select * from " . $tb . " where gn_first_name = ?";
 
-                        $rlt = $this->db->query($sql);
+                        $rlt = $this->db->query($sql, [$n]);
                         $rlt = (array)$rlt->getResult();
                         if (isset($rlt[0])) {
                             $dt = (array)$rlt[0];
                             $f = $f + $dt['gn_frequency_female'] * $p;
                             $m = $m + $dt['gn_frequency_male'] * $p;
+                            if ($m + $f <= 0) {
+                                continue;
+                            }
                             $rel = $f / ($m + $f);
                             if (($f / ($m + $f)) > 0.9) {
                                 $abs = 1;
