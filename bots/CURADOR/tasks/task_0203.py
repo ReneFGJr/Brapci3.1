@@ -567,6 +567,36 @@ def run(parametros=None, chat=None, silent=False):
         console.print("[yellow]Nenhum grupo de duplicatas selecionado.[/yellow]\n")
         return None
 
+    # Confirmação do usuário antes de realizar os UPDATEs no banco de dados
+    total_duplicatas_a_processar = sum(len(g["ids_dupl"]) for g in itens_selecionados)
+
+    if mostrar_tela and sys.stdin.isatty() and "-y" not in params_lower and "--yes" not in params_lower:
+        console.print()
+        console.rule("[bold cyan]Confirmação de Atualização no Banco de Dados[/bold cyan]")
+        console.print(f"[bold white]Grupos de duplicatas selecionados :[/bold white] [bold green]{total_grupos:,}[/bold green]".replace(",", "."))
+        console.print(f"[bold white]Total de IDs a redirecionar (IDdupl):[/bold white] [bold yellow]{total_duplicatas_a_processar:,}[/bold yellow]".replace(",", "."))
+        modo_str = "[yellow]SIMULAÇÃO (sem gravar no banco)[/yellow]" if simular else "[bold red]EXECUÇÃO REAL (gravação no banco)[/bold red]"
+        console.print(f"[bold white]Modo de operação                  :[/bold white] {modo_str}")
+        console.print(f"[bold white]Tabelas afetadas                  :[/bold white] [cyan]brapci_rdf.rdf_concept (cc_use)[/cyan] e [cyan]brapci_rdf.rdf_data (d_r1, d_r2)[/cyan]")
+        console.print()
+
+        try:
+            resposta = input("Pressione [ENTER] para confirmar e iniciar os UPDATEs (ou 'n' para cancelar): ").strip().lower()
+            if resposta in ("n", "nao", "não", "no", "cancelar", "sair", "q", "quit"):
+                console.print("\n[yellow]Operação cancelada. Nenhum UPDATE foi realizado no banco.[/yellow]\n")
+                return {
+                    "success": False,
+                    "cancelado": True,
+                    "mensagem": "Operação cancelada pelo usuário.",
+                }
+        except KeyboardInterrupt:
+            console.print("\n[yellow]Operação cancelada. Nenhum UPDATE foi realizado no banco.[/yellow]\n")
+            return {
+                "success": False,
+                "cancelado": True,
+                "mensagem": "Operação cancelada pelo usuário.",
+            }
+
     conn = None
     try:
         conn = get_connection("brapci_rdf")
