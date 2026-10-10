@@ -148,25 +148,31 @@ def carregar_dataset(caminho_customizado=None, silent=False):
     for cand in candidatos_arquivo:
         registros = tentar_ler_arquivo(cand)
         if registros:
+            # Filtra somente registros com status = 1 se o campo existir
+            registros = [
+                r for r in registros
+                if str(r.get("status", "1")).strip() in ("1", 1)
+            ]
             if not silent:
-                console.print(f"[bold cyan]Arquivo carregado:[/bold cyan] {cand} ({len(registros)} registros)")
+                console.print(f"[bold cyan]Arquivo carregado:[/bold cyan] {cand} ({len(registros)} registros com status=1)")
             return registros, f"Arquivo: {cand}"
 
     # Se não houver arquivo físico, lê da tabela MySQL brapci_elastic.dataset
     if not silent:
-        console.print("[cyan]Carregando dados da tabela [bold]brapci_elastic.dataset[/bold] (MySQL)...[/cyan]")
+        console.print("[cyan]Carregando dados da tabela [bold]brapci_elastic.dataset[/bold] (MySQL, status = 1)...[/cyan]")
 
     try:
         conn = get_connection("brapci_elastic")
         with conn.cursor() as cursor:
             sql = """
-                SELECT id_ds, ID, TITLE, JOURNAL, PUBLICATION, AUTHORS, YEAR, DOI, updated_at
+                SELECT id_ds, ID, TITLE, JOURNAL, PUBLICATION, AUTHORS, YEAR, DOI, updated_at, status
                 FROM dataset
+                WHERE status = 1
                 ORDER BY TITLE, PUBLICATION, JOURNAL, YEAR, AUTHORS, ID
             """
             cursor.execute(sql)
             registros = cursor.fetchall()
-            return registros, "MySQL: brapci_elastic.dataset"
+            return registros, "MySQL: brapci_elastic.dataset (status = 1)"
     except pymysql.MySQLError as e:
         raise RuntimeError(f"Erro ao acessar banco brapci_elastic.dataset: {e}")
 
