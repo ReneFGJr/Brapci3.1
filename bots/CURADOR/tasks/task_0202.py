@@ -160,9 +160,9 @@ def carregar_dataset(caminho_customizado=None, silent=False):
         conn = get_connection("brapci_elastic")
         with conn.cursor() as cursor:
             sql = """
-                SELECT id_ds, ID, TITLE, JOURNAL, AUTHORS, YEAR, DOI, updated_at
+                SELECT id_ds, ID, TITLE, JOURNAL, PUBLICATION, AUTHORS, YEAR, DOI, updated_at
                 FROM dataset
-                ORDER BY TITLE, JOURNAL, AUTHORS, ID
+                ORDER BY TITLE, PUBLICATION, JOURNAL, YEAR, AUTHORS, ID
             """
             cursor.execute(sql)
             registros = cursor.fetchall()
@@ -173,17 +173,24 @@ def carregar_dataset(caminho_customizado=None, silent=False):
 
 def chave_ordenacao(r):
     """
-    Chave normalizada para ordenação e agrupamento por (titulo, revista, autores).
+    Chave normalizada para ordenação e agrupamento por:
+    - Título do artigo (TITLE)
+    - Título da revista (PUBLICATION)
+    - ID da revista (JOURNAL)
+    - Ano de publicação (YEAR)
+    - Autores (AUTHORS)
     """
     titulo = str(r.get("TITLE") or r.get("title") or "").strip().lower()
-    revista = str(r.get("JOURNAL") or r.get("journal") or r.get("revista") or "").strip()
+    revista_titulo = str(r.get("PUBLICATION") or r.get("publication") or "").strip().lower()
+    revista_id = str(r.get("JOURNAL") or r.get("journal") or "").strip()
+    ano = str(r.get("YEAR") or r.get("year") or "").strip()
     autores = str(r.get("AUTHORS") or r.get("authors") or r.get("autores") or "").strip().lower()
-    return (titulo, revista, autores)
+    return (titulo, revista_titulo, revista_id, ano, autores)
 
 
 def ordenar_dataset(registros):
     """
-    Ordena os registros por título, revista e autores.
+    Ordena os registros por título, revista (título e ID), ano e autores.
     """
     registros.sort(key=chave_ordenacao)
     return registros
@@ -191,7 +198,8 @@ def ordenar_dataset(registros):
 
 def encontrar_duplicatas(registros_ordenados):
     """
-    Percorre os registros ordenados e agrupa os que têm mesmo título, revista e autores.
+    Percorre os registros ordenados e agrupa os que têm mesmo título,
+    título da revista, ID da revista, ano de publicação e autores.
     """
     duplicatas = []
 
@@ -200,7 +208,9 @@ def encontrar_duplicatas(registros_ordenados):
         if len(grupo) > 1:
             primeiro = grupo[0]
             titulo = primeiro.get("TITLE") or primeiro.get("title") or "(Sem título)"
-            revista = str(primeiro.get("JOURNAL") or primeiro.get("journal") or "")
+            revista_id = str(primeiro.get("JOURNAL") or primeiro.get("journal") or "")
+            revista_titulo = primeiro.get("PUBLICATION") or primeiro.get("publication") or ""
+            ano = str(primeiro.get("YEAR") or primeiro.get("year") or "")
             autores = primeiro.get("AUTHORS") or primeiro.get("authors") or "(Sem autores)"
 
             ids = [
@@ -216,7 +226,9 @@ def encontrar_duplicatas(registros_ordenados):
 
             duplicatas.append({
                 "titulo": titulo,
-                "revista": revista,
+                "revista": revista_id,
+                "revista_titulo": revista_titulo,
+                "ano": ano,
                 "autores": autores,
                 "quantidade": len(grupo),
                 "ids": ids,
@@ -229,7 +241,7 @@ def encontrar_duplicatas(registros_ordenados):
 
 def exportar_csv(duplicatas, caminho_saida=None):
     """
-    Exporta a lista de duplicatas para um arquivo CSV.
+    Exporta a lista de duplicatas para um arquivo CSV incluindo ano e título da revista.
     """
     if caminho_saida is None:
         caminho_saida = BASE_DIR / "data" / "duplicatas_brapci_elastic.csv"
@@ -240,16 +252,17 @@ def exportar_csv(duplicatas, caminho_saida=None):
 
     with open(caminho_saida, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f, delimiter=";")
-        writer.writerow(["grupo", "titulo", "revista", "autores", "quantidade", "ids_brapci", "anos"])
+        writer.writerow(["grupo", "titulo", "revista_id", "revista_titulo", "ano", "autores", "quantidade", "ids_brapci"])
         for idx, dup in enumerate(duplicatas, 1):
             writer.writerow([
                 idx,
                 dup["titulo"],
                 dup["revista"],
+                dup["revista_titulo"],
+                dup["ano"],
                 dup["autores"],
                 dup["quantidade"],
                 ", ".join(map(str, dup["ids"])),
-                ", ".join(dup["anos"]),
             ])
 
     return caminho_saida
