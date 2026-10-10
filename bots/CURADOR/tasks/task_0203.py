@@ -222,6 +222,8 @@ def desenhar_tela_atualizacao(
     simular=False,
     tempo_inicio=None,
     largura=76,
+    revista_titulo=None,
+    ano=None,
 ):
     """
     Renderiza na tela (iniciando em linha 0 e coluna 0) um painel com bordas de texto,
@@ -252,6 +254,8 @@ def desenhar_tela_atualizacao(
     tit_str = truncar_visivel(titulo or "(Sem título)", 56)
     aut_str = truncar_visivel(autores or "(Sem autores)", 56)
     rev_str = str(revista or "-")
+    rev_nome = truncar_visivel(revista_titulo or "-", 32)
+    ano_str = str(ano or "-")
     dupl_str = ", ".join(map(str, ids_dupl))
     if len(dupl_str) > 45:
         dupl_str = dupl_str[:42] + "..."
@@ -296,7 +300,13 @@ def desenhar_tela_atualizacao(
     )
     linhas.append(
         linha_borda(
-            f"  {C_GRAY}•{C_RESET} {C_WHITE}Revista      :{C_RESET} {C_MAGENTA}ID {rev_str}{C_RESET}   {C_BLUE}│{C_RESET}   {C_WHITE}Autores:{C_RESET} {C_CYAN}{aut_str}{C_RESET}",
+            f"  {C_GRAY}•{C_RESET} {C_WHITE}Revista      :{C_RESET} {C_MAGENTA}{rev_nome}{C_RESET} {C_GRAY}(ID {rev_str}){C_RESET}   {C_BLUE}│{C_RESET}   {C_WHITE}Ano:{C_RESET} {C_YELLOW}{ano_str}{C_RESET}",
+            LARGURA_INTERNA,
+        )
+    )
+    linhas.append(
+        linha_borda(
+            f"  {C_GRAY}•{C_RESET} {C_WHITE}Autores      :{C_RESET} {C_CYAN}{aut_str}{C_RESET}",
             LARGURA_INTERNA,
         )
     )
@@ -461,7 +471,7 @@ def run(parametros=None, chat=None, silent=False):
     processar_todos = False
     ids_manuais = []
     caminho_customizado = None
-    intervalo_segundos = 2000.0  # Conforme solicitado: atualização a cada 2 segundos
+    intervalo_segundos = 2.0  # Conforme solicitado: atualização a cada 2 segundos
 
     for p in params_reais:
         p_str = str(p).strip().lower()
@@ -481,6 +491,10 @@ def run(parametros=None, chat=None, silent=False):
                 limite = val
         elif Path(p).exists() or p_str.endswith((".dataset", ".csv", ".json")):
             caminho_customizado = p
+
+    # Se informado em milissegundos (ex: 2000ms), converte para segundos
+    if intervalo_segundos > 60.0:
+        intervalo_segundos = intervalo_segundos / 1000.0
 
     # Determina se deve exibir a tela interativa
     # Exibe a tela sempre que interativo/terminal, a menos que --silent ou --json seja passado
@@ -502,6 +516,8 @@ def run(parametros=None, chat=None, silent=False):
             "ids_dupl": ids_dupl,
             "titulo": f"Manual ({len(ids_manuais)} IDs)",
             "revista": "-",
+            "revista_titulo": "-",
+            "ano": "-",
             "autores": "-",
         })
     else:
@@ -533,6 +549,8 @@ def run(parametros=None, chat=None, silent=False):
                     "ids_dupl": ids_dupl,
                     "titulo": dup.get("titulo", "(Sem título)"),
                     "revista": dup.get("revista", "-"),
+                    "revista_titulo": dup.get("revista_titulo", "-"),
+                    "ano": dup.get("ano", "-"),
                     "autores": dup.get("autores", "-"),
                 })
 
@@ -589,6 +607,8 @@ def run(parametros=None, chat=None, silent=False):
                     "ids_dupl": ids_dupl,
                     "titulo": g["titulo"],
                     "revista": g.get("revista", "-"),
+                    "revista_titulo": g.get("revista_titulo", "-"),
+                    "ano": g.get("ano", "-"),
                     "autores": g.get("autores", "-"),
                     "concept_afetados": concept_par,
                     "r1_afetados": r1_par,
@@ -620,6 +640,8 @@ def run(parametros=None, chat=None, silent=False):
                         historico=historico,
                         simular=simular,
                         tempo_inicio=tempo_inicio,
+                        revista_titulo=g.get("revista_titulo", "-"),
+                        ano=g.get("ano", "-"),
                     )
 
                 # Intervalo de 2 segundos a cada atualização
