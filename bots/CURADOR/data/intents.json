@@ -44,9 +44,36 @@
         "description": "Traduzir",
         "patterns": [
             "traduzir",
-            "traduza","translate",
+            "traduza",
+            "translate",
             "traduzir para",
             "t"
+        ]
+    },
+    "0202": {
+        "description": "Checar registros duplicados no dataset",
+        "patterns": [
+            "checar duplicatas",
+            "checar duplicados",
+            "checar",
+            "duplicatas",
+            "duplicados",
+            "check duplicates",
+            "checar_duplicatas"
+        ]
+    },
+    "0203": {
+        "description": "Remover duplicatas no RDF",
+        "patterns": [
+            "remover duplicatas",
+            "remover duplicados",
+            "remover duplicata",
+            "remover_duplicatas",
+            "merge duplicatas",
+            "mesclar duplicatas",
+            "deletar duplicadas",
+            "deletar duplicados",
+            "deletar duplicatas"
         ]
     },
     "2000": {
@@ -191,7 +218,8 @@
             "estatísticas",
             "estatisticas",
             "estatística",
-            "estatistica"        ]
+            "estatistica"
+        ]
     },
     "8010": {
         "description": "Journals cadastrados na BRAPCI",
