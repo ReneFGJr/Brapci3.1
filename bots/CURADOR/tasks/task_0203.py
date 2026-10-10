@@ -471,7 +471,7 @@ def run(parametros=None, chat=None, silent=False):
     processar_todos = False
     ids_manuais = []
     caminho_customizado = None
-    intervalo_segundos = 2.0  # Conforme solicitado: atualização a cada 2 segundos
+    intervalo_segundos = 2000.0  # Conforme solicitado: atualização a cada 2 segundos
 
     for p in params_reais:
         p_str = str(p).strip().lower()
@@ -570,7 +570,7 @@ def run(parametros=None, chat=None, silent=False):
     # Confirmação do usuário antes de realizar os UPDATEs no banco de dados
     total_duplicatas_a_processar = sum(len(g["ids_dupl"]) for g in itens_selecionados)
 
-    if mostrar_tela and sys.stdin.isatty() and "-y" not in params_lower and "--yes" not in params_lower:
+    if mostrar_tela and "-y" not in params_lower and "--yes" not in params_lower:
         console.print()
         console.rule("[bold cyan]Confirmação de Atualização no Banco de Dados[/bold cyan]")
         console.print(f"[bold white]Grupos de duplicatas selecionados :[/bold white] [bold green]{total_grupos:,}[/bold green]".replace(",", "."))
@@ -589,7 +589,7 @@ def run(parametros=None, chat=None, silent=False):
                     "cancelado": True,
                     "mensagem": "Operação cancelada pelo usuário.",
                 }
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, EOFError):
             console.print("\n[yellow]Operação cancelada. Nenhum UPDATE foi realizado no banco.[/yellow]\n")
             return {
                 "success": False,
