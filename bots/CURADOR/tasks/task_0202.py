@@ -453,6 +453,8 @@ def run(parametros=None, chat=None, silent=False):
                 {
                     "titulo": d["titulo"],
                     "revista": d["revista"],
+                    "revista_titulo": d.get("revista_titulo", ""),
+                    "ano": d.get("ano", ""),
                     "autores": d["autores"],
                     "quantidade": d["quantidade"],
                     "ids": d["ids"],
