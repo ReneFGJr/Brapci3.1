@@ -12,7 +12,7 @@ Para cada grupo de duplicatas:
    - Atualiza brapci_rdf.rdf_data: d_r1 = IDpref quando d_r1 = IDdupl
    - Atualiza brapci_rdf.rdf_data: d_r2 = IDpref quando d_r2 = IDdupl
 Exibe tela com bordas de texto em (0,0), campos coloridos e
-atualização a cada 2 segundos.
+atualização a cada 10 segundos.
 """
 
 import csv
@@ -399,7 +399,7 @@ def desenhar_tela_atualizacao(
     linhas.append(borda_divisoria)
     linhas.append(
         linha_borda(
-            f"{C_DIM}[Ctrl+C] Interromper com segurança  {C_BLUE}│{C_RESET}{C_DIM}  Atualização a cada 2 segundos{C_RESET}",
+            f"{C_DIM}[Ctrl+C] Interromper com segurança  {C_BLUE}│{C_RESET}{C_DIM}  Atualização a cada 10 segundos{C_RESET}",
             LARGURA_INTERNA,
         )
     )
@@ -471,7 +471,7 @@ def run(parametros=None, chat=None, silent=False):
     processar_todos = False
     ids_manuais = []
     caminho_customizado = None
-    intervalo_segundos = 2000.0  # Conforme solicitado: atualização a cada 2 segundos
+    intervalo_segundos = 10.0  # Conforme solicitado: atualização a cada 10 segundos
 
     for p in params_reais:
         p_str = str(p).strip().lower()
@@ -674,7 +674,7 @@ def run(parametros=None, chat=None, silent=False):
                         ano=g.get("ano", "-"),
                     )
 
-                # Intervalo de 2 segundos a cada atualização
+                # Intervalo de 10 segundos a cada atualização
                 if idx < total_grupos and intervalo_segundos > 0:
                     time.sleep(intervalo_segundos)
 

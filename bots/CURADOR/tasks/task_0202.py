@@ -5,8 +5,8 @@
 =========================================================
 Task 0202: Checar Duplicatas no Dataset
 =========================================================
-Abre o arquivo/tabela brapci_elastic.dataset, ordena por título,
-revista e autores, e verifica registros duplicados.
+Abre o arquivo/tabela brapci_elastic.dataset (filtrando status = 1),
+ordena por título, revista, ano e autores, e verifica registros duplicados.
 """
 
 import csv
@@ -25,7 +25,7 @@ console = Console()
 TASK = {
     "id": 202,
     "name": "Checar Duplicatas",
-    "description": "Verifica registros duplicados no brapci_elastic.dataset por título, revista e autores.",
+    "description": "Verifica registros duplicados no brapci_elastic.dataset (status = 1) por título, revista, ano e autores.",
     "patterns": [
         "checar duplicatas",
         "checar duplicados",
@@ -297,7 +297,7 @@ def exibir_tabela(duplicatas, total_registros, origem, limite=25):
     console.print()
     console.rule("[bold cyan]CURADOR - Checagem de Duplicatas (brapci_elastic.dataset)[/bold cyan]")
     console.print(f"[bold white]Origem dos dados:[/bold white] [green]{origem}[/green]")
-    console.print(f"[bold white]Total de registros no dataset:[/bold white] [cyan]{total_registros:,}[/cyan]".replace(",", "."))
+    console.print(f"[bold white]Total de registros ativos (status = 1):[/bold white] [cyan]{total_registros:,}[/cyan]".replace(",", "."))
     console.print(f"[bold white]Grupos com duplicidade:[/bold white] [bold red]{total_grupos:,}[/bold red]".replace(",", "."))
     console.print(f"[bold white]Registros duplicados:[/bold white] [bold yellow]{total_registros_duplicados:,}[/bold yellow]".replace(",", "."))
     console.print()

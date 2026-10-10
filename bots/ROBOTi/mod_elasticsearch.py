@@ -53,7 +53,7 @@ def remove_editorial():
     print("183 - Removendo editoriais")
     lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%',
           'Normas para publicação','Expediente','Expediente %','EDITORIAL, %', 'Normas de Publicação',
-          'Apresentação %']
+          'Apresentação %','Revista B%','(Sem título)']
     for q in lt:
         if '%' in q:
             qr = f"update brapci_elastic.dataset set status = 2 where TITLE like '{q}' "
