@@ -26,6 +26,12 @@
             </form>
 
             <?php if ($query !== ''): ?>
+                <?php if (!empty($searchTruncated)): ?>
+                    <div class="alert alert-warning" role="status">
+                        Exibindo as primeiras <?= (int) $searchLimit ?> referências. Refine a busca para encontrar outros resultados.
+                        A similaridade é calculada somente entre as referências exibidas.
+                    </div>
+                <?php endif ?>
                 <h2 class="h5 mb-3">Resultados para “<?= esc($query) ?>”</h2>
                 <?php if (empty($references)): ?>
                     <p class="text-muted mb-0">Nenhuma referência encontrada.</p>

@@ -558,6 +558,8 @@ class BrapciLab extends BaseController
                     'title' => 'Clusterização das referências',
                     'query' => $query,
                     'references' => $query !== '' ? $Cited->searchForClustering($query) : [],
+                    'searchTruncated' => $Cited->clusterSearchTruncated,
+                    'searchLimit' => $Cited::CLUSTER_SEARCH_LIMIT,
                 ];
                 return view('BrapciLabs/layout/header', $data)
                     . view('BrapciLabs/layout/sidebar')

@@ -83,8 +83,12 @@ class Index extends Model
             return ($rlt);
         }
 
+    public const CLUSTER_SEARCH_LIMIT = 200;
+    public bool $clusterSearchTruncated = false;
+
     public function searchForClustering(string $query): array
     {
+        $this->clusterSearchTruncated = false;
         $query = trim($query);
         if ($query === '') {
             return [];
@@ -108,8 +112,12 @@ class Index extends Model
             $builder->where('MATCH(ca_text) AGAINST (' . $this->db->escape('"' . $term . '"') . ' IN BOOLEAN MODE)', null, false);
         }
 
-        $references = $builder->orderBy('ca_text')
-            ->findAll();
+        $references = $builder->orderBy('ca_text')->orderBy('id_ca')
+            ->findAll(self::CLUSTER_SEARCH_LIMIT + 1);
+        $this->clusterSearchTruncated = count($references) > self::CLUSTER_SEARCH_LIMIT;
+        if ($this->clusterSearchTruncated) {
+            array_pop($references);
+        }
 
         return $this->calculateApproximations($references);
     }
@@ -136,16 +144,23 @@ class Index extends Model
             return $index;
         };
 
+        $comparisons = [];
         for ($left = 0; $left < $total; $left++) {
             for ($right = $left + 1; $right < $total; $right++) {
                 if ($references[$left]['_comparison_text'] === '' || $references[$right]['_comparison_text'] === '') {
                     continue;
                 }
-                similar_text(
-                    $references[$left]['_comparison_text'],
-                    $references[$right]['_comparison_text'],
-                    $percentage
-                );
+                $leftText = $references[$left]['_comparison_text'];
+                $rightText = $references[$right]['_comparison_text'];
+                $key = $leftText . "\0" . $rightText;
+                if ($leftText === $rightText) {
+                    $percentage = 100.0;
+                } elseif (isset($comparisons[$key])) {
+                    $percentage = $comparisons[$key];
+                } else {
+                    similar_text($leftText, $rightText, $percentage);
+                    $comparisons[$key] = $percentage;
+                }
                 if ($percentage > $references[$left]['approximation']) {
                     $references[$left]['approximation'] = $percentage;
                     $references[$left]['closest_reference_id'] = (int) $references[$right]['id_ca'];

@@ -110,7 +110,7 @@ class Bolsas extends Model
 				->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
 				->orderBy('bs_start, bs_nome')
 				->findAll();
-			$csv = 'ID,START,END,NAME,INSTITUTION,IDLATTES,MOD,NIVEL,BOLSA';
+			$csv = 'ID,START,END,NAME,INSTITUTION,IDLATTES,MOD,NIVEL,BOLSA,bs_genero';
 			$sep = ',';
 			foreach($dt as $id=>$line)
 				{
@@ -123,7 +123,8 @@ class Bolsas extends Model
 					$csv .= "'" . $line['bs_lattes'] . "'" . $sep;
 					$csv .= "'" . $line['mod_sigla'] . "'" . $sep;
 					$csv .= "'" . $line['bs_nivel'] . "'" . $sep;
-					$csv .= "'" . trim($line['mod_sigla']).trim($line['bs_nivel']) . "'";
+					$csv .= "'" . trim($line['mod_sigla']).trim($line['bs_nivel']) . "'" . $sep;
+					$csv .= "'" . ($line['bs_genero'] ?? '') . "'";
 				}
 			$dir = '.tmp/pq/';
 			dircheck($dir);
@@ -326,10 +327,12 @@ class Bolsas extends Model
 
 	function activesPQ()
 	{
+		$today = date('Y-m-d');
 		$dt = $this
 			->join('bolsistas', 'id_bs = bb_person')
 			->join('modalidades', 'id_mod = bs_tipo')
-			->where("bs_finish >= '" . date("Y-m-d") . "'")
+			->where('bs_start <=', $today)
+			->where('bs_finish >=', $today)
 			->findAll();
 		return $dt;
 	}
@@ -689,6 +692,7 @@ class Bolsas extends Model
 			$registro = [
 				'id_bb'      => $bolsa['bs_rdf_id'] ?? null,
 				'nome'       => $bolsa['bs_nome'] ?? null,
+				'bs_genero'  => $bolsa['bs_genero'] ?? null,
 				'nivel'      => trim($bolsa['bs_nivel'] ?? ''),
 				'ies'        => $bolsa['BS_IES'] ?? null,
 				'inicio'     => $bolsa['bs_start'],

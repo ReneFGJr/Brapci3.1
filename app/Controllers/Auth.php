@@ -19,6 +19,7 @@ class Auth extends Controller
 
         $allowed = [
             'https://brapci.inf.br',
+            'https://www.brapci.inf.br',
             'https://cip.brapci.inf.br',
             'https://app.brapci.inf.br',
             'http://localhost:4200',
@@ -403,9 +404,7 @@ class Auth extends Controller
 
         if ($username === '' || $password === '') {
             $rsp['message'] = 'Username or password is empty';
-            echo json_encode($rsp);
-            exit;
-            return $this->response->setJSON($rsp);
+            return $rsp;
         }
 
         $Socials = new Socials();

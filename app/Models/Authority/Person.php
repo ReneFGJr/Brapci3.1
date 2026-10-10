@@ -429,19 +429,29 @@ function check_duplicate_rdf($dt,$da)
 		return $sx;
 	}
 
-function check_genere($dt,$da)
+function check_genere($dt,$da, bool $returnCode = false)
 	{
-		$id = $da['id_a'];
+		$id = $da['id_a'] ?? 0;
+		$gt = 'X';
 		$dg = array('M'=>0,'F'=>0,'X'=>0);
-		$gn = $this->RDF->recover($dt,'hasGender');
+		$gn = [];
+		$RDF = null;
+		foreach (($dt['data'] ?? []) as $line) {
+			if (is_array($line) && ($line['Property'] ?? '') === 'hasGender') {
+				$gn[] = (string) ($line['Caption'] ?? '');
+			}
+		}
+		if ($gn === [] && isset($dt['concept']['id_cc']) && !empty($dt['data'])
+			&& !isset($dt['data'][0]['Property'])) {
+			$RDF = new \App\Models\Rdf\RDF();
+			$gn = $RDF->recover($dt, 'hasGender');
+		}
 		for ($r=0;$r < count($gn);$r++)
 			{
-				$t = $this->RDF->c($gn[$r]);;
-				$g = substr($t,0,1);
+				$t = $RDF !== null ? $RDF->c($gn[$r]) : $gn[$r];
+				$g = strtoupper(substr(trim($t),0,1));
 				if ($g == '')
 					{
-						print_r($gn[$r]);
-						exit;
 						$g = 'X';
 					}
 				if (isset($dg[$g]))
@@ -450,11 +460,6 @@ function check_genere($dt,$da)
 				}
 			}
 
-		if ($dg['M']+$dg['F']+$dg['X'] == 0)
-			{
-				echo "OPS";
-				exit;
-			}
 
 		if (($dg['M'] > $dg['F']) and ($dg['M'] > $dg['X']))
 			{
@@ -468,6 +473,9 @@ function check_genere($dt,$da)
 			{
 				$gt = 'X';
 			}
+		if ($returnCode) {
+			return $gt;
+		}
 		$sx = lang('brapci.check').' '.lang('brapci.genere');
 		if ($da['a_genere'] != $gt)
 			{
@@ -479,6 +487,22 @@ function check_genere($dt,$da)
 			}
 		return $sx;
 	}
+
+    public function identifyGender(int $rdfId, string $name): string
+    {
+        if ($rdfId > 0) {
+            $data = (new \App\Models\RDF2\RDFdata())->genderLabels($rdfId);
+            $gender = $this->check_genere(['data' => $data], [], true);
+            if ($gender !== 'X') {
+                return $gender;
+            }
+        }
+        if (trim($name) === '') {
+            return 'X';
+        }
+        $gender = (new \App\Models\AI\Person\Genere())->getGenere($name, false);
+        return ['masculino' => 'M', 'feminino' => 'F'][$gender] ?? 'X';
+    }
 
 
 }

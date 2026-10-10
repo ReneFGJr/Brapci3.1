@@ -73,6 +73,9 @@ class Pq extends Model
                 default:
                     $bolsasData = $Bolsas->activesPQ();
                     $bolsasAll = $Bolsas->allPQ();
+                    $genders = [];
+                    $bolsasData = $this->identifyMissingGenders($bolsasData, $genders);
+                    $bolsasAll = $this->identifyMissingGenders($bolsasAll, $genders);
                     $RSP = [];
                     $RSP['status'] = '200';
                     $RSP['message'] = 'Resume';
@@ -86,6 +89,37 @@ class Pq extends Model
 
             echo json_encode($RSP);
             exit;
+    }
+
+    public function identifyMissingGenders(array $scholars, array &$genders): array
+    {
+        $person = null;
+        $bolsistas = null;
+        $saved = [];
+        foreach ($scholars as &$scholar) {
+            if (trim((string) ($scholar['bs_genero'] ?? '')) !== '') {
+                continue;
+            }
+            $rdf = (int) ($scholar['bs_rdf_id'] ?? 0);
+            $name = (string) ($scholar['bs_nome'] ?? '');
+            $key = $rdf . ':' . $name;
+            if (!isset($genders[$key])) {
+                $person ??= new \App\Models\Authority\Person();
+                $genders[$key] = $person->identifyGender($rdf, $name);
+            }
+            $id = (int) ($scholar['id_bs'] ?? 0);
+            if (array_key_exists('bs_genero', $scholar) && $scholar['bs_genero'] === null
+                && $id > 0 && !isset($saved[$id])) {
+                $bolsistas ??= new \App\Models\PQ\Bolsistas();
+                if (!$bolsistas->saveMissingGender($id, $genders[$key])) {
+                    throw new \RuntimeException('Não foi possível salvar o gênero do bolsista.');
+                }
+                $saved[$id] = true;
+            }
+            $scholar['bs_genero'] = $genders[$key];
+        }
+        unset($scholar);
+        return $scholars;
     }
 
     function collections($d1,$d2)

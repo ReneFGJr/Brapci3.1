@@ -52,6 +52,19 @@ class Genere extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '')
     {
+        if ($d2 === 'check_genere') {
+            $name = get('name');
+            $rdf = get('rdf');
+            if (!is_string($name) || !is_scalar($rdf) || ($rdf !== '' && !ctype_digit((string) $rdf))
+                || (trim($name) === '' && (int) $rdf <= 0)) {
+                http_response_code(422);
+                echo json_encode(['status' => '422', 'message' => 'Informe name ou rdf válidos.']);
+                return '';
+            }
+            $gender = (new \App\Models\Authority\Person())->identifyGender((int) $rdf, $name);
+            echo json_encode(['status' => '200', 'gender' => $gender]);
+            return '';
+        }
         $name = get("name");
         if ($name != '') {
             echo $this->getGenere($name);

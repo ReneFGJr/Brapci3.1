@@ -118,7 +118,7 @@ if (!is_array($cited) or count($cited) == 0) {
 					if ($idCa > 0) {
 						$urlEdit = base_url('/labs/cited/edit/' . $idCa);
 						$jsUrlEdit = str_replace("'", "\\'", $urlEdit);
-						$urlJoin = base_url('api/brapci/cited/join');
+						$urlJoin = site_url('api/brapci/cited/join');
 
 						$action = '<nobr>';
 						$action .= '<button type="button" class="btn btn-outline-danger btn-sm" data-id="' . $idCa . '" data-rdf="' . esc($rdf) . '" onclick="deleteCitedRecord(this)" title="Deletar" aria-label="Deletar">&#128465;</button>';
@@ -155,6 +155,16 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '<script>';
 		echo 'let citedCsrfHash = ' . json_encode(csrf_hash()) . ';';
 		echo 'const citedCsrfToken = ' . json_encode(csrf_token()) . ';';
+		echo 'const citedApiKey = ' . json_encode((string) session()->get('apikey'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) . ';';
+		echo 'const citedApiBase = ' . json_encode(site_url('api/brapci/'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) . ';';
+		echo 'function citedApiRequest(url, parameters) {';
+		echo '  if (!citedApiKey) { return Promise.reject(new Error("Entre novamente na sua conta para atualizar as referências.")); }';
+		echo '  const body = new FormData();';
+		echo '  body.append("userAPIKEY", citedApiKey);';
+		echo '  body.append(citedCsrfToken, citedCsrfHash);';
+		echo '  Object.entries(parameters).forEach(([key, value]) => body.append(key, value));';
+		echo '  return fetch(url, { method: "POST", credentials: "same-origin", body: body }).then(response => response.json());';
+		echo '}';
 		echo 'const citedCsvRows = ' . ($exportCsvData ?: '[]') . ';';
 		echo 'function citedCsvEscape(value) {';
 		echo '  const text = String(value ?? "");';
@@ -190,12 +200,12 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  if (!group) { return; }';
 		echo '  const isLocked = btn.getAttribute("data-locked") === "1";';
 		echo '  const lockNow = !isLocked;';
-		echo '  const endpoint = lockNow ? "/api/brapci/citedLock" : "/api/brapci/citedUnLock";';
+		echo '  const endpoint = citedApiBase.replace(/\/$/, "") + (lockNow ? "/citedLock" : "/citedUnLock");';
 		echo '  btn.disabled = true;';
-		echo '  fetch(endpoint + "?idz=" + rdfId)';
-		echo '    .then(response => response.json())';
+		echo '  citedApiRequest(endpoint, { idz: rdfId })';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
+		echo '        if (!lockNow) { window.location.reload(); return; }';
 		echo '        btn.setAttribute("data-locked", lockNow ? "1" : "0");';
 		echo '        btn.innerHTML = lockNow ? "<i class=\"bi bi-lock\"></i>" : "<i class=\"bi bi-unlock\"></i>";';
 		echo '        btn.classList.toggle("btn-outline-danger", lockNow);';
@@ -249,10 +259,7 @@ if (!is_array($cited) or count($cited) == 0) {
 		echo '  const baseUrl = btn.getAttribute("data-url");';
 		echo '  if (!idz || !ida || !baseUrl) { return; }';
 		echo '  btn.disabled = true;';
-		echo '  const sep = baseUrl.indexOf("?") >= 0 ? "&" : "?";';
-		echo '  const url = baseUrl + sep + "idz=" + encodeURIComponent(idz) + "&ida=" + encodeURIComponent(ida);';
-		echo '  fetch(url, { method: "GET" })';
-		echo '    .then(response => response.json())';
+		echo '  citedApiRequest(baseUrl, { idz: idz, ida: ida })';
 		echo '    .then(data => {';
 		echo '      if (data.status === "200") {';
 		echo '        const row = btn.closest("tr");';
