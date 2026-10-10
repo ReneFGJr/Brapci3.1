@@ -461,7 +461,7 @@ def run(parametros=None, chat=None, silent=False):
     processar_todos = False
     ids_manuais = []
     caminho_customizado = None
-    intervalo_segundos 2000.0  # Conforme solicitado: atualização a cada 2 segundos
+    intervalo_segundos = 2000.0  # Conforme solicitado: atualização a cada 2 segundos
 
     for p in params_reais:
         p_str = str(p).strip().lower()
