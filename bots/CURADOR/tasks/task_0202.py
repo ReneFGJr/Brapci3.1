@@ -309,20 +309,26 @@ def exibir_tabela(duplicatas, total_registros, origem, limite=25):
     )
 
     table.add_column("#", style="yellow", justify="right", width=5)
-    table.add_column("Título", style="white", min_width=30, max_width=45)
-    table.add_column("Revista", style="cyan", justify="center", width=8)
-    table.add_column("Autores", style="magenta", min_width=20, max_width=30)
+    table.add_column("Título", style="white", min_width=25, max_width=40)
+    table.add_column("Ano", style="bold yellow", justify="center", width=6)
+    table.add_column("Revista (Título)", style="cyan", min_width=18, max_width=30)
+    table.add_column("ID Jnl", style="dim cyan", justify="center", width=7)
+    table.add_column("Autores", style="magenta", min_width=15, max_width=25)
     table.add_column("Qtd", style="bold red", justify="center", width=5)
     table.add_column("IDs BRAPCI", style="green", min_width=15)
 
     for i, item in enumerate(itens_exibir, 1):
         titulo = item["titulo"]
-        if len(titulo) > 60:
-            titulo = titulo[:57] + "..."
+        if len(titulo) > 50:
+            titulo = titulo[:47] + "..."
+
+        rev_nome = item.get("revista_titulo", "") or "-"
+        if len(rev_nome) > 35:
+            rev_nome = rev_nome[:32] + "..."
 
         autores = item["autores"]
-        if len(autores) > 40:
-            autores = autores[:37] + "..."
+        if len(autores) > 35:
+            autores = autores[:32] + "..."
 
         ids_str = ", ".join(map(str, item["ids"][:10]))
         if len(item["ids"]) > 10:
@@ -331,6 +337,8 @@ def exibir_tabela(duplicatas, total_registros, origem, limite=25):
         table.add_row(
             str(i),
             titulo,
+            str(item.get("ano", "") or "-"),
+            rev_nome,
             str(item["revista"]),
             autores,
             str(item["quantidade"]),
