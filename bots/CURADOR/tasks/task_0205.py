@@ -20,7 +20,7 @@ from rich.table import Table
 console = Console()
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
-LIMITE = 50
+LIMITE = 500
 
 TASK = {
     "id": 205,
