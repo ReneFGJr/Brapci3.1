@@ -422,12 +422,12 @@ def run(parametros=None, chat=None, silent=False):
         console.print("[bold red]Informar o tipo da tarefa.[/bold red]")
         console.print()
         console.print("Exemplo:")
-        console.print("    TASK LIST")
+        console.print("    TASK SHOW")
         return False
 
     print(f"==========", parametros[0].upper())
 
-    if parametros[0].upper() == "LIST":
+    if parametros[0].upper() == "SHOW":
         return task_list(silent=silent)
 
     if parametros[0].upper() == "CLEAR":

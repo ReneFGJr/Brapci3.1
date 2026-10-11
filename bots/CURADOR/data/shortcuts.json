@@ -87,7 +87,11 @@
     "task": {
         "children": {
             "show": {},
-            "delete": {}
+            "cron": {},
+            "list": {},
+            "clear": {},
+            "add": {},
+            "del": {}
         }
     },
     "cited": {
