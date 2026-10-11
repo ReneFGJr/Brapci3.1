@@ -4,7 +4,9 @@
 """Task 0002: menu hierárquico de atalhos do CURADOR."""
 
 import json
+import os
 from pathlib import Path
+import sys
 
 from rich.console import Console
 from rich.panel import Panel
@@ -62,57 +64,102 @@ def resolver_parametros(shortcuts, parametros):
     return " ".join(partes)
 
 
-def mostrar_opcoes(opcoes, caminho):
+def ler_tecla():
+    """Lê setas, Enter e Escape sem exigir confirmação adicional."""
+    if os.name == "nt":
+        import msvcrt
+
+        tecla = msvcrt.getwch()
+        if tecla in ("\x00", "\xe0"):
+            codigo = msvcrt.getwch()
+            return {
+                "H": "up",
+                "P": "down",
+                "K": "back",
+                "M": "enter",
+            }.get(codigo, "")
+        if tecla == "\r":
+            return "enter"
+        if tecla == "\x1b":
+            return "back"
+        return ""
+
+    import termios
+    import tty
+
+    descritor = sys.stdin.fileno()
+    configuracao = termios.tcgetattr(descritor)
+    try:
+        tty.setraw(descritor)
+        tecla = sys.stdin.read(1)
+        if tecla in ("\r", "\n"):
+            return "enter"
+        if tecla == "\x1b":
+            seguinte = sys.stdin.read(1)
+            if seguinte != "[":
+                return "back"
+            codigo = sys.stdin.read(1)
+            return {"A": "up", "B": "down", "D": "back", "C": "enter"}.get(codigo, "")
+        return ""
+    finally:
+        termios.tcsetattr(descritor, termios.TCSADRAIN, configuracao)
+
+
+def mostrar_opcoes(opcoes, caminho, selecionado):
     titulo = "Atalhos"
     if caminho:
         titulo += " › " + " › ".join(caminho)
 
     tabela = Table(show_header=False, box=None, padding=(0, 1))
-    tabela.add_column("Número", style="bold cyan", justify="right")
+    tabela.add_column("Cursor", style="bold cyan", justify="center")
     tabela.add_column("Opção", style="bold white")
     tabela.add_column("Tipo", style="dim")
 
-    for indice, (nome, item) in enumerate(opcoes.items(), 1):
+    for indice, (nome, item) in enumerate(opcoes.items()):
         tipo = "abrir ›" if filhos(item) else "comando"
-        tabela.add_row(str(indice), nome, tipo)
+        cursor = "❯" if indice == selecionado else " "
+        estilo = "bold reverse" if indice == selecionado else None
+        tabela.add_row(cursor, nome, tipo, style=estilo)
 
-    if caminho:
-        tabela.add_row("0", "voltar", "")
-    tabela.add_row("q", "cancelar", "")
     console.print(Panel(tabela, title=titulo, border_style="blue"))
+    console.print("[dim]↑/↓ mover  •  Enter selecionar  •  Esc/← voltar[/dim]")
 
 
 def menu_interativo(shortcuts):
     opcoes = shortcuts
     caminho = []
     pilha = []
+    selecionado = 0
 
     while True:
-        mostrar_opcoes(opcoes, caminho)
-        escolha = input("Selecione uma opção: ").strip()
+        console.clear()
+        mostrar_opcoes(opcoes, caminho, selecionado)
+        tecla = ler_tecla()
 
-        if escolha.casefold() in ("q", "sair", "cancelar"):
-            return None
-
-        if escolha == "0" and pilha:
-            opcoes, caminho = pilha.pop()
+        if tecla == "up":
+            selecionado = (selecionado - 1) % len(opcoes)
             continue
 
-        itens = list(opcoes.items())
-        if escolha.isdigit() and 1 <= int(escolha) <= len(itens):
-            nome, item = itens[int(escolha) - 1]
-        else:
-            nome, item = localizar_opcao(opcoes, escolha)
-
-        if nome is None:
-            console.print("[yellow]Opção inválida.[/yellow]\n")
+        if tecla == "down":
+            selecionado = (selecionado + 1) % len(opcoes)
             continue
 
+        if tecla == "back":
+            if not pilha:
+                return None
+            opcoes, caminho, selecionado = pilha.pop()
+            continue
+
+        if tecla != "enter":
+            continue
+
+        nome, item = list(opcoes.items())[selecionado]
         subopcoes = filhos(item)
         if subopcoes:
-            pilha.append((opcoes, caminho.copy()))
+            pilha.append((opcoes, caminho.copy(), selecionado))
             caminho.append(nome)
             opcoes = subopcoes
+            selecionado = 0
             continue
 
         return " ".join([*caminho, nome])
