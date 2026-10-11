@@ -49,17 +49,28 @@ def ascii(texto):
     # 4) colapsar espaços
     return re.sub(r"\s+", " ", apenas_basico).strip()
 
-def remove_editorial():
-    print("183 - Removendo editoriais")
-    lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%',
-          'Normas para publicação','Expediente','Expediente %','EDITORIAL, %', 'Normas de Publicação',
-          'Apresentação %','Revista B%','(Sem título)']
-    for q in lt:
-        if '%' in q:
-            qr = f"update brapci_elastic.dataset set status = 2 where TITLE like '{q}' "
-        else:
-            qr = f"update brapci_elastic.dataset set status = 2 where TITLE = '{q}' "
-        database.update(qr)
+# Importa a função principal remove_editorial da task_0300 (CURADOR)
+from pathlib import Path
+_CURADOR_DIR = Path(__file__).resolve().parent.parent / "CURADOR"
+if str(_CURADOR_DIR) not in sys.path:
+    sys.path.insert(0, str(_CURADOR_DIR))
+
+try:
+    from tasks.task_0300 import remove_editorial
+except Exception as _e:
+    def remove_editorial():
+        """Fallback local caso task_0300 não esteja acessível."""
+        print(f"[AVISO] Fallback local para remove_editorial: {_e}")
+        print("183 - Removendo editoriais")
+        lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%',
+              'Normas para publicação','Expediente','Expediente %','EDITORIAL, %', 'Normas de Publicação',
+              'Apresentação %','Revista B%','(Sem título)']
+        for q in lt:
+            if '%' in q:
+                qr = f"update brapci_elastic.dataset set status = 2 where TITLE like '{q}' "
+            else:
+                qr = f"update brapci_elastic.dataset set status = 2 where TITLE = '{q}' "
+            database.update(qr)
 
 def nbr_author(name, max_authors=7):
     # Simulando o tratamento de autores

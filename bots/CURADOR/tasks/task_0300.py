@@ -6,9 +6,10 @@
 Task 0300: Check Dataset (brapci_elastic.dataset)
 =========================================================
 Verifica as informações, integridade e qualidade do dataset
-em brapci_elastic.dataset, executando a limpeza de editoriais
-e metadados não-científicos com a função remove_editorial()
-do módulo bots/ROBOTi/mod_elasticsearch.py.
+em brapci_elastic.dataset.
+Contém a função principal remove_editorial() para limpeza de
+editoriais e registros não-científicos (status = 2), utilizada
+também pelo robô bots/ROBOTi/mod_elasticsearch.py.
 """
 
 from decimal import Decimal
@@ -38,7 +39,7 @@ console = Console()
 TASK = {
     "id": 300,
     "name": "Check Dataset",
-    "description": "Verifica as informações de brapci_elastic.dataset e remove editoriais via ROBOTi.",
+    "description": "Verifica informações de brapci_elastic.dataset e fornece a função principal remove_editorial.",
     "patterns": [
         "check dataset",
         "check all",
@@ -59,11 +60,6 @@ TASK = {
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
-
-# Garante acesso ao módulo ROBOTi
-ROBOTI_DIR = BASE_DIR.parent / "ROBOTi"
-if str(ROBOTI_DIR) not in sys.path:
-    sys.path.insert(0, str(ROBOTI_DIR))
 
 
 def erro(mensagem):
@@ -100,17 +96,48 @@ def get_connection(database="brapci_elastic"):
     )
 
 
-def executar_remove_editorial():
+def remove_editorial(silent=False):
     """
-    Executa a função remove_editorial de D:\\Projeto\\Brapci3.1\\bots\\ROBOTi\\mod_elasticsearch.py.
-    Identifica editoriais, expedientes e normas, marcando status = 2.
+    Função principal de remoção de editoriais e registros não-científicos:
+    Varre a base brapci_elastic.dataset e atualiza para status = 2
+    registros cujo título corresponde a editoriais, expedientes,
+    normas de publicação e outras seções não-científicas.
+
+    Esta função é utilizada tanto pela task_0300 quanto pelo módulo
+    bots/ROBOTi/mod_elasticsearch.py.
     """
+    if not silent:
+        print("183 - Removendo editoriais")
+
+    lt = [
+        "Editorial",
+        "Política editorial",
+        "Editorial %",
+        "Processo Editorial%",
+        "Normas para publicação",
+        "Expediente",
+        "Expediente %",
+        "EDITORIAL, %",
+        "Normas de Publicação",
+        "Apresentação %",
+        "Revista B%",
+        "(Sem título)",
+    ]
+
+    total_afetados = 0
+    conn = get_connection("brapci_elastic")
     try:
-        from mod_elasticsearch import remove_editorial
-        remove_editorial()
-        return True, None
-    except Exception as e:
-        return False, str(e)
+        with conn.cursor() as cursor:
+            for q in lt:
+                if "%" in q:
+                    qr = "UPDATE dataset SET status = 2 WHERE TITLE LIKE %s"
+                else:
+                    qr = "UPDATE dataset SET status = 2 WHERE TITLE = %s"
+                afetados = cursor.execute(qr, (q,))
+                total_afetados += (afetados or 0)
+        return total_afetados
+    finally:
+        conn.close()
 
 
 def coletar_estatisticas_dataset():
@@ -249,14 +276,14 @@ def renderizar_painel_visual(estatisticas, status_editorial, erro_editorial=None
     # Box 1: Status de Execução de remove_editorial
     if status_editorial:
         ed_msg = (
-            f"[bold green][OK] Função remove_editorial() (ROBOTi) executada com sucesso.[/bold green]\n"
+            f"[bold green][OK] Função principal remove_editorial() executada com sucesso.[/bold green]\n"
             f"[dim]Varredura de editoriais, expedientes e normas concluída. "
             f"Registros inativos/editoriais com status = 2: [bold yellow]{editoriais:,}[/bold yellow].[/dim]"
         ).replace(",", ".")
     else:
         ed_msg = f"[bold red][FALHA] Erro ao executar remove_editorial():[/bold red] {erro_editorial}"
 
-    console.print(Panel(ed_msg, title="[bold white]Módulo Editorial (ROBOTi)[/bold white]", border_style="cyan"))
+    console.print(Panel(ed_msg, title="[bold white]Módulo Editorial (remove_editorial)[/bold white]", border_style="cyan"))
     console.print()
 
     # Tabela 1: Resumo do Dataset
@@ -437,10 +464,16 @@ def run(parametros=None, chat=None, silent=False):
 
     try:
         if not silent:
-            console.print("[cyan]Executando limpeza de editoriais via [bold]ROBOTi/mod_elasticsearch.py[/bold]...[/cyan]")
+            console.print("[cyan]Executando função principal [bold]remove_editorial()[/bold]...[/cyan]")
 
-        # 1. Executa remove_editorial do ROBOTi
-        ok_ed, err_ed = executar_remove_editorial()
+        # 1. Executa função principal remove_editorial da task_0300
+        try:
+            remove_editorial(silent=silent)
+            ok_ed = True
+            err_ed = None
+        except Exception as e_ed:
+            ok_ed = False
+            err_ed = str(e_ed)
 
         # 2. Coleta dados e diagnósticos do dataset
         estatisticas = coletar_estatisticas_dataset()
