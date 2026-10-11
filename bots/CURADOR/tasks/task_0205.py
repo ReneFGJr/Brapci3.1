@@ -126,6 +126,15 @@ def corrigir_automaticamente(texto):
         candidato_manual = candidato_manual.replace(incorreto, correto)
     candidatos.append(candidato_manual)
 
+    # Remove controles invisíveis inválidos, como Backspace (U+0008)
+    # e Form Feed (U+000C), preservando TAB, LF e CR.
+    candidato_sem_controles = "".join(
+        caractere
+        for caractere in candidato_manual
+        if ord(caractere) >= 32 or caractere in "\t\n\r"
+    )
+    candidatos.append(candidato_sem_controles)
+
     candidatos = [unicodedata.normalize("NFC", candidato) for candidato in candidatos]
     original_normalizado = unicodedata.normalize("NFC", texto)
     melhor = min(candidatos, key=pontuar_corrupcao)
