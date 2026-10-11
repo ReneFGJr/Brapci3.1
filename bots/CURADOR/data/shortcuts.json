@@ -3,6 +3,7 @@
         "children": {
             "check": {},
             "remove duplicatas": {},
+            "remove rdf_duplicates": {},
             "verify": {},
             "export elastic search": {},
             "statistics": {},

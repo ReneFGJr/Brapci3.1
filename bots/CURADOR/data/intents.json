@@ -81,6 +81,14 @@
             "verificar literal"
         ]
     },
+    "0206": {
+        "description": "Remover registros duplicados de brapci_rdf.rdf_data",
+        "patterns": [
+            "dataset remove rdf_duplicates",
+            "remove rdf_duplicates",
+            "rdf duplicates"
+        ]
+    },
     "0300": {
         "description": "Checar informações do brapci_elastic.dataset e remover editoriais",
         "patterns": [
