@@ -90,7 +90,14 @@
             "cron": {},
             "list": {},
             "clear": {},
-            "add": {},
+            "add": {
+                "children": {
+                    "ARTICLE": {},
+                    "PROCCEDINGS": {},
+                    "BOOKS": {},
+                    "CHAPTERBOOK": {}
+                }
+            },
             "del": {}
         }
     },
