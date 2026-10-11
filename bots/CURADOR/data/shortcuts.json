@@ -16,6 +16,11 @@
             }
         }
     },
+    "oai-pmh": {
+        "children": {
+            "harvesting start": {}
+        }
+    },
     "issue": {},
     "keywords": {},
     "elastic": {
