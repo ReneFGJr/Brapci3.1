@@ -121,7 +121,7 @@ def remove_editorial(silent=False):
         "Normas de Publicação",
         "Apresentação %",
         "Revista B%",
-        "(Sem título)",
+        "(Sem título)%"
     ]
 
     total_afetados = 0
