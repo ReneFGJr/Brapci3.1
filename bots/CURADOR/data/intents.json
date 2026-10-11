@@ -25,7 +25,7 @@
     "1000": {
         "description": "Iniciar coleta das revistas",
         "patterns": [
-            "oai-pmh harvesting start",
+            "oai-pmh harvesting start"
         ]
     },
     "0200": {
