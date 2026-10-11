@@ -301,6 +301,35 @@ def aplicar_correcoes(problemas):
         conexao.close()
 
 
+def marcar_revisao_manual(problemas):
+    pendentes = [item for item in problemas if not item.get("correcao")]
+    if not pendentes:
+        return 0
+
+    conexao = get_connection(autocommit=False)
+    try:
+        with conexao.cursor() as cursor:
+            total = 0
+            for item in pendentes:
+                cursor.execute(
+                    """
+                    UPDATE brapci_rdf.rdf_literal
+                    SET n_manual_check = 1
+                    WHERE id_n = %s
+                      AND (n_manual_check IS NULL OR n_manual_check <> 1)
+                    """,
+                    (item["id_n"],),
+                )
+                total += cursor.rowcount
+        conexao.commit()
+        return total
+    except Exception:
+        conexao.rollback()
+        raise
+    finally:
+        conexao.close()
+
+
 def trecho(texto, tamanho=52):
     texto = str(texto).replace("\r", "\\r").replace("\n", "\\n").replace("\t", "\\t")
     return texto if len(texto) <= tamanho else texto[: tamanho - 3] + "..."
@@ -355,6 +384,7 @@ def run(parametros=None, chat=None, silent=False):
     parametros = parametros or []
     try:
         problemas, examinados = localizar_problemas()
+        total_manual = marcar_revisao_manual(problemas)
     except Exception as erro:
         if not silent:
             console.print(f"[bold red]Erro ao verificar rdf_literal:[/bold red] {erro}")
@@ -366,6 +396,7 @@ def run(parametros=None, chat=None, silent=False):
         "limite": LIMITE,
         "examinados": examinados,
         "total_exibido": len(problemas),
+        "marcados_para_revisao_manual": total_manual,
         "problemas": problemas,
     }
 
@@ -375,6 +406,11 @@ def run(parametros=None, chat=None, silent=False):
         return resultado
 
     exibir(problemas, examinados)
+
+    if total_manual:
+        console.print(
+            f"[bold yellow]⚑ {total_manual} registro(s) marcado(s) com n_manual_check = 1.[/bold yellow]\n"
+        )
 
     corrigiveis = [item for item in problemas if item.get("correcao")]
     if corrigiveis:
