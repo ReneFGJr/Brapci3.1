@@ -76,6 +76,17 @@
             "deletar duplicatas"
         ]
     },
+    "0300": {
+        "description": "Checar informações do brapci_elastic.dataset e remover editoriais",
+        "patterns": [
+            "check dataset",
+            "check all",
+            "check_dataset",
+            "check_all",
+            "checar dataset",
+            "verificar dataset"
+        ]
+    },
     "2000": {
         "description": "Exportar Elastic Search& Dataset",
         "patterns": [
