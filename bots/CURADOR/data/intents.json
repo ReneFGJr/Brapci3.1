@@ -59,13 +59,7 @@
     "0202": {
         "description": "Checar registros duplicados no dataset",
         "patterns": [
-            "checar duplicatas",
-            "checar duplicados",
-            "checar",
-            "duplicatas",
-            "duplicados",
-            "check duplicates",
-            "checar_duplicatas"
+            "dataset check"
         ]
     },
     "0203": {
