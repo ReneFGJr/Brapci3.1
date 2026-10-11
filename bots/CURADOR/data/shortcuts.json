@@ -17,6 +17,11 @@
             }
         }
     },
+    "literal": {
+        "children": {
+            "check": {}
+        }
+    },
     "oai-pmh": {
         "children": {
             "harvesting start": {}

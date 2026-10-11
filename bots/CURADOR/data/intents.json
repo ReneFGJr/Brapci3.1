@@ -73,6 +73,14 @@
             "dataset estatísticas"
         ]
     },
+    "0205": {
+        "description": "Verificar caracteres UTF-8 em brapci_rdf.rdf_literal",
+        "patterns": [
+            "literal check",
+            "check literal",
+            "verificar literal"
+        ]
+    },
     "0300": {
         "description": "Checar informações do brapci_elastic.dataset e remover editoriais",
         "patterns": [
