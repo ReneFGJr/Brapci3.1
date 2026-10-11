@@ -66,8 +66,17 @@ def diagnosticar(hexadecimal):
         codigos = ", ".join(f"U+{ord(c):04X}" for c in sorted(set(controles)))
         return f"Caractere de controle: {codigos}", texto
 
-    # Sequências comuns de texto UTF-8 interpretado anteriormente como Latin-1/Windows-1252.
-    if re.search(r"(?:Ã.|Â.|â.|ðŸ)", texto):
+    # Sequências específicas de UTF-8 interpretado como Latin-1/Windows-1252.
+    # Não sinaliza letras legítimas como â em "Rosângela" ou Â em "Ângela".
+    padrao_mojibake = (
+        r"(?:"
+        r"Ã[\x80-\xBF]|"
+        r"Â[\x80-\xBF]|"
+        r"â[€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ]|"
+        r"ðŸ"
+        r")"
+    )
+    if re.search(padrao_mojibake, texto):
         return "Possível texto corrompido (mojibake)", texto
 
     return None, texto
