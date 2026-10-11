@@ -177,15 +177,6 @@ def iniciar(first_message=None):
 
         else:
 
-            if ultimos_comandos:
-                print("Últimos comandos executados:")
-                for indice, comando_anterior in enumerate(
-                    reversed(ultimos_comandos),
-                    1
-                ):
-                    print(f"  {indice}. {comando_anterior}")
-                print()
-
             pergunta = ler_prompt("CURADOR > ", list(ultimos_comandos))
 
         #

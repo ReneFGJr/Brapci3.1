@@ -65,6 +65,14 @@
             "dataset remove duplicatas"
         ]
     },
+    "0204": {
+        "description": "Estatísticas da tabela brapci_elastic.dataset",
+        "patterns": [
+            "dataset statistics",
+            "dataset estatisticas",
+            "dataset estatísticas"
+        ]
+    },
     "0300": {
         "description": "Checar informações do brapci_elastic.dataset e remover editoriais",
         "patterns": [

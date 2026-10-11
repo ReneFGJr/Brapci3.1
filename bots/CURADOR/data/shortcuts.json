@@ -5,6 +5,7 @@
             "remove duplicatas": {},
             "verify": {},
             "export elastic search": {},
+            "statistics": {},
             "show": {
                 "children": {
                     "{ID}": {
