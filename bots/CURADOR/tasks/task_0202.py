@@ -40,7 +40,7 @@ TASK = {
             "name": "opcao",
             "type": "string",
             "required": False,
-            "description": "Limite de exibição (ex: 20, 50, todos), ação (export, csv, memoria) ou arquivo alternativo.",
+            "description": "Limite de exibição (mínimo 500 ou todos), ação (export, csv, memoria) ou arquivo alternativo.",
         }
     ],
 }
@@ -287,7 +287,7 @@ def salvar_em_memoria(ids_duplicados):
         return False
 
 
-def exibir_tabela(duplicatas, total_registros, origem, limite=25):
+def exibir_tabela(duplicatas, total_registros, origem, limite=500):
     """
     Renderiza uma tabela Rich elegante com os registros duplicados.
     """
@@ -357,7 +357,7 @@ def exibir_tabela(duplicatas, total_registros, origem, limite=25):
     if limite is not None and total_grupos > limite:
         console.print(
             f"[dim]Exibindo {limite} de {total_grupos} grupos duplicados. "
-            f"Use '[bold]checar duplicatas 50[/bold]' ou '[bold]checar duplicatas todos[/bold]' para ver mais.[/dim]"
+            f"Use '[bold]checar duplicatas 500[/bold]' ou '[bold]checar duplicatas todos[/bold]' para ver mais.[/dim]"
         )
     console.print(
         "[dim]Dica: use '[bold]checar duplicatas export[/bold]' para gerar CSV completo ou "
@@ -386,7 +386,7 @@ def run(parametros=None, chat=None, silent=False):
     params_reais = [p for p in parametros if str(p).lower().strip() not in palavras_gatilho]
 
     # Interpretação dos parâmetros
-    limite = 25
+    limite = 500
     exportar = False
     salvar_mem = False
     caminho_customizado = None
@@ -397,7 +397,7 @@ def run(parametros=None, chat=None, silent=False):
         if p_str in ("todos", "all", "tudo", "completo", "-1"):
             limite = None
         elif p_str.isdigit():
-            limite = int(p_str)
+            limite = max(500, int(p_str))
         elif p_str in ("export", "exportar", "csv", "salvar"):
             exportar = True
         elif p_str in ("memoria", "memória", "memory", "set", "ids"):

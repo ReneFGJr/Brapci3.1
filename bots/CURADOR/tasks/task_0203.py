@@ -60,7 +60,7 @@ TASK = {
             "name": "opcao_ou_ids",
             "type": "string",
             "required": False,
-            "description": "IDs específicos (ex: 26986 241324), limite (ex: 50, todos) ou 'simular'/'dry-run'.",
+            "description": "IDs específicos (ex: 26986 241324), limite opcional ou 'simular'/'dry-run'.",
         }
     ],
 }
@@ -487,7 +487,7 @@ def run(parametros=None, chat=None, silent=False):
 
     # Identificação de parâmetros
     simular = False
-    limite = 50
+    limite = None
     processar_todos = False
     ids_manuais = []
     caminho_customizado = None
@@ -699,7 +699,7 @@ def run(parametros=None, chat=None, silent=False):
             "afetados_rdf_data_r2": total_r2,
             "excluidos_brapci_elastic_dataset": total_dataset_excluidos,
             "arquivo_log": str(caminho_csv),
-            "resultados": resultados[:50],
+            "resultados": resultados,
         }
 
     except KeyboardInterrupt:
