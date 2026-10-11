@@ -1,6 +1,7 @@
 import sys
 
 from rich.align import Align
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
@@ -16,7 +17,7 @@ def show():
     sys.stdout.write("\033[H")
     sys.stdout.flush()
 
-    largura = max(48, min(console.width, 84))
+    largura = 79
 
     titulo = Text(justify="center")
     titulo.append("\n")
@@ -39,6 +40,7 @@ def show():
         Panel(
             Align.center(titulo, vertical="middle"),
             width=largura,
+            box=box.DOUBLE,
             border_style="bright_blue",
             padding=(1, 2),
             title="[bold bright_cyan] 🤖  ASSISTENTE IA [/bold bright_cyan]",
