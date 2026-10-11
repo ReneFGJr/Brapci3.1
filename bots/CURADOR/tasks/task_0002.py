@@ -107,18 +107,34 @@ def ler_tecla():
 
     descritor = sys.stdin.fileno()
     configuracao = termios.tcgetattr(descritor)
+
+    def ler_caractere():
+        primeiro = os.read(descritor, 1)
+        if not primeiro:
+            return ""
+        tamanho = 1
+        valor = primeiro[0]
+        if valor & 0xE0 == 0xC0:
+            tamanho = 2
+        elif valor & 0xF0 == 0xE0:
+            tamanho = 3
+        elif valor & 0xF8 == 0xF0:
+            tamanho = 4
+        restante = os.read(descritor, tamanho - 1) if tamanho > 1 else b""
+        return (primeiro + restante).decode("utf-8", errors="replace")
+
     try:
         tty.setraw(descritor)
-        tecla = sys.stdin.read(1)
+        tecla = ler_caractere()
         if tecla in ("\r", "\n"):
             return "enter"
         if tecla == "\x1b":
-            if not select.select([sys.stdin], [], [], 0.05)[0]:
+            if not select.select([descritor], [], [], 0.30)[0]:
                 return "back"
-            seguinte = sys.stdin.read(1)
+            seguinte = ler_caractere()
             if seguinte not in ("[", "O"):
                 return "back"
-            codigo = sys.stdin.read(1)
+            codigo = ler_caractere()
             return {"A": "up", "B": "down", "D": "back", "C": "enter"}.get(codigo, "")
         return ""
     finally:

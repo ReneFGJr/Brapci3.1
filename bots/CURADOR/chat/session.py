@@ -83,18 +83,34 @@ def _ler_prompt_posix(rotulo, historico):
     configuracao = termios.tcgetattr(descritor)
     texto = ""
     posicao_historico = len(historico)
+
+    def ler_caractere():
+        primeiro = os.read(descritor, 1)
+        if not primeiro:
+            return ""
+        tamanho = 1
+        valor = primeiro[0]
+        if valor & 0xE0 == 0xC0:
+            tamanho = 2
+        elif valor & 0xF0 == 0xE0:
+            tamanho = 3
+        elif valor & 0xF8 == 0xF0:
+            tamanho = 4
+        restante = os.read(descritor, tamanho - 1) if tamanho > 1 else b""
+        return (primeiro + restante).decode("utf-8", errors="replace")
+
     sys.stdout.write(rotulo)
     sys.stdout.flush()
 
     try:
         tty.setraw(descritor)
         while True:
-            tecla = sys.stdin.read(1)
+            tecla = ler_caractere()
 
-            if tecla == "\x1b" and select.select([sys.stdin], [], [], 0.05)[0]:
-                sequencia = sys.stdin.read(1)
+            if tecla == "\x1b" and select.select([descritor], [], [], 0.30)[0]:
+                sequencia = ler_caractere()
                 if sequencia in ("[", "O"):
-                    codigo = sys.stdin.read(1)
+                    codigo = ler_caractere()
                     if codigo == "A" and historico:
                         posicao_historico = max(0, posicao_historico - 1)
                         texto = historico[posicao_historico]
