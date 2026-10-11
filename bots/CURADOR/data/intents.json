@@ -65,15 +65,7 @@
     "0203": {
         "description": "Remover duplicatas no RDF",
         "patterns": [
-            "remover duplicatas",
-            "remover duplicados",
-            "remover duplicata",
-            "remover_duplicatas",
-            "merge duplicatas",
-            "mesclar duplicatas",
-            "deletar duplicadas",
-            "deletar duplicados",
-            "deletar duplicatas"
+            "dataset remove duplicatas"
         ]
     },
     "0300": {
