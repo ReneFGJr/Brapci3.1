@@ -362,6 +362,7 @@ class Search extends Model
         $this->strategy = $query;
         $echoResult = false;
         $dt = $this->curlQuery($query, $echoResult, 'v4');
+        $dt = $this->filterWorksExistingInDataset($dt);
 
         $dt2 = $this->rerankByAuthorProductivity(
             $dt,
@@ -387,8 +388,36 @@ class Search extends Model
 
         $query = $Logic->method_v4();
         $this->strategy = $query;
-        $echoResult = true;
-        $this->curlQuery($query, $echoResult, 'v4');
+        $echoResult = false;
+        $dt = $this->curlQuery($query, $echoResult, 'v4');
+        $dt = $this->filterWorksExistingInDataset($dt);
+
+        echo json_encode($dt, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+        exit;
+    }
+
+    /**
+     * Remove resultados do Elasticsearch que não possuem registro
+     * correspondente em brapci_elastic.dataset.
+     */
+    function filterWorksExistingInDataset(array $result): array
+    {
+        $works = $result['works'] ?? [];
+        $result['works'] = array_values(
+            array_filter(
+                $works,
+                static fn(array $work): bool => isset($work['data'])
+            )
+        );
+
+        $total = count($result['works']);
+        $result['total'] = $total;
+        if (!isset($result['search']) || !is_array($result['search'])) {
+            $result['search'] = [];
+        }
+        $result['search']['total'] = $total;
+
+        return $result;
     }
 
     function searchFull3()
