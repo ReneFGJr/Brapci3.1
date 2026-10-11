@@ -41,16 +41,17 @@ def _ler_prompt_windows(rotulo, historico):
 
         if tecla == "\x1b":
             sequencia = ""
-            for _ in range(5):
-                if msvcrt.kbhit():
-                    sequencia += msvcrt.getwch()
+            limite = time.monotonic() + 0.30
+            while time.monotonic() < limite and len(sequencia) < 2:
+                if not msvcrt.kbhit():
+                    time.sleep(0.005)
                     continue
-                time.sleep(0.01)
-            if sequencia == "[A" and historico:
+                sequencia += msvcrt.getwch()
+            if sequencia in ("[A", "OA") and historico:
                 posicao_historico = max(0, posicao_historico - 1)
                 texto = historico[posicao_historico]
                 _redesenhar_prompt(rotulo, texto)
-            elif sequencia == "[B" and historico:
+            elif sequencia in ("[B", "OB") and historico:
                 posicao_historico = min(len(historico), posicao_historico + 1)
                 texto = "" if posicao_historico == len(historico) else historico[posicao_historico]
                 _redesenhar_prompt(rotulo, texto)
@@ -92,7 +93,7 @@ def _ler_prompt_posix(rotulo, historico):
 
             if tecla == "\x1b" and select.select([sys.stdin], [], [], 0.05)[0]:
                 sequencia = sys.stdin.read(1)
-                if sequencia == "[":
+                if sequencia in ("[", "O"):
                     codigo = sys.stdin.read(1)
                     if codigo == "A" and historico:
                         posicao_historico = max(0, posicao_historico - 1)

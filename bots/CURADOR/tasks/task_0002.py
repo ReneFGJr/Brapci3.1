@@ -81,16 +81,21 @@ def ler_tecla():
             }.get(codigo, "")
         if tecla == "\x1b":
             sequencia = ""
-            for _ in range(5):
-                if msvcrt.kbhit():
-                    sequencia += msvcrt.getwch()
+            limite = time.monotonic() + 0.30
+            while time.monotonic() < limite and len(sequencia) < 2:
+                if not msvcrt.kbhit():
+                    time.sleep(0.005)
                     continue
-                time.sleep(0.01)
+                sequencia += msvcrt.getwch()
             return {
                 "[A": "up",
                 "[B": "down",
                 "[D": "back",
                 "[C": "enter",
+                "OA": "up",
+                "OB": "down",
+                "OD": "back",
+                "OC": "enter",
             }.get(sequencia, "back")
         if tecla == "\r":
             return "enter"
@@ -111,7 +116,7 @@ def ler_tecla():
             if not select.select([sys.stdin], [], [], 0.05)[0]:
                 return "back"
             seguinte = sys.stdin.read(1)
-            if seguinte != "[":
+            if seguinte not in ("[", "O"):
                 return "back"
             codigo = sys.stdin.read(1)
             return {"A": "up", "B": "down", "D": "back", "C": "enter"}.get(codigo, "")
@@ -198,7 +203,9 @@ def run(parametros=None, chat=None, silent=False):
         comando = menu_interativo(shortcuts)
 
     if comando is None:
-        return {"success": False, "cancelled": True}
+        if silent:
+            return {"success": False, "cancelled": True}
+        return None
 
     if not silent:
         console.print(f"\n[green]Comando montado:[/green] [bold white]{comando}[/bold white]\n")
