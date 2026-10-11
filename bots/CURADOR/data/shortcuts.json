@@ -3,6 +3,7 @@
         "children": {
             "check": {},
             "remove duplicatas": {},
+            "verify": {},
             "export elastic search": {},
             "show": {
                 "children": {
@@ -42,18 +43,39 @@
     },
     "orcid": {
         "children": {
-            "get": {}
+            "get": {
+                "children": {
+                    "{nome}": {
+                        "input": true,
+                        "prompt": "Informe o nome"
+                    }
+                }
+            }
         }
     },
     "ror": {
         "children": {
-            "get": {}
+            "get": {
+                "children": {
+                    "{nome}": {
+                        "input": true,
+                        "prompt": "Informe o nome"
+                    }
+                }
+            }
         }
     },
     "DOI": {
         "aliases": ["doi"],
         "children": {
-            "get": {},
+            "get": {
+                "children": {
+                    "{nome}": {
+                        "input": true,
+                        "prompt": "Informe o nome"
+                    }
+                }
+            },
             "check": {}
         }
     },
