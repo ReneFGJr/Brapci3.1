@@ -11,6 +11,7 @@ Para cada grupo de duplicatas:
    - Atualiza brapci_rdf.rdf_concept: cc_use = IDpref para id_cc = IDdupl
    - Atualiza brapci_rdf.rdf_data: d_r1 = IDpref quando d_r1 = IDdupl
    - Atualiza brapci_rdf.rdf_data: d_r2 = IDpref quando d_r2 = IDdupl
+   - Exclui de brapci_elastic.dataset o registro com ID = IDdupl
 Exibe tela com bordas de texto em (0,0), campos coloridos e
 atualização a cada 2 segundos.
 """
@@ -137,6 +138,7 @@ def aplicar_redirecionamento_rdf(cursor, id_pref, id_dupl):
     1. brapci_rdf.rdf_concept: cc_use = id_pref WHERE id_cc = id_dupl
     2. brapci_rdf.rdf_data: d_r1 = id_pref WHERE d_r1 = id_dupl
     3. brapci_rdf.rdf_data: d_r2 = id_pref WHERE d_r2 = id_dupl
+    4. brapci_elastic.dataset: exclui o registro WHERE ID = id_dupl
     """
     # 1. Atualizar cc_use em rdf_concept
     sql_concept = """
@@ -165,12 +167,21 @@ def aplicar_redirecionamento_rdf(cursor, id_pref, id_dupl):
     cursor.execute(sql_r2, (id_pref, id_dupl))
     afetados_r2 = cursor.rowcount
 
+    # 4. Excluir do dataset o registro duplicado, preservando o preferencial
+    sql_dataset = """
+        DELETE FROM brapci_elastic.dataset
+        WHERE ID = %s
+    """
+    cursor.execute(sql_dataset, (id_dupl,))
+    excluidos_dataset = cursor.rowcount
+
     return {
         "id_pref": id_pref,
         "id_dupl": id_dupl,
         "concept_cc_use": afetados_concept,
         "data_d_r1": afetados_r1,
         "data_d_r2": afetados_r2,
+        "dataset_excluidos": excluidos_dataset,
     }
 
 
@@ -215,6 +226,7 @@ def desenhar_tela_atualizacao(
     concept_afetados,
     r1_afetados,
     r2_afetados,
+    dataset_excluidos,
     total_concept,
     total_r1,
     total_r2,
@@ -349,6 +361,12 @@ def desenhar_tela_atualizacao(
             LARGURA_INTERNA,
         )
     )
+    linhas.append(
+        linha_borda(
+            f"  {C_GREEN}✓{C_RESET} {C_CYAN}dataset{C_RESET}     : excluído(s) IDdupl {C_RED}{ids_dupl}{C_RESET}   {C_BLUE}→{C_RESET} {C_YELLOW}{dataset_excluidos} linha(s){C_RESET}",
+            LARGURA_INTERNA,
+        )
+    )
     linhas.append(borda_divisoria)
 
     # Estatísticas Acumuladas
@@ -431,6 +449,7 @@ def exportar_log_csv(resultados, caminho_saida=None):
             "concept_cc_use_afetados",
             "data_d_r1_afetados",
             "data_d_r2_afetados",
+            "dataset_excluidos",
         ])
         for idx, res in enumerate(resultados, 1):
             writer.writerow([
@@ -441,6 +460,7 @@ def exportar_log_csv(resultados, caminho_saida=None):
                 res["concept_afetados"],
                 res["r1_afetados"],
                 res["r2_afetados"],
+                res["dataset_excluidos"],
             ])
 
     return caminho_saida
@@ -576,6 +596,7 @@ def run(parametros=None, chat=None, silent=False):
         total_concept = 0
         total_r1 = 0
         total_r2 = 0
+        total_dataset_excluidos = 0
         tempo_inicio = time.time()
 
         # Limpa tela uma vez antes de iniciar a exibição
@@ -590,16 +611,19 @@ def run(parametros=None, chat=None, silent=False):
                 concept_par = 0
                 r1_par = 0
                 r2_par = 0
+                dataset_excluidos_par = 0
 
                 for id_dupl in ids_dupl:
                     res_par = aplicar_redirecionamento_rdf(cursor, id_pref, id_dupl)
                     concept_par += res_par["concept_cc_use"]
                     r1_par += res_par["data_d_r1"]
                     r2_par += res_par["data_d_r2"]
+                    dataset_excluidos_par += res_par["dataset_excluidos"]
 
                 total_concept += concept_par
                 total_r1 += r1_par
                 total_r2 += r2_par
+                total_dataset_excluidos += dataset_excluidos_par
 
                 res_grupo = {
                     "idx": idx,
@@ -613,6 +637,7 @@ def run(parametros=None, chat=None, silent=False):
                     "concept_afetados": concept_par,
                     "r1_afetados": r1_par,
                     "r2_afetados": r2_par,
+                    "dataset_excluidos": dataset_excluidos_par,
                 }
                 resultados.append(res_grupo)
                 historico.append(res_grupo)
@@ -634,6 +659,7 @@ def run(parametros=None, chat=None, silent=False):
                         concept_afetados=concept_par,
                         r1_afetados=r1_par,
                         r2_afetados=r2_par,
+                        dataset_excluidos=dataset_excluidos_par,
                         total_concept=total_concept,
                         total_r1=total_r1,
                         total_r2=total_r2,
@@ -671,6 +697,7 @@ def run(parametros=None, chat=None, silent=False):
             "afetados_rdf_concept": total_concept,
             "afetados_rdf_data_r1": total_r1,
             "afetados_rdf_data_r2": total_r2,
+            "excluidos_brapci_elastic_dataset": total_dataset_excluidos,
             "arquivo_log": str(caminho_csv),
             "resultados": resultados[:50],
         }
