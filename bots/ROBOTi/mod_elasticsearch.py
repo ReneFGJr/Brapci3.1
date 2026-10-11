@@ -61,10 +61,15 @@ except Exception as _e:
     def remove_editorial():
         """Fallback local caso task_0300 não esteja acessível."""
         print(f"[AVISO] Fallback local para remove_editorial: {_e}")
-        print("183 - Removendo editoriais")
-        lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%',
-              'Normas para publicação','Expediente','Expediente %','EDITORIAL, %', 'Normas de Publicação',
-              'Apresentação %','Revista B%','(Sem título)']
+        lt = [
+            'Editorial', 'Política editorial', 'Editorial %', 'Processo Editorial%',
+            'Normas para publicação', 'Normas para publicação%', 'Expediente', 'Expediente %',
+            'EDITORIAL, %', 'Normas de Publicação', 'Normas de Publicação%',
+            'Apresentação', 'Apresentação %', 'Revista B%',
+            '(Sem título)', '(Sem titulo)', '(Sem título)%', '(Sem titulo)%',
+            '[Sem título]%', '[Sem titulo]%', ':: Sem titulo ::%',
+            '%Sem título%', '%Sem titulo%'
+        ]
         for q in lt:
             if '%' in q:
                 qr = f"update brapci_elastic.dataset set status = 2 where TITLE like '{q}' "

@@ -115,19 +115,34 @@ def remove_editorial(silent=False):
         "Editorial %",
         "Processo Editorial%",
         "Normas para publicação",
+        "Normas para publicação%",
         "Expediente",
         "Expediente %",
         "EDITORIAL, %",
         "Normas de Publicação",
+        "Normas de Publicação%",
+        "Apresentação",
         "Apresentação %",
         "Revista B%",
-        "(Sem título)%"
+        "(Sem título)",
+        "(Sem titulo)",
+        "(Sem título)%",
+        "(Sem titulo)%",
+        "[Sem título]%",
+        "[Sem titulo]%",
+        ":: Sem titulo ::%",
+        ":: Sem título ::%",
+        "%Sem título%",
+        "%Sem titulo%",
     ]
 
     total_afetados = 0
     conn = get_connection("brapci_elastic")
     try:
         with conn.cursor() as cursor:
+            # Atualiza títulos nulos ou vazios
+            cursor.execute("UPDATE dataset SET status = 2 WHERE TITLE IS NULL OR TRIM(TITLE) = ''")
+
             for q in lt:
                 if "%" in q:
                     qr = "UPDATE dataset SET status = 2 WHERE TITLE LIKE %s"
