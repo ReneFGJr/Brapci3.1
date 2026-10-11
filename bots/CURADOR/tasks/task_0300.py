@@ -164,7 +164,7 @@ def coletar_estatisticas_dataset():
         with conn.cursor() as cursor:
             # 1. Resumo Geral de Status e Indexação
             sql_geral = """
-                SELECT 
+                SELECT
                     COUNT(*) AS total,
                     SUM(status = 1) AS ativos,
                     SUM(status = 2) AS editoriais,
@@ -184,7 +184,7 @@ def coletar_estatisticas_dataset():
 
             # 2. Qualidade dos Metadados em Registros Ativos (status = 1)
             sql_qualidade = """
-                SELECT 
+                SELECT
                     COUNT(*) AS total_ativos,
                     SUM(TITLE IS NOT NULL AND TRIM(TITLE) != '') AS com_titulo,
                     SUM(TITLE IS NULL OR TRIM(TITLE) = '') AS sem_titulo,
@@ -208,7 +208,7 @@ def coletar_estatisticas_dataset():
 
             # 3. Top 5 Revistas com mais artigos ativos
             sql_top_revistas = """
-                SELECT 
+                SELECT
                     JOURNAL AS journal_id,
                     COALESCE(PUBLICATION, '(Sem nome de revista)') AS revista,
                     COUNT(*) AS total_artigos
@@ -486,6 +486,8 @@ def run(parametros=None, chat=None, silent=False):
             remove_editorial(silent=silent)
             ok_ed = True
             err_ed = None
+
+            # Remover duplicatas
         except Exception as e_ed:
             ok_ed = False
             err_ed = str(e_ed)
