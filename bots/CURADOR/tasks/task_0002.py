@@ -86,6 +86,7 @@ def ler_tecla():
 
     import termios
     import tty
+    import select
 
     descritor = sys.stdin.fileno()
     configuracao = termios.tcgetattr(descritor)
@@ -95,6 +96,8 @@ def ler_tecla():
         if tecla in ("\r", "\n"):
             return "enter"
         if tecla == "\x1b":
+            if not select.select([sys.stdin], [], [], 0.05)[0]:
+                return "back"
             seguinte = sys.stdin.read(1)
             if seguinte != "[":
                 return "back"

@@ -3,7 +3,7 @@
     "issue": {},
     "keywords": {},
     "elastic": {
-        "aliases": ["elasticsearch", "elasticsearcj"],
+        "aliases": ["elasticsearch", "elasticsearch"],
         "children": {
             "export": {}
         }
