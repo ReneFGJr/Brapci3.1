@@ -153,6 +153,7 @@ def iniciar(first_message=None):
     print("\nDigite 'sair' para terminar.\n")
 
     ultimos_comandos = deque(maxlen=5)
+    comando_pendente = None
 
     while True:
 
@@ -160,7 +161,14 @@ def iniciar(first_message=None):
         # Primeira mensagem (quando vem da linha de comando)
         #
 
-        if first_message is not None:
+        if comando_pendente is not None:
+
+            pergunta = comando_pendente
+            comando_pendente = None
+
+            print(f"CURADOR > {pergunta}")
+
+        elif first_message is not None:
 
             pergunta = first_message
             first_message = None
@@ -220,6 +228,15 @@ def iniciar(first_message=None):
                 parametros=parametros,
                 chat=pergunta
             )
+
+            # Menus podem devolver um comando para o buffer do prompt.
+            if (
+                isinstance(resposta, dict)
+                and resposta.get("_prompt_command")
+                and resposta.get("command")
+            ):
+                comando_pendente = str(resposta["command"]).strip()
+                continue
 
             if resposta:
 

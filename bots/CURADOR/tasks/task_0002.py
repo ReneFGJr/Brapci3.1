@@ -262,7 +262,11 @@ def run(parametros=None, chat=None, silent=False):
 
     if not silent:
         console.print(f"\n[green]Comando montado:[/green] [bold white]{comando}[/bold white]\n")
-        return None
+        return {
+            "success": True,
+            "command": comando,
+            "_prompt_command": True,
+        }
 
     return {"success": True, "command": comando}
 
