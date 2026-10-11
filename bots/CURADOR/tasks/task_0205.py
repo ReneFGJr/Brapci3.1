@@ -163,15 +163,15 @@ def localizar_problemas(limite=LIMITE):
                     ultimo_id = int(registro["id_n"])
                     examinados += 1
                     problema, texto = diagnosticar(registro.get("n_hex"))
-                if problema:
-                    correcao = corrigir_automaticamente(texto)
-                    problemas.append(
+                    if problema:
+                        correcao = corrigir_automaticamente(texto)
+                        problemas.append(
                             {
                                 "id_n": ultimo_id,
                                 "n_lang": registro.get("n_lang") or "-",
-                            "problema": problema,
-                            "texto": texto,
-                            "correcao": correcao,
+                                "problema": problema,
+                                "texto": texto,
+                                "correcao": correcao,
                             }
                         )
                         if len(problemas) >= limite:
