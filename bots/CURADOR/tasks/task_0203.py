@@ -135,11 +135,28 @@ def obter_grupos_duplicados(caminho_customizado=None, silent=False):
 def aplicar_redirecionamento_rdf(cursor, id_pref, id_dupl):
     """
     Executa os updates para um par (id_pref, id_dupl):
+    0. Ignora o par se id_dupl não existir em brapci_elastic.dataset
     1. brapci_rdf.rdf_concept: cc_use = id_pref WHERE id_cc = id_dupl
     2. brapci_rdf.rdf_data: d_r1 = id_pref WHERE d_r1 = id_dupl
     3. brapci_rdf.rdf_data: d_r2 = id_pref WHERE d_r2 = id_dupl
     4. brapci_elastic.dataset: exclui o registro WHERE ID = id_dupl
     """
+    # Só processa IDs duplicados que ainda existam no dataset.
+    cursor.execute(
+        "SELECT 1 FROM brapci_elastic.dataset WHERE ID = %s LIMIT 1",
+        (id_dupl,),
+    )
+    if cursor.fetchone() is None:
+        return {
+            "id_pref": id_pref,
+            "id_dupl": id_dupl,
+            "concept_cc_use": 0,
+            "data_d_r1": 0,
+            "data_d_r2": 0,
+            "dataset_excluidos": 0,
+            "ignorado": True,
+        }
+
     # 1. Atualizar cc_use em rdf_concept
     sql_concept = """
         UPDATE brapci_rdf.rdf_concept
@@ -182,6 +199,7 @@ def aplicar_redirecionamento_rdf(cursor, id_pref, id_dupl):
         "data_d_r1": afetados_r1,
         "data_d_r2": afetados_r2,
         "dataset_excluidos": excluidos_dataset,
+        "ignorado": False,
     }
 
 
