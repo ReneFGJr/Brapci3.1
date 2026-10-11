@@ -5,6 +5,7 @@ import shlex
 from collections import deque
 import os
 import sys
+import time
 
 from chat.router import localizar
 from tasks.executor import executar
@@ -33,6 +34,23 @@ def _ler_prompt_windows(rotulo, historico):
                 texto = historico[posicao_historico]
                 _redesenhar_prompt(rotulo, texto)
             elif codigo == "P" and historico:
+                posicao_historico = min(len(historico), posicao_historico + 1)
+                texto = "" if posicao_historico == len(historico) else historico[posicao_historico]
+                _redesenhar_prompt(rotulo, texto)
+            continue
+
+        if tecla == "\x1b":
+            sequencia = ""
+            for _ in range(5):
+                if msvcrt.kbhit():
+                    sequencia += msvcrt.getwch()
+                    continue
+                time.sleep(0.01)
+            if sequencia == "[A" and historico:
+                posicao_historico = max(0, posicao_historico - 1)
+                texto = historico[posicao_historico]
+                _redesenhar_prompt(rotulo, texto)
+            elif sequencia == "[B" and historico:
                 posicao_historico = min(len(historico), posicao_historico + 1)
                 texto = "" if posicao_historico == len(historico) else historico[posicao_historico]
                 _redesenhar_prompt(rotulo, texto)

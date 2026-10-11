@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import time
 
 from rich.console import Console
 from rich.panel import Panel
@@ -78,10 +79,21 @@ def ler_tecla():
                 "K": "back",
                 "M": "enter",
             }.get(codigo, "")
+        if tecla == "\x1b":
+            sequencia = ""
+            for _ in range(5):
+                if msvcrt.kbhit():
+                    sequencia += msvcrt.getwch()
+                    continue
+                time.sleep(0.01)
+            return {
+                "[A": "up",
+                "[B": "down",
+                "[D": "back",
+                "[C": "enter",
+            }.get(sequencia, "back")
         if tecla == "\r":
             return "enter"
-        if tecla == "\x1b":
-            return "back"
         return ""
 
     import termios
