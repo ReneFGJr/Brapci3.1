@@ -44,7 +44,11 @@ def get_connection(autocommit=True):
     )
 
 
-def diagnosticar(hexadecimal):
+def normalizar_idioma(idioma):
+    return str(idioma or "").strip().casefold().replace("_", "-").split("-", 1)[0]
+
+
+def diagnosticar(hexadecimal, idioma=None):
     if not hexadecimal:
         return None, ""
 
@@ -80,10 +84,13 @@ def diagnosticar(hexadecimal):
     if re.search(padrao_mojibake, texto):
         return "Possível texto corrompido (mojibake)", texto
 
+    if normalizar_idioma(idioma) in ("ca", "cat") and re.search(r"Ã(?:2|3| )", texto):
+        return "Possível acento catalão corrompido", texto
+
     return None, texto
 
 
-def pontuar_corrupcao(texto):
+def pontuar_corrupcao(texto, idioma=None):
     """Quanto menor a pontuação, menor a evidência de texto corrompido."""
     padroes = (
         r"Ã[\x80-\xBF]",
@@ -95,10 +102,79 @@ def pontuar_corrupcao(texto):
     total = sum(len(re.findall(padrao, texto)) for padrao in padroes)
     total += texto.count("\ufffd") * 5
     total += sum(1 for caractere in texto if ord(caractere) < 32 and caractere not in "\t\n\r") * 3
+    if normalizar_idioma(idioma) in ("ca", "cat"):
+        total += len(re.findall(r"Ã(?:2|3| )", texto)) * 2
+        total += len(re.findall(r"\b[ldLD]\s+[´\u0301]", texto)) * 2
     return total
 
 
-def corrigir_automaticamente(texto):
+def aplicar_regras_idioma(texto, idioma):
+    """Aplica somente inferências compatíveis com o idioma informado no registro."""
+    codigo = normalizar_idioma(idioma)
+    if codigo not in ("ca", "cat"):
+        return texto
+
+    substituicoes_catalao = {
+        "Ã3": "ó",
+        "Ã2": "ò",
+        "Ã ": "à",
+        "Ã©": "é",
+        "Ã­": "í",
+        "Ã": "É",
+        "Â·": "·",
+        "â\x80\x99": "’",
+        "â€™": "’",
+    }
+    corrigido = texto
+    for incorreto, correto in substituicoes_catalao.items():
+        corrigido = corrigido.replace(incorreto, correto)
+
+    # Corrige formas como "L ́objectiu" e "d ́aquest".
+    corrigido = re.sub(r"\b([ldLD])\s+[´\u0301]", r"\1’", corrigido)
+    return corrigido
+
+
+def reparar_fragmentos_utf8(texto):
+    """Recupera fragmentos mojibake sem exigir que o texto inteiro use a mesma codificação."""
+    resultado = []
+    indice = 0
+    marcadores = ("Ã", "Â", "â", "ð")
+
+    while indice < len(texto):
+        if texto[indice] not in marcadores:
+            resultado.append(texto[indice])
+            indice += 1
+            continue
+
+        reparado = None
+        caracteres_consumidos = 0
+        for tamanho in range(2, min(4, len(texto) - indice) + 1):
+            fragmento = texto[indice : indice + tamanho]
+            for codificacao in ("latin-1", "cp1252"):
+                try:
+                    candidato = fragmento.encode(codificacao).decode("utf-8", errors="strict")
+                except (UnicodeEncodeError, UnicodeDecodeError):
+                    continue
+                if candidato != fragmento and all(
+                    ord(caractere) >= 32 or caractere in "\t\n\r" for caractere in candidato
+                ):
+                    reparado = candidato
+                    caracteres_consumidos = tamanho
+                    break
+            if reparado is not None:
+                break
+
+        if reparado is None:
+            resultado.append(texto[indice])
+            indice += 1
+        else:
+            resultado.append(reparado)
+            indice += caracteres_consumidos
+
+    return "".join(resultado)
+
+
+def corrigir_automaticamente(texto, idioma=None):
     """Gera uma sugestão sem alterar textos cuja conversão não seja claramente melhor."""
     candidatos = [texto]
 
@@ -124,6 +200,8 @@ def corrigir_automaticamente(texto):
     candidato_manual = texto
     for incorreto, correto in substituicoes.items():
         candidato_manual = candidato_manual.replace(incorreto, correto)
+    candidato_manual = reparar_fragmentos_utf8(candidato_manual)
+    candidato_manual = aplicar_regras_idioma(candidato_manual, idioma)
     candidatos.append(candidato_manual)
 
     # Remove controles invisíveis inválidos, como Backspace (U+0008)
@@ -137,9 +215,12 @@ def corrigir_automaticamente(texto):
 
     candidatos = [unicodedata.normalize("NFC", candidato) for candidato in candidatos]
     original_normalizado = unicodedata.normalize("NFC", texto)
-    melhor = min(candidatos, key=pontuar_corrupcao)
+    melhor = min(candidatos, key=lambda candidato: pontuar_corrupcao(candidato, idioma))
 
-    if melhor != original_normalizado and pontuar_corrupcao(melhor) < pontuar_corrupcao(original_normalizado):
+    if (
+        melhor != original_normalizado
+        and pontuar_corrupcao(melhor, idioma) < pontuar_corrupcao(original_normalizado, idioma)
+    ):
         return melhor
     return None
 
@@ -171,13 +252,14 @@ def localizar_problemas(limite=LIMITE):
                 for registro in registros:
                     ultimo_id = int(registro["id_n"])
                     examinados += 1
-                    problema, texto = diagnosticar(registro.get("n_hex"))
+                    idioma = registro.get("n_lang") or "-"
+                    problema, texto = diagnosticar(registro.get("n_hex"), idioma)
                     if problema:
-                        correcao = corrigir_automaticamente(texto)
+                        correcao = corrigir_automaticamente(texto, idioma)
                         problemas.append(
                             {
                                 "id_n": ultimo_id,
-                                "n_lang": registro.get("n_lang") or "-",
+                                "n_lang": idioma,
                                 "problema": problema,
                                 "texto": texto,
                                 "correcao": correcao,
