@@ -1,5 +1,20 @@
 {
-    "dataset": {},
+    "dataset": {
+        "children": {
+            "check": {},
+            "remove duplicatas": {},
+            "export elastic search": {},
+            "show": {
+                "children": {
+                    "{ID}": {
+                        "input": true,
+                        "prompt": "Informe o ID",
+                        "validation": "integer"
+                    }
+                }
+            }
+        }
+    },
     "issue": {},
     "keywords": {},
     "elastic": {

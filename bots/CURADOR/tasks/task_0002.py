@@ -49,6 +49,23 @@ def localizar_opcao(opcoes, escolha):
     return None, None
 
 
+def validar_entrada(valor, item):
+    if not valor:
+        return False
+    if item.get("validation") == "integer":
+        return valor.isdigit()
+    return True
+
+
+def solicitar_entrada(nome, item):
+    rotulo = item.get("prompt", nome)
+    while True:
+        valor = console.input(f"[bold cyan]{rotulo}:[/bold cyan] ").strip()
+        if validar_entrada(valor, item):
+            return valor
+        console.print("[yellow]Valor inválido. Informe um número inteiro.[/yellow]")
+
+
 def resolver_parametros(shortcuts, parametros):
     opcoes = shortcuts
     partes = []
@@ -56,7 +73,20 @@ def resolver_parametros(shortcuts, parametros):
     for parametro in parametros:
         nome, item = localizar_opcao(opcoes, str(parametro))
         if nome is None:
-            return None
+            entradas = [
+                (nome_entrada, item_entrada)
+                for nome_entrada, item_entrada in opcoes.items()
+                if isinstance(item_entrada, dict) and item_entrada.get("input")
+            ]
+            if len(entradas) != 1:
+                return None
+            _, item_entrada = entradas[0]
+            valor = str(parametro)
+            if not validar_entrada(valor, item_entrada):
+                return None
+            partes.append(valor)
+            opcoes = {}
+            continue
         partes.append(nome)
         opcoes = filhos(item)
 
@@ -152,7 +182,10 @@ def mostrar_opcoes(opcoes, caminho, selecionado):
     tabela.add_column("Tipo", style="dim")
 
     for indice, (nome, item) in enumerate(opcoes.items()):
-        tipo = "abrir ›" if filhos(item) else "comando"
+        if item.get("input"):
+            tipo = "digitar valor"
+        else:
+            tipo = "abrir ›" if filhos(item) else "comando"
         cursor = "❯" if indice == selecionado else " "
         estilo = "bold reverse" if indice == selecionado else None
         tabela.add_row(cursor, nome, tipo, style=estilo)
@@ -190,6 +223,10 @@ def menu_interativo(shortcuts):
             continue
 
         nome, item = list(opcoes.items())[selecionado]
+        if item.get("input"):
+            valor = solicitar_entrada(nome, item)
+            return " ".join([*caminho, valor])
+
         subopcoes = filhos(item)
         if subopcoes:
             pilha.append((opcoes, caminho.copy(), selecionado))
