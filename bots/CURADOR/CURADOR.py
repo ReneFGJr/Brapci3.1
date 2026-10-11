@@ -95,6 +95,8 @@ def main():
 
     comandos = {
 
+        "a": "a",
+
         ##"ajuda": "ajuda",
         ##"help": "ajuda",
 

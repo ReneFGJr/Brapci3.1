@@ -1,0 +1,72 @@
+{
+    "dataset": {},
+    "issue": {},
+    "keywords": {},
+    "elastic": {
+        "aliases": ["elasticsearch", "elasticsearcj"],
+        "children": {
+            "export": {}
+        }
+    },
+    "authors": {
+        "aliases": ["autor", "autores", "author"],
+        "children": {
+            "normalizar": {}
+        }
+    },
+    "basket": {
+        "children": {
+            "set": {},
+            "get": {},
+            "clear": {},
+            "del": {
+                "aliases": ["delete"]
+            },
+            "show": {}
+        }
+    },
+    "orcid": {
+        "children": {
+            "get": {}
+        }
+    },
+    "ror": {
+        "children": {
+            "get": {}
+        }
+    },
+    "DOI": {
+        "aliases": ["doi"],
+        "children": {
+            "get": {},
+            "check": {}
+        }
+    },
+    "task": {
+        "children": {
+            "show": {},
+            "delete": {}
+        }
+    },
+    "cited": {
+        "children": {
+            "check": {}
+        }
+    },
+    "statistics": {
+        "children": {
+            "journals": {
+                "aliases": ["journlas"]
+            },
+            "make": {}
+        }
+    },
+    "email": {
+        "children": {
+            "send test": {}
+        }
+    },
+    "help": {
+        "aliases": ["ajuda"]
+    }
+}

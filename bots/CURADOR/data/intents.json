@@ -1,4 +1,10 @@
 {
+    "0002": {
+        "description": "Menu hierárquico de atalhos",
+        "patterns": [
+            "a"
+        ]
+    },
     "0000   ": {
         "description": "Status do sistema",
         "patterns": [
