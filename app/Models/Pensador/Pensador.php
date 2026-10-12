@@ -18,6 +18,7 @@ class Pensador extends Model
     protected $allowedFields = [
         'nome',
         'nome_citacao',
+        'brapci_id',
         'link_wikipedia',
         'link_wikidata',
     ];
@@ -25,6 +26,7 @@ class Pensador extends Model
     protected $validationRules = [
         'nome' => 'required|max_length[255]',
         'nome_citacao' => 'required|max_length[255]',
+        'brapci_id' => 'permit_empty|is_natural',
         'link_wikipedia' => 'permit_empty|valid_url_strict[http,https]|max_length[2048]',
         'link_wikidata' => 'permit_empty|valid_url_strict[http,https]|max_length[2048]',
     ];

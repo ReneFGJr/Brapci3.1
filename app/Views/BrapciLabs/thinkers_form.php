@@ -21,6 +21,10 @@
                 <input type="text" id="nome_citacao" name="nome_citacao" class="form-control" maxlength="255" required value="<?= esc(old('nome_citacao', $pensador['nome_citacao'] ?? '', false), 'attr') ?>">
             </div>
             <div class="mb-3">
+                <label for="brapci_id" class="form-label">BRAPCI ID (opcional)</label>
+                <input type="number" id="brapci_id" name="brapci_id" class="form-control" min="0" step="1" inputmode="numeric" value="<?= esc(old('brapci_id', $pensador['brapci_id'] ?? '', false), 'attr') ?>">
+            </div>
+            <div class="mb-3">
                 <label for="link_wikipedia" class="form-label">Link da Wikipédia (opcional)</label>
                 <input type="url" id="link_wikipedia" name="link_wikipedia" class="form-control" maxlength="2048" value="<?= esc(old('link_wikipedia', $pensador['link_wikipedia'] ?? '', false), 'attr') ?>">
             </div>

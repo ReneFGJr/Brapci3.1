@@ -250,6 +250,8 @@ class BrapciLab extends BaseController
             $value = $this->request->getPost($field);
             $data[$field] = is_string($value) ? trim($value) : '';
         }
+        $brapciId = $this->request->getPost('brapci_id');
+        $data['brapci_id'] = is_string($brapciId) && trim($brapciId) !== '' ? trim($brapciId) : '0';
 
         if ($model->update($id, $data) === false) {
             return redirect()->to(site_url('labs/thinkers/' . $id . '/edit'))
@@ -269,6 +271,8 @@ class BrapciLab extends BaseController
             $value = $this->request->getPost($field);
             $data[$field] = is_string($value) ? trim($value) : '';
         }
+        $brapciId = $this->request->getPost('brapci_id');
+        $data['brapci_id'] = is_string($brapciId) && trim($brapciId) !== '' ? trim($brapciId) : '0';
 
         if ($model->insert($data) === false) {
             return redirect()->to(site_url('labs/thinkers/new'))

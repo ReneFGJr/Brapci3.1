@@ -19,6 +19,9 @@ $id = (int) $pensador['id'];
             <button type="submit" class="btn btn-outline-primary"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Recalcular citações</button>
         </form>
         <a href="<?= site_url('labs/thinkers/' . $id . '/select') ?>" class="btn btn-outline-success"><i class="bi bi-check2-square" aria-hidden="true"></i> Check</a>
+        <?php if ((int) ($pensador['brapci_id'] ?? 0) > 0): ?>
+            <a href="https://brapci.inf.br/v/<?= (int) $pensador['brapci_id'] ?>" class="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Ver na BRAPCI</a>
+        <?php endif; ?>
         <?php foreach (['wikidata' => 'Wikidata', 'wikipedia' => 'Wikipédia'] as $source => $label): ?>
             <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/wiki/' . $source) ?>" class="thinker-import">
                 <?= csrf_field() ?>
