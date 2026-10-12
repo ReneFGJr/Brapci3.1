@@ -259,8 +259,19 @@ class BrapciLab extends BaseController
                 ->with('errors', $model->errors() ?: ['Não foi possível atualizar o pensador.']);
         }
 
-        return redirect()->to(site_url('labs/thinkers'))
+        $redirect = redirect()->to(site_url('labs/thinkers/' . $id))
             ->with('success', 'Pensador atualizado com sucesso.');
+        try {
+            $updated = $model->find($id);
+            if ($updated && (new \App\Models\Pensador\WikiImport())->importBrapciPhoto($updated)) {
+                $redirect->with('success', 'Pensador atualizado e foto do perfil BRAPCI importada com sucesso.');
+            }
+        } catch (\RuntimeException $e) {
+            log_message('warning', 'Foto BRAPCI do pensador {id}: {message}', ['id' => $id, 'message' => $e->getMessage()]);
+            $redirect->with('warning', 'O cadastro foi salvo, mas a foto do perfil BRAPCI não pôde ser importada.');
+        }
+
+        return $redirect;
     }
 
     public function thinkers_store()

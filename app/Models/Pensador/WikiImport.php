@@ -30,6 +30,102 @@ class WikiImport
         return $data;
     }
 
+    /** Importa para o repositório do pensador a foto já existente no perfil BRAPCI. */
+    public function importBrapciPhoto(array $pensador): bool
+    {
+        $id = (int) ($pensador['id'] ?? 0);
+        $brapciId = (int) ($pensador['brapci_id'] ?? 0);
+        if ($id < 1 || $brapciId < 1) {
+            return false;
+        }
+
+        $padded = str_pad((string) $brapciId, 8, '0', STR_PAD_LEFT);
+        $relative = '_repository/' . implode('/', str_split($padded, 2)) . '/';
+        $source = null;
+        foreach (['photo_' . $padded . '.jpg', 'image.jpg'] as $filename) {
+            $candidate = FCPATH . $relative . $filename;
+            if (is_file($candidate)) {
+                $source = $candidate;
+                break;
+            }
+        }
+        if ($source === null) {
+            return false;
+        }
+
+        $bytes = file_get_contents($source);
+        if ($bytes === false || !function_exists('imagecreatefromstring')) {
+            throw new RuntimeException('Não foi possível ler a foto do perfil BRAPCI.');
+        }
+        $size = @getimagesizefromstring($bytes);
+        if (!$size || $size[0] * $size[1] > 20000000) {
+            throw new RuntimeException('A foto do perfil BRAPCI possui formato ou tamanho não suportado.');
+        }
+
+        $dir = $this->directory($id);
+        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new RuntimeException('Não foi possível criar a pasta do pensador.');
+        }
+        $lock = fopen($dir . '.import.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            if ($lock) { fclose($lock); }
+            throw new RuntimeException('Já existe uma atualização em andamento para este pensador.');
+        }
+
+        try {
+            $stored = $this->read($id);
+            $origin = 'brapci:' . $brapciId;
+            $hash = hash('sha256', $bytes);
+            foreach ($stored['fotos'] ?? [] as $photo) {
+                if (($photo['sha256'] ?? '') === $hash && is_file($dir . ($photo['arquivo'] ?? ''))) {
+                    return false;
+                }
+            }
+
+            // Um perfil BRAPCI possui uma única foto corrente; substitui o registro anterior.
+            $stored['fotos'] = array_values(array_filter(
+                $stored['fotos'] ?? [],
+                static fn (array $photo): bool => !str_starts_with((string) ($photo['origem'] ?? ''), 'brapci:')
+            ));
+
+            $image = @imagecreatefromstring($bytes);
+            if (!$image) {
+                throw new RuntimeException('Não foi possível converter a foto BRAPCI para JPEG.');
+            }
+            $filename = sprintf('thinker_%d_brapci.jpg', $id);
+            try {
+                if (!imagejpeg($image, $dir . $filename, 90)) {
+                    throw new RuntimeException('Não foi possível salvar a foto BRAPCI.');
+                }
+            } finally {
+                imagedestroy($image);
+            }
+
+            $stored['fotos'][] = [
+                'arquivo' => $filename,
+                'origem' => $origin,
+                'sha256' => $hash,
+                'descricao_url' => 'https://brapci.inf.br/v/' . $brapciId,
+                'autor' => '',
+                'licenca' => '',
+            ];
+            $stored['fontes']['brapci'] = [
+                'url' => 'https://brapci.inf.br/v/' . $brapciId,
+                'atualizado_em' => date(DATE_ATOM),
+            ];
+            $json = json_encode($stored, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+            if (file_put_contents($dir . 'data.json.tmp', $json, LOCK_EX) === false
+                || !rename($dir . 'data.json.tmp', $dir . 'data.json')) {
+                @unlink($dir . $filename);
+                throw new RuntimeException('Não foi possível registrar a foto BRAPCI do pensador.');
+            }
+            return true;
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
     public function update(array $pensador, string $source): array
     {
         if (!in_array($source, ['wikidata', 'wikipedia'], true)) {
