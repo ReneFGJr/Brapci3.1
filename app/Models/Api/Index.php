@@ -65,6 +65,13 @@ class Index extends Model
             }
         }
         switch ($d1) {
+            case 'pensadores':
+                $Pensadores = new \App\Models\Api\Endpoint\Pensadores();
+                echo json_encode(
+                    $Pensadores->index(),
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
+                );
+                exit;
             case 'sri':
                 $Sri = new \App\Models\ReverseIndex\Index();
                 $RSP = $Sri->index($d2, $d3, $d4, $d5, $d6);
