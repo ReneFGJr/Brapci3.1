@@ -104,10 +104,23 @@ class BrapciLab extends BaseController
         }
 
         $wiki = new \App\Models\Pensador\WikiImport();
+        $wikiData = $wiki->read($id);
+        if (empty($wikiData['fotos']) && (int) ($pensador['brapci_id'] ?? 0) > 0) {
+            try {
+                if ($wiki->importBrapciPhoto($pensador)) {
+                    $wikiData = $wiki->read($id);
+                }
+            } catch (\RuntimeException $e) {
+                log_message('warning', 'Foto BRAPCI do pensador {id}: {message}', [
+                    'id' => $id,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+        }
         $data = [
             'title' => 'Visualizar pensador',
             'pensador' => $pensador,
-            'wiki' => $wiki->read($id),
+            'wiki' => $wikiData,
             'works' => (new \App\Models\Pensador\CitedPensador())->linkedWorks($id),
         ];
         return view('BrapciLabs/layout/header', $data)
