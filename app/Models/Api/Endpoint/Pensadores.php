@@ -3,6 +3,7 @@
 namespace App\Models\Api\Endpoint;
 
 use App\Models\Pensador\Pensador;
+use App\Models\Pensador\CitedPensador;
 use App\Models\Pensador\WikiImport;
 
 class Pensadores
@@ -71,6 +72,7 @@ class Pensadores
         $pensador['foto'] = null;
         $pensador['fotos'] = [];
         $pensador['dados'] = [];
+        $pensador['obras'] = (new CitedPensador())->linkedWorks((int) $id);
 
         try {
             $wikiData = $wiki->read((int) $id);
