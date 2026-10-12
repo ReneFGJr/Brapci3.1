@@ -249,6 +249,38 @@ class BrapciLab extends BaseController
         }
     }
 
+    public function thinkers_upload_photo(int $id)
+    {
+        if (!(new \App\Models\Pensador\Pensador())->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $redirect = redirect()->to(site_url('labs/thinkers/' . $id));
+        $file = $this->request->getFile('photo');
+        if (!$file || !$file->isValid() || $file->hasMoved()) {
+            return $redirect->with('error', 'Selecione uma imagem válida para enviar.');
+        }
+        if ($file->getSize() > 15 * 1024 * 1024) {
+            return $redirect->with('error', 'A foto deve possuir no máximo 15 MB.');
+        }
+
+        try {
+            $saved = (new \App\Models\Pensador\WikiImport())->uploadPhoto($id, $file->getTempName());
+            return $redirect->with(
+                $saved ? 'success' : 'warning',
+                $saved ? 'Foto enviada com sucesso.' : 'Esta foto já está cadastrada para o pensador.'
+            );
+        } catch (\Throwable $e) {
+            log_message('warning', 'Upload de foto do pensador {id}: {message}', [
+                'id' => $id,
+                'message' => $e->getMessage(),
+            ]);
+            return $redirect->with('error', $e instanceof \RuntimeException
+                ? $e->getMessage()
+                : 'Não foi possível salvar a foto enviada.');
+        }
+    }
+
     public function thinkers_delete(int $id)
     {
         $model = new \App\Models\Pensador\Pensador();

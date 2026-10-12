@@ -88,7 +88,16 @@ $id = (int) $pensador['id'];
             <section class="card card-dashboard p-3">
                 <h2 class="h5">Fotos do pensador</h2>
                 <?php if (!$photos): ?>
-                    <p class="text-muted mb-0">Nenhuma foto importada.</p>
+                    <p class="text-muted">Nenhuma foto importada.</p>
+                    <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/photo/upload') ?>" enctype="multipart/form-data">
+                        <?= csrf_field() ?>
+                        <div class="mb-3">
+                            <label for="thinkerPhoto" class="form-label">Enviar foto</label>
+                            <input type="file" id="thinkerPhoto" name="photo" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp" required>
+                            <div class="form-text">JPEG, PNG, GIF ou WebP, com no máximo 15 MB.</div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary"><i class="bi bi-upload" aria-hidden="true"></i> Enviar foto</button>
+                    </form>
                 <?php else: ?>
                     <div id="thinkerPhotos" class="carousel slide carousel-dark" data-bs-interval="false" role="region" aria-label="Fotos do pensador">
                         <div class="carousel-inner">

@@ -133,6 +133,87 @@ class WikiImport
         }
     }
 
+    /** Salva uma foto enviada manualmente no repositório do pensador. */
+    public function uploadPhoto(int $id, string $temporaryFile): bool
+    {
+        if ($id < 1 || !is_file($temporaryFile)) {
+            throw new RuntimeException('Arquivo de foto inválido.');
+        }
+        $bytes = file_get_contents($temporaryFile);
+        if ($bytes === false || strlen($bytes) > 15 * 1024 * 1024) {
+            throw new RuntimeException('A foto deve possuir no máximo 15 MB.');
+        }
+        if (!function_exists('imagecreatefromstring')) {
+            throw new RuntimeException('A extensão GD é necessária para salvar fotos JPEG.');
+        }
+        $size = @getimagesizefromstring($bytes);
+        if (!$size || $size[0] * $size[1] > 20000000) {
+            throw new RuntimeException('Formato ou dimensões da imagem não suportados.');
+        }
+        if (!in_array($size['mime'] ?? '', ['image/jpeg', 'image/png', 'image/gif', 'image/webp'], true)) {
+            throw new RuntimeException('Envie uma imagem JPEG, PNG, GIF ou WebP.');
+        }
+
+        $dir = $this->directory($id);
+        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new RuntimeException('Não foi possível criar a pasta do pensador.');
+        }
+        $lock = fopen($dir . '.import.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            if ($lock) { fclose($lock); }
+            throw new RuntimeException('Já existe uma atualização em andamento para este pensador.');
+        }
+
+        try {
+            $stored = $this->read($id);
+            $hash = hash('sha256', $bytes);
+            foreach ($stored['fotos'] ?? [] as $photo) {
+                if (($photo['sha256'] ?? '') === $hash && is_file($dir . ($photo['arquivo'] ?? ''))) {
+                    return false;
+                }
+            }
+
+            $image = @imagecreatefromstring($bytes);
+            if (!$image) {
+                throw new RuntimeException('Não foi possível processar a imagem enviada.');
+            }
+            $number = 1;
+            do {
+                $filename = sprintf('thinker_%d_upload_%02d.jpg', $id, $number++);
+            } while (is_file($dir . $filename));
+            try {
+                if (!imagejpeg($image, $dir . $filename, 90)) {
+                    throw new RuntimeException('Não foi possível salvar a foto enviada.');
+                }
+            } finally {
+                imagedestroy($image);
+            }
+
+            $stored['fotos'][] = [
+                'arquivo' => $filename,
+                'origem' => 'upload:' . $hash,
+                'fonte' => 'upload',
+                'sha256' => $hash,
+                'descricao_url' => '',
+                'autor' => '',
+                'licenca' => '',
+            ];
+            $stored['fontes']['upload'] = [
+                'atualizado_em' => date(DATE_ATOM),
+            ];
+            $json = json_encode($stored, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+            if (file_put_contents($dir . 'data.json.tmp', $json, LOCK_EX) === false
+                || !rename($dir . 'data.json.tmp', $dir . 'data.json')) {
+                @unlink($dir . $filename);
+                throw new RuntimeException('Não foi possível registrar a foto enviada.');
+            }
+            return true;
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
     public function update(array $pensador, string $source): array
     {
         if (!in_array($source, ['wikidata', 'wikipedia'], true)) {
