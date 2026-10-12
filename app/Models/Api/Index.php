@@ -68,7 +68,7 @@ class Index extends Model
             case 'pensadores':
                 $Pensadores = new \App\Models\Api\Endpoint\Pensadores();
                 echo json_encode(
-                    $Pensadores->index(),
+                $Pensadores->index($d2),
                     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
                 );
                 exit;
