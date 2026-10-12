@@ -107,15 +107,54 @@ class CitedPensador extends Model
     private function candidatesQuery(array $pensador)
     {
         $id = (int) $pensador['id'];
-        $surname = self::surname($pensador);
+        $this->ensureDailyCache($pensador);
         $builder = $this->db->table('cited_normalize n')
+            ->distinct()
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
+            ->join('cited_article a', $this->citationMatch(), 'inner', false)
+            ->join('cached c', 'c.cited_article_id = a.id_ca AND c.pensador_id = ' . $id
+                . ' AND c.cache_date = ' . $this->db->escape(date('Y-m-d')), 'inner', false)
             ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca AND p.pensador_id = ' . $id, 'left')
             ->where('p.pensador_id', null);
-        if ($surname === '') {
-            return $builder->where('1 = 0', null, false);
+        return $builder;
+    }
+
+    /**
+     * Gera uma vez ao dia a relação entre o pensador e as citações brutas que
+     * contêm seu nome. O sobrenome de citação é usado porque é a forma que
+     * normalmente aparece nas referências bibliográficas.
+     */
+    private function ensureDailyCache(array $pensador): void
+    {
+        $pensadorId = (int) ($pensador['id'] ?? 0);
+        $searchTerm = self::surname($pensador);
+        if ($pensadorId <= 0 || $searchTerm === '') {
+            return;
         }
-        return $builder->groupStart()->like('n.ca_text', $surname)->orLike('n.ca_authors', $surname)->groupEnd();
+
+        $today = date('Y-m-d');
+        $exists = $this->db->table('cached')
+            ->where('pensador_id', $pensadorId)
+            ->where('cache_date', $today)
+            ->where('search_term', $searchTerm)
+            ->countAllResults() > 0;
+        if ($exists) {
+            return;
+        }
+
+        $this->db->transStart();
+        $this->db->table('cached')->where('pensador_id', $pensadorId)
+            ->groupStart()->where('cache_date !=', $today)->orWhere('search_term !=', $searchTerm)->groupEnd()
+            ->delete();
+        $this->db->query(
+            'INSERT IGNORE INTO cached (pensador_id, cited_article_id, cache_date, search_term, created_at) '
+            . 'SELECT ?, a.id_ca, ?, ?, NOW() FROM cited_article a WHERE a.ca_text LIKE ?',
+            [$pensadorId, $today, $searchTerm, '%' . $searchTerm . '%']
+        );
+        $this->db->transComplete();
+        if ($this->db->transStatus() === false) {
+            throw new \RuntimeException('Não foi possível gerar o cache diário de citações do pensador.');
+        }
     }
 
     public function candidates(array $pensador): array

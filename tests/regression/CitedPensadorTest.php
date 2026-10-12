@@ -24,14 +24,18 @@ function verifyLink(bool $condition, string $message): void
 try {
     $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120), ca_cited INT UNSIGNED NOT NULL DEFAULT 0)');
     $db->query('CREATE TEMPORARY TABLE cited_pensador (pensador_id INT UNSIGNED, cited_normalize_id BIGINT UNSIGNED, PRIMARY KEY (pensador_id, cited_normalize_id)) ENGINE=InnoDB');
-    $db->query('CREATE TEMPORARY TABLE cited_article (ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT, ca_doi VARCHAR(120))');
+    $db->query('CREATE TEMPORARY TABLE cited_article (id_ca BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT, ca_doi VARCHAR(120), ca_text TEXT)');
+    $db->query('CREATE TEMPORARY TABLE cached (pensador_id INT UNSIGNED, cited_article_id BIGINT UNSIGNED, cache_date DATE, search_term VARCHAR(255), created_at DATETIME, PRIMARY KEY (pensador_id, cited_article_id, cache_date)) ENGINE=InnoDB');
     $db->table('cited_article')->insertBatch([
-        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
-        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020],
-        ['ca_normalized' => 4, 'ca_rdf' => 200, 'ca_year_origem' => 2010],
-        ['ca_normalized' => 4, 'ca_rdf' => 300, 'ca_year_origem' => 0],
-        ['ca_normalized' => 4, 'ca_rdf' => 0, 'ca_year_origem' => 1990],
-        ['ca_normalized' => 3, 'ca_rdf' => 400, 'ca_year_origem' => 2005],
+        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020, 'ca_text' => null],
+        ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020, 'ca_text' => null],
+        ['ca_normalized' => 4, 'ca_rdf' => 200, 'ca_year_origem' => 2010, 'ca_text' => null],
+        ['ca_normalized' => 4, 'ca_rdf' => 300, 'ca_year_origem' => 0, 'ca_text' => null],
+        ['ca_normalized' => 4, 'ca_rdf' => 0, 'ca_year_origem' => 1990, 'ca_text' => null],
+        ['ca_normalized' => 3, 'ca_rdf' => 400, 'ca_year_origem' => 2005, 'ca_text' => null],
+        ['ca_normalized' => 1, 'ca_rdf' => 0, 'ca_year_origem' => 0, 'ca_text' => 'SILVA. Obra A'],
+        ['ca_normalized' => 2, 'ca_rdf' => 0, 'ca_year_origem' => 0, 'ca_text' => 'Obra de Silva, João'],
+        ['ca_normalized' => 4, 'ca_rdf' => 0, 'ca_year_origem' => 0, 'ca_text' => 'SILVA. Já vinculada'],
     ]);
     $db->table('cited_normalize')->insertBatch([
         ['id_ca' => 1, 'ca_text' => 'SILVA. Obra A', 'ca_authors' => '', 'ca_year' => 2000],
@@ -70,6 +74,7 @@ try {
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
     verifyLink(count($model->candidates($person)) === 2, 'Texto/autores e exclusão apenas para este pensador');
+    verifyLink($db->table('cached')->where('pensador_id', 10)->where('cache_date', date('Y-m-d'))->countAllResults() === 3, 'Cache diário criado a partir de cited_article.ca_text');
     verifyLink($model->linkSelected($person, ['1', '1', '3', '999']) === 1, 'Revalidar seleção e deduplicar');
     verifyLink($model->linkSelected($person, ['1']) === 0, 'Reenvio idempotente');
     verifyLink(count($model->candidates($person)) === 1, 'Remover vinculadas da seleção');
@@ -99,6 +104,7 @@ try {
 } finally {
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_citing_dataset');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_article');
+    $db->query('DROP TEMPORARY TABLE IF EXISTS cached');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_pensador');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_normalize');
     $db->close();
