@@ -22,12 +22,28 @@ $id = (int) $pensador['id'];
         <?php if ((int) ($pensador['brapci_id'] ?? 0) > 0): ?>
             <a href="https://brapci.inf.br/v/<?= (int) $pensador['brapci_id'] ?>" class="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Ver na BRAPCI</a>
         <?php endif; ?>
-        <?php foreach (['wikidata' => 'Wikidata', 'wikipedia' => 'Wikipédia'] as $source => $label): ?>
-            <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/wiki/' . $source) ?>" class="thinker-import">
-                <?= csrf_field() ?>
-                <button type="submit" class="btn btn-primary" <?= empty($pensador['link_' . $source]) ? 'disabled' : '' ?>><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Atualizar do <?= esc($label) ?></button>
-            </form>
-        <?php endforeach; ?>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="thinkerUpdateMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Atualizar dados
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="thinkerUpdateMenu">
+                <?php foreach (['wikipedia' => 'Wikipedia', 'wikidata' => 'Wikidata'] as $source => $label): ?>
+                    <li>
+                        <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/wiki/' . $source) ?>" class="thinker-import">
+                            <?= csrf_field() ?>
+                            <button type="submit" class="dropdown-item" <?= empty($pensador['link_' . $source]) ? 'disabled' : '' ?>>Atualizar <?= esc($label) ?></button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/brapci/import') ?>" class="thinker-import">
+                        <?= csrf_field() ?>
+                        <button type="submit" class="dropdown-item" <?= (int) ($pensador['brapci_id'] ?? 0) < 1 ? 'disabled' : '' ?>>Atualizar Brapci</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
         <a href="<?= site_url('labs/thinkers/' . $id . '/edit') ?>" class="btn btn-outline-primary">Editar cadastro</a>
     </div>
     <?php if (empty($pensador['link_wikidata']) || empty($pensador['link_wikipedia'])): ?>

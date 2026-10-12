@@ -220,6 +220,35 @@ class BrapciLab extends BaseController
         }
     }
 
+    public function thinkers_import_brapci(int $id)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $redirect = redirect()->to(site_url('labs/thinkers/' . $id));
+        if ((int) ($pensador['brapci_id'] ?? 0) < 1) {
+            return $redirect->with('error', 'Informe o BRAPCI ID no cadastro antes de importar a foto.');
+        }
+
+        try {
+            $imported = (new \App\Models\Pensador\WikiImport())->importBrapciPhoto($pensador);
+            return $redirect->with(
+                $imported ? 'success' : 'warning',
+                $imported
+                    ? 'Foto do perfil BRAPCI importada com sucesso.'
+                    : 'Nenhuma foto nova foi encontrada no perfil BRAPCI ou a imagem já está atualizada.'
+            );
+        } catch (\RuntimeException $e) {
+            log_message('warning', 'Foto BRAPCI do pensador {id}: {message}', [
+                'id' => $id,
+                'message' => $e->getMessage(),
+            ]);
+            return $redirect->with('error', 'Não foi possível importar a foto do perfil BRAPCI.');
+        }
+    }
+
     public function thinkers_delete(int $id)
     {
         $model = new \App\Models\Pensador\Pensador();
