@@ -39,21 +39,26 @@ class WikiImport
             return false;
         }
 
-        $padded = str_pad((string) $brapciId, 8, '0', STR_PAD_LEFT);
-        $relative = '_repository/' . implode('/', str_split($padded, 2)) . '/';
-        $source = null;
-        foreach (['photo_' . $padded . '.jpg', 'image.jpg'] as $filename) {
-            $candidate = FCPATH . $relative . $filename;
-            if (is_file($candidate)) {
-                $source = $candidate;
-                break;
-            }
+        $profileBody = $this->download('https://cip.brapci.inf.br/api/brapci/get/v3/' . $brapciId, 4 * 1024 * 1024);
+        $profile = json_decode($profileBody, true);
+        if (!is_array($profile)) {
+            throw new RuntimeException('O perfil BRAPCI retornou um JSON inválido.');
         }
-        if ($source === null) {
+        $photoUrl = trim((string) ($profile['Photo'] ?? $profile['data']['Photo'] ?? ''));
+        if ($photoUrl === '') {
             return false;
         }
 
-        $bytes = file_get_contents($source);
+        $photoParts = parse_url($photoUrl);
+        if (($photoParts['scheme'] ?? '') !== 'https'
+            || strtolower((string) ($photoParts['host'] ?? '')) !== 'cip.brapci.inf.br'
+            || isset($photoParts['user']) || isset($photoParts['port'])
+            || !str_starts_with((string) ($photoParts['path'] ?? ''), '/_repository/')) {
+            throw new RuntimeException('O perfil BRAPCI retornou um endereço de foto não permitido.');
+        }
+
+        $localPhoto = FCPATH . ltrim(rawurldecode((string) $photoParts['path']), '/');
+        $bytes = is_file($localPhoto) ? file_get_contents($localPhoto) : $this->download($photoUrl, 15 * 1024 * 1024);
         if ($bytes === false || !function_exists('imagecreatefromstring')) {
             throw new RuntimeException('Não foi possível ler a foto do perfil BRAPCI.');
         }
@@ -74,7 +79,7 @@ class WikiImport
 
         try {
             $stored = $this->read($id);
-            $origin = 'brapci:' . $brapciId;
+            $origin = $photoUrl;
             $hash = hash('sha256', $bytes);
             foreach ($stored['fotos'] ?? [] as $photo) {
                 if (($photo['sha256'] ?? '') === $hash && is_file($dir . ($photo['arquivo'] ?? ''))) {
@@ -85,7 +90,8 @@ class WikiImport
             // Um perfil BRAPCI possui uma única foto corrente; substitui o registro anterior.
             $stored['fotos'] = array_values(array_filter(
                 $stored['fotos'] ?? [],
-                static fn (array $photo): bool => !str_starts_with((string) ($photo['origem'] ?? ''), 'brapci:')
+                static fn (array $photo): bool => ($photo['fonte'] ?? '') !== 'brapci'
+                    && !str_starts_with((string) ($photo['origem'] ?? ''), 'brapci:')
             ));
 
             $image = @imagecreatefromstring($bytes);
@@ -104,6 +110,7 @@ class WikiImport
             $stored['fotos'][] = [
                 'arquivo' => $filename,
                 'origem' => $origin,
+                'fonte' => 'brapci',
                 'sha256' => $hash,
                 'descricao_url' => 'https://brapci.inf.br/v/' . $brapciId,
                 'autor' => '',
@@ -238,7 +245,7 @@ class WikiImport
         $parts = parse_url($url);
         $host = strtolower($parts['host'] ?? '');
         if (($parts['scheme'] ?? '') !== 'https' || isset($parts['user']) || isset($parts['port'])
-            || !(in_array($host, ['www.wikidata.org', 'commons.wikimedia.org', 'upload.wikimedia.org', 'thumb.wikimedia.org'], true)
+            || !(in_array($host, ['www.wikidata.org', 'commons.wikimedia.org', 'upload.wikimedia.org', 'thumb.wikimedia.org', 'cip.brapci.inf.br'], true)
                 || preg_match('/^[a-z-]+\.wikipedia\.org$/', $host))) {
             throw new RuntimeException('Endereço de download não permitido.');
         }
@@ -257,7 +264,7 @@ class WikiImport
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if ($ok === false || $status !== 200) {
-            throw new RuntimeException('Falha ao consultar a Wikimedia (HTTP ' . $status . '). Tente novamente.');
+            throw new RuntimeException('Falha ao consultar o serviço remoto (HTTP ' . $status . '). Tente novamente.');
         }
         return $body;
     }
