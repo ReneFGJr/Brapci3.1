@@ -111,7 +111,7 @@ class CitedPensador extends Model
 
         $works = $this->db->table('cited_article a')
             ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
-            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
             ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
             ->groupBy('a.ca_rdf')
             ->orderBy('a.ca_rdf', 'ASC')

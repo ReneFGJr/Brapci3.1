@@ -135,7 +135,13 @@ try {
     ]);
     $model->refreshCitationCounts([2]);
     verifyLink((int) $db->table('cited_normalize')->where('id_ca', 2)->get()->getRowArray()['ca_cited'] === 2, 'DOIs sem vínculo contados sem duplicar ou sobrescrever vínculo explícito');
-    verifyLink(array_column($model->citingWorks(2), 'ca_rdf') == [500, 501], 'Lista usa a mesma regra de DOI do recálculo');
+    verifyLink($model->citingWorks(2) === [], 'Lista não associa citações apenas pelo DOI');
+    $db->table('cited_article')->insertBatch([
+        ['ca_normalized' => 2, 'ca_rdf' => 503, 'ca_year_origem' => 2026, 'ca_doi' => ''],
+        ['ca_normalized' => 2, 'ca_rdf' => 503, 'ca_year_origem' => 2026, 'ca_doi' => null],
+    ]);
+    verifyLink(array_column($model->citingWorks(2), 'ca_rdf') == [503], 'Vínculo por ca_normalized sem DOI e sem duplicar trabalho');
+    $db->table('cited_article')->where('ca_rdf', 503)->delete();
     $db->query('ALTER TABLE cited_normalize DROP COLUMN ca_cited');
     unset($db->dataCache['field_names']['cited_normalize']);
     $model->refreshCitationCounts([4]);
