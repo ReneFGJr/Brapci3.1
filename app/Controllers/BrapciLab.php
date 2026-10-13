@@ -141,6 +141,19 @@ class BrapciLab extends BaseController
             . view($view, $data) . view('BrapciLabs/layout/footer');
     }
 
+    public function thinkers_works(int $id)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        return $this->thinkerWorksPage([
+            'title' => 'Trabalhos vinculados',
+            'pensador' => $pensador,
+            'works' => (new \App\Models\Pensador\CitedPensador())->linkedWorks($id),
+        ], 'BrapciLabs/thinker_works');
+    }
+
     public function thinkers_work_edit(int $id, int $workId)
     {
         $pensador = (new \App\Models\Pensador\Pensador())->find($id);
