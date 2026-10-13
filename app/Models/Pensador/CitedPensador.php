@@ -11,6 +11,38 @@ class CitedPensador extends Model
     protected $allowedFields = ['pensador_id', 'cited_normalize_id'];
     protected $useTimestamps = false;
     protected string $datasetTable = 'brapci_elastic.dataset';
+    protected string $authorDataTable = 'brapci_rdf.rdf_data';
+    protected string $authorClassTable = 'brapci_rdf.rdf_class';
+    protected string $thinkerTable = 'brapci.pensadores';
+
+    public function thinkersCitedByAuthor(int $authorId): array
+    {
+        // EXISTS evita multiplicar as citações quando há vínculos RDF repetidos.
+        $works = $this->db->table($this->authorDataTable . ' d')
+            ->select('1', false)
+            ->join($this->authorClassTable . ' c', 'c.id_c = d.d_p')
+            ->where('c.c_class', 'hasAuthor')
+            ->where('d.d_r2', $authorId)
+            ->where('d.d_r1 = a.ca_rdf', null, false)
+            ->getCompiledSelect();
+
+        $rows = $this->db->table('cited_article a')
+            ->select('t.id, t.nome, COUNT(DISTINCT a.id_ca) AS total', false)
+            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca')
+            ->join($this->thinkerTable . ' t', 't.id = p.pensador_id')
+            ->where('a.ca_rdf >', 0)
+            ->where('EXISTS (' . $works . ')', null, false)
+            ->groupBy('t.id, t.nome')
+            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('t.id', 'ASC')
+            ->get()->getResultArray();
+        foreach ($rows as &$row) {
+            $row['id'] = (int) $row['id'];
+            $row['total'] = (int) $row['total'];
+        }
+        unset($row);
+        return $rows;
+    }
 
     public function linkedWorks(int $pensadorId): array
     {

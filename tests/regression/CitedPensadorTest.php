@@ -55,7 +55,34 @@ try {
     ]);
     $model = new class($db) extends App\Models\Pensador\CitedPensador {
         protected string $datasetTable = 'test_citing_dataset';
+        protected string $authorDataTable = 'test_author_data';
+        protected string $authorClassTable = 'test_author_class';
+        protected string $thinkerTable = 'test_thinkers';
     };
+    $db->query('CREATE TEMPORARY TABLE test_author_data (d_r1 INT, d_r2 INT, d_p INT)');
+    $db->query('CREATE TEMPORARY TABLE test_author_class (id_c INT, c_class VARCHAR(100))');
+    $db->query('CREATE TEMPORARY TABLE test_thinkers (id INT, nome VARCHAR(100))');
+    $db->table('test_author_class')->insertBatch([
+        ['id_c' => 1, 'c_class' => 'hasAuthor'], ['id_c' => 2, 'c_class' => 'hasSubject'],
+    ]);
+    $db->table('test_author_data')->insertBatch([
+        ['d_r1' => 100, 'd_r2' => 7, 'd_p' => 1],
+        ['d_r1' => 100, 'd_r2' => 7, 'd_p' => 1],
+        ['d_r1' => 200, 'd_r2' => 7, 'd_p' => 1],
+        ['d_r1' => 300, 'd_r2' => 7, 'd_p' => 2],
+        ['d_r1' => 400, 'd_r2' => 8, 'd_p' => 1],
+    ]);
+    $db->table('test_thinkers')->insertBatch([
+        ['id' => 10, 'nome' => 'Silva'], ['id' => 20, 'nome' => 'Souza'],
+    ]);
+    $db->table('cited_pensador')->insert(['pensador_id' => 20, 'cited_normalize_id' => 3]);
+    $db->table('cited_article')->insert(['ca_normalized' => 3, 'ca_rdf' => 200]);
+    verifyLink($model->thinkersCitedByAuthor(7) === [
+        ['id' => 10, 'nome' => 'Silva', 'total' => 3],
+        ['id' => 20, 'nome' => 'Souza', 'total' => 1],
+    ], 'Ranking por referências, sem multiplicar vínculos RDF e sem incluir outros autores/propriedades');
+    verifyLink($model->thinkersCitedByAuthor(999) === [], 'Autor sem citações retorna lista vazia');
+    $db->table('cited_article')->where('ca_normalized', 3)->where('ca_rdf', 200)->delete();
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
     verifyLink($model->linkedWorks(999) === [], 'Pensador sem obras');
     verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 0, 'Leitura não recalcula');
@@ -102,6 +129,9 @@ try {
     } catch (InvalidArgumentException $expected) {}
     echo "OK: sobrenome, candidatos, isolamento por pensador, vínculos, duplicação e seleção inválida.\n";
 } finally {
+    $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_data');
+    $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_class');
+    $db->query('DROP TEMPORARY TABLE IF EXISTS test_thinkers');
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_citing_dataset');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cited_article');
     $db->query('DROP TEMPORARY TABLE IF EXISTS cached');

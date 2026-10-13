@@ -113,6 +113,13 @@ class Index extends Model
                 echo json_encode($RSP);
                 exit;
             case 'cited':
+                if ($d2 === 'author') {
+                    header('Content-Type: application/json; charset=utf-8');
+                    $endpoint = new \App\Models\Api\Endpoint\Cited();
+                    echo json_encode($endpoint->author((string) $d3),
+                        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+                    exit;
+                }
                 $Cited = new \App\Models\Cited\Index();
                 $RSP = $Cited->resumo_cited();
                 echo json_encode($RSP);
