@@ -15,6 +15,55 @@ class CitedPensador extends Model
     protected string $authorClassTable = 'brapci_rdf.rdf_class';
     protected string $thinkerTable = 'brapci.pensadores';
 
+    public function unlinkWork(int $thinkerId, int $workId): void
+    {
+        $this->db->table('cited_pensador')->where('pensador_id', $thinkerId)
+            ->where('cited_normalize_id', $workId)->delete();
+    }
+
+    public function groupLinkedWorks(int $thinkerId, array $ids, int $targetId): void
+    {
+        foreach ($ids as $id) {
+            if (!is_scalar($id) || !preg_match('/^[1-9][0-9]*$/', (string) $id)) {
+                throw new \InvalidArgumentException('Seleção inválida.');
+            }
+        }
+        $ids = array_values(array_unique(array_map('intval', $ids)));
+        if (count($ids) < 2 || !in_array($targetId, $ids, true)) {
+            throw new \InvalidArgumentException('Selecione ao menos duas obras e um ID de destino entre elas.');
+        }
+        $this->db->transBegin();
+        try {
+            $marks = implode(',', array_fill(0, count($ids), '?'));
+            $linked = $this->db->query('SELECT cited_normalize_id FROM cited_pensador WHERE pensador_id = ? '
+                . 'AND cited_normalize_id IN (' . $marks . ') FOR UPDATE', array_merge([$thinkerId], $ids))->getResultArray();
+            if (count($linked) !== count($ids)) {
+                throw new \InvalidArgumentException('Uma obra não está mais vinculada ao pensador.');
+            }
+            $sources = array_values(array_diff($ids, [$targetId]));
+            $marks = implode(',', array_fill(0, count($sources), '?'));
+            // Materializa também as correspondências por DOI antes de remover as duplicatas.
+            $this->db->query('UPDATE cited_article a JOIN cited_normalize n ON ' . $this->citationMatch()
+                . ' SET a.ca_normalized = ? WHERE n.id_ca IN (' . $marks . ')', array_merge([$targetId], $sources));
+            $thinkers = $this->db->table('cited_pensador')->distinct()->select('pensador_id')
+                ->whereIn('cited_normalize_id', $sources)->get()->getResultArray();
+            foreach ($thinkers as $thinker) {
+                $this->db->query('INSERT IGNORE INTO cited_pensador (pensador_id, cited_normalize_id) VALUES (?, ?)',
+                    [$thinker['pensador_id'], $targetId]);
+            }
+            $this->db->table('cited_pensador')->whereIn('cited_normalize_id', $sources)->delete();
+            $this->db->table('cited_normalize')->whereIn('id_ca', $sources)->delete();
+            $this->refreshCitationCounts([$targetId]);
+            if ($this->db->transStatus() === false) {
+                throw new \RuntimeException('Não foi possível agrupar as obras.');
+            }
+            $this->db->transCommit();
+        } catch (\Throwable $error) {
+            $this->db->transRollback();
+            throw $error;
+        }
+    }
+
     public function thinkersCitedByAuthor(int $authorId): array
     {
         // EXISTS evita multiplicar as citações quando há vínculos RDF repetidos.

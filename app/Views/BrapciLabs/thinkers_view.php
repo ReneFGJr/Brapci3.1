@@ -45,6 +45,7 @@ $id = (int) $pensador['id'];
             </ul>
         </div>
         <a href="<?= site_url('labs/thinkers/' . $id . '/edit') ?>" class="btn btn-outline-primary">Editar cadastro</a>
+        <a href="<?= site_url('labs/thinkers/' . $id . '/group') ?>" class="btn btn-outline-primary"><i class="bi bi-collection" aria-hidden="true"></i> Agrupar referências</a>
     </div>
     <?php if (empty($pensador['link_wikidata']) || empty($pensador['link_wikipedia'])): ?>
         <p class="text-muted">Preencha os links no cadastro para habilitar a atualização de cada fonte.</p>
@@ -66,6 +67,11 @@ $id = (int) $pensador['id'];
                                     <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
                                     <div class="d-flex align-items-center gap-2">
                                         <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= $work['cited_by'] === null ? '—' : (int) $work['cited_by'] ?></a>
+                                        <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/edit') ?>" class="btn btn-outline-primary btn-sm" title="Editar obra" aria-label="Editar obra #<?= (int) $work['id_ca'] ?>"><i class="bi bi-pencil" aria-hidden="true"></i></a>
+                                        <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/unlink') ?>" onsubmit="return confirm('Desvincular esta obra do pensador?');">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Desvincular obra" aria-label="Desvincular obra #<?= (int) $work['id_ca'] ?>"><i class="bi bi-trash" aria-hidden="true"></i></button>
+                                        </form>
                                         <?php if (!empty($work['ca_year'])): ?>
                                             <span class="badge bg-secondary"><?= esc($work['ca_year']) ?></span>
                                         <?php endif; ?>

@@ -132,7 +132,25 @@ try {
         $model->linkSelected($person, [['1']]);
         throw new LogicException('Seleção inválida aceita');
     } catch (InvalidArgumentException $expected) {}
-    echo "OK: sobrenome, candidatos, isolamento por pensador, vínculos, duplicação e seleção inválida.\n";
+    try {
+        $model->groupLinkedWorks(10, [1, 999], 1);
+        throw new LogicException('Agrupamento de obra não vinculada aceito');
+    } catch (InvalidArgumentException $expected) {}
+    verifyLink($db->table('cited_normalize')->where('id_ca', 1)->countAllResults() === 1, 'Seleção inválida não altera obras');
+    $db->query('ALTER TABLE cited_normalize ADD COLUMN ca_cited INT UNSIGNED NOT NULL DEFAULT 0');
+    unset($db->dataCache['field_names']['cited_normalize']);
+    $model->groupLinkedWorks(10, [1, 2], 1);
+    verifyLink((int) $db->table('cited_normalize')->where('id_ca', 1)->get()->getRowArray()['ca_cited'] === 2, 'Agrupamento recalcula citantes distintos');
+    verifyLink($db->table('cited_normalize')->where('id_ca', 2)->countAllResults() === 0, 'Registro duplicado removido');
+    verifyLink($db->table('cited_pensador')->where('cited_normalize_id', 2)->countAllResults() === 0, 'Vínculos duplicados removidos');
+    verifyLink($db->table('cited_pensador')->where('pensador_id', 20)->where('cited_normalize_id', 1)->countAllResults() === 1, 'Vínculo do outro pensador preservado');
+    verifyLink($db->table('cited_article')->whereIn('ca_rdf', [500, 501])->where('ca_normalized', 1)->countAllResults() === 3, 'Citações por DOI transferidas ao ID mantido');
+    verifyLink($db->table('cited_article')->where('ca_rdf', 502)->where('ca_normalized', 3)->countAllResults() === 1, 'Vínculo explícito de outra obra preservado');
+    $model->unlinkWork(10, 1);
+    verifyLink($db->table('cited_pensador')->where('pensador_id', 10)->where('cited_normalize_id', 1)->countAllResults() === 0, 'Desvincular apenas pensador selecionado');
+    verifyLink($db->table('cited_normalize')->where('id_ca', 1)->countAllResults() === 1, 'Desvincular preserva a obra');
+    verifyLink($db->table('cited_pensador')->where('pensador_id', 20)->where('cited_normalize_id', 1)->countAllResults() === 1, 'Desvincular preserva outros pensadores');
+    echo "OK: candidatos, citações, seleção, agrupamento e desvinculação.\n";
 } finally {
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_data');
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_class');

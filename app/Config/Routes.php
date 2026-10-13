@@ -317,6 +317,12 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->post('thinkers/(:num)/photo/upload', 'BrapciLab::thinkers_upload_photo/$1', ['filter' => 'csrf']);
     $routes->post('thinkers/(:num)/delete', 'BrapciLab::thinkers_delete/$1', ['filter' => 'csrf']);
     $routes->get('thinkers/(:num)/edit', 'BrapciLab::thinkers_edit/$1');
+    $routes->get('thinkers/(:num)/works/(:num)/edit', 'BrapciLab::thinkers_work_edit/$1/$2');
+    $routes->post('thinkers/(:num)/works/(:num)/edit', 'BrapciLab::thinkers_work_edit/$1/$2', ['filter' => 'csrf']);
+    $routes->post('thinkers/(:num)/works/(:num)/unlink', 'BrapciLab::thinkers_work_unlink/$1/$2', ['filter' => 'csrf']);
+    $routes->get('thinkers/(:num)/group', 'BrapciLab::thinkers_group/$1');
+    $routes->post('thinkers/(:num)/group', 'BrapciLab::thinkers_group/$1', ['filter' => 'csrf']);
+    $routes->post('thinkers/(:num)/group/confirm', 'BrapciLab::thinkers_group_confirm/$1', ['filter' => 'csrf']);
     $routes->post('thinkers/(:num)/update', 'BrapciLab::thinkers_update/$1', ['filter' => 'csrf']);
     $routes->post('thinkers', 'BrapciLab::thinkers_store', ['filter' => 'csrf']);
     $routes->get('view/(:num)', 'BrapciLab::doi_view/$1');

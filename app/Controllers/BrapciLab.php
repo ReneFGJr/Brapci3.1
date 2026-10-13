@@ -129,6 +129,101 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
+    private function thinkerWorksPage(array $data, string $view)
+    {
+        return view('BrapciLabs/layout/header', $data) . view('BrapciLabs/layout/sidebar')
+            . view($view, $data) . view('BrapciLabs/layout/footer');
+    }
+
+    public function thinkers_work_edit(int $id, int $workId)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        $works = (new \App\Models\Pensador\CitedPensador())->linkedWorks($id);
+        $work = array_values(array_filter($works, static fn ($row) => (int) $row['id_ca'] === $workId))[0] ?? null;
+        if (!$pensador || !$work) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $error = null;
+        if ($this->request->getMethod() === 'POST') {
+            $fields = [];
+            foreach (['ca_text', 'ca_authors', 'ca_doi', 'ca_year'] as $field) {
+                $value = $this->request->getPost($field);
+                $fields[$field] = is_string($value) ? trim($value) : '';
+            }
+            if ($fields['ca_text'] === '' || !preg_match('/^\d{0,4}$/', $fields['ca_year']) || mb_strlen($fields['ca_doi']) > 120) {
+                $error = 'Informe a referência, um ano válido e um DOI de até 120 caracteres.';
+                $work = array_merge($work, $fields);
+            } else {
+                $fields['ca_year'] = (int) $fields['ca_year'];
+                $model = new \App\Models\DOI\Cited_Normalize();
+                if ($model->update($workId, $fields)) {
+                    return redirect()->to(site_url('labs/thinkers/' . $id))->with('success', 'Obra atualizada.');
+                }
+                $error = 'Não foi possível atualizar a obra.';
+            }
+        }
+        return $this->thinkerWorksPage(['title' => 'Editar obra', 'pensador' => $pensador, 'work' => $work, 'error' => $error], 'BrapciLabs/thinker_work_edit');
+    }
+
+    public function thinkers_work_unlink(int $id, int $workId)
+    {
+        (new \App\Models\Pensador\CitedPensador())->unlinkWork($id, $workId);
+        return redirect()->to(site_url('labs/thinkers/' . $id))->with('success', 'Obra desvinculada do pensador.');
+    }
+
+    public function thinkers_group(int $id)
+    {
+        $pensador = (new \App\Models\Pensador\Pensador())->find($id);
+        if (!$pensador) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $works = (new \App\Models\Pensador\CitedPensador())->linkedWorks($id);
+        $review = false;
+        $targetId = 0;
+        if ($this->request->getMethod() === 'POST') {
+            $ids = (array) $this->request->getPost('references');
+            foreach ($ids as $selectedId) {
+                if (!is_string($selectedId) || !ctype_digit($selectedId)) {
+                    return redirect()->to(site_url('labs/thinkers/' . $id . '/group'))->with('error', 'Seleção inválida.');
+                }
+            }
+            $ids = array_values(array_unique(array_map('intval', $ids)));
+            $targetId = (int) $this->request->getPost('target_id');
+            $works = array_values(array_filter($works, static fn ($row) => in_array((int) $row['id_ca'], $ids, true)));
+            if (count($ids) < 2 || count($works) !== count($ids) || !in_array($targetId, $ids, true)) {
+                return redirect()->to(site_url('labs/thinkers/' . $id . '/group'))->with('error', 'Selecione ao menos duas obras e escolha entre elas o ID a manter.');
+            }
+            $review = true;
+            $token = bin2hex(random_bytes(24));
+            session()->set('thinker_group_' . $id, ['ids' => $ids, 'target' => $targetId, 'token' => $token,
+                'snapshot' => hash('sha256', json_encode($works))]);
+        }
+        return $this->thinkerWorksPage(['title' => 'Agrupar referências', 'pensador' => $pensador, 'works' => $works,
+            'review' => $review, 'targetId' => $targetId, 'token' => $token ?? ''], 'BrapciLabs/thinker_group');
+    }
+
+    public function thinkers_group_confirm(int $id)
+    {
+        $key = 'thinker_group_' . $id;
+        $pending = session()->get($key);
+        $token = $this->request->getPost('token');
+        try {
+            if (!is_array($pending) || !is_string($token) || !hash_equals($pending['token'], $token)) {
+                throw new \InvalidArgumentException('Revise o agrupamento antes de confirmar.');
+            }
+            $model = new \App\Models\Pensador\CitedPensador();
+            $works = array_values(array_filter($model->linkedWorks($id), static fn ($row) => in_array((int) $row['id_ca'], $pending['ids'], true)));
+            if (hash('sha256', json_encode($works)) !== $pending['snapshot']) {
+                throw new \InvalidArgumentException('As obras mudaram. Revise o agrupamento novamente.');
+            }
+            $model->groupLinkedWorks($id, $pending['ids'], $pending['target']);
+            session()->remove($key);
+            return redirect()->to(site_url('labs/thinkers/' . $id))->with('success', 'Referências agrupadas no ID #' . $pending['target'] . '.');
+        } catch (\Throwable $error) {
+            return redirect()->to(site_url('labs/thinkers/' . $id . '/group'))->with('error', $error->getMessage());
+        }
+    }
+
     public function cite_work(int $id)
     {
         $reference = (new \App\Models\DOI\Cited_Normalize())->find($id);
