@@ -1,4 +1,34 @@
-<main class="content">
+<style>
+    .cited-cluster,
+    .cited-cluster .card,
+    .cited-cluster form,
+    .cited-cluster .table-responsive {
+        min-width: 0;
+    }
+    .cited-cluster .table-responsive {
+        width: 100%;
+        max-width: 100%;
+    }
+    .cited-cluster-table {
+        width: 100%;
+        table-layout: fixed;
+    }
+    .cited-cluster-table th,
+    .cited-cluster-table td {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+    .cited-cluster .group-actions {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+    .cited-cluster .group-actions .btn {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        max-width: 100%;
+    }
+</style>
+<main class="content cited-cluster">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">Clusterização das referências</h1>
         <a href="<?= site_url('labs') ?>" class="btn btn-outline-primary">Voltar</a>
@@ -17,7 +47,7 @@
                     <label for="reference-search" class="form-label">Buscar na descrição da referência</label>
                     <input type="search" id="reference-search" name="q" class="form-control"
                         value="<?= esc($query) ?>" placeholder="Digite parte da referência" required>
-                    <div class="form-text">Separe os termos por espaços. Todos devem aparecer na referência (AND), em qualquer ordem ou posição.</div>
+                    <div class="form-text">Separe os termos por espaços. Palavras comuns e termos com menos de 3 caracteres são ignorados. Os demais devem aparecer na referência (AND), em qualquer ordem ou posição.</div>
                 </div>
                 <div class="col-md-2">
                     <label class="form-label invisible" aria-hidden="true">Buscar</label>
@@ -42,7 +72,15 @@
                         <p class="text-muted">Selecione uma ou mais referências.</p>
                         <button type="button" id="select-all-references" class="btn btn-outline-primary btn-sm mb-3">Selecionar todos</button>
                         <div class="table-responsive">
-                            <table class="table table-striped align-middle">
+                            <table class="table table-striped align-middle cited-cluster-table">
+                                <colgroup>
+                                    <col style="width: 10%">
+                                    <col style="width: 8%">
+                                    <col style="width: 45%">
+                                    <col style="width: 7%">
+                                    <col style="width: 16%">
+                                    <col style="width: 14%">
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center">Selecionar</th>
@@ -73,7 +111,7 @@
                                                                 Grupo <?= (int) $reference['similarity_group'] ?>
                                                                 — <?= (int) $reference['similarity_group_size'] ?> referências similares
                                                             </span>
-                                                            <span class="d-flex gap-2">
+                                                            <span class="d-flex gap-2 group-actions">
                                                                 <button type="button" class="btn btn-light btn-sm select-similarity-group"
                                                                     data-group="<?= (int) $reference['similarity_group'] ?>">Selecionar todos do grupo</button>
                                                                 <button type="submit" class="btn btn-primary btn-sm">Agrupar</button>
@@ -100,7 +138,7 @@
                                             <td><?= esc($reference['ca_text'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_year'] ?? '') ?></td>
                                             <td><?= esc($reference['ca_doi'] ?? '') ?></td>
-                                            <td class="text-nowrap">
+                                            <td>
                                                 <strong><?= number_format((float) ($reference['approximation'] ?? 0), 1, ',', '.') ?>%</strong>
                                                 <?php if (!empty($reference['closest_reference_id'])): ?>
                                                     <small class="d-block text-muted">com #<?= (int) $reference['closest_reference_id'] ?></small>
