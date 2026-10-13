@@ -24,7 +24,7 @@ function verifyLink(bool $condition, string $message): void
 try {
     $db->query('CREATE TEMPORARY TABLE cited_normalize (id_ca BIGINT UNSIGNED PRIMARY KEY, ca_text TEXT, ca_authors TEXT, ca_year INT, ca_doi VARCHAR(120), ca_cited INT UNSIGNED NOT NULL DEFAULT 0)');
     $db->query('CREATE TEMPORARY TABLE cited_pensador (pensador_id INT UNSIGNED, cited_normalize_id BIGINT UNSIGNED, PRIMARY KEY (pensador_id, cited_normalize_id)) ENGINE=InnoDB');
-    $db->query('CREATE TEMPORARY TABLE cited_article (id_ca BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, ca_normalized BIGINT, ca_rdf INT, ca_year_origem INT, ca_doi VARCHAR(120), ca_text TEXT)');
+    $db->query('CREATE TEMPORARY TABLE cited_article (id_ca BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, ca_normalized BIGINT, ca_rdf INT, ca_year INT, ca_year_origem INT, ca_doi VARCHAR(120), ca_text TEXT)');
     $db->query('CREATE TEMPORARY TABLE cached (pensador_id INT UNSIGNED, cited_article_id BIGINT UNSIGNED, cache_date DATE, search_term VARCHAR(255), created_at DATETIME, PRIMARY KEY (pensador_id, cited_article_id, cache_date)) ENGINE=InnoDB');
     $db->table('cited_article')->insertBatch([
         ['ca_normalized' => 4, 'ca_rdf' => 100, 'ca_year_origem' => 2020, 'ca_text' => null],
@@ -105,6 +105,9 @@ try {
     verifyLink((int) $model->linkedWorks(10)[0]['cited_by'] === 3, 'Contagem de trabalhos distintos');
     verifyLink(array_column($model->citingWorks(4), 'ca_rdf') == [100, 200, 300], 'Ordem cronológica, sem duplicação, sem ano ao final');
     verifyLink($model->citingWorks(2) === [], 'Obra sem citações');
+    verifyLink(count($model->groupedReferences(4)) === 6, 'Referências agrupadas incluem duplicatas do mesmo trabalho e registros sem RDF');
+    verifyLink($model->groupedReferences(999) === [], 'ID sem referências agrupadas');
+    verifyLink(array_values(array_unique(array_column($model->groupedReferences(4), 'ca_rdf'))) == [100, 200, 300, 0], 'Agrupamento usa ca_normalized da obra selecionada');
     verifyLink((int) $db->table('cited_normalize')->where('id_ca', 4)->get()->getRowArray()['ca_cited'] === 3, 'Contagem persistida');
     verifyLink($model->citingWorks(4)[0]['title'] === 'Título do dataset', 'Metadados pelo ID do dataset');
     $db->table('cited_article')->where('ca_rdf', 100)->delete();

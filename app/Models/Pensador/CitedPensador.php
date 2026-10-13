@@ -106,6 +106,15 @@ class CitedPensador extends Model
             ->get()->getResultArray();
     }
 
+    public function groupedReferences(int $normalizedId): array
+    {
+        return $this->db->table('cited_article a')
+            ->select('a.id_ca, a.ca_rdf, a.ca_text, a.ca_doi, a.ca_year, a.ca_year_origem')
+            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
+            ->where('n.id_ca', $normalizedId)
+            ->orderBy('a.id_ca', 'ASC')->get()->getResultArray();
+    }
+
     public function citingWorks(int $normalizedId): array
     {
 

@@ -149,7 +149,13 @@ class BrapciLab extends BaseController
         if (!$pensador || !$linked) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        return $this->cite_work($workId);
+        $reference = (new \App\Models\DOI\Cited_Normalize())->find($workId);
+        return $this->thinkerWorksPage([
+            'title' => 'Referências agrupadas',
+            'pensador' => $pensador,
+            'reference' => $reference,
+            'references' => (new \App\Models\Pensador\CitedPensador())->groupedReferences($workId),
+        ], 'BrapciLabs/thinker_work_references');
     }
 
     public function thinkers_work_edit(int $id, int $workId)
