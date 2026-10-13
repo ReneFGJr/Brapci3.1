@@ -47,6 +47,19 @@ try {
         ['pensador_id' => 10, 'cited_normalize_id' => 4],
         ['pensador_id' => 20, 'cited_normalize_id' => 1],
     ]);
+    $db->table('cited_normalize')->insertBatch([
+        ['id_ca' => 9001, 'ca_text' => 'Outro título', 'ca_doi' => 'https://doi.org/10.1234/PRIORITY'],
+        ['id_ca' => 9002, 'ca_text' => 'Título procurado', 'ca_doi' => '10.1234/other'],
+    ]);
+    $normalizedModel = new App\Models\DOI\Cited_Normalize($db);
+    $candidates = $normalizedModel->findCandidates([
+        ['ca_doi' => ''], ['ca_doi' => 'doi:10.1234/priority'],
+    ], 'Título procurado');
+    verifyLink(array_column($candidates, 'id_ca') == [9001], 'DOI de qualquer referência tem prioridade sobre correspondência por texto');
+    verifyLink($candidates[0]['match_reason'] === 'Mesmo DOI', 'Motivo da correspondência por DOI');
+    verifyLink(array_column($normalizedModel->findCandidates([['ca_doi' => '10.1234/missing']], 'Título procurado'), 'id_ca') == [9002], 'Sem DOI correspondente busca pelo texto');
+    verifyLink(array_column($normalizedModel->findCandidates([['ca_doi' => '']], 'Título procurado'), 'id_ca') == [9002], 'Referência sem DOI busca pelo texto');
+    $db->table('cited_normalize')->whereIn('id_ca', [9001, 9002])->delete();
     $db->query('CREATE TEMPORARY TABLE test_citing_dataset (ID INT, TITLE TEXT, AUTHORS TEXT, YEAR INT)');
     $db->table('test_citing_dataset')->insertBatch([
         ['ID' => 100, 'TITLE' => 'Título do dataset', 'AUTHORS' => 'Autor dataset', 'YEAR' => 2000],

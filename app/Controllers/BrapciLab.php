@@ -74,8 +74,14 @@ class BrapciLab extends BaseController
     public function thinkers()
     {
         $model = new \App\Models\Pensador\Pensador();
+        $input = $this->request->getGet('q');
+        $query = is_string($input) ? trim($input) : '';
+        if ($query !== '') {
+            $model->groupStart()->like('nome', $query)->orLike('nome_citacao', $query)->groupEnd();
+        }
         $data = [
             'title' => 'Pensadores',
+            'query' => $query,
             'pensadores' => $model->orderBy('nome', 'ASC')->paginate(20),
             'pager' => $model->pager,
         ];

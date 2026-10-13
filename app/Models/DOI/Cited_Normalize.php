@@ -33,12 +33,17 @@ class Cited_Normalize extends Model
             if ($doi === '') {
                 continue;
             }
-            foreach ($this->like('ca_doi', $doi)->limit(20)->findAll() as $candidate) {
+            foreach ($this->like('ca_doi', $doi)->orderBy('id_ca', 'ASC')->findAll() as $candidate) {
                 if (self::normalizeDoi((string) $candidate['ca_doi']) === $doi) {
                     $candidate['match_reason'] = 'Mesmo DOI';
                     $candidates[(int) $candidate['id_ca']] = $candidate;
                 }
             }
+        }
+
+        // Havendo correspondência exata de DOI, ela tem prioridade sobre o texto.
+        if ($candidates !== []) {
+            return array_values($candidates);
         }
 
         $terms = preg_split('/\s+/u', trim($query), -1, PREG_SPLIT_NO_EMPTY);

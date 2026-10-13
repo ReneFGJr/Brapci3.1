@@ -10,8 +10,19 @@
         <div class="alert alert-danger" role="alert"><?= esc(session()->getFlashdata('error')) ?></div>
     <?php endif; ?>
     <section class="card card-dashboard p-4">
+        <form method="get" action="<?= site_url('labs/thinkers') ?>" class="mb-4">
+            <label for="thinker-search" class="form-label">Buscar pensador</label>
+            <div class="d-flex flex-wrap gap-2">
+                <input type="search" id="thinker-search" name="q" class="form-control flex-grow-1" style="width: auto; min-width: 0;"
+                    value="<?= esc($query, 'attr') ?>" placeholder="Nome ou nome de citação">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search" aria-hidden="true"></i> Buscar</button>
+                <?php if ($query !== ''): ?>
+                    <a href="<?= site_url('labs/thinkers') ?>" class="btn btn-outline-secondary">Limpar</a>
+                <?php endif ?>
+            </div>
+        </form>
         <?php if ($pensadores === []): ?>
-            <div class="alert alert-info mb-0">Nenhum pensador cadastrado.</div>
+            <div class="alert alert-info mb-0"><?= $query !== '' ? 'Nenhum pensador encontrado para esta busca.' : 'Nenhum pensador cadastrado.' ?></div>
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -19,6 +30,7 @@
                         <tr>
                             <th>Nome do pensador</th>
                             <th>Nome de citação</th>
+                            <th>BRAPCI</th>
                             <th>Wikipédia</th>
                             <th>Wikidata</th>
                             <th class="text-end">Ações</th>
@@ -29,6 +41,13 @@
                             <tr>
                                 <td><?= esc($pensador['nome']) ?></td>
                                 <td><?= esc($pensador['nome_citacao']) ?></td>
+                                <td>
+                                    <?php if ((int) ($pensador['brapci_id'] ?? 0) > 0): ?>
+                                        <a href="https://brapci.inf.br/v/<?= (int) $pensador['brapci_id'] ?>" target="_blank" rel="noopener noreferrer">Consultar</a>
+                                    <?php else: ?>
+                                        —
+                                    <?php endif; ?>
+                                </td>
                                 <?php foreach (['link_wikipedia', 'link_wikidata'] as $campo): ?>
                                     <td>
                                         <?php if (filter_var($pensador[$campo], FILTER_VALIDATE_URL) && in_array(strtolower((string) parse_url($pensador[$campo], PHP_URL_SCHEME)), ['http', 'https'], true)): ?>
@@ -53,7 +72,7 @@
                     </tbody>
                 </table>
             </div>
-            <?= $pager->links() ?>
+            <?= $pager->only(['q'])->links() ?>
         <?php endif; ?>
     </section>
 </main>
