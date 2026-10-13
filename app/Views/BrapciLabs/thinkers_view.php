@@ -19,7 +19,6 @@ $id = (int) $pensador['id'];
             <button type="submit" class="btn btn-outline-primary"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Recalcular citações</button>
         </form>
         <a href="<?= site_url('labs/thinkers/' . $id . '/select') ?>" class="btn btn-outline-success"><i class="bi bi-check2-square" aria-hidden="true"></i> Check</a>
-        <a href="<?= site_url('labs/thinkers/' . $id . '/works') ?>" class="btn btn-outline-primary" title="Ver trabalhos vinculados" aria-label="Ver trabalhos vinculados"><i class="bi bi-eye" aria-hidden="true"></i></a>
         <?php if ((int) ($pensador['brapci_id'] ?? 0) > 0): ?>
             <a href="https://brapci.inf.br/v/<?= (int) $pensador['brapci_id'] ?>" class="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Ver na BRAPCI</a>
         <?php endif; ?>
@@ -68,6 +67,7 @@ $id = (int) $pensador['id'];
                                     <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
                                     <div class="d-flex align-items-center gap-2">
                                         <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= $work['cited_by'] === null ? '—' : (int) $work['cited_by'] ?></a>
+                                        <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm" title="Ver trabalhos que citam esta referência" aria-label="Ver trabalhos que citam a referência #<?= (int) $work['id_ca'] ?>"><i class="bi bi-eye" aria-hidden="true"></i></a>
                                         <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/edit') ?>" class="btn btn-outline-primary btn-sm" title="Editar obra" aria-label="Editar obra #<?= (int) $work['id_ca'] ?>"><i class="bi bi-pencil" aria-hidden="true"></i></a>
                                         <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/unlink') ?>" onsubmit="return confirm('Desvincular esta obra do pensador?');">
                                             <?= csrf_field() ?>
