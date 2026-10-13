@@ -67,7 +67,7 @@ $id = (int) $pensador['id'];
                                     <span class="small text-muted">Referência #<?= esc($work['id_ca']) ?></span>
                                     <div class="d-flex align-items-center gap-2">
                                         <a href="<?= site_url('labs/cite_work/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm text-nowrap">Cited by <?= $work['cited_by'] === null ? '—' : (int) $work['cited_by'] ?></a>
-                                        <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm" title="Ver trabalhos que citam esta referência" aria-label="Ver trabalhos que citam a referência #<?= (int) $work['id_ca'] ?>"><i class="bi bi-eye" aria-hidden="true"></i></a>
+                                        <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca']) ?>" class="btn btn-outline-primary btn-sm" title="Ver referências agrupadas" aria-label="Ver referências agrupadas na obra #<?= (int) $work['id_ca'] ?>"><i class="bi bi-eye" aria-hidden="true"></i></a>
                                         <a href="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/edit') ?>" class="btn btn-outline-primary btn-sm" title="Editar obra" aria-label="Editar obra #<?= (int) $work['id_ca'] ?>"><i class="bi bi-pencil" aria-hidden="true"></i></a>
                                         <form method="post" action="<?= site_url('labs/thinkers/' . $id . '/works/' . (int) $work['id_ca'] . '/unlink') ?>" onsubmit="return confirm('Desvincular esta obra do pensador?');">
                                             <?= csrf_field() ?>
