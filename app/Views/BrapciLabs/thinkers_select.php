@@ -8,8 +8,8 @@
             <div class="alert alert-<?= $style ?>" role="alert"><?= esc($message) ?></div>
         <?php endif; ?>
     <?php endforeach; ?>
-    <p>Busca por sobrenome: <strong><?= esc($surname) ?></strong>. <?= count($references) ?> referência(s) ainda não vinculada(s) a este pensador.</p>
-    <p class="text-muted">Confira as referências antes de vincular: o sobrenome pode corresponder a outros autores.</p>
+    <p>Busca por nome de citação: <strong><?= esc($citationName) ?></strong>. <?= count($references) ?> referência(s) ainda não vinculada(s) a este pensador.</p>
+    <p class="text-muted">Confira as referências antes de vincular: o nome de citação pode corresponder a outros autores.</p>
     <section class="card card-dashboard p-4">
         <?php if ($references === []): ?>
             <div class="alert alert-info mb-0">Nenhuma referência disponível para vincular.</div>

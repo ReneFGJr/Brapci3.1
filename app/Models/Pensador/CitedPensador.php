@@ -136,6 +136,11 @@ class CitedPensador extends Model
         return $parts ? (string) end($parts) : '';
     }
 
+    public static function citationName(array $pensador): string
+    {
+        return trim((string) ($pensador['nome_citacao'] ?? ''));
+    }
+
     private function candidatesQuery(array $pensador)
     {
         $id = (int) $pensador['id'];
@@ -153,13 +158,12 @@ class CitedPensador extends Model
 
     /**
      * Gera uma vez ao dia a relação entre o pensador e as citações brutas que
-     * contêm seu nome. O sobrenome de citação é usado porque é a forma que
-     * normalmente aparece nas referências bibliográficas.
+     * contêm o nome de citação cadastrado para o pensador.
      */
     private function ensureDailyCache(array $pensador): void
     {
         $pensadorId = (int) ($pensador['id'] ?? 0);
-        $searchTerm = self::surname($pensador);
+        $searchTerm = self::citationName($pensador);
         if ($pensadorId <= 0 || $searchTerm === '') {
             return;
         }

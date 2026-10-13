@@ -98,6 +98,11 @@ try {
     $model->refreshCitationCounts([4]);
     verifyLink((int) $db->table('cited_normalize')->where('id_ca', 4)->get()->getRowArray()['ca_cited'] === 2, 'Recontagem após exclusão');
     $person = ['id' => 10, 'nome' => 'João da Silva', 'nome_citacao' => 'SILVA, João'];
+    verifyLink($model::citationName($person) === 'SILVA, João', 'Busca preserva o nome de citação completo');
+    verifyLink($model::citationName(['nome' => 'João da Silva']) === '', 'Busca não usa o nome civil');
+    $db->table('cited_article')->where('ca_normalized', 1)->update(['ca_text' => 'SILVA, João. Obra A']);
+    $db->table('cited_article')->where('ca_normalized', 4)->where('ca_rdf', 0)
+        ->where('ca_text IS NOT NULL', null, false)->update(['ca_text' => 'SILVA, João. Já vinculada']);
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
     verifyLink(count($model->candidates($person)) === 2, 'Texto/autores e exclusão apenas para este pensador');

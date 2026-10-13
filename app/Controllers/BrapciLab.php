@@ -167,7 +167,7 @@ class BrapciLab extends BaseController
         $data = [
             'title' => 'Selecionar referências',
             'pensador' => $pensador,
-            'surname' => $links::surname($pensador),
+            'citationName' => $links::citationName($pensador),
             'references' => $links->candidates($pensador),
         ];
         return view('BrapciLabs/layout/header', $data)
