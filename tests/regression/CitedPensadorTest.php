@@ -94,6 +94,24 @@ try {
         ['id' => 10, 'nome' => 'Silva', 'total' => 3],
         ['id' => 20, 'nome' => 'Souza', 'total' => 1],
     ], 'Ranking por referências, sem multiplicar vínculos RDF e sem incluir outros autores/propriedades');
+    verifyLink($model->thinkerTimelineByAuthor(7) === [
+        ['id' => 10, 'nome' => 'Silva', 'total' => 3, 'unknown_year' => 0,
+            'years' => [['year' => 2000, 'total' => 2], ['year' => 2010, 'total' => 1]]],
+        ['id' => 20, 'nome' => 'Souza', 'total' => 1, 'unknown_year' => 0,
+            'years' => [['year' => 2010, 'total' => 1]]],
+    ], 'Timeline uses citing publication years, deduplicates RDF/dataset joins and ranks thinkers');
+    verifyLink($model->thinkerTimelineByAuthor(999) === [], 'Empty author timeline');
+    $db->table('test_author_data')->insert(['d_r1' => 300, 'd_r2' => 7, 'd_p' => 1]);
+    $timeline = $model->thinkerTimelineByAuthor(7);
+    verifyLink($timeline[0]['total'] === 4 && $timeline[0]['unknown_year'] === 1,
+        'Undated citations remain in totals without creating year zero markers');
+    $db->table('test_author_data')->where('d_r1', 300)->where('d_p', 1)->delete();
+    $savedDataset = $db->table('test_citing_dataset')->where('ID', 100)->get()->getResultArray();
+    $db->table('test_citing_dataset')->where('ID', 100)->delete();
+    $timeline = $model->thinkerTimelineByAuthor(7);
+    verifyLink($timeline[0]['years'][1] === ['year' => 2020, 'total' => 2],
+        'Missing dataset year falls back to citation origin year');
+    $db->table('test_citing_dataset')->insertBatch($savedDataset);
     verifyLink($model->thinkersCitedByAuthor(999) === [], 'Autor sem citações retorna lista vazia');
     $db->table('cited_article')->where('ca_normalized', 3)->where('ca_rdf', 200)->delete();
     verifyLink(array_column($model->linkedWorks(10), 'id_ca') == [4], 'Obras apenas do pensador selecionado');
@@ -121,8 +139,13 @@ try {
         ->where('ca_text IS NOT NULL', null, false)->update(['ca_text' => 'SILVA, João. Já vinculada']);
     verifyLink($model::surname($person) === 'SILVA', 'Sobrenome de citação');
     verifyLink($model::surname(['nome' => 'João da Silva']) === 'Silva', 'Sobrenome pelo nome');
+    $db->table('cited_normalize')->where('id_ca', 1)->update(['ca_text' => 'SILVA, João. Obra A']);
+    $savedRawReferences = $db->table('cited_article')->get()->getResultArray();
+    $db->table('cited_article')->emptyTable();
     verifyLink(count($model->candidates($person)) === 2, 'Texto/autores e exclusão apenas para este pensador');
-    verifyLink($db->table('cached')->where('pensador_id', 10)->where('cache_date', date('Y-m-d'))->countAllResults() === 3, 'Cache diário criado a partir de cited_article.ca_text');
+    verifyLink($model->candidates(['id' => 10, 'nome_citacao' => '']) === [], 'Sem nome de citação não retorna todas as obras');
+    verifyLink($db->table('cached')->countAllResults() === 0, 'Check não usa cache nem depende de referências brutas');
+    $db->table('cited_article')->insertBatch($savedRawReferences);
     verifyLink($model->linkSelected($person, ['1', '1', '3', '999']) === 1, 'Revalidar seleção e deduplicar');
     verifyLink($model->linkSelected($person, ['1']) === 0, 'Reenvio idempotente');
     verifyLink(count($model->candidates($person)) === 1, 'Remover vinculadas da seleção');

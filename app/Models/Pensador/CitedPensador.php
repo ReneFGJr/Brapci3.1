@@ -252,15 +252,16 @@ class CitedPensador extends Model
     private function candidatesQuery(array $pensador)
     {
         $id = (int) $pensador['id'];
-        $this->ensureDailyCache($pensador);
+        $name = self::citationName($pensador);
         $builder = $this->db->table('cited_normalize n')
             ->distinct()
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
-            ->join('cited_article a', $this->citationMatch(), 'inner', false)
-            ->join('cached c', 'c.cited_article_id = a.id_ca AND c.pensador_id = ' . $id
-                . ' AND c.cache_date = ' . $this->db->escape(date('Y-m-d')), 'inner', false)
             ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca AND p.pensador_id = ' . $id, 'left')
             ->where('p.pensador_id', null);
+        if ($name === '' || $id <= 0) {
+            return $builder->where('1 = 0', null, false);
+        }
+        $builder->groupStart()->like('n.ca_text', $name)->orLike('n.ca_authors', $name)->groupEnd();
         return $builder;
     }
 
