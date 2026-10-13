@@ -93,6 +93,56 @@ class CitedPensador extends Model
         return $rows;
     }
 
+    public function thinkerTimelineByAuthor(int $authorId): array
+    {
+        $works = $this->db->table($this->authorDataTable . ' d')
+            ->select('1', false)
+            ->join($this->authorClassTable . ' c', 'c.id_c = d.d_p')
+            ->where('c.c_class', 'hasAuthor')->where('d.d_r2', $authorId)
+            ->where('d.d_r1 = a.ca_rdf', null, false)->getCompiledSelect();
+        $rows = $this->db->table('cited_article a')
+            ->select('t.id, t.nome, a.id_ca, a.ca_rdf, a.ca_year_origem', false)
+            ->distinct()
+            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca')
+            ->join($this->thinkerTable . ' t', 't.id = p.pensador_id')
+            ->where('a.ca_rdf >', 0)->where('EXISTS (' . $works . ')', null, false)
+            ->get()->getResultArray();
+        $metadata = [];
+        foreach (array_chunk(array_unique(array_column($rows, 'ca_rdf')), 500) as $ids) {
+            $years = $this->db->table($this->datasetTable)
+                ->select('ID, MIN(NULLIF(YEAR, 0)) AS year', false)
+                ->whereIn('ID', $ids)->groupBy('ID')->get()->getResultArray();
+            foreach ($years as $record) { $metadata[$record['ID']] = $record['year']; }
+        }
+        $thinkers = [];
+        foreach ($rows as $row) {
+            $id = (int) $row['id'];
+            if (!isset($thinkers[$id])) {
+                $thinkers[$id] = ['id' => $id, 'nome' => $row['nome'], 'total' => 0, 'unknown_year' => 0, 'years' => []];
+            }
+            $year = (int) ($metadata[$row['ca_rdf']] ?? $row['ca_year_origem']);
+            $thinkers[$id]['total']++;
+            if ($year < 1000 || $year > (int) date('Y') + 1) {
+                $thinkers[$id]['unknown_year']++;
+                continue;
+            }
+            $thinkers[$id]['years'][$year] = ($thinkers[$id]['years'][$year] ?? 0) + 1;
+        }
+        foreach ($thinkers as &$thinker) {
+            ksort($thinker['years']);
+            $points = [];
+            foreach ($thinker['years'] as $year => $total) {
+                $points[] = ['year' => (int) $year, 'total' => $total];
+            }
+            $thinker['years'] = $points;
+        }
+        unset($thinker);
+        $thinkers = array_values($thinkers);
+        usort($thinkers, static fn ($a, $b) => ($b['total'] <=> $a['total']) ?: strcmp($a['nome'], $b['nome']));
+        return $thinkers;
+    }
+
     public function linkedWorks(int $pensadorId): array
     {
         return $this->db->table('cited_pensador p')
