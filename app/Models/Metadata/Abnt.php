@@ -93,7 +93,7 @@ class Abnt extends Model
 		{
 			$authors = $this->ref_authors($dt['Authors']);
 
-			$legend = $this->ref_legend($dt['Issue']);
+			$legend = $this->ref_legend($dt['Issue'] ?? []);
 			$ref = $authors . '. ' . $title . '. ' . $legend;
 			if ($url) {
 				$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
@@ -125,7 +125,7 @@ class Abnt extends Model
 				$title = '::sem título::';
 			}
 
-		$legend = $this->ref_legend($dt['Issue']);
+		$legend = $this->ref_legend($dt['Issue'] ?? []);
 		$ref = $authors . '. ' . $title . '. ' . $legend;
 		if ($url) {
 			$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
@@ -139,7 +139,14 @@ class Abnt extends Model
 	function ref_legend($dt)
 	{
 		$dt = (array)$dt;
-		$leg = '<b>' . $dt['journal'] . '</b>';
+		// Metadata atual usa publisher/is_*; registros legados usam journal/vol/nr/year.
+		$journal = $dt['journal'] ?? $dt['publisher'] ?? '';
+		foreach (['vol' => 'is_vol', 'nr' => 'is_nr', 'year' => 'is_year'] as $field => $source) {
+			if (!isset($dt[$field]) && isset($dt[$source])) {
+				$dt[$field] = $dt[$source];
+			}
+		}
+		$leg = $journal !== '' ? '<b>' . $journal . '</b>' : '';
 		if (isset($dt['vol'])) {
 			if (isset($dt['vol'])) {
 				if ($dt['vol'] == sonumero($dt['vol'])) {

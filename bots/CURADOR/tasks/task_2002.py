@@ -1,4 +1,4 @@
-"""Preenche IDs ausentes no dataset usando RDFmetadata::metadata pela API v1."""
+"""Preenche IDs ausentes no dataset usando RDFmetadata::metadata pela API v3."""
 
 import json
 import os
@@ -204,7 +204,7 @@ def run(parametros=None, chat=None, silent=False):
     if parametros and parametros != ["update_dataset"]:
         return {"success": False, "error": "Uso: elastic update_dataset (task 2002)"}
     load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-    endpoint = os.getenv("BRAPCI_METADATA_URL", "https://cip.brapci.inf.br/api/brapci/get/v1/{ID}")
+    endpoint = os.getenv("BRAPCI_METADATA_URL", "https://cip.brapci.inf.br/api/brapci/get/v3/{ID}")
     if "{ID}" not in endpoint:
         return {"success": False, "error": "BRAPCI_METADATA_URL deve conter {ID}."}
     connection = None
