@@ -119,7 +119,10 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_row('Concluído', Text(progress, style='bold green'))
     table.add_row('ID', Text(str(row.get('ID', '—')), style='bold yellow'))
     table.add_row('Classe', Text(str(row.get('Class', '—')), style='bold magenta'))
-    table.add_row('Título', Text(' '.join(str(title).split()) or '—', style='bold green'))
+    display_title = ' '.join(str(title).split()) or '—'
+    if len(display_title) > 30:
+        display_title = display_title[:30] + '....'
+    table.add_row('Título', Text(display_title, style='bold green'))
     table.add_row('Status', Text(' '.join(str(status).split()), style=color))
     table.add_row('Processados', str(result['checked']))
     table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
