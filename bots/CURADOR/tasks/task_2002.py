@@ -2,7 +2,6 @@
 
 import json
 import os
-import time
 from pathlib import Path
 
 import pymysql
@@ -23,7 +22,6 @@ TASK = {
 }
 CLASSES = ("Article", "Proceedings", "Book", "ChapterBook", "Proceeding", "BookChapter")
 BATCH_SIZE = 100
-RECORD_PAUSE_SECONDS = 20
 
 
 def _names(items):
@@ -133,7 +131,6 @@ def update_dataset(connection, session, endpoint, silent=False):
 def _update_dataset(connection, session, endpoint, show=None):
     result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
     last_id = None
-    processed = False
     while True:
         boundary = '' if last_id is None else 'AND r.id_cc < %s '
         parameters = (BATCH_SIZE,) if last_id is None else (last_id, BATCH_SIZE)
@@ -150,11 +147,6 @@ def _update_dataset(connection, session, endpoint, show=None):
         if not rows:
             break
         for row in rows:
-            if processed:
-                if show:
-                    show(result, status=f'Aguardando {RECORD_PAUSE_SECONDS}s antes do próximo registro', color='yellow')
-                time.sleep(RECORD_PAUSE_SECONDS)
-            processed = True
             work_id = int(row["ID"])
             last_id = work_id
             result["checked"] += 1

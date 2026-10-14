@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 import sys
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from rich.console import Console
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -44,9 +44,7 @@ class Task2002Test(unittest.TestCase):
         session = MagicMock()
         session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(2)]
         show = MagicMock()
-        with patch.object(task.time, 'sleep') as sleep:
-            result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
-        sleep.assert_called_once_with(20)
+        result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
         self.assertEqual((result["checked"], result["inserted"], result["existing"], result["failed"]), (2, 1, 0, 1))
         self.assertFalse(result["success"])
         self.assertEqual(session.get.call_count, 2)
