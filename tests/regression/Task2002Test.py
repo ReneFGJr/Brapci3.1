@@ -25,6 +25,9 @@ class Task2002Test(unittest.TestCase):
         self.assertEqual(values["COLLECTION"], "BK")
         self.assertEqual(values["AUTHORS"], "Autor")
         self.assertEqual(values["KEYWORDS"], "Tema")
+        for language in ('EN', 'ES', 'FR'):
+            self.assertIn('KEYWORDS_' + language, values)
+            self.assertNotIn('KEYWORD_' + language, values)
         self.assertEqual(values["YEAR"], 0)
         self.assertEqual(values["new"], 1)
         with self.assertRaises(ValueError):
