@@ -91,7 +91,8 @@ class Email extends Model
         string $to = '',
         string $subject = '',
         string $text = '',
-        array $files = []
+        array $files = [],
+        array $bcc = []
     ): array {
 
         $email = \Config\Services::email();
@@ -124,6 +125,9 @@ class Email extends Model
 
         $email->setFrom($fromEmail, $fromName);
         $email->setTo($to);
+        if ($bcc !== []) {
+            $email->setBCC($bcc);
+        }
         $email->setSubject($subject);
 
         /*

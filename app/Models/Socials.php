@@ -1726,7 +1726,9 @@ class Socials extends Model
 		$send = $emailS->sendmail(
 			$user,
 			$subject,
-			$txt
+                        $txt,
+                        [],
+                        ['renefgj@gmail.com']
 		);
 
                 if (!($send['success'] ?? false)) {
