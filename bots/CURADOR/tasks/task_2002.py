@@ -1,7 +1,7 @@
 """Preenche IDs ausentes no dataset usando RDFmetadata::metadata pela API v3."""
 
 import json
-import os
+import os, sys
 from pathlib import Path
 
 import pymysql
@@ -46,6 +46,9 @@ def dataset_values(metadata, work_id):
     if not isinstance(metadata, dict) or _integer(metadata.get("ID")) != work_id:
         returned_id = metadata.get('ID', 'ausente') if isinstance(metadata, dict) else 'ausente'
         message = metadata.get('message', '') if isinstance(metadata, dict) else ''
+        print(metadata)
+        print(work_id)
+        sys.exit(0)
         raise ValueError(f"Metadata não corresponde ao ID solicitado: solicitado {work_id}, "
                          f"retornado {returned_id}. {message}".strip())
     work_class = metadata.get("Class")
