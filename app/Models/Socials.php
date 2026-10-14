@@ -1661,12 +1661,15 @@ class Socials extends Model
 
                 if (empty($dt)) {
 
-			$this->user_add($user, $name, $inst);
+                        $created = $this->user_add($user, $name, $inst);
+                        if (($created['status'] ?? '') !== '200') {
+                                return $created;
+                        }
 
 			return [
 				"status" => '200',
-				"message" => lang('social.social_user_add_success'),
-				"detail"  => lang('social.social_check_you_email'),
+                                "message" => 'Cadastro realizado com sucesso.',
+                                "detail"  => 'Verifique seu e-mail e siga as instruções para definir sua senha.',
 				"action"  => "showLogin"
 			];
 		}
@@ -1682,31 +1685,42 @@ class Socials extends Model
 
 	function user_add($user = '', $name = '', $inst = '')
 	{
-		$pw1 = substr(md5($user), 0, 6);
+                $recoverKey = $this->getRecoverKey($user);
 		$data = [
                         'us_login' => $user,
 			'us_email' => $user,
 			'us_nome' => $name,
 			'us_affiliation' => $inst,
-			'us_password'  => md5($pw1),
-			'us_password_method' => 'MD5'
+                        // A senha aleatória impede acesso até o usuário defini-la pelo link enviado.
+                        'us_password' => md5(bin2hex(random_bytes(32))),
+                        'us_autenticador' => 'MD5',
+                        'us_recover' => $recoverKey
 		];
-		$this->insert($data);
+                $newUserId = $this->insert($data);
+                if ($newUserId === false) {
+                        return [
+                                'status' => '500',
+                                'message' => 'Não foi possível cadastrar o usuário.'
+                        ];
+                }
 
-		/* Enviar e-mail */
-		$txt = '';
-		$txt .= '<table width="600" border=0>';
-		$txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+                $recoverLink = base_url('auth/newpass/' . $recoverKey);
+                $safeName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+                $safeLink = htmlspecialchars($recoverLink, ENT_QUOTES, 'UTF-8');
+
+                // Mesmo cabeçalho incorporado utilizado no fluxo "Esqueci a senha".
+                $txt  = '<center>';
+                $txt .= '<table width="600" border="0">';
+                $txt .= '<tr><td><img src="cid:$image1" style="width:100%;"></td></tr>';
 		$txt .= '<tr><td>';
-		$txt .= 'Prezado usuário ' . $name . ',<br>';
-		$txt .= '<br>';
-		$txt .= 'Seu cadastro foi realizado com sucesso em nossa plataforma, para ter acesso utilize essa credencial temporária.';
-		$txt .= '<br><br>';
-		$txt .= 'Usuário: ' . $user . '<br>';
-		$txt .= 'Senha:' . $pw1 . '<br>';
-		$txt .= '</td></tr></table>';
-		$subject = '[BRAPCI] ';
-		$subject .= lang('social.social_user_add');
+                $txt .= '<br><h2>Bem-vindo à BRAPCI</h2>';
+                $txt .= '<p style="font-size:1.2em;">Olá, <strong>' . $safeName . '</strong>.</p>';
+                $txt .= '<p style="font-size:1.2em;">Seu cadastro foi realizado com sucesso.</p>';
+                $txt .= '<p style="font-size:1.2em;">Para definir sua senha e acessar a plataforma, utilize o link abaixo:</p>';
+                $txt .= '<p style="font-size:1.2em;"><a href="' . $safeLink . '">Definir minha senha</a></p>';
+                $txt .= '<p style="font-size:1.2em;">Se você não solicitou este cadastro, ignore esta mensagem.</p>';
+                $txt .= '</td></tr></table></center>';
+                $subject = '[BRAPCI] Defina sua senha de acesso';
 
 		$emailS = new \App\Models\Functions\Email();
 		$send = $emailS->sendmail(
@@ -1715,16 +1729,18 @@ class Socials extends Model
 			$txt
 		);
 
-		if (!$send) {
+                if (!($send['success'] ?? false)) {
+                        // Mantém o cadastro atômico: sem o e-mail não há como definir a senha.
+                        $this->delete($newUserId);
 			return [
 				'status'  => 500,
-				'message' => 'Erro ao enviar o e-mail.'
+                                'message' => 'Não foi possível enviar as instruções por e-mail. Tente novamente.'
 			];
 		}
 
 		return [
 			'status'  => 200,
-			'message' => 'Usuário cadastrado com sucesso. Verifique seu e-mail para obter a senha temporária.'
+                        'message' => 'Cadastro realizado com sucesso. Verifique seu e-mail para definir sua senha.'
 		];
 	}
 
