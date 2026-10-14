@@ -34,22 +34,34 @@ class Task2002Test(unittest.TestCase):
     def test_skips_existing_and_continues_after_error(self):
         connection = MagicMock()
         cursor = connection.cursor.return_value.__enter__.return_value
-        cursor.fetchall.side_effect = [[{"ID": 1, "present": 1}, {"ID": 2, "present": 0},
-                                       {"ID": 3, "present": 0}], []]
+        cursor.fetchall.side_effect = [[{"ID": 2, "Class": "Book"},
+                                       {"ID": 3, "Class": "Book"}], []]
         cursor.rowcount = 1
         session = MagicMock()
         session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(3)]
-        output = io.StringIO()
-        with redirect_stdout(output):
-            result = task.update_dataset(connection, session, "https://example.test/{ID}")
-        self.assertEqual((result["checked"], result["inserted"], result["existing"], result["failed"]), (3, 1, 1, 1))
+        show = MagicMock()
+        result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
+        self.assertEqual((result["checked"], result["inserted"], result["existing"], result["failed"]), (2, 1, 0, 1))
         self.assertFalse(result["success"])
         self.assertEqual(session.get.call_count, 2)
         connection.rollback.assert_called_once()
         inserts = [call for call in cursor.execute.call_args_list if call.args[0].startswith("INSERT")]
         self.assertEqual(len(inserts), 1)
         self.assertIn("NOT EXISTS", inserts[0].args[0])
-        self.assertIn("ID 3: inserido", output.getvalue())
+        selects = [call for call in cursor.execute.call_args_list if call.args[0].startswith('SELECT')]
+        self.assertIn('LEFT JOIN brapci_elastic.dataset', selects[0].args[0])
+        self.assertIn('d.ID IS NULL', selects[0].args[0])
+        self.assertIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
+        self.assertTrue(any(call.args[2:] == ('Livro', 'Inserido', 'green') for call in show.call_args_list))
+
+    def test_silent_has_no_output(self):
+        connection = MagicMock()
+        connection.cursor.return_value.__enter__.return_value.fetchall.return_value = []
+        output = io.StringIO()
+        with redirect_stdout(output):
+            result = task.update_dataset(connection, MagicMock(), 'https://example.test/{ID}', silent=True)
+        self.assertEqual(output.getvalue(), '')
+        self.assertEqual(result['checked'], 0)
 
     def test_shortcut_routes_to_2002(self):
         sys.path.insert(0, str(ROOT / "bots/CURADOR"))

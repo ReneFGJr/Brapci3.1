@@ -7,6 +7,10 @@ from pathlib import Path
 import pymysql
 import requests
 from dotenv import load_dotenv
+from rich.live import Live
+from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
 
 TASK = {
     "id": 2002,
@@ -67,17 +71,46 @@ def dataset_values(metadata, work_id):
     }
 
 
+def _status_panel(result, row=None, title='', status='Buscando conceitos ausentes', color='cyan'):
+    row = row or {}
+    table = Table.grid(padding=(0, 2))
+    table.add_column(style='bold cyan', width=14)
+    table.add_column(overflow='ellipsis', no_wrap=True)
+    table.add_row('ID', Text(str(row.get('ID', '—')), style='bold yellow'))
+    table.add_row('Classe', Text(str(row.get('Class', '—')), style='bold magenta'))
+    table.add_row('Título', Text(' '.join(str(title).split()) or '—', style='bold green'))
+    table.add_row('Status', Text(' '.join(str(status).split()), style=color))
+    table.add_row('Processados', str(result['checked']))
+    table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
+    table.add_row('Já existentes', str(result['existing']))
+    table.add_row('Erros', Text(str(result['failed']), style='red'))
+    return Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
+
+
 def update_dataset(connection, session, endpoint, silent=False):
+    if silent:
+        return _update_dataset(connection, session, endpoint)
+    initial = dict(checked=0, inserted=0, existing=0, failed=0)
+    with Live(_status_panel(initial), refresh_per_second=4) as live:
+        def show(result, row=None, title='', status='Buscando conceitos ausentes', color='cyan'):
+            live.update(_status_panel(result, row, title, status, color), refresh=True)
+        result = _update_dataset(connection, session, endpoint, show)
+        show(result, status='Concluído', color='green' if result['success'] else 'yellow')
+        return result
+
+
+def _update_dataset(connection, session, endpoint, show=None):
     result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
     last_id = 0
     marks = ",".join(["%s"] * len(CLASSES))
     while True:
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT r.id_cc AS ID, EXISTS(SELECT 1 FROM brapci_elastic.dataset d "
-                "WHERE d.ID = r.id_cc) AS present FROM brapci_rdf.rdf_concept r "
+                "SELECT r.id_cc AS ID, c.c_class AS Class FROM brapci_rdf.rdf_concept r "
                 "JOIN brapci_rdf.rdf_class c ON c.id_c = r.cc_class "
-                f"WHERE c.c_class IN ({marks}) AND r.id_cc > %s ORDER BY r.id_cc LIMIT %s",
+                "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
+                f"WHERE c.c_class IN ({marks}) AND d.ID IS NULL "
+                "AND r.id_cc > %s ORDER BY r.id_cc LIMIT %s",
                 (*CLASSES, last_id, BATCH_SIZE),
             )
             rows = cursor.fetchall()
@@ -88,13 +121,16 @@ def update_dataset(connection, session, endpoint, silent=False):
             work_id = int(row["ID"])
             last_id = work_id
             result["checked"] += 1
-            if row["present"]:
-                result["existing"] += 1
-                continue
+            title = ''
+            if show:
+                show(result, row, status='Recuperando metadata')
             try:
                 response = session.get(endpoint.format(ID=work_id), timeout=60)
                 response.raise_for_status()
                 values = dataset_values(response.json(), work_id)
+                title = values['TITLE']
+                if show:
+                    show(result, row, title, 'Gravando dataset', 'yellow')
                 columns = ", ".join(f"`{column}`" for column in values)
                 placeholders = ", ".join(["%s"] * len(values))
                 # Revalida a existência na gravação; registros existentes não são atualizados.
@@ -108,19 +144,16 @@ def update_dataset(connection, session, endpoint, silent=False):
                     inserted = cursor.rowcount
                 connection.commit()
                 result["inserted" if inserted else "existing"] += 1
-                if not silent:
-                    print(f"ID {work_id}: {'inserido' if inserted else 'já existente'}", flush=True)
+                if show:
+                    show(result, row, title, 'Inserido' if inserted else 'Já existente', 'green')
             except (requests.RequestException, pymysql.MySQLError, ValueError, TypeError) as error:
                 connection.rollback()
                 result["failed"] += 1
                 result["success"] = False
                 if len(result["errors"]) < 20:
                     result["errors"].append({"ID": work_id, "error": str(error)})
-                if not silent:
-                    print(f"ID {work_id}: erro: {error}", flush=True)
-        if not silent:
-            print(f"Verificados: {result['checked']} | Inseridos: {result['inserted']} | "
-                  f"Existentes: {result['existing']} | Erros: {result['failed']}", flush=True)
+                if show:
+                    show(result, row, title, str(error), 'red')
     return result
 
 
@@ -139,13 +172,9 @@ def run(parametros=None, chat=None, silent=False):
             database="brapci_elastic", charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor, autocommit=False,
         )
-        if not silent:
-            print("TASK 2002: verificando RDF e preenchendo IDs ausentes no dataset...", flush=True)
         with requests.Session() as session:
             session.headers.update({"User-Agent": "CURADOR/2002"})
             result = update_dataset(connection, session, endpoint, silent=silent)
-        if not silent:
-            print(f"Concluído: {result['inserted']} inseridos; {result['existing']} existentes; {result['failed']} erros.", flush=True)
         return result
     except (pymysql.MySQLError, ValueError) as error:
         if not silent:
