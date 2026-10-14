@@ -52,6 +52,7 @@ class Task2002Test(unittest.TestCase):
         selects = [call for call in cursor.execute.call_args_list if call.args[0].startswith('SELECT')]
         self.assertIn('LEFT JOIN brapci_elastic.dataset', selects[0].args[0])
         self.assertIn('d.ID IS NULL', selects[0].args[0])
+        self.assertIn('r.cc_status < 9', selects[0].args[0])
         self.assertIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
         self.assertTrue(any(call.args[2:] == ('Livro', 'Inserido', 'green') for call in show.call_args_list))
 

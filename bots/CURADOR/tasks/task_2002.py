@@ -138,7 +138,7 @@ def _update_dataset(connection, session, endpoint, show=None):
                 "SELECT r.id_cc AS ID, c.c_class AS Class FROM brapci_rdf.rdf_concept r "
                 "JOIN brapci_rdf.rdf_class c ON c.id_c = r.cc_class "
                 "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
-                f"WHERE c.c_class IN ({marks}) AND d.ID IS NULL "
+                f"WHERE c.c_class IN ({marks}) AND r.cc_status < 9 AND d.ID IS NULL "
                 "AND r.id_cc > %s ORDER BY r.id_cc LIMIT %s",
                 (*CLASSES, last_id, BATCH_SIZE),
             )
