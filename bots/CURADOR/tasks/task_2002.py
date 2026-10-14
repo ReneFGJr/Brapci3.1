@@ -7,6 +7,7 @@ from pathlib import Path
 import pymysql
 import requests
 from dotenv import load_dotenv
+from rich import box
 from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
@@ -104,7 +105,7 @@ def _metadata_panel(metadata):
         ('Palavras-chave', keywords or 'Não informadas', 'blue'),
     ]:
         table.add_row(label, Text(str(value), style=color))
-    return Panel(table, title='Metadados retornados pela API', border_style='cyan')
+    return Panel(table, title='Metadados retornados pela API', border_style='cyan', box=box.DOUBLE, width=70)
 
 
 def _status_panel(result, row=None, title='', status='Buscando conceitos ausentes', color='cyan'):
@@ -124,12 +125,12 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
     table.add_row('Já existentes', str(result['existing']))
     table.add_row('Erros', Text(str(result['failed']), style='red'))
-    panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
+    panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan', box=box.DOUBLE, width=70)
     problem = result.get('last_error')
     if problem:
         return Group(panel, _metadata_panel(problem.get('metadata')), Panel(
             Text(f"ID {problem['ID']}: {problem['error']}", style='bold red', overflow='fold'),
-            title='Último problema', border_style='red',
+            title='Último problema', border_style='red', box=box.DOUBLE, width=70,
         ))
     return panel
 
