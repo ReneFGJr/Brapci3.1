@@ -138,7 +138,8 @@ def _update_dataset(connection, session, endpoint, show=None):
             cursor.execute(
                 "SELECT r.id_cc AS ID, r.cc_class AS Class FROM brapci_rdf.rdf_concept r "
                 "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
-                "WHERE r.cc_class = 10 AND r.cc_status < 9 AND d.ID IS NULL "
+                "WHERE (r.cc_class = 10 OR r.cc_class = 6 OR r.cc_class = 7 OR r.cc_class = 16) "
+                "AND r.cc_status < 9 AND d.ID IS NULL "
                 + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
                 parameters,
             )

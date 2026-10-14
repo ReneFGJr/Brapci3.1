@@ -63,6 +63,7 @@ class Task2002Test(unittest.TestCase):
         self.assertEqual([call.args[0] for call in session.get.call_args_list],
                          ['https://example.test/3', 'https://example.test/2'])
         self.assertIn('r.cc_class = 10', selects[0].args[0])
+        self.assertIn('(r.cc_class = 10 OR r.cc_class = 6 OR r.cc_class = 7 OR r.cc_class = 16)', selects[0].args[0])
         self.assertNotIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
         self.assertTrue(any(call.args[2:] == ('Livro', 'Inserido', 'green') for call in show.call_args_list))
 
