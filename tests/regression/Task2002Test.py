@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import unittest
 from unittest.mock import MagicMock
+from rich.console import Console
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location("task_2002", ROOT / "bots/CURADOR/tasks/task_2002.py")
@@ -62,6 +63,17 @@ class Task2002Test(unittest.TestCase):
             result = task.update_dataset(connection, MagicMock(), 'https://example.test/{ID}', silent=True)
         self.assertEqual(output.getvalue(), '')
         self.assertEqual(result['checked'], 0)
+
+    def test_error_details_below_panel(self):
+        output = io.StringIO()
+        result = dict(checked=1, inserted=0, existing=0, failed=1,
+                      last_error={'ID': 42, 'error': 'Falha ao conectar: detalhes completos do problema'})
+        Console(file=output, width=60).print(task._status_panel(result, status='Concluído'))
+        rendered = output.getvalue()
+        self.assertIn('Último problema', rendered)
+        self.assertIn('ID 42: Falha ao conectar', rendered)
+        self.assertIn('detalhes completos', rendered)
+        self.assertGreater(rendered.index('Último problema'), rendered.index('Erros'))
 
     def test_shortcut_routes_to_2002(self):
         sys.path.insert(0, str(ROOT / "bots/CURADOR"))

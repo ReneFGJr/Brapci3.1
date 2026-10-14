@@ -11,6 +11,7 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from rich.console import Group
 
 TASK = {
     "id": 2002,
@@ -84,7 +85,14 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
     table.add_row('Já existentes', str(result['existing']))
     table.add_row('Erros', Text(str(result['failed']), style='red'))
-    return Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
+    panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
+    problem = result.get('last_error')
+    if problem:
+        return Group(panel, Panel(
+            Text(f"ID {problem['ID']}: {problem['error']}", style='bold red', overflow='fold'),
+            title='Último problema', border_style='red',
+        ))
+    return panel
 
 
 def update_dataset(connection, session, endpoint, silent=False):
@@ -150,10 +158,11 @@ def _update_dataset(connection, session, endpoint, show=None):
                 connection.rollback()
                 result["failed"] += 1
                 result["success"] = False
+                result['last_error'] = {"ID": work_id, "error": str(error)}
                 if len(result["errors"]) < 20:
                     result["errors"].append({"ID": work_id, "error": str(error)})
                 if show:
-                    show(result, row, title, str(error), 'red')
+                    show(result, row, title, 'Erro ao atualizar', 'red')
     return result
 
 
