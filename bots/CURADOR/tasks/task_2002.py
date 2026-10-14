@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 from pathlib import Path
 
 import pymysql
@@ -22,6 +23,7 @@ TASK = {
 }
 CLASSES = ("Article", "Proceedings", "Book", "ChapterBook", "Proceeding", "BookChapter")
 BATCH_SIZE = 100
+RECORD_PAUSE_SECONDS = 20
 
 
 def _names(items):
@@ -131,16 +133,15 @@ def update_dataset(connection, session, endpoint, silent=False):
 def _update_dataset(connection, session, endpoint, show=None):
     result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
     last_id = None
-    marks = ",".join(["%s"] * len(CLASSES))
+    processed = False
     while True:
         boundary = '' if last_id is None else 'AND r.id_cc < %s '
-        parameters = (*CLASSES, BATCH_SIZE) if last_id is None else (*CLASSES, last_id, BATCH_SIZE)
+        parameters = (BATCH_SIZE,) if last_id is None else (last_id, BATCH_SIZE)
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT r.id_cc AS ID, c.c_class AS Class FROM brapci_rdf.rdf_concept r "
-                "JOIN brapci_rdf.rdf_class c ON c.id_c = r.cc_class "
+                "SELECT r.id_cc AS ID, r.cc_class AS Class FROM brapci_rdf.rdf_concept r "
                 "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
-                f"WHERE c.c_class IN ({marks}) AND r.cc_status < 9 AND d.ID IS NULL "
+                "WHERE r.cc_class = 10 AND r.cc_status < 9 AND d.ID IS NULL "
                 + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
                 parameters,
             )
@@ -149,6 +150,11 @@ def _update_dataset(connection, session, endpoint, show=None):
         if not rows:
             break
         for row in rows:
+            if processed:
+                if show:
+                    show(result, status=f'Aguardando {RECORD_PAUSE_SECONDS}s antes do próximo registro', color='yellow')
+                time.sleep(RECORD_PAUSE_SECONDS)
+            processed = True
             work_id = int(row["ID"])
             last_id = work_id
             result["checked"] += 1
@@ -162,6 +168,7 @@ def _update_dataset(connection, session, endpoint, show=None):
                 metadata = response.json()
                 if isinstance(metadata, dict):
                     title = metadata.get('title') or ''
+                    row['Class'] = metadata.get('Class') or row['Class']
                 values = dataset_values(metadata, work_id)
                 title = values['TITLE']
                 if show:

@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 import sys
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from rich.console import Console
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -41,7 +41,9 @@ class Task2002Test(unittest.TestCase):
         session = MagicMock()
         session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(2)]
         show = MagicMock()
-        result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
+        with patch.object(task.time, 'sleep') as sleep:
+            result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
+        sleep.assert_called_once_with(20)
         self.assertEqual((result["checked"], result["inserted"], result["existing"], result["failed"]), (2, 1, 0, 1))
         self.assertFalse(result["success"])
         self.assertEqual(session.get.call_count, 2)
@@ -59,7 +61,8 @@ class Task2002Test(unittest.TestCase):
         self.assertEqual(selects[1].args[1][-2], 2)
         self.assertEqual([call.args[0] for call in session.get.call_args_list],
                          ['https://example.test/3', 'https://example.test/2'])
-        self.assertIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
+        self.assertIn('r.cc_class = 10', selects[0].args[0])
+        self.assertNotIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
         self.assertTrue(any(call.args[2:] == ('Livro', 'Inserido', 'green') for call in show.call_args_list))
 
     def test_silent_has_no_output(self):
