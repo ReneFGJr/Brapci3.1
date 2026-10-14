@@ -59,6 +59,12 @@ def dataset_values(metadata, work_id, connection):
                          f"retornado {returned_id}. {message}".strip())
     work_class = metadata.get("Class")
     if work_class not in CLASSES or not metadata.get("title"):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE brapci_rdf.rdf_concept SET cc_status = %s WHERE id_cc = %s",
+                (98, work_id),
+            )
+        connection.commit()
         raise ValueError("Metadata sem classe de trabalho ou título válido.")
     issue = metadata.get("Issue") or {}
     subject = metadata.get("subject") or {}
