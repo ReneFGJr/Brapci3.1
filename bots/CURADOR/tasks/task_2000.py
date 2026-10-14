@@ -6,6 +6,7 @@ import unicodedata
 import pymysql
 import requests
 from dotenv import load_dotenv
+from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 
 TASK = {
     "id": 2000,
@@ -57,7 +58,7 @@ def excludeElastic():
         )
         try:
             with conn.cursor() as cursor:
-                cursor.execute("UPDATE dataset SET `new` = 1")
+                cursor.execute("UPDATE dataset SET `new` = 0")
                 result["updated"] = cursor.rowcount
             conn.commit()
         finally:
@@ -135,8 +136,8 @@ def _elastic_document(row):
         "URL": row.get("URL") or f"https://hdl.handle.net/20.500.11959/brapci/{identifier}",
     }
 
-def exportToElastic(journal=0):
-    """Exporta todos os registros ou apenas os registros do JOURNAL informado."""
+def exportToElastic(journal=0, silent=False):
+    """Exporta registros com new = 1, com filtro opcional por JOURNAL."""
     journal = int(journal or 0)
     if journal < 0:
         raise ValueError("O ID do JOURNAL deve ser maior ou igual a zero.")
@@ -177,7 +178,7 @@ def exportToElastic(journal=0):
         for source_id in source_ids:
             if source_id <= 0:
                 raise ValueError("O ID da fonte deve ser maior que zero.")
-            source_result = exportToElastic(source_id)
+            source_result = exportToElastic(source_id, silent=silent)
             for field in ("total", "exported", "failed"):
                 result[field] += source_result[field]
             result["errors"].extend(source_result["errors"][:20 - len(result["errors"])])
@@ -194,14 +195,32 @@ def exportToElastic(journal=0):
         cursorclass=pymysql.cursors.DictCursor,
     )
     try:
-        with requests.Session() as session:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT COUNT(*) AS total FROM dataset WHERE JOURNAL = %s AND `new` = 1 AND ID > 0",
+                (journal,),
+            )
+            pending = int(cursor.fetchone()['total'])
+        conn.commit()
+        with requests.Session() as session, Progress(
+            TextColumn('[bold cyan]{task.description}'),
+            BarColumn(bar_width=30, style='blue', complete_style='green', finished_style='bold green'),
+            TextColumn('[bold yellow]{task.percentage:>6.1f}%'),
+            TextColumn('[green]{task.fields[exported]} exportados[/green] / {task.total}'),
+            TextColumn('[red]{task.fields[failed]} erros'),
+            TimeRemainingColumn(),
+            disable=silent,
+        ) as progress:
+            progress_task = progress.add_task(
+                f'JOURNAL {journal}', total=pending, exported=0, failed=0,
+            )
             last_id = 0
             while True:
                 conn.ping(reconnect=True)
                 with conn.cursor() as cursor:
                     cursor.execute(
                         "SELECT * FROM dataset "
-                        "WHERE JOURNAL = %s AND ID > %s "
+                        "WHERE JOURNAL = %s AND ID > %s AND `new` = 1 "
                         "ORDER BY ID LIMIT 1000",
                         (journal, last_id),
                     )
@@ -250,6 +269,11 @@ def exportToElastic(journal=0):
                             [(identifier,) for identifier in exported_ids],
                         )
                     conn.commit()
+                progress.update(
+                    progress_task, completed=result['exported'],
+                    exported=result['exported'], failed=result['failed'],
+                    refresh=True,
+                )
         result["success"] = result["failed"] == 0
         return result
     finally:
@@ -279,6 +303,6 @@ def run(parametros=None,chat=None,silent=False):
         journal = int(arguments[0] or 0) if arguments else 0
         if not silent:
             print("Iniciando exportação para o Elasticsearch...")
-        return exportToElastic(journal)
+        return exportToElastic(journal, silent=silent)
     except (TypeError, ValueError) as error:
         return {"success": False, "error": str(error)}
