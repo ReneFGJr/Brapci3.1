@@ -114,7 +114,7 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_column(style='bold cyan', width=14)
     table.add_column(overflow='ellipsis', no_wrap=True)
     total = result.get('total')
-    completed = result['inserted'] + result['existing'] + result['failed']
+    completed = result['inserted'] + result['existing'] + result['failed'] + result.get('duplicates', 0)
     progress = 'Calculando total...' if total is None else f"{completed}/{total} ({completed / total * 100 if total else 100:.1f}%)"
     table.add_row('Concluído', Text(progress, style='bold green'))
     table.add_row('ID', Text(str(row.get('ID', '—')), style='bold yellow'))
@@ -124,6 +124,7 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_row('Processados', str(result['checked']))
     table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
     table.add_row('Já existentes', str(result['existing']))
+    table.add_row('Duplicados', str(result.get('duplicates', 0)))
     table.add_row('Erros', Text(str(result['failed']), style='red'))
     panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan', box=box.DOUBLE, width=70)
     problem = result.get('last_error')
@@ -148,7 +149,7 @@ def update_dataset(connection, session, endpoint, silent=False):
 
 
 def _update_dataset(connection, session, endpoint, show=None):
-    result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
+    result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "duplicates": 0, "failed": 0, "errors": []}
     with connection.cursor() as cursor:
         cursor.execute('SELECT COUNT(*) AS total ' + PENDING_FROM)
         result['total'] = int(cursor.fetchone()['total'])
@@ -161,7 +162,7 @@ def _update_dataset(connection, session, endpoint, show=None):
         parameters = (BATCH_SIZE,) if last_id is None else (last_id, BATCH_SIZE)
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT r.id_cc AS ID, r.cc_class AS Class, "
+                "SELECT r.id_cc AS ID, r.cc_class AS Class, r.cc_use, "
                 "(SELECT o.oai_identifier FROM brapci_oaipmh.oai_listidentify o "
                 "WHERE o.oai_rdf = r.id_cc ORDER BY o.id_oai DESC LIMIT 1) AS OAI_ID " + PENDING_FROM
                 + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
@@ -180,6 +181,17 @@ def _update_dataset(connection, session, endpoint, show=None):
             if show:
                 show(result, row, status='Recuperando metadata')
             try:
+                if row['cc_use'] not in (0, work_id):
+                    with connection.cursor() as cursor:
+                        cursor.execute(
+                            "UPDATE brapci_rdf.rdf_concept SET cc_status = %s WHERE id_cc = %s",
+                            (91, work_id),
+                        )
+                    connection.commit()
+                    result['duplicates'] += 1
+                    if show:
+                        show(result, row, title, 'Duplicado: status atualizado para 91', 'yellow')
+                    continue
                 response = session.get(endpoint.format(ID=work_id), timeout=60)
                 response.raise_for_status()
                 metadata = response.json()
