@@ -75,6 +75,22 @@ class Task2002Test(unittest.TestCase):
         self.assertIn('detalhes completos', rendered)
         self.assertGreater(rendered.index('Último problema'), rendered.index('Erros'))
 
+    def test_mismatched_id_preserves_metadata_before_error(self):
+        connection = MagicMock()
+        cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.fetchall.side_effect = [[{'ID': 2503, 'Class': 'Book'}], []]
+        session = MagicMock()
+        session.get.return_value.json.return_value = self.metadata(999)
+        result = task.update_dataset(connection, session, 'https://example.test/{ID}', silent=True)
+        self.assertIn('solicitado 2503, retornado 999', result['last_error']['error'])
+        output = io.StringIO()
+        Console(file=output, width=100).print(task._status_panel(result))
+        rendered = output.getvalue()
+        for value in ['Livro', 'Autor', 'Tema', '999']:
+            self.assertIn(value, rendered)
+        self.assertLess(rendered.index('Palavras-chave'), rendered.index('Último problema'))
+        self.assertEqual(result['inserted'], 0)
+
     def test_shortcut_routes_to_2002(self):
         sys.path.insert(0, str(ROOT / "bots/CURADOR"))
         from chat.router import localizar

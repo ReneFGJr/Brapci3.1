@@ -38,7 +38,10 @@ def _integer(value):
 
 def dataset_values(metadata, work_id):
     if not isinstance(metadata, dict) or _integer(metadata.get("ID")) != work_id:
-        raise ValueError("Metadata não corresponde ao ID solicitado (cancelado ou remissivo).")
+        returned_id = metadata.get('ID', 'ausente') if isinstance(metadata, dict) else 'ausente'
+        message = metadata.get('message', '') if isinstance(metadata, dict) else ''
+        raise ValueError(f"Metadata não corresponde ao ID solicitado: solicitado {work_id}, "
+                         f"retornado {returned_id}. {message}".strip())
     work_class = metadata.get("Class")
     if work_class not in CLASSES or not metadata.get("title"):
         raise ValueError("Metadata sem classe de trabalho ou título válido.")
@@ -72,6 +75,24 @@ def dataset_values(metadata, work_id):
     }
 
 
+def _metadata_panel(metadata):
+    metadata = metadata if isinstance(metadata, dict) else {}
+    subject = metadata.get('subject') or {}
+    keywords = '; '.join(_names(items) for items in subject.values()) if isinstance(subject, dict) else _names(subject)
+    table = Table.grid(padding=(0, 2))
+    table.add_column(style='bold cyan', width=16)
+    table.add_column(overflow='fold')
+    for label, value, color in [
+        ('ID retornado', metadata.get('ID', 'Não informado'), 'yellow'),
+        ('Classe', metadata.get('Class', 'Não informada'), 'magenta'),
+        ('Título', metadata.get('title') or 'Não informado', 'green'),
+        ('Autores', _names(metadata.get('creator_author')) or 'Não informados', 'cyan'),
+        ('Palavras-chave', keywords or 'Não informadas', 'blue'),
+    ]:
+        table.add_row(label, Text(str(value), style=color))
+    return Panel(table, title='Metadados retornados pela API', border_style='cyan')
+
+
 def _status_panel(result, row=None, title='', status='Buscando conceitos ausentes', color='cyan'):
     row = row or {}
     table = Table.grid(padding=(0, 2))
@@ -88,7 +109,7 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
     problem = result.get('last_error')
     if problem:
-        return Group(panel, Panel(
+        return Group(panel, _metadata_panel(problem.get('metadata')), Panel(
             Text(f"ID {problem['ID']}: {problem['error']}", style='bold red', overflow='fold'),
             title='Último problema', border_style='red',
         ))
@@ -130,12 +151,16 @@ def _update_dataset(connection, session, endpoint, show=None):
             last_id = work_id
             result["checked"] += 1
             title = ''
+            metadata = None
             if show:
                 show(result, row, status='Recuperando metadata')
             try:
                 response = session.get(endpoint.format(ID=work_id), timeout=60)
                 response.raise_for_status()
-                values = dataset_values(response.json(), work_id)
+                metadata = response.json()
+                if isinstance(metadata, dict):
+                    title = metadata.get('title') or ''
+                values = dataset_values(metadata, work_id)
                 title = values['TITLE']
                 if show:
                     show(result, row, title, 'Gravando dataset', 'yellow')
@@ -158,7 +183,7 @@ def _update_dataset(connection, session, endpoint, show=None):
                 connection.rollback()
                 result["failed"] += 1
                 result["success"] = False
-                result['last_error'] = {"ID": work_id, "error": str(error)}
+                result['last_error'] = {"ID": work_id, "error": str(error), "metadata": metadata}
                 if len(result["errors"]) < 20:
                     result["errors"].append({"ID": work_id, "error": str(error)})
                 if show:
