@@ -46,10 +46,6 @@ def dataset_values(metadata, work_id):
     if not isinstance(metadata, dict) or _integer(metadata.get("ID")) != work_id:
         returned_id = metadata.get('ID', 'ausente') if isinstance(metadata, dict) else 'ausente'
         message = metadata.get('message', '') if isinstance(metadata, dict) else ''
-        print("======================")
-        print(metadata)
-        print(work_id, _integer(metadata.get("ID")))
-        sys.exit(0)
         raise ValueError(f"Metadata não corresponde ao ID solicitado: solicitado {work_id}, "
                          f"retornado {returned_id}. {message}".strip())
     work_class = metadata.get("Class")
@@ -109,7 +105,7 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_column(style='bold cyan', width=14)
     table.add_column(overflow='ellipsis', no_wrap=True)
     total = result.get('total')
-    completed = result['inserted'] + result['existing'] + result['failed']
+    completed = result['inserted'] + result['existing'] + result['failed'] + result.get('duplicates', 0)
     progress = 'Calculando total...' if total is None else f"{completed}/{total} ({completed / total * 100 if total else 100:.1f}%)"
     table.add_row('Concluído', Text(progress, style='bold green'))
     table.add_row('ID', Text(str(row.get('ID', '—')), style='bold yellow'))
@@ -119,6 +115,7 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table.add_row('Processados', str(result['checked']))
     table.add_row('Inseridos', Text(str(result['inserted']), style='green'))
     table.add_row('Já existentes', str(result['existing']))
+    table.add_row('Duplicados', Text(str(result.get('duplicates', 0)), style='yellow'))
     table.add_row('Erros', Text(str(result['failed']), style='red'))
     panel = Panel(table, title='CURADOR • TASK 2002 • Atualizar dataset', border_style='cyan')
     problem = result.get('last_error')
@@ -143,7 +140,7 @@ def update_dataset(connection, session, endpoint, silent=False):
 
 
 def _update_dataset(connection, session, endpoint, show=None):
-    result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
+    result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "duplicates": 0, "failed": 0, "errors": []}
     with connection.cursor() as cursor:
         cursor.execute('SELECT COUNT(*) AS total ' + PENDING_FROM)
         result['total'] = int(cursor.fetchone()['total'])
@@ -181,6 +178,22 @@ def _update_dataset(connection, session, endpoint, show=None):
                 if isinstance(metadata, dict):
                     title = metadata.get('title') or ''
                     row['Class'] = metadata.get('Class') or row['Class']
+                    returned_id = _integer(metadata.get('ID'))
+                    if returned_id > 0 and returned_id != work_id and metadata.get('Class') in CLASSES:
+                        # Atualize o Status do RDF como 91 (Duplicado).
+                        with connection.cursor() as cursor:
+                            cursor.execute(
+                                'UPDATE brapci_rdf.rdf_concept SET cc_status = 91 '
+                                'WHERE id_cc = %s AND cc_use = %s AND cc_status < 9',
+                                (work_id, returned_id),
+                            )
+                            duplicate = cursor.rowcount
+                        connection.commit()
+                        if duplicate:
+                            result['duplicates'] += 1
+                            if show:
+                                show(result, row, title, f'Duplicado de #{returned_id}: status 91', 'yellow')
+                            continue
                 values = dataset_values(metadata, work_id)
                 values['OAI_ID'] = row.get('OAI_ID') or ''
                 title = values['TITLE']
