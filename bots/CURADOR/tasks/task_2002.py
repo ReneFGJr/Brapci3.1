@@ -46,6 +46,7 @@ def dataset_values(metadata, work_id):
     if not isinstance(metadata, dict) or _integer(metadata.get("ID")) != work_id:
         returned_id = metadata.get('ID', 'ausente') if isinstance(metadata, dict) else 'ausente'
         message = metadata.get('message', '') if isinstance(metadata, dict) else ''
+        print("======================")
         print(metadata)
         print(work_id)
         sys.exit(0)
