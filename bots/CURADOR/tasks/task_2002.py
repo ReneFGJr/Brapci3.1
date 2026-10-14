@@ -22,6 +22,12 @@ TASK = {
 }
 CLASSES = ("Article", "Proceedings", "Book", "ChapterBook", "Proceeding", "BookChapter")
 BATCH_SIZE = 100
+PENDING_FROM = (
+    "FROM brapci_rdf.rdf_concept r "
+    "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
+    "WHERE (r.cc_class = 10 OR r.cc_class = 6 OR r.cc_class = 7 OR r.cc_class = 16) "
+    "AND r.cc_status < 9 AND d.ID IS NULL "
+)
 
 
 def _names(items):
@@ -98,6 +104,10 @@ def _status_panel(result, row=None, title='', status='Buscando conceitos ausente
     table = Table.grid(padding=(0, 2))
     table.add_column(style='bold cyan', width=14)
     table.add_column(overflow='ellipsis', no_wrap=True)
+    total = result.get('total')
+    completed = result['inserted'] + result['existing'] + result['failed']
+    progress = 'Calculando total...' if total is None else f"{completed}/{total} ({completed / total * 100 if total else 100:.1f}%)"
+    table.add_row('Concluído', Text(progress, style='bold green'))
     table.add_row('ID', Text(str(row.get('ID', '—')), style='bold yellow'))
     table.add_row('Classe', Text(str(row.get('Class', '—')), style='bold magenta'))
     table.add_row('Título', Text(' '.join(str(title).split()) or '—', style='bold green'))
@@ -130,16 +140,19 @@ def update_dataset(connection, session, endpoint, silent=False):
 
 def _update_dataset(connection, session, endpoint, show=None):
     result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT COUNT(*) AS total ' + PENDING_FROM)
+        result['total'] = int(cursor.fetchone()['total'])
+    connection.commit()
+    if show:
+        show(result)
     last_id = None
     while True:
         boundary = '' if last_id is None else 'AND r.id_cc < %s '
         parameters = (BATCH_SIZE,) if last_id is None else (last_id, BATCH_SIZE)
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT r.id_cc AS ID, r.cc_class AS Class FROM brapci_rdf.rdf_concept r "
-                "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
-                "WHERE (r.cc_class = 10 OR r.cc_class = 6 OR r.cc_class = 7 OR r.cc_class = 16) "
-                "AND r.cc_status < 9 AND d.ID IS NULL "
+                "SELECT r.id_cc AS ID, r.cc_class AS Class " + PENDING_FROM
                 + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
                 parameters,
             )
