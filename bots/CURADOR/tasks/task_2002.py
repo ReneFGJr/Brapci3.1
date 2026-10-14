@@ -42,15 +42,18 @@ def _integer(value):
         return 0
 
 
-def dataset_values(metadata, work_id):
+def dataset_values(metadata, work_id, connection):
     if not isinstance(metadata, dict) or _integer(metadata.get("ID")) != work_id:
         returned_id = metadata.get('ID', 'ausente') if isinstance(metadata, dict) else 'ausente'
         message = metadata.get('message', '') if isinstance(metadata, dict) else ''
 
-        #Atualize o Status do RDF como 91 (Duplicado)
-
-        print(work_id, _integer(metadata.get("ID")))
-        sys.exit(0)
+        # Atualiza o status do RDF como 91 (Duplicado).
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE brapci_rdf.rdf_concept SET cc_status = %s WHERE id_cc = %s",
+                (91, work_id),
+            )
+        connection.commit()
         raise ValueError(f"Metadata não corresponde ao ID solicitado: solicitado {work_id}, "
                          f"retornado {returned_id}. {message}".strip())
     work_class = metadata.get("Class")
@@ -182,7 +185,7 @@ def _update_dataset(connection, session, endpoint, show=None):
                 if isinstance(metadata, dict):
                     title = metadata.get('title') or ''
                     row['Class'] = metadata.get('Class') or row['Class']
-                values = dataset_values(metadata, work_id)
+                values = dataset_values(metadata, work_id, connection)
                 values['OAI_ID'] = row.get('OAI_ID') or ''
                 title = values['TITLE']
                 if show:
