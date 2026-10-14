@@ -48,7 +48,7 @@ def dataset_values(metadata, work_id):
         message = metadata.get('message', '') if isinstance(metadata, dict) else ''
         print("======================")
         print(metadata)
-        print(work_id)
+        print(work_id, _integer(metadata.get("ID")))
         sys.exit(0)
         raise ValueError(f"Metadata não corresponde ao ID solicitado: solicitado {work_id}, "
                          f"retornado {returned_id}. {message}".strip())
