@@ -86,6 +86,28 @@ class Index extends Model
     public const CLUSTER_SEARCH_LIMIT = 200;
     public bool $clusterSearchTruncated = false;
 
+    // Stopwords padrão do FULLTEXT InnoDB e palavras funcionais em português.
+    private const CLUSTER_STOPWORDS = [
+        'a', 'about', 'an', 'are', 'as', 'at', 'be', 'by', 'com', 'de', 'do',
+        'da', 'dos', 'das', 'e', 'em', 'en', 'for', 'from', 'how', 'i', 'in',
+        'is', 'it', 'la', 'no', 'nos', 'na', 'nas', 'o', 'os', 'of', 'on',
+        'or', 'para', 'por', 'que', 'se', 'that', 'the', 'this', 'to', 'um',
+        'uma', 'was', 'what', 'when', 'where', 'who', 'will', 'with', 'und',
+        'www',
+    ];
+
+    public static function clusteringSearchTerms(string $query): array
+    {
+        $terms = preg_split('/\s+/u', trim($query), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $terms = array_map(static function (string $term): string {
+            return (string) preg_replace('/[^\p{L}\p{N}_]+/u', '', $term);
+        }, $terms);
+        return array_values(array_unique(array_filter($terms, static function (string $term): bool {
+            return mb_strlen($term, 'UTF-8') >= 3
+                && !in_array(mb_strtolower($term, 'UTF-8'), self::CLUSTER_STOPWORDS, true);
+        })));
+    }
+
     public function searchForClustering(string $query): array
     {
         $this->clusterSearchTruncated = false;
@@ -93,12 +115,7 @@ class Index extends Model
         if ($query === '') {
             return [];
         }
-        $terms = preg_split('/\s+/u', $query, -1, PREG_SPLIT_NO_EMPTY);
-        $terms = array_filter(array_map(static function (string $term): string {
-            return (string) preg_replace('/[^\p{L}\p{N}_]+/u', '', $term);
-        }, $terms), static function (string $term): bool {
-            return $term !== '';
-        });
+        $terms = self::clusteringSearchTerms($query);
         if ($terms === []) {
             return [];
         }

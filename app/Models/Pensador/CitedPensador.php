@@ -11,6 +11,137 @@ class CitedPensador extends Model
     protected $allowedFields = ['pensador_id', 'cited_normalize_id'];
     protected $useTimestamps = false;
     protected string $datasetTable = 'brapci_elastic.dataset';
+    protected string $authorDataTable = 'brapci_rdf.rdf_data';
+    protected string $authorClassTable = 'brapci_rdf.rdf_class';
+    protected string $thinkerTable = 'brapci.pensadores';
+
+    public function unlinkWork(int $thinkerId, int $workId): void
+    {
+        $this->db->table('cited_pensador')->where('pensador_id', $thinkerId)
+            ->where('cited_normalize_id', $workId)->delete();
+    }
+
+    public function groupLinkedWorks(int $thinkerId, array $ids, int $targetId): void
+    {
+        foreach ($ids as $id) {
+            if (!is_scalar($id) || !preg_match('/^[1-9][0-9]*$/', (string) $id)) {
+                throw new \InvalidArgumentException('Seleção inválida.');
+            }
+        }
+        $ids = array_values(array_unique(array_map('intval', $ids)));
+        if (count($ids) < 2 || !in_array($targetId, $ids, true)) {
+            throw new \InvalidArgumentException('Selecione ao menos duas obras e um ID de destino entre elas.');
+        }
+        $this->db->transBegin();
+        try {
+            $marks = implode(',', array_fill(0, count($ids), '?'));
+            $linked = $this->db->query('SELECT cited_normalize_id FROM cited_pensador WHERE pensador_id = ? '
+                . 'AND cited_normalize_id IN (' . $marks . ') FOR UPDATE', array_merge([$thinkerId], $ids))->getResultArray();
+            if (count($linked) !== count($ids)) {
+                throw new \InvalidArgumentException('Uma obra não está mais vinculada ao pensador.');
+            }
+            $sources = array_values(array_diff($ids, [$targetId]));
+            $marks = implode(',', array_fill(0, count($sources), '?'));
+            // Materializa também as correspondências por DOI antes de remover as duplicatas.
+            $this->db->query('UPDATE cited_article a JOIN cited_normalize n ON ' . $this->citationMatch()
+                . ' SET a.ca_normalized = ? WHERE n.id_ca IN (' . $marks . ')', array_merge([$targetId], $sources));
+            $thinkers = $this->db->table('cited_pensador')->distinct()->select('pensador_id')
+                ->whereIn('cited_normalize_id', $sources)->get()->getResultArray();
+            foreach ($thinkers as $thinker) {
+                $this->db->query('INSERT IGNORE INTO cited_pensador (pensador_id, cited_normalize_id) VALUES (?, ?)',
+                    [$thinker['pensador_id'], $targetId]);
+            }
+            $this->db->table('cited_pensador')->whereIn('cited_normalize_id', $sources)->delete();
+            $this->db->table('cited_normalize')->whereIn('id_ca', $sources)->delete();
+            $this->refreshCitationCounts([$targetId]);
+            if ($this->db->transStatus() === false) {
+                throw new \RuntimeException('Não foi possível agrupar as obras.');
+            }
+            $this->db->transCommit();
+        } catch (\Throwable $error) {
+            $this->db->transRollback();
+            throw $error;
+        }
+    }
+
+    public function thinkersCitedByAuthor(int $authorId): array
+    {
+        // EXISTS evita multiplicar as citações quando há vínculos RDF repetidos.
+        $works = $this->db->table($this->authorDataTable . ' d')
+            ->select('1', false)
+            ->join($this->authorClassTable . ' c', 'c.id_c = d.d_p')
+            ->where('c.c_class', 'hasAuthor')
+            ->where('d.d_r2', $authorId)
+            ->where('d.d_r1 = a.ca_rdf', null, false)
+            ->getCompiledSelect();
+
+        $rows = $this->db->table('cited_article a')
+            ->select('t.id, t.nome, COUNT(DISTINCT a.id_ca) AS total', false)
+            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca')
+            ->join($this->thinkerTable . ' t', 't.id = p.pensador_id')
+            ->where('a.ca_rdf >', 0)
+            ->where('EXISTS (' . $works . ')', null, false)
+            ->groupBy('t.id, t.nome')
+            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('t.id', 'ASC')
+            ->get()->getResultArray();
+        foreach ($rows as &$row) {
+            $row['id'] = (int) $row['id'];
+            $row['total'] = (int) $row['total'];
+        }
+        unset($row);
+        return $rows;
+    }
+
+    public function thinkerTimelineByAuthor(int $authorId): array
+    {
+        $works = $this->db->table($this->authorDataTable . ' d')
+            ->select('1', false)
+            ->join($this->authorClassTable . ' c', 'c.id_c = d.d_p')
+            ->where('c.c_class', 'hasAuthor')->where('d.d_r2', $authorId)
+            ->where('d.d_r1 = a.ca_rdf', null, false)->getCompiledSelect();
+        $rows = $this->db->table('cited_article a')
+            ->select('t.id, t.nome, a.id_ca, a.ca_rdf, a.ca_year_origem', false)
+            ->distinct()
+            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca')
+            ->join($this->thinkerTable . ' t', 't.id = p.pensador_id')
+            ->where('a.ca_rdf >', 0)->where('EXISTS (' . $works . ')', null, false)
+            ->get()->getResultArray();
+        $metadata = [];
+        foreach (array_chunk(array_unique(array_column($rows, 'ca_rdf')), 500) as $ids) {
+            $years = $this->db->table($this->datasetTable)
+                ->select('ID, MIN(NULLIF(YEAR, 0)) AS year', false)
+                ->whereIn('ID', $ids)->groupBy('ID')->get()->getResultArray();
+            foreach ($years as $record) { $metadata[$record['ID']] = $record['year']; }
+        }
+        $thinkers = [];
+        foreach ($rows as $row) {
+            $id = (int) $row['id'];
+            if (!isset($thinkers[$id])) {
+                $thinkers[$id] = ['id' => $id, 'nome' => $row['nome'], 'total' => 0, 'unknown_year' => 0, 'years' => []];
+            }
+            $year = (int) ($metadata[$row['ca_rdf']] ?? $row['ca_year_origem']);
+            $thinkers[$id]['total']++;
+            if ($year < 1000 || $year > (int) date('Y') + 1) {
+                $thinkers[$id]['unknown_year']++;
+                continue;
+            }
+            $thinkers[$id]['years'][$year] = ($thinkers[$id]['years'][$year] ?? 0) + 1;
+        }
+        foreach ($thinkers as &$thinker) {
+            ksort($thinker['years']);
+            $points = [];
+            foreach ($thinker['years'] as $year => $total) {
+                $points[] = ['year' => (int) $year, 'total' => $total];
+            }
+            $thinker['years'] = $points;
+        }
+        unset($thinker);
+        $thinkers = array_values($thinkers);
+        usort($thinkers, static fn ($a, $b) => ($b['total'] <=> $a['total']) ?: strcmp($a['nome'], $b['nome']));
+        return $thinkers;
+    }
 
     public function linkedWorks(int $pensadorId): array
     {
@@ -25,12 +156,21 @@ class CitedPensador extends Model
             ->get()->getResultArray();
     }
 
+    public function groupedReferences(int $normalizedId): array
+    {
+        return $this->db->table('cited_article a')
+            ->select('a.id_ca, a.ca_rdf, a.ca_text, a.ca_doi, a.ca_year, a.ca_year_origem')
+            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
+            ->where('n.id_ca', $normalizedId)
+            ->orderBy('a.id_ca', 'ASC')->get()->getResultArray();
+    }
+
     public function citingWorks(int $normalizedId): array
     {
 
         $works = $this->db->table('cited_article a')
             ->select('a.ca_rdf, MIN(NULLIF(a.ca_year_origem, 0)) AS year', false)
-            ->join('cited_normalize n', $this->citationMatch(), 'inner', false)
+            ->join('cited_normalize n', 'n.id_ca = a.ca_normalized')
             ->where('n.id_ca', $normalizedId)->where('a.ca_rdf >', 0)
             ->groupBy('a.ca_rdf')
             ->orderBy('a.ca_rdf', 'ASC')
@@ -104,30 +244,35 @@ class CitedPensador extends Model
         return $parts ? (string) end($parts) : '';
     }
 
+    public static function citationName(array $pensador): string
+    {
+        return trim((string) ($pensador['nome_citacao'] ?? ''));
+    }
+
     private function candidatesQuery(array $pensador)
     {
         $id = (int) $pensador['id'];
-        $this->ensureDailyCache($pensador);
+        $name = self::citationName($pensador);
         $builder = $this->db->table('cited_normalize n')
             ->distinct()
             ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi')
-            ->join('cited_article a', $this->citationMatch(), 'inner', false)
-            ->join('cached c', 'c.cited_article_id = a.id_ca AND c.pensador_id = ' . $id
-                . ' AND c.cache_date = ' . $this->db->escape(date('Y-m-d')), 'inner', false)
             ->join('cited_pensador p', 'p.cited_normalize_id = n.id_ca AND p.pensador_id = ' . $id, 'left')
             ->where('p.pensador_id', null);
+        if ($name === '' || $id <= 0) {
+            return $builder->where('1 = 0', null, false);
+        }
+        $builder->groupStart()->like('n.ca_text', $name)->orLike('n.ca_authors', $name)->groupEnd();
         return $builder;
     }
 
     /**
      * Gera uma vez ao dia a relação entre o pensador e as citações brutas que
-     * contêm seu nome. O sobrenome de citação é usado porque é a forma que
-     * normalmente aparece nas referências bibliográficas.
+     * contêm o nome de citação cadastrado para o pensador.
      */
     private function ensureDailyCache(array $pensador): void
     {
         $pensadorId = (int) ($pensador['id'] ?? 0);
-        $searchTerm = self::surname($pensador);
+        $searchTerm = self::citationName($pensador);
         if ($pensadorId <= 0 || $searchTerm === '') {
             return;
         }
