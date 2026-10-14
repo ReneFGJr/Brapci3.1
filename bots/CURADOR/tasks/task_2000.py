@@ -6,7 +6,27 @@ import unicodedata
 import pymysql
 import requests
 from dotenv import load_dotenv
+from rich import box
+from rich.console import Group
+from rich.panel import Panel
+from rich.text import Text
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
+
+class _ExportProgress(Progress):
+    def get_renderable(self):
+        task = self.tasks[0] if self.tasks else None
+        details = Text()
+        if task is not None:
+            details.append(task.description + "\n", style="bold cyan")
+            details.append(f"Pendentes no início: {task.total}\n", style="cyan")
+            details.append(f"Exportados: {task.fields['exported']}", style="bold green")
+            details.append(f"   Erros: {task.fields['failed']}", style="bold red")
+        return Panel(
+            Group(details, super().get_renderable()),
+            title="CURADOR • TASK 2000 • Exportar dataset",
+            box=box.DOUBLE, border_style="cyan", width=70,
+        )
+
 
 TASK = {
     "id": 2000,
@@ -158,32 +178,8 @@ def exportToElastic(journal=0, silent=False):
         "errors": [],
     }
 
-    if journal == 0:
-        source_conn = pymysql.connect(
-            host=os.getenv("DB_HOST", "localhost"),
-            port=int(os.getenv("DB_PORT", 3306)),
-            user=os.getenv("DB_USERNAME"),
-            password=os.getenv("DB_PASSWORD"),
-            database="brapci_elastic",
-            charset="utf8mb4",
-            cursorclass=pymysql.cursors.DictCursor,
-        )
-        try:
-            with source_conn.cursor() as cursor:
-                cursor.execute("SELECT id_jnl FROM brapci.source_source ORDER BY id_jnl")
-                source_ids = [int(row["id_jnl"]) for row in cursor.fetchall()]
-        finally:
-            source_conn.close()
-
-        for source_id in source_ids:
-            if source_id <= 0:
-                raise ValueError("O ID da fonte deve ser maior que zero.")
-            source_result = exportToElastic(source_id, silent=silent)
-            for field in ("total", "exported", "failed"):
-                result[field] += source_result[field]
-            result["errors"].extend(source_result["errors"][:20 - len(result["errors"])])
-            result["success"] = result["success"] and source_result["success"]
-        return result
+    journal_filter = " AND JOURNAL = %s" if journal else ""
+    journal_parameters = (journal,) if journal else ()
 
     conn = pymysql.connect(
         host=os.getenv("DB_HOST", "localhost"),
@@ -197,32 +193,30 @@ def exportToElastic(journal=0, silent=False):
     try:
         with conn.cursor() as cursor:
             cursor.execute(
-                "SELECT COUNT(*) AS total FROM dataset WHERE JOURNAL = %s AND `new` = 1 AND ID > 0",
-                (journal,),
+                "SELECT COUNT(*) AS total FROM dataset WHERE `new` = 1" + journal_filter,
+                journal_parameters,
             )
             pending = int(cursor.fetchone()['total'])
         conn.commit()
-        with requests.Session() as session, Progress(
-            TextColumn('[bold cyan]{task.description}'),
+        with requests.Session() as session, _ExportProgress(
             BarColumn(bar_width=30, style='blue', complete_style='green', finished_style='bold green'),
             TextColumn('[bold yellow]{task.percentage:>6.1f}%'),
-            TextColumn('[green]{task.fields[exported]} exportados[/green] / {task.total}'),
-            TextColumn('[red]{task.fields[failed]} erros'),
             TimeRemainingColumn(),
             disable=silent,
         ) as progress:
             progress_task = progress.add_task(
-                f'JOURNAL {journal}', total=pending, exported=0, failed=0,
+                f'JOURNAL {journal}' if journal else 'Todos os registros pendentes', total=pending, exported=0, failed=0,
             )
-            last_id = 0
+            last_id = None
             while True:
                 conn.ping(reconnect=True)
                 with conn.cursor() as cursor:
+                    boundary = " AND ID > %s" if last_id is not None else ""
+                    parameters = journal_parameters + ((last_id,) if last_id is not None else ())
                     cursor.execute(
-                        "SELECT * FROM dataset "
-                        "WHERE JOURNAL = %s AND ID > %s AND `new` = 1 "
-                        "ORDER BY ID LIMIT 1000",
-                        (journal, last_id),
+                        "SELECT * FROM dataset WHERE `new` = 1" + journal_filter + boundary
+                        + " ORDER BY ID LIMIT 1000",
+                        parameters,
                     )
                     rows = cursor.fetchall()
                 if not rows:

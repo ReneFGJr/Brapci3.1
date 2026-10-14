@@ -841,6 +841,7 @@ class RDFmetadata extends Model
             $dr['Class'] = 'Issue';
             $dr['ID'] = $IDissue;
             $dr['publisher'] = $di['jnl_name'];
+            $dr['id_jnl'] = $di['id_jnl'];
             $dr['jnl_rdf'] = $di['is_source'];
             $dr['is_year'] = $di['is_year'];
             $dr['is_nr'] = $di['is_nr'];

@@ -75,7 +75,7 @@ def dataset_values(metadata, work_id, connection):
                        "Proceedings": "EV", "Proceeding": "EV"}.get(work_class, "JA"),
         "json": json.dumps(metadata, ensure_ascii=False, allow_nan=False),
         "DOI": metadata.get("DOI") or metadata.get("doi") or "",
-        "JOURNAL": _integer(issue.get("jnl_rdf")),
+        "JOURNAL": _integer(issue.get("id_jnl") or issue.get("jnl_rdf")),
         "ISSUE": _integer(issue.get("ID")),
         "PUBLICATION": metadata.get("publisher") or "",
         "TITLE": metadata["title"],
