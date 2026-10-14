@@ -949,6 +949,7 @@ class RDFmetadata extends Model
 
         $dr['ID'] = $ID;
         $dr['Class'] = $dt['concept']['c_class'];
+        $dr['id_jnl'] = 0;
         $dr['title'] = troca((string)$this->simpleExtract($dd, 'hasTitle'), "\n", '');
         $dr['title'] = troca($dr['title'], "\r", '');
         $dr['creator_author'] = [];
@@ -981,6 +982,7 @@ class RDFmetadata extends Model
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
             $simpleIssue = true;
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
+            $dr['id_jnl'] = (int)($dtIssue['id_jnl'] ?? 0);
             $dr['Issue'] = $dtIssue;
             if (isset($dtIssue['is_year'])) {
                 $dr['year'] = $dtIssue['is_year'];
