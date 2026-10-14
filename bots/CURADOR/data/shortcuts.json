@@ -33,7 +33,8 @@
     "elastic": {
         "aliases": ["elasticsearch", "elasticsearch"],
         "children": {
-            "export": {}
+            "export": {},
+            "update_dataset": {}
         }
     },
     "authors": {

@@ -95,6 +95,10 @@
             "dataset verify"
         ]
     },
+    "2002": {
+        "description": "Inserir trabalhos RDF ausentes no dataset",
+        "patterns": ["elastic update_dataset"]
+    },
     "2000": {
         "description": "Exportar Elastic Search& Dataset",
         "patterns": [

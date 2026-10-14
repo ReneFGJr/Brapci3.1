@@ -142,9 +142,11 @@ class RDFmetadata extends Model
                 return $RSP;
                 break;
             case 'BookChapter':
+            case 'ChapterBook':
                 return $this->metadataWork($dt);
                 break;
             case 'Proceeding':
+            case 'Proceedings':
                 return $this->metadataWork($dt);
                 break;
             /*************** Journals */

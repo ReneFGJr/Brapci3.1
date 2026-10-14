@@ -121,8 +121,9 @@ class Elasticsearch extends BaseController
                 break;
 
             case 'update_index':
-                $Register = new \App\Models\ElasticSearch\Register();
-                $sx .= $Register->update_index();
+                $sx .= '<div class="container py-4"><div class="alert alert-info" role="alert">'
+                    . 'Para atualizar o índice Elasticsearch, acesse o painel do <strong>CURADOR.py</strong>.'
+                    . '</div></div>';
                 break;
 
             default:
