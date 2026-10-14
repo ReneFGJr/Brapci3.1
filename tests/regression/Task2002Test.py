@@ -35,11 +35,11 @@ class Task2002Test(unittest.TestCase):
     def test_skips_existing_and_continues_after_error(self):
         connection = MagicMock()
         cursor = connection.cursor.return_value.__enter__.return_value
-        cursor.fetchall.side_effect = [[{"ID": 2, "Class": "Book"},
-                                       {"ID": 3, "Class": "Book"}], []]
+        cursor.fetchall.side_effect = [[{"ID": 3, "Class": "Book"},
+                                       {"ID": 2, "Class": "Book"}], []]
         cursor.rowcount = 1
         session = MagicMock()
-        session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(3)]
+        session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(2)]
         show = MagicMock()
         result = task._update_dataset(connection, session, "https://example.test/{ID}", show)
         self.assertEqual((result["checked"], result["inserted"], result["existing"], result["failed"]), (2, 1, 0, 1))
@@ -53,6 +53,12 @@ class Task2002Test(unittest.TestCase):
         self.assertIn('LEFT JOIN brapci_elastic.dataset', selects[0].args[0])
         self.assertIn('d.ID IS NULL', selects[0].args[0])
         self.assertIn('r.cc_status < 9', selects[0].args[0])
+        self.assertIn('ORDER BY r.id_cc DESC', selects[0].args[0])
+        self.assertNotIn('r.id_cc < %s', selects[0].args[0])
+        self.assertIn('r.id_cc < %s', selects[1].args[0])
+        self.assertEqual(selects[1].args[1][-2], 2)
+        self.assertEqual([call.args[0] for call in session.get.call_args_list],
+                         ['https://example.test/3', 'https://example.test/2'])
         self.assertIn('JOIN brapci_rdf.rdf_class', selects[0].args[0])
         self.assertTrue(any(call.args[2:] == ('Livro', 'Inserido', 'green') for call in show.call_args_list))
 

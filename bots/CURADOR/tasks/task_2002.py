@@ -130,17 +130,19 @@ def update_dataset(connection, session, endpoint, silent=False):
 
 def _update_dataset(connection, session, endpoint, show=None):
     result = {"success": True, "checked": 0, "inserted": 0, "existing": 0, "failed": 0, "errors": []}
-    last_id = 0
+    last_id = None
     marks = ",".join(["%s"] * len(CLASSES))
     while True:
+        boundary = '' if last_id is None else 'AND r.id_cc < %s '
+        parameters = (*CLASSES, BATCH_SIZE) if last_id is None else (*CLASSES, last_id, BATCH_SIZE)
         with connection.cursor() as cursor:
             cursor.execute(
                 "SELECT r.id_cc AS ID, c.c_class AS Class FROM brapci_rdf.rdf_concept r "
                 "JOIN brapci_rdf.rdf_class c ON c.id_c = r.cc_class "
                 "LEFT JOIN brapci_elastic.dataset d ON d.ID = r.id_cc "
                 f"WHERE c.c_class IN ({marks}) AND r.cc_status < 9 AND d.ID IS NULL "
-                "AND r.id_cc > %s ORDER BY r.id_cc LIMIT %s",
-                (*CLASSES, last_id, BATCH_SIZE),
+                + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
+                parameters,
             )
             rows = cursor.fetchall()
         connection.commit()
