@@ -152,7 +152,9 @@ def _update_dataset(connection, session, endpoint, show=None):
         parameters = (BATCH_SIZE,) if last_id is None else (last_id, BATCH_SIZE)
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT r.id_cc AS ID, r.cc_class AS Class " + PENDING_FROM
+                "SELECT r.id_cc AS ID, r.cc_class AS Class, "
+                "(SELECT o.oai_identifier FROM brapci_oaipmh.oai_listidentify o "
+                "WHERE o.oai_rdf = r.id_cc ORDER BY o.id_oai DESC LIMIT 1) AS OAI_ID " + PENDING_FROM
                 + boundary + "ORDER BY r.id_cc DESC LIMIT %s",
                 parameters,
             )
@@ -176,6 +178,7 @@ def _update_dataset(connection, session, endpoint, show=None):
                     title = metadata.get('title') or ''
                     row['Class'] = metadata.get('Class') or row['Class']
                 values = dataset_values(metadata, work_id)
+                values['OAI_ID'] = row.get('OAI_ID') or ''
                 title = values['TITLE']
                 if show:
                     show(result, row, title, 'Gravando dataset', 'yellow')

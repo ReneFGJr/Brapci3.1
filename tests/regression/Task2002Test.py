@@ -38,8 +38,9 @@ class Task2002Test(unittest.TestCase):
     def test_skips_existing_and_continues_after_error(self):
         connection = MagicMock()
         cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.fetchone.return_value = {'total': 2}
         cursor.fetchall.side_effect = [[{"ID": 3, "Class": "Book"},
-                                       {"ID": 2, "Class": "Book"}], []]
+                                       {"ID": 2, "Class": "Book", "OAI_ID": "oai:test:2"}], []]
         cursor.rowcount = 1
         session = MagicMock()
         session.get.return_value.json.side_effect = [{"status": "404"}, self.metadata(2)]
@@ -52,8 +53,13 @@ class Task2002Test(unittest.TestCase):
         inserts = [call for call in cursor.execute.call_args_list if call.args[0].startswith("INSERT")]
         self.assertEqual(len(inserts), 1)
         self.assertIn("NOT EXISTS", inserts[0].args[0])
-        selects = [call for call in cursor.execute.call_args_list if call.args[0].startswith('SELECT')]
+        self.assertIn('`OAI_ID`', inserts[0].args[0])
+        self.assertIn('oai:test:2', inserts[0].args[1])
+        self.assertEqual(result['total'], 2)
+        selects = [call for call in cursor.execute.call_args_list if call.args[0].startswith('SELECT r.id_cc')]
         self.assertIn('LEFT JOIN brapci_elastic.dataset', selects[0].args[0])
+        self.assertIn('FROM brapci_oaipmh.oai_listidentify', selects[0].args[0])
+        self.assertIn('o.oai_rdf = r.id_cc', selects[0].args[0])
         self.assertIn('d.ID IS NULL', selects[0].args[0])
         self.assertIn('r.cc_status < 9', selects[0].args[0])
         self.assertIn('ORDER BY r.id_cc DESC', selects[0].args[0])
@@ -69,6 +75,7 @@ class Task2002Test(unittest.TestCase):
 
     def test_silent_has_no_output(self):
         connection = MagicMock()
+        connection.cursor.return_value.__enter__.return_value.fetchone.return_value = {'total': 0}
         connection.cursor.return_value.__enter__.return_value.fetchall.return_value = []
         output = io.StringIO()
         with redirect_stdout(output):
@@ -90,6 +97,7 @@ class Task2002Test(unittest.TestCase):
     def test_mismatched_id_preserves_metadata_before_error(self):
         connection = MagicMock()
         cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.fetchone.return_value = {'total': 1}
         cursor.fetchall.side_effect = [[{'ID': 2503, 'Class': 'Book'}], []]
         session = MagicMock()
         session.get.return_value.json.return_value = self.metadata(999)
@@ -102,6 +110,12 @@ class Task2002Test(unittest.TestCase):
             self.assertIn(value, rendered)
         self.assertLess(rendered.index('Palavras-chave'), rendered.index('Último problema'))
         self.assertEqual(result['inserted'], 0)
+
+    def test_progress_counts_completed_records(self):
+        output = io.StringIO()
+        result = dict(checked=4, total=10, inserted=2, existing=0, failed=1)
+        Console(file=output, width=100).print(task._status_panel(result))
+        self.assertIn('3/10 (30.0%)', output.getvalue())
 
     def test_shortcut_routes_to_2002(self):
         sys.path.insert(0, str(ROOT / "bots/CURADOR"))
