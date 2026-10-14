@@ -1656,10 +1656,10 @@ class Socials extends Model
 			];
 		}
 
-		// Verifica se o usuário já existe
+                // O e-mail informado não pode existir como e-mail nem como usuário.
 		$dt = $this->user_exists($user);
 
-		if (!isset($dt[0])) {
+                if (empty($dt)) {
 
 			$this->user_add($user, $name, $inst);
 
@@ -1673,9 +1673,9 @@ class Socials extends Model
 
 		// Usuário já cadastrado
 		return [
-			"status" => '511',
-			"error"   => 511,
-			"message" => lang('social.user_already'),
+                        "status" => '409',
+                        "error"   => 409,
+                        "message" => 'Este e-mail já está cadastrado.',
 			"action"  => "showLogin"
 		];
 	}
@@ -1684,6 +1684,7 @@ class Socials extends Model
 	{
 		$pw1 = substr(md5($user), 0, 6);
 		$data = [
+                        'us_login' => $user,
 			'us_email' => $user,
 			'us_nome' => $name,
 			'us_affiliation' => $inst,
@@ -1731,7 +1732,12 @@ class Socials extends Model
 	{
 		$dt = array();
 		if (strlen($email) > 0) {
-			$dt = $this->where('us_email', $email)->first();
+                        $dt = $this
+                                ->groupStart()
+                                ->where('us_email', $email)
+                                ->orWhere('us_login', $email)
+                                ->groupEnd()
+                                ->first();
 		}
 		return $dt;
 	}
