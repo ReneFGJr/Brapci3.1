@@ -79,12 +79,12 @@ $formatDate = static function ($value) {
             </thead>
             <tbody>
     <?php foreach ($reports as $report): $pending = (int) $report['bug_status'] === 1; $id = (int) $report['id_bug']; ?>
-                <tr>
+                <tr class="<?= $pending ? '' : 'table-secondary text-muted' ?>">
                     <th scope="row">#<?= $id ?><span class="d-block fw-normal"><?= esc($labels[$report['bug_problem']] ?? $report['bug_problem']) ?></span></th>
                     <td class="text-nowrap"><?= esc($formatDate($report['created_at'] ?? null)) ?></td>
                     <td><a href="<?= esc(rtrim(PATH, '/') . '/v/' . (int) $report['bug_v'], 'attr') ?>" target="_blank" rel="noopener">#<?= (int) $report['bug_v'] ?></a></td>
                     <td><?= esc($report['bug_name'] ?: 'Não informado') ?></td>
-                    <td><span class="badge <?= $pending ? 'bg-warning text-dark' : 'bg-success' ?>"><?= $pending ? 'Pendente' : 'Resolvido' ?></span></td>
+                    <td><span class="badge <?= $pending ? 'bg-warning text-dark' : 'bg-secondary' ?>"><?= $pending ? 'Pendente' : 'Resolvido' ?></span></td>
                     <td class="text-nowrap"><?= esc($formatDate($report['updated_at'] ?? null)) ?></td>
                     <td style="min-width: 280px;">
                 <?php if (!empty($report['bug_description'])): ?>

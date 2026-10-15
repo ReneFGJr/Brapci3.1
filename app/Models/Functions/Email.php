@@ -92,10 +92,12 @@ class Email extends Model
         string $subject = '',
         string $text = '',
         array $files = [],
-        array $bcc = []
+        array $bcc = [],
+        array $cc = []
     ): array {
 
         $email = \Config\Services::email();
+        $email->clear(true);
 
         $config = [
             'protocol'     => 'smtp',
@@ -125,6 +127,9 @@ class Email extends Model
 
         $email->setFrom($fromEmail, $fromName);
         $email->setTo($to);
+        if ($cc !== []) {
+            $email->setCC($cc);
+        }
         if ($bcc !== []) {
             $email->setBCC($bcc);
         }

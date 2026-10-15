@@ -57,7 +57,7 @@ class Bugs extends Model
                             service('security')->verify($request);
                             $solution = $request->getPost('solution');
                             if (is_string($solution) && mb_strlen(trim($solution)) <= 2000) {
-                                $this->corrected((int) $d2, trim($solution));
+                                $sx .= $this->corrected((int) $d2, trim($solution));
                             }
                         }
                         $sx .= $this->list();
@@ -88,11 +88,39 @@ class Bugs extends Model
 
     function corrected($id, $solution = '')
         {
+            $report = $this->where('id_bug', $id)->where('bug_status', 1)->first();
+            if (!$report) {
+                return '';
+            }
             $data['bug_status'] = 2;
             $data['updated_at'] = date("Y-m-d H:i:s");
-            $data['bug_solution'] = $solution !== '' ? $solution : 'Fixed';
-            $this->set($data)->where('id_bug',$id)->where('bug_status', 1)->update();
-            return "";
+            $data['bug_solution'] = $solution !== '' ? $solution : 'Problema corrigido.';
+            if (!$this->set($data)->where('id_bug',$id)->where('bug_status', 1)->update()) {
+                return '<div class="alert alert-danger">Não foi possível salvar a solução.</div>';
+            }
+            if ($this->db->affectedRows() === 0) {
+                return '';
+            }
+            $user = !empty($report['bug_user'])
+                ? (new \App\Models\Socials())->find((int) $report['bug_user']) : null;
+            $to = trim((string) ($user['us_email'] ?? ''));
+            if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                return '<div class="alert alert-warning">Problema resolvido. O solicitante não possui e-mail válido para receber a solução.</div>';
+            }
+            $text = '<table width="600" style="max-width:100%"><tr><td><img src="cid:$image1" style="width:100%" alt="BRAPCI"></td></tr><tr><td>';
+            $text .= '<p>Olá, ' . esc($report['bug_name'] ?: 'colaborador(a)') . '!</p>';
+            $text .= '<p>Agradecemos sua contribuição para melhorar a BRAPCI. Seu relato nos ajuda a manter a qualidade das informações disponíveis.</p>';
+            $text .= '<p>O problema #' . (int) $id . ' foi resolvido.</p>';
+            $text .= '<p><strong>Problema relatado:</strong> ' . esc($report['bug_problem']) . '</p>';
+            $text .= '<p><strong>Solução aplicada:</strong><br>' . nl2br(esc($data['bug_solution'])) . '</p>';
+            $text .= '<p><a href="' . esc(rtrim(PATH, '/') . '/v/' . (int) $report['bug_v'], 'attr') . '">Consultar registro na BRAPCI</a></p>';
+            $text .= '<p>Atenciosamente,<br>Equipe BRAPCI</p></td></tr></table>';
+            $result = (new Email())->sendmail($to, '[BRAPCI] Solução do problema #' . (int) $id, $text, [], [], ['brapcici@gmail.com']);
+            if (!($result['success'] ?? false)) {
+                log_message('error', 'BUG {id}: falha ao enviar solução: {message}', ['id' => $id, 'message' => $result['message'] ?? 'Erro SMTP']);
+                return '<div class="alert alert-warning">Problema resolvido, mas não foi possível enviar o e-mail de confirmação.</div>';
+            }
+            return '<div class="alert alert-success">Problema resolvido e solução enviada por e-mail ao solicitante, com cópia para a BRAPCI.</div>';
         }
 
     function register($id,$tp)
@@ -137,7 +165,7 @@ class Bugs extends Model
     {
         $request = service('request');
         $status = $request->getGet('status');
-        $status = in_array($status, ['1', '2', 'all'], true) ? $status : '1';
+        $status = in_array($status, ['1', '2', 'all'], true) ? $status : 'all';
         $problem = $request->getGet('problem');
         $problem = is_string($problem) ? $problem : '';
         $search = $request->getGet('q');
@@ -162,7 +190,7 @@ class Bugs extends Model
         $total = $this->countAllResults(false);
         $pages = max(1, (int) ceil($total / 25));
         $page = min($page, $pages);
-        $reports = $this->orderBy('id_bug', 'DESC')->findAll(25, ($page - 1) * 25);
+        $reports = $this->orderBy('bug_status', 'ASC')->orderBy('id_bug', 'DESC')->findAll(25, ($page - 1) * 25);
         helper('form');
         return bs(bsc(view('Admin/bugs', compact('reports', 'totals', 'types', 'status', 'problem', 'search', 'page', 'pages', 'total')), 12));
     }
