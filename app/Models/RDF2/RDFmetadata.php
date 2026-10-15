@@ -1061,6 +1061,15 @@ class RDFmetadata extends Model
             }
         }
 
+        // Works linked through hasIssueOf also inherit the publication cover.
+        if (empty($dr['cover']) && in_array($Class, ['Article', 'Proceeding', 'Proceedings'], true)) {
+            $sourceId = $dr['Issue']['id_jnl'] ?? $dr['id_jnl'] ?? 0;
+            if ((int) $sourceId > 0) {
+                $Cover = new \App\Models\Base\Cover();
+                $dr['cover'] = $Cover->cover($sourceId);
+            }
+        }
+
         /******************* ISBN */
         $ISBN = new \App\Models\ISBN\Index();
         $isbn = $this->arrayExtract($dd, 'hasISBN');
