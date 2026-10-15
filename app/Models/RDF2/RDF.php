@@ -507,64 +507,62 @@ class RDF extends Model
 
     function remove($ID)
     {
+        if (!ctype_digit((string) $ID) || (int) $ID <= 0) {
+            return ['status' => '400', 'message' => 'ID invalido'];
+        }
         $Socials = new \App\Models\Socials();
         $user = $Socials->validToken();
-
-        $RSP = [];
-        $RSP['date'] = date("Y-m-d");
-
-        if (isset($user['ID'])) {
-            $perfil = ' ' . $user['perfil'];
-            if (strpos(' '.$perfil, '#ADM') > 0) {
-                $RDFconcept = new \App\Models\RDF2\RDFconcept();
-                $RDFdata = new \App\Models\RDF2\RDFdata();
-                $IssuesWorks = new \App\Models\Base\IssuesWorks();
-                $Elastic = new \App\Models\ElasticSearch\Register();
-
-                $dt = $RDFconcept->le($ID);
-                $RSP['status'] = $dt['status'];
-
-                $Elastic->where("ID",$ID)->delete();
-
-                $IssuesWorks->where("siw_work_rdf",$ID)->delete();
-
-                $dr = $RDFdata
-                    ->where('d_r1', $ID)
-                    ->Orwhere('d_r2', $ID)
-                    ->findAll();
-                foreach ($dr as $idr => $line) {
-                    $dd = [];
-                    $dd['d_r1'] = $line['d_r1'] * (-1);
-                    $dd['d_p'] = $line['d_p'] * (-1);
-                    $dd['d_r2'] = $line['d_r2'] * (-1);
-                    $dd['d_literal'] = $line['d_literal'] * (-1);
-                    $dd['d_update'] = date("Y-m-d");
-                    $RDFdata->set($dd)
-                        ->where('d_r1', $ID)
-                        ->Orwhere('d_r2', $ID)
-                        ->update();
-                }
-
-                $dd = [];
-                $dd['cc_status'] = 9;
-                $dd['cc_update'] = date("Y-m-d");
-                if ($dt['cc_pref_term'] > 0) {
-                    $dd['cc_pref_term'] = $dt['cc_pref_term'] * (-1);
-                    $RSP['status'] = '300';
-                    $RSP['message'] = 'Success!';
-                } else {
-                    $RSP['message'] = 'This record already removed!';
-                }
-
-                $RDFconcept->set($dd)->where("id_cc", $ID)->update();
-            } else {
-                $RSP['status'] = '501';
-                $RSP['message'] = 'Access not Allow! - ' . trim($perfil);
-            }
-        } else {
-            $RSP = $user;
+        if (!isset($user['ID'])) {
+            return ['status' => '401', 'message' => 'Token ausente ou invalido'];
+        }
+        if (strpos($user['perfil'] ?? '', '#ADM') === false) {
+            return ['status' => '403', 'message' => 'Access not allowed'];
         }
 
-        return $RSP;
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
+        // Register uses DBGroup elastic and table dataset; ID is the RDF work ID.
+        $Elastic = new \App\Models\ElasticSearch\Register();
+        $dt = $RDFconcept->le($ID);
+        if (empty($dt['id_cc'])) {
+            return ['status' => '404', 'message' => 'Register not found'];
+        }
+
+        try {
+            if ($Elastic->where('ID', $ID)->delete() === false) {
+                throw new \RuntimeException('Dataset deletion failed');
+            }
+            if ($IssuesWorks->where('siw_work_rdf', $ID)->delete() === false) {
+                throw new \RuntimeException('Issue link deletion failed');
+            }
+
+            $rows = $RDFdata->groupStart()->where('d_r1', $ID)
+                ->orWhere('d_r2', $ID)->groupEnd()->findAll();
+            foreach ($rows as $line) {
+                $changes = [
+                    'd_r1' => -abs((int) $line['d_r1']),
+                    'd_p' => -abs((int) $line['d_p']),
+                    'd_r2' => -abs((int) $line['d_r2']),
+                    'd_literal' => -abs((int) $line['d_literal']),
+                ];
+                if ($RDFdata->set($changes)->where('id_d', $line['id_d'])->update() === false) {
+                    throw new \RuntimeException('RDF link update failed');
+                }
+            }
+
+            $changes = ['cc_status' => 9, 'cc_update' => date('Y-m-d')];
+            if ((int) $dt['cc_pref_term'] > 0) {
+                $changes['cc_pref_term'] = -abs((int) $dt['cc_pref_term']);
+            }
+            if ($RDFconcept->set($changes)->where('id_cc', $ID)->update() === false) {
+                throw new \RuntimeException('Concept update failed');
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'RDF removal failed for {id}: {error}', ['id' => $ID, 'error' => $e->getMessage()]);
+            return ['status' => '500', 'message' => 'Falha ao excluir o registro. Tente novamente.'];
+        }
+
+        return ['status' => '200', 'message' => 'Removed', 'ID' => $ID];
     }
 }
