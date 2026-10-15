@@ -63,6 +63,12 @@ class RDFfile extends Model
 
     function savePDF($ID,$prop,$file)
         {
+            if (!ctype_digit((string) $ID) || (int) $ID <= 0) {
+                return ['status' => '400', 'message' => 'ID invalido'];
+            }
+            if (!is_file($file) || mime_content_type($file) !== 'application/pdf') {
+                return ['status' => '400', 'message' => 'Envie um arquivo PDF valido'];
+            }
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
             $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -72,6 +78,10 @@ class RDFfile extends Model
             $ext = $this->fileType($file);
             $filename = 'work_' . strzero($ID, 10) . '.pdf';
             $dest = $dir . $filename;
+
+            if (!@copy($file, $dest)) {
+                return ['status' => '500', 'message' => 'Nao foi possivel armazenar o PDF'];
+            }
 
             $dt = [];
             $dt['Name'] = $dest;
@@ -83,13 +93,14 @@ class RDFfile extends Model
                 {
                     $RSP = [];
                     $RSP['status'] = '500';
-                    $RSP['message'] = 'Erro ao salvar dados RDF: ' . $e->getMessage();
+                    $RSP['message'] = 'Erro ao salvar dados RDF';
                     return $RSP;
                 }
 
             /***************************** Data */
-            copy($file, $dest);
-            unlink($file);
+            if ($file !== $dest) {
+                @unlink($file);
+            }
 
             /************************** Incula Imagem com Conceito */
             $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
@@ -165,14 +176,17 @@ class RDFfile extends Model
                 exit;
                 break;
             case 'pdf':
-                $idc = $this->savePDF($ID);
-                $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
-                //$status = 'SAVED ' . $ID . '-' . $idc;
-                $dd = [];
-                $dd['status'] = '200';
-                $dd['ID'] = $idc;
-                echo json_encode($dd);
-                break;
+                $file = $_FILES['file'] ?? null;
+                if (!$file || ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                    $RSP = ['status' => '400', 'message' => 'Arquivo nao enviado ou limite de upload excedido'];
+                } elseif (!is_uploaded_file($file['tmp_name'])) {
+                    $RSP = ['status' => '400', 'message' => 'Upload invalido'];
+                } else {
+                    $RSP = $this->savePDF($ID, 'hasFileStorage', $file['tmp_name']);
+                }
+                http_response_code((int) $RSP['status']);
+                echo json_encode($RSP);
+                exit;
             default:
                 $dd = [];
                 $dd['erro'] = 'Tipo ' . $d1 . ' não existe';

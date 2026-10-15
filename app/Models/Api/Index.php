@@ -184,8 +184,13 @@ class Index extends Model
                 exit;
                 break;
             case 'upload':
-                $RDFimage = new \App\Models\RDF2\RDFimage();
-                $RDFimage->upload($d2,$d3);
+                if ($d2 === 'pdf') {
+                    $RDFfile = new \App\Models\RDF2\RDFfile();
+                    $RDFfile->upload($d2, $d3);
+                } else {
+                    $RDFimage = new \App\Models\RDF2\RDFimage();
+                    $RDFimage->upload($d2, $d3);
+                }
                 exit;
                 break;
             case 'event':
