@@ -54,7 +54,13 @@ class Bugs extends Model
                     case 'corrected':
                         $request = service('request');
                         if (strtoupper($request->getMethod()) === 'POST' && ctype_digit((string) $d2)) {
-                            service('security')->verify($request);
+                            try {
+                                service('security')->verify($request);
+                            } catch (\CodeIgniter\Security\Exceptions\SecurityException $error) {
+                                $sx .= '<div class="alert alert-warning">O formulário expirou. A solução não foi salva. Abra o formulário novamente e reenvie.</div>';
+                                $sx .= $this->list();
+                                break;
+                            }
                             $solution = $request->getPost('solution');
                             if (is_string($solution) && mb_strlen(trim($solution)) <= 2000) {
                                 $sx .= $this->corrected((int) $d2, trim($solution));

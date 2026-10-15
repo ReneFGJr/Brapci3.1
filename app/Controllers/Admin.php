@@ -21,6 +21,9 @@ class Admin extends BaseController
 {
     public function index($act = '', $sub = '', $id = '',$id1='',$id2='',$id3='')
     {
+        if ((int) session()->get('id') <= 0) {
+            return redirect()->to('https://brapci.inf.br');
+        }
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#ADM#CAT"))
             {
