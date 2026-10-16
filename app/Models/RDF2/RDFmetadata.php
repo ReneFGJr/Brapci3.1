@@ -488,7 +488,7 @@ class RDFmetadata extends Model
             /********** Authors */
 
             /******************** Network */
-            $auth = $JSON['authors'];
+            $auth = $JSON['authors'] ?? [];
             $netwa = [];
             foreach ($auth as $ida => $linenm) {
                 $name = ascii($linenm->name);
