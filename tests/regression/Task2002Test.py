@@ -97,6 +97,7 @@ class Task2002Test(unittest.TestCase):
     def test_mismatched_id_preserves_metadata_before_error(self):
         connection = MagicMock()
         cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.rowcount = 0
         cursor.fetchone.return_value = {'total': 1}
         cursor.fetchall.side_effect = [[{'ID': 2503, 'Class': 'Book'}], []]
         session = MagicMock()
@@ -109,6 +110,22 @@ class Task2002Test(unittest.TestCase):
         for value in ['Livro', 'Autor', 'Tema', '999']:
             self.assertIn(value, rendered)
         self.assertLess(rendered.index('Palavras-chave'), rendered.index('Último problema'))
+        self.assertEqual(result['inserted'], 0)
+
+    def test_confirmed_duplicate_updates_original_concept(self):
+        connection = MagicMock()
+        cursor = connection.cursor.return_value.__enter__.return_value
+        cursor.fetchone.return_value = {'total': 1}
+        cursor.fetchall.side_effect = [[{'ID': 2503, 'Class': 'Book'}], []]
+        cursor.rowcount = 1
+        session = MagicMock()
+        session.get.return_value.json.return_value = self.metadata(999)
+        result = task.update_dataset(connection, session, 'https://example.test/{ID}', silent=True)
+        updates = [call for call in cursor.execute.call_args_list if call.args[0].startswith('UPDATE')]
+        self.assertEqual(updates[0].args[1], (2503, 999))
+        self.assertIn('SET cc_status = 91', updates[0].args[0])
+        self.assertEqual(result['duplicates'], 1)
+        self.assertEqual(result['failed'], 0)
         self.assertEqual(result['inserted'], 0)
 
     def test_progress_counts_completed_records(self):
