@@ -156,6 +156,8 @@ class NET extends Model
      */
     public function subjects(array $dt): string
     {
+        helper('sisdoc_terms');
+
         $subjects = [];
         $edges = [];
 
@@ -175,7 +177,7 @@ class NET extends Model
                     return;
                 }
 
-                $name = $this->normalizeTerm((string) $subjectName);
+                $name = normalizeTerm((string) $subjectName);
                 if ($name === '') {
                     return;
                 }
@@ -252,9 +254,11 @@ class NET extends Model
      */
     public function subject_terms(array $dt): string
     {
+        helper('sisdoc_terms');
+
         $subjects = [];
         $edges = [];
-        $stopwords = $this->termStopwords();
+        $stopwords = termStopwords();
 
         foreach ($dt as $line) {
             $subjectValue = is_array($line) ? ($line['KEYWORDS'] ?? '') : $line;
@@ -271,12 +275,14 @@ class NET extends Model
             }
 
             $text = implode(' ', $values);
-            $text = strtolower($this->normalizeTerm($text));
+            $text = strtolower(normalizeTerm($text));
+            $text = preg_replace('/\d+/', ' ', $text) ?? '';
             $text = preg_replace('/\s+/', ';', $text) ?? '';
             $words = array_filter(explode(';', trim($text, ';')));
 
             $documentTerms = [];
             foreach ($words as $word) {
+                $word = singularizeTerm($word);
                 if (isset($stopwords[$word])) {
                     continue;
                 }
@@ -336,51 +342,6 @@ class NET extends Model
         }
 
         return implode("\r\n", $lines) . "\r\n";
-    }
-
-    /** @return array<string, true> */
-    private function termStopwords(): array
-    {
-        $words = [
-            'a', 'as', 'ao', 'aos', 'com', 'da', 'das', 'de', 'do', 'dos',
-            'e', 'em', 'na', 'nas', 'no', 'nos', 'o', 'os', 'ou', 'para',
-            'por', 'que', 'se', 'um', 'uma', 'the', 'of', 'and', 'in', 'to',
-        ];
-
-        $file = defined('FCPATH') ? FCPATH . '_ia/domain_stopword.txt' : '';
-        if ($file !== '' && is_file($file) && is_readable($file)) {
-            $contents = file_get_contents($file);
-            if (is_string($contents)) {
-                preg_match_all("/\\\$sw\\['([^']+)'\\]/", $contents, $matches);
-                $words = array_merge($words, $matches[1] ?? []);
-            }
-        }
-
-        return array_fill_keys(array_unique($words), true);
-    }
-
-    /**
-     * Padroniza um termo sem acentos ou caracteres especiais, mantendo apenas
-     * a primeira letra em maiusculo.
-     */
-    private function normalizeTerm(string $term): string
-    {
-        $term = strtr($term, [
-            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
-            'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I',
-            'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O',
-            'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U',
-            'Ü' => 'U', 'Ý' => 'Y', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a',
-            'ä' => 'a', 'å' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e',
-            'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ñ' => 'n',
-            'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ù' => 'u',
-            'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ý' => 'y', 'ÿ' => 'y',
-        ]);
-        $term = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $term) ?: $term;
-        $term = preg_replace('/[^A-Za-z0-9]+/', ' ', $term) ?? '';
-        $term = trim(preg_replace('/\s+/', ' ', $term) ?? '');
-
-        return ucfirst(strtolower($term));
     }
 
     /** @return array<string, array<string, float>> */

@@ -3,4 +3,6 @@ Metadata Net (Tests\Unit\MetadataNet)
  [x] Subjects accepts nested keyword arrays
  [x] Subjects returns empty network without keywords
  [x] Subjects normalizes case accents and special characters
+ [x] Subject terms normalizes and creates network per line
+ [x] Subject terms returns empty network for stopwords only
 
