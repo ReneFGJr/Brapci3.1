@@ -242,6 +242,124 @@ class NET extends Model
     }
 
     /**
+     * Gera uma rede de coocorrencia das palavras dos assuntos.
+     *
+     * Os termos sao convertidos para caixa baixa e ASCII, caracteres especiais
+     * viram separadores e stopwords sao removidas. Cada registro representa uma
+     * linha: as palavras restantes nessa linha formam as arestas da rede.
+     *
+     * @param array<int, string|array<string, mixed>> $dt
+     */
+    public function subject_terms(array $dt): string
+    {
+        $subjects = [];
+        $edges = [];
+        $stopwords = $this->termStopwords();
+
+        foreach ($dt as $line) {
+            $subjectValue = is_array($line) ? ($line['KEYWORDS'] ?? '') : $line;
+            $values = [];
+
+            if (is_array($subjectValue)) {
+                array_walk_recursive($subjectValue, static function ($value) use (&$values): void {
+                    if (is_scalar($value)) {
+                        $values[] = (string) $value;
+                    }
+                });
+            } elseif (is_scalar($subjectValue)) {
+                $values = [(string) $subjectValue];
+            }
+
+            $text = implode(' ', $values);
+            $text = strtolower($this->normalizeTerm($text));
+            $text = preg_replace('/\s+/', ';', $text) ?? '';
+            $words = array_filter(explode(';', trim($text, ';')));
+
+            $documentTerms = [];
+            foreach ($words as $word) {
+                if (isset($stopwords[$word])) {
+                    continue;
+                }
+                $documentTerms[$word] = $word;
+            }
+
+            foreach ($documentTerms as $key => $name) {
+                if (! isset($subjects[$key])) {
+                    $subjects[$key] = ['name' => $name, 'frequency' => 0];
+                }
+                $subjects[$key]['frequency']++;
+            }
+
+            $keys = array_keys($documentTerms);
+            for ($left = 0, $total = count($keys); $left < $total; $left++) {
+                for ($right = $left + 1; $right < $total; $right++) {
+                    $pair = [$keys[$left], $keys[$right]];
+                    sort($pair, SORT_STRING);
+                    $edgeKey = $pair[0] . "\0" . $pair[1];
+
+                    if (! isset($edges[$edgeKey])) {
+                        $edges[$edgeKey] = ['from' => $pair[0], 'to' => $pair[1], 'weight' => 0];
+                    }
+                    $edges[$edgeKey]['weight']++;
+                }
+            }
+        }
+
+        if ($subjects === []) {
+            return "*Vertices 0\r\n*Edges\r\n";
+        }
+
+        ksort($subjects, SORT_NATURAL);
+        $maximumFrequency = max(array_column($subjects, 'frequency'));
+        $vertexIds = [];
+        $lines = ['*Vertices ' . count($subjects)];
+        $vertex = 1;
+
+        foreach ($subjects as $key => $subject) {
+            $vertexIds[$key] = $vertex;
+            $size = number_format(1 + (9 * $subject['frequency'] / $maximumFrequency), 2, '.', '');
+            $lines[] = $vertex . ' "' . $subject['name'] . '" ellipse'
+                . ' x_fact ' . $size . ' y_fact ' . $size;
+            $vertex++;
+        }
+
+        $lines[] = '*Edges';
+        usort($edges, static function (array $a, array $b) use ($vertexIds): int {
+            return [$vertexIds[$a['from']], $vertexIds[$a['to']]]
+                <=> [$vertexIds[$b['from']], $vertexIds[$b['to']]];
+        });
+
+        foreach ($edges as $edge) {
+            $lines[] = $vertexIds[$edge['from']] . ' '
+                . $vertexIds[$edge['to']] . ' '
+                . $edge['weight'];
+        }
+
+        return implode("\r\n", $lines) . "\r\n";
+    }
+
+    /** @return array<string, true> */
+    private function termStopwords(): array
+    {
+        $words = [
+            'a', 'as', 'ao', 'aos', 'com', 'da', 'das', 'de', 'do', 'dos',
+            'e', 'em', 'na', 'nas', 'no', 'nos', 'o', 'os', 'ou', 'para',
+            'por', 'que', 'se', 'um', 'uma', 'the', 'of', 'and', 'in', 'to',
+        ];
+
+        $file = defined('FCPATH') ? FCPATH . '_ia/domain_stopword.txt' : '';
+        if ($file !== '' && is_file($file) && is_readable($file)) {
+            $contents = file_get_contents($file);
+            if (is_string($contents)) {
+                preg_match_all("/\\\$sw\\['([^']+)'\\]/", $contents, $matches);
+                $words = array_merge($words, $matches[1] ?? []);
+            }
+        }
+
+        return array_fill_keys(array_unique($words), true);
+    }
+
+    /**
      * Padroniza um termo sem acentos ou caracteres especiais, mantendo apenas
      * a primeira letra em maiusculo.
      */

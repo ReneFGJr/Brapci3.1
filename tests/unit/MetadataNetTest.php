@@ -50,4 +50,30 @@ final class MetadataNetTest extends CIUnitTestCase
         $this->assertStringContainsString('"Ciencia da informacao"', $network);
         $this->assertStringContainsString('"Dados abertos"', $network);
     }
+
+    public function testSubjectTermsNormalizesAndCreatesNetworkPerLine(): void
+    {
+        $network = (new NET())->subject_terms([
+            ['KEYWORDS' => 'Ciência da Informação; Dados-Abertos!'],
+            ['KEYWORDS' => 'INFORMAÇÃO e recuperação'],
+        ]);
+
+        $this->assertStringContainsString("*Vertices 5\r\n", $network);
+        $this->assertStringContainsString('"ciencia"', $network);
+        $this->assertStringContainsString('"informacao" ellipse x_fact 10.00 y_fact 10.00', $network);
+        $this->assertStringContainsString('"dados"', $network);
+        $this->assertStringContainsString('"abertos"', $network);
+        $this->assertStringContainsString('"recuperacao"', $network);
+        $this->assertStringNotContainsString('"da"', $network);
+        $this->assertStringNotContainsString('"e"', $network);
+        $this->assertSame(7, substr_count($network, " 1\r\n"));
+    }
+
+    public function testSubjectTermsReturnsEmptyNetworkForStopwordsOnly(): void
+    {
+        $this->assertSame(
+            "*Vertices 0\r\n*Edges\r\n",
+            (new NET())->subject_terms([['KEYWORDS' => 'a; de; e; para']]),
+        );
+    }
 }
