@@ -434,6 +434,10 @@ class Index extends Model
 				$tp = 'net_subjects';
 				$type = 'net';
 				break;
+			case 'net_subject_terms':
+				$tp = 'net_subject_terms';
+				$type = 'net';
+				break;
 		}
 
 		$Register = new \App\Models\ElasticSearch\Register();
@@ -467,6 +471,10 @@ class Index extends Model
 			case 'net_subjects':
 				$NET = new \App\Models\Metadata\NET();
 				$sx = $NET->subjects($dt);
+				break;
+			case 'net_subject_terms':
+				$NET = new \App\Models\Metadata\NET();
+				$sx = $NET->subject_terms($dt);
 				break;
 			case 'ris':
 				$RIS = new \App\Models\Metadata\RIS();

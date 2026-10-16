@@ -1,6 +1,8 @@
-Citation Half Life Analyzer (Tests\Unit\CitationHalfLifeAnalyzer)
- [x] Calculates half life and groups typologies
- [x] Identifies four supported languages
- [x] Returns null half life when no valid year exists
- [x] Uses publication year and ignores availability data
+Metadata Net (Tests\Unit\MetadataNet)
+ [x] Subjects builds weighted pajek network
+ [x] Subjects accepts nested keyword arrays
+ [x] Subjects returns empty network without keywords
+ [x] Subjects normalizes case accents and special characters
+ [x] Subject terms normalizes and creates network per line
+ [x] Subject terms returns empty network for stopwords only
 

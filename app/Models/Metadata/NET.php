@@ -145,6 +145,205 @@ class NET extends Model
         return implode("\r\n", $lines) . "\r\n";
     }
 
+    /**
+     * Gera uma rede de coocorrencia de assuntos no formato Pajek.
+     *
+     * Cada item pode ser uma string de assuntos separados por ponto e virgula
+     * ou um registro que possua o campo KEYWORDS. Assuntos repetidos dentro do
+     * mesmo documento sao considerados apenas uma vez.
+     *
+     * @param array<int, string|array<string, mixed>> $dt
+     */
+    public function subjects(array $dt): string
+    {
+        helper('sisdoc_terms');
+
+        $subjects = [];
+        $edges = [];
+
+        foreach ($dt as $line) {
+            $subjectValue = is_array($line) ? ($line['KEYWORDS'] ?? '') : $line;
+            $items = is_array($subjectValue)
+                ? $subjectValue
+                : preg_split('/[;\r\n]+/u', (string) $subjectValue);
+
+            if ($items === false) {
+                continue;
+            }
+
+            $documentSubjects = [];
+            array_walk_recursive($items, function ($subjectName) use (&$documentSubjects): void {
+                if (! is_scalar($subjectName)) {
+                    return;
+                }
+
+                $name = normalizeTerm((string) $subjectName);
+                if ($name === '') {
+                    return;
+                }
+
+                $key = strtolower($name);
+                $documentSubjects[$key] = $name;
+            });
+
+            foreach ($documentSubjects as $key => $name) {
+                if (! isset($subjects[$key])) {
+                    $subjects[$key] = ['name' => $name, 'frequency' => 0];
+                }
+                $subjects[$key]['frequency']++;
+            }
+
+            $keys = array_keys($documentSubjects);
+            for ($left = 0, $total = count($keys); $left < $total; $left++) {
+                for ($right = $left + 1; $right < $total; $right++) {
+                    $pair = [$keys[$left], $keys[$right]];
+                    sort($pair, SORT_STRING);
+                    $edgeKey = $pair[0] . "\0" . $pair[1];
+
+                    if (! isset($edges[$edgeKey])) {
+                        $edges[$edgeKey] = ['from' => $pair[0], 'to' => $pair[1], 'weight' => 0];
+                    }
+                    $edges[$edgeKey]['weight']++;
+                }
+            }
+        }
+
+        if ($subjects === []) {
+            return "*Vertices 0\r\n*Edges\r\n";
+        }
+
+        uasort($subjects, static fn (array $a, array $b): int => strnatcasecmp($a['name'], $b['name']));
+
+        $maximumFrequency = max(array_column($subjects, 'frequency'));
+        $vertexIds = [];
+        $lines = ['*Vertices ' . count($subjects)];
+        $vertex = 1;
+
+        foreach ($subjects as $key => $subject) {
+            $vertexIds[$key] = $vertex;
+            $label = str_replace(['\\', '"'], ['\\\\', '\\"'], $subject['name']);
+            $size = number_format(1 + (9 * $subject['frequency'] / $maximumFrequency), 2, '.', '');
+            $lines[] = $vertex . ' "' . $label . '" ellipse'
+                . ' x_fact ' . $size . ' y_fact ' . $size;
+            $vertex++;
+        }
+
+        $lines[] = '*Edges';
+        usort($edges, static function (array $a, array $b) use ($vertexIds): int {
+            return [$vertexIds[$a['from']], $vertexIds[$a['to']]]
+                <=> [$vertexIds[$b['from']], $vertexIds[$b['to']]];
+        });
+
+        foreach ($edges as $edge) {
+            $lines[] = $vertexIds[$edge['from']] . ' '
+                . $vertexIds[$edge['to']] . ' '
+                . $edge['weight'];
+        }
+
+        return implode("\r\n", $lines) . "\r\n";
+    }
+
+    /**
+     * Gera uma rede de coocorrencia das palavras dos assuntos.
+     *
+     * Os termos sao convertidos para caixa baixa e ASCII, caracteres especiais
+     * viram separadores e stopwords sao removidas. Cada registro representa uma
+     * linha: as palavras restantes nessa linha formam as arestas da rede.
+     *
+     * @param array<int, string|array<string, mixed>> $dt
+     */
+    public function subject_terms(array $dt): string
+    {
+        helper('sisdoc_terms');
+
+        $subjects = [];
+        $edges = [];
+        $stopwords = termStopwords();
+
+        foreach ($dt as $line) {
+            $subjectValue = is_array($line) ? ($line['KEYWORDS'] ?? '') : $line;
+            $values = [];
+
+            if (is_array($subjectValue)) {
+                array_walk_recursive($subjectValue, static function ($value) use (&$values): void {
+                    if (is_scalar($value)) {
+                        $values[] = (string) $value;
+                    }
+                });
+            } elseif (is_scalar($subjectValue)) {
+                $values = [(string) $subjectValue];
+            }
+
+            $text = implode(' ', $values);
+            $text = strtolower(normalizeTerm($text));
+            $text = preg_replace('/\d+/', ' ', $text) ?? '';
+            $text = preg_replace('/\s+/', ';', $text) ?? '';
+            $words = array_filter(explode(';', trim($text, ';')));
+
+            $documentTerms = [];
+            foreach ($words as $word) {
+                $word = singularizeTerm($word);
+                if (isset($stopwords[$word])) {
+                    continue;
+                }
+                $documentTerms[$word] = $word;
+            }
+
+            foreach ($documentTerms as $key => $name) {
+                if (! isset($subjects[$key])) {
+                    $subjects[$key] = ['name' => $name, 'frequency' => 0];
+                }
+                $subjects[$key]['frequency']++;
+            }
+
+            $keys = array_keys($documentTerms);
+            for ($left = 0, $total = count($keys); $left < $total; $left++) {
+                for ($right = $left + 1; $right < $total; $right++) {
+                    $pair = [$keys[$left], $keys[$right]];
+                    sort($pair, SORT_STRING);
+                    $edgeKey = $pair[0] . "\0" . $pair[1];
+
+                    if (! isset($edges[$edgeKey])) {
+                        $edges[$edgeKey] = ['from' => $pair[0], 'to' => $pair[1], 'weight' => 0];
+                    }
+                    $edges[$edgeKey]['weight']++;
+                }
+            }
+        }
+
+        if ($subjects === []) {
+            return "*Vertices 0\r\n*Edges\r\n";
+        }
+
+        ksort($subjects, SORT_NATURAL);
+        $maximumFrequency = max(array_column($subjects, 'frequency'));
+        $vertexIds = [];
+        $lines = ['*Vertices ' . count($subjects)];
+        $vertex = 1;
+
+        foreach ($subjects as $key => $subject) {
+            $vertexIds[$key] = $vertex;
+            $size = number_format(1 + (9 * $subject['frequency'] / $maximumFrequency), 2, '.', '');
+            $lines[] = $vertex . ' "' . $subject['name'] . '" ellipse'
+                . ' x_fact ' . $size . ' y_fact ' . $size;
+            $vertex++;
+        }
+
+        $lines[] = '*Edges';
+        usort($edges, static function (array $a, array $b) use ($vertexIds): int {
+            return [$vertexIds[$a['from']], $vertexIds[$a['to']]]
+                <=> [$vertexIds[$b['from']], $vertexIds[$b['to']]];
+        });
+
+        foreach ($edges as $edge) {
+            $lines[] = $vertexIds[$edge['from']] . ' '
+                . $vertexIds[$edge['to']] . ' '
+                . $edge['weight'];
+        }
+
+        return implode("\r\n", $lines) . "\r\n";
+    }
+
     /** @return array<string, array<string, float>> */
     private function buildGraph(array $data, string $field): array
     {
