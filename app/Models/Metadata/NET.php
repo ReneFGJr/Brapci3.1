@@ -170,17 +170,17 @@ class NET extends Model
             }
 
             $documentSubjects = [];
-            array_walk_recursive($items, static function ($subjectName) use (&$documentSubjects): void {
+            array_walk_recursive($items, function ($subjectName) use (&$documentSubjects): void {
                 if (! is_scalar($subjectName)) {
                     return;
                 }
 
-                $name = trim(preg_replace('/\s+/u', ' ', (string) $subjectName) ?? '');
+                $name = $this->normalizeTerm((string) $subjectName);
                 if ($name === '') {
                     return;
                 }
 
-                $key = mb_strtolower($name, 'UTF-8');
+                $key = strtolower($name);
                 $documentSubjects[$key] = $name;
             });
 
@@ -239,6 +239,30 @@ class NET extends Model
         }
 
         return implode("\r\n", $lines) . "\r\n";
+    }
+
+    /**
+     * Padroniza um termo sem acentos ou caracteres especiais, mantendo apenas
+     * a primeira letra em maiusculo.
+     */
+    private function normalizeTerm(string $term): string
+    {
+        $term = strtr($term, [
+            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+            'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I',
+            'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O',
+            'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U',
+            'Ü' => 'U', 'Ý' => 'Y', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a',
+            'ä' => 'a', 'å' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e',
+            'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ñ' => 'n',
+            'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ù' => 'u',
+            'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ý' => 'y', 'ÿ' => 'y',
+        ]);
+        $term = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $term) ?: $term;
+        $term = preg_replace('/[^A-Za-z0-9]+/', ' ', $term) ?? '';
+        $term = trim(preg_replace('/\s+/', ' ', $term) ?? '');
+
+        return ucfirst(strtolower($term));
     }
 
     /** @return array<string, array<string, float>> */

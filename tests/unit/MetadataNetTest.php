@@ -39,4 +39,15 @@ final class MetadataNetTest extends CIUnitTestCase
             (new NET())->subjects([['KEYWORDS' => '']]),
         );
     }
+
+    public function testSubjectsNormalizesCaseAccentsAndSpecialCharacters(): void
+    {
+        $network = (new NET())->subjects([
+            ['KEYWORDS' => 'CIÊNCIA-DA/INFORMAÇÃO; ciência da informação; @DADOS#ABERTOS'],
+        ]);
+
+        $this->assertStringContainsString("*Vertices 2\r\n", $network);
+        $this->assertStringContainsString('"Ciencia da informacao"', $network);
+        $this->assertStringContainsString('"Dados abertos"', $network);
+    }
 }

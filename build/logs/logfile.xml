@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\CitationHalfLifeAnalyzerTest" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" tests="4" assertions="31" errors="0" failures="0" skipped="0" time="0.063536">
-    <testcase name="testCalculatesHalfLifeAndGroupsTypologies" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="10" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="18" time="0.045807"/>
-    <testcase name="testIdentifiesFourSupportedLanguages" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="45" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="4" time="0.008080"/>
-    <testcase name="testReturnsNullHalfLifeWhenNoValidYearExists" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="62" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="3" time="0.005321"/>
-    <testcase name="testUsesPublicationYearAndIgnoresAvailabilityData" file="D:\Projeto\Brapci3.1\tests\unit\CitationHalfLifeAnalyzerTest.php" line="71" class="Tests\Unit\CitationHalfLifeAnalyzerTest" classname="Tests.Unit.CitationHalfLifeAnalyzerTest" assertions="6" time="0.004327"/>
+  <testsuite name="Tests\Unit\MetadataNetTest" file="D:\Projeto\Brapci3.1\tests\unit\MetadataNetTest.php" tests="4" assertions="12" errors="0" failures="0" skipped="0" time="0.030288">
+    <testcase name="testSubjectsBuildsWeightedPajekNetwork" file="D:\Projeto\Brapci3.1\tests\unit\MetadataNetTest.php" line="10" class="Tests\Unit\MetadataNetTest" classname="Tests.Unit.MetadataNetTest" assertions="4" time="0.024646"/>
+    <testcase name="testSubjectsAcceptsNestedKeywordArrays" file="D:\Projeto\Brapci3.1\tests\unit\MetadataNetTest.php" line="23" class="Tests\Unit\MetadataNetTest" classname="Tests.Unit.MetadataNetTest" assertions="4" time="0.001983"/>
+    <testcase name="testSubjectsReturnsEmptyNetworkWithoutKeywords" file="D:\Projeto\Brapci3.1\tests\unit\MetadataNetTest.php" line="35" class="Tests\Unit\MetadataNetTest" classname="Tests.Unit.MetadataNetTest" assertions="1" time="0.001805"/>
+    <testcase name="testSubjectsNormalizesCaseAccentsAndSpecialCharacters" file="D:\Projeto\Brapci3.1\tests\unit\MetadataNetTest.php" line="43" class="Tests\Unit\MetadataNetTest" classname="Tests.Unit.MetadataNetTest" assertions="3" time="0.001855"/>
   </testsuite>
 </testsuites>
