@@ -442,25 +442,32 @@ class Index extends Model
 
 		$Register = new \App\Models\ElasticSearch\Register();
 		$user = get('user');
+		$authenticatedUser = null;
+		if (is_string($user) && trim($user) !== '') {
+			$Socials = new \App\Models\Socials();
+			$authenticatedUser = $Socials
+				->where('us_apikey', trim($user))
+				->where('us_apikey_active', 1)
+				->first();
+		}
 		$row = explode(',', get('row'));
 		$dd = [];
 		$dd['type'] = $type;
-		$dd['user'] = $user;
+		$dd['user'] = $authenticatedUser['id_us'] ?? null;
 		$dd['item'] = $row;
 		$dd['post'] = $_POST;
+		unset($dd['post']['user']);
 		$dd['get'] = $_GET;
+		unset($dd['get']['user']);
 
 		$cp = '*';
 		$Register->select($cp);
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
-		if (get('user') != '') {
-			$limit = 9999999;
-		} else{
-			$limit = 2000;
-		}
-		$dt = $Register->findALl($limit);
+		$dt = $authenticatedUser
+			? $Register->findAll()
+			: $Register->findAll(2000);
 		$sx = '';
 
 		switch ($tp) {
