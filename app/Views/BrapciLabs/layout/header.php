@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
 
     <!-- Bootstrap 5 -->
@@ -14,14 +15,18 @@
     <style>
         body {
             background: #efe6ff;
+            overflow-x: hidden;
         }
 
         .sidebar {
             width: 250px;
             min-height: 100vh;
+            height: 100vh;
             background: linear-gradient(180deg, #5b2be0, #6f42c1);
             color: #fff;
             position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
             border-radius: 0 20px 20px 0;
         }
 
@@ -42,6 +47,7 @@
         .content {
             margin-left: 270px;
             padding: 30px;
+            min-width: 0;
         }
 
         .card-dashboard {
@@ -71,6 +77,54 @@
         .link {
             text-decoration: none;
             color: #5b2be0;
+        }
+
+        @media (max-width: 767.98px) {
+            .sidebar {
+                width: 64px;
+                padding: 12px 8px !important;
+                border-radius: 0 14px 14px 0;
+            }
+
+            .sidebar a {
+                padding: 12px 0;
+                overflow: hidden;
+                font-size: 0;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .sidebar a:first-child {
+                padding: 4px;
+            }
+
+            .sidebar a i {
+                font-size: 1.25rem;
+            }
+
+            .sidebar hr {
+                margin: 12px 4px;
+            }
+
+            .content {
+                margin-left: 64px;
+                padding: 20px 16px;
+            }
+
+            .content > .d-flex:first-child {
+                align-items: flex-start !important;
+                gap: 12px;
+            }
+
+            .card-dashboard {
+                border-radius: 14px;
+            }
+        }
+
+        @media (max-width: 419.98px) {
+            .content > .d-flex:first-child {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
