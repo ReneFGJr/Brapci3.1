@@ -18,6 +18,12 @@ logging.basicConfig(level=logging.INFO,
 # Reutiliza o converter
 converter = DocumentConverter()
 
+# Alguns PDFs antigos possuem fontes sem um mapa Unicode utilizavel. Nesses
+# casos o backend de texto pode devolver nomes internos dos glifos (por
+# exemplo, ``/G11a/G17d``) em vez das letras. O padrao e detectado depois da
+# primeira conversao e o documento e processado novamente usando OCR.
+GLYPH_REFERENCE_RE = re.compile(r"/G[0-9A-Fa-f]+")
+
 # =========================================================
 # HELPERS
 # =========================================================
@@ -212,6 +218,37 @@ def clean_markdown(text: str) -> str:
     return text
 
 
+def contains_broken_glyph_references(text: str) -> bool:
+    """Retorna True quando nomes de glifos vazaram para o texto extraido.
+
+    Um limite minimo evita classificar como defeito uma URL ou um exemplo
+    isolado que contenha algo parecido com ``/G12``.
+    """
+
+    matches = GLYPH_REFERENCE_RE.findall(text or "")
+    if len(matches) < 10:
+        return False
+
+    glyph_chars = sum(len(match) for match in matches)
+    return glyph_chars / max(len(text), 1) >= 0.01
+
+
+def build_ocr_converter() -> DocumentConverter:
+    """Cria um conversor que ignora a camada textual e usa OCR na pagina."""
+
+    from docling.datamodel.base_models import InputFormat
+    from docling.datamodel.pipeline_options import PdfPipelineOptions
+    from docling.document_converter import PdfFormatOption
+
+    pipeline_options = PdfPipelineOptions()
+    pipeline_options.do_ocr = True
+    pipeline_options.ocr_options.force_full_page_ocr = True
+
+    return DocumentConverter(format_options={
+        InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
+    })
+
+
 # =========================================================
 # DOCLING
 # =========================================================
@@ -227,6 +264,20 @@ def convert_pdf_to_markdown(source: Path) -> str:
     result = converter.convert(str(source))
 
     markdown = result.document.export_to_markdown()
+
+    if contains_broken_glyph_references(markdown):
+        logging.warning(
+            "Camada de texto com nomes de glifos em %s; repetindo com OCR.",
+            source,
+        )
+        ocr_result = build_ocr_converter().convert(str(source))
+        markdown = ocr_result.document.export_to_markdown()
+
+        if contains_broken_glyph_references(markdown):
+            raise ValueError(
+                "O OCR ainda retornou referencias de glifos invalidas; "
+                "o Markdown nao sera sobrescrito."
+            )
 
     markdown = clean_markdown(markdown)
 

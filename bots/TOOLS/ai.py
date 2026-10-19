@@ -169,7 +169,18 @@ def action_docling(doc,force=False):
 
     print(Fore.YELLOW+f"\n== Executando pipeline Docling =========================================="+Fore.RESET)
 
-    mod_docling.save_file_docling(str(doc.pdf), doc.id, force=force)
+    result = mod_docling.save_file_docling(str(doc.pdf), doc.id, force=force)
+
+    # Document e criado antes da conversao. Atualiza o conteudo em memoria para
+    # que as etapas seguintes de `all` usem o Markdown recem-gerado, e nao a
+    # versao antiga que motivou a reconversao.
+    if result:
+        refreshed_text = sys_io.readfile(str(doc.txt_file))
+        if not refreshed_text:
+            raise RuntimeError(f"Erro relendo {doc.txt_file} apos a conversao")
+        doc.txt = refreshed_text
+
+    return result
 
 
 def action_all(doc):
