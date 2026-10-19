@@ -4,6 +4,7 @@ import shutil
 import logging
 import re
 import sys
+import zlib
 from typing import Optional
 
 # =========================================================
@@ -233,6 +234,117 @@ def contains_broken_glyph_references(text: str) -> bool:
     return glyph_chars / max(len(text), 1) >= 0.01
 
 
+def _pdf_object(pdf_text: str, object_id: int) -> Optional[str]:
+    """Extrai um objeto PDF simples (fontes e CMaps nao ficam em object streams)."""
+
+    match = re.search(
+        rf"(?<!\d){object_id}\s+0\s+obj\b(.*?)endobj",
+        pdf_text,
+        flags=re.DOTALL,
+    )
+    return match.group(1) if match else None
+
+
+def _decode_utf16_hex(value: str) -> str:
+    raw = bytes.fromhex(value)
+    try:
+        return raw.decode("utf-16-be")
+    except UnicodeDecodeError:
+        return ""
+
+
+def _read_cmap(pdf_bytes: bytes, pdf_text: str, object_id: int) -> str:
+    obj = _pdf_object(pdf_text, object_id)
+    if not obj or "stream" not in obj:
+        return ""
+
+    # Os indices de latin-1 coincidem com os offsets dos bytes originais.
+    object_start = pdf_text.find(f"{object_id} 0 obj")
+    stream_match = re.search(r"stream\r?\n", pdf_text[object_start:])
+    if not stream_match:
+        return ""
+    stream_start = object_start + stream_match.end()
+    stream_end = pdf_text.find("endstream", stream_start)
+    if stream_end < 0:
+        return ""
+
+    raw = pdf_bytes[stream_start:stream_end].rstrip(b"\r\n")
+    if "/FlateDecode" in obj:
+        try:
+            raw = zlib.decompress(raw)
+        except zlib.error:
+            return ""
+    return raw.decode("latin-1", errors="ignore")
+
+
+def _parse_cmap(cmap: str) -> dict[int, str]:
+    mapping = {}
+
+    for source, target in re.findall(
+            r"<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>", cmap):
+        # bfchar; os triples de bfrange sao tratados abaixo.
+        mapping.setdefault(int(source, 16), _decode_utf16_hex(target))
+
+    for start, end, target in re.findall(
+            r"<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*"
+            r"<([0-9A-Fa-f]+)>", cmap):
+        first = int(start, 16)
+        last = int(end, 16)
+        target_value = int(target, 16)
+        target_width = len(target)
+        for offset, code in enumerate(range(first, last + 1)):
+            encoded = f"{target_value + offset:0{target_width}x}"
+            mapping[code] = _decode_utf16_hex(encoded)
+
+    return mapping
+
+
+def extract_glyph_unicode_map(source: Path) -> dict[str, str]:
+    """Relaciona nomes /G... ao Unicode usando Encoding + ToUnicode do PDF."""
+
+    pdf_bytes = source.read_bytes()
+    pdf_text = pdf_bytes.decode("latin-1")
+    glyph_map = {}
+
+    font_pattern = re.compile(
+        r"(?<!\d)(\d+)\s+0\s+obj\b(.*?)endobj",
+        flags=re.DOTALL,
+    )
+    for _, font_obj in font_pattern.findall(pdf_text):
+        encoding_ref = re.search(r"/Encoding\s+(\d+)\s+0\s+R", font_obj)
+        unicode_ref = re.search(r"/ToUnicode\s+(\d+)\s+0\s+R", font_obj)
+        if not encoding_ref or not unicode_ref:
+            continue
+
+        encoding_obj = _pdf_object(pdf_text, int(encoding_ref.group(1))) or ""
+        differences = re.search(r"/Differences\s*\[(.*?)\]", encoding_obj,
+                                flags=re.DOTALL)
+        if not differences:
+            continue
+
+        code_to_unicode = _parse_cmap(
+            _read_cmap(pdf_bytes, pdf_text, int(unicode_ref.group(1))))
+        current_code = None
+        for token in re.findall(r"\d+|/[A-Za-z0-9_.]+", differences.group(1)):
+            if token.isdigit():
+                current_code = int(token)
+            elif current_code is not None:
+                character = code_to_unicode.get(current_code)
+                if character:
+                    glyph_map.setdefault(token, character)
+                current_code += 1
+
+    return glyph_map
+
+
+def decode_broken_glyph_references(text: str, source: Path) -> str:
+    glyph_map = extract_glyph_unicode_map(source)
+    if not glyph_map:
+        return text
+    return GLYPH_REFERENCE_RE.sub(
+        lambda match: glyph_map.get(match.group(0), match.group(0)), text)
+
+
 def build_ocr_converter() -> DocumentConverter:
     """Cria um conversor que ignora a camada textual e usa OCR na pagina."""
 
@@ -266,8 +378,11 @@ def convert_pdf_to_markdown(source: Path) -> str:
     markdown = result.document.export_to_markdown()
 
     if contains_broken_glyph_references(markdown):
+        markdown = decode_broken_glyph_references(markdown, source)
+
+    if contains_broken_glyph_references(markdown):
         logging.warning(
-            "Camada de texto com nomes de glifos em %s; repetindo com OCR.",
+            "Glifos sem mapeamento Unicode em %s; repetindo com OCR.",
             source,
         )
         ocr_result = build_ocr_converter().convert(str(source))
