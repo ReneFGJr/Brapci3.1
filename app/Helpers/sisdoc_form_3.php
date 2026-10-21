@@ -50,7 +50,10 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
     switch ($read) {
         case 'file':
             if (substr($url, 0, 4) == 'http') {
-                $headers = get_headers($url);
+                $headers = @get_headers($url);
+                if ($headers === false) {
+                    return '';
+                }
                 $sta = sonumero($headers[0]);
                 $sta = substr($sta, strlen($sta) - 3, 3);
             } else {
@@ -58,7 +61,10 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
             }
 
             if ($sta != '404') {
-                $contents = file_get_contents($url);
+                $contents = @file_get_contents($url);
+                if ($contents === false) {
+                    return '';
+                }
                 file_put_contents($file, $contents);
             } else {
                 $contents = '';
@@ -70,6 +76,8 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
             if ($headers != [])
                 {
                     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -86,10 +94,10 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
                 {
                     file_put_contents($file, $data);
                 } else {
-                    echo "ERRO CURL: " . $erro;
-                    echo '<br>'.$url;
-                    $txt = file_get_contents($url);
-                    if (strlen($txt) > 100)
+                    $data = '';
+                    $context = stream_context_create(['http' => ['timeout' => 30]]);
+                    $txt = @file_get_contents($url, false, $context);
+                    if ($txt !== false && strlen($txt) > 100)
                         {
                             $data = $txt;
                         }
