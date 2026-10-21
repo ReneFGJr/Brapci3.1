@@ -317,6 +317,11 @@ class Sources extends Model
     function oai_reg($id)
     {
         $Socials = new \App\Models\Socials();
+        if ($Socials->getID() <= 0) {
+            \Config\Services::response()->setStatusCode(401);
+            return $Socials->access_denied();
+        }
+
         $OAI = new \App\Models\Oaipmh\ListIdentifiers();
         $dt = $OAI
             ->join('oai_setspec', 'id_s = oai_setSpec')
