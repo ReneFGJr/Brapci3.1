@@ -169,6 +169,10 @@
             "sync"
         ]
     },
+    "4005": {
+        "description": "Verificar disponibilidade TCP dos servidores Z39.50",
+        "patterns": ["bibliographic z3950_check"]
+    },
     "4500": {
         "description": "Enviar ISBNs pendentes da fila Z39.50 para coleta bibliografica",
         "patterns": [

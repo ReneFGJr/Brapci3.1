@@ -28,6 +28,11 @@
             "harvesting start": {}
         }
     },
+    "bibliographic": {
+        "children": {
+            "z3950_check": {}
+        }
+    },
     "blibiographic": {
         "children": {
             "harvesting": {}
