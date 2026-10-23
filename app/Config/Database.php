@@ -52,6 +52,7 @@ class Database extends Config
     public array $AI = [];
     public array $books = [];
     public array $brapci = [];
+    public array $z3950 = [];
     public array $brapci_ai = [];
     public array $brapci_cited = [];
     public array $CDU = [];
@@ -157,6 +158,7 @@ class Database extends Config
             'authority' => 'brapci_authority',
             'books' => 'brapci_books',
             'brapci' => 'brapci',
+            'z3950' => 'brapci_z39.50',
             'bots' => 'brapci_bots',
             'brapci_ai' => 'brapci_ia',
             'pq' => 'brapci_pq',

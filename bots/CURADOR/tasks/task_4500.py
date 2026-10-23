@@ -16,7 +16,7 @@ console = Console()
 TASK = {
     "id": 4500,
     "name": "Z3950 Queue",
-    "description": "Coleta metadados dos ISBNs pending em brapci.z3950_queue.",
+    "description": "Coleta metadados dos ISBNs pending em brapci_z39.50.z3950_queue.",
     "patterns": ["z3950 queue", "fila z3950"],
     "parameters": [],
 }
@@ -30,7 +30,7 @@ def consultar_pendentes():
         cursor = conexao.cursor(dictionary=True)
         try:
             cursor.execute(
-                "SELECT id, isbn FROM brapci.z3950_queue "
+                "SELECT id, isbn FROM `brapci_z39.50`.`z3950_queue` "
                 "WHERE status = %s ORDER BY id",
                 ("pending",),
             )

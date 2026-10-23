@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class Queue extends Model
 {
+    protected $DBGroup = 'z3950';
     protected $table = 'z3950_queue';
     protected $primaryKey = 'id';
     protected $returnType = 'array';

@@ -8,18 +8,21 @@ class Z3950Install extends BaseCommand
 {
     protected $group = 'FIND';
     protected $name = 'z3950:install';
-    protected $description = 'Aplica somente a migration da fila Z39.50.';
+    protected $description = 'Instala e migra o banco, a fila e os servidores Z39.50.';
 
     public function run(array $params)
     {
         $runner = service('migrations');
-        foreach ($runner->getHistory('default') as $migration) {
-            if ($migration->class === 'App\\Database\\Migrations\\CreateZ3950Queue') {
-                CLI::write('Fila Z39.50 já instalada.');
-                return;
+        $history = array_column($runner->getHistory('default'), 'class');
+        $migrations = [
+            'CreateZ3950Queue' => '2026-10-23-120000_CreateZ3950Queue.php',
+            'MoveZ3950Database' => '2026-10-23-130000_MoveZ3950Database.php',
+        ];
+        foreach ($migrations as $class => $file) {
+            if (!in_array('App\\Database\\Migrations\\' . $class, $history, true)) {
+                $runner->force(APPPATH . 'Database/Migrations/' . $file, 'App', 'default');
             }
         }
-        $runner->force(APPPATH . 'Database/Migrations/2026-10-23-120000_CreateZ3950Queue.php', 'App', 'default');
-        CLI::write('Fila Z39.50 instalada.');
+        CLI::write('Banco, fila e servidores Z39.50 instalados.');
     }
 }
