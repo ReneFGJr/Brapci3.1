@@ -28,6 +28,11 @@
             "harvesting start": {}
         }
     },
+    "blibiographic": {
+        "children": {
+            "harvesting": {}
+        }
+    },
     "issue": {},
     "keywords": {},
     "elastic": {
