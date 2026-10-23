@@ -72,7 +72,7 @@ class MercadoEditorial extends Model
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $erro = curl_errno($ch);
         $info = curl_getinfo($ch);
-        curl_close($ch);
+        unset($ch);
 
         if (!$erro) {
             $dt = (array)json_decode($head);

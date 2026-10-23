@@ -80,7 +80,7 @@ class Files extends Model
 		$err = curl_errno($ch);
 		$errmsg = curl_error($ch);
 		$header = curl_getinfo($ch);
-		curl_close($ch);
+		unset($ch);
 
 		$header['errno'] = $err;
 		$header['errmsg'] = $errmsg;

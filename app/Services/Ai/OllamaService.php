@@ -72,7 +72,7 @@ class OllamaService
         $ok = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         $error = curl_error($ch);
-        curl_close($ch);
+        unset($ch);
         if ($ok === false || $status >= 400) {
             throw new OllamaException($error ?: 'Falha ao gerar resposta no Ollama.', $status === 404 ? 422 : 503);
         }

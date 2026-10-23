@@ -107,7 +107,7 @@ class Index extends Model
 			$response = curl_exec($ch);
 
 			// Fecha a sessão do cURL
-			curl_close($ch);
+			unset($ch);
 
 			$RSP = explode('}', $response);
 			$TXT = '';

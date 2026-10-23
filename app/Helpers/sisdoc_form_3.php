@@ -89,7 +89,7 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $data = curl_exec($curl);
             $erro = curl_errno($curl);
-            curl_close($curl);
+            unset($curl);
             if ($erro == 0)
                 {
                     file_put_contents($file, $data);

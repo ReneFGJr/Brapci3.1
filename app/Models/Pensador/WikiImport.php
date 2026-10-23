@@ -343,7 +343,7 @@ class WikiImport
         ]);
         $ok = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        unset($ch);
         if ($ok === false || $status !== 200) {
             throw new RuntimeException('Falha ao consultar o serviço remoto (HTTP ' . $status . '). Tente novamente.');
         }

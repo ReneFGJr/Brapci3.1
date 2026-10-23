@@ -55,7 +55,7 @@ class RepositoryDocumentService
         ]);
         curl_exec($curl);
         $error = curl_error($curl);
-        curl_close($curl);
+        unset($curl);
 
         if ($error !== '') {
             log_message('warning', '[AI repository] Falha ao solicitar o processamento do documento ' . $requestedId . ': ' . $error);

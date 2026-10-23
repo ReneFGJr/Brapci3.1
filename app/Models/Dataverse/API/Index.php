@@ -135,7 +135,7 @@ class Index extends Model
 
         $data = curl_exec($curl);
         $erro = curl_errno($curl);
-        curl_close($curl);
+        unset($curl);
 
         if ($erro == 0) {
             return $data;
