@@ -8,6 +8,7 @@ from contextlib import nullcontext
 from rich.console import Console
 from rich.live import Live
 from rich.table import Table
+from rich.text import Text
 
 from lib.database import conectar
 
@@ -85,6 +86,22 @@ def run(parametros=None, chat=None, silent=False):
             "success": True, "total": len(resultados), "ativos": ativos,
             "inativos": len(resultados) - ativos, "servidores": resultados,
         }
+        if not silent:
+            falhas = [item for item in resultados if not item["active"]]
+            if falhas:
+                tabela = Table(title="Erros na validação Z39.50")
+                tabela.add_column("Servidor", overflow="fold")
+                tabela.add_column("Host:porta", overflow="fold")
+                tabela.add_column("Erro", overflow="fold", style="red")
+                for item in falhas:
+                    tabela.add_row(
+                        Text(item["name"]),
+                        Text(f"{item['host']}:{item['port']}"),
+                        Text(item["error"] or "Falha de conexão sem detalhes."),
+                    )
+                console.print(tabela)
+            elif not servidores:
+                console.print("Nenhum servidor com host e porta preenchidos para validar.")
         return resultado if silent else None
     except Exception as exc:
         if conexao is not None:

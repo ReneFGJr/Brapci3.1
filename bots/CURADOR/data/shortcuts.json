@@ -30,11 +30,7 @@
     },
     "bibliographic": {
         "children": {
-            "z3950_check": {}
-        }
-    },
-    "blibiographic": {
-        "children": {
+            "z3950_check": {},
             "harvesting": {}
         }
     },

@@ -176,7 +176,7 @@
     "4500": {
         "description": "Enviar ISBNs pendentes da fila Z39.50 para coleta bibliografica",
         "patterns": [
-            "blibiographic harvesting",
+            "bibliographic harvesting",
             "z3950 queue",
             "fila z3950"
         ]
