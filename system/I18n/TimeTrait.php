@@ -265,13 +265,13 @@ trait TimeTrait
      *
      * @throws Exception
      */
-    public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null)
+    public static function createFromTimestamp(int|float $timestamp, $timezone = null, ?string $locale = null): static
     {
-        $time = new self(gmdate('Y-m-d H:i:s', $timestamp), 'UTC', $locale);
-
         $timezone ??= date_default_timezone_get();
+        $timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
+        $date = (new DateTimeImmutable(sprintf('@%.6F', $timestamp)))->setTimezone($timezone);
 
-        return $time->setTimezone($timezone);
+        return new static($date->format('Y-m-d H:i:s.u'), $timezone, $locale);
     }
 
     /**

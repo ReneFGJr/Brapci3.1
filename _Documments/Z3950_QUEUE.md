@@ -1,6 +1,6 @@
 # Coleta Z39.50 solicitada pelo FIND
 
-Aplicar a migration CreateZ3950Queue no grupo default do Brapci3.1 (tabela z3950_queue).
+Executar `php spark z3950:install` para aplicar somente a migration CreateZ3950Queue no grupo default do Brapci3.1 (tabela z3950_queue).
 O comando `php spark migrate` aplica todas as migrations pendentes; revisar as demais antes de executar em produção.
 
 POST /api/find/z3950/queue com JSON {"isbn":"9786589167501"} retorna HTTP 202 com id, isbn e status. ISBN-10 é validado e convertido para ISBN-13. Pedidos repetidos compartilham o mesmo job, inclusive após conclusão.
