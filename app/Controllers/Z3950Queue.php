@@ -16,9 +16,12 @@ class Z3950Queue extends BaseController
         if (!$queue->where('isbn', $isbn)->first()) {
             return $this->response->setStatusCode(404)->setJSON(['error' => 'Pedido não encontrado.']);
         }
-        $queue->processOne([new \App\Models\Z3950\Index(), 'searchByISBN'], $isbn);
+        $collector = new \App\Models\Z3950\Index();
+        $queue->processOne([$collector, 'searchByISBN'], $isbn);
         $job = $queue->where('isbn', $isbn)->first();
         unset($job['lock_token']);
+        $job['trace'] = $collector->trace;
+        $job['trace'][] = ['phase' => 'queue', 'detail' => 'Estado na fila: ' . $job['status']];
         return $this->response->setJSON($job);
     }
 

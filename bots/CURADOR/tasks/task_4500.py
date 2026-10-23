@@ -4,10 +4,14 @@
 """Coleta e grava metadados dos ISBNs pendentes usando o worker da API."""
 
 import requests
+import json
+import time
 from contextlib import nullcontext
 from rich.console import Console
 from rich.live import Live
 from rich.table import Table
+from rich.console import Group
+from rich.text import Text
 
 from lib.database import conectar
 
@@ -53,6 +57,10 @@ def run(parametros=None, chat=None, silent=False):
     coletados = 0
     nao_encontrados = 0
     erros = []
+    fases = []
+
+    def fase(nome, detalhe):
+        fases.append((nome, detalhe))
 
     def painel(atual, isbn, status):
         tabela = Table(title="Coleta bibliográfica Z39.50")
@@ -63,27 +71,53 @@ def run(parametros=None, chat=None, silent=False):
         tabela.caption = (
             f"Coletados: {coletados} | Não encontrados: {nao_encontrados} | Erros: {len(erros)}"
         )
-        return tabela
+        detalhes = Table(title="Endpoint e fases da consulta", expand=True)
+        detalhes.add_column("Fase", width=20)
+        detalhes.add_column("Detalhes", overflow="fold")
+        detalhes.add_row("Endpoint", Text(f"POST {URL}"))
+        detalhes.add_row("Content-Type", "application/json")
+        detalhes.add_row("Payload", Text(json.dumps({"isbn": isbn})))
+        detalhes.add_row("Timeout", "90 segundos")
+        for nome, detalhe in fases:
+            detalhes.add_row(Text(nome), Text(detalhe))
+        return Group(tabela, detalhes)
 
     display = nullcontext() if silent else Live(painel(0, "", "Iniciando"), console=console)
     with display as live, requests.Session() as session:
         for indice, item in enumerate(pendentes, 1):
+            fases.clear()
             isbn = str(item["isbn"] or "").strip()
+            fase("Preparação", "Validando ISBN e preparando requisição JSON")
             if live:
                 live.update(painel(indice, isbn, "Consultando servidor Z39.50..."), refresh=True)
             try:
                 if not isbn:
                     raise ValueError("ISBN vazio na fila.")
+                fase("HTTP", "Enviando POST HTTPS; aguardando processamento e resposta do servidor")
+                if live:
+                    live.update(painel(indice, isbn, "Aguardando endpoint..."), refresh=True)
+                inicio = time.monotonic()
                 with session.post(
                     URL,
                     json={"isbn": isbn},
                     headers={"Content-Type": "application/json"},
                     timeout=90,
                 ) as resposta:
+                    fase("Resposta HTTP", f"Status {resposta.status_code}; tempo {time.monotonic() - inicio:.2f}s")
+                    fase("Formato", resposta.headers.get("Content-Type", "Não informado"))
+                    if not resposta.ok:
+                        fase("Erro HTTP", resposta.text[:1000])
                     resposta.raise_for_status()
                     job = resposta.json()
                 if not isinstance(job, dict):
                     raise ValueError("Resposta inválida da API de coleta.")
+                trace = job.get("trace")
+                if isinstance(trace, list) and trace:
+                    for evento in trace:
+                        if isinstance(evento, dict):
+                            fase(str(evento.get("phase", "Servidor")), str(evento.get("detail", "")))
+                else:
+                    fase("Servidor", "Endpoint não retornou fases internas da consulta Z39.50")
                 status = job.get("status")
                 if status == "completed" and job.get("result"):
                     coletados += 1
@@ -94,12 +128,13 @@ def run(parametros=None, chat=None, silent=False):
                 else:
                     raise ValueError(job.get("last_error") or f"Coleta não concluída: {status}")
             except (requests.RequestException, ValueError) as exc:
+                fase("Falha", str(exc))
                 erros.append({"id": item["id"], "isbn": item["isbn"], "error": str(exc)})
                 situacao = str(exc)
             if live:
                 live.update(painel(indice, isbn, situacao), refresh=True)
         if live:
-            live.update(painel(len(pendentes), "", "Finalizado"), refresh=True)
+            live.update(painel(len(pendentes), isbn if pendentes else "", "Finalizado"), refresh=True)
 
     # Somente completed com resultado representa metadados coletados.
     resultado = {
