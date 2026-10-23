@@ -30,7 +30,8 @@ class Index extends Model
             $this->phase('search', 'Preparando busca RPN: @attr 1=7 ' . $isbn);
             yaz_search($id, 'rpn', '@attr 1=7 ' . $isbn);
             $this->phase('negotiation', 'Executando conexão, negociação e busca via yaz_wait (timeout 30s)');
-            yaz_wait(['timeout' => 30]);
+            $options = ['timeout' => 30];
+            yaz_wait($options);
             if (yaz_errno($id)) throw new \RuntimeException('Z39.50: ' . yaz_error($id));
             $hits = yaz_hits($id);
             $this->phase('results', 'Registros encontrados: ' . $hits);
