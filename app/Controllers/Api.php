@@ -17,6 +17,8 @@ class Api extends BaseController
 {
     public function index($d1 = '', $d2 = '', $d3 ='', $d4 ='', $d5 ='', $d6 = '')
     {
+        echo "OI";
+        exit;
         $sx = '';
         $API = new \App\Models\Api\Index();
         $sx = $API->index($d1, $d2, $d3, $d4, $d5, $d6);

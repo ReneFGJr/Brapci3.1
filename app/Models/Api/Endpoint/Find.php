@@ -142,8 +142,6 @@ class Find extends Model
         $ISBN = $ISBN->isbns($isbn);
         $isbn = $ISBN['isbn13'];
 
-        echo "OLA";
-
         $dt = $Find->findISBN($isbn);
 
         /******* Retorna se vazio */
@@ -169,8 +167,6 @@ class Find extends Model
                 $RSP = $MARC21->marc21($marc,$isbn);
             }
         }
-
-        pre($RSP);
 
         return $RSP;
     }
@@ -393,8 +389,6 @@ class Find extends Model
         //header("Content-Type: application/json");
 
         $RSP = [];
-        pre($_GET);
-        exit;
 
         switch ($d1) {
             case 'getISBN':
