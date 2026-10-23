@@ -336,7 +336,7 @@ class Session implements SessionInterface
             ? ini_get('session.sid_length')
             : 40);
 
-        if (($sidLength * $bitsPerCharacter) < 160) {
+        if (PHP_VERSION_ID < 80400 && ($sidLength * $bitsPerCharacter) < 160) {
             $bits = ($sidLength * $bitsPerCharacter);
             // Add as many more characters as necessary to reach at least 160 bits
             $sidLength += (int) ceil((160 % $bits) / $bitsPerCharacter);
