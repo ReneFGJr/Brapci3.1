@@ -22,12 +22,13 @@ class Queue extends Model
         return $this->where('isbn', $isbn)->first();
     }
 
-    public function processOne(callable $collect): bool
+    public function processOne(callable $collect, ?string $isbn = null): bool
     {
         $now = date('Y-m-d H:i:s');
         // Recover workers that died while holding a job.
         $this->builder()->where('status', 'processing')->where('locked_at <', date('Y-m-d H:i:s', time() - 300))
             ->update(['status' => 'pending', 'lock_token' => null, 'locked_at' => null]);
+        if ($isbn !== null) $this->where('isbn', $isbn);
         $job = $this->where('status', 'pending')->where('available_at <=', $now)->orderBy('id')->first();
         if (!$job) return false;
         $token = bin2hex(random_bytes(24));

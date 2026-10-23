@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Consulta a fila Z39.50 e envia os ISBNs pendentes ao endpoint."""
+"""Coleta e grava metadados dos ISBNs pendentes usando o worker da API."""
 
 import requests
+from contextlib import nullcontext
 from rich.console import Console
+from rich.live import Live
+from rich.table import Table
 
 from lib.database import conectar
 
@@ -13,12 +16,12 @@ console = Console()
 TASK = {
     "id": 4500,
     "name": "Z3950 Queue",
-    "description": "Consulta brapci.z3950_queue e envia os ISBNs pending à API.",
+    "description": "Coleta metadados dos ISBNs pending em brapci.z3950_queue.",
     "patterns": ["z3950 queue", "fila z3950"],
     "parameters": [],
 }
 
-URL = "https://cip.brapci.inf.br/api/find/z3950/queue"
+URL = "https://cip.brapci.inf.br/api/find/z3950/queue/process"
 
 
 def consultar_pendentes():
@@ -47,33 +50,64 @@ def run(parametros=None, chat=None, silent=False):
             console.print(resultado)
         return resultado
 
-    enviados = 0
+    coletados = 0
+    nao_encontrados = 0
     erros = []
-    with requests.Session() as session:
-        for item in pendentes:
+
+    def painel(atual, isbn, status):
+        tabela = Table(title="Coleta bibliográfica Z39.50")
+        tabela.add_column("Progresso")
+        tabela.add_column("ISBN")
+        tabela.add_column("Situação")
+        tabela.add_row(f"{atual}/{len(pendentes)}", isbn, status)
+        tabela.caption = (
+            f"Coletados: {coletados} | Não encontrados: {nao_encontrados} | Erros: {len(erros)}"
+        )
+        return tabela
+
+    display = nullcontext() if silent else Live(painel(0, "", "Iniciando"), console=console)
+    with display as live, requests.Session() as session:
+        for indice, item in enumerate(pendentes, 1):
+            isbn = str(item["isbn"] or "").strip()
+            if live:
+                live.update(painel(indice, isbn, "Consultando servidor Z39.50..."), refresh=True)
             try:
-                isbn = str(item["isbn"] or "").strip()
                 if not isbn:
                     raise ValueError("ISBN vazio na fila.")
                 with session.post(
                     URL,
                     json={"isbn": isbn},
                     headers={"Content-Type": "application/json"},
-                    timeout=30,
+                    timeout=90,
                 ) as resposta:
                     resposta.raise_for_status()
-                enviados += 1
+                    job = resposta.json()
+                if not isinstance(job, dict):
+                    raise ValueError("Resposta inválida da API de coleta.")
+                status = job.get("status")
+                if status == "completed" and job.get("result"):
+                    coletados += 1
+                    situacao = "Metadados coletados e gravados"
+                elif status == "not_found":
+                    nao_encontrados += 1
+                    situacao = "ISBN não encontrado"
+                else:
+                    raise ValueError(job.get("last_error") or f"Coleta não concluída: {status}")
             except (requests.RequestException, ValueError) as exc:
                 erros.append({"id": item["id"], "isbn": item["isbn"], "error": str(exc)})
+                situacao = str(exc)
+            if live:
+                live.update(painel(indice, isbn, situacao), refresh=True)
+        if live:
+            live.update(painel(len(pendentes), "", "Finalizado"), refresh=True)
 
-    # O endpoint é responsável pela fila; aceitar o POST não conclui a coleta.
+    # Somente completed com resultado representa metadados coletados.
     resultado = {
         "success": not erros,
         "total_pending": len(pendentes),
-        "enviados": enviados,
+        "coletados": coletados,
+        "nao_encontrados": nao_encontrados,
         "falhas": len(erros),
         "erros": erros,
     }
-    if not silent:
-        console.print(resultado)
-    return resultado
+    return resultado if silent else None

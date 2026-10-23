@@ -3,6 +3,25 @@ namespace App\Controllers;
 
 class Z3950Queue extends BaseController
 {
+    public function process()
+    {
+        $payload = $this->request->getJSON(true);
+        $value = is_array($payload) ? ($payload['isbn'] ?? '') : '';
+        $isbn = is_string($value) ? \App\Libraries\Z3950Isbn::normalize($value) : '';
+        if ($isbn === '') return $this->response->setStatusCode(422)->setJSON(['error' => 'ISBN inválido.']);
+        if (!function_exists('yaz_connect')) {
+            return $this->response->setStatusCode(503)->setJSON(['error' => 'Extensão PHP-YAZ indisponível no servidor.']);
+        }
+        $queue = new \App\Models\Z3950\Queue();
+        if (!$queue->where('isbn', $isbn)->first()) {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Pedido não encontrado.']);
+        }
+        $queue->processOne([new \App\Models\Z3950\Index(), 'searchByISBN'], $isbn);
+        $job = $queue->where('isbn', $isbn)->first();
+        unset($job['lock_token']);
+        return $this->response->setJSON($job);
+    }
+
     public function create()
     {
         $request = $this->request;

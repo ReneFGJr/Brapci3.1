@@ -3,6 +3,7 @@
 use CodeIgniter\Router\RouteCollection;
 
 $routes->post('api/find/z3950/queue', 'Z3950Queue::create');
+$routes->post('api/find/z3950/queue/process', 'Z3950Queue::process');
 $routes->get('api/find/z3950/queue/(:segment)', 'Z3950Queue::show/$1');
 
 /**
