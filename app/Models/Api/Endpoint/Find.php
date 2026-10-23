@@ -393,6 +393,8 @@ class Find extends Model
         //header("Content-Type: application/json");
 
         $RSP = [];
+        pre($_GET);
+        exit;
 
         switch ($d1) {
             case 'getISBN':
