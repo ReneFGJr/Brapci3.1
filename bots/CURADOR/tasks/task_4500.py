@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Coleta e grava metadados dos ISBNs pendentes usando o worker da API."""
+"""Coleta e grava metadados dos ISBNs pendentes usando a consulta getISBN da API."""
 
 import requests
-import json
 import time
 from contextlib import nullcontext
 from rich.console import Console
@@ -25,7 +24,7 @@ TASK = {
     "parameters": [],
 }
 
-URL = "https://cip.brapci.inf.br/api/find/z3950/queue/process"
+URL = "https://cip.brapci.inf.br/api/find/getISBN"
 
 
 def consultar_pendentes():
@@ -74,9 +73,8 @@ def run(parametros=None, chat=None, silent=False):
         detalhes = Table(title="Endpoint e fases da consulta", expand=True)
         detalhes.add_column("Fase", width=20)
         detalhes.add_column("Detalhes", overflow="fold")
-        detalhes.add_row("Endpoint", Text(f"POST {URL}"))
-        detalhes.add_row("Content-Type", "application/json")
-        detalhes.add_row("Payload", Text(json.dumps({"isbn": isbn})))
+        detalhes.add_row("Endpoint", Text(f"GET {URL}"))
+        detalhes.add_row("Query", Text(f"query={isbn}"))
         detalhes.add_row("Timeout", "90 segundos")
         for nome, detalhe in fases:
             detalhes.add_row(Text(nome), Text(detalhe))
@@ -93,14 +91,13 @@ def run(parametros=None, chat=None, silent=False):
             try:
                 if not isbn:
                     raise ValueError("ISBN vazio na fila.")
-                fase("HTTP", "Enviando POST HTTPS; aguardando processamento e resposta do servidor")
+                fase("HTTP", "Enviando GET HTTPS; aguardando coleta e resposta do servidor")
                 if live:
                     live.update(painel(indice, isbn, "Aguardando endpoint..."), refresh=True)
                 inicio = time.monotonic()
-                with session.post(
+                with session.get(
                     URL,
-                    json={"isbn": isbn},
-                    headers={"Content-Type": "application/json"},
+                    params={"query": isbn},
                     timeout=90,
                 ) as resposta:
                     fase("Resposta HTTP", f"Status {resposta.status_code}; tempo {time.monotonic() - inicio:.2f}s")
@@ -109,24 +106,17 @@ def run(parametros=None, chat=None, silent=False):
                         fase("Erro HTTP", resposta.text[:1000])
                     resposta.raise_for_status()
                     job = resposta.json()
-                if not isinstance(job, dict):
-                    raise ValueError("Resposta inválida da API de coleta.")
-                trace = job.get("trace")
-                if isinstance(trace, list) and trace:
-                    for evento in trace:
-                        if isinstance(evento, dict):
-                            fase(str(evento.get("phase", "Servidor")), str(evento.get("detail", "")))
-                else:
-                    fase("Servidor", "Endpoint não retornou fases internas da consulta Z39.50")
-                status = job.get("status")
-                if status == "completed" and job.get("result"):
+                if not isinstance(job, (dict, list)):
+                    raise ValueError("Resposta inv?lida da API de coleta.")
+                if isinstance(job, dict) and (job.get("error") or job.get("success") is False):
+                    raise ValueError(str(job.get("error") or job.get("message") or "Falha na coleta."))
+                if job:
                     coletados += 1
-                    situacao = "Metadados coletados e gravados"
-                elif status == "not_found":
-                    nao_encontrados += 1
-                    situacao = "ISBN não encontrado"
+                    fase("Coleta", "Metadados retornados pelo getISBN")
+                    situacao = "Metadados coletados"
                 else:
-                    raise ValueError(job.get("last_error") or f"Coleta não concluída: {status}")
+                    nao_encontrados += 1
+                    situacao = "ISBN n?o encontrado"
             except (requests.RequestException, ValueError) as exc:
                 fase("Falha", str(exc))
                 erros.append({"id": item["id"], "isbn": item["isbn"], "error": str(exc)})
@@ -136,7 +126,7 @@ def run(parametros=None, chat=None, silent=False):
         if live:
             live.update(painel(len(pendentes), isbn if pendentes else "", "Finalizado"), refresh=True)
 
-    # Somente completed com resultado representa metadados coletados.
+    # getISBN retorna os metadados diretamente; resposta vazia indica aus?ncia de resultado.
     resultado = {
         "success": not erros,
         "total_pending": len(pendentes),
