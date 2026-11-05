@@ -848,6 +848,11 @@ class RDFmetadata extends Model
             $dr['is_vol_roman'] = $di['is_vol_roman'];
             $dr['is_vol'] = $di['is_vol'];
 
+            // Article pages only need the issue header, not every work's JSON and citations.
+            if ($simple) {
+                return $dr;
+            }
+
             $wk = $IssuesWorks->issueWorks($IDissue);
             $works = [];
             $worksID = [];
