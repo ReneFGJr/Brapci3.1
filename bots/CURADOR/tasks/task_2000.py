@@ -178,12 +178,8 @@ def exportToElastic(journal=0, silent=False):
         "errors": [],
     }
 
-    if journal == 0:
-        journal_filter = ""
-    else:
-        journal_filter = " AND JOURNAL = %s"
-
-    journal_parameters = (journal,) if journal else ()
+    journal_filter = " AND JOURNAL = %s" if journal is not None else ""
+    journal_parameters = (journal,) if journal is not None else ()
 
     conn = pymysql.connect(
         host=os.getenv("DB_HOST", "localhost"),
@@ -209,7 +205,7 @@ def exportToElastic(journal=0, silent=False):
             disable=silent,
         ) as progress:
             progress_task = progress.add_task(
-                f'JOURNAL {journal}' if journal else 'Todos os registros pendentes', total=pending, exported=0, failed=0,
+                f'JOURNAL {journal}' if journal is not None else 'Todos os registros pendentes', total=pending, exported=0, failed=0,
             )
             last_id = None
             while True:
