@@ -144,7 +144,7 @@ def _elastic_document(row):
         "abstract": abstracts,
         "authors": authors,
         "title": titles,
-        "journal": str(row.get("JOURNAL") or ""),
+        "journal": str(row["JOURNAL"]) if row.get("JOURNAL") is not None else "",
         "year": str(row.get("YEAR") or ""),
         "type": row.get("CLASS") or "",
         "section": sections,
@@ -156,10 +156,10 @@ def _elastic_document(row):
         "URL": row.get("URL") or f"https://hdl.handle.net/20.500.11959/brapci/{identifier}",
     }
 
-def exportToElastic(journal=0, silent=False):
+def exportToElastic(journal=None, silent=False):
     """Exporta registros com new = 1, com filtro opcional por JOURNAL."""
-    journal = int(journal or 0)
-    if journal < 0:
+    journal = None if journal is None or str(journal).strip() == "" else int(journal)
+    if journal is not None and journal < 0:
         raise ValueError("O ID do JOURNAL deve ser maior ou igual a zero.")
 
     load_dotenv(Path(__file__).resolve().parent.parent / ".env")
@@ -294,7 +294,7 @@ def run(parametros=None,chat=None,silent=False):
             return excludeElastic()
         if len(arguments) > 1:
             return {"success": False, "error": usage}
-        journal = int(arguments[0] or 0) if arguments else 0
+        journal = int(arguments[0]) if arguments and str(arguments[0]).strip() != "" else None
         if not silent:
             print("Iniciando exportação para o Elasticsearch...")
         return exportToElastic(journal, silent=silent)
