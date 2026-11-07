@@ -178,7 +178,11 @@ def exportToElastic(journal=0, silent=False):
         "errors": [],
     }
 
-    journal_filter = " AND JOURNAL = %s" if journal else ""
+    if journal == 0:
+        journal_filter = ""
+    else:
+        journal_filter = " AND JOURNAL = %s"
+
     journal_parameters = (journal,) if journal else ()
 
     conn = pymysql.connect(
