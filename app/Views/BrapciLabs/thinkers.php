@@ -21,6 +21,31 @@
                 <?php endif ?>
             </div>
         </form>
+        <details class="mb-4" <?= $groups ? '' : 'open' ?>>
+            <summary class="h5">Grupos de pensadores</summary>
+            <p>Selecione pensadores nos resultados abaixo para criar um grupo ou adicioná-los a um grupo existente. As obras vinculadas serão reunidas automaticamente.</p>
+            <form id="thinker-group-form" method="post" action="<?= site_url('labs/thinker-groups') ?>" class="d-flex flex-wrap gap-2 align-items-end mb-3">
+                <?= csrf_field() ?>
+                <div><label for="group-id" class="form-label">Grupo</label>
+                    <select id="group-id" name="group_id" class="form-select">
+                        <option value="0">Criar novo grupo</option>
+                        <?php foreach ($groups as $group): ?>
+                            <option value="<?= (int) $group['id'] ?>"><?= esc($group['nome']) ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <div><label for="group-name" class="form-label">Nome do novo grupo</label>
+                    <input id="group-name" name="group_name" class="form-control" maxlength="255" placeholder="Ex.: Wilson">
+                </div>
+                <button class="btn btn-primary" type="submit">Agrupar selecionados</button>
+            </form>
+            <div class="d-flex flex-wrap gap-2">
+                <?php foreach ($groups as $group): ?>
+                    <a class="btn btn-outline-secondary btn-sm" href="<?= site_url('labs/thinker-groups/' . (int) $group['id']) ?>"><?= esc($group['nome']) ?></a>
+                <?php endforeach ?>
+            </div>
+            <small class="text-muted">A seleção vale para os resultados desta página. Você pode adicionar outros pensadores ao mesmo grupo em novas buscas.</small>
+        </details>
         <?php if ($pensadores === []): ?>
             <div class="alert alert-info mb-0"><?= $query !== '' ? 'Nenhum pensador encontrado para esta busca.' : 'Nenhum pensador cadastrado.' ?></div>
         <?php else: ?>
@@ -28,7 +53,7 @@
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th>Nome do pensador</th>
+                            <th>Selecionar</th><th>Nome do pensador</th>
                             <th>Nome de citação</th>
                             <th>BRAPCI</th>
                             <th>Wikipédia</th>
@@ -39,6 +64,7 @@
                     <tbody>
                         <?php foreach ($pensadores as $pensador): ?>
                             <tr>
+                                <td><input type="checkbox" form="thinker-group-form" name="thinkers[]" value="<?= (int) $pensador['id'] ?>" aria-label="Selecionar <?= esc($pensador['nome'], 'attr') ?>"></td>
                                 <td><?= esc($pensador['nome']) ?></td>
                                 <td><?= esc($pensador['nome_citacao']) ?></td>
                                 <td>

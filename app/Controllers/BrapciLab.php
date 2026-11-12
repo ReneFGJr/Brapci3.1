@@ -80,6 +80,7 @@ class BrapciLab extends BaseController
             $model->groupStart()->like('nome', $query)->orLike('nome_citacao', $query)->groupEnd();
         }
         $data = [
+            'groups' => (new \App\Models\Pensador\ThinkerGroup())->orderBy('nome', 'ASC')->findAll(),
             'title' => 'Pensadores',
             'query' => $query,
             'pensadores' => $model->orderBy('nome', 'ASC')->paginate(20),
@@ -92,6 +93,47 @@ class BrapciLab extends BaseController
             . view('BrapciLabs/layout/footer');
     }
 
+    public function thinker_groups_save()
+    {
+        $group = $this->request->getPost('group_id');
+        $name = $this->request->getPost('group_name');
+        $ids = $this->request->getPost('thinkers');
+        try {
+            if (!is_string($group) || !preg_match('/^[0-9]+$/D', $group) || !is_array($ids)) {
+                throw new \InvalidArgumentException('Selecione os pensadores e o grupo.');
+            }
+            $id = (new \App\Models\Pensador\ThinkerGroup())->saveMembers(is_string($name) ? $name : '', $ids, (int) $group);
+            return redirect()->to(site_url('labs/thinker-groups/' . $id))->with('success', 'Grupo salvo.');
+        } catch (\InvalidArgumentException $error) {
+            return redirect()->to(site_url('labs/thinkers'))->with('error', $error->getMessage());
+        } catch (\Throwable $error) {
+            log_message('error', 'Falha ao salvar grupo de pensadores: {message}', ['message' => $error->getMessage()]);
+            return redirect()->to(site_url('labs/thinkers'))->with('error', 'Não foi possível salvar o grupo.');
+        }
+    }
+
+    public function thinker_groups_view(int $id)
+    {
+        $model = new \App\Models\Pensador\ThinkerGroup();
+        $group = $model->find($id);
+        if (!$group) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $members = $model->members($id);
+        $works = (new \App\Models\Pensador\CitedPensador())->linkedWorksForGroup(array_column($members, 'id'));
+        return $this->thinkerWorksPage(['title' => $group['nome'], 'group' => $group,
+            'members' => $members, 'works' => $works], 'BrapciLabs/thinker_group_view');
+    }
+
+    public function thinker_groups_remove(int $id, int $thinkerId)
+    {
+        $model = new \App\Models\Pensador\ThinkerGroup();
+        if (!$model->find($id)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $model->removeMember($id, $thinkerId);
+        return redirect()->to(site_url('labs/thinker-groups/' . $id))->with('success', 'Pensador retirado do grupo.');
+    }
     public function thinkers_new()
     {
         $data = ['title' => 'Novo pensador'];

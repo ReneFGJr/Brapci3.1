@@ -143,6 +143,27 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
+    public function linkedWorksForGroup(array $thinkerIds): array
+    {
+        if (!$thinkerIds) {
+            return [];
+        }
+        $rows = $this->db->table('cited_pensador p')
+            ->select('n.id_ca, n.ca_text, n.ca_authors, n.ca_year, n.ca_doi, p.pensador_id')
+            ->join('cited_normalize n', 'n.id_ca = p.cited_normalize_id')
+            ->whereIn('p.pensador_id', $thinkerIds)
+            ->orderBy('n.ca_year', 'DESC')->orderBy('n.id_ca', 'ASC')->get()->getResultArray();
+        $works = [];
+        foreach ($rows as $row) {
+            $id = (int) $row['id_ca'];
+            if (!isset($works[$id])) {
+                $works[$id] = $row;
+                $works[$id]['thinkers'] = [];
+            }
+            $works[$id]['thinkers'][(int) $row['pensador_id']] = (int) $row['pensador_id'];
+        }
+        return array_values($works);
+    }
     public function linkedWorks(int $pensadorId): array
     {
         return $this->db->table('cited_pensador p')
