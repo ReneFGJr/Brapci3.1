@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Oauth2\UserModel;
 use App\Models\Socials;
+use App\Services\Auth\SigninAlertService;
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
 $session = \Config\Services::session();
@@ -402,8 +403,12 @@ class Auth extends Controller
             'message' => 'User or Password incorrect',
         ];
 
+        $ipAddress = $this->request->getIPAddress();
+        $signinAlert = new SigninAlertService();
+
         if ($username === '' || $password === '') {
             $rsp['message'] = 'Username or password is empty';
+            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
             return $rsp;
         }
 
@@ -417,6 +422,7 @@ class Auth extends Controller
 
         if (!$user) {
             $rsp['message'] = 'User not found';
+            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
             return $this->response->setJSON($rsp);
         }
 
@@ -433,6 +439,7 @@ class Auth extends Controller
 
         if (!$validPassword) {
             $rsp['message'] = 'Password is invalid';
+            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
             return $rsp;
         }
 
@@ -473,6 +480,8 @@ class Auth extends Controller
             'givenName' => substr($user['us_nome'], 0, strpos($user['us_nome'], ' ')),
             'token'  => $apikey,
         ];
+
+        $signinAlert->notify(true, $username, $ipAddress);
 
         return $rsp;
     }
