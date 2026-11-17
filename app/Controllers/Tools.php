@@ -17,6 +17,16 @@ class Tools extends BaseController
 {
     public function nlp($type='',$id='')
     {
+        if (!session()->get('user')) {
+            return $this->response
+                ->setHeader('Cache-Control', 'no-store')
+                ->setStatusCode(401)
+                ->setJSON([
+                    'status' => 401,
+                    'error' => 'authentication_required',
+                    'message' => 'É necessário estar logado para acessar esta API.',
+                ]);
+        }
 
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', '0');
