@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Oauth2\UserModel;
 use App\Models\Socials;
+use App\Services\Auth\ClientIpResolver;
 use App\Services\Auth\SigninAlertService;
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
@@ -403,7 +404,11 @@ class Auth extends Controller
             'message' => 'User or Password incorrect',
         ];
 
-        $ipAddress = $this->request->getIPAddress();
+        $ipAddress = ClientIpResolver::resolve(
+            $this->request->getHeaderLine('X-Forwarded-For'),
+            $this->request->getHeaderLine('X-Real-IP'),
+            $this->request->getIPAddress()
+        );
         $signinAlert = new SigninAlertService();
 
         if ($username === '' || $password === '') {
