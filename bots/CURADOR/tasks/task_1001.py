@@ -28,7 +28,7 @@ SESSION_DIRECTORIES = (
 )
 
 
-def limpar_sessoes_antigas(diretorio, limite=20000):
+def limpar_sessoes_antigas(diretorio, limite=100000):
     """
     Remove até ``limite`` arquivos de sessão que não foram modificados
     na data atual.
