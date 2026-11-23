@@ -634,8 +634,10 @@ class Index extends Model
 		//$dd['download'] = PATH . $dir;
 		$dd['download'] = PATH . 'download/bib/'.$fileName;
 
-		$dd['exported'] = $exported;
-		$dd['skipped'] = $skipped;
+		if (in_array($type, ['ris', 'bibtex'], true)) {
+			$dd['exported'] = $exported;
+			$dd['skipped'] = $skipped;
+		}
 
 		if (file_put_contents($dir, $sx) === false) {
 			log_message('error', 'Nao foi possivel gravar o arquivo de exportacao em {file}.', [

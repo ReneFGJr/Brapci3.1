@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="4" assertions="13" errors="0" failures="0" skipped="0" time="0.236078">
-    <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.084297"/>
-    <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.142752"/>
-    <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.006092"/>
-    <testcase name="testAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002938"/>
+  <testsuite name="Tests\Unit\Metadata\ExportFormatTest" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" tests="3" assertions="6" errors="0" failures="0" skipped="0" time="0.052287">
+    <testcase name="testRisAcceptsAnIncompleteRecord" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="17" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.046510"/>
+    <testcase name="testBibtexAcceptsAnIncompleteRecord" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="25" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.003027"/>
+    <testcase name="testExportersIgnoreInvalidAuthorValues" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="33" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.002750"/>
   </testsuite>
 </testsuites>
