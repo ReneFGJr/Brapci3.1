@@ -107,6 +107,7 @@ def main():
 
         "exit": "sair",
         "quit": "sair",
+        "q": "sair",
         "sair": "sair"
 
     }

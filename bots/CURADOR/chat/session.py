@@ -186,7 +186,8 @@ def iniciar(first_message=None):
         if pergunta.lower() in (
             "sair",
             "exit",
-            "quit"
+            "quit",
+            "q"
         ):
             break
 
