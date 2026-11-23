@@ -28,6 +28,12 @@
             "oai-pmh harvesting start"
         ]
     },
+    "1001": {
+        "description": "Limpar arquivos antigos de sessão",
+        "patterns": [
+            "session clear"
+        ]
+    },
     "0200": {
         "description": "Analisar palavras-chave",
         "patterns": [
