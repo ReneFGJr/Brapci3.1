@@ -418,8 +418,9 @@ class Auth extends Controller
             return $rsp;
         }
 
-        $Socials = new Socials();
-        $user = $Socials
+        try {
+            $Socials = new Socials();
+            $user = $Socials
             ->groupStart()
             ->where('us_login', $username)
             ->orWhere('us_email', $username)
@@ -503,7 +504,25 @@ class Auth extends Controller
             $userAgent
         );
 
-        return $rsp;
+            return $rsp;
+        } catch (\Throwable $exception) {
+            $signinAccessLog->record(
+                false,
+                $username,
+                $ipAddress,
+                'Access error',
+                isset($user['id_us']) ? (int) $user['id_us'] : null,
+                $userAgent
+            );
+            log_message('error', 'Erro durante o signin: {message}', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(500)->setJSON([
+                'status' => '500',
+                'message' => 'Internal Server Error',
+            ]);
+        }
     }
 
     /************************************************************* getUserInfo */
