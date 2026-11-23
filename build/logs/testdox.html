@@ -51,6 +51,13 @@
         </style>
     </head>
     <body>
+        <h2>Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)</h2>
+        <ul>
+            <li class="success">Rejects request without api key header</li>
+            <li class="success">Rejects invalid api key</li>
+            <li class="success">Accepts active api key and creates authenticated session</li>
+            <li class="success">Accepts api key from query string</li>
+        </ul>
         <h2>Signin Access Log Service (Tests\Unit\Auth\SigninAccessLogService)</h2>
         <ul>
             <li class="success">Records signin without sensitive credentials</li>

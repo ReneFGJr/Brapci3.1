@@ -37,7 +37,7 @@ class Auth extends Controller
         $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         $this->response->setHeader(
             'Access-Control-Allow-Headers',
-            'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+            'Origin, X-Requested-With, Content-Type, Accept, Authorization, APIKEY'
         );
 
         if (strtoupper((string)$this->request->getMethod()) === 'OPTIONS') {
@@ -115,6 +115,50 @@ class Auth extends Controller
             'admin' => (int)$Socials->isAdmin($user['id_us']),
             'token' => $token,
         ]);
+    }
+
+    public function lastLogin()
+    {
+        if ($response = $this->applySigninCorsHeaders()) {
+            return $response;
+        }
+
+        $userId = (int) session()->get('user_id');
+        if ($userId <= 0) {
+            return $this->response->setStatusCode(401)->setJSON([
+                'error' => 'authentication_required',
+                'message' => 'APIKEY invalida ou inativa.',
+            ]);
+        }
+
+        $requestedLimit = (int) $this->request->getGet('limit');
+        $limit = max(1, min($requestedLimit > 0 ? $requestedLimit : 20, 100));
+
+        try {
+            $accessLog = new \App\Models\Auth\SigninAccessLog();
+            $logins = $accessLog
+                ->select('id, successful, reason, ip_address, user_agent, created_at')
+                ->where('user_id', $userId)
+                ->orderBy('created_at', 'DESC')
+                ->findAll($limit);
+
+            return $this->response->setJSON([
+                'status' => 200,
+                'total' => count($logins),
+                'limit' => $limit,
+                'data' => $logins,
+            ]);
+        } catch (\Throwable $exception) {
+            log_message('error', 'Erro ao consultar os ultimos logins: {message}', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(500)->setJSON([
+                'status' => 500,
+                'error' => 'last_login_query_failed',
+                'message' => 'Nao foi possivel consultar os ultimos logins.',
+            ]);
+        }
     }
 
     public function email()

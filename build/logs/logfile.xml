@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\Auth\SigninAccessLogServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.041693">
-    <testcase name="testRecordsSigninWithoutSensitiveCredentials" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="11" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.038325"/>
-    <testcase name="testDatabaseFailureDoesNotEscapeAuthenticationFlow" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="37" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.003368"/>
+  <testsuite name="CLI Arguments" tests="6" assertions="15" errors="0" failures="0" skipped="0" time="0.074547">
+    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="4" assertions="13" errors="0" failures="0" skipped="0" time="0.062778">
+      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.045548"/>
+      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.012657"/>
+      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.002670"/>
+      <testcase name="testAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.001902"/>
+    </testsuite>
+    <testsuite name="Tests\Unit\Auth\SigninAccessLogServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.011769">
+      <testcase name="testRecordsSigninWithoutSensitiveCredentials" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="11" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.008800"/>
+      <testcase name="testDatabaseFailureDoesNotEscapeAuthenticationFlow" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="37" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.002970"/>
+    </testsuite>
   </testsuite>
 </testsuites>
