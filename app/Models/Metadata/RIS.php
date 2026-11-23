@@ -48,7 +48,7 @@ class RIS extends Model
         array_push($RSP, 'TY  - ' . $TYPE);
 
         /* Autores */
-        if (isset($ln['Authors'])) {
+        if (isset($ln['Authors']) && is_array($ln['Authors'])) {
             foreach ($ln['Authors'] as $ida => $author) {
                 $name = nbr_author($author, 2);
                 array_push($RSP, 'AU  - ' . $name);
@@ -56,7 +56,7 @@ class RIS extends Model
         }
 
         /* Title */
-        $Title = (array)$ln['Title'];
+        $Title = isset($ln['Title']) ? (array) $ln['Title'] : [];
         if (isset($Title['pt'])) {
             array_push($RSP, 'TI  - ' . $Title['pt'][0]);
         } elseif (isset($Title['es'])) {
@@ -68,7 +68,9 @@ class RIS extends Model
         }
 
         /* Ano */
-        array_push($RSP, 'PY  - ' . $ln['YEAR']);
+        if (isset($ln['YEAR']) && $ln['YEAR'] !== '') {
+            array_push($RSP, 'PY  - ' . $ln['YEAR']);
+        }
 
         /* DOI */
         //pre($ln);
@@ -84,11 +86,15 @@ class RIS extends Model
             $Issue = (array)$ln['Issue'];
 
             /* Publicação */
-            array_push($RSP, 'PB  - ' . $Issue['journal']);
-            array_push($RSP, 'JO  - ' . $Issue['journal']);
+            if (isset($Issue['journal']) && $Issue['journal'] !== '') {
+                array_push($RSP, 'PB  - ' . $Issue['journal']);
+                array_push($RSP, 'JO  - ' . $Issue['journal']);
+            }
 
             //array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/' . $ln['ID']);
-            array_push($RSP, 'UR  - ' . 'https://hdl.handle.net/20.500.11959/brapci/' . $ln['ID']);
+            if (isset($ln['ID']) && $ln['ID'] !== '') {
+                array_push($RSP, 'UR  - ' . 'https://hdl.handle.net/20.500.11959/brapci/' . $ln['ID']);
+            }
 
             /* Volume */
             if ((isset($Issue['vol'])) and ($Issue['vol'] != '')) {
@@ -128,7 +134,9 @@ class RIS extends Model
         }
 
         array_push($RSP, 'DB  - ' . 'BRAPCI');
-        array_push($RSP, 'M3  - ' . $ln['Class']);
+        if (isset($ln['Class']) && $ln['Class'] !== '') {
+            array_push($RSP, 'M3  - ' . $ln['Class']);
+        }
         array_push($RSP, 'LA  - ' . 'por');
         //array_push($RSP, 'N1  - ' . 'Portuguese');
 

@@ -61,12 +61,14 @@ class Bibtex extends Model
 		$bibtex = "@article{";
 
 		// Define a citation key (e.g., authorYear)
-		$citationKey = isset($ln['Authors'][0]) ? strtolower(explode(' ', $ln['Authors'][0])[0]) : 'unknown';
+		$citationKey = isset($ln['Authors'][0]) && is_string($ln['Authors'][0])
+			? strtolower(explode(' ', $ln['Authors'][0])[0])
+			: 'unknown';
 		$citationKey .= isset($ln['YEAR']) ? $ln['YEAR'] : '';
 		$bibtex .= $citationKey . ",\n";
 
 		// Authors
-		if (isset($ln['Authors'])) {
+		if (isset($ln['Authors']) && is_array($ln['Authors'])) {
 			$authors = array_map(function ($author) {
 				return nbr_author($author, 2);
 			}, $ln['Authors']);
@@ -74,7 +76,7 @@ class Bibtex extends Model
 		}
 
 		// Title
-		$Title = (array)$ln['Title'];
+		$Title = isset($ln['Title']) ? (array) $ln['Title'] : [];
 		$title = $Title['pt'][0] ?? $Title['es'][0] ?? $Title['en'][0] ?? $Title['fr'][0] ?? '';
 		$bibtex .= "  title = {" . $title . "},\n";
 

@@ -469,6 +469,8 @@ class Index extends Model
 			? $Register->findAll()
 			: $Register->findAll(2000);
 		$sx = '';
+		$exported = 0;
+		$skipped = 0;
 
 		switch ($tp) {
 			case 'net_authors':
@@ -486,15 +488,31 @@ class Index extends Model
 			case 'ris':
 				$RIS = new \App\Models\Metadata\RIS();
 				foreach ($dt as $id => $line) {
-					$data = (array)json_decode($line['json']);
+					$data = json_decode((string) ($line['json'] ?? ''), true);
+					if (!is_array($data)) {
+						$skipped++;
+						log_message('warning', 'Exportacao RIS ignorou JSON invalido do registro {id}.', [
+							'id' => $line['ID'] ?? $id,
+						]);
+						continue;
+					}
 					$sx .= $RIS->short($data).chr(13);
+					$exported++;
 				}
 				break;
 			case 'bibtex':
 				$Bibtex = new \App\Models\Metadata\Bibtex();
 				foreach ($dt as $id => $line) {
-					$data = (array)json_decode($line['json']);
+					$data = json_decode((string) ($line['json'] ?? ''), true);
+					if (!is_array($data)) {
+						$skipped++;
+						log_message('warning', 'Exportacao BibTeX ignorou JSON invalido do registro {id}.', [
+							'id' => $line['ID'] ?? $id,
+						]);
+						continue;
+					}
 					$sx .= $Bibtex->short($data) . chr(13);
+					$exported++;
 				}
 				break;
 			case 'id':
@@ -600,7 +618,21 @@ class Index extends Model
 		//$dd['download'] = PATH . $dir;
 		$dd['download'] = PATH . 'download/bib/'.$fileName;
 
-		file_put_contents($dir,$sx);
+		$dd['exported'] = $exported;
+		$dd['skipped'] = $skipped;
+
+		if (file_put_contents($dir, $sx) === false) {
+			log_message('error', 'Nao foi possivel gravar o arquivo de exportacao em {file}.', [
+				'file' => $dir,
+			]);
+			http_response_code(500);
+			echo json_encode([
+				'status' => 500,
+				'error' => 'export_write_failed',
+				'message' => 'Nao foi possivel gravar o arquivo de exportacao.',
+			]);
+			exit;
+		}
 
 		echo json_encode($dd);
 		exit;
