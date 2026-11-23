@@ -6,7 +6,7 @@ use CodeIgniter\Controller;
 use App\Models\Oauth2\UserModel;
 use App\Models\Socials;
 use App\Services\Auth\ClientIpResolver;
-use App\Services\Auth\SigninAlertService;
+use App\Services\Auth\SigninAccessLogService;
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
 $session = \Config\Services::session();
@@ -409,11 +409,12 @@ class Auth extends Controller
             $this->request->getHeaderLine('X-Real-IP'),
             $this->request->getIPAddress()
         );
-        $signinAlert = new SigninAlertService();
+        $signinAccessLog = new SigninAccessLogService();
+        $userAgent = $this->request->getUserAgent()->getAgentString();
 
         if ($username === '' || $password === '') {
             $rsp['message'] = 'Username or password is empty';
-            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
+            $signinAccessLog->record(false, $username, $ipAddress, $rsp['message'], null, $userAgent);
             return $rsp;
         }
 
@@ -427,7 +428,7 @@ class Auth extends Controller
 
         if (!$user) {
             $rsp['message'] = 'User not found';
-            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
+            $signinAccessLog->record(false, $username, $ipAddress, $rsp['message'], null, $userAgent);
             return $this->response->setJSON($rsp);
         }
 
@@ -444,7 +445,14 @@ class Auth extends Controller
 
         if (!$validPassword) {
             $rsp['message'] = 'Password is invalid';
-            $signinAlert->notify(false, $username, $ipAddress, $rsp['message']);
+            $signinAccessLog->record(
+                false,
+                $username,
+                $ipAddress,
+                $rsp['message'],
+                (int) $user['id_us'],
+                $userAgent
+            );
             return $rsp;
         }
 
@@ -486,7 +494,14 @@ class Auth extends Controller
             'token'  => $apikey,
         ];
 
-        $signinAlert->notify(true, $username, $ipAddress);
+        $signinAccessLog->record(
+            true,
+            $username,
+            $ipAddress,
+            '',
+            (int) $user['id_us'],
+            $userAgent
+        );
 
         return $rsp;
     }

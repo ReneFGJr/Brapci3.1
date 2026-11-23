@@ -1,5 +1,4 @@
-Export Format (Tests\Unit\Metadata\ExportFormat)
- [x] Ris accepts an incomplete record
- [x] Bibtex accepts an incomplete record
- [x] Exporters ignore invalid author values
+Signin Access Log Service (Tests\Unit\Auth\SigninAccessLogService)
+ [x] Records signin without sensitive credentials
+ [x] Database failure does not escape authentication flow
 

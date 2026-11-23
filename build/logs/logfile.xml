@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Tests\Unit\Metadata\ExportFormatTest" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" tests="3" assertions="6" errors="0" failures="0" skipped="0" time="0.052287">
-    <testcase name="testRisAcceptsAnIncompleteRecord" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="17" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.046510"/>
-    <testcase name="testBibtexAcceptsAnIncompleteRecord" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="25" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.003027"/>
-    <testcase name="testExportersIgnoreInvalidAuthorValues" file="D:\Projeto\Brapci3.1\tests\unit\Metadata\ExportFormatTest.php" line="33" class="Tests\Unit\Metadata\ExportFormatTest" classname="Tests.Unit.Metadata.ExportFormatTest" assertions="2" time="0.002750"/>
+  <testsuite name="Tests\Unit\Auth\SigninAccessLogServiceTest" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="0.171148">
+    <testcase name="testRecordsSigninWithoutSensitiveCredentials" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="11" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.165175"/>
+    <testcase name="testDatabaseFailureDoesNotEscapeAuthenticationFlow" file="D:\Projeto\Brapci3.1\tests\unit\Auth\SigninAccessLogServiceTest.php" line="37" class="Tests\Unit\Auth\SigninAccessLogServiceTest" classname="Tests.Unit.Auth.SigninAccessLogServiceTest" assertions="1" time="0.005973"/>
   </testsuite>
 </testsuites>
