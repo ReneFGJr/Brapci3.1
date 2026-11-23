@@ -17,6 +17,7 @@ TASK = {
     "description": "Remove arquivos de sessão que não foram modificados hoje.",
     "patterns": [
         "session clear",
+        "system clear",
     ],
     "parameters": [],
 }

@@ -31,7 +31,8 @@
     "1001": {
         "description": "Limpar arquivos antigos de sessão",
         "patterns": [
-            "session clear"
+            "session clear",
+            "system clear"
         ]
     },
     "0200": {
