@@ -36,6 +36,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         // ✅ ADICIONADO
         'auth' => \App\Filters\AuthFilter::class,
+        'apiKeyAuth' => \App\Filters\AiApiAuthFilter::class,
         'aiApiAuth' => \App\Filters\AiApiAuthFilter::class,
         'projectRequired' => \App\Filters\ProjectRequiredFilter::class,
     ];
