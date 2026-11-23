@@ -22,10 +22,12 @@ TASK = {
     "parameters": [],
 }
 
-SESSION_DIRECTORIES = (
-    "/data/Brapci3.1/writable/session/",
-    "/data/HumaniDados/v2/writable/session/",
-)
+SESSION_DIRECTORIES = ("/data/Brapci3.1/writable/session/",
+                       "/data/HumaniDados/v2/writable/session/",
+                       "/gev3nt/writable/session/",
+                       "/Sciclo/writable/session/",
+                       "/SIMORI/v1/writable/session/",
+                       "/Mosaico/writable/session/")
 
 
 def limpar_sessoes_antigas(diretorio, limite=20000):
