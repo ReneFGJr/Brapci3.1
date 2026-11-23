@@ -28,7 +28,7 @@ SESSION_DIRECTORIES = (
 )
 
 
-def limpar_sessoes_antigas(diretorio, limite=100000):
+def limpar_sessoes_antigas(diretorio, limite=20000):
     """
     Remove até ``limite`` arquivos de sessão que não foram modificados
     na data atual.
@@ -98,13 +98,42 @@ def run(parametros=None, chat=None, silent=False):
         if not silent:
             console.print(f"[cyan]Limpando sessões em:[/cyan] {diretorio}")
 
-        removidos, pendentes, erros = limpar_sessoes_antigas(diretorio)
+        total_removidos = 0
+        total_erros = 0
+        pendentes = 0
+        execucoes = 0
+
+        while True:
+            execucoes += 1
+            removidos, pendentes, erros = limpar_sessoes_antigas(diretorio)
+            total_removidos += removidos
+            total_erros += erros
+
+            if pendentes == 0:
+                break
+
+            if removidos == 0:
+                if not silent:
+                    console.print(
+                        "[yellow]Limpeza interrompida: ainda existem "
+                        f"{pendentes} arquivo(s), mas nenhum pôde ser removido "
+                        "na última execução.[/yellow]"
+                    )
+                break
+
+            if not silent:
+                console.print(
+                    f"[cyan]Ainda existem {pendentes} arquivo(s). "
+                    "Executando uma nova limpeza...[/cyan]"
+                )
+
         resultados.append(
             {
                 "directory": diretorio,
-                "removed": removidos,
+                "removed": total_removidos,
                 "pending": pendentes,
-                "errors": erros,
+                "errors": total_erros,
+                "runs": execucoes,
             }
         )
 
