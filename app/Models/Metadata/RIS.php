@@ -50,6 +50,9 @@ class RIS extends Model
         /* Autores */
         if (isset($ln['Authors']) && is_array($ln['Authors'])) {
             foreach ($ln['Authors'] as $ida => $author) {
+                if (!is_string($author) || trim($author) === '') {
+                    continue;
+                }
                 $name = nbr_author($author, 2);
                 array_push($RSP, 'AU  - ' . $name);
             }

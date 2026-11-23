@@ -496,8 +496,16 @@ class Index extends Model
 						]);
 						continue;
 					}
-					$sx .= $RIS->short($data).chr(13);
-					$exported++;
+					try {
+						$sx .= $RIS->short($data).chr(13);
+						$exported++;
+					} catch (\Throwable $exception) {
+						$skipped++;
+						log_message('error', 'Exportacao RIS ignorou o registro {id}: {error}', [
+							'id' => $line['ID'] ?? $id,
+							'error' => $exception->getMessage(),
+						]);
+					}
 				}
 				break;
 			case 'bibtex':
@@ -511,8 +519,16 @@ class Index extends Model
 						]);
 						continue;
 					}
-					$sx .= $Bibtex->short($data) . chr(13);
-					$exported++;
+					try {
+						$sx .= $Bibtex->short($data) . chr(13);
+						$exported++;
+					} catch (\Throwable $exception) {
+						$skipped++;
+						log_message('error', 'Exportacao BibTeX ignorou o registro {id}: {error}', [
+							'id' => $line['ID'] ?? $id,
+							'error' => $exception->getMessage(),
+						]);
+					}
 				}
 				break;
 			case 'id':

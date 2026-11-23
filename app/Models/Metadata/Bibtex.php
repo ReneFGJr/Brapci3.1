@@ -69,9 +69,13 @@ class Bibtex extends Model
 
 		// Authors
 		if (isset($ln['Authors']) && is_array($ln['Authors'])) {
-			$authors = array_map(function ($author) {
-				return nbr_author($author, 2);
-			}, $ln['Authors']);
+			$authors = array_map(
+				static fn ($author) => nbr_author($author, 2),
+				array_filter(
+					$ln['Authors'],
+					static fn ($author) => is_string($author) && trim($author) !== ''
+				)
+			);
 			$bibtex .= "  author = {" . implode('; ', $authors) . "},\n";
 		}
 
