@@ -17,12 +17,12 @@ class AiApiAuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $headerApiKey = trim($request->getHeaderLine('APIKEY'));
-        $queryApiKey = trim((string) $request->getGet('APIKEY'));
+        $postApiKey = trim((string) $request->getPost('APIKEY'));
         $json = $request->getJSON(true);
         $jsonApiKey = is_array($json) ? trim((string) ($json['APIKEY'] ?? '')) : '';
         $apiKey = $headerApiKey !== ''
             ? $headerApiKey
-            : ($queryApiKey !== '' ? $queryApiKey : $jsonApiKey);
+            : ($postApiKey !== '' ? $postApiKey : $jsonApiKey);
 
         if ($apiKey === '') {
             return service('response')->setStatusCode(401)->setJSON([

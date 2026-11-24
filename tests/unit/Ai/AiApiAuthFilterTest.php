@@ -52,17 +52,32 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         $this->assertSame('correta', session()->get('apikey'));
     }
 
-    public function testAcceptsApiKeyFromQueryString(): void
+    public function testRejectsApiKeyFromQueryString(): void
     {
         $authenticator = $this->createMock(ApiKeyAuthenticator::class);
-        $authenticator->expects($this->once())->method('findActiveUser')->with('pela-query')->willReturn([
-            'id_us' => 11,
-            'us_nome' => 'Query',
-            'us_email' => 'query@example.com',
-            'us_apikey' => 'pela-query',
-        ]);
+        $authenticator->expects($this->never())->method('findActiveUser');
         service('request')->removeHeader('APIKEY');
         service('request')->setGlobal('get', ['APIKEY' => 'pela-query']);
+        service('request')->setGlobal('post', []);
+
+        $response = (new AiApiAuthFilter($authenticator))->before(service('request'));
+
+        $this->assertSame(401, $response->getStatusCode());
+        $this->assertStringContainsString('authentication_required', $response->getBody());
+    }
+
+    public function testAcceptsApiKeyFromPostBody(): void
+    {
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('pelo-post')->willReturn([
+            'id_us' => 11,
+            'us_nome' => 'POST',
+            'us_email' => 'post@example.com',
+            'us_apikey' => 'pelo-post',
+        ]);
+        service('request')->removeHeader('APIKEY');
+        service('request')->setGlobal('get', []);
+        service('request')->setGlobal('post', ['APIKEY' => 'pelo-post']);
 
         $this->assertNull((new AiApiAuthFilter($authenticator))->before(service('request')));
         $this->assertSame(11, session()->get('user_id'));
@@ -79,6 +94,7 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         ]);
         service('request')->removeHeader('APIKEY');
         service('request')->setGlobal('get', []);
+        service('request')->setGlobal('post', []);
         service('request')->setHeader('Content-Type', 'application/json');
         service('request')->setBody(json_encode(['APIKEY' => 'pelo-json']));
 
