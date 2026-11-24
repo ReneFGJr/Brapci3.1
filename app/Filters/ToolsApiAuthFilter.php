@@ -16,6 +16,8 @@ class ToolsApiAuthFilter implements FilterInterface
 
     public function before(RequestInterface $request, $arguments = null)
     {
+        $this->applyCorsHeaders($request);
+
         $method = strtoupper((string) $request->getMethod());
         if ($method === 'GET' && (string) $request->getGet('test') !== '1') {
             return service('response')->setStatusCode(405)->setJSON([
@@ -64,6 +66,31 @@ class ToolsApiAuthFilter implements FilterInterface
             'email' => $user['us_email'],
             'apikey' => $user['us_apikey'],
         ]);
+    }
+
+    private function applyCorsHeaders(RequestInterface $request): void
+    {
+        $origin = $request->getHeaderLine('Origin');
+        $allowedOrigins = [
+            'http://localhost:4200',
+            'http://127.0.0.1:4200',
+            'https://brapci.inf.br',
+            'https://www.brapci.inf.br',
+            'https://cip.brapci.inf.br',
+            'https://app.brapci.inf.br',
+        ];
+
+        if (in_array($origin, $allowedOrigins, true)) {
+            service('response')->setHeader('Access-Control-Allow-Origin', $origin);
+            service('response')->setHeader('Access-Control-Allow-Credentials', 'true');
+        }
+
+        service('response')->setHeader('Vary', 'Origin');
+        service('response')->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        service('response')->setHeader(
+            'Access-Control-Allow-Headers',
+            'Accept, APIKEY, Authorization, Content-Type, Origin, X-Requested-With'
+        );
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

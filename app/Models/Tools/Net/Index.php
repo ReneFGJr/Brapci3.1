@@ -83,7 +83,9 @@ class Index extends Model
 
     function index($d1, $d2, $d3, $d4 = '')
     {
-        dircheck('/data/Brapci3.1/.tmp/'.$d2);
+        if ($d2 !== 'txt4net') {
+            dircheck('/data/Brapci3.1/.tmp/'.$d2);
+        }
         $sx = '';
         switch ($d2) {
             case 'dijkstra':
@@ -169,6 +171,7 @@ class Index extends Model
                     break;
                 }
 
+                dircheck('/data/Brapci3.1/.tmp/'.$d2);
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.$fileO;

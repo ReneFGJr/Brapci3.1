@@ -1,0 +1,46 @@
+<?php
+
+namespace Tests\Unit\Ai;
+
+use App\Filters\ToolsApiAuthFilter;
+use App\Services\Ai\ApiKeyAuthenticator;
+use CodeIgniter\Test\CIUnitTestCase;
+
+final class ToolsApiAuthFilterTest extends CIUnitTestCase
+{
+    protected function tearDown(): void
+    {
+        session()->destroy();
+        parent::tearDown();
+    }
+
+    public function testGetRequiresTestFlag(): void
+    {
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->never())->method('findActiveUser');
+        service('request')->setMethod('GET');
+        service('request')->setGlobal('get', ['APIKEY' => 'key']);
+
+        $response = (new ToolsApiAuthFilter($authenticator))->before(service('request'));
+
+        $this->assertSame(405, $response->getStatusCode());
+    }
+
+    public function testGetWithTestFlagAcceptsApiKeyFromQueryString(): void
+    {
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('pela-query')->willReturn([
+            'id_us' => 20,
+            'us_nome' => 'Tools',
+            'us_email' => 'tools@example.com',
+            'us_apikey' => 'pela-query',
+        ]);
+        service('request')->setMethod('GET');
+        service('request')->removeHeader('APIKEY');
+        service('request')->setGlobal('get', ['test' => '1', 'APIKEY' => 'pela-query']);
+        service('request')->setGlobal('post', []);
+
+        $this->assertNull((new ToolsApiAuthFilter($authenticator))->before(service('request')));
+        $this->assertSame(20, session()->get('user_id'));
+    }
+}
