@@ -38,6 +38,7 @@ class Filters extends BaseFilters
         'auth' => \App\Filters\AuthFilter::class,
         'apiKeyAuth' => \App\Filters\AiApiAuthFilter::class,
         'aiApiAuth' => \App\Filters\AiApiAuthFilter::class,
+        'toolsApiAuth' => \App\Filters\ToolsApiAuthFilter::class,
         'projectRequired' => \App\Filters\ProjectRequiredFilter::class,
     ];
 

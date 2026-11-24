@@ -56,9 +56,9 @@ $routes->group('api/ai', ['filter' => 'aiApiAuth'], static function ($routes) {
 
 // Bibliometric tools execute local processes and must never be publicly callable.
 // OPTIONS remains handled by the CORS filter so browser preflight does not require credentials.
-$routes->match(['get', 'post', 'put', 'delete'], '/api/tools', 'Api::index/tools', ['filter' => 'apiKeyAuth']);
-$routes->group('api/tools', ['filter' => 'apiKeyAuth'], static function ($routes) {
-    $routes->match(['get', 'post', 'put', 'delete'], '(:any)', 'Api::index/tools/$1');
+$routes->match(['get', 'post'], '/api/tools', 'Api::index/tools', ['filter' => 'toolsApiAuth']);
+$routes->group('api/tools', ['filter' => 'toolsApiAuth'], static function ($routes) {
+    $routes->match(['get', 'post'], '(:any)', 'Api::index/tools/$1');
 });
 
 $routes->match(['get', 'options'], '/api/bugs/user/(:segment)', 'BugReport::user/$1');
