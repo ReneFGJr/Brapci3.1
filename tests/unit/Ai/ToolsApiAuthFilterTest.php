@@ -37,10 +37,15 @@ final class ToolsApiAuthFilterTest extends CIUnitTestCase
         ]);
         service('request')->setMethod('GET');
         service('request')->removeHeader('APIKEY');
+        service('request')->setHeader('Origin', 'http://localhost:4200');
         service('request')->setGlobal('get', ['test' => '1', 'APIKEY' => 'pela-query']);
         service('request')->setGlobal('post', []);
 
         $this->assertNull((new ToolsApiAuthFilter($authenticator))->before(service('request')));
         $this->assertSame(20, session()->get('user_id'));
+        $this->assertSame(
+            'http://localhost:4200',
+            service('response')->getHeaderLine('Access-Control-Allow-Origin')
+        );
     }
 }

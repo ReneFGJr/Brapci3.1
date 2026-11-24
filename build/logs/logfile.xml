@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CLI Arguments" tests="8" assertions="24" errors="0" failures="0" skipped="0" time="0.046729">
-    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="6" assertions="19" errors="0" failures="0" skipped="0" time="0.042942">
-      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.023185"/>
-      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.010755"/>
-      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.002200"/>
-      <testcase name="testRejectsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002181"/>
-      <testcase name="testAcceptsApiKeyFromPostBody" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="69" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002416"/>
-      <testcase name="testAcceptsApiKeyFromJsonBody" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="86" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002205"/>
+  <testsuite name="CLI Arguments" tests="8" assertions="25" errors="0" failures="0" skipped="0" time="0.073813">
+    <testsuite name="Tests\Unit\Ai\ToolsApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" tests="2" assertions="6" errors="0" failures="0" skipped="0" time="0.060246">
+      <testcase name="testGetRequiresTestFlag" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" line="17" class="Tests\Unit\Ai\ToolsApiAuthFilterTest" classname="Tests.Unit.Ai.ToolsApiAuthFilterTest" assertions="2" time="0.054698"/>
+      <testcase name="testGetWithTestFlagAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" line="29" class="Tests\Unit\Ai\ToolsApiAuthFilterTest" classname="Tests.Unit.Ai.ToolsApiAuthFilterTest" assertions="4" time="0.005548"/>
     </testsuite>
-    <testsuite name="Tests\Unit\Ai\ToolsApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" tests="2" assertions="5" errors="0" failures="0" skipped="0" time="0.003787">
-      <testcase name="testGetRequiresTestFlag" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" line="17" class="Tests\Unit\Ai\ToolsApiAuthFilterTest" classname="Tests.Unit.Ai.ToolsApiAuthFilterTest" assertions="2" time="0.002122"/>
-      <testcase name="testGetWithTestFlagAcceptsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\ToolsApiAuthFilterTest.php" line="29" class="Tests\Unit\Ai\ToolsApiAuthFilterTest" classname="Tests.Unit.Ai.ToolsApiAuthFilterTest" assertions="3" time="0.001664"/>
+    <testsuite name="Tests\Unit\Ai\AiApiAuthFilterTest" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" tests="6" assertions="19" errors="0" failures="0" skipped="0" time="0.013567">
+      <testcase name="testRejectsRequestWithoutApiKeyHeader" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="18" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002623"/>
+      <testcase name="testRejectsInvalidApiKey" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="27" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002636"/>
+      <testcase name="testAcceptsActiveApiKeyAndCreatesAuthenticatedSession" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="39" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="4" time="0.002056"/>
+      <testcase name="testRejectsApiKeyFromQueryString" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="55" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.001998"/>
+      <testcase name="testAcceptsApiKeyFromPostBody" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="69" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002233"/>
+      <testcase name="testAcceptsApiKeyFromJsonBody" file="D:\Projeto\Brapci3.1\tests\unit\Ai\AiApiAuthFilterTest.php" line="86" class="Tests\Unit\Ai\AiApiAuthFilterTest" classname="Tests.Unit.Ai.AiApiAuthFilterTest" assertions="3" time="0.002021"/>
     </testsuite>
   </testsuite>
 </testsuites>
