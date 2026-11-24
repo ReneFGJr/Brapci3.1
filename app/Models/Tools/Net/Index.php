@@ -162,9 +162,18 @@ class Index extends Model
                 }
 
                 $RSP = [];
-                $RSP['status'] = '400';
-                $RSP['message'] = 'Nenhum nome de autor foi informado.';
+                $fileO = (string)get("fileO");
+                if ($fileO === '') {
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Nenhum nome de autor foi informado.';
+                    break;
+                }
+
+                $RSP['status'] = '200';
                 $RSP['file'] = get("file");
+                $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.$fileO;
+                $RSP['response'] = $this->execPython('txt4net', $arg);
+                $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.$fileO.'.net';
                 break;
             case 'term4net':
                 $RSP = [];
