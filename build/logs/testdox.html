@@ -51,19 +51,10 @@
         </style>
     </head>
     <body>
-        <h2>Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)</h2>
-        <ul>
-            <li class="success">Rejects request without api key header</li>
-            <li class="success">Rejects invalid api key</li>
-            <li class="success">Accepts active api key and creates authenticated session</li>
-            <li class="success">Rejects api key from query string</li>
-            <li class="success">Accepts api key from post body</li>
-            <li class="success">Accepts api key from json body</li>
-        </ul>
         <h2>Tools Api Auth Filter (Tests\Unit\Ai\ToolsApiAuthFilter)</h2>
         <ul>
             <li class="success">Get requires test flag</li>
-            <li class="success">Get with test flag accepts api key from query string</li>
+            <li class="success">Get with test flag rejects api key from query string</li>
         </ul>
     </body>
 </html>

@@ -83,13 +83,12 @@ class Index extends Model
 
     function index($d1, $d2, $d3, $d4 = '')
     {
-        if ($d2 !== 'txt4net') {
+        if (!in_array($d2, ['txt4net', 'txt4network'], true)) {
             dircheck('/data/Brapci3.1/.tmp/'.$d2);
         }
         $sx = '';
         switch ($d2) {
             case 'dijkstra':
-                header('Access-Control-Allow-Origin: *');
                 header("Content-Type: application/json");
                 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
                 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -146,6 +145,7 @@ class Index extends Model
                 $file = troca($file, '.txt', '.csv');
                 $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
                 break;
+            case 'txt4network':
             case 'txt4net':
                 $request = service('request');
                 $json = $request->getJSON(true);
@@ -179,10 +179,33 @@ class Index extends Model
                 $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.$fileO.'.net';
                 break;
             case 'term4net':
+                $request = service('request');
+                $json = $request->getJSON(true);
+                $text = is_array($json) ? (string)($json['text'] ?? '') : '';
+                if ($text === '') {
+                    $text = (string)$request->getPost('text');
+                }
+
+                $uploadedFile = $request->getFile('file');
+                if ($text === '' && $uploadedFile && $uploadedFile->isValid()) {
+                    $text = (string)file_get_contents($uploadedFile->getTempName());
+                }
+
+                if (trim($text) !== '') {
+                    $this->file_download($this->termsToNet($text));
+                }
+
                 $RSP = [];
+                $fileO = (string)get("fileO");
+                if ($fileO === '') {
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Nenhum assunto foi informado.';
+                    break;
+                }
+
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
-                $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
+                $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . $fileO;
                 $RSP['response'] = $this->execPython('term4net', $arg);
                 $fileName = get("fileO");
                 $fileName = troca($fileName, '.txt', '');
@@ -204,7 +227,6 @@ class Index extends Model
         }
 
         if (($d2 != 'import') and ($d2 != 'in')) {
-            header('Access-Control-Allow-Origin: *');
             header("Content-Type: application/json");
         }
 
@@ -254,6 +276,57 @@ class Index extends Model
         $output = '*Vertices ' . count($nodes) . "\n";
         foreach ($nodes as $author => $id) {
             $output .= $id . ' "' . str_replace('"', '', $author) . '"' . "\n";
+        }
+        $output .= "*Edges\n";
+        foreach ($edges as $key => $weight) {
+            [$source, $target] = explode(':', $key);
+            $output .= $source . ' ' . $target . ' ' . $weight . "\n";
+        }
+
+        return $output;
+    }
+
+    private function termsToNet(string $text): string
+    {
+        $nodes = [];
+        $degrees = [];
+        $edges = [];
+        $lines = preg_split('/\R/u', $text) ?: [];
+
+        foreach ($lines as $line) {
+            $terms = array_values(array_filter(array_map('trim', explode(';', $line))));
+            for ($i = 0; $i < count($terms); $i++) {
+                for ($j = $i + 1; $j < count($terms); $j++) {
+                    foreach ([$terms[$i], $terms[$j]] as $term) {
+                        if (!isset($nodes[$term])) {
+                            $nodes[$term] = count($nodes) + 1;
+                            $degrees[$term] = 0;
+                        }
+                    }
+
+                    $source = $nodes[$terms[$i]];
+                    $target = $nodes[$terms[$j]];
+                    $key = min($source, $target) . ':' . max($source, $target);
+                    if (!isset($edges[$key])) {
+                        $degrees[$terms[$i]]++;
+                        $degrees[$terms[$j]]++;
+                    }
+                    $edges[$key] = ($edges[$key] ?? 0) + 1;
+                }
+            }
+        }
+
+        $output = "#term4net\n*Vertices " . count($nodes) . "\n";
+        $posX = 0;
+        $posY = 0;
+        foreach ($nodes as $term => $id) {
+            $posX += 10;
+            if (($posX % 100) === 0) {
+                $posY += 10;
+                $posX = 0;
+            }
+            $factor = ($degrees[$term] ?? 0) > 5 ? '2.0000' : '1.0000';
+            $output .= $id . ' "' . str_replace('"', '', $term) . '" ' . $posX . ' ' . $factor . ' ' . $posY . " \n";
         }
         $output .= "*Edges\n";
         foreach ($edges as $key => $weight) {

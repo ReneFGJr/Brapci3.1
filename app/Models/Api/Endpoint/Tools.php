@@ -66,7 +66,6 @@ class Tools extends Model
                     exit;
                     break;
                 case 'monitor':
-                    header('Access-Control-Allow-Origin: *');
                     header("Content-Type: application/json");
                     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
                     header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -94,6 +93,7 @@ class Tools extends Model
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
                     break;
+                case 'txt4network':
                 case 'txt4net':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
@@ -111,7 +111,6 @@ class Tools extends Model
                     exit;
                     break;
                 case 'ris4marc':
-                    header('Access-Control-Allow-Origin: *');
                     header("Content-Type: application/json");
                     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
                     header("Access-Control-Allow-Headers: Content-Type, Authorization");
