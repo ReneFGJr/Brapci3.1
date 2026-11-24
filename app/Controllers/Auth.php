@@ -131,7 +131,9 @@ class Auth extends Controller
             ]);
         }
 
-        $requestedLimit = (int) $this->request->getGet('limit');
+        $json = $this->request->getJSON(true);
+        $jsonLimit = is_array($json) ? ($json['limit'] ?? 0) : 0;
+        $requestedLimit = (int) ($this->request->getGet('limit') ?: $jsonLimit);
         $limit = max(1, min($requestedLimit > 0 ? $requestedLimit : 20, 100));
 
         try {

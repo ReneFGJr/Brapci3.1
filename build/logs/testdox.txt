@@ -3,8 +3,5 @@ Ai Api Auth Filter (Tests\Unit\Ai\AiApiAuthFilter)
  [x] Rejects invalid api key
  [x] Accepts active api key and creates authenticated session
  [x] Accepts api key from query string
-
-Signin Access Log Service (Tests\Unit\Auth\SigninAccessLogService)
- [x] Records signin without sensitive credentials
- [x] Database failure does not escape authentication flow
+ [x] Accepts api key from json body
 

@@ -18,7 +18,11 @@ class AiApiAuthFilter implements FilterInterface
     {
         $headerApiKey = trim($request->getHeaderLine('APIKEY'));
         $queryApiKey = trim((string) $request->getGet('APIKEY'));
-        $apiKey = $headerApiKey !== '' ? $headerApiKey : $queryApiKey;
+        $json = $request->getJSON(true);
+        $jsonApiKey = is_array($json) ? trim((string) ($json['APIKEY'] ?? '')) : '';
+        $apiKey = $headerApiKey !== ''
+            ? $headerApiKey
+            : ($queryApiKey !== '' ? $queryApiKey : $jsonApiKey);
 
         if ($apiKey === '') {
             return service('response')->setStatusCode(401)->setJSON([

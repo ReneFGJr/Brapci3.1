@@ -67,4 +67,22 @@ final class AiApiAuthFilterTest extends CIUnitTestCase
         $this->assertNull((new AiApiAuthFilter($authenticator))->before(service('request')));
         $this->assertSame(11, session()->get('user_id'));
     }
+
+    public function testAcceptsApiKeyFromJsonBody(): void
+    {
+        $authenticator = $this->createMock(ApiKeyAuthenticator::class);
+        $authenticator->expects($this->once())->method('findActiveUser')->with('pelo-json')->willReturn([
+            'id_us' => 12,
+            'us_nome' => 'JSON',
+            'us_email' => 'json@example.com',
+            'us_apikey' => 'pelo-json',
+        ]);
+        service('request')->removeHeader('APIKEY');
+        service('request')->setGlobal('get', []);
+        service('request')->setHeader('Content-Type', 'application/json');
+        service('request')->setBody(json_encode(['APIKEY' => 'pelo-json']));
+
+        $this->assertNull((new AiApiAuthFilter($authenticator))->before(service('request')));
+        $this->assertSame(12, session()->get('user_id'));
+    }
 }
