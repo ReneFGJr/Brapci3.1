@@ -145,12 +145,26 @@ class Index extends Model
                 $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
                 break;
             case 'txt4net':
+                $request = service('request');
+                $json = $request->getJSON(true);
+                $text = is_array($json) ? (string)($json['text'] ?? '') : '';
+                if ($text === '') {
+                    $text = (string)$request->getPost('text');
+                }
+
+                $uploadedFile = $request->getFile('file');
+                if ($text === '' && $uploadedFile && $uploadedFile->isValid()) {
+                    $text = (string)file_get_contents($uploadedFile->getTempName());
+                }
+
+                if (trim($text) !== '') {
+                    $this->file_download($this->authorsToNet($text));
+                }
+
                 $RSP = [];
-                $RSP['status'] = '200';
+                $RSP['status'] = '400';
+                $RSP['message'] = 'Nenhum nome de autor foi informado.';
                 $RSP['file'] = get("file");
-                $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-                $RSP['response'] = $this->execPython('txt4net',$arg);
-                $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.get("fileO").'.net';
                 break;
             case 'term4net':
                 $RSP = [];
@@ -195,6 +209,73 @@ class Index extends Model
         header("Content-Disposition: attachment; filename=\"{$arquivo}\"");
         echo $txt;
         exit;
+    }
+
+    private function authorsToNet(string $text): string
+    {
+        $nodes = [];
+        $edges = [];
+        $lines = preg_split('/\R/u', $text) ?: [];
+
+        foreach ($lines as $line) {
+            $authors = array_values(array_filter(array_map(
+                fn ($author) => $this->abbreviateAuthor((string)$author),
+                explode(';', $line)
+            )));
+
+            foreach ($authors as $author) {
+                if (!isset($nodes[$author])) {
+                    $nodes[$author] = count($nodes) + 1;
+                }
+            }
+
+            for ($i = 0; $i < count($authors); $i++) {
+                for ($j = $i + 1; $j < count($authors); $j++) {
+                    $source = $nodes[$authors[$i]];
+                    $target = $nodes[$authors[$j]];
+                    $key = min($source, $target) . ':' . max($source, $target);
+                    $edges[$key] = ($edges[$key] ?? 0) + 1;
+                }
+            }
+        }
+
+        $output = '*Vertices ' . count($nodes) . "\n";
+        foreach ($nodes as $author => $id) {
+            $output .= $id . ' "' . str_replace('"', '', $author) . '"' . "\n";
+        }
+        $output .= "*Edges\n";
+        foreach ($edges as $key => $weight) {
+            [$source, $target] = explode(':', $key);
+            $output .= $source . ' ' . $target . ' ' . $weight . "\n";
+        }
+
+        return $output;
+    }
+
+    private function abbreviateAuthor(string $name): string
+    {
+        $name = trim(preg_replace('/\s+/u', ' ', $name) ?? '');
+        if ($name === '') {
+            return '';
+        }
+
+        $name = preg_replace('/\s+(de|do|dos|das|da|e|em)\s+/iu', ' ', " {$name} ") ?? $name;
+        $name = trim($name);
+        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name);
+        $name = $ascii !== false ? $ascii : $name;
+        $name = preg_replace('/\s+(Junior|Neto|Netto|Sobrinho|Filho|JR\.?)$/i', '_$1', $name) ?? $name;
+        $parts = preg_split('/\s+/', trim($name)) ?: [];
+        $surname = array_pop($parts);
+        if ($surname === null || $surname === '') {
+            return '';
+        }
+
+        $initials = implode('', array_map(
+            static fn ($part) => $part !== '' ? strtoupper(substr($part, 0, 1)) . '.' : '',
+            $parts
+        ));
+
+        return $surname . ($initials !== '' ? ', ' . $initials : '');
     }
 
     function trata($txt)
