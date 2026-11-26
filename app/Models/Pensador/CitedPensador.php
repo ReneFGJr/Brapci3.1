@@ -163,6 +163,9 @@ class CitedPensador extends Model
             ->orderBy('ca.ca_rdf', 'ASC')->orderBy('cp1.pensador_id', 'ASC')
             ->get()->getResultArray();
 
+        echo '<pre>';
+        print_r($rows); // Debugging line to inspect the rows fetched from the database.
+        exit;
         $authorsByCaRdf = [];
         foreach ($rows as $row) {
             $articleId = (int) $row['ca_rdf'];
