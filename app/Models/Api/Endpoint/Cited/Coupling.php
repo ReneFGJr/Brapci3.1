@@ -25,11 +25,12 @@ class Coupling
 
         $citedPensador = new CitedPensador();
         $coautores = $citedPensador->coauthorsByThinker($thinkerId);
+        $acoplamento = $this->addPhotos($citedPensador->couplingByThinker($thinkerId));
 
         return [
             'pensador' => $this->basicData($pensador),
             'coautores' => $coautores,
-            'acoplamento' => $citedPensador->couplingByThinker($thinkerId),
+            'acoplamento' => $acoplamento,
         ];
     }
 
@@ -50,11 +51,12 @@ class Coupling
 
         $citedPensador = new CitedPensador();
         $coautores = $citedPensador->coauthorsByThinker($thinkerId);
+        $acoplamento = $this->addPhotos($citedPensador->couplingTimelineByThinker($thinkerId));
 
         return [
             'pensador' => $this->basicData($pensador),
             'coautores' => $coautores,
-            'acoplamento' => $citedPensador->couplingTimelineByThinker($thinkerId),
+            'acoplamento' => $acoplamento,
         ];
     }
 
@@ -91,5 +93,15 @@ class Coupling
         }
 
         return null;
+    }
+
+    private function addPhotos(array $thinkers): array
+    {
+        foreach ($thinkers as &$thinker) {
+            $thinker['foto'] = $this->photoUrl((int) $thinker['id']);
+        }
+        unset($thinker);
+
+        return $thinkers;
     }
 }
