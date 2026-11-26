@@ -146,7 +146,7 @@ class CitedPensador extends Model
     public function couplingByThinker(int $thinkerId): array
     {
         $rows = $this->db->table('cited_pensador source')
-            ->select('other.pensador_id AS id, t.nome, COUNT(*) AS total', false)
+            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, COUNT(*) AS total', false)
             ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
             ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
             ->where('source.pensador_id', $thinkerId)
@@ -165,7 +165,7 @@ class CitedPensador extends Model
     public function couplingTimelineByThinker(int $thinkerId): array
     {
         $rows = $this->db->table('cited_pensador source')
-            ->select('other.pensador_id AS id, t.nome, n.ca_year AS year', false)
+            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, n.ca_year AS year', false)
             ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
             ->join('cited_normalize n', 'n.id_ca = source.cited_normalize_id')
             ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
@@ -180,6 +180,7 @@ class CitedPensador extends Model
                 $thinkers[$id] = [
                     'id' => $id,
                     'nome' => $row['nome'],
+                    'nome_citacao' => $row['nome_citacao'],
                     'total' => 0,
                     'unknown_year' => 0,
                     'years' => [],

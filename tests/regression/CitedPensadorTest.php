@@ -74,7 +74,7 @@ try {
     };
     $db->query('CREATE TEMPORARY TABLE test_author_data (d_r1 INT, d_r2 INT, d_p INT)');
     $db->query('CREATE TEMPORARY TABLE test_author_class (id_c INT, c_class VARCHAR(100))');
-    $db->query('CREATE TEMPORARY TABLE test_thinkers (id INT, nome VARCHAR(100))');
+    $db->query('CREATE TEMPORARY TABLE test_thinkers (id INT, nome VARCHAR(100), nome_citacao VARCHAR(100))');
     $db->table('test_author_class')->insertBatch([
         ['id_c' => 1, 'c_class' => 'hasAuthor'], ['id_c' => 2, 'c_class' => 'hasSubject'],
     ]);
@@ -86,7 +86,8 @@ try {
         ['d_r1' => 400, 'd_r2' => 8, 'd_p' => 1],
     ]);
     $db->table('test_thinkers')->insertBatch([
-        ['id' => 10, 'nome' => 'Silva'], ['id' => 20, 'nome' => 'Souza'],
+        ['id' => 10, 'nome' => 'Silva', 'nome_citacao' => 'SILVA, J.'],
+        ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.'],
     ]);
     $db->table('cited_pensador')->insert(['pensador_id' => 20, 'cited_normalize_id' => 3]);
     $db->table('cited_article')->insert(['ca_normalized' => 3, 'ca_rdf' => 200]);
@@ -206,10 +207,10 @@ try {
         ['pensador_id' => 20, 'cited_normalize_id' => 6],
     ]);
     verifyLink($model->couplingByThinker(10) === [
-        ['id' => 20, 'nome' => 'Souza', 'total' => 2],
+        ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2],
     ], 'Acoplamento ranqueia outros pensadores pelas obras compartilhadas');
     verifyLink($model->couplingTimelineByThinker(10) === [
-        ['id' => 20, 'nome' => 'Souza', 'total' => 2, 'unknown_year' => 0,
+        ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
     ], 'Timeline do acoplamento usa o ano das obras compartilhadas');
     verifyLink($model->couplingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');

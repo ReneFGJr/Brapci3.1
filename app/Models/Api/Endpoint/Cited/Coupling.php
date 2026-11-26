@@ -3,6 +3,7 @@
 namespace App\Models\Api\Endpoint\Cited;
 
 use App\Models\Pensador\CitedPensador;
+use App\Models\Pensador\Pensador;
 
 class Coupling
 {
@@ -15,7 +16,16 @@ class Coupling
             return ['status' => 422, 'message' => 'Informe um ID de pensador válido.'];
         }
 
-        return (new CitedPensador())->couplingByThinker($thinkerId);
+        $pensador = (new Pensador())->find($thinkerId);
+        if (!$pensador) {
+            http_response_code(404);
+            return ['status' => 404, 'message' => 'Pensador não encontrado.'];
+        }
+
+        return [
+            'pensador' => $this->basicData($pensador),
+            'acoplamento' => (new CitedPensador())->couplingByThinker($thinkerId),
+        ];
     }
 
     /** GET /api/cited/coupling/{ID}/timeline; years belong to shared cited works. */
@@ -27,6 +37,24 @@ class Coupling
             return ['status' => 422, 'message' => 'Informe um ID de pensador válido.'];
         }
 
-        return (new CitedPensador())->couplingTimelineByThinker($thinkerId);
+        $pensador = (new Pensador())->find($thinkerId);
+        if (!$pensador) {
+            http_response_code(404);
+            return ['status' => 404, 'message' => 'Pensador não encontrado.'];
+        }
+
+        return [
+            'pensador' => $this->basicData($pensador),
+            'acoplamento' => (new CitedPensador())->couplingTimelineByThinker($thinkerId),
+        ];
+    }
+
+    private function basicData(array $pensador): array
+    {
+        return [
+            'id' => (int) $pensador['id'],
+            'nome' => $pensador['nome'],
+            'nome_citacao' => $pensador['nome_citacao'],
+        ];
     }
 }
