@@ -88,6 +88,7 @@ try {
     $db->table('test_thinkers')->insertBatch([
         ['id' => 10, 'nome' => 'Silva', 'nome_citacao' => 'SILVA, J.'],
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.'],
+        ['id' => 30, 'nome' => 'Pereira', 'nome_citacao' => 'PEREIRA, A.'],
     ]);
     $db->table('cited_pensador')->insert(['pensador_id' => 20, 'cited_normalize_id' => 3]);
     $db->table('cited_article')->insert(['ca_normalized' => 3, 'ca_rdf' => 200]);
@@ -200,11 +201,17 @@ try {
         ['id_ca' => 5, 'ca_text' => 'Obra compartilhada A', 'ca_year' => 2000],
         ['id_ca' => 6, 'ca_text' => 'Obra compartilhada B', 'ca_year' => 2010],
         ['id_ca' => 7, 'ca_text' => 'Obra do outro pensador', 'ca_year' => 2015],
+        ['id_ca' => 8, 'ca_text' => 'Obra de autoria compartilhada A', 'ca_year' => 2016],
+        ['id_ca' => 9, 'ca_text' => 'Obra de autoria compartilhada B', 'ca_year' => 2017],
     ]);
     $db->table('cited_pensador')->insertBatch([
         ['pensador_id' => 10, 'cited_normalize_id' => 5],
         ['pensador_id' => 10, 'cited_normalize_id' => 6],
+        ['pensador_id' => 10, 'cited_normalize_id' => 8],
+        ['pensador_id' => 10, 'cited_normalize_id' => 9],
         ['pensador_id' => 20, 'cited_normalize_id' => 7],
+        ['pensador_id' => 30, 'cited_normalize_id' => 8],
+        ['pensador_id' => 30, 'cited_normalize_id' => 9],
     ]);
     $db->table('cited_article')->insertBatch([
         ['ca_normalized' => 5, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
@@ -220,6 +227,9 @@ try {
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
     ], 'Timeline do acoplamento usa o ano dos artigos citantes em comum');
+    verifyLink($model->coauthorsByThinker(10) === [
+        ['id' => 30, 'nome' => 'Pereira'],
+    ], 'Coautores normaliza a direção da consulta e remove pensadores repetidos');
     verifyLink($model->couplingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
     echo "OK: candidatos, citações, acoplamento, seleção, agrupamento e desvinculação.\n";
 } finally {

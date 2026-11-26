@@ -235,6 +235,43 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
+    public function coauthorsByThinker(int $thinkerId): array
+    {
+        $rows = $this->db->table('cited_pensador cp1')
+            ->select('n1.id AS id1, n1.nome AS n1, n2.id AS id2, n2.nome AS n2', false)
+            ->join(
+                'cited_pensador cp2',
+                'cp1.cited_normalize_id = cp2.cited_normalize_id AND cp1.pensador_id <> cp2.pensador_id',
+                'inner',
+                false
+            )
+            ->join($this->thinkerTable . ' n1', 'cp1.pensador_id = n1.id')
+            ->join($this->thinkerTable . ' n2', 'cp2.pensador_id = n2.id')
+            ->groupStart()
+            ->where('n1.id', $thinkerId)
+            ->orWhere('n2.id', $thinkerId)
+            ->groupEnd()
+            ->get()->getResultArray();
+
+        $coauthors = [];
+        foreach ($rows as $row) {
+            if ((int) $row['id1'] === $thinkerId) {
+                $id = (int) $row['id2'];
+                $name = (string) $row['n2'];
+            } elseif ((int) $row['id2'] === $thinkerId) {
+                $id = (int) $row['id1'];
+                $name = (string) $row['n1'];
+            } else {
+                continue;
+            }
+            $coauthors[$id] = ['id' => $id, 'nome' => $name];
+        }
+
+        $coauthors = array_values($coauthors);
+        usort($coauthors, static fn ($a, $b) => strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
+        return $coauthors;
+    }
+
     public function linkedWorksForGroup(array $thinkerIds): array
     {
         if (!$thinkerIds) {

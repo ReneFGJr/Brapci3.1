@@ -22,9 +22,13 @@ class Coupling
             return ['status' => 404, 'message' => 'Pensador não encontrado.'];
         }
 
+        $citedPensador = new CitedPensador();
+        $coautores = $citedPensador->coauthorsByThinker($thinkerId);
+
         return [
             'pensador' => $this->basicData($pensador),
-            'acoplamento' => (new CitedPensador())->couplingByThinker($thinkerId),
+            'coautores' => $coautores,
+            'acoplamento' => $citedPensador->couplingByThinker($thinkerId),
         ];
     }
 
@@ -43,9 +47,13 @@ class Coupling
             return ['status' => 404, 'message' => 'Pensador não encontrado.'];
         }
 
+        $citedPensador = new CitedPensador();
+        $coautores = $citedPensador->coauthorsByThinker($thinkerId);
+
         return [
             'pensador' => $this->basicData($pensador),
-            'acoplamento' => (new CitedPensador())->couplingTimelineByThinker($thinkerId),
+            'coautores' => $coautores,
+            'acoplamento' => $citedPensador->couplingTimelineByThinker($thinkerId),
         ];
     }
 
