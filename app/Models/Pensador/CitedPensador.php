@@ -143,6 +143,72 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
+    public function couplingByThinker(int $thinkerId): array
+    {
+        $rows = $this->db->table('cited_pensador source')
+            ->select('other.pensador_id AS id, t.nome, COUNT(*) AS total', false)
+            ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
+            ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
+            ->where('source.pensador_id', $thinkerId)
+            ->where('other.pensador_id !=', $thinkerId)
+            ->groupBy('other.pensador_id, t.nome')
+            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('other.pensador_id', 'ASC')
+            ->get()->getResultArray();
+        foreach ($rows as &$row) {
+            $row['id'] = (int) $row['id'];
+            $row['total'] = (int) $row['total'];
+        }
+        unset($row);
+        return $rows;
+    }
+
+    public function couplingTimelineByThinker(int $thinkerId): array
+    {
+        $rows = $this->db->table('cited_pensador source')
+            ->select('other.pensador_id AS id, t.nome, n.ca_year AS year', false)
+            ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
+            ->join('cited_normalize n', 'n.id_ca = source.cited_normalize_id')
+            ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
+            ->where('source.pensador_id', $thinkerId)
+            ->where('other.pensador_id !=', $thinkerId)
+            ->get()->getResultArray();
+
+        $thinkers = [];
+        foreach ($rows as $row) {
+            $id = (int) $row['id'];
+            if (!isset($thinkers[$id])) {
+                $thinkers[$id] = [
+                    'id' => $id,
+                    'nome' => $row['nome'],
+                    'total' => 0,
+                    'unknown_year' => 0,
+                    'years' => [],
+                ];
+            }
+            $year = (int) $row['year'];
+            $thinkers[$id]['total']++;
+            if ($year < 1000 || $year > (int) date('Y') + 1) {
+                $thinkers[$id]['unknown_year']++;
+                continue;
+            }
+            $thinkers[$id]['years'][$year] = ($thinkers[$id]['years'][$year] ?? 0) + 1;
+        }
+
+        foreach ($thinkers as &$thinker) {
+            ksort($thinker['years']);
+            $points = [];
+            foreach ($thinker['years'] as $year => $total) {
+                $points[] = ['year' => (int) $year, 'total' => $total];
+            }
+            $thinker['years'] = $points;
+        }
+        unset($thinker);
+        $thinkers = array_values($thinkers);
+        usort($thinkers, static fn ($a, $b) => ($b['total'] <=> $a['total'])
+            ?: strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
+        return $thinkers;
+    }
+
     public function linkedWorksForGroup(array $thinkerIds): array
     {
         if (!$thinkerIds) {

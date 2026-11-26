@@ -195,7 +195,25 @@ try {
     verifyLink($db->table('cited_pensador')->where('pensador_id', 10)->where('cited_normalize_id', 1)->countAllResults() === 0, 'Desvincular apenas pensador selecionado');
     verifyLink($db->table('cited_normalize')->where('id_ca', 1)->countAllResults() === 1, 'Desvincular preserva a obra');
     verifyLink($db->table('cited_pensador')->where('pensador_id', 20)->where('cited_normalize_id', 1)->countAllResults() === 1, 'Desvincular preserva outros pensadores');
-    echo "OK: candidatos, citações, seleção, agrupamento e desvinculação.\n";
+    $db->table('cited_normalize')->insertBatch([
+        ['id_ca' => 5, 'ca_text' => 'Obra compartilhada A', 'ca_year' => 2000],
+        ['id_ca' => 6, 'ca_text' => 'Obra compartilhada B', 'ca_year' => 2010],
+    ]);
+    $db->table('cited_pensador')->insertBatch([
+        ['pensador_id' => 10, 'cited_normalize_id' => 5],
+        ['pensador_id' => 10, 'cited_normalize_id' => 6],
+        ['pensador_id' => 20, 'cited_normalize_id' => 5],
+        ['pensador_id' => 20, 'cited_normalize_id' => 6],
+    ]);
+    verifyLink($model->couplingByThinker(10) === [
+        ['id' => 20, 'nome' => 'Souza', 'total' => 2],
+    ], 'Acoplamento ranqueia outros pensadores pelas obras compartilhadas');
+    verifyLink($model->couplingTimelineByThinker(10) === [
+        ['id' => 20, 'nome' => 'Souza', 'total' => 2, 'unknown_year' => 0,
+            'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
+    ], 'Timeline do acoplamento usa o ano das obras compartilhadas');
+    verifyLink($model->couplingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
+    echo "OK: candidatos, citações, acoplamento, seleção, agrupamento e desvinculação.\n";
 } finally {
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_data');
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_class');

@@ -125,6 +125,14 @@ class Index extends Model
                         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
                     exit;
                 }
+                if ($d2 === 'coupling') {
+                    header('Content-Type: application/json; charset=utf-8');
+                    $endpoint = new \App\Models\Api\Endpoint\Cited\Coupling();
+                    echo json_encode(($d4 === 'timeline' ? $endpoint->timeline((string) $d3) : $endpoint->author((string) $d3)),
+                        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+                    exit;
+                }
+
                 $Cited = new \App\Models\Cited\Index();
                 $RSP = $Cited->resumo_cited();
                 echo json_encode($RSP);
