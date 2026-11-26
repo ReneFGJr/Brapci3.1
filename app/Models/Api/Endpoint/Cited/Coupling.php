@@ -4,6 +4,7 @@ namespace App\Models\Api\Endpoint\Cited;
 
 use App\Models\Pensador\CitedPensador;
 use App\Models\Pensador\Pensador;
+use App\Models\Pensador\WikiImport;
 
 class Coupling
 {
@@ -59,10 +60,36 @@ class Coupling
 
     private function basicData(array $pensador): array
     {
+        $id = (int) $pensador['id'];
+
         return [
-            'id' => (int) $pensador['id'],
+            'id' => $id,
             'nome' => $pensador['nome'],
             'nome_citacao' => $pensador['nome_citacao'],
+            'foto' => $this->photoUrl($id),
         ];
+    }
+
+    private function photoUrl(int $id): ?string
+    {
+        $wiki = new WikiImport();
+        try {
+            foreach ($wiki->read($id)['fotos'] ?? [] as $photo) {
+                $filename = $photo['arquivo'] ?? null;
+                if (is_string($filename) && $filename !== ''
+                    && is_file($wiki->directory($id) . $filename)) {
+                    return base_url(
+                        '_repository/thinkers/' . $id . '/' . rawurlencode($filename)
+                    );
+                }
+            }
+        } catch (\RuntimeException $error) {
+            log_message('warning', 'Foto do pensador {id}: {message}', [
+                'id' => $id,
+                'message' => $error->getMessage(),
+            ]);
+        }
+
+        return null;
     }
 }
