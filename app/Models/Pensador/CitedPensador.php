@@ -143,6 +143,9 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
+    /**
+     * Conta pensadores relacionados por artigo citante (ca_rdf), uma vez por artigo.
+     */
     public function couplingByThinker(int $thinkerId): array
     {
         $sourceArticles = $this->db->table('cited_pensador source')
@@ -160,18 +163,18 @@ class CitedPensador extends Model
             ->orderBy('ca.ca_rdf', 'ASC')->orderBy('cp1.pensador_id', 'ASC')
             ->get()->getResultArray();
 
-        $articles = [];
+        $authorsByCaRdf = [];
         foreach ($rows as $row) {
             $articleId = (int) $row['ca_rdf'];
             $personId = (int) $row['pensador_id'];
-            $articles[$articleId][$personId] = [
+            $authorsByCaRdf[$articleId][$personId] = [
                 'id' => $personId,
                 'nome' => $row['nome'],
             ];
         }
 
         $coupling = [];
-        foreach ($articles as $people) {
+        foreach ($authorsByCaRdf as $people) {
             if (!isset($people[$thinkerId])) {
                 continue;
             }

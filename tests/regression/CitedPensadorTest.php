@@ -204,6 +204,7 @@ try {
         ['id_ca' => 7, 'ca_text' => 'Obra do outro pensador', 'ca_year' => 2015],
         ['id_ca' => 8, 'ca_text' => 'Obra de autoria compartilhada A', 'ca_year' => 2016],
         ['id_ca' => 9, 'ca_text' => 'Obra de autoria compartilhada B', 'ca_year' => 2017],
+        ['id_ca' => 11, 'ca_text' => 'Outra obra do outro pensador', 'ca_year' => 2018],
     ]);
     $db->table('cited_pensador')->insertBatch([
         ['pensador_id' => 10, 'cited_normalize_id' => 5],
@@ -211,6 +212,7 @@ try {
         ['pensador_id' => 10, 'cited_normalize_id' => 8],
         ['pensador_id' => 10, 'cited_normalize_id' => 9],
         ['pensador_id' => 20, 'cited_normalize_id' => 7],
+        ['pensador_id' => 20, 'cited_normalize_id' => 11],
         ['pensador_id' => 30, 'cited_normalize_id' => 8],
         ['pensador_id' => 30, 'cited_normalize_id' => 9],
     ]);
@@ -218,6 +220,7 @@ try {
         ['ca_normalized' => 5, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 6, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 7, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
+        ['ca_normalized' => 11, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 5, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
         ['ca_normalized' => 7, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
     ]);
