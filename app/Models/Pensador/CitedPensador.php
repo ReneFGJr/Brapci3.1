@@ -145,19 +145,20 @@ class CitedPensador extends Model
 
     public function couplingByThinker(int $thinkerId): array
     {
-        $rows = $this->db->table('cited_pensador source')
-            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, COUNT(DISTINCT source_article.ca_rdf) AS total', false)
-            ->join('cited_normalize source_work', 'source_work.id_ca = source.cited_normalize_id')
-            ->join('cited_article source_article', $this->citationMatch('source_article', 'source_work'), 'inner', false)
-            ->join('cited_article other_article', 'other_article.ca_rdf = source_article.ca_rdf')
-            ->join('cited_normalize other_work', $this->citationMatch('other_article', 'other_work'), 'inner', false)
-            ->join('cited_pensador other', 'other.cited_normalize_id = other_work.id_ca')
-            ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
-            ->where('source.pensador_id', $thinkerId)
-            ->where('source_article.ca_rdf >', 0)
-            ->where('other.pensador_id !=', $thinkerId)
-            ->groupBy('other.pensador_id, t.nome, t.nome_citacao')
-            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('other.pensador_id', 'ASC')
+        $rows = $this->db->table('cited_pensador cp1')
+            ->select('cp2.pensador_id AS id, t.nome, COUNT(*) AS total', false)
+            ->join('cited_article ca1', 'ca1.ca_normalized = cp1.cited_normalize_id')
+            ->join(
+                'cited_article ca2',
+                'ca1.ca_rdf = ca2.ca_rdf AND ca2.ca_normalized IS NOT NULL',
+                'inner',
+                false
+            )
+            ->join('cited_pensador cp2', 'ca2.ca_normalized = cp2.cited_normalize_id')
+            ->join($this->thinkerTable . ' t', 'cp2.pensador_id = t.id')
+            ->where('cp1.pensador_id', $thinkerId)
+            ->groupBy('cp2.pensador_id, t.nome')
+            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('cp2.pensador_id', 'ASC')
             ->get()->getResultArray();
         foreach ($rows as &$row) {
             $row['id'] = (int) $row['id'];

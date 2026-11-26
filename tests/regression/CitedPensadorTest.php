@@ -197,6 +197,7 @@ try {
     verifyLink($db->table('cited_pensador')->where('pensador_id', 10)->where('cited_normalize_id', 1)->countAllResults() === 0, 'Desvincular apenas pensador selecionado');
     verifyLink($db->table('cited_normalize')->where('id_ca', 1)->countAllResults() === 1, 'Desvincular preserva a obra');
     verifyLink($db->table('cited_pensador')->where('pensador_id', 20)->where('cited_normalize_id', 1)->countAllResults() === 1, 'Desvincular preserva outros pensadores');
+    $db->table('cited_article')->emptyTable();
     $db->table('cited_normalize')->insertBatch([
         ['id_ca' => 5, 'ca_text' => 'Obra compartilhada A', 'ca_year' => 2000],
         ['id_ca' => 6, 'ca_text' => 'Obra compartilhada B', 'ca_year' => 2010],
@@ -221,8 +222,9 @@ try {
         ['ca_normalized' => 7, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
     ]);
     verifyLink($model->couplingByThinker(10) === [
-        ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2],
-    ], 'Acoplamento conta artigos citantes em comum sem duplicar referências do mesmo artigo');
+        ['id' => 10, 'nome' => 'Silva', 'total' => 5],
+        ['id' => 20, 'nome' => 'Souza', 'total' => 3],
+    ], 'Acoplamento agrupa pensadores e conta as relações dos artigos citantes');
     verifyLink($model->couplingTimelineByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
