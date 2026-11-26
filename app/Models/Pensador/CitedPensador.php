@@ -146,10 +146,15 @@ class CitedPensador extends Model
     public function couplingByThinker(int $thinkerId): array
     {
         $rows = $this->db->table('cited_pensador source')
-            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, COUNT(*) AS total', false)
-            ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
+            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, COUNT(DISTINCT source_article.ca_rdf) AS total', false)
+            ->join('cited_normalize source_work', 'source_work.id_ca = source.cited_normalize_id')
+            ->join('cited_article source_article', $this->citationMatch('source_article', 'source_work'), 'inner', false)
+            ->join('cited_article other_article', 'other_article.ca_rdf = source_article.ca_rdf')
+            ->join('cited_normalize other_work', $this->citationMatch('other_article', 'other_work'), 'inner', false)
+            ->join('cited_pensador other', 'other.cited_normalize_id = other_work.id_ca')
             ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
             ->where('source.pensador_id', $thinkerId)
+            ->where('source_article.ca_rdf >', 0)
             ->where('other.pensador_id !=', $thinkerId)
             ->groupBy('other.pensador_id, t.nome, t.nome_citacao')
             ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('other.pensador_id', 'ASC')
@@ -165,13 +170,33 @@ class CitedPensador extends Model
     public function couplingTimelineByThinker(int $thinkerId): array
     {
         $rows = $this->db->table('cited_pensador source')
-            ->select('other.pensador_id AS id, t.nome, t.nome_citacao, n.ca_year AS year', false)
-            ->join('cited_pensador other', 'other.cited_normalize_id = source.cited_normalize_id')
-            ->join('cited_normalize n', 'n.id_ca = source.cited_normalize_id')
+            ->select(
+                'other.pensador_id AS id, t.nome, t.nome_citacao, source_article.ca_rdf AS article_id, '
+                    . 'MIN(NULLIF(source_article.ca_year_origem, 0)) AS year',
+                false
+            )
+            ->join('cited_normalize source_work', 'source_work.id_ca = source.cited_normalize_id')
+            ->join('cited_article source_article', $this->citationMatch('source_article', 'source_work'), 'inner', false)
+            ->join('cited_article other_article', 'other_article.ca_rdf = source_article.ca_rdf')
+            ->join('cited_normalize other_work', $this->citationMatch('other_article', 'other_work'), 'inner', false)
+            ->join('cited_pensador other', 'other.cited_normalize_id = other_work.id_ca')
             ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
             ->where('source.pensador_id', $thinkerId)
+            ->where('source_article.ca_rdf >', 0)
             ->where('other.pensador_id !=', $thinkerId)
+            ->groupBy('other.pensador_id, t.nome, t.nome_citacao, source_article.ca_rdf')
             ->get()->getResultArray();
+
+        $metadata = [];
+        $articleIds = array_values(array_unique(array_column($rows, 'article_id')));
+        foreach (array_chunk($articleIds, 500) as $ids) {
+            $years = $this->db->table($this->datasetTable)
+                ->select('ID, MIN(NULLIF(YEAR, 0)) AS year', false)
+                ->whereIn('ID', $ids)->groupBy('ID')->get()->getResultArray();
+            foreach ($years as $record) {
+                $metadata[$record['ID']] = $record['year'];
+            }
+        }
 
         $thinkers = [];
         foreach ($rows as $row) {
@@ -186,7 +211,7 @@ class CitedPensador extends Model
                     'years' => [],
                 ];
             }
-            $year = (int) $row['year'];
+            $year = (int) ($metadata[$row['article_id']] ?? $row['year']);
             $thinkers[$id]['total']++;
             if ($year < 1000 || $year > (int) date('Y') + 1) {
                 $thinkers[$id]['unknown_year']++;
@@ -306,7 +331,7 @@ class CitedPensador extends Model
             ) WHERE n.id_ca IN (' . $placeholders . ')', $chunk);
         }
     }
-    private function citationMatch(): string
+    private function citationMatch(string $articleAlias = 'a', string $normalizedAlias = 'n'): string
     {
         $doi = static function (string $field): string {
             $sql = 'LOWER(TRIM(' . $field . '))';
@@ -315,9 +340,10 @@ class CitedPensador extends Model
             }
             return 'TRIM(' . $sql . ')';
         };
-        $articleDoi = $doi('a.ca_doi');
-        $normalizedDoi = $doi('n.ca_doi');
-        return '(a.ca_normalized = n.id_ca OR ((a.ca_normalized IS NULL OR a.ca_normalized = 0) '
+        $articleDoi = $doi($articleAlias . '.ca_doi');
+        $normalizedDoi = $doi($normalizedAlias . '.ca_doi');
+        return '(' . $articleAlias . '.ca_normalized = ' . $normalizedAlias . '.id_ca OR (('
+            . $articleAlias . '.ca_normalized IS NULL OR ' . $articleAlias . '.ca_normalized = 0) '
             . "AND $normalizedDoi LIKE '10.%/%' AND $articleDoi = $normalizedDoi))";
     }
 

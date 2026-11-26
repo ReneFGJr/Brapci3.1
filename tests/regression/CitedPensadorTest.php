@@ -199,20 +199,27 @@ try {
     $db->table('cited_normalize')->insertBatch([
         ['id_ca' => 5, 'ca_text' => 'Obra compartilhada A', 'ca_year' => 2000],
         ['id_ca' => 6, 'ca_text' => 'Obra compartilhada B', 'ca_year' => 2010],
+        ['id_ca' => 7, 'ca_text' => 'Obra do outro pensador', 'ca_year' => 2015],
     ]);
     $db->table('cited_pensador')->insertBatch([
         ['pensador_id' => 10, 'cited_normalize_id' => 5],
         ['pensador_id' => 10, 'cited_normalize_id' => 6],
-        ['pensador_id' => 20, 'cited_normalize_id' => 5],
-        ['pensador_id' => 20, 'cited_normalize_id' => 6],
+        ['pensador_id' => 20, 'cited_normalize_id' => 7],
+    ]);
+    $db->table('cited_article')->insertBatch([
+        ['ca_normalized' => 5, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
+        ['ca_normalized' => 6, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
+        ['ca_normalized' => 7, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
+        ['ca_normalized' => 5, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
+        ['ca_normalized' => 7, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
     ]);
     verifyLink($model->couplingByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2],
-    ], 'Acoplamento ranqueia outros pensadores pelas obras compartilhadas');
+    ], 'Acoplamento conta artigos citantes em comum sem duplicar referências do mesmo artigo');
     verifyLink($model->couplingTimelineByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
-    ], 'Timeline do acoplamento usa o ano das obras compartilhadas');
+    ], 'Timeline do acoplamento usa o ano dos artigos citantes em comum');
     verifyLink($model->couplingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
     echo "OK: candidatos, citações, acoplamento, seleção, agrupamento e desvinculação.\n";
 } finally {
