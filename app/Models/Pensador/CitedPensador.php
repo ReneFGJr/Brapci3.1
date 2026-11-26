@@ -148,12 +148,6 @@ class CitedPensador extends Model
      */
     public function couplingByThinker(int $thinkerId): array
     {
-        $sourceArticles = $this->db->table('cited_pensador source')
-            ->select('source_article.ca_rdf')
-            ->join('cited_article source_article', 'source_article.ca_normalized = source.cited_normalize_id')
-            ->where('source.pensador_id', $thinkerId)
-            ->where('source_article.ca_rdf >', 0);
-
         $rows = $this->db->table('cited_article ca')
             ->select('ca.ca_rdf, ca.ca_normalized, cp1.pensador_id, t.nome')
             ->join('cited_pensador cp1', 'cp1.cited_normalize_id = ca.ca_normalized')
@@ -162,40 +156,18 @@ class CitedPensador extends Model
             ->whereIn('ca.ca_rdf', $sourceArticles)
             ->orderBy('ca.ca_rdf', 'ASC')->orderBy('cp1.pensador_id', 'ASC')
             ->get()->getResultArray();
-
-        echo '<pre>';
-        print_r($rows); // Debugging line to inspect the rows fetched from the database.
-        exit;
-        $authorsByCaRdf = [];
+        $art = [];
         foreach ($rows as $row) {
-            $articleId = (int) $row['ca_rdf'];
-            $personId = (int) $row['pensador_id'];
-            $authorsByCaRdf[$articleId][$personId] = [
-                'id' => $personId,
-                'nome' => $row['nome'],
-            ];
-        }
-
-        $coupling = [];
-        foreach ($authorsByCaRdf as $people) {
-            if (!isset($people[$thinkerId])) {
-                continue;
+            $id = (int) $row['ca_rdf'];
+            $idp = (int) $row['pensador_id'];
+            $name = (string) $row['nome'];
+            if (!isset($art[$id])) {
+                $art[$id] = [];
             }
-            foreach ($people as $personId => $person) {
-                if ($personId === $thinkerId) {
-                    continue;
-                }
-                if (!isset($coupling[$personId])) {
-                    $coupling[$personId] = $person + ['total' => 0];
-                }
-                $coupling[$personId]['total']++;
-            }
+            $art[$id][$idp] = $name;
         }
+        pre($art);
 
-        $coupling = array_values($coupling);
-        usort($coupling, static fn ($a, $b) => ($b['total'] <=> $a['total'])
-            ?: strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
-        return $coupling;
     }
 
     public function couplingTimelineByThinker(int $thinkerId): array
