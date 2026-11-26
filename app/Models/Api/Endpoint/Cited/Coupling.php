@@ -25,13 +25,32 @@ class Coupling
 
         $citedPensador = new CitedPensador();
         $coautores = $citedPensador->coauthorsByThinker($thinkerId);
-        $acoplamento = $this->addPhotos($citedPensador->couplingByThinker($thinkerId));
+        $acoplamento = $this->addPhotos($citedPensador->couplingRankingByThinker($thinkerId));
 
         return [
             'pensador' => $this->basicData($pensador),
             'coautores' => $coautores,
             'acoplamento' => $acoplamento,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>|string
+     */
+    public function net(string $id)
+    {
+        $thinkerId = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($thinkerId === false) {
+            http_response_code(422);
+            return ['status' => 422, 'message' => 'Informe um ID de pensador válido.'];
+        }
+
+        if (!(new Pensador())->find($thinkerId)) {
+            http_response_code(404);
+            return ['status' => 404, 'message' => 'Pensador não encontrado.'];
+        }
+
+        return (new CitedPensador())->couplingByThinker($thinkerId);
     }
 
     /** GET /api/cited/coupling/{ID}/timeline; years belong to shared cited works. */

@@ -126,8 +126,22 @@ class Index extends Model
                     exit;
                 }
                 if ($d2 === 'coupling') {
-                    header('Content-Type: application/json; charset=utf-8');
                     $endpoint = new \App\Models\Api\Endpoint\Cited\Coupling();
+                    if ($d4 === 'net') {
+                        $network = $endpoint->net((string) $d3);
+                        if (is_string($network)) {
+                            header('Content-Type: text/plain; charset=utf-8');
+                            header('Content-Disposition: attachment; filename="coupling_' . (int) $d3 . '.net"');
+                            echo $network;
+                        } else {
+                            header('Content-Type: application/json; charset=utf-8');
+                            echo json_encode($network,
+                                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+                        }
+                        exit;
+                    }
+
+                    header('Content-Type: application/json; charset=utf-8');
                     echo json_encode(($d4 === 'timeline' ? $endpoint->timeline((string) $d3) : $endpoint->author((string) $d3)),
                         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
                     exit;

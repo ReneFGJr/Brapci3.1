@@ -221,20 +221,34 @@ try {
         ['ca_normalized' => 6, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 7, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 11, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
+        ['ca_normalized' => 8, 'ca_rdf' => 9001, 'ca_year_origem' => 2000],
         ['ca_normalized' => 5, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
         ['ca_normalized' => 7, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
     ]);
-    verifyLink($model->couplingByThinker(10) === [
+    verifyLink($model->couplingRankingByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'total' => 2],
+        ['id' => 30, 'nome' => 'Pereira', 'total' => 1],
     ], 'Acoplamento conta artigos citantes por pensador e não inclui o próprio pensador');
+    verifyLink($model->couplingByThinker(10) ===
+        "*Vertices 3\r\n"
+        . "1 \"Pereira\" ellipse x_fact 7.00 y_fact 7.00\r\n"
+        . "2 \"Silva\" ellipse x_fact 10.00 y_fact 10.00\r\n"
+        . "3 \"Souza\" ellipse x_fact 10.00 y_fact 10.00\r\n"
+        . "*Edges\r\n"
+        . "1 2 1\r\n"
+        . "1 3 1\r\n"
+        . "2 3 2\r\n",
+        'Pajek NET usa pesos por ca_rdf e tamanhos proporcionais ao grau ponderado');
     verifyLink($model->couplingTimelineByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
+        ['id' => 30, 'nome' => 'Pereira', 'nome_citacao' => 'PEREIRA, A.', 'total' => 1, 'unknown_year' => 0,
+            'years' => [['year' => 2000, 'total' => 1]]],
     ], 'Timeline do acoplamento usa o ano dos artigos citantes em comum');
     verifyLink($model->coauthorsByThinker(10) === [
         ['id' => 30, 'nome' => 'Pereira'],
     ], 'Coautores normaliza a direção da consulta e remove pensadores repetidos');
-    verifyLink($model->couplingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
+    verifyLink($model->couplingRankingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
     echo "OK: candidatos, citações, acoplamento, seleção, agrupamento e desvinculação.\n";
 } finally {
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_data');

@@ -208,17 +208,20 @@ class CitedPensador extends Model
         }
 
         $lines[] = '*Edges';
-        $edges = $graph['edges'];
-        usort($edges, static fn ($a, $b) => [
-            $vertexIds[$a['from']],
-            $vertexIds[$a['to']],
-        ] <=> [
-            $vertexIds[$b['from']],
-            $vertexIds[$b['to']],
-        ]);
+        $edges = [];
+        foreach ($graph['edges'] as $edge) {
+            $from = $vertexIds[$edge['from']];
+            $to = $vertexIds[$edge['to']];
+            $edges[] = [
+                'from' => min($from, $to),
+                'to' => max($from, $to),
+                'weight' => $edge['weight'],
+            ];
+        }
+        usort($edges, static fn ($a, $b) => [$a['from'], $a['to']] <=> [$b['from'], $b['to']]);
         foreach ($edges as $edge) {
-            $lines[] = $vertexIds[$edge['from']] . ' '
-                . $vertexIds[$edge['to']] . ' '
+            $lines[] = $edge['from'] . ' '
+                . $edge['to'] . ' '
                 . $edge['weight'];
         }
 
