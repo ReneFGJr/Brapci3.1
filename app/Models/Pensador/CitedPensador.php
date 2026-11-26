@@ -145,27 +145,51 @@ class CitedPensador extends Model
 
     public function couplingByThinker(int $thinkerId): array
     {
-        $rows = $this->db->table('cited_pensador cp1')
-            ->select('cp2.pensador_id AS id, t.nome, COUNT(*) AS total', false)
-            ->join('cited_article ca1', 'ca1.ca_normalized = cp1.cited_normalize_id')
-            ->join(
-                'cited_article ca2',
-                'ca1.ca_rdf = ca2.ca_rdf AND ca2.ca_normalized IS NOT NULL',
-                'inner',
-                false
-            )
-            ->join('cited_pensador cp2', 'ca2.ca_normalized = cp2.cited_normalize_id')
-            ->join($this->thinkerTable . ' t', 'cp2.pensador_id = t.id')
-            ->where('cp1.pensador_id', $thinkerId)
-            ->groupBy('cp2.pensador_id, t.nome')
-            ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('cp2.pensador_id', 'ASC')
+        $sourceArticles = $this->db->table('cited_pensador source')
+            ->select('source_article.ca_rdf')
+            ->join('cited_article source_article', 'source_article.ca_normalized = source.cited_normalize_id')
+            ->where('source.pensador_id', $thinkerId)
+            ->where('source_article.ca_rdf >', 0);
+
+        $rows = $this->db->table('cited_article ca')
+            ->select('ca.ca_rdf, ca.ca_normalized, cp1.pensador_id, t.nome')
+            ->join('cited_pensador cp1', 'cp1.cited_normalize_id = ca.ca_normalized')
+            ->join($this->thinkerTable . ' t', 'cp1.pensador_id = t.id')
+            ->where('ca.ca_normalized IS NOT NULL', null, false)
+            ->whereIn('ca.ca_rdf', $sourceArticles)
+            ->orderBy('ca.ca_rdf', 'ASC')->orderBy('cp1.pensador_id', 'ASC')
             ->get()->getResultArray();
-        foreach ($rows as &$row) {
-            $row['id'] = (int) $row['id'];
-            $row['total'] = (int) $row['total'];
+
+        $articles = [];
+        foreach ($rows as $row) {
+            $articleId = (int) $row['ca_rdf'];
+            $personId = (int) $row['pensador_id'];
+            $articles[$articleId][$personId] = [
+                'id' => $personId,
+                'nome' => $row['nome'],
+            ];
         }
-        unset($row);
-        return $rows;
+
+        $coupling = [];
+        foreach ($articles as $people) {
+            if (!isset($people[$thinkerId])) {
+                continue;
+            }
+            foreach ($people as $personId => $person) {
+                if ($personId === $thinkerId) {
+                    continue;
+                }
+                if (!isset($coupling[$personId])) {
+                    $coupling[$personId] = $person + ['total' => 0];
+                }
+                $coupling[$personId]['total']++;
+            }
+        }
+
+        $coupling = array_values($coupling);
+        usort($coupling, static fn ($a, $b) => ($b['total'] <=> $a['total'])
+            ?: strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
+        return $coupling;
     }
 
     public function couplingTimelineByThinker(int $thinkerId): array
