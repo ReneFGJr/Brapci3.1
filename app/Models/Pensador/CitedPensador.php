@@ -166,7 +166,9 @@ class CitedPensador extends Model
             }
             $art[$id][$idp] = $name;
         }
-        pre($art);
+        echo '<pre>';
+        print_r($art);
+        exit;
 
     }
 
