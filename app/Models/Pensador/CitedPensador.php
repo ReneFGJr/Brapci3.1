@@ -143,11 +143,106 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
-    /**
-     * Conta pensadores relacionados por artigo citante (ca_rdf), uma vez por artigo.
-     */
-    public function couplingByThinker(int $thinkerId): array
+    public function couplingRankingByThinker(int $thinkerId): array
     {
+        $graph = $this->couplingGraph($thinkerId);
+        $ranking = [];
+        foreach ($graph['edges'] as $edge) {
+            if ($edge['from'] === $thinkerId) {
+                $personId = $edge['to'];
+            } elseif ($edge['to'] === $thinkerId) {
+                $personId = $edge['from'];
+            } else {
+                continue;
+            }
+
+            if (!isset($ranking[$personId])) {
+                $ranking[$personId] = [
+                    'id' => $personId,
+                    'nome' => $graph['vertices'][$personId]['nome'],
+                    'total' => 0,
+                ];
+            }
+            $ranking[$personId]['total'] += $edge['weight'];
+        }
+
+        $ranking = array_values($ranking);
+        usort($ranking, static fn ($a, $b) => ($b['total'] <=> $a['total'])
+            ?: strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
+        return $ranking;
+    }
+
+    public function couplingByThinker(int $thinkerId): string
+    {
+        $graph = $this->couplingGraph($thinkerId);
+        $vertices = $graph['vertices'];
+        if ($vertices === []) {
+            return "*Vertices 0\r\n*Edges\r\n";
+        }
+
+        uasort($vertices, static fn ($a, $b) => strnatcasecmp($a['nome'], $b['nome'])
+            ?: ($a['id'] <=> $b['id']));
+
+        $vertexIds = [];
+        $strengths = [];
+        foreach ($vertices as $vertex) {
+            $vertexIds[$vertex['id']] = count($vertexIds) + 1;
+            $strengths[$vertex['id']] = 0;
+        }
+        foreach ($graph['edges'] as $edge) {
+            $strengths[$edge['from']] += $edge['weight'];
+            $strengths[$edge['to']] += $edge['weight'];
+        }
+        $maximumStrength = max($strengths);
+        if ($maximumStrength <= 0) {
+            $maximumStrength = 1;
+        }
+
+        $lines = ['*Vertices ' . count($vertices)];
+        foreach ($vertices as $vertex) {
+            $id = $vertex['id'];
+            $label = str_replace(['\\', '"'], ['\\\\', '\\"'], $vertex['nome']);
+            $size = number_format(1 + (9 * $strengths[$id] / $maximumStrength), 2, '.', '');
+            $lines[] = $vertexIds[$id] . ' "' . $label . '" ellipse'
+                . ' x_fact ' . $size . ' y_fact ' . $size;
+        }
+
+        $lines[] = '*Edges';
+        $edges = $graph['edges'];
+        usort($edges, static fn ($a, $b) => [
+            $vertexIds[$a['from']],
+            $vertexIds[$a['to']],
+        ] <=> [
+            $vertexIds[$b['from']],
+            $vertexIds[$b['to']],
+        ]);
+        foreach ($edges as $edge) {
+            $lines[] = $vertexIds[$edge['from']] . ' '
+                . $vertexIds[$edge['to']] . ' '
+                . $edge['weight'];
+        }
+
+        return implode("\r\n", $lines) . "\r\n";
+    }
+
+    private function couplingGraph(int $thinkerId): array
+    {
+        $thinker = $this->db->table($this->thinkerTable)
+            ->select('id, nome')->where('id', $thinkerId)->get()->getRowArray();
+        $vertices = [];
+        if ($thinker) {
+            $vertices[$thinkerId] = [
+                'id' => $thinkerId,
+                'nome' => (string) $thinker['nome'],
+            ];
+        }
+
+        $sourceArticles = $this->db->table('cited_pensador source')
+            ->select('source_article.ca_rdf')
+            ->join('cited_article source_article', 'source_article.ca_normalized = source.cited_normalize_id')
+            ->where('source.pensador_id', $thinkerId)
+            ->where('source_article.ca_rdf >', 0);
+
         $rows = $this->db->table('cited_article ca')
             ->select('ca.ca_rdf, ca.ca_normalized, cp1.pensador_id, t.nome')
             ->join('cited_pensador cp1', 'cp1.cited_normalize_id = ca.ca_normalized')
@@ -156,20 +251,43 @@ class CitedPensador extends Model
             ->whereIn('ca.ca_rdf', $sourceArticles)
             ->orderBy('ca.ca_rdf', 'ASC')->orderBy('cp1.pensador_id', 'ASC')
             ->get()->getResultArray();
-        $art = [];
-        foreach ($rows as $row) {
-            $id = (int) $row['ca_rdf'];
-            $idp = (int) $row['pensador_id'];
-            $name = (string) $row['nome'];
-            if (!isset($art[$id])) {
-                $art[$id] = [];
-            }
-            $art[$id][$idp] = $name;
-        }
-        echo '<pre>';
-        print_r($art);
-        exit;
 
+        $authorsByCaRdf = [];
+        foreach ($rows as $row) {
+            $articleId = (int) $row['ca_rdf'];
+            $personId = (int) $row['pensador_id'];
+            $vertices[$personId] = [
+                'id' => $personId,
+                'nome' => (string) $row['nome'],
+            ];
+            $authorsByCaRdf[$articleId][$personId] = true;
+        }
+
+        $edges = [];
+        foreach ($authorsByCaRdf as $people) {
+            $people = array_keys($people);
+            sort($people, SORT_NUMERIC);
+            for ($left = 0, $count = count($people); $left < $count; $left++) {
+                for ($right = $left + 1; $right < $count; $right++) {
+                    $from = $people[$left];
+                    $to = $people[$right];
+                    $key = $from . ':' . $to;
+                    if (!isset($edges[$key])) {
+                        $edges[$key] = [
+                            'from' => $from,
+                            'to' => $to,
+                            'weight' => 0,
+                        ];
+                    }
+                    $edges[$key]['weight']++;
+                }
+            }
+        }
+
+        return [
+            'vertices' => $vertices,
+            'edges' => array_values($edges),
+        ];
     }
 
     public function couplingTimelineByThinker(int $thinkerId): array
