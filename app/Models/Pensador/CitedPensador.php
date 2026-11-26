@@ -151,7 +151,7 @@ class CitedPensador extends Model
             ->join($this->thinkerTable . ' t', 't.id = other.pensador_id')
             ->where('source.pensador_id', $thinkerId)
             ->where('other.pensador_id !=', $thinkerId)
-            ->groupBy('other.pensador_id, t.nome')
+            ->groupBy('other.pensador_id, t.nome, t.nome_citacao')
             ->orderBy('total', 'DESC')->orderBy('t.nome', 'ASC')->orderBy('other.pensador_id', 'ASC')
             ->get()->getResultArray();
         foreach ($rows as &$row) {
