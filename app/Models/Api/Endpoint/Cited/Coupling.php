@@ -28,7 +28,8 @@ class Coupling
         return [
             'pensador' => $this->basicData($pensador),
             'coautores' => $coautores,
-            'acoplamento' => $citedPensador->couplingByThinker($thinkerId),
+            //'acoplamento' => $citedPensador->couplingByThinker($thinkerId),
+            'acoplamento' => []
         ];
     }
 
