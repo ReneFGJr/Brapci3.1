@@ -146,30 +146,8 @@ class CitedPensador extends Model
     public function couplingRankingByThinker(int $thinkerId): array
     {
         $graph = $this->couplingGraph($thinkerId);
-        $ranking = [];
-        foreach ($graph['edges'] as $edge) {
-            if ($edge['from'] === $thinkerId) {
-                $personId = $edge['to'];
-            } elseif ($edge['to'] === $thinkerId) {
-                $personId = $edge['from'];
-            } else {
-                continue;
-            }
 
-            if (!isset($ranking[$personId])) {
-                $ranking[$personId] = [
-                    'id' => $personId,
-                    'nome' => $graph['vertices'][$personId]['nome'],
-                    'total' => 0,
-                ];
-            }
-            $ranking[$personId]['total'] += $edge['weight'];
-        }
-
-        $ranking = array_values($ranking);
-        usort($ranking, static fn ($a, $b) => ($b['total'] <=> $a['total'])
-            ?: strcmp($a['nome'], $b['nome']) ?: ($a['id'] <=> $b['id']));
-        return $ranking;
+        return $graph;
     }
 
     public function couplingByThinker(int $thinkerId): string
