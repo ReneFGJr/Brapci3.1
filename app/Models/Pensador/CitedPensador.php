@@ -143,11 +143,9 @@ class CitedPensador extends Model
         return $thinkers;
     }
 
-    public function couplingRankingByThinker(int $thinkerId): array
+    public function couplingRankingByThinker(int $thinkerId): string
     {
-        $graph = $this->couplingGraph($thinkerId);
-
-        return $graph;
+        return $this->couplingByThinker($thinkerId);
     }
 
     public function couplingByThinker(int $thinkerId): string

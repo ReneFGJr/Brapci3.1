@@ -225,11 +225,7 @@ try {
         ['ca_normalized' => 5, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
         ['ca_normalized' => 7, 'ca_rdf' => 9002, 'ca_year_origem' => 2010],
     ]);
-    verifyLink($model->couplingRankingByThinker(10) === [
-        ['id' => 20, 'nome' => 'Souza', 'total' => 2],
-        ['id' => 30, 'nome' => 'Pereira', 'total' => 1],
-    ], 'Acoplamento conta artigos citantes por pensador e não inclui o próprio pensador');
-    verifyLink($model->couplingByThinker(10) ===
+    verifyLink($model->couplingRankingByThinker(10) ===
         "*Vertices 3\r\n"
         . "1 \"Pereira\" ellipse x_fact 7.00 y_fact 7.00\r\n"
         . "2 \"Silva\" ellipse x_fact 10.00 y_fact 10.00\r\n"
@@ -238,7 +234,9 @@ try {
         . "1 2 1\r\n"
         . "1 3 1\r\n"
         . "2 3 2\r\n",
-        'Pajek NET usa pesos por ca_rdf e tamanhos proporcionais ao grau ponderado');
+        'Acoplamento retorna grafo Pajek NET com pesos por ca_rdf e tamanhos proporcionais ao grau ponderado');
+    verifyLink($model->couplingByThinker(10) === $model->couplingRankingByThinker(10),
+        'O método de grafo mantém a mesma representação Pajek NET');
     verifyLink($model->couplingTimelineByThinker(10) === [
         ['id' => 20, 'nome' => 'Souza', 'nome_citacao' => 'SOUZA, M.', 'total' => 2, 'unknown_year' => 0,
             'years' => [['year' => 2000, 'total' => 1], ['year' => 2010, 'total' => 1]]],
@@ -248,7 +246,8 @@ try {
     verifyLink($model->coauthorsByThinker(10) === [
         ['id' => 30, 'nome' => 'Pereira'],
     ], 'Coautores normaliza a direção da consulta e remove pensadores repetidos');
-    verifyLink($model->couplingRankingByThinker(999) === [], 'Pensador sem obras retorna acoplamento vazio');
+    verifyLink($model->couplingRankingByThinker(999) === "*Vertices 0\r\n*Edges\r\n",
+        'Pensador sem obras retorna grafo Pajek NET vazio');
     echo "OK: candidatos, citações, acoplamento, seleção, agrupamento e desvinculação.\n";
 } finally {
     $db->query('DROP TEMPORARY TABLE IF EXISTS test_author_data');

@@ -8,7 +8,7 @@ use App\Models\Pensador\WikiImport;
 
 class Coupling
 {
-    /** GET /api/cited/coupling/{ID}; ranks thinkers by shared cited works. */
+    /** GET /api/cited/coupling/{ID}; returns the Pajek NET coupling graph. */
     public function author(string $id): array
     {
         $thinkerId = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
@@ -25,7 +25,7 @@ class Coupling
 
         $citedPensador = new CitedPensador();
         $coautores = $citedPensador->coauthorsByThinker($thinkerId);
-        $acoplamento = $this->addPhotos($citedPensador->couplingRankingByThinker($thinkerId));
+        $acoplamento = $citedPensador->couplingRankingByThinker($thinkerId);
 
         return [
             'pensador' => $this->basicData($pensador),
